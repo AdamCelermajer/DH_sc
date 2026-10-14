@@ -1,0 +1,5548 @@
+{
+ "menu_HUD_0": {
+  "root_character": 490,
+  "elements": [
+   {
+    "path": "menu_HUD_0/HUDelements",
+    "name": "HUDelements",
+    "character": 489,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     -1.0499,
+     0.95
+    ],
+    "bbox_px": [
+     -22.6,
+     -205.7,
+     1650.93,
+     774.71
+    ],
+    "center_px": [
+     814.16,
+     284.51
+    ],
+    "size_px": [
+     1673.54,
+     980.41
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     2.0452,
+     0.0,
+     0.0,
+     0.8719,
+     126.3577,
+     64.35
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/deadzone_mainmenus",
+    "name": "deadzone_mainmenus",
+    "character": 40,
+    "matrix_px": [
+     0.5549,
+     0.0,
+     0.0,
+     0.604,
+     47.2554,
+     391.25
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/deadzone_skills1",
+    "name": "deadzone_skills1",
+    "character": 40,
+    "matrix_px": [
+     1.2085,
+     0.0,
+     0.0,
+     1.3223,
+     742.9293,
+     510.7
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/deadzone_faery",
+    "name": "deadzone_faery",
+    "character": 40,
+    "matrix_px": [
+     0.4413,
+     0.0,
+     0.0,
+     0.5359,
+     918.9333,
+     362.85
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     0.388,
+     0.0,
+     0.0,
+     0.4381,
+     912.7738,
+     95.05
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars",
+    "name": "HealthBars",
+    "character": 477,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     44.1514,
+     45.45
+    ],
+    "bbox_px": [
+     -22.6,
+     -6.07,
+     1017.33,
+     378.57
+    ],
+    "center_px": [
+     497.36,
+     186.25
+    ],
+    "size_px": [
+     1039.93,
+     384.64
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/boss/#100/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.6051,
+     0.0,
+     0.0,
+     0.7319,
+     -175.6959,
+     81.15
+    ],
+    "bbox_px": [
+     -114.13,
+     99.48,
+     -6.38,
+     114.49
+    ],
+    "center_px": [
+     -60.25,
+     106.99
+    ],
+    "size_px": [
+     107.74,
+     15.0
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/btn_potion",
+    "name": "btn_potion",
+    "character": 127,
+    "matrix_px": [
+     1.167,
+     0.0,
+     0.0,
+     1.5721,
+     944.6864,
+     84.8
+    ],
+    "bbox_px": [
+     901.1,
+     18.3,
+     1009.05,
+     165.84
+    ],
+    "center_px": [
+     955.07,
+     92.07
+    ],
+    "size_px": [
+     107.95,
+     147.54
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/btn_potion/btframe",
+    "name": "btframe",
+    "character": 112,
+    "matrix_px": [
+     1.167,
+     0.0,
+     0.0,
+     1.5721,
+     934.9419,
+     54.8524
+    ],
+    "bbox_px": [
+     901.1,
+     20.97,
+     995.92,
+     147.68
+    ],
+    "center_px": [
+     948.51,
+     84.33
+    ],
+    "size_px": [
+     94.82,
+     126.71
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/btn_potion/DistressGlow",
+    "name": "DistressGlow",
+    "character": 119,
+    "matrix_px": [
+     1.167,
+     0.0,
+     0.0,
+     1.5721,
+     910.5516,
+     33.7083
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/btn_potion/hitzone",
+    "name": "hitzone",
+    "character": 124,
+    "matrix_px": [
+     0.2866,
+     0.0,
+     0.0,
+     0.775,
+     940.0184,
+     75.3677
+    ],
+    "bbox_px": [
+     904.67,
+     30.5,
+     992.24,
+     140.54
+    ],
+    "center_px": [
+     948.45,
+     85.52
+    ],
+    "size_px": [
+     87.57,
+     110.05
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/btn_potion/cnt",
+    "name": "cnt",
+    "character": 126,
+    "matrix_px": [
+     1.167,
+     0.0,
+     0.0,
+     1.5721,
+     973.3946,
+     125.9092
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/btn_potion/cnt/value",
+    "name": "value",
+    "character": 125,
+    "matrix_px": [
+     1.167,
+     0.0,
+     0.0,
+     1.5721,
+     969.3684,
+     117.1057
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/Ally2/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.582,
+     0.0,
+     0.0,
+     0.75,
+     -51.4883,
+     52.1375
+    ],
+    "bbox_px": [
+     7.29,
+     71.6,
+     72.33,
+     81.88
+    ],
+    "center_px": [
+     39.81,
+     76.74
+    ],
+    "size_px": [
+     65.04,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/Ally2/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     -26.6576,
+     67.85
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/Ally1/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.582,
+     0.0,
+     0.0,
+     0.75,
+     429.7702,
+     230.5875
+    ],
+    "bbox_px": [
+     488.55,
+     250.05,
+     553.59,
+     260.32
+    ],
+    "center_px": [
+     521.07,
+     255.19
+    ],
+    "size_px": [
+     65.04,
+     10.27
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/Ally1/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     454.601,
+     246.3
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/Ally0/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.582,
+     0.0,
+     0.0,
+     0.75,
+     -51.4883,
+     52.1375
+    ],
+    "bbox_px": [
+     7.29,
+     71.6,
+     72.33,
+     81.88
+    ],
+    "center_px": [
+     39.81,
+     76.74
+    ],
+    "size_px": [
+     65.04,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/Ally0/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     -26.6576,
+     67.85
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/enemy",
+    "name": "enemy",
+    "character": 146,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     279.0335,
+     234.05
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/enemy/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.5536,
+     0.0,
+     0.0,
+     0.6696,
+     431.0791,
+     230.4867
+    ],
+    "bbox_px": [
+     487.41,
+     247.26,
+     585.98,
+     260.99
+    ],
+    "center_px": [
+     536.69,
+     254.12
+    ],
+    "size_px": [
+     98.57,
+     13.73
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/enemy/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     454.8435,
+     246.3
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/player",
+    "name": "player",
+    "character": 161,
+    "matrix_px": [
+     1.5762,
+     0.0,
+     0.0,
+     1.625,
+     40.417,
+     80.25
+    ],
+    "bbox_px": [
+     13.07,
+     0.3,
+     498.15,
+     219.68
+    ],
+    "center_px": [
+     255.61,
+     109.99
+    ],
+    "size_px": [
+     485.08,
+     219.38
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/player/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     1.5762,
+     0.0,
+     0.0,
+     1.625,
+     -20.3466,
+     39.2188
+    ],
+    "bbox_px": [
+     140.03,
+     79.92,
+     420.68,
+     113.24
+    ],
+    "center_px": [
+     280.36,
+     96.58
+    ],
+    "size_px": [
+     280.65,
+     33.31
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/player/bar_mp",
+    "name": "bar_mp",
+    "character": 151,
+    "matrix_px": [
+     1.5762,
+     0.0,
+     0.0,
+     1.625,
+     18.1922,
+     39.1375
+    ],
+    "bbox_px": [
+     148.48,
+     110.8,
+     419.58,
+     138.51
+    ],
+    "center_px": [
+     284.03,
+     124.65
+    ],
+    "size_px": [
+     271.1,
+     27.71
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/HealthBars/player/bar_xp",
+    "name": "bar_xp",
+    "character": 156,
+    "matrix_px": [
+     1.5762,
+     0.0,
+     0.0,
+     1.625,
+     175.7361,
+     63.1063
+    ],
+    "bbox_px": [
+     138.38,
+     53.0,
+     342.89,
+     80.68
+    ],
+    "center_px": [
+     240.64,
+     66.84
+    ],
+    "size_px": [
+     204.52,
+     27.68
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/btn_charactermenu",
+    "name": "btn_charactermenu",
+    "character": 167,
+    "matrix_px": [
+     1.4016,
+     0.0,
+     0.0,
+     1.625,
+     85.0363,
+     81.4
+    ],
+    "bbox_px": [
+     74.06,
+     58.73,
+     160.23,
+     175.78
+    ],
+    "center_px": [
+     117.14,
+     117.26
+    ],
+    "size_px": [
+     86.17,
+     117.05
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/btn_charactermenu/btimg",
+    "name": "btimg",
+    "character": 163,
+    "matrix_px": [
+     1.4016,
+     0.0,
+     0.0,
+     1.625,
+     88.0498,
+     79.0438
+    ],
+    "bbox_px": [
+     74.45,
+     58.73,
+     148.74,
+     158.91
+    ],
+    "center_px": [
+     111.6,
+     108.82
+    ],
+    "size_px": [
+     74.29,
+     100.18
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/itemname_text",
+    "name": "itemname_text",
+    "character": 170,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     274.7171,
+     521.65
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls",
+    "name": "controls",
+    "character": 488,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     411.1456,
+     417.9
+    ],
+    "bbox_px": [
+     17.01,
+     325.89,
+     990.44,
+     774.71
+    ],
+    "center_px": [
+     503.73,
+     550.3
+    ],
+    "size_px": [
+     973.43,
+     448.83
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls",
+    "name": "controls",
+    "character": 487,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     411.1456,
+     417.9
+    ],
+    "bbox_px": [
+     17.01,
+     325.89,
+     990.44,
+     774.71
+    ],
+    "center_px": [
+     503.73,
+     550.3
+    ],
+    "size_px": [
+     973.43,
+     448.83
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill3",
+    "name": "btn_skill3",
+    "character": 359,
+    "matrix_px": [
+     1.1787,
+     0.0,
+     0.0,
+     1.6244,
+     730.6105,
+     665.1
+    ],
+    "bbox_px": [
+     677.56,
+     593.14,
+     785.07,
+     726.5
+    ],
+    "center_px": [
+     731.31,
+     659.82
+    ],
+    "size_px": [
+     107.51,
+     133.36
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill3/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.1787,
+     0.0,
+     0.0,
+     1.6244,
+     694.2483,
+     613.2825
+    ],
+    "bbox_px": [
+     695.19,
+     602.72,
+     776.76,
+     716.43
+    ],
+    "center_px": [
+     735.97,
+     659.58
+    ],
+    "size_px": [
+     81.56,
+     113.71
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill3/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.7724,
+     0.0,
+     0.0,
+     0.9127,
+     696.1342,
+     628.7952
+    ],
+    "bbox_px": [
+     677.56,
+     606.62,
+     782.49,
+     721.99
+    ],
+    "center_px": [
+     730.02,
+     664.3
+    ],
+    "size_px": [
+     104.93,
+     115.37
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill2",
+    "name": "btn_skill2",
+    "character": 359,
+    "matrix_px": [
+     1.1787,
+     0.0,
+     0.0,
+     1.6244,
+     865.6325,
+     494.2
+    ],
+    "bbox_px": [
+     812.58,
+     422.24,
+     920.09,
+     555.6
+    ],
+    "center_px": [
+     866.33,
+     488.92
+    ],
+    "size_px": [
+     107.51,
+     133.36
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill2/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.1787,
+     0.0,
+     0.0,
+     1.6244,
+     829.2703,
+     442.3825
+    ],
+    "bbox_px": [
+     830.21,
+     431.82,
+     911.78,
+     545.53
+    ],
+    "center_px": [
+     871.0,
+     488.68
+    ],
+    "size_px": [
+     81.56,
+     113.71
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill2/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.7724,
+     0.0,
+     0.0,
+     0.9127,
+     831.1562,
+     457.8952
+    ],
+    "bbox_px": [
+     812.58,
+     435.72,
+     917.51,
+     551.09
+    ],
+    "center_px": [
+     865.04,
+     493.4
+    ],
+    "size_px": [
+     104.93,
+     115.37
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill1",
+    "name": "btn_skill1",
+    "character": 359,
+    "matrix_px": [
+     1.1787,
+     0.0,
+     0.0,
+     1.6244,
+     759.8556,
+     535.2
+    ],
+    "bbox_px": [
+     706.8,
+     463.24,
+     814.31,
+     596.6
+    ],
+    "center_px": [
+     760.56,
+     529.92
+    ],
+    "size_px": [
+     107.51,
+     133.36
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill1/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.1787,
+     0.0,
+     0.0,
+     1.6244,
+     723.4934,
+     483.3825
+    ],
+    "bbox_px": [
+     724.44,
+     472.82,
+     806.0,
+     586.53
+    ],
+    "center_px": [
+     765.22,
+     529.68
+    ],
+    "size_px": [
+     81.56,
+     113.71
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_skill1/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.7724,
+     0.0,
+     0.0,
+     0.9127,
+     725.3792,
+     498.8952
+    ],
+    "bbox_px": [
+     706.8,
+     476.72,
+     811.73,
+     592.09
+    ],
+    "center_px": [
+     759.27,
+     534.4
+    ],
+    "size_px": [
+     104.93,
+     115.37
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_interact",
+    "name": "btn_interact",
+    "character": 380,
+    "matrix_px": [
+     1.1928,
+     0.0,
+     0.0,
+     1.6241,
+     866.554,
+     641.2
+    ],
+    "bbox_px": [
+     806.56,
+     562.67,
+     925.18,
+     726.47
+    ],
+    "center_px": [
+     865.87,
+     644.57
+    ],
+    "size_px": [
+     118.63,
+     163.8
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_interact/btimg",
+    "name": "btimg",
+    "character": 379,
+    "matrix_px": [
+     1.1928,
+     0.0,
+     0.0,
+     1.6241,
+     826.2966,
+     594.0186
+    ],
+    "bbox_px": [
+     830.29,
+     591.26,
+     897.75,
+     690.41
+    ],
+    "center_px": [
+     864.02,
+     640.83
+    ],
+    "size_px": [
+     67.45,
+     99.15
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_spell",
+    "name": "btn_spell",
+    "character": 404,
+    "matrix_px": [
+     1.202,
+     0.0,
+     0.0,
+     1.6237,
+     945.6079,
+     386.45
+    ],
+    "bbox_px": [
+     899.93,
+     325.89,
+     990.44,
+     450.67
+    ],
+    "center_px": [
+     945.19,
+     388.28
+    ],
+    "size_px": [
+     90.51,
+     124.78
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/btn_spell/btimg",
+    "name": "btimg",
+    "character": 403,
+    "matrix_px": [
+     1.202,
+     0.0,
+     0.0,
+     1.6237,
+     904.8605,
+     336.1157
+    ],
+    "bbox_px": [
+     901.43,
+     329.3,
+     987.38,
+     442.14
+    ],
+    "center_px": [
+     944.41,
+     385.72
+    ],
+    "size_px": [
+     85.94,
+     112.85
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/Joystick",
+    "name": "Joystick",
+    "character": 421,
+    "matrix_px": [
+     1.2004,
+     0.0,
+     0.0,
+     1.6197,
+     130.0437,
+     633.5
+    ],
+    "bbox_px": [
+     17.01,
+     487.29,
+     241.0,
+     774.71
+    ],
+    "center_px": [
+     129.0,
+     631.0
+    ],
+    "size_px": [
+     223.98,
+     287.43
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/Joystick/stick",
+    "name": "stick",
+    "character": 420,
+    "matrix_px": [
+     1.2004,
+     0.0,
+     0.0,
+     1.6197,
+     130.0437,
+     633.5
+    ],
+    "bbox_px": [
+     17.01,
+     487.29,
+     241.0,
+     774.71
+    ],
+    "center_px": [
+     129.0,
+     631.0
+    ],
+    "size_px": [
+     223.98,
+     287.43
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/controls/controls/Joystick/stick/hitzone",
+    "name": "hitzone",
+    "character": 413,
+    "matrix_px": [
+     1.4702,
+     0.0,
+     0.0,
+     2.0277,
+     64.5008,
+     550.6521
+    ],
+    "bbox_px": [
+     17.01,
+     487.29,
+     241.0,
+     774.71
+    ],
+    "center_px": [
+     129.0,
+     631.0
+    ],
+    "size_px": [
+     223.98,
+     287.43
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/itunes_controls",
+    "name": "itunes_controls",
+    "character": 455,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     713.5387,
+     46.15
+    ],
+    "bbox_px": [
+     848.75,
+     -141.75,
+     920.53,
+     -21.2
+    ],
+    "center_px": [
+     884.64,
+     -81.47
+    ],
+    "size_px": [
+     71.78,
+     120.55
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/itunes_controls/btn_itunes",
+    "name": "btn_itunes",
+    "character": 454,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     852.9257,
+     -124.75
+    ],
+    "bbox_px": [
+     848.75,
+     -141.75,
+     905.98,
+     -66.75
+    ],
+    "center_px": [
+     877.37,
+     -104.25
+    ],
+    "size_px": [
+     57.23,
+     75.0
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/Level_up",
+    "name": "Level_up",
+    "character": 458,
+    "matrix_px": [
+     0.97,
+     0.0,
+     0.0,
+     1.0,
+     421.1365,
+     233.5
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/btn_mainmenu",
+    "name": "btn_mainmenu",
+    "character": 91,
+    "matrix_px": [
+     1.4789,
+     0.0,
+     0.0,
+     1.6237,
+     76.6944,
+     246.8
+    ],
+    "bbox_px": [
+     41.2,
+     197.12,
+     110.78,
+     293.16
+    ],
+    "center_px": [
+     75.99,
+     245.14
+    ],
+    "size_px": [
+     69.58,
+     96.04
+    ]
+   },
+   {
+    "path": "menu_HUD_0/HUDelements/btn_mainmenu/btimg",
+    "name": "btimg",
+    "character": 83,
+    "matrix_px": [
+     1.4789,
+     0.0,
+     0.0,
+     1.6237,
+     31.8086,
+     195.4112
+    ],
+    "bbox_px": [
+     55.92,
+     221.15,
+     98.73,
+     270.34
+    ],
+    "center_px": [
+     77.32,
+     245.74
+    ],
+    "size_px": [
+     42.82,
+     49.2
+    ]
+   }
+  ]
+ },
+ "menu_HUD_1": {
+  "root_character": 476,
+  "elements": [
+   {
+    "path": "menu_HUD_1/HUDelements",
+    "name": "HUDelements",
+    "character": 475,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     -0.9529,
+     3.55
+    ],
+    "bbox_px": [
+     -1035.36,
+     -281.9,
+     1189.89,
+     855.0
+    ],
+    "center_px": [
+     77.27,
+     286.55
+    ],
+    "size_px": [
+     2225.25,
+     1136.9
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     2.0293,
+     0.0,
+     0.0,
+     0.9397,
+     132.1149,
+     58.3
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/deadzone_mainmenus",
+    "name": "deadzone_mainmenus",
+    "character": 40,
+    "matrix_px": [
+     0.5361,
+     0.0,
+     0.0,
+     0.5832,
+     902.0075,
+     390.75
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/deadzone_skills1",
+    "name": "deadzone_skills1",
+    "character": 40,
+    "matrix_px": [
+     1.2714,
+     0.0,
+     0.0,
+     1.3865,
+     106.607,
+     503.6
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/deadzone_skills1",
+    "name": "deadzone_skills1",
+    "character": 40,
+    "matrix_px": [
+     0.3922,
+     0.0,
+     0.0,
+     0.5363,
+     34.5448,
+     358.3
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     0.2993,
+     0.0,
+     0.0,
+     0.4665,
+     916.7498,
+     93.85
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/btn_mainmenu",
+    "name": "btn_mainmenu",
+    "character": 91,
+    "matrix_px": [
+     1.2663,
+     0.0,
+     0.0,
+     1.4027,
+     78.7714,
+     243.75
+    ],
+    "bbox_px": [
+     48.38,
+     200.83,
+     107.96,
+     283.8
+    ],
+    "center_px": [
+     78.17,
+     242.31
+    ],
+    "size_px": [
+     59.58,
+     82.97
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/btn_mainmenu/btimg",
+    "name": "btimg",
+    "character": 83,
+    "matrix_px": [
+     1.2663,
+     0.0,
+     0.0,
+     1.4027,
+     40.3384,
+     199.3537
+    ],
+    "bbox_px": [
+     60.98,
+     221.59,
+     97.64,
+     264.09
+    ],
+    "center_px": [
+     79.31,
+     242.84
+    ],
+    "size_px": [
+     36.66,
+     42.5
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars",
+    "name": "HealthBars",
+    "character": 162,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     46.5713,
+     46.95
+    ],
+    "bbox_px": [
+     -20.18,
+     -18.57,
+     1019.65,
+     366.07
+    ],
+    "center_px": [
+     499.73,
+     173.75
+    ],
+    "size_px": [
+     1039.82,
+     384.64
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/boss/#100/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.6051,
+     0.0,
+     0.0,
+     0.7319,
+     -173.2525,
+     82.65
+    ],
+    "bbox_px": [
+     -111.69,
+     100.98,
+     -3.96,
+     115.99
+    ],
+    "center_px": [
+     -57.82,
+     108.49
+    ],
+    "size_px": [
+     107.73,
+     15.0
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/btn_potion",
+    "name": "btn_potion",
+    "character": 127,
+    "matrix_px": [
+     1.1755,
+     0.0,
+     0.0,
+     1.573,
+     939.833,
+     76.25
+    ],
+    "bbox_px": [
+     895.93,
+     9.71,
+     1004.66,
+     157.34
+    ],
+    "center_px": [
+     950.29,
+     83.53
+    ],
+    "size_px": [
+     108.73,
+     147.63
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/btn_potion/btframe",
+    "name": "btframe",
+    "character": 112,
+    "matrix_px": [
+     1.1755,
+     0.0,
+     0.0,
+     1.573,
+     930.0179,
+     46.2844
+    ],
+    "bbox_px": [
+     895.93,
+     12.39,
+     991.44,
+     139.17
+    ],
+    "center_px": [
+     943.68,
+     75.78
+    ],
+    "size_px": [
+     95.51,
+     126.78
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/btn_potion/DistressGlow",
+    "name": "DistressGlow",
+    "character": 119,
+    "matrix_px": [
+     1.1755,
+     0.0,
+     0.0,
+     1.573,
+     905.4508,
+     25.1276
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/btn_potion/hitzone",
+    "name": "hitzone",
+    "character": 124,
+    "matrix_px": [
+     0.2887,
+     0.0,
+     0.0,
+     0.7754,
+     935.1311,
+     66.812
+    ],
+    "bbox_px": [
+     899.52,
+     21.91,
+     987.73,
+     132.03
+    ],
+    "center_px": [
+     943.63,
+     76.97
+    ],
+    "size_px": [
+     88.21,
+     110.11
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/btn_potion/cnt",
+    "name": "cnt",
+    "character": 126,
+    "matrix_px": [
+     1.1755,
+     0.0,
+     0.0,
+     1.573,
+     968.7492,
+     117.3839
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/btn_potion/cnt/value",
+    "name": "value",
+    "character": 125,
+    "matrix_px": [
+     1.1755,
+     0.0,
+     0.0,
+     1.573,
+     964.6939,
+     108.5751
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/Ally2/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.5819,
+     0.0,
+     0.0,
+     0.75,
+     -49.0582,
+     53.6375
+    ],
+    "bbox_px": [
+     9.72,
+     73.1,
+     74.75,
+     83.38
+    ],
+    "center_px": [
+     42.23,
+     78.24
+    ],
+    "size_px": [
+     65.03,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/Ally2/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     -24.2301,
+     69.35
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/Ally1/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.5819,
+     0.0,
+     0.0,
+     0.75,
+     430.2092,
+     233.0875
+    ],
+    "bbox_px": [
+     488.98,
+     252.55,
+     554.01,
+     262.82
+    ],
+    "center_px": [
+     521.5,
+     257.69
+    ],
+    "size_px": [
+     65.03,
+     10.27
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/Ally1/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     455.0373,
+     248.8
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/Ally0/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.5819,
+     0.0,
+     0.0,
+     0.75,
+     -49.0582,
+     53.6375
+    ],
+    "bbox_px": [
+     9.72,
+     73.1,
+     74.75,
+     83.38
+    ],
+    "center_px": [
+     42.23,
+     78.24
+    ],
+    "size_px": [
+     65.03,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/Ally0/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     -24.2301,
+     69.35
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/enemy",
+    "name": "enemy",
+    "character": 146,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     279.4886,
+     236.55
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/enemy/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.5535,
+     0.0,
+     0.0,
+     0.6696,
+     431.5179,
+     232.9867
+    ],
+    "bbox_px": [
+     487.84,
+     249.76,
+     586.4,
+     263.49
+    ],
+    "center_px": [
+     537.12,
+     256.62
+    ],
+    "size_px": [
+     98.56,
+     13.73
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/enemy/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     455.2797,
+     248.8
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/player",
+    "name": "player",
+    "character": 161,
+    "matrix_px": [
+     1.3423,
+     0.0,
+     0.0,
+     1.4,
+     41.9159,
+     74.45
+    ],
+    "bbox_px": [
+     18.63,
+     5.57,
+     431.71,
+     194.57
+    ],
+    "center_px": [
+     225.17,
+     100.07
+    ],
+    "size_px": [
+     413.08,
+     189.0
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/player/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     1.3423,
+     0.0,
+     0.0,
+     1.4,
+     -9.8283,
+     39.0998
+    ],
+    "bbox_px": [
+     126.75,
+     74.17,
+     365.74,
+     102.87
+    ],
+    "center_px": [
+     246.24,
+     88.52
+    ],
+    "size_px": [
+     238.99,
+     28.7
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/player/bar_mp",
+    "name": "bar_mp",
+    "character": 151,
+    "matrix_px": [
+     1.3423,
+     0.0,
+     0.0,
+     1.4,
+     22.99,
+     39.0298
+    ],
+    "bbox_px": [
+     133.94,
+     100.77,
+     364.8,
+     124.64
+    ],
+    "center_px": [
+     249.37,
+     112.71
+    ],
+    "size_px": [
+     230.86,
+     23.87
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/HealthBars/player/bar_xp",
+    "name": "bar_xp",
+    "character": 156,
+    "matrix_px": [
+     1.3423,
+     0.0,
+     0.0,
+     1.4,
+     157.1489,
+     59.6799
+    ],
+    "bbox_px": [
+     125.34,
+     50.97,
+     299.5,
+     74.82
+    ],
+    "center_px": [
+     212.42,
+     62.89
+    ],
+    "size_px": [
+     174.16,
+     23.84
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/btn_charactermenu",
+    "name": "btn_charactermenu",
+    "character": 167,
+    "matrix_px": [
+     1.1617,
+     0.0,
+     0.0,
+     1.4395,
+     78.8684,
+     75.85
+    ],
+    "bbox_px": [
+     69.77,
+     55.77,
+     141.19,
+     159.46
+    ],
+    "center_px": [
+     105.48,
+     107.61
+    ],
+    "size_px": [
+     71.42,
+     103.69
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/btn_charactermenu/btimg",
+    "name": "btimg",
+    "character": 163,
+    "matrix_px": [
+     1.1617,
+     0.0,
+     0.0,
+     1.4395,
+     81.3661,
+     73.7627
+    ],
+    "bbox_px": [
+     70.1,
+     55.77,
+     131.67,
+     144.51
+    ],
+    "center_px": [
+     100.88,
+     100.14
+    ],
+    "size_px": [
+     61.57,
+     88.75
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/itemname_text",
+    "name": "itemname_text",
+    "character": 170,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     275.0756,
+     533.5
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls",
+    "name": "controls",
+    "character": 423,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     85.9485,
+     454.8
+    ],
+    "bbox_px": [
+     41.83,
+     294.35,
+     1189.89,
+     855.0
+    ],
+    "center_px": [
+     615.86,
+     574.67
+    ],
+    "size_px": [
+     1148.06,
+     560.65
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls",
+    "name": "controls",
+    "character": 422,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     85.9485,
+     454.8
+    ],
+    "bbox_px": [
+     41.83,
+     294.35,
+     1189.89,
+     855.0
+    ],
+    "center_px": [
+     615.86,
+     574.67
+    ],
+    "size_px": [
+     1148.06,
+     560.65
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill3",
+    "name": "btn_skill3",
+    "character": 359,
+    "matrix_px": [
+     1.1886,
+     0.0,
+     0.0,
+     1.6237,
+     247.4339,
+     660.1
+    ],
+    "bbox_px": [
+     193.93,
+     588.17,
+     302.35,
+     721.48
+    ],
+    "center_px": [
+     248.14,
+     654.82
+    ],
+    "size_px": [
+     108.41,
+     133.31
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill3/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.1886,
+     0.0,
+     0.0,
+     1.6237,
+     210.7647,
+     608.3024
+    ],
+    "bbox_px": [
+     211.72,
+     597.75,
+     293.97,
+     711.41
+    ],
+    "center_px": [
+     252.84,
+     654.58
+    ],
+    "size_px": [
+     82.25,
+     113.66
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill3/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.7789,
+     0.0,
+     0.0,
+     0.9124,
+     212.6665,
+     623.8092
+    ],
+    "bbox_px": [
+     193.93,
+     601.64,
+     299.75,
+     716.96
+    ],
+    "center_px": [
+     246.84,
+     659.3
+    ],
+    "size_px": [
+     105.81,
+     115.33
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill2",
+    "name": "btn_skill2",
+    "character": 359,
+    "matrix_px": [
+     1.1886,
+     0.0,
+     0.0,
+     1.6237,
+     111.7474,
+     478.95
+    ],
+    "bbox_px": [
+     58.25,
+     407.02,
+     166.66,
+     540.33
+    ],
+    "center_px": [
+     112.45,
+     473.67
+    ],
+    "size_px": [
+     108.41,
+     133.31
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill2/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.1886,
+     0.0,
+     0.0,
+     1.6237,
+     75.0782,
+     427.1524
+    ],
+    "bbox_px": [
+     76.03,
+     416.6,
+     158.28,
+     530.26
+    ],
+    "center_px": [
+     117.16,
+     473.43
+    ],
+    "size_px": [
+     82.25,
+     113.66
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill2/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.7789,
+     0.0,
+     0.0,
+     0.9124,
+     76.98,
+     442.6592
+    ],
+    "bbox_px": [
+     58.25,
+     420.49,
+     164.06,
+     535.81
+    ],
+    "center_px": [
+     111.15,
+     478.15
+    ],
+    "size_px": [
+     105.81,
+     115.33
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill1",
+    "name": "btn_skill1",
+    "character": 359,
+    "matrix_px": [
+     1.1886,
+     0.0,
+     0.0,
+     1.6237,
+     211.7423,
+     532.1
+    ],
+    "bbox_px": [
+     158.24,
+     460.17,
+     266.66,
+     593.48
+    ],
+    "center_px": [
+     212.45,
+     526.82
+    ],
+    "size_px": [
+     108.41,
+     133.31
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill1/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.1886,
+     0.0,
+     0.0,
+     1.6237,
+     175.073,
+     480.3024
+    ],
+    "bbox_px": [
+     176.02,
+     469.75,
+     258.28,
+     583.41
+    ],
+    "center_px": [
+     217.15,
+     526.58
+    ],
+    "size_px": [
+     82.25,
+     113.66
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_skill1/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.7789,
+     0.0,
+     0.0,
+     0.9124,
+     176.9748,
+     495.8092
+    ],
+    "bbox_px": [
+     158.24,
+     473.64,
+     264.06,
+     588.96
+    ],
+    "center_px": [
+     211.15,
+     531.3
+    ],
+    "size_px": [
+     105.81,
+     115.33
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_interact",
+    "name": "btn_interact",
+    "character": 380,
+    "matrix_px": [
+     1.2679,
+     0.0,
+     0.0,
+     1.7128,
+     107.7224,
+     640.7
+    ],
+    "bbox_px": [
+     43.95,
+     557.89,
+     170.04,
+     730.62
+    ],
+    "center_px": [
+     106.99,
+     644.25
+    ],
+    "size_px": [
+     126.09,
+     172.74
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_interact/btimg",
+    "name": "btimg",
+    "character": 379,
+    "matrix_px": [
+     1.2679,
+     0.0,
+     0.0,
+     1.7128,
+     64.9309,
+     590.9432
+    ],
+    "bbox_px": [
+     69.18,
+     588.03,
+     140.88,
+     692.6
+    ],
+    "center_px": [
+     105.03,
+     640.31
+    ],
+    "size_px": [
+     71.7,
+     104.57
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_swap",
+    "name": "btn_swap",
+    "character": 386,
+    "matrix_px": [
+     0.9036,
+     0.0,
+     0.0,
+     1.0,
+     1117.5639,
+     446.1
+    ],
+    "bbox_px": [
+     1098.05,
+     416.6,
+     1189.89,
+     534.6
+    ],
+    "center_px": [
+     1143.97,
+     475.6
+    ],
+    "size_px": [
+     91.85,
+     118.0
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_spell",
+    "name": "btn_spell",
+    "character": 404,
+    "matrix_px": [
+     1.0947,
+     0.0,
+     0.0,
+     1.4652,
+     83.4268,
+     349.0
+    ],
+    "bbox_px": [
+     41.83,
+     294.35,
+     124.26,
+     406.95
+    ],
+    "center_px": [
+     83.04,
+     350.65
+    ],
+    "size_px": [
+     82.43,
+     112.6
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_spell/btimg",
+    "name": "btimg",
+    "character": 403,
+    "matrix_px": [
+     1.0947,
+     0.0,
+     0.0,
+     1.4652,
+     46.318,
+     303.5794
+    ],
+    "bbox_px": [
+     43.2,
+     297.43,
+     121.47,
+     399.26
+    ],
+    "center_px": [
+     82.33,
+     348.34
+    ],
+    "size_px": [
+     78.27,
+     101.83
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_dpad_limits",
+    "name": "btn_dpad_limits",
+    "character": 406,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     1070.9126,
+     740.8
+    ],
+    "bbox_px": [
+     1053.99,
+     721.5,
+     1181.53,
+     855.0
+    ],
+    "center_px": [
+     1117.76,
+     788.25
+    ],
+    "size_px": [
+     127.54,
+     133.5
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/btn_dpad",
+    "name": "btn_dpad",
+    "character": 408,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     1094.9656,
+     763.5
+    ],
+    "bbox_px": [
+     1070.48,
+     730.6,
+     1169.06,
+     848.6
+    ],
+    "center_px": [
+     1119.77,
+     789.6
+    ],
+    "size_px": [
+     98.59,
+     118.0
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/Joystick",
+    "name": "Joystick",
+    "character": 421,
+    "matrix_px": [
+     1.2325,
+     0.0,
+     0.0,
+     1.6194,
+     872.0382,
+     634.4
+    ],
+    "bbox_px": [
+     755.99,
+     488.21,
+     985.95,
+     775.59
+    ],
+    "center_px": [
+     870.97,
+     631.9
+    ],
+    "size_px": [
+     229.97,
+     287.37
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/Joystick/stick",
+    "name": "stick",
+    "character": 420,
+    "matrix_px": [
+     1.2325,
+     0.0,
+     0.0,
+     1.6194,
+     872.0382,
+     634.4
+    ],
+    "bbox_px": [
+     755.99,
+     488.21,
+     985.95,
+     775.59
+    ],
+    "center_px": [
+     870.97,
+     631.9
+    ],
+    "size_px": [
+     229.97,
+     287.37
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/controls/controls/Joystick/stick/hitzone",
+    "name": "hitzone",
+    "character": 413,
+    "matrix_px": [
+     1.5095,
+     0.0,
+     0.0,
+     2.0273,
+     804.744,
+     551.5669
+    ],
+    "bbox_px": [
+     755.99,
+     488.21,
+     985.95,
+     775.59
+    ],
+    "center_px": [
+     870.97,
+     631.9
+    ],
+    "size_px": [
+     229.97,
+     287.37
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/itunes_controls",
+    "name": "itunes_controls",
+    "character": 455,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     713.8504,
+     45.8
+    ],
+    "bbox_px": [
+     849.05,
+     -142.1,
+     920.82,
+     -21.55
+    ],
+    "center_px": [
+     884.94,
+     -81.83
+    ],
+    "size_px": [
+     71.77,
+     120.55
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/itunes_controls/btn_itunes",
+    "name": "btn_itunes",
+    "character": 454,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     853.2225,
+     -125.1
+    ],
+    "bbox_px": [
+     849.05,
+     -142.1,
+     906.28,
+     -67.1
+    ],
+    "center_px": [
+     877.66,
+     -104.6
+    ],
+    "size_px": [
+     57.22,
+     75.0
+    ]
+   },
+   {
+    "path": "menu_HUD_1/HUDelements/Level_up",
+    "name": "Level_up",
+    "character": 458,
+    "matrix_px": [
+     0.9699,
+     0.0,
+     0.0,
+     1.0,
+     420.2185,
+     233.5
+    ],
+    "bbox_px": null
+   }
+  ]
+ },
+ "menu_HUD_2": {
+  "root_character": 494,
+  "elements": [
+   {
+    "path": "menu_HUD_2/HUDelements",
+    "name": "HUDelements",
+    "character": 493,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     -5.3,
+     0.8
+    ],
+    "bbox_px": [
+     -300.14,
+     -182.77,
+     1003.88,
+     477.02
+    ],
+    "center_px": [
+     351.87,
+     147.12
+    ],
+    "size_px": [
+     1304.02,
+     659.79
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     1.7073,
+     0.0,
+     0.0,
+     0.5344,
+     1.4993,
+     -1.7003
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/deadzone_mainmenus",
+    "name": "deadzone_mainmenus",
+    "character": 40,
+    "matrix_px": [
+     0.4699,
+     0.0,
+     0.0,
+     0.4732,
+     426.5039,
+     7.1508
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/deadzone_skills1",
+    "name": "deadzone_skills1",
+    "character": 40,
+    "matrix_px": [
+     0.9483,
+     0.0,
+     0.0,
+     1.3204,
+     370.3599,
+     184.1224
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/deadzone_faery",
+    "name": "deadzone_faery",
+    "character": 40,
+    "matrix_px": [
+     0.4457,
+     0.0,
+     0.0,
+     0.5444,
+     390.5077,
+     119.2145
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     0.4339,
+     0.0,
+     0.0,
+     0.4466,
+     1.8492,
+     70.8085
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/btn_mainmenu",
+    "name": "btn_mainmenu",
+    "character": 91,
+    "matrix_px": [
+     1.0599,
+     0.0,
+     0.0,
+     1.0001,
+     28.9463,
+     93.2113
+    ],
+    "bbox_px": [
+     3.51,
+     62.61,
+     53.38,
+     121.76
+    ],
+    "center_px": [
+     28.44,
+     92.19
+    ],
+    "size_px": [
+     49.87,
+     59.16
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/btn_mainmenu/btimg",
+    "name": "btimg",
+    "character": 83,
+    "matrix_px": [
+     1.0599,
+     0.0,
+     0.0,
+     1.0001,
+     -3.2211,
+     61.5574
+    ],
+    "bbox_px": [
+     14.05,
+     77.41,
+     44.74,
+     107.71
+    ],
+    "center_px": [
+     29.4,
+     92.56
+    ],
+    "size_px": [
+     30.68,
+     30.3
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars",
+    "name": "HealthBars",
+    "character": 477,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     0.6994,
+     4.2004
+    ],
+    "bbox_px": [
+     -68.12,
+     -47.33,
+     1003.88,
+     337.36
+    ],
+    "center_px": [
+     467.88,
+     145.02
+    ],
+    "size_px": [
+     1072.0,
+     384.69
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/boss/#100/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.6238,
+     0.0,
+     0.0,
+     0.732,
+     -225.9264,
+     39.9048
+    ],
+    "bbox_px": [
+     -162.46,
+     58.24,
+     -51.39,
+     73.25
+    ],
+    "center_px": [
+     -106.93,
+     65.74
+    ],
+    "size_px": [
+     111.06,
+     15.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/btn_potion",
+    "name": "btn_potion",
+    "character": 127,
+    "matrix_px": [
+     1.203,
+     0.0,
+     0.0,
+     1.5722,
+     929.0002,
+     43.5552
+    ],
+    "bbox_px": [
+     884.07,
+     -22.95,
+     995.34,
+     124.6
+    ],
+    "center_px": [
+     939.71,
+     50.83
+    ],
+    "size_px": [
+     111.28,
+     147.56
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/btn_potion/btframe",
+    "name": "btframe",
+    "character": 112,
+    "matrix_px": [
+     1.203,
+     0.0,
+     0.0,
+     1.5722,
+     918.9553,
+     13.604
+    ],
+    "bbox_px": [
+     884.07,
+     -20.28,
+     981.81,
+     106.44
+    ],
+    "center_px": [
+     932.94,
+     43.08
+    ],
+    "size_px": [
+     97.74,
+     126.72
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/btn_potion/DistressGlow",
+    "name": "DistressGlow",
+    "character": 119,
+    "matrix_px": [
+     1.203,
+     0.0,
+     0.0,
+     1.5722,
+     893.813,
+     -7.5427
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/btn_potion/hitzone",
+    "name": "hitzone",
+    "character": 124,
+    "matrix_px": [
+     0.2954,
+     0.0,
+     0.0,
+     0.7751,
+     924.1883,
+     34.1218
+    ],
+    "bbox_px": [
+     887.75,
+     -10.75,
+     978.02,
+     99.3
+    ],
+    "center_px": [
+     932.88,
+     44.28
+    ],
+    "size_px": [
+     90.27,
+     110.06
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/btn_potion/cnt",
+    "name": "cnt",
+    "character": 126,
+    "matrix_px": [
+     1.203,
+     0.0,
+     0.0,
+     1.5722,
+     958.5935,
+     84.6694
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/btn_potion/cnt/value",
+    "name": "value",
+    "character": 125,
+    "matrix_px": [
+     1.203,
+     0.0,
+     0.0,
+     1.5722,
+     954.4432,
+     75.8648
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/Ally2/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.5999,
+     0.0,
+     0.0,
+     0.7501,
+     -97.8892,
+     10.8887
+    ],
+    "bbox_px": [
+     -37.3,
+     30.35,
+     29.75,
+     40.63
+    ],
+    "center_px": [
+     -3.78,
+     35.49
+    ],
+    "size_px": [
+     67.04,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/Ally2/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     -72.2928,
+     26.6031
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/Ally1/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.5999,
+     0.0,
+     0.0,
+     0.7501,
+     398.2078,
+     189.3605
+    ],
+    "bbox_px": [
+     458.8,
+     208.83,
+     525.84,
+     219.1
+    ],
+    "center_px": [
+     492.32,
+     213.96
+    ],
+    "size_px": [
+     67.04,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/Ally1/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     423.8042,
+     205.0749
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/Ally0/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.5999,
+     0.0,
+     0.0,
+     0.7501,
+     -97.8892,
+     10.8887
+    ],
+    "bbox_px": [
+     -37.3,
+     30.35,
+     29.75,
+     40.63
+    ],
+    "center_px": [
+     -3.78,
+     35.49
+    ],
+    "size_px": [
+     67.04,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/Ally0/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     -72.2928,
+     26.6031
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/enemy",
+    "name": "enemy",
+    "character": 146,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     242.8235,
+     192.8234
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/enemy/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.5707,
+     0.0,
+     0.0,
+     0.6697,
+     399.557,
+     189.2597
+    ],
+    "bbox_px": [
+     457.62,
+     206.03,
+     559.23,
+     219.76
+    ],
+    "center_px": [
+     508.43,
+     212.9
+    ],
+    "size_px": [
+     101.61,
+     13.73
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/enemy/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     424.0541,
+     205.0749
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/player",
+    "name": "player",
+    "character": 161,
+    "matrix_px": [
+     1.6248,
+     0.0,
+     0.0,
+     1.6252,
+     -3.1502,
+     39.0047
+    ],
+    "bbox_px": [
+     -31.34,
+     -40.96,
+     468.7,
+     178.45
+    ],
+    "center_px": [
+     218.68,
+     68.75
+    ],
+    "size_px": [
+     500.04,
+     219.4
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/player/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     1.6248,
+     0.0,
+     0.0,
+     1.6252,
+     -65.7873,
+     -2.0316
+    ],
+    "bbox_px": [
+     99.54,
+     38.68,
+     388.84,
+     72.0
+    ],
+    "center_px": [
+     244.19,
+     55.34
+    ],
+    "size_px": [
+     289.3,
+     33.32
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/player/bar_mp",
+    "name": "bar_mp",
+    "character": 151,
+    "matrix_px": [
+     1.6248,
+     0.0,
+     0.0,
+     1.6252,
+     -26.0603,
+     -2.1129
+    ],
+    "bbox_px": [
+     108.25,
+     69.56,
+     387.7,
+     97.27
+    ],
+    "center_px": [
+     247.97,
+     83.41
+    ],
+    "size_px": [
+     279.46,
+     27.71
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/HealthBars/player/bar_xp",
+    "name": "bar_xp",
+    "character": 156,
+    "matrix_px": [
+     1.6248,
+     0.0,
+     0.0,
+     1.6252,
+     136.3411,
+     21.8588
+    ],
+    "bbox_px": [
+     97.83,
+     11.75,
+     308.65,
+     39.43
+    ],
+    "center_px": [
+     203.24,
+     25.59
+    ],
+    "size_px": [
+     210.82,
+     27.68
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/btn_charactermenu",
+    "name": "btn_charactermenu",
+    "character": 167,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     5.6488,
+     8.851
+    ],
+    "bbox_px": [
+     -2.18,
+     -5.1,
+     59.29,
+     66.94
+    ],
+    "center_px": [
+     28.55,
+     30.92
+    ],
+    "size_px": [
+     61.47,
+     72.04
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/btn_charactermenu/btimg",
+    "name": "btimg",
+    "character": 163,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     7.7986,
+     7.4008
+    ],
+    "bbox_px": [
+     -1.9,
+     -5.1,
+     51.09,
+     56.56
+    ],
+    "center_px": [
+     24.6,
+     25.73
+    ],
+    "size_px": [
+     52.99,
+     61.66
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/itemname_text",
+    "name": "itemname_text",
+    "character": 170,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     -1.3004,
+     166.6702
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls",
+    "name": "controls",
+    "character": 492,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     1.2993,
+     73.4089
+    ],
+    "bbox_px": [
+     -300.14,
+     -34.43,
+     771.86,
+     477.02
+    ],
+    "center_px": [
+     235.86,
+     221.29
+    ],
+    "size_px": [
+     1072.0,
+     511.45
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls",
+    "name": "controls",
+    "character": 491,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     1.2993,
+     73.4089
+    ],
+    "bbox_px": [
+     -223.93,
+     48.31,
+     481.35,
+     342.33
+    ],
+    "center_px": [
+     128.71,
+     195.32
+    ],
+    "size_px": [
+     705.27,
+     294.02
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list",
+    "name": "list",
+    "character": 480,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     379.7089,
+     198.3241
+    ],
+    "bbox_px": [
+     347.3,
+     146.87,
+     481.35,
+     229.38
+    ],
+    "center_px": [
+     414.33,
+     188.12
+    ],
+    "size_px": [
+     134.05,
+     82.51
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_pre1",
+    "name": "btn_pre1",
+    "character": 359,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     392.3075,
+     191.5733
+    ],
+    "bbox_px": [
+     347.3,
+     147.27,
+     438.5,
+     229.38
+    ],
+    "center_px": [
+     392.9,
+     188.32
+    ],
+    "size_px": [
+     91.2,
+     82.11
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_pre1/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     361.4608,
+     159.6694
+    ],
+    "bbox_px": [
+     362.26,
+     153.17,
+     431.45,
+     223.18
+    ],
+    "center_px": [
+     396.86,
+     188.17
+    ],
+    "size_px": [
+     69.19,
+     70.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_pre1/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6552,
+     0.0,
+     0.0,
+     0.562,
+     363.0607,
+     169.2206
+    ],
+    "bbox_px": [
+     347.3,
+     155.56,
+     436.31,
+     226.6
+    ],
+    "center_px": [
+     391.81,
+     191.08
+    ],
+    "size_px": [
+     89.01,
+     71.03
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_post1",
+    "name": "btn_post1",
+    "character": 359,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     435.1529,
+     191.1732
+    ],
+    "bbox_px": [
+     390.15,
+     146.87,
+     481.35,
+     228.98
+    ],
+    "center_px": [
+     435.75,
+     187.92
+    ],
+    "size_px": [
+     91.2,
+     82.11
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_post1/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     404.3062,
+     159.2693
+    ],
+    "bbox_px": [
+     405.11,
+     152.77,
+     474.3,
+     222.78
+    ],
+    "center_px": [
+     439.7,
+     187.77
+    ],
+    "size_px": [
+     69.19,
+     70.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_post1/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6552,
+     0.0,
+     0.0,
+     0.562,
+     405.9061,
+     168.8205
+    ],
+    "bbox_px": [
+     390.15,
+     155.16,
+     479.16,
+     226.2
+    ],
+    "center_px": [
+     434.65,
+     190.68
+    ],
+    "size_px": [
+     89.01,
+     71.03
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_pre0",
+    "name": "btn_pre0",
+    "character": 359,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     392.3075,
+     191.5733
+    ],
+    "bbox_px": [
+     347.3,
+     147.27,
+     438.5,
+     229.38
+    ],
+    "center_px": [
+     392.9,
+     188.32
+    ],
+    "size_px": [
+     91.2,
+     82.11
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_pre0/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     361.4608,
+     159.6694
+    ],
+    "bbox_px": [
+     362.26,
+     153.17,
+     431.45,
+     223.18
+    ],
+    "center_px": [
+     396.86,
+     188.17
+    ],
+    "size_px": [
+     69.19,
+     70.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_pre0/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6552,
+     0.0,
+     0.0,
+     0.562,
+     363.0607,
+     169.2206
+    ],
+    "bbox_px": [
+     347.3,
+     155.56,
+     436.31,
+     226.6
+    ],
+    "center_px": [
+     391.81,
+     191.08
+    ],
+    "size_px": [
+     89.01,
+     71.03
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_post0",
+    "name": "btn_post0",
+    "character": 359,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     435.1529,
+     191.1732
+    ],
+    "bbox_px": [
+     390.15,
+     146.87,
+     481.35,
+     228.98
+    ],
+    "center_px": [
+     435.75,
+     187.92
+    ],
+    "size_px": [
+     91.2,
+     82.11
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_post0/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     404.3062,
+     159.2693
+    ],
+    "bbox_px": [
+     405.11,
+     152.77,
+     474.3,
+     222.78
+    ],
+    "center_px": [
+     439.7,
+     187.77
+    ],
+    "size_px": [
+     69.19,
+     70.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_post0/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6552,
+     0.0,
+     0.0,
+     0.562,
+     405.9061,
+     168.8205
+    ],
+    "bbox_px": [
+     390.15,
+     155.16,
+     479.16,
+     226.2
+    ],
+    "center_px": [
+     434.65,
+     190.68
+    ],
+    "size_px": [
+     89.01,
+     71.03
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_0",
+    "name": "btn_0",
+    "character": 359,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     414.2052,
+     191.1732
+    ],
+    "bbox_px": [
+     369.2,
+     146.87,
+     460.4,
+     228.98
+    ],
+    "center_px": [
+     414.8,
+     187.92
+    ],
+    "size_px": [
+     91.2,
+     82.11
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_0/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     383.3585,
+     159.2693
+    ],
+    "bbox_px": [
+     384.16,
+     152.77,
+     453.35,
+     222.78
+    ],
+    "center_px": [
+     418.75,
+     187.77
+    ],
+    "size_px": [
+     69.19,
+     70.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/btn_0/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6552,
+     0.0,
+     0.0,
+     0.562,
+     384.9583,
+     168.8205
+    ],
+    "bbox_px": [
+     369.2,
+     155.16,
+     458.21,
+     226.2
+    ],
+    "center_px": [
+     413.71,
+     190.68
+    ],
+    "size_px": [
+     89.01,
+     71.03
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/list/dragHandler",
+    "name": "dragHandler",
+    "character": 479,
+    "matrix_px": [
+     0.6177,
+     0.0,
+     0.0,
+     0.2298,
+     354.3116,
+     164.82
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/btn_interact",
+    "name": "btn_interact",
+    "character": 380,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     414.2052,
+     254.2809
+    ],
+    "bbox_px": [
+     363.91,
+     205.93,
+     463.35,
+     306.79
+    ],
+    "center_px": [
+     413.63,
+     256.36
+    ],
+    "size_px": [
+     99.44,
+     100.86
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/btn_interact/btimg",
+    "name": "btimg",
+    "character": 379,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     380.4588,
+     225.2274
+    ],
+    "bbox_px": [
+     383.81,
+     223.53,
+     440.35,
+     284.58
+    ],
+    "center_px": [
+     412.08,
+     254.06
+    ],
+    "size_px": [
+     56.54,
+     61.06
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/btn_spell",
+    "name": "btn_spell",
+    "character": 404,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     415.955,
+     131.766
+    ],
+    "bbox_px": [
+     377.96,
+     94.46,
+     453.25,
+     171.32
+    ],
+    "center_px": [
+     415.61,
+     132.89
+    ],
+    "size_px": [
+     75.29,
+     76.86
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/btn_spell/btimg",
+    "name": "btimg",
+    "character": 403,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     382.0586,
+     100.7622
+    ],
+    "bbox_px": [
+     379.21,
+     96.56,
+     450.7,
+     166.07
+    ],
+    "center_px": [
+     414.96,
+     131.32
+    ],
+    "size_px": [
+     71.49,
+     69.51
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/btn_swap",
+    "name": "btn_swap",
+    "character": 386,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     -202.329,
+     77.8094
+    ],
+    "bbox_px": [
+     -223.93,
+     48.31,
+     -122.29,
+     166.32
+    ],
+    "center_px": [
+     -173.11,
+     107.31
+    ],
+    "size_px": [
+     101.64,
+     118.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/Joystick",
+    "name": "Joystick",
+    "character": 421,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     71.8918,
+     255.131
+    ],
+    "bbox_px": [
+     -22.26,
+     164.85,
+     164.31,
+     342.33
+    ],
+    "center_px": [
+     71.03,
+     253.59
+    ],
+    "size_px": [
+     186.57,
+     177.48
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/Joystick/stick",
+    "name": "stick",
+    "character": 420,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     71.8918,
+     255.131
+    ],
+    "bbox_px": [
+     -22.26,
+     164.85,
+     164.31,
+     342.33
+    ],
+    "center_px": [
+     71.03,
+     253.59
+    ],
+    "size_px": [
+     186.57,
+     177.48
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/controls/controls/Joystick/stick/hitzone",
+    "name": "hitzone",
+    "character": 413,
+    "matrix_px": [
+     1.2246,
+     0.0,
+     0.0,
+     1.252,
+     17.2976,
+     203.9748
+    ],
+    "bbox_px": [
+     -22.26,
+     164.85,
+     164.31,
+     342.33
+    ],
+    "center_px": [
+     71.03,
+     253.59
+    ],
+    "size_px": [
+     186.57,
+     177.48
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/itunes_controls",
+    "name": "itunes_controls",
+    "character": 455,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     210.127,
+     5.1505
+    ],
+    "bbox_px": [
+     349.51,
+     -182.77,
+     423.5,
+     -62.21
+    ],
+    "center_px": [
+     386.51,
+     -122.49
+    ],
+    "size_px": [
+     73.99,
+     120.56
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/itunes_controls/btn_itunes",
+    "name": "btn_itunes",
+    "character": 454,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     353.8116,
+     -165.7703
+    ],
+    "bbox_px": [
+     349.51,
+     -182.77,
+     408.51,
+     -107.76
+    ],
+    "center_px": [
+     379.01,
+     -145.27
+    ],
+    "size_px": [
+     58.99,
+     75.01
+    ]
+   },
+   {
+    "path": "menu_HUD_2/HUDelements/Level_up",
+    "name": "Level_up",
+    "character": 458,
+    "matrix_px": [
+     0.9999,
+     0.0,
+     0.0,
+     1.0001,
+     -323.866,
+     204.4249
+    ],
+    "bbox_px": null
+   }
+  ]
+ },
+ "menu_HUD_3": {
+  "root_character": 486,
+  "elements": [
+   {
+    "path": "menu_HUD_3/HUDelements",
+    "name": "HUDelements",
+    "character": 485,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     -5.1,
+     0.9
+    ],
+    "bbox_px": [
+     -67.92,
+     -181.55,
+     1004.19,
+     344.18
+    ],
+    "center_px": [
+     468.13,
+     81.32
+    ],
+    "size_px": [
+     1072.11,
+     525.73
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     1.7075,
+     0.0,
+     0.0,
+     0.5344,
+     1.7,
+     -1.6
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/deadzone_mainmenus",
+    "name": "deadzone_mainmenus",
+    "character": 40,
+    "matrix_px": [
+     0.4699,
+     0.0,
+     0.0,
+     0.4732,
+     427.95,
+     -1.6
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/deadzone_skills1",
+    "name": "deadzone_skills1",
+    "character": 40,
+    "matrix_px": [
+     0.9484,
+     0.0,
+     0.0,
+     1.3203,
+     1.7,
+     186.2
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/deadzone_skills1",
+    "name": "deadzone_skills1",
+    "character": 40,
+    "matrix_px": [
+     0.4457,
+     0.0,
+     0.0,
+     0.5443,
+     36.85,
+     119.3
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/deadzone_menus",
+    "name": "deadzone_menus",
+    "character": 40,
+    "matrix_px": [
+     0.4339,
+     0.0,
+     0.0,
+     0.4466,
+     1.7,
+     66.95
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/deadzone_potion",
+    "name": "deadzone_potion",
+    "character": 40,
+    "matrix_px": [
+     0.4991,
+     0.0,
+     0.0,
+     0.5475,
+     0.15,
+     122.55
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/btn_mainmenu",
+    "name": "btn_mainmenu",
+    "character": 91,
+    "matrix_px": [
+     1.06,
+     0.0,
+     0.0,
+     1.0,
+     30.05,
+     88.6
+    ],
+    "bbox_px": [
+     4.61,
+     58.0,
+     54.48,
+     117.15
+    ],
+    "center_px": [
+     29.55,
+     87.58
+    ],
+    "size_px": [
+     49.87,
+     59.15
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/btn_mainmenu/btimg",
+    "name": "btimg",
+    "character": 83,
+    "matrix_px": [
+     1.06,
+     0.0,
+     0.0,
+     1.0,
+     -2.1209,
+     56.95
+    ],
+    "bbox_px": [
+     15.16,
+     72.8,
+     45.84,
+     103.1
+    ],
+    "center_px": [
+     30.5,
+     87.95
+    ],
+    "size_px": [
+     30.69,
+     30.3
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars",
+    "name": "HealthBars",
+    "character": 477,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.9,
+     4.3
+    ],
+    "bbox_px": [
+     -67.92,
+     -47.22,
+     1004.19,
+     337.42
+    ],
+    "center_px": [
+     468.13,
+     145.1
+    ],
+    "size_px": [
+     1072.11,
+     384.64
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/boss/#100/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.6238,
+     0.0,
+     0.0,
+     0.7319,
+     -225.75,
+     40.0
+    ],
+    "bbox_px": [
+     -162.27,
+     58.33,
+     -51.2,
+     73.34
+    ],
+    "center_px": [
+     -106.74,
+     65.84
+    ],
+    "size_px": [
+     111.07,
+     15.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/btn_potion",
+    "name": "btn_potion",
+    "character": 127,
+    "matrix_px": [
+     1.2031,
+     0.0,
+     0.0,
+     1.5721,
+     929.3,
+     43.65
+    ],
+    "bbox_px": [
+     884.36,
+     -22.85,
+     995.65,
+     124.69
+    ],
+    "center_px": [
+     940.01,
+     50.92
+    ],
+    "size_px": [
+     111.29,
+     147.54
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/btn_potion/btframe",
+    "name": "btframe",
+    "character": 112,
+    "matrix_px": [
+     1.2031,
+     0.0,
+     0.0,
+     1.5721,
+     919.254,
+     13.7024
+    ],
+    "bbox_px": [
+     884.36,
+     -20.18,
+     982.12,
+     106.53
+    ],
+    "center_px": [
+     933.24,
+     43.18
+    ],
+    "size_px": [
+     97.75,
+     126.71
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/btn_potion/DistressGlow",
+    "name": "DistressGlow",
+    "character": 119,
+    "matrix_px": [
+     1.2031,
+     0.0,
+     0.0,
+     1.5721,
+     894.109,
+     -7.4417
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/btn_potion/hitzone",
+    "name": "hitzone",
+    "character": 124,
+    "matrix_px": [
+     0.2955,
+     0.0,
+     0.0,
+     0.775,
+     924.4876,
+     34.2177
+    ],
+    "bbox_px": [
+     888.04,
+     -10.65,
+     978.32,
+     99.39
+    ],
+    "center_px": [
+     933.18,
+     44.37
+    ],
+    "size_px": [
+     90.28,
+     110.05
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/btn_potion/cnt",
+    "name": "cnt",
+    "character": 126,
+    "matrix_px": [
+     1.2031,
+     0.0,
+     0.0,
+     1.5721,
+     958.8965,
+     84.7592
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/btn_potion/cnt/value",
+    "name": "value",
+    "character": 125,
+    "matrix_px": [
+     1.2031,
+     0.0,
+     0.0,
+     1.5721,
+     954.7458,
+     75.9557
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/Ally2/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.6,
+     0.0,
+     0.0,
+     0.75,
+     -97.6991,
+     10.9875
+    ],
+    "bbox_px": [
+     -37.1,
+     30.45,
+     29.95,
+     40.73
+    ],
+    "center_px": [
+     -3.58,
+     35.59
+    ],
+    "size_px": [
+     67.05,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/Ally2/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     -72.1,
+     26.7
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/Ally1/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.6,
+     0.0,
+     0.0,
+     0.75,
+     398.4509,
+     189.4375
+    ],
+    "bbox_px": [
+     459.05,
+     208.9,
+     526.1,
+     219.18
+    ],
+    "center_px": [
+     492.57,
+     214.04
+    ],
+    "size_px": [
+     67.05,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/Ally1/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     424.05,
+     205.15
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/Ally0/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 132,
+    "matrix_px": [
+     0.6,
+     0.0,
+     0.0,
+     0.75,
+     -97.6991,
+     10.9875
+    ],
+    "bbox_px": [
+     -37.1,
+     30.45,
+     29.95,
+     40.73
+    ],
+    "center_px": [
+     -3.58,
+     35.59
+    ],
+    "size_px": [
+     67.05,
+     10.28
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/Ally0/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     -72.1,
+     26.7
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/enemy",
+    "name": "enemy",
+    "character": 146,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     243.05,
+     192.9
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/enemy/HpBar/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     0.5707,
+     0.0,
+     0.0,
+     0.6696,
+     399.8003,
+     189.3367
+    ],
+    "bbox_px": [
+     457.87,
+     206.11,
+     559.49,
+     219.84
+    ],
+    "center_px": [
+     508.68,
+     212.97
+    ],
+    "size_px": [
+     101.62,
+     13.73
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/enemy/enemy_level/value",
+    "name": "value",
+    "character": 136,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     424.3,
+     205.15
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/player",
+    "name": "player",
+    "character": 161,
+    "matrix_px": [
+     1.625,
+     0.0,
+     0.0,
+     1.625,
+     -2.95,
+     39.1
+    ],
+    "bbox_px": [
+     -31.14,
+     -40.85,
+     468.95,
+     178.53
+    ],
+    "center_px": [
+     218.9,
+     68.84
+    ],
+    "size_px": [
+     500.09,
+     219.38
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/player/bar_hp",
+    "name": "bar_hp",
+    "character": 96,
+    "matrix_px": [
+     1.625,
+     0.0,
+     0.0,
+     1.625,
+     -65.5938,
+     -1.9312
+    ],
+    "bbox_px": [
+     99.75,
+     38.77,
+     389.08,
+     72.09
+    ],
+    "center_px": [
+     244.42,
+     55.43
+    ],
+    "size_px": [
+     289.33,
+     33.31
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/player/bar_mp",
+    "name": "bar_mp",
+    "character": 151,
+    "matrix_px": [
+     1.625,
+     0.0,
+     0.0,
+     1.625,
+     -25.8625,
+     -2.0125
+    ],
+    "bbox_px": [
+     108.46,
+     69.65,
+     387.94,
+     97.36
+    ],
+    "center_px": [
+     248.2,
+     83.5
+    ],
+    "size_px": [
+     279.49,
+     27.71
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HealthBars/player/bar_xp",
+    "name": "bar_xp",
+    "character": 156,
+    "matrix_px": [
+     1.625,
+     0.0,
+     0.0,
+     1.625,
+     136.5563,
+     21.9563
+    ],
+    "bbox_px": [
+     98.04,
+     11.85,
+     308.89,
+     39.53
+    ],
+    "center_px": [
+     203.47,
+     25.69
+    ],
+    "size_px": [
+     210.84,
+     27.68
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/btn_charactermenu",
+    "name": "btn_charactermenu",
+    "character": 167,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     4.3,
+     8.4
+    ],
+    "bbox_px": [
+     -3.53,
+     -5.55,
+     57.95,
+     66.48
+    ],
+    "center_px": [
+     27.21,
+     30.46
+    ],
+    "size_px": [
+     61.48,
+     72.03
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/btn_charactermenu/btimg",
+    "name": "btimg",
+    "character": 163,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     6.45,
+     6.95
+    ],
+    "bbox_px": [
+     -3.25,
+     -5.55,
+     49.75,
+     56.1
+    ],
+    "center_px": [
+     23.25,
+     25.28
+    ],
+    "size_px": [
+     53.0,
+     61.65
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/itemname_text",
+    "name": "itemname_text",
+    "character": 170,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     -1.1,
+     166.75
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls",
+    "name": "controls",
+    "character": 482,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     14.15,
+     91.2
+    ],
+    "bbox_px": [
+     -10.16,
+     52.95,
+     684.05,
+     344.18
+    ],
+    "center_px": [
+     336.95,
+     198.57
+    ],
+    "size_px": [
+     694.21,
+     291.23
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls",
+    "name": "controls",
+    "character": 481,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     14.15,
+     91.2
+    ],
+    "bbox_px": [
+     -10.16,
+     52.95,
+     684.05,
+     344.18
+    ],
+    "center_px": [
+     336.95,
+     198.57
+    ],
+    "size_px": [
+     694.21,
+     291.23
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list",
+    "name": "list",
+    "character": 480,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     22.25,
+     200.0
+    ],
+    "bbox_px": [
+     -10.16,
+     148.55,
+     123.9,
+     231.05
+    ],
+    "center_px": [
+     56.87,
+     189.8
+    ],
+    "size_px": [
+     134.06,
+     82.5
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_pre1",
+    "name": "btn_pre1",
+    "character": 359,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     34.85,
+     193.25
+    ],
+    "bbox_px": [
+     -10.16,
+     148.95,
+     81.05,
+     231.05
+    ],
+    "center_px": [
+     35.45,
+     190.0
+    ],
+    "size_px": [
+     91.21,
+     82.1
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_pre1/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     4.0,
+     161.35
+    ],
+    "bbox_px": [
+     4.8,
+     154.85,
+     74.0,
+     224.85
+    ],
+    "center_px": [
+     39.4,
+     189.85
+    ],
+    "size_px": [
+     69.2,
+     70.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_pre1/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6553,
+     0.0,
+     0.0,
+     0.5619,
+     5.6,
+     170.9
+    ],
+    "bbox_px": [
+     -10.16,
+     157.25,
+     78.86,
+     228.27
+    ],
+    "center_px": [
+     34.35,
+     192.76
+    ],
+    "size_px": [
+     89.02,
+     71.02
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_post1",
+    "name": "btn_post1",
+    "character": 359,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     77.7,
+     192.85
+    ],
+    "bbox_px": [
+     32.69,
+     148.55,
+     123.9,
+     230.65
+    ],
+    "center_px": [
+     78.3,
+     189.6
+    ],
+    "size_px": [
+     91.21,
+     82.1
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_post1/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     46.85,
+     160.95
+    ],
+    "bbox_px": [
+     47.65,
+     154.45,
+     116.85,
+     224.45
+    ],
+    "center_px": [
+     82.25,
+     189.45
+    ],
+    "size_px": [
+     69.2,
+     70.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_post1/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6553,
+     0.0,
+     0.0,
+     0.5619,
+     48.45,
+     170.5
+    ],
+    "bbox_px": [
+     32.69,
+     156.85,
+     121.71,
+     227.87
+    ],
+    "center_px": [
+     77.2,
+     192.36
+    ],
+    "size_px": [
+     89.02,
+     71.02
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_pre0",
+    "name": "btn_pre0",
+    "character": 359,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     34.85,
+     193.25
+    ],
+    "bbox_px": [
+     -10.16,
+     148.95,
+     81.05,
+     231.05
+    ],
+    "center_px": [
+     35.45,
+     190.0
+    ],
+    "size_px": [
+     91.21,
+     82.1
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_pre0/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     4.0,
+     161.35
+    ],
+    "bbox_px": [
+     4.8,
+     154.85,
+     74.0,
+     224.85
+    ],
+    "center_px": [
+     39.4,
+     189.85
+    ],
+    "size_px": [
+     69.2,
+     70.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_pre0/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6553,
+     0.0,
+     0.0,
+     0.5619,
+     5.6,
+     170.9
+    ],
+    "bbox_px": [
+     -10.16,
+     157.25,
+     78.86,
+     228.27
+    ],
+    "center_px": [
+     34.35,
+     192.76
+    ],
+    "size_px": [
+     89.02,
+     71.02
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_post0",
+    "name": "btn_post0",
+    "character": 359,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     77.7,
+     192.85
+    ],
+    "bbox_px": [
+     32.69,
+     148.55,
+     123.9,
+     230.65
+    ],
+    "center_px": [
+     78.3,
+     189.6
+    ],
+    "size_px": [
+     91.21,
+     82.1
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_post0/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     46.85,
+     160.95
+    ],
+    "bbox_px": [
+     47.65,
+     154.45,
+     116.85,
+     224.45
+    ],
+    "center_px": [
+     82.25,
+     189.45
+    ],
+    "size_px": [
+     69.2,
+     70.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_post0/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6553,
+     0.0,
+     0.0,
+     0.5619,
+     48.45,
+     170.5
+    ],
+    "bbox_px": [
+     32.69,
+     156.85,
+     121.71,
+     227.87
+    ],
+    "center_px": [
+     77.2,
+     192.36
+    ],
+    "size_px": [
+     89.02,
+     71.02
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_0",
+    "name": "btn_0",
+    "character": 359,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     56.75,
+     192.85
+    ],
+    "bbox_px": [
+     11.74,
+     148.55,
+     102.95,
+     230.65
+    ],
+    "center_px": [
+     57.35,
+     189.6
+    ],
+    "size_px": [
+     91.21,
+     82.1
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_0/btimg",
+    "name": "btimg",
+    "character": 251,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     25.9,
+     160.95
+    ],
+    "bbox_px": [
+     26.7,
+     154.45,
+     95.9,
+     224.45
+    ],
+    "center_px": [
+     61.3,
+     189.45
+    ],
+    "size_px": [
+     69.2,
+     70.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/btn_0/hitzone",
+    "name": "hitzone",
+    "character": 358,
+    "matrix_px": [
+     0.6553,
+     0.0,
+     0.0,
+     0.5619,
+     27.5,
+     170.5
+    ],
+    "bbox_px": [
+     11.74,
+     156.85,
+     100.76,
+     227.87
+    ],
+    "center_px": [
+     56.25,
+     192.36
+    ],
+    "size_px": [
+     89.02,
+     71.02
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/list/dragHandler",
+    "name": "dragHandler",
+    "character": 479,
+    "matrix_px": [
+     0.6178,
+     0.0,
+     0.0,
+     0.2298,
+     -3.15,
+     166.5
+    ],
+    "bbox_px": null
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/btn_interact",
+    "name": "btn_interact",
+    "character": 380,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     55.15,
+     253.85
+    ],
+    "bbox_px": [
+     4.85,
+     205.5,
+     104.3,
+     306.35
+    ],
+    "center_px": [
+     54.57,
+     255.93
+    ],
+    "size_px": [
+     99.45,
+     100.85
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/btn_interact/btimg",
+    "name": "btimg",
+    "character": 379,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     21.4,
+     224.8
+    ],
+    "bbox_px": [
+     24.75,
+     223.1,
+     81.3,
+     284.15
+    ],
+    "center_px": [
+     53.02,
+     253.62
+    ],
+    "size_px": [
+     56.55,
+     61.05
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/Joystick",
+    "name": "Joystick",
+    "character": 421,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     420.0,
+     257.0
+    ],
+    "bbox_px": [
+     325.84,
+     166.73,
+     512.43,
+     344.18
+    ],
+    "center_px": [
+     419.13,
+     255.46
+    ],
+    "size_px": [
+     186.59,
+     177.46
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/Joystick/stick",
+    "name": "stick",
+    "character": 420,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     420.0,
+     257.0
+    ],
+    "bbox_px": [
+     325.84,
+     166.73,
+     512.43,
+     344.18
+    ],
+    "center_px": [
+     419.13,
+     255.46
+    ],
+    "size_px": [
+     186.59,
+     177.46
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/Joystick/stick/hitzone",
+    "name": "hitzone",
+    "character": 413,
+    "matrix_px": [
+     1.2247,
+     0.0,
+     0.0,
+     1.2519,
+     365.4,
+     205.85
+    ],
+    "bbox_px": [
+     325.84,
+     166.73,
+     512.43,
+     344.18
+    ],
+    "center_px": [
+     419.13,
+     255.46
+    ],
+    "size_px": [
+     186.59,
+     177.46
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/btn_spell",
+    "name": "btn_spell",
+    "character": 404,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     56.75,
+     136.5
+    ],
+    "bbox_px": [
+     18.75,
+     99.2,
+     94.05,
+     176.05
+    ],
+    "center_px": [
+     56.4,
+     137.62
+    ],
+    "size_px": [
+     75.3,
+     76.85
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/btn_spell/btimg",
+    "name": "btimg",
+    "character": 403,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     22.85,
+     105.5
+    ],
+    "bbox_px": [
+     20.0,
+     101.3,
+     91.5,
+     170.8
+    ],
+    "center_px": [
+     55.75,
+     136.05
+    ],
+    "size_px": [
+     71.5,
+     69.5
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/controls/controls/btn_swap",
+    "name": "btn_swap",
+    "character": 386,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     604.0,
+     82.45
+    ],
+    "bbox_px": [
+     582.4,
+     52.95,
+     684.05,
+     170.95
+    ],
+    "center_px": [
+     633.22,
+     111.95
+    ],
+    "size_px": [
+     101.65,
+     118.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/HUD_iTunes/btn_iTunes/btimg",
+    "name": "btimg",
+    "character": 83,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     358.5,
+     -69.45
+    ],
+    "bbox_px": [
+     374.8,
+     -53.6,
+     403.75,
+     -23.3
+    ],
+    "center_px": [
+     389.27,
+     -38.45
+    ],
+    "size_px": [
+     28.95,
+     30.3
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/itunes_controls",
+    "name": "itunes_controls",
+    "character": 455,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     209.75,
+     6.35
+    ],
+    "bbox_px": [
+     349.15,
+     -181.55,
+     423.15,
+     -61.0
+    ],
+    "center_px": [
+     386.15,
+     -121.28
+    ],
+    "size_px": [
+     74.0,
+     120.55
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/itunes_controls/btn_itunes",
+    "name": "btn_itunes",
+    "character": 454,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     353.45,
+     -164.55
+    ],
+    "bbox_px": [
+     349.15,
+     -181.55,
+     408.15,
+     -106.55
+    ],
+    "center_px": [
+     378.65,
+     -144.05
+    ],
+    "size_px": [
+     59.0,
+     75.0
+    ]
+   },
+   {
+    "path": "menu_HUD_3/HUDelements/Level_up",
+    "name": "Level_up",
+    "character": 458,
+    "matrix_px": [
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     151.9,
+     95.2
+    ],
+    "bbox_px": null
+   }
+  ]
+ }
+}

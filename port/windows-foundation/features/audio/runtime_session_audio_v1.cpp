@@ -303,6 +303,22 @@ bool RuntimeSessionAudioV1::on_local_players_revived(std::string& error) {
     level_music_revive_pending_=true;error.clear();return true;
 }
 
+bool RuntimeSessionAudioV1::toggle_level_music(bool& playing,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    if(level_music_name_.empty()) {
+        playing=false;log_<<"HUD music button: this level has no level music\n";error.clear();return true;
+    }
+    if(level_music_user_off_) {
+        level_music_user_off_=false;level_music_start_pending_=true;playing=true;
+        log_<<level_music_transition_line_v1("hud-music-on",level_music_name_,kLevelMusicStartFadeMs,"")<<'\n';
+    } else {
+        if(host_->level_music_ordinal()>=0&&!host_->stop_level_music(kLevelMusicReviveFadeMs,error))return false;
+        level_music_user_off_=true;playing=false;
+        log_<<level_music_transition_line_v1("hud-music-off",level_music_name_,kLevelMusicReviveFadeMs,"")<<'\n';
+    }
+    error.clear();return true;
+}
+
 bool RuntimeSessionAudioV1::set_fx_muted(bool muted,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     host_->set_fx_muted(muted);error.clear();return true;
@@ -432,7 +448,9 @@ bool RuntimeSessionAudioV1::after_update(std::string& error) {
         const auto ordinal=host_->source_ordinal(level_music_name_.c_str());
         std::string musicError;
         if(ordinal<0) musicError="Level music is absent from the source sound table: "+level_music_name_;
-        else if(level_music_revive_pending_) {
+        else if(level_music_user_off_) {
+            // HUD music button: nothing restarts the level music until the button turns it on again.
+        } else if(level_music_revive_pending_) {
             if(outputActive) {
                 RuntimeAudioHostV1::LevelMusicActionV1 action{};
                 if(host_->play_level_music(ordinal,kLevelMusicReviveFadeMs,action,musicError)) {
