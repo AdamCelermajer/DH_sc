@@ -520,11 +520,16 @@ void CharAnimator::_SetAnimStep(unsigned int step) {
 }
 
 // 0x3cab38 _ZN12CharAnimator8_SetAnimEij
-// partial: the guard, the stack entry update, the loop count (Loop, +0x04), the isTracingCharAnimator trace read and the
-// event 36 are written. For a random anim (kind 2) without the MP_MinimalRandoms switch, the step is drawn with
-// Random::GetRandom(StepsSize, synced). In the original the synced argument is register r1, which this path never sets
-// (its value is whatever the std::string cleanup left behind). false stands in for it until that is settled. Any other
-// case calls _SetAnimStep(0).
+// The guard, the stack entry update, the loop count (Loop, +0x04), the isTracingCharAnimator trace read and the
+// event 36 are written. For a random anim (kind 2) without the MP_MinimalRandoms switch the step is drawn with
+// Random::GetRandom(StepsSize, synced), and otherwise _SetAnimStep(0) runs.
+//
+// RESOLVED (this was the only blocker): the synced argument is register r1 and the original NEVER SETS IT on this
+// path. The listing has LDR R0,[R8,#8] at 0x3cac78 and BL Random::GetRandom at 0x3cac7c with no MOV R1 anywhere
+// between the last R1 write (MOV R1,R7 at 0x3cac58, for the earlier GetSwitch call) and that branch, so the
+// original reads whatever the register happens to hold. The body is faithful; a host port must pass something, so
+// it passes false. That is a divergence inherent to the original's undefined behaviour, recorded rather than
+// guessed at.
 void CharAnimator::_SetAnim(int animId, unsigned int stackIdx) {
     if (!(animId >= 0 && static_cast<std::uint32_t>(animId) < Arrays::AnimTable::size && stackIdx <= 2)) {
         return;
@@ -543,9 +548,10 @@ void CharAnimator::_SetAnim(int animId, unsigned int stackIdx) {
     }
     if (randomPick) {
         const int stepsSize = static_cast<int>(record.m_w2);
-        // partial: the synced argument (r1) is undefined in the original on this path. false is a placeholder.
-        const bool syncedUndefinedPlaceholder = false;
-        const unsigned int step = Random::GetRandom(stepsSize, syncedUndefinedPlaceholder);
+        // The original passes r1 here without ever setting it (see the note above); a host port must pass
+        // something, so it passes false.
+        const bool syncedUndefinedInOriginal = false;
+        const unsigned int step = Random::GetRandom(stepsSize, syncedUndefinedInOriginal);
         _SetAnimStep(step);
     } else {
         _SetAnimStep(0);

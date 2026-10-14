@@ -135,7 +135,11 @@ public:
     core::aabbox3d<float> boundingBox{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};  // +0x158
     boost::intrusive_ptr<glitch::IReferenceCounted> unk_170;  // +0x170
     boost::intrusive_ptr<video::CMaterial> material;        // +0x174
-    std::uint32_t unk_178 = 0;                              // +0x178
+    // +0x178: a pointer to an emitter holder, not a word. Evidence: AnimatedFX::SetEndPoint (0x492560) reads
+    // node +0x178, takes the word at holder +4 and stores a float at subobject +44 (0x2c); AnimatedFX::HasCompleted
+    // (0x4924e0) reads node +0x178, holder +4 and then subobject +8. Both sites dereference it, so the row is a
+    // pointer and holder +4 is a counted reference to one of its subobjects.
+    void* unk_178 = nullptr;                                // +0x178 emitter holder (see the note above)
     std::uint32_t billboardType = 0;                        // +0x17c
     bool particlesAreGlobal = true;                         // +0x180
     float transparency = 1.0f;                              // +0x184

@@ -6,9 +6,9 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,507 | 69.4% |
+| reconstructed | 17,510 | 69.4% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,616 | 6.4% |
+| partial | 1,613 | 6.4% |
 | skipped | 2,119 | 8.4% |
 
 Every queued row now has a ledger row (the last G1b rows are in).
@@ -20,7 +20,7 @@ Every queued row now has a ledger row (the last G1b rows are in).
 | game-character | 1,143 | 1,095 | 0 | 2 | 46 |
 | game-items-save | 831 | 765 | 0 | 0 | 66 |
 | game-ui | 808 | 775 | 0 | 0 | 33 |
-| game-anim | 365 | 332 | 0 | 3 | 30 |
+| game-anim | 365 | 335 | 0 | 0 | 30 |
 | glitch-scene-collada-gui | 4,735 | 3,996 | 3 | 444 | 292 |
 | glitch-video | 1,701 | 758 | 0 | 245 | 698 |
 | glitch-core-io | 1,336 | 1,016 | 17 | 96 | 207 |
@@ -154,7 +154,24 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | partial-redo4 | `CImage::initData` (0x601988) and the 5-argument constructor (0x602670) | `2caf0176` |
 | verify | `CImage::fill` measured and asserted; image_fill_test registered | `47238564`, `9f22c1e2` |
 | cimage-ctors | the owning constructors 0x602028 / 0x602110 (+ their C2 aliases) | `c786d316` |
-| cimage-dtor | `~CImage` 0x601804 / 0x6018b8 / 0x60196c; the CImage cluster closed | next |
+| cimage-dtor | `~CImage` 0x601804 / 0x6018b8 / 0x60196c; the CImage cluster closed | `e09bc03d` |
+| partial-game-anim | the last 3 game-anim partials; the category is now 335/335 | next |
+
+## The two same-named particle classes (settled)
+
+`glitch::scene::CParticleSystemSceneNode` and `glitch::collada::CParticleSystemSceneNode` are different
+classes that share a name, and more than one blocker note pointed at the wrong one:
+
+- `glitch::scene::CParticleSystemSceneNode` (`scene/CParticleSystemSceneNode.hpp`) is the real node: it derives
+  from `IParticleSystemSceneNode`, owns the `+0x178` emitter holder, and has `getPosition` / `setPosition`. Its
+  base declares the live-particle count as **`getNumberOfParticles()`**, not `getParticleCount()`.
+- `glitch::collada::CParticleSystemSceneNode` (in `collada_scene_accessors.hpp`) is a two-method stub
+  (`getUID`, `getTransformedBoundingBox`) whose `getParticleCount` is a placeholder returning 0
+  (`recon/slice_20.cpp`). Do not reach for it when a particle node is needed.
+- The node that `VisualObject::GetSpecificNode(0x70656164)` / `(0x70656E64)` returns is the scene class; the
+  sibling `AnimatedFX::SetEndPoint`, which reads the same `+0x178` holder, is what settles it. Reaching it needs
+  a `dynamic_cast` from the `scene::ISceneNode*` that `GetSpecificNode` returns.
+
 
 ## Partial rows still undefined at link (9)
 

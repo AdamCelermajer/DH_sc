@@ -22,6 +22,8 @@
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
 #include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/CParticleSystemSceneNode.hpp"  // glitch::scene::CParticleSystemSceneNode (the emitter holder, getPosition, setPosition)
+
 #include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 // Global assert level (libDungeonHunter2.so gAssertLevel at 0x99f914). core-platform/memory.hpp declares it too,
@@ -80,12 +82,68 @@ void AnimatedFX::SetSpeed(float speed) {
 }
 
 // 0x4924e0 _ZNK10AnimatedFX12HasCompletedEv
-// PARTIAL. Not rebuilt. The original reads the global at 0x99F73C (asm: Singleton<Application>::s_inst
-// + 0x10), calls its object's slot +0x1c with (0x70656164, m_visual->m_node), and when a node comes back it
-// returns (the node's vtable slot +0xf8 result <= 0). Returns true when no node is found. Neither the
-// global's object nor the node interface is declared in the tree. Placeholder: returns false.
+// The FX is done when the particle node it drives reports no live particles: GetSpecificNode(0x70656164) on the
+// visual, then the node's getParticleCount() (vtable slot +0xf8) <= 0. A node lookup that returns nothing counts
+// as completed.
+//
+// RESOLVED (was blocked). The node is glitch::scene::CParticleSystemSceneNode: its header names getType at the
+// slot the tag selects, and it owns the +0x178 emitter holder the sibling SetEndPoint reads, while the
+// same-named glitch::collada class is a two-method stub whose getParticleCount is a placeholder returning 0.
+// GetSpecificNode returns scene::ISceneNode*, so the result is reached with a dynamic_cast, which picks the
+// right base and refuses a node of another type.
 bool AnimatedFX::HasCompleted() const {
-    return false;
+    if (m_visual == nullptr) {
+        return true;
+    }
+    glitch::scene::ISceneNode* node = m_visual->GetSpecificNode(0x70656164);
+    glitch::scene::IParticleSystemSceneNode* particles =
+        dynamic_cast<glitch::scene::IParticleSystemSceneNode*>(node);
+    if (particles == nullptr) {
+        return true;
+    }
+    return particles->getNumberOfParticles() <= 0;
+}
+
+// 0x492560 _ZN10AnimatedFX11SetEndPointERK7Point3DIfE
+// Places the particle node so that it stops at the point: the distance from the requested end point to the owner's
+// target position is measured, and when the node's emitter has no target yet the distance * 0.3 is stored in the
+// emitter and the node is moved to half that distance back along its own X and the emitter's Y and Z.
+//
+// Read field by field off the binary: GetSpecificNode(0x70656E64) then the emitter holder at node +0x178, its
+// subobject at holder +4, the target word at subobject +8, the distance at subobject +0x2c, and
+// ISceneNode::getPosition() (vptr +0xa0) for the Y and Z the new position keeps.
+//
+// The node is glitch::scene::CParticleSystemSceneNode, not the same-named glitch::collada class: the +0x178
+// emitter holder, getPosition and setPosition are all on that class (its own source already stores unk_178 as a
+// pointer), while glitch::collada::CParticleSystemSceneNode is a two-method stub whose getParticleCount is a
+// placeholder returning 0.
+void AnimatedFX::SetEndPoint(const Point3D<float>& position) {
+    if (m_visual == nullptr) {
+        return;
+    }
+    glitch::scene::CParticleSystemSceneNode* node =
+        dynamic_cast<glitch::scene::CParticleSystemSceneNode*>(m_visual->GetSpecificNode(0x70656E64));
+    if (node == nullptr || unk_28 == nullptr) {
+        return;
+    }
+    const Point3D<float>& target = unk_28->GetTargetPosition();
+    const float dx = position.X - target.X;
+    const float dy = position.Y - target.Y;
+    const float dz = position.Z - target.Z;
+    const float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+
+    uint8_t* holder = static_cast<uint8_t*>(node->unk_178);
+    if (holder == nullptr) {
+        return;
+    }
+    uint8_t* subobject = *reinterpret_cast<uint8_t**>(holder + 4);
+    if (subobject == nullptr || *reinterpret_cast<uint32_t*>(subobject + 8) != 0) {
+        return;
+    }
+    const float scaled = distance * 0.3f;
+    *reinterpret_cast<float*>(subobject + 0x2c) = scaled;
+    const glitch::core::vector3d<float>& current = node->getPosition();
+    node->setPosition(scaled * -0.5f, current.Y, current.Z);
 }
 
 // 0x49267c _ZN10AnimatedFX11GetAnimatorEv
@@ -102,16 +160,6 @@ AnimController* AnimatedFX::GetAnimController() {
         return m_visual->m_animController;
     }
     return nullptr;
-}
-
-// 0x492560 _ZN10AnimatedFX11SetEndPointERK7Point3DIfE
-// PARTIAL. The original, when the owner word +0x28 is set, takes the distance from the owner's target
-// position to the end point, and writes it into the node's animator sub-object (node word +0x178) and the
-// node's x position (-0.5 times 0.3 of the distance; y and z from the node's position getter). Not rebuilt:
-// the owner word is int in the header (layout request GameObject* at +0x28), and the node sub-object and
-// position interface are not declared in the tree.
-void AnimatedFX::SetEndPoint(const Point3D<float>& position) {
-    (void)position;
 }
 
 // 0x492694 AnimatedFX::SetLooping(bool)
