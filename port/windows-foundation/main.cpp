@@ -7119,6 +7119,14 @@ int main(int argc,char** argv) {
                                     if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
                                     std::uintptr_t managerIdentity{};bool found=false;
                                     if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    // v21.8 w2-illusionist: a monster spawned by the CombatSession (not a level Character definition)
+                                    // has no FX anchor yet; every Character owns one natively, so register it on first buff FX.
+                                    if(!found&&combatSession&&combatSession->actor(actorId)) {
+                                        f::effects::SourceFxAnchorKeyV1 combatKey;
+                                        if(!sourceFxAnchors.register_actor("CombatActor:"+std::to_string(actorId),-3,actorId,
+                                                sourceActorFxProvider(actorId),combatKey,e))return false;
+                                        if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    }
                                     if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
                                     // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
                                     // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.
@@ -8672,6 +8680,13 @@ int main(int argc,char** argv) {
                             request.knockback_great=&sourceKnockBackSink;
                             request.external_owner=&skillOwnerRegistry;
                             request.timed_buffs=timedBuffs.get();
+                            // v21.8 w2-illusionist: Lua target:SetStunState(duration, true) for the Figments per-target loop (ES-STATUS owner).
+                            request.stun_target=[statusStates](f::CombatSession& s,f::ActorId target,double durationMs,std::string& stunError)->bool{
+                                stunError.clear();
+                                const auto flags=f::status_states::StatusStateSessionV1::boss_flags_for(s,target);
+                                if(!statusStates->owner().set_stun(target,durationMs,true,true,flags,true)){stunError="stun owner refused the target";return false;}
+                                return true;
+                            };
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                             if(motor)motor->setFacingRadians(combatSession->actor(request.actor)->transform.rotation[2]);
                         }
@@ -8917,6 +8932,13 @@ int main(int argc,char** argv) {
                         necroPassives=std::make_unique<f::generic_skills::RuntimeNecromancerPassiveOwnerV1>(
                             *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id(),
                             [&](const std::string& sound,std::string& e)->bool{if(!runtimeAudio){e="no audio runtime";return false;}return runtimeAudio->play_named_plain(sound.c_str(),e);});
+                        // v21.8 w2-illusionist: Mirror's SetStunState(TempProp2, true) on the attacker goes through the ES-STATUS owner.
+                        passiveEvents->set_stun_target([statusStates](f::CombatSession& s,f::ActorId target,double durationMs,std::string& stunError)->bool{
+                            stunError.clear();
+                            const auto flags=f::status_states::StatusStateSessionV1::boss_flags_for(s,target);
+                            if(!statusStates->owner().set_stun(target,durationMs,true,true,flags,true)){stunError="stun owner refused the target";return false;}
+                            return true;
+                        });
                         combatSession->set_combat_result_observer([&](f::ActorId attacker,f::ActorId target,std::uint32_t outcomes,bool died){
                             if(attacker==combatSession->player_id()||target==combatSession->player_id())
                                 std::cout<<"Passive hit observed frame="<<drawn<<" attacker="<<attacker<<" target="<<target<<" outcomes="<<outcomes<<" died="<<died<<'\n';
@@ -8936,10 +8958,14 @@ int main(int argc,char** argv) {
                         const auto eq=entry.find('=');
                         const std::string kindName=eq==std::string::npos?std::string():entry.substr(0,eq);
                         const auto rank=eq==std::string::npos?0u:std::uint32_t(std::stoul(entry.substr(eq+1)));
+                        // v21.8 w2-illusionist: disciples / petrify / mirror accepted here as well (same owner, same rank path).
                         const auto kind=kindName=="killing_frenzy"?f::generic_skills::EventPassiveKindV1::killing_frenzy:
                                         kindName=="carrion_eater"?f::generic_skills::EventPassiveKindV1::carrion_eater:
+                                        kindName=="disciples"?f::generic_skills::EventPassiveKindV1::disciples:
+                                        kindName=="petrify"?f::generic_skills::EventPassiveKindV1::petrify:
+                                        kindName=="mirror"?f::generic_skills::EventPassiveKindV1::mirror:
                                         f::generic_skills::EventPassiveKindV1::none;
-                        if(kind==f::generic_skills::EventPassiveKindV1::none) { std::cerr<<"Test event passive expects killing_frenzy=N or carrion_eater=N: "<<entry<<'\n'; continue; }
+                        if(kind==f::generic_skills::EventPassiveKindV1::none) { std::cerr<<"Test event passive expects killing_frenzy, carrion_eater, disciples, petrify or mirror: "<<entry<<'\n'; continue; }
                         passiveEvents->set_rank(kind,rank);
                         if(drawn==60)std::cout<<"Test event passive "<<kindName<<"="<<rank<<" frame="<<drawn<<'\n';
                     }
@@ -9134,6 +9160,17 @@ int main(int argc,char** argv) {
                         lastSkillPhase=int(receipt->phase);lastSkillGeneration=receipt->generation;
                         const auto rng=combatSession->world()->random_state();
                         std::cout<<"Source skill lifecycle frame="<<drawn<<" generation="<<receipt->generation<<" phase="<<int(receipt->phase)<<" skill="<<receipt->skill_name<<" hits="<<receipt->applied_results.size()<<" MP="<<state.stats.resource<<" RNG="<<rng.seed<<'/'<<rng.calls<<" diagnostic="<<receipt->detail<<'\n';
+                        // v21.8 w2-illusionist: per-target enemy arm evidence (Eclipse/TimeControl/Figments buff loop, Figments stun).
+                        if(!receipt->enemy_buff_outcomes.empty()||!receipt->enemy_stun_targets.empty()) {
+                            std::size_t applied=0,rejected=0,skipped=0,failed=0;
+                            for(const auto& outcome:receipt->enemy_buff_outcomes){
+                                if(outcome.result==f::generic_skills::TargetBuffOutcomeV1::Result::applied)++applied;
+                                else if(outcome.result==f::generic_skills::TargetBuffOutcomeV1::Result::rejected)++rejected;
+                                else if(outcome.result==f::generic_skills::TargetBuffOutcomeV1::Result::failed)++failed;
+                                else ++skipped;
+                            }
+                            std::cout<<"Enemy arms frame="<<drawn<<" skill="<<receipt->skill_name<<" buffClass="<<receipt->timed_buff_class<<" durationMs="<<receipt->timed_buff_duration_ms<<" buffApplied="<<applied<<" buffRejected="<<rejected<<" buffSkipped="<<skipped<<" buffFailed="<<failed<<" stunned="<<receipt->enemy_stun_targets.size()<<'\n';
+                        }
                         // v21.8 mage: authored per-target hit FX (Lua `target:PlayFX(elem_dmg_..)` for dmg > 0), played once at Use.
                         if((receipt->phase==f::generic_skills::RuntimeSkillCastPhaseV1::use_applied||receipt->phase==f::generic_skills::RuntimeSkillCastPhaseV1::completed)&&!receipt->target_hit_fx_name.empty()&&sourceEffectsFactory&&lastSkillFxGeneration!=receipt->generation) {
                             lastSkillFxGeneration=receipt->generation;
