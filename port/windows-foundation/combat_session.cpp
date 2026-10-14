@@ -108,6 +108,10 @@ struct CombatSession::Impl {
     CombatSession::StatusOutcomeObserver statusOutcomeObserver; // v21.8 es-status
     status_effects::DotTickOwnerV1 dots; // v21.8 w2-assassin: PROPS_AddDot entries, ticked by HandleDots
     std::string dotFailure; // v21.8 w2-assassin: a DoT roll failure, reported by the next update
+    // v21.8 w3-dot: the CombatResult of the source (skill) hit being applied. Its DoT words are the only DoT source for that
+    // hit (the original skill roll takes the elemental branch and never reads the attacker's melee Dot_* cells).
+    const OriginalMeleeResolution* activeSourceResult=nullptr;
+    bool applyingDotTick=false; // v21.8 w3-dot: a HandleDots tick is an applied hit but never queues a new DoT
     struct SourceHitBatch {
         std::uint64_t generation=0;
         std::set<std::pair<ActorId,std::uint32_t>> delivered;
@@ -1179,6 +1183,18 @@ void queue_dot_from_applied_hit_v1(PlayableActorWorld& world,status_effects::Dot
     std::cout<<"DoT applied attacker="<<hit.attacker<<" target="<<hit.target<<" durationMs="<<double(durationRaw)/256.0
              <<" tickHp="<<(double(lo)+double(offset))/256.0<<" (Dot_Min="<<double(lo)/256.0<<" Dot_Max="<<double(hi)/256.0<<")"<<"\n";
 }
+// v21.8 w3-dot: F_ApplyResult DoT tail for a source (skill) hit, fed from that hit's own CombatResult words. The elemental
+// branch is included (element index from prop 178 >> 8, or -1 for the normal element).
+void queue_dot_from_source_result_v1(status_effects::DotTickOwnerV1& dots,ActorId player,const DamageEvent& hit,
+                                     const dh2::data::CombatResult& result){
+    if(!hit.applied||hit.target_died||hit.target==player)return;
+    double durationMs=0.0,tickHp=0.0;
+    const status_effects::DotResultWordsV1 words{result.dot_duration,result.dot_amount,result.dot_element};
+    if(!status_effects::dot_from_result_words_v1(words,durationMs,tickHp))return;
+    dots.add(hit.attacker,hit.target,result.dot_element,durationMs,tickHp);
+    std::cout<<"DoT applied source attacker="<<hit.attacker<<" target="<<hit.target<<" element="<<result.dot_element
+             <<" durationMs="<<durationMs<<" tickHp="<<tickHp<<"\n";
+}
 const OriginalCombatPhase& choose(const OriginalCombatVisualPlan& plan,const CombatSessionChoice& choice){
     const auto* result=plan.phase(choice.state,choice.variant,choice.leafPath);
     if(!result||!result->has_visual()||!std::isfinite(result->speed)||result->speed<=0)
@@ -1214,6 +1230,11 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
         Impl* observed=next.get(); // moved into impl_ below; the pointer is stable
         next->runtime->set_combat_result_observer([observed](const DamageEvent& hit){
             if(observed->combatResultObserver)observed->combatResultObserver(hit.attacker,hit.target,hit.source_outcomes.value_or(0u),hit.target_died);
+            if(observed->applyingDotTick)return; // v21.8 w3-dot: HandleDots ticks never re-queue their DoT
+            if(observed->activeSourceResult){ // v21.8 w3-dot: skill hit, DoT from its own result words
+                queue_dot_from_source_result_v1(observed->dots,observed->player,hit,observed->activeSourceResult->original);
+                return;
+            }
             queue_dot_from_applied_hit_v1(*observed->world,observed->dots,observed->player,hit,observed->dotFailure); // v21.8 w2-assassin
         });
         OriginalSequencePolicies sequencePolicies;
@@ -1688,15 +1709,26 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     player->transform.position={position.x,position.y,position.z};player->transform.rotation[2]=facing;
     // v21.8 w2-assassin: HandleDots (CharAI command 52 on the DoT_Tick timer): each due tick is an applied hit with no roll.
     if(!s.dotFailure.empty()){error=s.dotFailure;s.dotFailure.clear();return false;}
+    {DH_PROBE("sim.frameBeginProvider(physics)");if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;}
+    // v21.8 w3-dot: HandleDots ticks run after the frame-begin provider opened the enemy contact clock for this Session serial.
+    // A tick that kills or hurts an enemy goes through the same contact projection as any other applied hit.
     for(const auto& tick:s.dots.advance(dt*1000.0)){
         const auto* victim=s.world->find_actor(tick.target);
         if(!victim||victim->health<=0.0f){s.dots.forget_target(tick.target);continue;}
         DamageEvent receipt;
-        if(!s.runtime->apply_calculated_hit(tick.attacker,tick.target,"dot_normal","dot_tick",float(tick.tick_hp),std::optional<std::uint32_t>(0u),std::nullopt,receipt,error))return false;
+        struct DotTickScope{bool& flag;~DotTickScope(){flag=false;}} tickScope{s.applyingDotTick};
+        s.applyingDotTick=true; // v21.8 w3-dot: the tick's applied hit must not refresh its own DoT
+        // A tick has no source outcome or mask (no push, no direct injury). The explicit zero words keep the push observers from
+        // rejecting an applied tick that did not kill its target (they accept a present, non-push result).
+        if(!s.runtime->apply_calculated_hit(tick.attacker,tick.target,"dot_normal","dot_tick",float(tick.tick_hp),std::optional<std::uint32_t>(0u),std::optional<std::uint32_t>(0u),receipt,error)){
+            std::cout<<"DoT tick failed target="<<tick.target<<" attacker="<<tick.attacker<<" error="<<error<<std::endl;
+            return false;
+        }
         std::cout<<"DoT tick target="<<tick.target<<" attacker="<<tick.attacker<<" tickHp="<<tick.tick_hp<<" applied="<<receipt.applied<<" targetDied="<<receipt.target_died<<"\n";
-        if(receipt.applied)s.events.push_back(receipt); // reported like every other applied hit ("Damage" lines)
+        // Delivered after the runtime update (which clears the frame's event list): the death-reward and damage consumers read
+        // it there, the same as source-hit receipts.
+        if(receipt.applied)s.pendingSourceHits.push_back(receipt);
     }
-    {DH_PROBE("sim.frameBeginProvider(physics)");if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;}
     // A clear published between session frames belongs to its source owner
     // (for example an explicit skill ClearTarget). Do not resurrect it from
     // this convenience record. Finish/combo clears happen synchronously below
@@ -1918,6 +1950,9 @@ bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
     auto& batch=s.sourceHitBatches[batchKey];
     if(batch.generation!=hit.generation){batch.generation=hit.generation;batch.delivered.clear();}
     batch.delivered.insert(delivery);
+    struct SourceResultScope{Impl& impl;const OriginalMeleeResolution* previous;
+        ~SourceResultScope(){impl.activeSourceResult=previous;}} sourceResultScope{s,s.activeSourceResult};
+    s.activeSourceResult=&result; // v21.8 w3-dot: the DoT observer reads this hit's own CombatResult
     const bool applied=s.runtime->apply_calculated_hit(hit.attacker,hit.target,hit.source_id,
         hit.marker_name,result.damage,result.original.outcomes,result.original.mask,receipt,error);
     if(receipt.applied){
