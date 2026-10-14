@@ -6,9 +6,9 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,498 | 69.4% |
+| reconstructed | 17,499 | 69.4% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,617 | 6.4% |
+| partial | 1,616 | 6.4% |
 | skipped | 2,119 | 8.4% |
 
 Every queued row now has a ledger row (the last G1b rows are in).
@@ -38,7 +38,7 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
 
 ## Build state (2026-10-14, `build/tb-int`, native MinGW)
 
-`ninja -k 0`: 817 of 817 targets, exit 0. `ctest`: 778 of 812 pass. `link/library-duplicates` PASSES.
+`ninja -k 0`: 877 of 877 targets, exit 0. `ctest`: 779 of 813 pass. `link/library-duplicates` PASSES.
 
 - 34 tests fail: 24 SEGFAULT, 7 assertion failures, 3 exit `0xc0000409` (a link stub was reached).
   The first crash fixed (2026-10-14, third commit) was `GSEndGame-20f7ca-0`: its `COnline::GetInstance()`
@@ -76,8 +76,25 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
   marks them `extern`. `point_compare`/`dct_iv_slow` collided because stb_vorbis's file-local
   helpers lacked internal linkage and clashed with the reconstructed originals in
   `core-platform/src/vorbis_util.cpp` (0x8764f8, 0x8784f4).
-- Remaining undefined symbols in the whole tree: 180 (85 with no ledger status, 82 skipped,
-  9 partial, 3 upstream; the link stub set is 119 symbols). The largest single blocker is `CMaterialRendererManager`
+- Remaining undefined symbols in the whole tree: 179 (84 with no ledger status, 82 skipped,
+  9 partial, 3 upstream; the link stub set is 118 symbols).
+
+  **Stale blockers cleared this pass (read these before skipping a row again).** Two large clusters are
+  recorded as blocked on infrastructure that is now in the tree:
+  - `CMaterialRendererManager` (`createMaterialRenderer` 0x5d8b28, `createMaterialInstance` 0x5d9af0,
+    `getMaterialRenderer`, `getMaterialInstance` 0x5dd0e4, and the rest of its 40-odd rows): the ledger says
+    the "technique/pass/instance tables are not in material_renderer_manager.hpp". `SIDedCollection` now
+    exists (`glitch-shared/sid_collection.hpp`) and
+    `glitch-video/include/glitch-video/material_renderer_manager_layout.hpp` gives every offset with the
+    function that fixes it. The four lookups above also share one already-written shape: entry = entries[id]
+    with the collection's Invalid sentinel when id is past the end. The real work is the header refactor, and
+    the layout doc flags one genuine conflict to settle first (open question 1: the original puts the id at
+    node +0x22 where the shared template puts it at SIdValue +0x1c). Worth a dedicated pass - those four
+    symbols are the largest link fan-out in the tree.
+  - `CImage::fill` (done) recorded "needs the pixel_format PFD table"; `PFDTable` has since landed in
+    `glitch-video/src/pixel_format_table.cpp`, and its rows name the packing each format case uses.
+
+  The largest single blocker is still `CMaterialRendererManager`
   (`createMaterialRenderer` 0x5d8b28, `createMaterialInstance` 0x5d9af0, `getMaterialRenderer`,
   `getMaterialInstance` 0x5dd0e4): all `skipped` because the technique/pass/instance tables are
   not in `material_renderer_manager.hpp`. Those four are referenced from hundreds of objects
@@ -113,7 +130,8 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | residue-int | ledger merge, build repair to 934/934, stub regeneration, test triage | `9f5d5e6e` |
 | residue-fix | six duplicate globals resolved, first three tests fixed, crash-site map | `803c39d5`, `5a433c6f` |
 | partial-redo | `CDynamicAnimationSet::setDefaultAnimationLibrary` (both overloads, 0x62fc90 / 0x62fcf8) | `40253893` |
-| partial-redo2 | `CDynamicAnimationSet::addAnimationLibraryBindings` (0x62ee9c) | next |
+| partial-redo2 | `CDynamicAnimationSet::addAnimationLibraryBindings` (0x62ee9c) | `1be2fe6e` |
+| partial-redo3 | `CImage::fill` (0x5ff9b4); PFDTable rows named the packing | next |
 
 ## Partial rows still undefined at link (9)
 

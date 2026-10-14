@@ -94,4 +94,66 @@ SColor CImage::getPixel(uint32_t x, uint32_t y) const {
     return result;
 }
 
+// 0x5ff9b4 _ZN6glitch5video6CImage4fillERKNS_6SColorE
+// Packs the colour for the format and writes the resulting word over the whole data block, eight words at a
+// time and then the remaining (m_dataSize >> 2) & 7 words - the loop shape the original has (it walks the block
+// as int* and advances by 8 words per pass). A format outside 5, 8, 12, 13 and 14 writes nothing.
+//
+// The two 16-bit cases replicate their packed halfword into both halves of the word: R5G6B5 (PFDTable row 5,
+// masks 0xf800/0x07e0/0x001f, shifts 11/5/0) for 5, and A1R5G5B5 (row 8, 0x7c00/0x03e0/0x001f plus 0x8000,
+// shifts 10/5/0/15) for 8. The three 32-bit cases feed four 8-bit channels in the byte order each row stores;
+// the names are the row masks, so 12 is 0x0000ff00/0x00ff0000/0xff000000/0x000000ff.
+void CImage::fill(const SColor& color) {
+    const uint8_t c0 = color.component(0);
+    const uint8_t c1 = color.component(1);
+    const uint8_t c2 = color.component(2);
+    const uint8_t c3 = color.component(3);
+
+    uint32_t packed = 0;
+    switch (m_format) {
+        case 5: {  // R5G6B5: halfword (R5 << 11) | (G6 << 5) | B5, replicated
+            const uint32_t half = (static_cast<uint32_t>(c0 >> 3) << 11) |
+                                  (static_cast<uint32_t>(c1 >> 2) << 5) |
+                                  static_cast<uint32_t>(c2 >> 3);
+            packed = half | (half << 16);
+            break;
+        }
+        case 8: {  // A1R5G5B5: halfword (A1 << 15) | (R5 << 10) | (G5 << 5) | B5, replicated
+            const uint32_t half = (static_cast<uint32_t>(c3 >> 7) << 15) |
+                                  (static_cast<uint32_t>(c0 >> 3) << 10) |
+                                  (static_cast<uint32_t>(c1 >> 3) << 5) |
+                                  static_cast<uint32_t>(c2 >> 3);
+            packed = half | (half << 16);
+            break;
+        }
+        case 12:  // byte order r, g, b, a
+            packed = static_cast<uint32_t>(c3) | (static_cast<uint32_t>(c0) << 8) |
+                     (static_cast<uint32_t>(c1) << 16) | (static_cast<uint32_t>(c2) << 24);
+            break;
+        case 13:  // byte order a, r, g, b
+            packed = static_cast<uint32_t>(c2) | (static_cast<uint32_t>(c3) << 8) |
+                     (static_cast<uint32_t>(c0) << 16) | (static_cast<uint32_t>(c1) << 24);
+            break;
+        case 14:  // byte order g, b, a, r
+            packed = static_cast<uint32_t>(c1) | (static_cast<uint32_t>(c2) << 8) |
+                     (static_cast<uint32_t>(c3) << 16) | (static_cast<uint32_t>(c0) << 24);
+            break;
+        default:
+            return;
+    }
+
+    uint32_t* words = reinterpret_cast<uint32_t*>(m_data);
+    const uint32_t wholeBlocks = m_dataSize >> 5;  // (m_dataSize >> 2) / 8
+    for (uint32_t block = 0; block < wholeBlocks; ++block) {
+        for (int i = 0; i < 8; ++i) {
+            words[i] = packed;
+        }
+        words += 8;
+    }
+    const uint32_t tail = (m_dataSize >> 2) & 7u;
+    for (uint32_t i = 0; i < tail; ++i) {
+        words[i] = packed;
+    }
+}
+
 }  // namespace glitch::video
