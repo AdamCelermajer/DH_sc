@@ -1519,18 +1519,43 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         spec.strength = rank;
         spec.duration_ms = duration_ms;
         spec.capacity = 1;
+        spec.sns_level_from_receiver = true;  // v21.8 w2-illusionist: the enemy's own SnS_Level (IDA a4 = 0 path)
         spec.source = active.receipt.skill_name;
         TargetBuffPolicyV1 policy;
         policy.skip_player = true;
         policy.skip_boss = enemy_buff.skip_boss;
         policy.skip_miniboss = enemy_buff.skip_miniboss;
+        std::vector<ActorId> buffed_targets = use_targets.ordered_character_targets;
+        const std::pair<ActorId, int> slot_key{actor_id, active.receipt.skill_table_id};
+        auto& slots = conversion_slots_[slot_key];
+        if (enemy_buff.conversion_slots > 0) {
+            // Terror OnSkill_: release the slots whose timer ran out, then convert only the first popped Character that holds
+            // no slot (`not_there`); nothing is converted when every popped Character already holds one.
+            slots.erase(std::remove_if(slots.begin(), slots.end(),
+                                       [&](const ConversionSlotV1& slot) { return slot.release_at_ms <= elapsed_ms_; }),
+                        slots.end());
+            buffed_targets.clear();
+            for (const auto victim : use_targets.ordered_character_targets) {
+                const bool held = std::any_of(slots.begin(), slots.end(),
+                                              [&](const ConversionSlotV1& slot) { return slot.target == victim; });
+                if (!held) {
+                    buffed_targets.push_back(victim);
+                    break;
+                }
+            }
+        }
         std::string buff_error;
-        if (!active.timed_buffs->apply_timed_buff_to_targets(session, actor_id, use_targets.ordered_character_targets,
-                                                             spec, policy, active.receipt.enemy_buff_outcomes, buff_error)) {
+        if (!buffed_targets.empty() && !active.timed_buffs->apply_timed_buff_to_targets(
+                session, actor_id, buffed_targets, spec, policy, active.receipt.enemy_buff_outcomes, buff_error)) {
             active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
             active.receipt.detail = "Source enemy CreateBuff/ApplyBuff loop failed after the committed OnPre prefix: " + buff_error;
             output = active.receipt;
             return fail(error, active.receipt.detail.c_str());
+        }
+        if (enemy_buff.conversion_slots > 0 && !buffed_targets.empty()) {
+            // The Lua frees the oldest slot before the new one takes it (the freed monster keeps its buff until that buff ends).
+            if (slots.size() >= enemy_buff.conversion_slots) slots.erase(slots.begin());
+            slots.push_back({buffed_targets.front(), elapsed_ms_ + duration_ms});
         }
         active.receipt.timed_buff_class = spec.class_name;
         active.receipt.timed_buff_duration_ms = duration_ms;

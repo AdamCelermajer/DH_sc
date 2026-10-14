@@ -44,6 +44,11 @@ struct TimedBuffSpecV1 {
     // oldest; the tie-break beyond capacity 1 is an inference); otherwise the new buff is rejected and nothing changes.
     std::uint32_t capacity = 1;
     std::string fx_set_name;      // optional EffectsTables set (AnimatedEffectTable name); presentation only
+    // v21.8 w2-illusionist: the class formulas with source SnS_Level read the RECEIVER's own SnS_Level (IDA
+    // CharProperties::_LinearWithPropPlusBaseValue, a4 = 0 path: RecalcProperty(receiver, 172)). A self-buff (the Lua
+    // SetProp(SnS_Level) on the caster) keeps the default: strength is written into the receiver's SnS_Level. Enemy-target
+    // buffs (Eclipse, TimeControl, Terror) set this, so the caster's rank never reaches the monster's formulas.
+    bool sns_level_from_receiver = false;
     std::string source;           // label for logs
     // Buff-coupled SetIsTargetable(false) (Lua Blindness/Conversion pattern): while an instance with this flag is active
     // the actor is removed from target SELECTION (PlayableActorWorld::set_selection_suppressed); damage is unaffected.

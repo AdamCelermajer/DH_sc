@@ -58,6 +58,10 @@ struct RuntimeSkillEnemyBuffProfileV1 {
     float duration_inc_ms;
     bool skip_boss;               // Lua `not IsBoss(target)`
     bool skip_miniboss;           // Lua `not IsMiniBoss(target)`
+    // v21.8 w2-illusionist: 0 = every Character of the Use list gets the buff (Eclipse, TimeControl, Figments). N > 0 = the
+    // Terror conversion memory: one target per Use (the first popped Character that holds no live slot), at most N slots
+    // (FIFO: the oldest slot is freed when full), each slot released when the buff's duration has run out.
+    std::uint8_t conversion_slots = 0;
 };
 
 // v21.8 w2-illusionist: per-target SetStunState arm (Lua Figments: `if not IsBoss and not IsMiniBoss then

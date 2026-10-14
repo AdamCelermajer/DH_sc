@@ -283,6 +283,10 @@ private:
     std::map<std::pair<ActorId, int>, std::uint32_t> volley_cursor_;
     // v21.8 w2-illusionist: Figments stun duration draws (GetRand, inclusive). Fixed seed for reproducible runs.
     std::mt19937 stun_rng_{0x5EEDu};
+    // v21.8 w2-illusionist: conversion slots per (actor, SkillTable id) for enemy buffs with conversion_slots (Terror).
+    // FIFO; a slot is released at its expiry (Lua StartSkillTimerCB(BUFF_DURATION, delete_slot)). Persists across casts.
+    struct ConversionSlotV1 { ActorId target; double release_at_ms; };
+    std::map<std::pair<ActorId, int>, std::vector<ConversionSlotV1>> conversion_slots_;
     std::uint64_t timer_update_serial_ = 0;
     double elapsed_ms_ = 0.0;
     bool timer_clock_bound_ = false;

@@ -7102,6 +7102,14 @@ int main(int argc,char** argv) {
                                     if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
                                     std::uintptr_t managerIdentity{};bool found=false;
                                     if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    // v21.8 w2-illusionist: a monster spawned by the CombatSession (not a level Character definition)
+                                    // has no FX anchor yet; every Character owns one natively, so register it on first buff FX.
+                                    if(!found&&combatSession&&combatSession->actor(actorId)) {
+                                        f::effects::SourceFxAnchorKeyV1 combatKey;
+                                        if(!sourceFxAnchors.register_actor("CombatActor:"+std::to_string(actorId),-3,actorId,
+                                                sourceActorFxProvider(actorId),combatKey,e))return false;
+                                        if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    }
                                     if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
                                     // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
                                     // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.

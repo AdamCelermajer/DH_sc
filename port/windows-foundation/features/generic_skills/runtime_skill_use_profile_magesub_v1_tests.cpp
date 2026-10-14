@@ -41,8 +41,8 @@ int main(int argc, char** argv) {
         const auto class_names = read_file(root + "/original-cache/data/pydata/character_classes_pyarraynames.bin");
 
         const std::size_t table_size = sizeof(kRuntimeSkillUseProfilesMageSubV1) / sizeof(kRuntimeSkillUseProfilesMageSubV1[0]);
-        // DeathClaw, Figments, Eclipse, TimeControl (v21.8 w2-illusionist adds Eclipse and TimeControl).
-        check(table_size == 4, "Mage-subclass use profile admitted-row count changed");
+        // DeathClaw, Figments, Eclipse, TimeControl, Terror (v21.8 w2-illusionist adds Eclipse, TimeControl and Terror).
+        check(table_size == 5, "Mage-subclass use profile admitted-row count changed");
         for (const auto& profile : kRuntimeSkillUseProfilesMageSubV1) {
             check(contains_name(skill_names, profile.skill_name),
                   std::string("Skill name is absent from the authored SkillTable names: ") + profile.skill_name);
@@ -57,6 +57,12 @@ int main(int argc, char** argv) {
               "Figments must be admitted");
         check(find_skill_use_profile_magesub_v1("DeathClaw", "prince_illusionist_figments") == nullptr,
               "Use profile lookup must require the exact (name, script) pair");
+        // v21.8 w2-illusionist: Terror is the conversion variant of the per-target enemy buff arm (3 slots, FactionBuff).
+        {
+            const auto* terror = find_skill_use_profile_magesub_v1("Terror", "prince_illusionist_terror");
+            check(terror && terror->enemy_buff && terror->enemy_buff->conversion_slots == 3 &&
+                  std::string(terror->enemy_buff->buff_class) == "FactionBuff", "Terror must be admitted as a 3-slot FactionBuff conversion");
+        }
         // v21.8 w2-illusionist: Eclipse and TimeControl are admitted by the per-target enemy buff arm (see below).
         const auto* eclipse = find_skill_use_profile_magesub_v1("Eclipse", "prince_illusionist_eclipse");
         const auto* timecontrol = find_skill_use_profile_magesub_v1("TimeControl", "prince_illusionist_timecontrol");
@@ -95,7 +101,7 @@ int main(int argc, char** argv) {
                   "Figments buff: SnS_Dot_Duration (181), applied to every target");
         }
         for (const auto& [name, script] : std::initializer_list<std::pair<const char*, const char*>>{
-                 {"Terror", "prince_illusionist_terror"}, {"FireSkullRain", "prince_necromancer_fireskullrain"},
+                 {"FireSkullRain", "prince_necromancer_fireskullrain"},
                  {"Pestilence", "prince_necromancer_pestilence"}, {"Rise", "prince_necromancer_rise"},
                  {"ColdRay", "prince_mage_coldray"}, {"Cyclone", "prince_mage_cyclone"}}) {
             check(find_skill_use_profile_magesub_v1(name, script) == nullptr,

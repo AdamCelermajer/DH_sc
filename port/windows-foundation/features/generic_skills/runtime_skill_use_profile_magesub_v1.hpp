@@ -41,6 +41,9 @@ inline constexpr RuntimeSkillEnemyBuffProfileV1 kTimeControlEnemyBuffV1 = {
 inline constexpr RuntimeSkillEnemyBuffProfileV1 kFigmentsEnemyBuffV1 = {
     "Skill_Illusionist_Figments_buff", "spell_dh2_prince_illusionist_figments", 181, 4000.0f, 250.0f, false, false};
 inline constexpr RuntimeSkillEnemyStunProfileV1 kFigmentsEnemyStunV1 = {1500.0f, 4000.0f, true};
+// Terror: FactionBuff (class row AIFaction = 8) with SnS_Fear_Duration = property 187; conversion memory of 3 slots.
+inline constexpr RuntimeSkillEnemyBuffProfileV1 kTerrorEnemyBuffV1 = {
+    "FactionBuff", "spell_dh2_prince_illusionist_terror", 187, 2000.0f, 1000.0f, false, false, 3};
 
 inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = {
     {"DeathClaw", "prince_necromancer_deathclaw", "Skill_Necromancer_DeathClaw",
@@ -76,6 +79,18 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      SkillTargetSortV1::closest_first, false,
      false, false, false, nullptr, nullptr, false, false, 0.0f,
      "sfx_skill_mage_ilu_hold_time_hit", nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, &kTimeControlEnemyBuffV1, nullptr},
+    // prince_illusionist_terror.luac: OnSkillCheck HasMana, empty OnPre. OnSkill_ TargetListSearch(RANGE 650, ANGLE 240, Enemy,
+    // FrontalFirst) and one conversion per Use: the first popped Character that holds no slot gets UseMana, ApplyPropClass,
+    // SkillCombatRoll (not modelled: Terror has no damage rows), CreateBuff(FactionBuff, SnS_Fear_Duration, false, L, FX) +
+    // ApplyBuff, and a slot timer. Three slots, oldest freed when full. Mana: the generic OnPre prefix charges it on every cast
+    // (deviation: the Lua charges per conversion, so a cast with no eligible target costs nothing there).
+    {"Terror", "prince_illusionist_terror", "Skill_Illusionist_Terror",
+     0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
+     false,
+     SkillUseTargetsV1::requery_at_use, 650.0f, false, native_search_max_angle_v1(240.0f),
+     SkillTargetSortV1::frontal_first, false,
+     false, false, false, nullptr, nullptr, false, false, 0.0f,
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, &kTerrorEnemyBuffV1, nullptr},
 };
 
 // Returns the subclass profile whose SkillTable (name, script) pair matches exactly, or nullptr.
