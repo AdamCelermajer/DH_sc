@@ -13,6 +13,7 @@
 // the Skill6 sequence, per-do_skill-marker re-entry of Use (MultiHitArrow fires three) and Post ClearTarget.
 //
 // Inferences and gaps are marked in the .cpp next to the code and in coordination/v21.8/w2-archer2-report.md.
+#include "runtime_skill_cast_coordinator_v1.hpp"
 #include "runtime_skill_external_owner_v1.hpp"
 #include "runtime_skill_timer_service_v1.hpp"
 #include "../effects/runtime_session_projectile_v1.hpp"
@@ -38,7 +39,7 @@ struct RuntimeArcherSkillServicesV1 {
     // Lua target:SetStunState(duration_ms, true) (ES-STATUS owner; bosses are immune inside it).
     std::function<bool(ActorId target, double duration_ms, std::string& error)> set_stun;
     // Lua target:SetKnockBackState(great) (the session Push consumer).
-    std::function<bool(CombatSession&, ActorId attacker, ActorId target, bool great, std::string& error)> knock_back;
+    RuntimeSkillKnockBackSinkV1 knock_back;
     // Lua GetRand(0, 100): uniform integer in [0, bound) drawn from the shared Session RNG.
     std::function<bool(std::uint32_t bound, std::uint32_t& value, std::string& error)> random;
     std::function<void(const std::string& line)> trace;
@@ -68,6 +69,7 @@ private:
                              effects::RuntimeSessionSkillProjectileDelayedV1 delayed, std::uint64_t& projectile_id,
                              std::string& error);
     bool look_at(CombatSession&, ActorId caster, ActorId target, std::string& error);
+    bool knock(CombatSession&, const std::shared_ptr<Cast>&, ActorId target, bool great, std::string& error);
     bool roll(CombatSession&, const std::shared_ptr<Cast>&, ActorId target, DamageEvent& result, std::string& error);
     bool use_exploding(CombatSession&, const std::shared_ptr<Cast>&, const RuntimeSkillExternalContextV1&, std::string&);
     bool use_multihit(CombatSession&, const std::shared_ptr<Cast>&, const RuntimeSkillExternalContextV1&, std::string&);

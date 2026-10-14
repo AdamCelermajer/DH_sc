@@ -856,6 +856,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         ? static_cast<float>(projected_range) : profile->use_range;
     active.target_cone_radians = profile->use_cone_radians;
     active.cooldown_ms = profile->sets_cooldown ? cooldown_ms : 0.0;
+    active.pre_range = profile->pre_range_from_temp_prop1 ? static_cast<float>(projected_range) : profile->pre_range;
+    active.knockback_great = request.knockback_great;
     if (request.object_targets) active.object_targets = *request.object_targets;
     // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
     // failed sequence start must not restore Attack with no attack owner.
@@ -895,9 +897,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         target.caster = request.actor;
         target.status = SkillActorTargetQueryStatusV1::no_actor_target;
         // pre_range == 0: the authored OnPre has no target query (GroundSlam).
-        if (profile->pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
+        if (active.pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
                 order, request.target_facts, request.non_character_attackable_objects_absent,
-                profile->pre_range, profile->pre_cone_radians,
+                active.pre_range, profile->pre_cone_radians,
                 profile->pre_sort, target, error, request.object_targets)) return false;
         if(target.status==SkillActorTargetQueryStatusV1::non_character_target_unknown)
             return fail(error,"Source Focus Pre target query lacks its typed AttackableOnly owner");
@@ -909,6 +911,20 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
 
         active.target_query=target;
         active.receipt.target_order=request.object_targets?target.ordered_targets:target.ordered_character_targets;
+        // v21.8 berserker: prince_berseeker_berserk.luac OnPreSkill_ self HP cost, after the target query and LookAt and
+        // before UseMana: `if HPPercentCurr > 10 then SetProp(HP, health - health/10)`. The Lua order is kept; a later
+        // UseMana failure after this write is reported as a partial failure like the other OnPre prefixes.
+        if (profile->self_hp_cost) {
+            float health = 0.0f, maximum = 0.0f;
+            auto* live_world = session.world();
+            if (!live_world || !live_world->current_health(request.actor, health, maximum) || !(maximum > 0.0f))
+                return fail(error, "Source OnPre HP cost requires the caster's live HP sheet");
+            if (health / maximum * 100.0f > profile->self_hp_cost->gate_percent) {
+                std::string hp_error;
+                if (!live_world->set_current_health(request.actor, health - health / profile->self_hp_cost->divisor, hp_error))
+                    return fail(error, ("Source OnPre HP cost SetProp(HP): " + hp_error).c_str());
+            }
+        }
         // v21.8 ES-API: OnPre `PopTargetList` + `target:PlayFX(...)` for every popped Character (unconditional).
         if (profile->pre_target_fx_name)
             for (const auto victim : target.ordered_character_targets)
@@ -1362,6 +1378,41 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx, profile.target_fx_each_name, victim});
         }
     }
+    // v21.8 berserker: prince_berseeker_warcry.luac OnSkill_ over the OnPre list (PopTargetList, no re-search). Per Character:
+    // GetRand(1, faces) == stun_face gives SetStunState(duration, true), any other face SetScareState(duration, true). The draw
+    // also happens for bosses (the Lua draws only for non-bosses; the boss refusal is inside the status owner), so the RNG
+    // sequence differs from the original, not the gameplay outcome. Sounds follow the loop, fear then stun.
+    if (profile.status_arm) {
+        const auto& arm = *profile.status_arm;
+        double duration_ms = original_signed256(active.formula_sheet[std::size_t(176)]); // SnS_Duration (ms)
+        if (!(duration_ms > 0.0) || !std::isfinite(duration_ms)) duration_ms = double(arm.fallback_ms);
+        bool scared_any = false, stunned_any = false;
+        for (const auto victim : use_targets.ordered_character_targets) {
+            std::uint32_t draw = 0;
+            std::string rng_error;
+            if (!session.world()->random_uniform(arm.faces, draw, rng_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Warcry GetRand failed after committed OnPre: " + rng_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            const bool stun = draw + 1u == arm.stun_face;
+            bool applied = false;
+            std::string status_error;
+            if (!session.script_status_actor(victim, stun, duration_ms, applied, status_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Warcry SetStunState/SetScareState failed after committed OnPre: " + status_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            if (applied) (stun ? stunned_any : scared_any) = true;
+        }
+        if (scared_any && arm.scare_sound)
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, arm.scare_sound, invalid_actor_id});
+        if (stunned_any && arm.stun_sound)
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, arm.stun_sound, invalid_actor_id});
+    }
+
     std::uint32_t event_index = active.next_event_index;
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
@@ -1406,6 +1457,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             hit.element = active.element;
             hit.direct_amount = 0;
             hit.attacker_formula_sheet = &active.formula_sheet;
+            // v21.8 w2-necromancer: the pre-hit original state is the admission state of the SetKnockBackState request.
+            const std::int32_t state_before_hit = session.original_actor_state(target);
             DamageEvent result;
             if (!session.apply_source_result(hit, result, error)) {
                 active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
@@ -1419,6 +1472,23 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
                 if (std::find(active.receipt.target_hit_fx_targets.begin(), active.receipt.target_hit_fx_targets.end(),
                               target) == active.receipt.target_hit_fx_targets.end())
                     active.receipt.target_hit_fx_targets.push_back(target);
+            }
+            // v21.8 w2-necromancer: DeathClaw `if(character) and (dmg > 0) then target:SetKnockBackState(true)`. The Lua
+            // return value is not checked, so a sink failure is recorded as a diagnostic and the Use continues.
+            if (profile.knockback_great_on_character_hit && active.knockback_great && *active.knockback_great &&
+                result.requested_damage > 0.0f) {
+                RuntimeSkillKnockBackRequestV1 knockback;
+                knockback.attacker = actor_id;
+                knockback.target = target;
+                knockback.generation = generation;
+                knockback.event_index = hit.event_index;
+                knockback.source_id = active.receipt.skill_name;
+                knockback.target_state_before_hit = state_before_hit;
+                std::string knockback_error;
+                if (!(*active.knockback_great)(session, knockback, knockback_error))
+                    active.receipt.knockback_diagnostics.push_back(knockback_error);
+                else
+                    active.receipt.knockback_targets.push_back(target);
             }
             active.receipt.applied_results.push_back(std::move(result));
         }

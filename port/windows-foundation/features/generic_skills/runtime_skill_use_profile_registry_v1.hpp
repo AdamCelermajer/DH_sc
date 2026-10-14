@@ -6,6 +6,7 @@
 #include "runtime_skill_use_profile_rogue_v1.hpp"
 #include "runtime_skill_use_profile_magesub_v1.hpp"
 #include "runtime_skill_use_profile_archer_v1.hpp"
+#include "runtime_skill_use_profile_necromancer_v1.hpp"
 
 namespace dh::foundation::generic_skills {
 
@@ -17,6 +18,7 @@ inline const RuntimeSkillUseProfileV1* find_skill_use_profile_registered_v1(
     }
     if (const auto* rogue = find_skill_use_profile_rogue_v1(skill_name, script)) return rogue;
     if (const auto* magesub = find_skill_use_profile_magesub_v1(skill_name, script)) return magesub;
+    if (const auto* necromancer = find_skill_use_profile_necromancer_v1(skill_name, script)) return necromancer;
     return find_skill_use_profile_archer_v1(skill_name, script);
 }
 

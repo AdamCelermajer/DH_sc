@@ -52,6 +52,25 @@ struct RuntimeSkillVolleyV1 {
     bool top_target_only;
 };
 
+// v21.8 berserker: OnPreSkill_ self HP cost (prince_berseeker_berserk.luac): while the caster's HP percent is above
+// gate_percent, SetProp(HP, health - health / divisor). The write runs after the OnPre target query and before UseMana.
+struct RuntimeSkillSelfHpCostV1 {
+    float gate_percent;
+    float divisor;
+};
+
+// v21.8 berserker: OnSkill_ scare/stun arm (prince_berseeker_warcry.luac). For every Character of the Use list that is not a
+// boss or miniboss: GetRand(1, faces) == stun_face gives SetStunState(duration, true), any other face SetScareState(duration,
+// true). Duration = projected SnS_Duration in ms, or fallback_ms when it is 0. After the loop each sound plays once when at
+// least one state of its kind was applied (Lua canPlayFearSFX / canPlayStunSFX).
+struct RuntimeSkillStatusArmV1 {
+    std::uint32_t faces;
+    std::uint32_t stun_face;
+    float fallback_ms;
+    const char* scare_sound;
+    const char* stun_sound;
+};
+
 struct RuntimeSkillUseProfileV1 {
     const char* skill_name;   // SkillTable.name
     const char* script;       // SkillTable.script (the prince_*.luac file stem)
@@ -104,6 +123,16 @@ struct RuntimeSkillUseProfileV1 {
     // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
     const RuntimeSkillVolleyV1* volleys = nullptr;
     std::uint8_t volley_count = 0;
+    // v21.8 berserker: OnPreSkill_ self HP cost (Berserk), or nullptr.
+    const RuntimeSkillSelfHpCostV1* self_hp_cost = nullptr;
+    // v21.8 berserker: OnSkill_ scare/stun arm (Intimidation), or nullptr. Applied to every Character of the Use list.
+    const RuntimeSkillStatusArmV1* status_arm = nullptr;
+    // v21.8 w2-necromancer: OnPre TargetListSearch(RANGE) with RANGE = CharacterProperties.TempProp1 (Pestilence:
+    // RANGE = FromFixed(TempProp1)). Uses the class projection's TempProp1 like use_range_from_temp_prop1 does for Use.
+    bool pre_range_from_temp_prop1 = false;
+    // v21.8 w2-necromancer: the Lua `target:SetKnockBackState(true)` after each Character SkillCombatRoll with dmg > 0
+    // (DeathClaw). The great bank is selected (the Lua default great=true). Routed through the request's knockback sink.
+    bool knockback_great_on_character_hit = false;
     // v21.8 w2-archer: Lua OnSkillCheck_ `if not HasBow() then return false`. The cast is rejected before any mana or
     // animation commit unless the host reports a bow in the main hand (RuntimeSkillCastRequestV1::main_hand_is_bow).
     bool requires_bow = false;

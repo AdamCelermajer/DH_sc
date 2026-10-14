@@ -514,6 +514,11 @@ public:
     using ScriptStopServiceV1 = std::function<bool(CombatSession&,ActorId,std::string&)>;
     void set_script_stop_service(ScriptStopServiceV1);
     bool script_stop_actor(ActorId,std::string& error);
+    // v21.8 berserker: SetStunState / SetScareState(duration, true) issued by a skill Use (Warcry). The host installs the
+    // status owner; it refuses bosses and minibosses (applied=false, returns true). Without an owner the call fails.
+    using ScriptStatusServiceV1 = std::function<bool(CombatSession&,ActorId,bool stun,double duration_ms,bool& applied,std::string&)>;
+    void set_script_status_service(ScriptStatusServiceV1);
+    bool script_status_actor(ActorId,bool stun,double duration_ms,bool& applied,std::string& error);
     const std::vector<ScriptKillRecordV1>& script_kill_records() const noexcept;
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);

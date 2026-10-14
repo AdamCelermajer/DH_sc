@@ -169,6 +169,22 @@ bool RuntimeArcherSkillOwnerV1::roll(CombatSession& session, const std::shared_p
     return session.apply_source_result(hit, result, error);
 }
 
+// Lua target:SetKnockBackState(great): an explicit Push request through the host's same-Session Push sink. The pre-hit
+// original state is the admission state, captured before the roll like the coordinator's own explicit knockback.
+bool RuntimeArcherSkillOwnerV1::knock(CombatSession& session, const std::shared_ptr<Cast>& cast, ActorId target, bool great,
+                                      std::string& error) {
+    if (!services_.knock_back) return fail(error, "Archer skill has no knockback sink");
+    RuntimeSkillKnockBackRequestV1 request;
+    request.attacker = cast->caster;
+    request.target = target;
+    request.generation = cast->generation;
+    request.event_index = cast->next_event;  // the roll that follows takes the same index (the Push retires per occurrence)
+    request.source_id = cast->skill_name + "/arrow";
+    request.target_state_before_hit = session.original_actor_state(target);
+    request.great = great;
+    return services_.knock_back(session, request, error);
+}
+
 bool RuntimeArcherSkillOwnerV1::look_at(CombatSession& session, ActorId caster, ActorId target, std::string& error) {
     SkillActorTargetQueryV1 query;
     query.status = SkillActorTargetQueryStatusV1::selected_character;
@@ -272,12 +288,12 @@ bool RuntimeArcherSkillOwnerV1::use_multihit(CombatSession& session, const std::
         ++cast->hit;
         std::string kb_error;
         if (cast->hit == 3 && cast->pot_targets == 1) {
-            if (services_.knock_back && !services_.knock_back(*owner_session, cast->caster, event.peer, true, kb_error))
+            if (services_.knock_back && !knock(*owner_session, cast, event.peer, true, kb_error))
                 log("Archer skill diagnostic MultiHitArrow great knockback: " + kb_error);
             else log("Archer skill MultiHitArrow great knockback requested victim=" + std::to_string(event.peer));
         }
         if (cast->hit < 3 && cast->pot_targets == 2) {
-            if (services_.knock_back && !services_.knock_back(*owner_session, cast->caster, event.peer, false, kb_error))
+            if (services_.knock_back && !knock(*owner_session, cast, event.peer, false, kb_error))
                 log("Archer skill diagnostic MultiHitArrow standard knockback: " + kb_error);
             else log("Archer skill MultiHitArrow standard knockback requested victim=" + std::to_string(event.peer));
         }

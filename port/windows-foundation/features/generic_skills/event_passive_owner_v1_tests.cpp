@@ -228,8 +228,98 @@ int main(int argc, char** argv) {
             check(attacker.health == 0.0f, "A dead attacker must not regain HP from leech");
         }
 
+        // ---- E. Killing Streak (v21.8 berserker): a player kill adds the body (capacity 128) and the dummy (capacity 1) for
+        //         SnS_Cooldown ms; the second kill stacks the body and replaces the dummy ----
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::killing_streak, 2);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            const auto row = class_cells("Skill_Berserk_KillingStreak", 2);
+            const double bufftime_ms = double(row[177]) / 256.0;
+            check(std::fabs(bufftime_ms - 5000.0) < 1e-6, "Killing Streak bufftime at rank 2 must be 4000 + 500 x 2 ms");
+            const auto before = buffs.active_count(1);
+            bus.dispatch({player, monster, 0u, false});
+            check(buffs.active_count(1) == before, "A non-killing hit must not start Killing Streak");
+            bus.dispatch({monster, player, 0u, true});
+            check(buffs.active_count(1) == before, "Only the player's own kill starts Killing Streak");
+            bus.dispatch({player, monster, 0u, true});
+            check(buffs.active_count(1) == before + 2, "A player kill must add the body and the dummy buff");
+            bus.dispatch({player, monster, 0u, true});
+            check(buffs.active_count(1) == before + 3, "A second kill stacks the body (capacity 128) and replaces the dummy (capacity 1)");
+            std::string streak_error;
+            check(buffs.advance(session, 4.9, streak_error) && buffs.active_count(1) == before + 3, "Killing Streak must last its bufftime");
+            check(buffs.advance(session, 0.2, streak_error) && buffs.active_count(1) == before, "Killing Streak must expire after SnS_Cooldown");
+            check(passives.last_error().empty(), "Killing Streak listener error: " + passives.last_error());
+        }
+
+        // ---- F. Ravager (v21.8 berserker): Damage_Bonus_TwoHand from rank 1; the two-hand-in-one-hand buff (cell 203) only from rank 7 ----
+        {
+            RuntimePassiveSkillOwnerV1 passives(buffs);
+            CharacterState state = make_default_character();
+            state.skills = {{"Ravager", 6}};
+            check(tables.skill_index("Ravager") >= 0, "SkillTable must know the Ravager dictionary name");
+            const auto base91 = live(91), base203 = live(203);
+            const auto r6 = class_cells("Skill_Berserk_Ravager", 6);
+            const auto flag7 = class_cells("Skill_Berserk_Ravager_buff", 7);
+            check(r6[91] > 0 && flag7[203] > 0, "Ravager rows must contribute at rank 6 and the flag at rank 7");
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error), error);
+            check(live(91) == base91 + r6[91], "Ravager rank 6 must add its two-hand damage bonus");
+            check(live(203) == base203, "Ravager rank 6 must not set the two-hand-in-one-hand flag (rank > 6 only)");
+            state.skills[0].rank = 7;
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error), error);
+            check(live(203) == base203 + flag7[203], "Ravager rank 7 must set the two-hand-in-one-hand flag");
+            state.skills[0].rank = 6;
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error) && live(203) == base203,
+                  "Ravager dropping to rank 6 must clear the flag");
+            state.skills[0].rank = 0;
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error) && live(91) == base91,
+                  "Ravager rank 0 must restore the two-hand damage cell");
+        }
+
+        // ---- G. Survival (v21.8 berserker): HP% < 35 on a hit the player takes arms the buff and an 8 s flag; the player's own
+        //         attacks do not; HP% >= 35 removes the buff ----
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::survival, 3);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            float hp = 0.0f, maxhp = 0.0f;
+            check(session.world()->current_health(player, hp, maxhp) && maxhp > 0.0f, "Survival test needs the player's HP");
+            std::string hp_error;
+            const auto set_hp_percent = [&](float percent) {
+                check(session.world()->set_current_health(player, maxhp * percent / 100.0f, hp_error), hp_error);
+            };
+            const auto before = buffs.active_count(1);
+            set_hp_percent(100.0f);
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before && !passives.survival_flag(), "Full HP on a hit taken must not arm Survival");
+            set_hp_percent(30.0f);
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before + 1 && passives.survival_buff_active() && passives.survival_flag(),
+                  "HP below 35% on a hit taken must apply the Survival buff and set the flag");
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before + 1, "A second low hit while the flag is set must not stack Survival");
+            std::string survival_error;
+            check(passives.advance(session, 8.1, survival_error) && !passives.survival_flag(), "The Survival flag must clear after 8 s");
+            check(buffs.advance(session, 8.1, survival_error) && buffs.active_count(1) == before,
+                  "The Survival buff must expire with its 8000 ms duration");
+            bus.dispatch({player, monster, 0u, false});
+            check(buffs.active_count(1) == before, "The player's own attack at low HP must not arm Survival");
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before + 1, "A low hit after the flag cleared must re-arm Survival");
+            set_hp_percent(100.0f);
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before && !passives.survival_buff_active(),
+                  "HP at 35% or more must remove the Survival buff");
+            check(passives.last_error().empty(), "Survival listener error: " + passives.last_error());
+        }
+
         std::cout << "PASS event_passive_owner_v1: live stat-passive sync from SkillTable ranks (apply, idempotent, rank 0, reload), "
-                     "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp\n";
+                     "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp, Killing Streak stacking and "
+                     "expiry, Ravager rank-7 flag, Survival HP-threshold arm/flag/removal\n";
         return 0;
     } catch (const std::exception& ex) {
         std::cerr << "FAIL event_passive_owner_v1: " << ex.what() << '\n';

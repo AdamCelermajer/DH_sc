@@ -158,7 +158,7 @@ int main(int argc, char** argv) {
         services.play_effect = [&](const std::string& name, const std::array<float, 3>&, std::string&) { rec.effects.push_back(name); return true; };
         services.play_sound = [&](const std::string& name, std::string&) { rec.sounds.push_back(name); return true; };
         services.set_stun = [&](ActorId target, double ms, std::string&) { rec.stuns.push_back({target, ms}); return true; };
-        services.knock_back = [&](CombatSession&, ActorId, ActorId target, bool great, std::string&) { rec.knockbacks.push_back({target, great}); return true; };
+        services.knock_back = [&](CombatSession&, const RuntimeSkillKnockBackRequestV1& knock, std::string&) { rec.knockbacks.push_back({knock.target, knock.great}); return true; };
         services.random = [&](std::uint32_t bound, std::uint32_t& value, std::string&) { rec.draws.push_back(bound); value = rec.next_draw; return true; };
         services.trace = [&](const std::string& line) { rec.trace.push_back(line); };
         RuntimeArcherSkillOwnerV1 owner(std::move(services));

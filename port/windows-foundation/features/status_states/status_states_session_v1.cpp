@@ -42,6 +42,27 @@ bool StatusStateSessionV1::can_act(const ActorState& actor) const {
     return owner_.can_act(actor.id) && actor.action != CharacterAction::knocked_back;
 }
 
+bool StatusStateSessionV1::script_status(CombatSession& session, ActorId target, bool stun, double duration_ms,
+                                         bool& applied, std::string& error) {
+    applied = false;
+    error.clear();
+    const ActorState* actor = session.world() ? session.world()->find_actor(target) : nullptr;
+    if (!actor || !actor->alive() || actor->action == CharacterAction::dead) return true;
+    const BossFlagsV1 flags = boss_flags_for(session, target);
+    // Lua `if not IsBoss(target) and not IsMiniBoss(target)`: the miniboss refusal is a Lua-side gate (the owner refuses bosses).
+    if (flags.boss || flags.mini_boss) return true;
+    const bool ok = stun ? owner_.set_stun(target, duration_ms, true, false, flags, true)
+                         : owner_.set_scare(target, duration_ms, true, false, flags, true);
+    if (!ok) {
+        error = "script status owner refused the target";
+        return false;
+    }
+    applied = true;
+    if (stun) ++report_.stuns_requested;
+    else ++report_.scares_requested;
+    return true;
+}
+
 void StatusStateSessionV1::on_outcome(const CombatSession& session, const CombatSession::StatusOutcomeEventV1& event) {
     ++report_.outcomes_seen;
     if ((event.outcomes & 0x60u) == 0) return;          // neither stun (0x40) nor scare (0x20)
