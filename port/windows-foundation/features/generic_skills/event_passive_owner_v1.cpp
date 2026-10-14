@@ -1,7 +1,10 @@
 #include "event_passive_owner_v1.hpp"
+#include "../../../game-data/ai.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <cstring>
+#include <iostream>
 
 namespace dh::foundation::generic_skills {
 
@@ -11,6 +14,14 @@ constexpr const char* kCarrionClass = "Skill_Necromancer_CarrionEater";
 constexpr const char* kContaminateClass = "Skill_Assassin_Contaminate";
 constexpr const char* kSlowDebuffClass = "Debuff_Slow";
 constexpr const char* kSlowDebuffFx = "AUTO_DEBUFF_SLOW";
+constexpr const char* kHolyWeaponClass = "Skill_Paladin_HolyWeapon";
+constexpr const char* kShieldClass = "Skill_Paladin_GuardianShield";
+constexpr unsigned kSnsPushChance = 183; // CharacterProperties.SnS_Push_Target_Chance (percent, raw x256)
+constexpr unsigned kSnsStunChance = 184; // CharacterProperties.SnS_Stun_Target_Chance (percent, raw x256)
+constexpr unsigned kSnsStunDuration = 185; // CharacterProperties.SnS_Stun_Duration (ms, raw x256)
+constexpr unsigned kSnsDuration = 176;  // CharacterProperties.SnS_Duration (Conversion buff delay, raw x256 ms)
+constexpr double kEnergyBalanceTickMs = 3000.0; // BUFF_DELAY: CreateBuff(class, 3000, false, rank) and the repeating timer
+constexpr double kShieldStunTickMs = 500.0; // StartSkillTimerCB(500, true, check2, attacker): first tick applies the stun
 constexpr const char* kStreakClass = "Skill_Berserk_KillingStreak";
 constexpr const char* kStreakDummyClass = "Skill_Berserk_KillingStreak_dummy";
 constexpr const char* kStreakDummyFx = "active_buff_fx"; // prince_berseeker_killing_streak.luac BUFF_FX
@@ -44,6 +55,7 @@ constexpr const char* kDisciplesFx = "spell_dh2_prince_mage_illusionist_hypnotic
 constexpr EventPassiveScriptV1 kEventPassives[] = {
     {"prince_berseeker_killing_frenzy", EventPassiveKindV1::killing_frenzy},
     {"prince_necromancer_carrioneater", EventPassiveKindV1::carrion_eater},
+    {"prince_paladin_holy_weapon", EventPassiveKindV1::holy_weapon},
     {"prince_illusionist_disciples", EventPassiveKindV1::disciples},
     {"prince_illusionist_petrify", EventPassiveKindV1::petrify},
     {"prince_illusionist_mirror", EventPassiveKindV1::mirror},
@@ -51,7 +63,23 @@ constexpr EventPassiveScriptV1 kEventPassives[] = {
     {"prince_berseeker_survival", EventPassiveKindV1::survival},
     {"prince_assassin_contaminate", EventPassiveKindV1::contaminate},
     {"prince_assassin_blindness", EventPassiveKindV1::blindness_break},
+    {"prince_paladin_shield", EventPassiveKindV1::shield},
+    {"prince_paladin_energy_balance", EventPassiveKindV1::energy_balance},
+    {"prince_paladin_conversion", EventPassiveKindV1::conversion},
 };
+
+// prince_paladin_energy_balance.luac GetData(): the element row of GetEquippedFaeryElement(); any other value (no faery)
+// uses the Lightning row. The port element numbers are FaeryTypes (Lightning 0, Earth 1, Water 2, Air 3, Fire 4); the Lua
+// keys its table by the Elemental constants, whose numbers were not checked (phase-1 open question Q10).
+const char* energy_balance_class_v1(std::int32_t element) {
+    switch (element) {
+    case 1: return "Skill_Paladin_EnergyBalance_Earth";
+    case 2: return "Skill_Paladin_EnergyBalance_Water";
+    case 3: return "Skill_Paladin_EnergyBalance_Air";
+    case 4: return "Skill_Paladin_EnergyBalance_Fire";
+    default: return "Skill_Paladin_EnergyBalance_Lightning";
+    }
+}
 } // namespace
 
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script) {
@@ -93,7 +121,13 @@ void RuntimeEventPassiveOwnerV1::on_hit(const CombatResultEventV1& event, ActorI
         if (event.target != player_ && rank(EventPassiveKindV1::disciples) > 0) disciples_hit(event);
         if (event.target != player_ && rank(EventPassiveKindV1::petrify) > 0) petrify_hit(event);
         if (event.target_died && rank(EventPassiveKindV1::killing_streak) > 0) streak_kill();
+        // Conversion: OnTargetHit with attacker == self (the defender is the monster the player hit).
+        if (rank(EventPassiveKindV1::conversion) > 0 && event.target != player_) conversion_hit(event.target);
     }
+    if (event.target == player_ && event.attacker != player_ && rank(EventPassiveKindV1::holy_weapon) > 0)
+        holy_hit(event.attacker);
+    if (event.target == player_ && event.attacker != player_ && rank(EventPassiveKindV1::shield) > 0)
+        shield_hit(event.attacker);
     // Mirror: the defender is the player (OnTargetHit with defender == self, attacker = the struck-by monster).
     if (event.target == player_ && event.attacker != player_ && rank(EventPassiveKindV1::mirror) > 0) mirror_hit(event);
     // Survival has no attacker guard in its Lua (INFERENCE: it therefore runs on the hits the player receives).
@@ -397,9 +431,213 @@ void RuntimeEventPassiveOwnerV1::carrion_kill() {
     carrion_heals_.push_back({before, heal, healed, level});
 }
 
+void RuntimeEventPassiveOwnerV1::holy_hit(ActorId attacker) {
+    // Lua: hp = attacker:GetHP(); hp = max(hp - regenHP_amount, 0) where regenHP_amount = TempProp1 of the caster's
+    // Skill_Paladin_HolyWeapon row at the rank; attacker:SetProp(HP, hp); if hp == 0 then attacker:Kill().
+    const std::uint32_t level = rank(EventPassiveKindV1::holy_weapon);
+    auto* world = session_->world();
+    const auto* live = world ? world->combat_properties(player_) : nullptr;
+    auto* victim = session_->actor(attacker);
+    if (!live || !victim) {
+        error_ = "Holy Weapon requires the player's live sheet and the attacking actor";
+        return;
+    }
+    const auto found = std::find(classes_->names.begin(), classes_->names.end(), std::string(kHolyWeaponClass));
+    if (found == classes_->names.end()) {
+        error_ = "Holy Weapon class absent from the ClassTables";
+        return;
+    }
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    dh2::data::PropertySheet owner = live->sheets.resolved;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    std::string error;
+    if (!dh2::data::apply_class(*classes_, std::int32_t(found - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = "Holy Weapon class evaluation: " + error;
+        return;
+    }
+    const float amount = float(sheet[kTempProp1]) / 256.0f;
+    const float before = victim->health;
+    const float remaining = std::max(0.0f, before - amount);
+    if (!world->set_current_health(attacker, remaining, error)) {
+        error_ = "Holy Weapon HP write: " + error;
+        return;
+    }
+    std::cout << "[holy-weapon] drain attacker=" << attacker << " hp " << before << " -> " << remaining
+              << " (TempProp1 " << amount << " at rank " << level << ")\n";
+    if (remaining <= 0.0f && !session_->script_kill_actor(attacker, error)) {
+        error_ = "Holy Weapon Kill: " + error;
+        return;
+    }
+    error_.clear();
+}
+
+void RuntimeEventPassiveOwnerV1::energy_advance(CombatSession& session, double dt_ms, std::string& error) {
+    // OnSkillUpdate_ (rank change): RemoveBuff of the old buff and its timer, then CreateBuff + ApplyBuff at the rank and the
+    // 3000 ms repeating timer (rank 0 stops). Timer tick (updateSelfBuff): CreateBuff + ApplyBuff of the element row at that
+    // moment; the previous buff is not removed (it expires after its own 3000 ms).
+    const std::uint32_t level = rank(EventPassiveKindV1::energy_balance);
+    const bool rank_changed = level != energy_rank_seen_;
+    if (!rank_changed) {
+        if (!energy_active_) return;
+        energy_timer_ms_ -= dt_ms;
+        if (energy_timer_ms_ > 0.0) return;
+    } else {
+        energy_rank_seen_ = level;
+        if (energy_active_) {
+            if (!buffs_->remove_timed_buff(session, player_, energy_class_, error)) return;
+            energy_active_ = false;
+        }
+        if (level == 0) return;
+    }
+    const char* wanted = energy_balance_class_v1(equipped_element_);
+    TimedBuffSpecV1 spec;
+    spec.class_name = wanted;
+    spec.strength = level;
+    spec.duration_ms = kEnergyBalanceTickMs;
+    spec.permanent = false;
+    spec.capacity = 1;
+    spec.source = "energy balance";
+    if (!buffs_->apply_timed_buff(session, player_, spec, error)) {
+        error = "Energy Balance buff: " + error;
+        return;
+    }
+    std::cout << "[energy-balance] class=" << wanted << " rank=" << level << " element=" << equipped_element_
+              << (rank_changed ? " (rank change)" : " (timer)") << '\n';
+    energy_active_ = true;
+    energy_class_ = wanted;
+    energy_timer_ms_ = kEnergyBalanceTickMs;
+}
+
+void RuntimeEventPassiveOwnerV1::conversion_hit(ActorId defender) {
+    // prince_paladin_conversion.luac OnTargetHit_Skill: not boss / miniboss; a converted defender (memory slot by actor here,
+    // by name in the Lua) loses its FactionBuff3 and is not converted again (skip); otherwise GetRand(0,100) below
+    // TempProp1 (percent) converts it: CreateBuff(FactionBuff3, SnS_Duration, false, rank, persist FX) + ApplyBuff, Stop() on both.
+    const std::uint32_t level = rank(EventPassiveKindV1::conversion);
+    const auto* session = session_;
+    if (!session) return;
+    // Character::IsBoss / IsMiniBoss: AI row flags bit 2 / bit 1 (the same word the status owner reads).
+    const auto* defender_props = session->world() ? session->world()->combat_properties(defender) : nullptr;
+    const auto* ai_tables = session->original_ai_tables();
+    const auto* defender_ai = defender_props && ai_tables ? dh2::data::ai_props(*ai_tables, defender_props->sheets.resolved[1]) : nullptr;
+    if (defender_ai && (defender_ai->flags & 0x6u)) return;
+    std::string error;
+    bool skip = false;
+    const auto slot = std::find(converted_.begin(), converted_.end(), defender);
+    if (slot != converted_.end()) {
+        if (!buffs_->remove_timed_buff(*session_, defender, "FactionBuff3", error)) {
+            error_ = "Conversion break: " + error;
+            return;
+        }
+        converted_.erase(slot);
+        skip = true;
+        std::cout << "[conversion] hit on converted monster=" << defender << " -> conversion removed\n";
+    }
+    const auto* victim = session_->actor(defender);
+    const auto found = std::find(classes_->names.begin(), classes_->names.end(), std::string("Skill_Paladin_Conversion"));
+    if (!victim || found == classes_->names.end()) return;
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    const auto* live = session_->world() ? session_->world()->combat_properties(player_) : nullptr;
+    dh2::data::PropertySheet owner = live ? live->sheets.resolved : rules_->defaults;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    if (!dh2::data::apply_class(*classes_, std::int32_t(found - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = "Conversion class evaluation: " + error;
+        return;
+    }
+    const double chance = double(sheet[kTempProp1]) / 256.0;   // BUFF_CHANCE (percent)
+    const double delay_ms = double(sheet[kSnsDuration]) / 256.0; // BUFF_DELAY = SnS_Duration
+    const double roll = std::uniform_int_distribution<int>(0, 100)(rng_);  // GetRand(0,100)
+    if (!(roll < chance) || skip || !victim->alive()) return;
+    TimedBuffSpecV1 spec;
+    spec.class_name = "FactionBuff3";
+    spec.strength = level;
+    spec.duration_ms = delay_ms;
+    spec.permanent = false;
+    spec.capacity = 1;
+    spec.fx_set_name = "spell_dh2_prince_warrior_paladin_conversion_persist";
+    spec.source = "conversion";
+    if (!buffs_->apply_timed_buff(*session_, defender, spec, error)) {
+        error_ = "Conversion buff: " + error;
+        return;
+    }
+    if (converted_.size() < 6) converted_.push_back(defender);
+    ++conversion_procs_;
+    std::string stop_error;
+    if (!session_->script_stop_actor(player_, stop_error) || !session_->script_stop_actor(defender, stop_error)) {
+        error_ = "Conversion Stop: " + stop_error;
+    }
+    std::cout << "[conversion] converted monster=" << defender << " roll=" << roll << " chance=" << chance << " delay_ms="
+              << delay_ms << " rank=" << level << " (PlaySound sfx_passive_skill_activate_1 not dispatched: presentation gap)\n";
+}
+
+void RuntimeEventPassiveOwnerV1::shield_hit(ActorId attacker) {
+    // prince_paladin_shield.luac OnTargetHit_Skill: defender == self and attacker:TargetInMeleeRange(); two independent
+    // GetRand(0,100) rolls against SnS_Push_Target_Chance (knockback) and SnS_Stun_Target_Chance (stun).
+    const std::uint32_t level = rank(EventPassiveKindV1::shield);
+    const auto* victim = session_->actor(attacker);
+    const auto* player = session_->actor(player_);
+    if (!victim || !player || !victim->alive()) return;
+    // TargetInMeleeRange: INFERENCE, the same reach the Putrid owner uses (target radius of the attacker).
+    const auto* world = session_->world();
+    const float reach = world ? world->target_radius(*victim) : 0.0f;
+    const float dx = victim->transform.position[0] - player->transform.position[0];
+    const float dy = victim->transform.position[1] - player->transform.position[1];
+    if (std::hypot(dx, dy) > reach) return;
+    const auto index = std::find(classes_->names.begin(), classes_->names.end(), std::string(kShieldClass));
+    if (index == classes_->names.end()) {
+        error_ = "Guardian Shield class absent from the ClassTables";
+        return;
+    }
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    const auto* live = session_->world() ? session_->world()->combat_properties(player_) : nullptr;
+    dh2::data::PropertySheet owner = live ? live->sheets.resolved : rules_->defaults;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    std::string error;
+    if (!dh2::data::apply_class(*classes_, std::int32_t(index - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = "Guardian Shield class evaluation: " + error;
+        return;
+    }
+    const int push_chance = static_cast<int>(std::floor(double(sheet[kSnsPushChance]) / 256.0));
+    const int stun_chance = static_cast<int>(std::floor(double(sheet[kSnsStunChance]) / 256.0));
+    const double stun_ms = sheet[kSnsStunDuration] > 0 ? double(sheet[kSnsStunDuration]) / 256.0 : 3000.0;
+    // Lua: proc_chance < KNOCKBACK starts check() (SetKnockBackState(false): clears the flag, no displacement as shipped).
+    const int push_roll = std::uniform_int_distribution<int>(0, 100)(rng_);
+    if (push_roll < push_chance) {
+        std::cout << "[shield] knockback roll passed attacker=" << attacker << " roll=" << push_roll << " chance=" << push_chance
+                  << " (Lua SetKnockBackState(false): no displacement)\n";
+    }
+    // Lua: proc_chance2 < STUN starts check2(): SetStunState(3000, true) on the first 500 ms tick.
+    const int stun_roll = std::uniform_int_distribution<int>(0, 100)(rng_);
+    if (stun_roll < stun_chance) {
+        shield_stuns_.push_back({attacker, kShieldStunTickMs, stun_ms});
+        std::cout << "[shield] stun roll passed attacker=" << attacker << " roll=" << stun_roll << " chance=" << stun_chance
+                  << " stun_ms=" << stun_ms << " tick_ms=" << kShieldStunTickMs << '\n';
+    }
+}
+
+void RuntimeEventPassiveOwnerV1::shield_advance(CombatSession& session, double dt_ms) {
+    for (auto it = shield_stuns_.begin(); it != shield_stuns_.end();) {
+        it->left_ms -= dt_ms;
+        if (it->left_ms > 0.0) {
+            ++it;
+            continue;
+        }
+        bool applied = false;
+        std::string error;
+        // Lua check2 tick: SetStunState(3000, true); the boss / missing-animation refusals come back as applied=false.
+        if (!session.script_status_actor(it->actor, true, it->duration_ms, applied, error)) {
+            error_ = "Guardian Shield stun: " + error;
+        }
+        std::cout << "[shield] stun tick attacker=" << it->actor << " applied=" << (applied ? 1 : 0) << " duration_ms="
+                  << it->duration_ms << '\n';
+        it = shield_stuns_.erase(it);
+    }
+}
+
 bool RuntimeEventPassiveOwnerV1::advance(CombatSession& session, double dt_seconds, std::string& error) {
     error.clear();
     session_ = &session;
+    shield_advance(session, dt_seconds * 1000.0);
+    energy_advance(session, dt_seconds * 1000.0, error);
     // Survival flag (Lua StopBuffTimer): clears only the flag; the buff keeps its own duration.
     if (survival_flag_) {
         survival_flag_ms_ -= dt_seconds * 1000.0;

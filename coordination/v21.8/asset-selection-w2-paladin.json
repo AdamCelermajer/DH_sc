@@ -1,0 +1,27 @@
+{
+  "schema": "v21.8-asset-selection-w2-paladin-1",
+  "source_root": "assets-extra/android/data",
+  "destination_root": "assets/data",
+  "note": "Wave 2 paladin: original FX missing from windows-source-clock-v21.8-staged2 (phase-1 section 3) and the four Paladin passive scripts. Base = staged2.",
+  "groups": {
+    "paladin_fx_missing_w2": [
+      "3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+      "3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+      "3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+      "3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+      "3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+      "3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+      "3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+      "3d/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+      "3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+      "3d/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+      "3d/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae"
+    ],
+    "paladin_passive_scripts_w2": [
+      "scripts/skills/prince_paladin_conversion.luac",
+      "scripts/skills/prince_paladin_energy_balance.luac",
+      "scripts/skills/prince_paladin_holy_weapon.luac",
+      "scripts/skills/prince_paladin_shield.luac"
+    ]
+  }
+}

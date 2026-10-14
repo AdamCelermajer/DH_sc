@@ -87,6 +87,11 @@ struct RuntimeSkillCastReceiptV1 {
     // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
     std::string timed_buff_class;
     double timed_buff_duration_ms = 0.0;
+    // v21.8 w2-paladin: PurifyingAura self Heal (SetProp HP). applied=false for every other row.
+    bool self_heal_applied = false;
+    float self_heal_before_hp = 0.0f;
+    float self_heal_after_hp = 0.0f;
+    float self_heal_max_hp = 0.0f;
     // v21.8 w2-illusionist enemy arms: outcomes of the per-target enemy buff loop (Eclipse/TimeControl/Figments) and the
     // targets that received a SetStunState request (Figments). Empty when the row has no such arm.
     std::vector<TargetBuffOutcomeV1> enemy_buff_outcomes;
