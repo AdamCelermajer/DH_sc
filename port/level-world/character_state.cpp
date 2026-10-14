@@ -35,7 +35,10 @@ void move_type(State& s,const Facts& f,const Services& c){
 void blur(State& s,const Facts& f,const Services& c,const CombatFacts* combat=nullptr){
  switch(s.current){
  case 3:s.idle_suppressed=0;break;
- case 4:call(s,c,stop);if(s.body_present)call(s,c,pin);break;
+ // CSMove::OnBlur (0x3c3aa4): GameObject::Stop, then PhysicalObject::pin when the
+ // physical-object pointer is set. The service is the pointer check; the body_present
+ // byte is not consulted by the source.
+ case 4:call(s,c,stop);call(s,c,pin);break;
  case 5:if(f.attack_delay)call(s,c,start_timer,std::int32_t(f.attack_delay),0,0x2a);if(s.body_present)call(s,c,pin);break;
  case 12:s.controller_locked=0;if(s.body_present)call(s,c,reset_filter);break;
  case 13:call(s,c,restore_interaction_rotation);break;
@@ -54,7 +57,8 @@ void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Service
   if(s.idle_suppressed)return;
   s.flags=0x2380;call(s,c,set_animation,selected(f,f.idle,2));break;
  case 4:
-  s.flags=0x23c1;s.move_type=0;move_type(s,f,c);if(s.body_present)call(s,c,unpin);break;
+  // CSMove::OnFocus (0x3c3bf8): PhysicalObject::unpin when the pointer is set.
+  s.flags=0x23c1;s.move_type=0;move_type(s,f,c);call(s,c,unpin);break;
  case 5:{
   s.flags=0x2341;if(f.attack_delay)s.attack_gate|=1;
   const bool moving=f.is_player?prior==4:f.attack_static==-1;

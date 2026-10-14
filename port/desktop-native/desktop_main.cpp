@@ -1617,7 +1617,9 @@ private:
             }
             return;
         case QuestScenarioPhase::watch:
-            if (!talk && frame_ % 15 == 0 && have_pose_ && state == qs_first_state_) {
+            // Steer every frame, like a held stick: the Player is pinned while idle
+            // (CSMove::OnBlur), so a 15-frame gap leaves it static at the zone edge.
+            if (!talk && have_pose_ && state == qs_first_state_) {
                 // Walk through the normal movement controller toward the zone centre.
                 if (march_to(pose_.player_position, qs_zone_center_, 60.0f) == March::no_route)
                     steer_world(qs_zone_center_[0] - pose_.player_position[0],
