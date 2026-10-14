@@ -353,7 +353,7 @@ void Character::Draw() const {
             ApplicationGetInstance().m_device->videoDriver->draw3DBox(box, color);  // device +0x10, vtable +0x28
         }
 
-        glitch::gui::IGUIEnvironment* gui = static_cast<glitch::gui::IGUIEnvironment*>(ApplicationGetInstance().m_device->unk_18);
+        glitch::gui::IGUIEnvironment* gui = ApplicationGetInstance().m_device->guiEnvironment;  // +0x18, typed in device.hpp now
         wchar_t text[256];
 
         const Point3D<float> position = GetTargetPosition();

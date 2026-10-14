@@ -20,6 +20,7 @@ namespace glitch {
 namespace video { class IVideoDriver; }
 namespace scene { class ISceneManager; }
 namespace os { class Timer; }
+namespace gui { class IGUIEnvironment; }
 namespace collada { class CResFileManager; class CAnimationStreamingManager; }
 
 // Creation parameters, kept as the 0x58-byte block the constructor copies.
@@ -59,9 +60,20 @@ public:
     // +0x10: the video driver. The constructor clears it, the derived device sets it; Application::CleanGlitch calls the
     // virtual at its vtable +0xac, and the game's debug draw reads it.
     video::IVideoDriver* videoDriver = nullptr;
-    // +0x14, +0x18: cleared by the constructor, roles not identified (setEventReceiver passes the receiver to the +0x18 object)
+    // +0x14: the 2D driver, created by createGUIAndScene from the video driver (C2DDriver, 0x20 bytes). Its vtable
+    // slots +0x0c/+0x10/+0x14 are null in the library, so it is not the +0x18 receiver.
     void* unk_14 = nullptr;
-    void* unk_18 = nullptr;
+    // +0x18: IDENTIFIED as the GUI environment. createGUIAndScene (0x671554) stores the CIrrFactory instance's
+    // vtable +0x10 there (asm 0x6715a8), and CIrrFactory+0x10 is createGUIEnvironment (0x533f28), which allocates a
+    // glitch::gui::CGUIEnvironment. The same function stores the factory's +0x0c (createSceneManager) at device
+    // +0x1c, which is the already-established scene manager, so the producer side pins both words.
+    //   * Application::_Draw (0x32afdc) and GSConsole::Draw2D (0x3832c4) both call vtable slot +0x0c, and
+    //     _ZTVN6glitch3gui15CGUIEnvironmentE + 0x0c is drawAll -- so those calls are IGUIEnvironment::drawAll().
+    //   * IDevice::setEventReceiver (0x6714c8) forwards the receiver to slot +0x34, which for CGUIEnvironment is
+    //     setUserEventReceiver.
+    //   * Application::InitWin32 (0x32fbf0) calls slot +0x50, which is getTTFont.
+    // The header comment in setEventReceiver below used to say the +0x18 object was "not modelled"; it is this one.
+    gui::IGUIEnvironment* guiEnvironment = nullptr;
     // +0x1c: the scene manager (the game's GSViewer reads it from Application::m_device)
     scene::ISceneManager* sceneManager = nullptr;
     // +0x20: the timer the constructor creates (0x8 bytes, vptr and a flag)

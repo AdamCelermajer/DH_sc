@@ -4,7 +4,9 @@
 // inside Singleton<Application>::s_inst (0x99f72c, 272 bytes), so dword_99F744 is s_inst +0x18 (m_stateMachine),
 // dword_99F76C is s_inst +0x40 (m_playerManager), and so on. The member is used in its place.
 //
-// Most bodies here are PARTIAL: each one's note says which part of the original is not written and why.
+// _Draw, LoadLevel and Update are PARTIAL: each one's note says which part of the original is not written and why.
+// _Draw is written except for the camera block (CSceneManager::activeCamera +0xe4, and the Level +0x128 camera at
+// its +0x08 that the port's CameraLevel does not expose).
 #include <algorithm>
 
 #include "dh2/Application.hpp"
@@ -40,6 +42,7 @@
 #include "core-platform/w7_console_01.hpp"
 #include "core-platform/gc_singleton.hpp"
 #include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
 #include "glitch-video/video_driver.hpp"
 #include "glitch-video/texture_manager.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
@@ -54,6 +57,7 @@
 
 #include "core-platform/debug_out.hpp"
 #include "core-platform/device.hpp"
+#include "core-platform/w7_global_01.hpp"  // DBG_TraverseAllGlitchNode
 #include "core-platform/memory.hpp"
 #include "core-platform/perf_counters.hpp"
 #include "core-platform/touch_screen_base.hpp"
@@ -67,6 +71,8 @@
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/LevelConfig.hpp"
+#include "dh2/MenuCharacterSelect.hpp"
 #include "dh2/LuaManager.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
@@ -93,6 +99,11 @@
 // FirstTime is a bool: the constructor stores it with a byte store (STRB, asm 0x32d980).
 
 extern "C" void nativeExit();  // 0x532bb8
+
+// 0x50e6a0 _Z29DBG_DrawGlitchNodeBoundingBoxPN6glitch5scene10ISceneNodeE. Declared from the call site (the
+// visitor argument of DBG_TraverseAllGlitchNode); it has no declaration in the tree yet.
+namespace glitch::scene { class ISceneNode; }
+void DBG_DrawGlitchNodeBoundingBox(glitch::scene::ISceneNode* node);
 
 // The music-player bridge (0x533978 / 0x533980). Declared here instead of including
 // core-platform/tb/android_jni_musicplayer.hpp: that header pulls in android_jni_bridge.hpp, whose big-sound
@@ -647,26 +658,113 @@ bool Application::onEvent(const glitch::SEvent& event) {
 }
 
 // 0x32ade8 Application::_Draw()
-// PARTIAL. The early branch is written exactly, including the InterLoad test (declared in dh2/GS_InterruptLoading.hpp,
-// which this translation unit now includes). Not written: the drawing branch. Its interfaces are all in the tree now
-// (v3 = m_device->videoDriver: setClearColor (vtable +0xdc) with the level's packed colour, beginScene (+0x0c),
-// setOption(256, IsUsingBatching) (+0xa0), clearBuffers(3) (+0xa8), beginScene2D (+0x14), endScene2D (+0x18),
-// endScene (+0x10), swapBuffers(0) (+0xa4); then StateMachine::Draw, MenuManager::DBG_Draw, PerfCounters::Draw and
-// StateMachine::Draw2D), so the concrete missing item is elsewhere: the original brackets the 2D pass with two calls
-// on the object at glitch::IDevice +0x18 (`v2 = *(m_device + 0x18)`, asm loads, then `LDR PC,[R3,#0x0c]` with no
-// argument and the int result dropped). glitch-core-io/os/device.hpp declares that member as `void* unk_18` with the
-// comment that its role is not identified, so its vtable type and slot +0x0c cannot be named; the same object and
-// slot block GSConsole::Draw2D (0x3832c4). The 3D pass also needs the camera path (CSceneManager +0x14 driver
-// setDepthRange(0, 0.8f) at +0x11c, activeCamera +0xe4, Level +0x128 -> camera +0x08, CSceneManager vtable +0x3c);
-// it is written nowhere yet.
+// Reconstructed from the listing (asm 0x32ae18..0x32b044), line by line. The object at IDevice +0x18 is now
+// identified: it is the gui environment. CIrrFactory::createGUIAndScene (0x671554) asks its vtable +0x10, which
+// is CIrrFactory::createGUIEnvironment (0x533f28 -> CGUIEnvironment, operator new(472)), and stores the result in
+// the device at +0x18 (asm 0x6715a8); the same factory's +0x0c creates the scene manager stored at +0x1c
+// (asm 0x6715d4). CGUIEnvironment's vtable (_ZTVN6glitch3gui15CGUIEnvironmentE+8) is drawAll at +0x0c, ...,
+// setUserEventReceiver at +0x34, clear at +0x3c -- so the two `LDR PC,[R3,#0x0c]` calls in this function and in
+// GSConsole::Draw2D (0x3832c4) are IGUIEnvironment::drawAll(). glitch-core-io/os/device.hpp still types that word
+// `void* unk_18`, so the cast below is the member, exactly as the Console (_createList) and Character (DebugDraw)
+// batches already do; a layout request asks the glitch-core-io owner to type it IGUIEnvironment*.
+// The colour comes from Level +0x38, which is Level::m_levelConfig (Level.hpp +0x38, asserted non-null at
+// Level.h:476): LevelConfig::m_clearColor (+0x1ec) is read as three floats, each converted to unsigned and stored
+// into the SColor's bytes 0, 1 and 2, with byte 3 = 0xFF (asm: __aeabi_f2uiz, then STRB into the four bytes of the
+// word at SP+0x18).
+// PARTIAL, one item: the camera block at 0x32b0b4. The original reads activeCamera at CSceneManager +0xe4 and,
+// only when it is null, re-reads the level (0x32b1d0) and, when the level and its Level +0x128 object are
+// non-null, calls setActiveCamera(CSceneManager, *(Level + 0x128 + 8)). glitch-scene-collada-gui's
+// CSceneManager.hpp declares activeCamera, but port/dh2/Level.hpp declares the +0x128 member only as
+// `CameraLevel* m_camera` and CameraLevel (dh2/CameraLevel.hpp) declares no accessor for the ICameraSceneNode at
+// its +0x08, so the condition cannot be evaluated and the call is not written. Everything else is exact.
 void Application::_Draw() {
+    PushProfilingContext("Application::Draw");
+    glitch::video::IVideoDriver* driver = m_device->videoDriver;  // m_device +0x10
+    glitch::gui::IGUIEnvironment* gui =
+        m_device->guiEnvironment;  // m_device +0x18, typed in device.hpp now
+    glitch::scene::CSceneManager* scene =
+        reinterpret_cast<glitch::scene::CSceneManager*>(m_device->sceneManager);  // m_device +0x1c
+
     if (!IsInitFinish() || InterLoad) {
         if (m_stateMachine != nullptr) {
             m_stateMachine->Draw();
         }
+        PopProfilingContext("Application::Draw");
         return;
     }
-    // PARTIAL: the drawing branch is not written; see the note above (IDevice +0x18 object, slot +0x0c).
+
+    // The clear colour: LevelConfig::m_clearColor (Level +0x38 -> +0x1ec), three floats to bytes 0..2, alpha 0xff.
+    unsigned int packed = 0xFF000000u;
+    Level* level = GetCurrentLevel();
+    if (level != nullptr && level->GetLevelConfig() != nullptr) {
+        const Point3D<float>& clearColor = level->GetLevelConfig()->m_clearColor;  // +0x1ec
+        packed |= static_cast<unsigned int>(static_cast<unsigned char>(static_cast<unsigned int>(clearColor.X)));
+        packed |= static_cast<unsigned int>(static_cast<unsigned char>(static_cast<unsigned int>(clearColor.Y))) << 8;
+        packed |= static_cast<unsigned int>(static_cast<unsigned char>(static_cast<unsigned int>(clearColor.Z))) << 16;
+    }
+    glitch::video::SColor clearColor;
+    clearColor.color = packed;
+    driver->setClearColor(clearColor);  // +0xdc
+    driver->beginScene();               // +0x0c
+    driver->setOption(3u, true);        // +0xa0, the original passes 3
+
+    // IsUsingBatching is re-read through DebugSwitches right here, between setOption calls.
+    const bool isUsingBatching = ReadDebugSwitch("IsUsingBatching");
+    driver->setOption(256u, isUsingBatching);  // +0xa0
+
+    if (!IsLevelPaused(true)) {
+        const bool draw3D = IsLevelLoaded() && m_sceneUpdated;  // the byte at +0xa9 gates the whole 3D pass
+        if (draw3D) {
+            // The original calls the non-virtual MenuBase::IsVisible (0x41f3f4) on MenuCharacterSelect::GetInstance()
+            // (asm 0x32b064, 0x32b068): a qualified call, as the instance is already a MenuBase.
+            const bool showCharacterSelect = !MenuCharacterSelect::GetInstance()->MenuBase::IsVisible();
+            if (showCharacterSelect) {
+                PushProfilingContext("Application::Draw3D");
+                scene->driver->setDepthRange(0.0f, 0.8f);  // CSceneManager +0x14, driver +0x11c
+                // PARTIAL: the activeCamera block is not written; see the note above (CSceneManager +0xe4 and the
+                // Level +0x128 camera at its +0x08).
+                // The original's slot +0x3c is CSceneManager::registerSceneNodes(ISceneNode*) (0x58b88c), called
+                // with a null node, not a drawAll; the earlier note that called it "drawAll" was wrong.
+                scene->registerSceneNodes(static_cast<glitch::scene::ISceneNode*>(nullptr));  // vtable +0x3c, r1 = 0
+                const bool boundingBoxes = ReadDebugSwitch("IsRenderingGlitchBoundingBoxes");
+                if (boundingBoxes) {
+                    // DebugSwitches::GetSwitch returns a signed char in the original's ABI; the value is only tested
+                    // for zero, so the bool is enough. The original walks the scene manager's rootNode (+0x04, asm
+                    // LDR R0,[R3,#4]) with IsNodeVisible as the filter and DBG_DrawGlitchNodeBoundingBox as the
+                    // visitor. IsNodeVisible returns int where the filter slot wants bool, so it is wrapped.
+                    DBG_TraverseAllGlitchNode(
+                        scene->rootNode, &DBG_DrawGlitchNodeBoundingBox,
+                        +[](glitch::scene::ISceneNode* node) -> bool { return IsNodeVisible(node) != 0; });
+                }
+                PopProfilingContext("Application::Draw3D");
+            }
+        }
+    }
+
+    PushProfilingContext("Application::Draw2D");
+    PushProfilingContext("StateMachine::Draw");
+    if (m_stateMachine != nullptr) {
+        m_stateMachine->Draw();
+    }
+    PopProfilingContext("StateMachine::Draw");
+    // Host-necessitated deviation: the original dereferences the gui environment unconditionally here (the device
+    // always builds it in createGUIAndScene). The port's IDevice never fills that word, so a test harness that
+    // reaches _Draw with a bare/null device would fault; the original's behaviour with a null device is the same
+    // fault, so the guard only avoids a crash the harness would otherwise take.
+    if (gui != nullptr) {
+        gui->drawAll();  // IDevice +0x18, vtable +0x0c
+    }
+    driver->beginScene2D();  // +0x14
+    if (m_stateMachine != nullptr) {
+        m_stateMachine->Draw2D();
+    }
+    MenuManager::GetInstance()->DBG_Draw();
+    Singleton<PerfCounters>::s_inst.Draw();
+    driver->endScene2D();  // +0x18
+    PopProfilingContext("Application::Draw2D");
+    driver->endScene();      // +0x10
+    driver->swapBuffers(0);  // +0xa4
+    PopProfilingContext("Application::Draw");
 }
 
 // 0x32bdc8 Application::LoadLevel(...)

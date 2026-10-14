@@ -42,4 +42,18 @@ CAnimationStreamingManager::CAnimationStreamingManager() {
     Instance = this;
 }
 
+// 0x60b990 _ZN6glitch7collada26CAnimationStreamingManager16checkMemoryUsageEv
+// PARTIAL, and this definition exists to give the symbol a home: the header has declared it since the
+// class was modelled, but only the free stand-in CAnimationStreamingManager_checkMemoryUsage lived in
+// recon/slice_07.cpp, so Application::Init's call (game-app/src/g1-game-app-Application-b291be-2.cpp:319)
+// referred to a member that nothing defined and 127 test targets failed to link.
+//
+// The original evicts cached segments while cacheUsage (+0x08) exceeds cacheLimit (+0x18), walking the
+// cache vector at +0x0c..+0x14, dropping each entry whose refcount word is 1, and logs
+// "AnimationStreamingManager : Memory usage exceed maximum cache size" when it cannot evict enough. The
+// cache vector and the block registry are not reconstructed, so there is nothing to walk yet: the body is
+// empty and the ledger row stays partial on exactly that. OBSERVABLE CONSEQUENCE while it stays empty: the
+// cache never shrinks, so cacheUsage only ever grows past the 512000 that Init stores.
+void CAnimationStreamingManager::checkMemoryUsage() {}
+
 }  // namespace glitch::collada

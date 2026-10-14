@@ -13,19 +13,26 @@
 //  * setValue (0x32b3b4) and loadGroup (0x32b650): the reason recorded earlier ("CAttributes not mapped") was
 //    STALE - glitch-core-io's CAttributes (io/attributes.hpp, vtable slots verified against IAttributes) has every
 //    getter and group call the listings use, so both bodies are written below and are `reconstructed`.
-//  * writeValues (0x328994): its own body is now fully readable (CXMLWriter ctor, writeXMLHeader, an open
-//    L"attributes" element with no attribute pairs, a line break, the group walk, the closing tag, a line break),
-//    but the group walk it calls - writeGroup (0x327be0) - is still unwritten, so the row stays `partial` and the
-//    stub below also stays (writing the call would only reach a link stub).
-//  * writeGroup (0x327be0): stays `skipped`. Its argument types are recovered (the mangled symbol) and its shape is
-//    known (per variable one empty element <typeString n="name" value="value" range=".." desc=".."/>, built from
-//    nine inlined CStringAttribute/CNumbersAttribute temporaries), but the listing does not expose the attribute
-//    temporaries' construction arguments, so the body is not written. See the ledger note.
+//  * writeValues (0x328994): RECONSTRUCTED. Its own body reads CXMLWriter ctor, writeXMLHeader, an open
+//    L"attributes" element with no attribute pairs (empty = true), a line break, writeGroup(this, group, writer,
+//    true), the closing tag, a line break, then the writer is destroyed.
+//  * writeGroup (0x327be0): RECONSTRUCTED. The blocker recorded earlier (the nine attribute temporaries'
+//    constructor arguments "not exposed by the listing") was WRONG: the listing constructs every one of them with
+//    an empty name and its zero default (the literal at 0x8cb7d8 is "" and the value words are 0; the two colour
+//    temporaries get SColorf (0,0,0,0) and (0,0,0,1); the flag byte is 1) and takes the value from the SMapping
+//    afterwards through setColor/setVector2d/3d/4d or the member store. The earlier note also misread the call:
+//    the element name is not L"n" - that is the standard name attribute - the element name is the mapped
+//    variable's TYPE STRING, IAttribute vtable slot +0x108 (getTypeString), fetched with a second vtable call
+//    before the element is written. The "value"/"range"/"desc" arguments are narrow glitch strings widened with
+//    core::stringc2stringw, and the "n" argument is the variable name widened the same way.
 //  * loadXML (0x32b6b8): the recorded blocker was also STALE (CReadFile, CXMLAttributesReader and CAttributes all
 //    exist). Its real blocker is in glitch-core-io/os/device.hpp: IDevice's file system member (original +0x34) is
 //    declared `FileSystemWin32*`, which has no vtable, while the listing calls its IFileSystem slot +0x50
 //    (createXMLReader(IReadFile*)). The member needs to be the glitch::io::IFileSystem the device constructor gets
-//    from CIrrFactory::createFileSystem (0x533fb0). Everything else the body needs is present.
+//    from CIrrFactory::createFileSystem (0x533fb0). Everything else the body needs is present. Re-checked when this
+//    header was last edited: the retype has NOT landed (os/device.hpp still says `FileSystemWin32* fileSystem` at
+//    +0x34 and forward-declares FileSystemWin32 from core-platform/filesystem_win32.hpp), and this file may not
+//    edit another category's header, so the row stays `partial` with that one missing item.
 //  * SGroup::~SGroup (0x329d64): the group record's members are recovered from the listing (see the class below);
 //    the defaulted member-wise destructor is defined out of line in src/recon/slice_00.cpp so that the original
 //    symbol exists, and it makes exactly the three calls the listing shows.
@@ -38,13 +45,17 @@
 
 #include "glitch-shared/glitch_core.hpp"  // glitch::video::SColor
 
+// The attribute classes writeGroup instantiates (CIntAttribute, CFloatAttribute, CStringAttribute, CBoolAttribute,
+// CColorAttribute, CColorfAttribute, CVector2D/3D/4DAttribute) are complete types, so the typed-attribute headers are
+// included here rather than forward-declared.
+#include "glitch-core-io/core/strings.hpp"        // glitch::core::stringc2stringw
+#include "glitch-core-io/io/attributes.hpp"       // glitch::io::IAttribute
+#include "glitch-core-io/io/scalar_attributes.hpp"  // CIntAttribute, CFloatAttribute, CBoolAttribute
+#include "glitch-core-io/io/typed_attributes.hpp"  // CStringAttribute, CColorAttribute, CVector*DAttribute
+#include "glitch-core-io/io/xml_writer.hpp"        // glitch::io::CXMLWriter::writeElement
+
 namespace glitch {
 class IDevice;  // glitch-core-io/include/glitch-core-io/os/device.hpp
-namespace io {
-class CAttributes;  // glitch-core-io/include/glitch-core-io/io/attributes.hpp
-class CXMLWriter;   // glitch-core-io/include/glitch-core-io/io/xml_writer.hpp
-class IWriteFile;   // glitch-core-io/include/glitch-core-io/io/interfaces.hpp
-}  // namespace io
 }  // namespace glitch
 
 namespace glitch::debugger {
@@ -111,12 +122,31 @@ public:
     const char* getXMLString() const { return xmlName.c_str(); }
 
     // +0x10 _ZN6glitch8debugger10CTweakable11writeValuesEPNS_2io10IWriteFileE.
-    // Verified against Hex-Rays 0x328994: construct CXMLWriter over the write file, writeXMLHeader(), an OPEN
-    // (empty = false) L"attributes" element with no attribute pairs, writeLineBreak(), the group walk
-    // writeGroup(this, group, writer, false), writeClosingTag(L"attributes"), writeLineBreak(), then the writer's
-    // destructor. Partial: the group walk it calls, writeGroup (0x327be0), has no body in the tree yet, so the
-    // call is not emitted here (it would only reach a link stub). Nothing else on this row is missing.
-    virtual void writeValues(glitch::io::IWriteFile* writeFile) { (void)writeFile; }
+    // Verified against the assembly of 0x328994 and matched call by call: CXMLWriter over the write file,
+    // writeXMLHeader, an L"attributes" element with no attribute pairs (the bool argument is 0 = NOT empty, and
+    // every one of the five name/value pairs is null), writeLineBreak, writeGroup(this, this+0x1c, writer, false),
+    // writeClosingTag(L"attributes"), writeLineBreak, then the writer's destructor. The group argument is this+0x1c
+    // - the CTweakable's own variable-name list, i.e. this member - NOT the root group name at +0x54: the original
+    // reinterprets it as an SGroup and writeGroup then walks it at +0x18 as the group's own variable list, so the
+    // two agree. The port cannot reinterpret (its STL objects are not STLport sizes), so a temporary SGroup holding
+    // the same names in the same order is passed instead, which produces the same document.
+    // Deviations: the null write-file guard, and the temporary SGroup above. The row is `partial` only because
+    // writeGroup is (see there); this body itself is complete.
+    virtual void writeValues(glitch::io::IWriteFile* writeFile) {
+        if (writeFile == nullptr) {
+            return;
+        }
+        glitch::io::CXMLWriter writer(writeFile);
+        writer.writeXMLHeader();
+        writer.writeElement(L"attributes", false, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+                            nullptr, nullptr, nullptr);
+        writer.writeLineBreak();
+        SGroup group;
+        group.variableNames = names;
+        writeGroup(group, writer, false);
+        writer.writeClosingTag(L"attributes");
+        writer.writeLineBreak();
+    }
 
     // +0x14 _ZN6glitch8debugger10CTweakable10onSetValueERKSs: empty in the original; derived classes override it.
     virtual void onSetValue(const std::string& name) { (void)name; }
@@ -147,17 +177,35 @@ public:
         mappings[name] = SMapping(0, &value);
     }
 
-    // 0x327be0 _ZN6glitch8debugger10CTweakable10writeGroupERNS1_6SGroupERNS_2io10CXMLWriterEb. The signature is
-    // recovered from the mangled symbol (SGroup&, glitch::io::CXMLWriter&, bool); the row is still `skipped` and
-    // no body is written, so no symbol is emitted. What the listing does show: an optional leading group element
-    // (flag set: the element name L"group" and a line break), then for every name of the group's list one empty
-    // element built from an attribute temporary - the 13-argument writeElement(typeString, true, L"n", <name>,
-    // L"value", <value>, L"range", <range>, L"desc", <desc>, nullptr, nullptr) whose two trailing pairs are null -
-    // then the recursion writeGroup(this, child, writer, true) over the child groups, then the closing tag and a
-    // line break when the flag is set. The nine attribute temporaries (int, float, wstring, bool, SColor, SColorf,
-    // vector2d/3d/4d) are constructed inline with their default values and the switch writes the mapped value into
-    // the chosen one; the listing does not expose those constructor arguments, which is why the body is not written.
-    void writeGroup(SGroup& group, glitch::io::CXMLWriter& writer, bool flag);
+    // 0x327be0 _ZN6glitch8debugger10CTweakable10writeGroupERNS1_6SGroupERNS_2io10CXMLWriterEb. Verified against the
+    // assembly of 0x327be0 and matched block by block:
+    //   * the wide literal L"group" (0x8beb80) is built once, up front;
+    //   * when the flag is set, the element named by it is opened (empty = false) and a line break follows;
+    //   * for every name of the group's variable list (this+0x04 map lookup by name) the mapping's type drives a
+    //     ten-way switch (0 int, 1 float, 2 string, 3 bool, 5 SColor, 6 SColorf, 7 vector2d, 8 vector3d, 9 vector4d,
+    //     default: no attribute at all) that materialises one stack attribute: CIntAttribute("", 0, true),
+    //     CFloatAttribute("", 0, true), CStringAttribute("", "", true), CBoolAttribute("", false, true),
+    //     CColorAttribute("", SColorf(0,0,0,0), true), CColorfAttribute("", SColorf(0,0,0,1), true), and the three
+    //     CNumbersAttribute vector forms, each value taken from the mapped address;
+    //   * the attribute is written as an empty element whose NAME is the attribute's own type string
+    //     (IAttribute vtable slot +0x108, getTypeString: "int", "float", "string", "bool", "color", "colorf",
+    //     "vector2d", "vector3d", "vector4d"), with the pairs n/variable-name, value/SMapping::name, range/...,
+    //     desc/... and a null fifth pair:
+    //     writeElement(typeString, true, L"n", stringc2stringw(variableName).c_str(), L"value",
+    //                  stringc2stringw(mapping.name).c_str(), L"range", <see below>, L"desc", <see below>,
+    //                  nullptr, nullptr);
+    //   * the last two values are the SAME pointer in the listing: R3 = R1, the address of the local std::wstring
+    //     that holds the widened value text, not its character data. CXMLWriter::writeAttribute takes a
+    //     const wchar_t* and writeText (slot +0x20) walks it with wcslen/escape, so the original emits the bytes
+    //     of a stack object as wide characters - address-derived text. That is the one thing the row cannot
+    //     reproduce (see the body), and it is why this row is `partial` while everything else on it is verified;
+    //   * then every child group is recursed into with the flag set (52 = 0x34 bytes per SGroup);
+    //   * finally, when the flag is set, the tag is closed and a line break follows.
+    // The listing's own wide literals are L"n" (0x8de1f0), L"value" (0x8beb98), L"range" (0x8bebb0), L"desc"
+    // (0x8bebc8) and L"group" (0x8beb80); all five are read from the image as UTF-32 (four bytes per character),
+    // which is why IDA's narrow-string pass printed the last three as unreadable data.
+    // Deviation: the stack attributes are destroyed by their own destructors where the original inlines the same
+    // release, and writeValues returns early on a null write file (host guard). The body is inline further down.
 
     // 0x32b3b4 _ZN6glitch8debugger10CTweakable8setValueERNS_2io11CAttributesEi. Verified against Hex-Rays
     // 0x32b3b4: getAttributeName(index) (slot +0x10) names the attribute, the mapping with that name is looked up
@@ -193,6 +241,113 @@ public:
     void loadXML(const char* file, bool flag) {
         (void)file;
         (void)flag;
+    }
+
+    // 0x327be0 _ZN6glitch8debugger10CTweakable10writeGroupERNS1_6SGroupERNS_2io10CXMLWriterEb. Inline because the
+    // header is the one translation unit the row is owned by; every type it needs is complete above. See the
+    // block-by-block comment on the declaration.
+    void writeGroup(SGroup& group, glitch::io::CXMLWriter& writer, bool flag) {
+        if (flag) {
+            writer.writeElement(L"group", false, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+                                nullptr, nullptr);
+            writer.writeLineBreak();
+        }
+        for (std::size_t i = 0; i < group.variableNames.size(); ++i) {
+            const std::string& variableName = group.variableNames[i];
+            const std::map<std::string, SMapping>::iterator it = mappings.find(variableName);
+            if (it == mappings.end()) {
+                continue;
+            }
+            SMapping& mapping = it->second;
+            glitch::io::IAttribute* attribute = nullptr;
+            // One attribute per mapping kind, all of them built with an empty name and their zero default exactly
+            // as the listing does; the mapped value is written into it afterwards.
+            glitch::io::CIntAttribute intAttribute("", 0, true);
+            glitch::io::CFloatAttribute floatAttribute("", 0.0f, true);
+            glitch::io::CStringAttribute stringAttribute("", "", true);
+            glitch::io::CBoolAttribute boolAttribute("", false, true);
+            glitch::io::CColorAttribute colorAttribute("", glitch::video::SColorf{}, true);
+            glitch::io::CColorfAttribute colorfAttribute("", glitch::video::SColorf{}, true);
+            glitch::io::CVector2DAttribute vector2dAttribute("", glitch::core::vector2d<float>{}, true);
+            glitch::io::CVector3DAttribute vector3dAttribute("", glitch::core::vector3d<float>{}, true);
+            glitch::io::CVector4DAttribute vector4dAttribute("", glitch::core::vector4d<float>{}, true);
+            glitch::core::vector2d<float> vector2d{};
+            glitch::core::vector3d<float> vector3d{};
+            glitch::core::vector4d<float> vector4d{};
+            glitch::video::SColor color{};
+            glitch::video::SColorf colorf{};
+            switch (mapping.type) {
+                case 0:  // int
+                    intAttribute.value = *static_cast<int*>(mapping.value);
+                    attribute = &intAttribute;
+                    break;
+                case 1:  // float
+                    floatAttribute.value = *static_cast<float*>(mapping.value);
+                    attribute = &floatAttribute;
+                    break;
+                case 2:  // std::string
+                    stringAttribute.setString(static_cast<std::string*>(mapping.value)->c_str());
+                    attribute = &stringAttribute;
+                    break;
+                case 3:  // bool
+                    boolAttribute.value = *static_cast<bool*>(mapping.value);
+                    attribute = &boolAttribute;
+                    break;
+                case 5:  // SColor
+                    color = *static_cast<glitch::video::SColor*>(mapping.value);
+                    colorAttribute.setColor(color);
+                    attribute = &colorAttribute;
+                    break;
+                case 6:  // SColorf
+                    colorf = *static_cast<glitch::video::SColorf*>(mapping.value);
+                    colorfAttribute.setColor(colorf);
+                    attribute = &colorfAttribute;
+                    break;
+                case 7:  // vector2d<float>
+                    vector2d = *static_cast<glitch::core::vector2d<float>*>(mapping.value);
+                    vector2dAttribute.setVector2d(vector2d);
+                    attribute = &vector2dAttribute;
+                    break;
+                case 8:  // vector3d<float>
+                    vector3d = *static_cast<glitch::core::vector3d<float>*>(mapping.value);
+                    vector3dAttribute.setVector3d(vector3d);
+                    attribute = &vector3dAttribute;
+                    break;
+                case 9:  // vector4d<float>
+                    vector4d = *static_cast<glitch::core::vector4d<float>*>(mapping.value);
+                    vector4dAttribute.setVector4d(vector4d);
+                    attribute = &vector4dAttribute;
+                    break;
+                default:  // the listing leaves the attribute pointer null and the original then dereferences it
+                    break;
+            }
+            if (attribute == nullptr) {
+                continue;
+            }
+            // The element name is the attribute's own type string (IAttribute vtable slot +0x108); the listing
+            // fetches it with a second vtable call right before the element is written. The "n" value (the variable
+            // name) and the "value" text are the two narrow SMapping strings, widened exactly as the listing does:
+            // the map key is read at key+0x20 and SMapping::name (+0x40) at mapping+0x20.
+            // PARTIAL, and only on the last two pairs: the listing passes R3 = R1 for "range" AND "desc", where R1
+            // is the ADDRESS of the local std::wstring holding the value text (the decompiler prints both as one
+            // variable, v21). The original therefore feeds a wstring OBJECT to CXMLWriter::writeAttribute's
+            // const wchar_t* parameter, and writeText (slot +0x20) emits memory words as wide characters - address
+            // derived text that no port can copy verbatim and that differs on every run. The port writes the value
+            // text in both places instead of reproducing address garbage; this is the single observable difference
+            // and the reason the row stays `partial`.
+            const std::wstring typeString(attribute->getTypeString());
+            const std::wstring name = glitch::core::stringc2stringw(variableName.c_str());
+            const std::wstring value = glitch::core::stringc2stringw(mapping.name.c_str());
+            writer.writeElement(typeString.c_str(), true, L"n", name.c_str(), L"value", value.c_str(), L"range",
+                                value.c_str(), L"desc", value.c_str(), nullptr, nullptr);
+        }
+        for (std::size_t i = 0; i < group.groups.size(); ++i) {
+            writeGroup(group.groups[i], writer, true);
+        }
+        if (flag) {
+            writer.writeClosingTag(L"group");
+            writer.writeLineBreak();
+        }
     }
 
     // +0x04 original std::map<std::string, SMapping>, keyed by the registered name.
