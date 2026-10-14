@@ -1,0 +1,14 @@
+Faery cast phase sequence=351 clip=player-source-skills/source-skill-sequence-351/phase-0 speed=1.3 blendOut=100
+Faery cast phase sequence=351 clip=player-source-skills/source-skill-sequence-351/phase-1 speed=1.3 blendOut=100
+Retained clip range clip=player-source-skills/source-skill-sequence-351/phase-0 start=0 end=400
+Retained clip range clip=player-source-skills/source-skill-sequence-351/phase-1 start=400 end=1133
+Audio step source update=278 occurrence=11 actor=18446744073709551615 sequence=351 step=0 sound=-1 status=1 detail=
+Source Faery key=4 frame=277 slot=4 sequence=351 generation=1 phase=1 MP=18.5 diagnostic=Hotty OnPre completed; waiting for its distinct source Cast-state Use owner
+Faery cast sound uid=583 label=sfx_spell_fire_small targets=2 frame=278 status=dispatched detail=
+Audio step source update=298 occurrence=12 actor=18446744073709551615 sequence=351 step=1 sound=-1 status=1 detail=
+Source skill lifecycle frame=300 generation=1 phase=2 skill=faerie_hotty hits=2 MP=18.5 RNG=6796743/61 diagnostic=Hotty source state7 do_spell applied its ordered same-session result loop
+Source animation frame=300 actor=18446744073709551615 event=40 service=3 name=do_spell lag=7 controllerBlocked=0 synchronousHit=0 clipMs=4816 clip=player-source-skills/source-skill-sequence-351/phase-1
+Source animation frame=300 actor=18446744073709551615 event=40 service=0 name=do_spell lag=7 controllerBlocked=0 synchronousHit=0 clipMs=4816 clip=player-source-skills/source-skill-sequence-351/phase-1
+Damage frame=300 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=22.7148 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=300 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=27.5586 dead=0 outcomes=0x0 srcmask=0x1005554a
+Source skill lifecycle frame=334 generation=1 phase=3 skill=faerie_hotty hits=2 MP=18.5 RNG=1666160/73 diagnostic=Hotty retained state7 source Use and Cast sequence completed

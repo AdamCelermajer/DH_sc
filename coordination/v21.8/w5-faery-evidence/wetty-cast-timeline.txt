@@ -1,0 +1,15 @@
+Faery cast phase sequence=351 clip=player-source-skills/source-skill-sequence-351/phase-0 speed=1.3 blendOut=100
+Faery cast phase sequence=351 clip=player-source-skills/source-skill-sequence-351/phase-1 speed=1.3 blendOut=100
+Retained clip range clip=player-source-skills/source-skill-sequence-356/phase-0 start=0 end=400
+Retained clip range clip=player-source-skills/source-skill-sequence-356/phase-1 start=400 end=1166
+Audio step source update=295 occurrence=11 actor=18446744073709551615 sequence=356 step=0 sound=-1 status=1 detail=
+Source Faery key=4 frame=294 slot=2 sequence=356 generation=1 phase=1 MP=18.5 diagnostic=Wetty OnPre completed; waiting for its distinct source Cast-state Use owner
+Faery cast sound uid=589 label=sfx_spell_water_small targets=2 frame=295 status=dispatched detail=
+Audio step source update=315 occurrence=18 actor=18446744073709551615 sequence=356 step=1 sound=-1 status=1 detail=
+Source skill lifecycle frame=319 generation=1 phase=2 skill=faerie_wetty hits=2 MP=18.5 RNG=6796743/61 diagnostic=Hotty source state7 do_spell applied its ordered same-session result loop
+Source animation frame=319 actor=18446744073709551615 event=40 service=3 name=do_spell lag=16 controllerBlocked=0 synchronousHit=0 clipMs=5120 clip=player-source-skills/source-skill-sequence-356/phase-1
+Source animation frame=319 actor=18446744073709551615 event=40 service=0 name=do_spell lag=16 controllerBlocked=0 synchronousHit=0 clipMs=5120 clip=player-source-skills/source-skill-sequence-356/phase-1
+Damage frame=319 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=22.7148 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=319 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=27.5586 dead=0 outcomes=0x0 srcmask=0x1005554a
+Faery cast sound uid=-1 label=sfx_faerie_ice targets=2 frame=320 status=failed detail=label absent from the sounds table
+Source skill lifecycle frame=352 generation=1 phase=3 skill=faerie_wetty hits=2 MP=18.5 RNG=7970105/93 diagnostic=Hotty retained state7 source Use and Cast sequence completed
