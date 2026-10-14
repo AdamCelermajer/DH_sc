@@ -161,6 +161,7 @@
 #include "features/audio/runtime_session_audio_v1.hpp"
 #include "features/loot/world_item_sound_v1.hpp"
 #include "features/hud_panels/status_message_v1.hpp" // B144: original HUD status line (pickup names)
+#include "features/hud_panels/target_bar_anchor_v1.hpp" // w5-mud2: enemy target bar anchor (never dropped while the target is retained)
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
 #include "features/frontend/creation/dynamic_text_bindings.hpp"
 #include "features/frontend/creation/runtime_creation_source_loader_v1.hpp"
@@ -526,6 +527,9 @@ struct Options {
     // scheduled frames through the same key edge as the keyboard.
     struct AuthoredClick { int frame=0; float x=0, y=0; };
     std::vector<AuthoredClick> campaignClicks; std::vector<int> campaignEnterFrames;
+    struct ClipProbe {std::string actor;std::vector<std::string> clips;int frame=0;};std::vector<ClipProbe> clipProbes; // w5-mud2: --clip-probe ACTOR=CLIP,CLIP@FRAME
+    bool targetHudTrace=false; // w5-mud2: --target-hud-trace logs every change of the selected target and of its HUD bar visibility
+    bool actorStateDump=false;std::vector<int> actorStateDumpAt; // w5-mud2: --actor-state-dump logs every actor on each script-end edge, --actor-state-dump-at F at frame F
     int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
@@ -668,6 +672,16 @@ Options parse(int argc, char** argv) {
         }
         else if(arg=="--campaign-enter-frame") o.campaignEnterFrames.push_back(std::stoi(value())); // SKIP16
         else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
+        else if(arg=="--actor-state-dump") o.actorStateDump=true; // w5-mud2 diagnostic
+        else if(arg=="--target-hud-trace") o.targetHudTrace=true; // w5-mud2 diagnostic
+        else if(arg=="--clip-probe") { // w5-mud2 diagnostic: ACTOR=CLIP,CLIP@FRAME
+            const auto text=value();const auto eq=text.find('=');const auto at=text.rfind('@');
+            if(eq==std::string::npos||at==std::string::npos||at<eq)throw std::runtime_error("--clip-probe expects ACTOR=CLIP,CLIP@FRAME");
+            Options::ClipProbe probe;probe.actor=text.substr(0,eq);probe.frame=std::stoi(text.substr(at+1));
+            std::istringstream list(text.substr(eq+1,at-eq-1));std::string item;while(std::getline(list,item,','))if(!item.empty())probe.clips.push_back(item);
+            o.clipProbes.push_back(std::move(probe));
+        }
+        else if(arg=="--actor-state-dump-at") o.actorStateDumpAt.push_back(std::stoi(value())); // w5-mud2 diagnostic
         else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
@@ -885,12 +899,17 @@ f::Camera camera(const f::CameraPose& p) {
     f::Camera c;c.eye={p.position.x,p.position.y,p.position.z};c.target={p.target.x,p.target.y,p.target.z};
     c.up={p.up.x,p.up.y,p.up.z};c.verticalFovDegrees=p.verticalFovDegrees;c.nearPlane=.5f;c.farPlane=100000.f;return c;
 }
-bool project(const f::Camera& camera,f::Vec3 point,int width,int height,std::array<float,2>& screen) {
+// Clip-space (x,y,z,w) of a world point for the given camera (the one projection used by the HUD anchors).
+void project_clip(const f::Camera& camera,f::Vec3 point,int width,int height,float clip[4]) {
     f::CameraPose pose;pose.position={camera.eye.x,camera.eye.y,camera.eye.z};pose.target={camera.target.x,camera.target.y,camera.target.z};pose.up={camera.up.x,camera.up.y,camera.up.z};
     const auto view=f::cameraViewMatrix(pose),projection=f::cameraProjectionMatrix(camera.verticalFovDegrees,camera.aspectRatio>0?camera.aspectRatio:float(width)/height,camera.nearPlane,camera.farPlane);
-    float world[]{point.x,point.y,point.z,1},eye[4]{},clip[4]{};
+    float world[]{point.x,point.y,point.z,1},eye[4]{};
+    for(unsigned row=0;row<4;++row){eye[row]=0;clip[row]=0;}
     for(unsigned row=0;row<4;++row)for(unsigned col=0;col<4;++col)eye[row]+=view[col*4+row]*world[col];
     for(unsigned row=0;row<4;++row)for(unsigned col=0;col<4;++col)clip[row]+=projection[col*4+row]*eye[col];
+}
+bool project(const f::Camera& camera,f::Vec3 point,int width,int height,std::array<float,2>& screen) {
+    float clip[4]{};project_clip(camera,point,width,height,clip);
     if(!std::isfinite(clip[3])||clip[3]<=0)return false;
     const float x=clip[0]/clip[3],y=clip[1]/clip[3],z=clip[2]/clip[3];
     if(x< -1||x>1||y< -1||y>1||z< -1||z>1)return false;
@@ -7909,6 +7928,21 @@ int main(int argc,char** argv) {
                 std::string declaredLine,declaredError;
                 f::spawn::spawn_declared_v1(request.name,placed->definition.stableId,status->state,declaredServices,declaredLine,declaredError);
             }
+            // w5-mud2 diagnostic (--clip-probe ACTOR=CLIP,CLIP@FRAME): bounds of the named population actor's pose along each clip.
+            for(const auto& probe:options.clipProbes)if(probe.frame==int(drawn)) {
+                const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.name==probe.actor;});
+                if(placed==population.actors().end()){std::cout<<"[clip-probe] actor "<<probe.actor<<" not found\n";continue;}
+                auto& visual=const_cast<f::PopulationActor&>(*placed).visual;
+                for(const auto& clip:probe.clips) {
+                    std::string probeError;std::int32_t start=0,end=0;
+                    if(!visual.select(clip,false,probeError)||!visual.animation_range(clip,start,end,probeError)){std::cout<<"[clip-probe] "<<clip<<" unavailable: "<<probeError<<'\n';continue;}
+                    std::cout<<"[clip-probe] actor="<<probe.actor<<" clip="<<clip<<" range="<<start<<".."<<end<<'\n';
+                    for(int t=0;t<=end-start+99;t+=std::max(33,(end-start)/12)) {
+                        f::Vec3 lo{},hi{};if(t>0&&!visual.update(std::max(33,(end-start)/12)/1000.0,probeError))break;
+                        if(visual.indexed_bounds(lo,hi,probeError))std::cout<<"[clip-probe]   t="<<t<<" bounds=("<<lo.x<<','<<lo.y<<','<<lo.z<<")..("<<hi.x<<','<<hi.y<<','<<hi.z<<")\n";
+                    }
+                }
+            }
             // P16 DESPAWN2 debug trigger: --kill-test NAME@FRAME kills an authored actor through the source kill owner
             // (kill_actor_state + runtime death pose, as a scripted KillActor does). B152: it used to set HP/action only,
             // which left the actor alive for the combat runtime and the despawn owner.
@@ -8034,6 +8068,56 @@ int main(int argc,char** argv) {
                 const double elapsed=campaignFractionMs+dt*1000.0;
                 const auto wholeMs=std::int32_t(std::floor(elapsed));campaignFractionMs=elapsed-wholeMs;
                 if(const auto* player=combatSession->actor(combatSession->player_id()))campaignHost.frame(wholeMs,{player->transform.position[0],player->transform.position[1],player->transform.position[2]},player->alive(),player->id);
+            }
+            // w5-mud2 diagnostic (--actor-state-dump / --actor-state-dump-at): the full state of every actor, the player's target
+            // and the camera, on each script-end edge, so a played and a skipped cutscene can be compared line by line.
+            if(combatSession&&(options.actorStateDump||!options.actorStateDumpAt.empty())) {
+                static bool dumpPrevRunning=false;
+                const bool running=campaignHost.scripts_running();
+                const bool endEdge=options.actorStateDump&&dumpPrevRunning&&!running;
+                const bool startEdge=options.actorStateDump&&!dumpPrevRunning&&running;
+                dumpPrevRunning=running;
+                const bool atFrame=std::find(options.actorStateDumpAt.begin(),options.actorStateDumpAt.end(),int(drawn))!=options.actorStateDumpAt.end();
+                if(endEdge||startEdge||atFrame) {
+                    const auto tag=std::string(endEdge?"script-end":startEdge?"script-start":"frame");
+                    const auto* hero=combatSession->actor(combatSession->player_id());
+                    std::vector<std::string> lines;
+                    for(const auto& entry:combatSession->world()->actors()) {
+                        const auto& a=entry.second;
+                        const auto name=a.definition_id.substr(a.definition_id.rfind('|')==std::string::npos?0:a.definition_id.rfind('|')+1);
+                        const auto* traits=combatSession->world()->traits(a.id);
+                        const auto* life=actorLifecycle.status(a.id);
+                        std::ostringstream line;
+                        line<<"[state-dump] tag="<<tag<<" frame="<<drawn<<" name="<<name<<" id="<<a.id<<" pos="<<a.transform.position[0]<<','<<a.transform.position[1]<<','<<a.transform.position[2]
+                            <<" yaw="<<a.transform.rotation[2]<<" scale="<<a.transform.scale[0]<<" action="<<int(a.action)<<" hp="<<a.health<<'/'<<a.max_health<<" alive="<<a.alive()
+                            <<" dead="<<a.is_dead()<<" targetable="<<(traits?int(traits->targetable):-1)<<" suppressed="<<combatSession->world()->selection_suppressed(a.id)
+                            <<" eligible="<<(hero&&hero->id!=a.id?int(combatSession->world()->eligible_target(*hero,a)):-1)
+                            <<" life="<<(life?life->state:-9)<<'/'<<(life?int(life->enabled):-1)<<" target="<<a.target_id
+                            <<" pose{"<<combatSession->debug_pose_state(a.id)<<'}';
+                        if(const auto* placed=populationActor(a.id)) {
+                            line<<" popEnabled="<<placed->enabled;
+                            f::Vec3 lo{},hi{};std::string boundsError;
+                            if(placed->visual.indexed_bounds(lo,hi,boundsError))line<<" poseBounds=("<<lo.x<<','<<lo.y<<','<<lo.z<<")..("<<hi.x<<','<<hi.y<<','<<hi.z<<")";
+                        }
+                        lines.push_back(line.str());
+                    }
+                    for(const auto& placed:population.actors()) {
+                        if(combatSession->actor(placed.definition.stableId))continue;
+                        std::ostringstream line;
+                        line<<"[state-dump] tag="<<tag<<" frame="<<drawn<<" name="<<placed.definition.name<<" id="<<placed.definition.stableId<<" population-only pos="<<placed.transform[12]<<','<<placed.transform[13]<<','<<placed.transform[14]
+                            <<" popEnabled="<<placed.enabled;
+                        lines.push_back(line.str());
+                    }
+                    std::sort(lines.begin(),lines.end());
+                    for(const auto& line:lines)std::cout<<line<<'\n';
+                    if(hero)std::cout<<"[state-dump] tag="<<tag<<" frame="<<drawn<<" hero target="<<hero->target_id<<" pos="<<hero->transform.position[0]<<','<<hero->transform.position[1]<<','<<hero->transform.position[2]<<" yaw="<<hero->transform.rotation[2]<<'\n';
+                    {const auto pose=originalCamera.pose();std::cout<<"[state-dump] tag="<<tag<<" frame="<<drawn<<" follow-camera eye="<<pose.position.x<<','<<pose.position.y<<','<<pose.position.z<<" target="<<pose.target.x<<','<<pose.target.y<<','<<pose.target.z
+                        <<" clipActive="<<campaignHost.camera_clip_active()<<" cutsceneMode="<<campaignHost.cutscene_mode()<<" hud="<<campaignHost.hud_visible()<<" skipVisible="<<campaignHost.skip_visible()
+                        <<" globalBlocked="<<campaignHost.global_controller_blocked()<<'\n';}
+                    {f::CameraVec3 rig{};std::string rigError;if(originalCamera.rig_position(rig,rigError)) {const auto cine=campaignHost.source_camera_pose(originalCamera.pose(),rig);
+                        std::cout<<"[state-dump] tag="<<tag<<" frame="<<drawn<<" drawn-camera eye="<<cine.position.x<<','<<cine.position.y<<','<<cine.position.z<<" target="<<cine.target.x<<','<<cine.target.y<<','<<cine.target.z
+                                 <<" rig="<<rig.x<<','<<rig.y<<','<<rig.z<<" cameraTarget="<<sourceCameraTargets.target()<<'\n';}}
+                }
             }
             // D1 (OPENING3): Quest::Update runs every frame after the script executor, so a state whose script has
             // finished advances on the frame it ends (the Movement tutorial follows the Swamp intro, not the bind).
@@ -10380,16 +10464,33 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     transitionPromptText.draw(overlay);
                 }
+                static f::ActorId traceTarget=f::invalid_actor_id;static int traceShown=-1; // w5-mud2 --target-hud-trace state
+                if(options.targetHudTrace&&!(markerTarget&&markerTarget->alive())&&traceTarget!=f::invalid_actor_id) {
+                    std::cout<<"[target-hud] frame="<<drawn<<" target=none (previous="<<traceTarget<<")\n";traceTarget=f::invalid_actor_id;traceShown=-1;
+                }
                 if(const auto* target=markerTarget;target&&target->alive()) {
                     auto head=f::Vec3{target->transform.position[0],target->transform.position[1],target->transform.position[2]};
                     const auto original=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& actor){return actor.definition.stableId==target->id;});
                     if(original!=population.actors().end()){f::Vec3 lo{},hi{};if(!original->visual.indexed_bounds(lo,hi,error))throw std::runtime_error(error);head.z+=hi.z*original->transform[10];}
                     std::array<float,2> screen{};
-                    if(project(activeCamera,head,window.width(),window.height(),screen)) {
+                    // The bar follows the retained target (InfoHUDManager::FastUpdate shows it while the player target is a monster): a head
+                    // above or beside the viewport keeps its projected position and the bar is clamped into the window below (target_bar_anchor_v1).
+                    float headClip[4]{};project_clip(activeCamera,head,window.width(),window.height(),headClip);
+                    const auto barAnchor=f::target_bar_anchor_v1(headClip,window.width(),window.height());
+                    screen=barAnchor.screen;const bool headOnScreen=barAnchor.on_screen;const bool headProjected=true;
+                    if(options.targetHudTrace) {
+
+                        if(target->id!=traceTarget||int(headOnScreen)!=traceShown) {
+                            traceTarget=target->id;traceShown=int(headOnScreen);
+                            const auto* heroActor=combatSession->actor(combatSession->player_id());
+                            std::cout<<"[target-hud] frame="<<drawn<<" target="<<target->id<<" hp="<<target->health<<'/'<<target->max_health<<" headOnScreen="<<headOnScreen<<" barShown="<<headProjected<<" screen="<<screen[0]<<','<<screen[1]
+                                     <<" head="<<head.x<<','<<head.y<<','<<head.z<<" suppressed="<<combatSession->world()->selection_suppressed(target->id)
+                                     <<" eligible="<<(heroActor?int(combatSession->world()->eligible_target(*heroActor,*target)):-1)<<'\n';
+                        }
+                    }
+                    if(headProjected) {
                         f::HudTargetGeometry art;if(!f::compose_original_target_hud(liveFrame(target->health,target->max_health),art,error))throw std::runtime_error(error);
-                        auto bounded=[](float value,float low,float high){return low>high?low:std::clamp(value,low,high);};
-                        const float left=bounded(screen[0]-(art.bounds[0]+art.bounds[1])*.5f*scale,-art.bounds[0]*scale,window.width()-art.bounds[1]*scale);
-                        const float top=bounded(screen[1]-art.bounds[3]*scale,-art.bounds[2]*scale,window.height()-art.bounds[3]*scale);
+const auto barOrigin=f::target_bar_origin_v1(barAnchor,art.bounds,scale,window.width(),window.height());const float left=barOrigin[0],top=barOrigin[1];
                         for(const auto& batch:art.art.batches){std::vector<f::OverlayTriangleVertex> vertices;for(const auto& v:batch.triangles)vertices.push_back({left+v.x*scale,top+v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Target HUD triangle draw rejected");}
                         const auto* props=combatSession->world()->combat_properties(target->id);f::OriginalActorLabel label;
                         if(!props||!actorLabels.label({props->sheets.resolved[18],props->sheets.resolved[19],false,false,{}},label,error))throw std::runtime_error("Original target label: "+error);

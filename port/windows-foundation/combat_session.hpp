@@ -576,6 +576,7 @@ public:
     const ActorState* actor(ActorId) const noexcept;
     ActorId player_id() const noexcept;
     bool owns_pose(ActorId) const noexcept;
+    std::string debug_pose_state(ActorId) const; // w5-mud2 diagnostic: which owner drives the actor pose
     bool owns_population_pose(std::uint64_t stableId) const noexcept;
     const ActorState* selectedactor() const noexcept;
     const std::vector<DamageEvent>& events() const noexcept;

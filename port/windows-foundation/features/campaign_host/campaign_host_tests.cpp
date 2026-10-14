@@ -451,6 +451,155 @@ void actor_clip_manifest_collects_script_clips(const std::string& directory) {
     check(gameplay.count("_prim_ActorTroll") == 0, "the opening troll is retired by the opening and stays a cutscene prop");
 }
 
+
+// w5-mud2: the world state a finished cutscene leaves behind must not depend on SKIP (IDA ScriptManager::ExecuteScript runs every
+// remaining command with skip=1; only presentation is gated). A recording world replaces the live owners: every actor verb
+// (SetActorPosition, LookActor, Show/HideActor, PutCharacterInLimbus/Idle, kill, hands), the camera target and the host flags are
+// compared between a played and a skipped run of EVERY level script that the fakes can play to its end. No script is special-cased;
+// the Mud Lord intro (Swamp_Serpent_Intro) and outro (Swamp_Serpent_Defeated) are required members.
+struct RecordedActor {
+    std::array<float,3> position{};
+    bool placed = false;
+    std::array<float,3> look_at{};
+    bool looked = false;
+    int visible = -1;
+    bool limbus = false;
+    bool killed = false;
+    int hands = -1;
+};
+struct RecordedWorld {
+    std::map<std::string, RecordedActor> actors; // by script name
+    std::map<ActorId, std::string> names;
+    std::map<std::string, std::int32_t> final_state; // set_actor_state / set_idle results by name
+    std::uint64_t camera_target = 0;
+    CampaignHost::HostState host;
+    std::set<std::string> objects_played;
+};
+
+std::uint64_t recorded_hash(const std::string& name) {
+    std::uint64_t h = 1469598103934665603ull;
+    for (const char c : name) { h ^= static_cast<unsigned char>(c); h *= 1099511628211ull; }
+    return h;
+}
+ActorId recorded_id(const std::string& name) {
+    if (name == "LocalPlayer" || name == "Player") return 1;
+    return recorded_hash(name) | 0x100;
+}
+std::array<float,3> recorded_waypoint(const std::string& name) {
+    const auto h = recorded_hash(name);
+    return {static_cast<float>(h % 20011) - 10000.f, static_cast<float>((h >> 16) % 20011) - 10000.f, static_cast<float>((h >> 40) % 300)};
+}
+
+// Runs `script`; skip_after < 0 plays it. Returns false when the script could not be played to its end with the fakes (not comparable).
+bool run_recorded(const std::string& directory, const std::string& script_name, int skip_after_steps, RecordedWorld& out, std::string& why) {
+    RecordedWorld world;
+    std::string error;
+    const auto name_of = [&world](ActorId id) { const auto f = world.names.find(id); return f == world.names.end() ? std::string("?") : f->second; };
+    auto rig = std::make_unique<Rig>(directory, std::filesystem::path{},
+        [](const std::string&, int, std::uintptr_t& id, bool& found, std::string&) { id = 0x8000000000000010ull; found = true; return true; },
+        [&](CampaignHostServices& services) {
+            auto& v = services.actor_verbs;
+            v.resolve_actor = [&](const std::string& name, int, ActorId& id, bool& found, std::string&) {
+                id = recorded_id(name); world.names[id] = name; found = true; return true; };
+            v.waypoint_position = [](const std::string& name, int, std::array<float,3>& p, bool& found, std::string&) { p = recorded_waypoint(name); found = true; return true; };
+            v.position_of = [&](ActorId id, std::array<float,3>& p, std::string&) { p = world.actors[name_of(id)].position; return true; };
+            v.teleport = [&](ActorId id, std::array<float,3> p, std::string&) { auto& a = world.actors[name_of(id)]; a.position = p; a.placed = true; return true; };
+            v.face = [&](ActorId id, std::array<float,3> t, std::string&) { auto& a = world.actors[name_of(id)]; a.look_at = t; a.looked = true; return true; };
+            v.set_visible = [&](ActorId id, bool visible, std::string&) { world.actors[name_of(id)].visible = visible ? 1 : 0; return true; };
+            v.put_limbus = [&](ActorId id, std::string&) { world.actors[name_of(id)].limbus = true; return true; };
+            v.play_clip = [](ActorId, std::int32_t, std::int32_t& duration, std::string&) { duration = 1500; return true; };
+            v.play_object_clip = [&](const std::string& object, const std::string& clip, bool& found, std::string&) { world.objects_played.insert(object + ":" + clip); found = true; return true; };
+            v.move_blocking = [](ActorId, bool& blocking, std::string&) { blocking = false; return true; };
+            v.move_to = [&](ActorId id, std::array<float,3> goal, bool, bool, std::string&) { auto& a = world.actors[name_of(id)]; a.position = goal; a.placed = true; return true; };
+            v.kill = [&](ActorId id, std::string&) { world.actors[name_of(id)].killed = true; return true; };
+            v.hands = [&](ActorId id, bool equipped, std::string&) { world.actors[name_of(id)].hands = equipped ? 1 : 0; return true; };
+            services.actor_state = [&](ActorId id, bool& alive, std::int32_t& state, std::string&) {
+                alive = true; const auto f = world.final_state.find(name_of(id)); state = f == world.final_state.end() ? 3 : f->second; return true; };
+            services.set_actor_state = [&](ActorId id, std::int32_t state, std::string&) { world.final_state[name_of(id)] = state; return true; };
+            services.set_idle = [&](ActorId id, bool, std::string&) { world.final_state[name_of(id)] = 3; return true; };
+            services.all_actors = [&](std::vector<ActorId>& ids, std::string&) { ids.clear(); for (const auto& n : world.names) ids.push_back(n.first); if (ids.empty()) ids.push_back(1); return true; };
+        });
+    rig->host->set_caption_text([](std::int32_t id, std::string& text, std::string&) { text = "line " + std::to_string(id); return true; });
+    rig->host->set_caption_auto_tap_ms(300);
+    const int script = rig->runtime.script_id(script_name, false);
+    if (script < 0) { why = "script absent"; return false; }
+    if (!rig->runtime.start(script, -1, false, error)) { why = "start: " + error; return false; }
+    bool pressed = skip_after_steps < 0;
+    for (int steps = 0; steps < 30000 && rig->runtime.any_running(); ++steps) {
+        if (!pressed && steps >= skip_after_steps && rig->host->skip_visible()) { rig->host->press_skip(); pressed = true; }
+        rig->step(10);
+        if (rig->host->aborts() != 0) { why = "aborted"; return false; }
+    }
+    if (rig->runtime.any_running()) { why = "did not finish"; return false; }
+    if (!pressed) { why = "no SKIP control was drawn"; return false; }
+    for (int settle = 0; settle < 10; ++settle) rig->step(10); // the closing camera_idle clip (33 ms) ends a frame after the script does
+    world.camera_target = rig->camera.target();
+    world.host = rig->host->host_state();
+    out = std::move(world);
+    return true;
+}
+
+void skipped_world_state_matches_played(const std::string& directory) {
+    std::vector<std::string> names;
+    {
+        Rig probe(directory);
+        for (const auto& s : probe.runtime.scripts()) {
+            if (s.scope != "level") continue;
+            bool camera = false;
+            for (const auto& c : s.commands) if (c.kind == 5) camera = true;
+            if (camera) names.push_back(s.name);
+        }
+    }
+    int compared = 0;
+    const std::set<std::string> required{"Swamp_Serpent_Intro", "Swamp_Serpent_Defeated"};
+    std::set<std::string> compared_names;
+    for (const auto& name : names) {
+        RecordedWorld played;
+        std::string why;
+        if (!run_recorded(directory, name, -1, played, why)) {
+            check(required.count(name) == 0, name + " must be playable with the recording world: " + why);
+            std::cout << "skip parity: " << name << " not comparable with the recording world (" << why << ")\n";
+            continue;
+        }
+        for (const int at : {0, 25, 300, 1200}) {
+            RecordedWorld skipped;
+            if (!run_recorded(directory, name, at, skipped, why)) {
+                // The press lands only while the SKIP control is drawn; a script shorter than `at` steps has nothing left to skip.
+                if (why == "no SKIP control was drawn") continue;
+                check(false, name + " skipped at step " + std::to_string(at) + ": " + why);
+            }
+            const std::string label = name + " skipped at step " + std::to_string(at);
+            check(played.actors.size() == skipped.actors.size(), label + ": the same actors are touched");
+            for (const auto& entry : played.actors) {
+                const auto other = skipped.actors.find(entry.first);
+                check(other != skipped.actors.end(), label + ": actor " + entry.first + " is also touched by the skipped run");
+                const auto& a = entry.second;
+                const auto& b = other->second;
+                check(a.position == b.position && a.placed == b.placed, label + ": " + entry.first + " ends at the same position");
+                check(a.looked == b.looked && a.look_at == b.look_at, label + ": " + entry.first + " ends with the same heading target");
+                check(a.visible == b.visible, label + ": " + entry.first + " ends with the same visibility");
+                check(a.limbus == b.limbus && a.killed == b.killed && a.hands == b.hands, label + ": " + entry.first + " limbus/kill/hands state matches");
+            }
+            check(played.final_state == skipped.final_state, label + ": the same actor states are requested");
+            check(played.camera_target == skipped.camera_target, label + ": the camera target is the same after the End");
+            const auto& a = played.host;
+            const auto& b = skipped.host;
+            std::string flags;
+            const auto diff = [&flags](const char* what, bool same) { if (!same) flags += std::string(" ") + what; };
+            diff("hud_visible", a.hud_visible == b.hud_visible); diff("skip_visible", a.skip_visible == b.skip_visible);
+            diff("cutscene_mode", a.cutscene_mode == b.cutscene_mode); diff("cinematic_active", a.cinematic_active == b.cinematic_active);
+            diff("save_blocked", a.save_blocked == b.save_blocked); diff("global_blocked", a.global_blocked == b.global_blocked);
+            diff("camera_clip", a.camera_clip == b.camera_clip); diff("character_blocked", a.character_blocked == b.character_blocked);
+            diff("scripted", a.scripted == b.scripted); diff("safe_zone", a.safe_zone == b.safe_zone); diff("aborts", a.aborts == b.aborts);
+            check(flags.empty(), label + ": host flags match, differing:" + flags);
+            ++compared;
+            compared_names.insert(name);
+        }
+    }
+    check(compared_names.count("Swamp_Serpent_Intro") == 1 && compared_names.count("Swamp_Serpent_Defeated") == 1,
+          "the Mud Lord intro and outro were compared played vs skipped");
+    std::cout << "skip parity: " << compared << " played-vs-skipped comparisons over " << compared_names.size() << " cutscene scripts\n";
+}
 } // namespace
 
 // P16 CINE2: PlayCamera (kind 5) through the production adapter and host. Blocking (IDA IsBlocking) holds while
@@ -773,6 +922,7 @@ int main(int argc, char** argv) {
         fired_once_trigger_stays_fired_across_level_world(argv[1]);
         skipped_cutscene_matches_played(argv[1]);
         skip_ends_captions_in_one_frame(argv[1]);
+        skipped_world_state_matches_played(argv[1]); // w5-mud2
         captions_block_then_release(argv[1]);
         unresolved_caption_is_explicit(argv[1]);
         do_tutorial_starts_named_script(argv[1]);

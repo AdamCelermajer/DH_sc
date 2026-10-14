@@ -206,6 +206,7 @@ public:
     // An executor error aborts only that cutscene: flags are restored and running scripts abandoned.
     void frame(std::int32_t dt_ms,const std::array<float,3>& player,bool qualified,ActorId local_player=invalid_actor_id);
     bool enabled() const noexcept { return runtime_ != nullptr; }
+    bool scripts_running() const { return runtime_ && runtime_->any_running(); } // w5-mud2: the end-of-script state dump edge
     // Diagnostic-only one-shot execute through the same typed dispatch used
     // by the bound campaign runtime. This keeps command harnesses on the
     // production owner route (doors, FX, actor verbs) without starting a
