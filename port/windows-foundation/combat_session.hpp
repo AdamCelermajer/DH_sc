@@ -574,3 +574,8 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 }
+
+namespace dh::foundation::combat {
+// w3-status: true when the original state accepts event 50011 (a non-direct SM_SetKnockBackState). Defined in combat_session.cpp.
+bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept;
+}
