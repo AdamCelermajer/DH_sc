@@ -65,7 +65,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesRogueV1[] = {
      SkillTargetSortV1::closest_first, false,
      false, true, false, nullptr, nullptr, false, true, 0.0f,
      nullptr, nullptr, nullptr, false, nullptr, nullptr, 0,
-     nullptr, nullptr, false, false, nullptr, nullptr,
+     nullptr, nullptr, false, false, false, nullptr, nullptr,
      true, true, "Skill_Assassin_Assassination_boss", "sfx_passive_skill_activate_4"},
 };
 
