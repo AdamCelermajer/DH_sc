@@ -1,0 +1,4215 @@
+{
+  "AI": {
+    "claim_scope": "character_AI_profile_row",
+    "confidence": "PROVEN",
+    "profile": {
+      "fields": {
+        "AttackDelay": 800,
+        "CombatBeat": -1,
+        "CombatMusic": -1,
+        "DelayedLoad": 0,
+        "Flags": 5,
+        "InteractRadius": 250.0,
+        "LeashDistance": 1500.0,
+        "MeleeRadius": 350.0,
+        "OnAggroSFX": -1,
+        "Script": "RootTroll",
+        "SelfFX": -1,
+        "Trophy": -1,
+        "Type": 4,
+        "ViewRadius": 6000.0,
+        "ViewRadiusNoAggro": 6500.0
+      },
+      "index": 54,
+      "name": "RootTroll",
+      "reference_status": "RESOLVED",
+      "source_status": "RESOLVED",
+      "table": "ai#group0"
+    },
+    "script": "RootTroll",
+    "source_chain": {
+      "files": [
+        {
+          "claim_scope": "original_lua_source",
+          "confidence": "PROVEN",
+          "includes": [
+            "RootTroll_settings",
+            "roottroll_core"
+          ],
+          "line_count": 2,
+          "native_calls_matched": [
+            "Include"
+          ],
+          "phase_and_behavior_evidence_lines": [],
+          "sha256": "ef9a6fa9781e94c13033a80fe50d596d77738071747385e81b2b4422036217bb",
+          "source": ".local-inputs/assets-extra/android/data/scripts/ai/roottroll.luac",
+          "stem": "RootTroll"
+        },
+        {
+          "claim_scope": "original_lua_source",
+          "confidence": "PROVEN",
+          "includes": [],
+          "line_count": 386,
+          "native_calls_matched": [
+            "AddAggro",
+            "AddToVFTable",
+            "Attack",
+            "CallPyScript",
+            "ClearAggro",
+            "ClearTarget",
+            "DoSkill",
+            "FromFixed",
+            "GetCurrentLevelRange",
+            "GetHostPlayerDifficulty",
+            "GetHostPlayerLevel",
+            "GetProp",
+            "GetPyCst",
+            "GetPyOID",
+            "GetPyStruct",
+            "GetRand",
+            "GetState",
+            "GetTarget",
+            "GetTargetListTop",
+            "HasTarget",
+            "IsTargetListEmpty",
+            "LookAt",
+            "MoveTo",
+            "PlayAnim",
+            "PlayMusic",
+            "PopTargetList",
+            "RegisterAnim",
+            "SetLevel",
+            "SetTarget",
+            "SetTargetListCharacterFilter",
+            "SetTargetListObjectFilter",
+            "SetTargetListSorting",
+            "Stop",
+            "target:IsPlayer",
+            "TargetListSearch",
+            "ToFixed",
+            "Trace"
+          ],
+          "phase_and_behavior_evidence_lines": [
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 2,
+              "text": "local attack_flag\t\t\t\t= false; -- checks if the character is ready to attack."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 3,
+              "text": "local musicStarted_flag \t\t= false; -- checks if the boss music has started."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 4,
+              "text": "local sp_attack_flag\t\t\t= false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 14,
+              "text": "local timer_attack_flag;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 16,
+              "text": "local timer_sp_attack_flag;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 27,
+              "text": "attack_flag\t\t\t\t= false; -- checks if the character is ready to attack."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 28,
+              "text": "musicStarted_flag \t\t= false; -- checks if the boss music has started."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 29,
+              "text": "sp_attack_flag\t\t\t= false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 34,
+              "text": "if (timer_attack_flag ~= nil) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 35,
+              "text": "timer_attack_flag = nil;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 40,
+              "text": "if (timer_sp_attack_flag ~= nil) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 41,
+              "text": "timer_sp_attack_flag = nil;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 47,
+              "text": "attack_flag = true;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 51,
+              "text": "local function performingSpecialAttack()"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 52,
+              "text": "DoSkill(2);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 56,
+              "text": "local function performingSpecialMeleeAttack()"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 57,
+              "text": "DoSkill(3);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 62,
+              "text": "sp_attack_flag = true;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 70,
+              "text": "if (attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 71,
+              "text": "if (sp_attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 79,
+              "text": "sp_attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 84,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 94,
+              "text": "if (attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 95,
+              "text": "if ( sp_attack_flag ) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 100,
+              "text": "DoSkill(0);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 102,
+              "text": "sp_attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 105,
+              "text": "DoSkill(0);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 109,
+              "text": "DoSkill(0);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 116,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 216,
+              "text": "timer_attack_flag = StartTimerCB(ATTACK_DELAY, true, isAttackReady);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 224,
+              "text": "timer_sp_attack_flag = StartTimerCB(SP_ATTACK_DELAY, true, Do_SpecialAttack);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 239,
+              "text": "musicStarted_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 242,
+              "text": "if (timer_attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 243,
+              "text": "StopTimerCB(timer_attack_flag);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 244,
+              "text": "timer_attack_flag = nil;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 250,
+              "text": "if (timer_sp_attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 251,
+              "text": "StopTimerCB(timer_sp_attack_flag);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 252,
+              "text": "timer_sp_attack_flag = nil;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 272,
+              "text": "if (not musicStarted_flag and state == STATE_IDLE) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 273,
+              "text": "musicStarted_flag = true;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 292,
+              "text": "musicStarted_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 368,
+              "text": "StartTimerCB( 500, false, performingSpecialMeleeAttack );"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 373,
+              "text": "StartTimerCB( 500, false, performingSpecialAttack );"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 378,
+              "text": "StartTimerCB( 500, false, performingSpecialAttack );"
+            }
+          ],
+          "sha256": "0df5c0646bbfaa50f97fa5f97ca3ba711807fdc747a7eb50062d7a4cb62e2e9d",
+          "source": ".local-inputs/assets-extra/android/data/scripts/ai/roottroll_core.luac",
+          "stem": "roottroll_core"
+        },
+        {
+          "claim_scope": "original_lua_source",
+          "confidence": "PROVEN",
+          "includes": [],
+          "line_count": 34,
+          "native_calls_matched": [
+            "FromFixed",
+            "GetProp",
+            "GetPyStruct"
+          ],
+          "phase_and_behavior_evidence_lines": [
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 2,
+              "text": "isMeleeOnly\t\t\t\t\t= false; -- if enabled, the boss will perform only melee attacks/skills"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 13,
+              "text": "timed_specialAttack\t\t\t= true;\t-- if enabled, the boss will perform a special attack at regular interval (Timer: SP_ATTACK_DELAY)."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 21,
+              "text": "firstMeleeSkill_prob\t\t= 70; -- chances in PCT to perform the first melee attack of the skilltable."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 23,
+              "text": "firstRangedSkill_prob\t\t= -1; -- chances in PCT to perform the first ranged attack of the skilltable."
+            }
+          ],
+          "sha256": "429727c93f9f7fbbda04e8af50889cad5f2dcb2ed38b26bbbfaa7f4d329fcca4",
+          "source": ".local-inputs/assets-extra/android/data/scripts/ai/roottroll_settings.luac",
+          "stem": "RootTroll_settings"
+        }
+      ],
+      "include_edges": [
+        {
+          "claim_scope": "original_lua_include",
+          "confidence": "PROVEN",
+          "from": "RootTroll",
+          "to": "RootTroll_settings"
+        },
+        {
+          "claim_scope": "original_lua_include",
+          "confidence": "PROVEN",
+          "from": "RootTroll",
+          "to": "roottroll_core"
+        }
+      ],
+      "root": "RootTroll",
+      "status": "RESOLVED"
+    }
+  },
+  "actor_id": "2379284ed9a5dbadc71f",
+  "actor_name": "El_Earth",
+  "character_properties_fields": {
+    "AI": 54,
+    "AIFaction": 7,
+    "Achievement_Block_Count": 0,
+    "Achievement_Break_Count": 0,
+    "Achievement_Chests_Count": 0,
+    "Achievement_Evade_Count": 0,
+    "Achievement_KnockedDown_Count": 0,
+    "Achievement_PickUp_Count": 0,
+    "Achievement_Potions_Count": 0,
+    "Achievement_Sell_Count": 0,
+    "Achievement_SkillUse_Count": 0,
+    "Achievement_Spent_Count": 0,
+    "Achievement_Transmute_Count": 0,
+    "AnimTable": 58,
+    "ClassDescString": 1835084,
+    "ClassID": 121,
+    "ClassString": 1835084,
+    "Collision_Scale": 85,
+    "CombatRegen_HP": -1,
+    "CombatRegen_MP": -1,
+    "Damage_Air_Max_Main_Hand": 0,
+    "Damage_Air_Max_Off_Hand": 0,
+    "Damage_Air_Min_Main_Hand": 0,
+    "Damage_Air_Min_Off_Hand": 0,
+    "Damage_Block_Mitigation": 0,
+    "Damage_Bonus_Axe": 0,
+    "Damage_Bonus_Combo": 0,
+    "Damage_Bonus_Dagger": 0,
+    "Damage_Bonus_Dual": 0,
+    "Damage_Bonus_Mace": 0,
+    "Damage_Bonus_Range": 0,
+    "Damage_Bonus_Sneaking": 0,
+    "Damage_Bonus_Staff": 0,
+    "Damage_Bonus_Stunned": 0,
+    "Damage_Bonus_Sword": 0,
+    "Damage_Bonus_TwoHand": 0,
+    "Damage_Bonus_Wand": 0,
+    "Damage_Crit_Intensification": 0,
+    "Damage_Earth_Max_Main_Hand": 0,
+    "Damage_Earth_Max_Off_Hand": 0,
+    "Damage_Earth_Min_Main_Hand": 0,
+    "Damage_Earth_Min_Off_Hand": 0,
+    "Damage_Elemental_Max_Main_Hand": 0,
+    "Damage_Elemental_Max_Off_Hand": 0,
+    "Damage_Elemental_Min_Main_Hand": 0,
+    "Damage_Elemental_Min_Off_Hand": 0,
+    "Damage_Elemental_Type_Main_Hand": 768,
+    "Damage_Elemental_Type_Off_Hand": -256,
+    "Damage_Fire_Max_Main_Hand": 0,
+    "Damage_Fire_Max_Off_Hand": 0,
+    "Damage_Fire_Min_Main_Hand": 0,
+    "Damage_Fire_Min_Off_Hand": 0,
+    "Damage_Lightning_Max_Main_Hand": 0,
+    "Damage_Lightning_Max_Off_Hand": 0,
+    "Damage_Lightning_Min_Main_Hand": 0,
+    "Damage_Lightning_Min_Off_Hand": 0,
+    "Damage_Max_Main_Hand": 0,
+    "Damage_Max_Off_Hand": 0,
+    "Damage_Min_Main_Hand": 0,
+    "Damage_Min_Off_Hand": 0,
+    "Damage_Water_Max_Main_Hand": 0,
+    "Damage_Water_Max_Off_Hand": 0,
+    "Damage_Water_Min_Main_Hand": 0,
+    "Damage_Water_Min_Off_Hand": 0,
+    "DeathCount": 0,
+    "Dialogs": -1,
+    "Diminishing_Return": 0,
+    "Dot_Duration": 0,
+    "Dot_Max_Damage": 0,
+    "Dot_Min_Damage": 0,
+    "Dot_Tick_Damage_Air": 0,
+    "Dot_Tick_Damage_Earth": 0,
+    "Dot_Tick_Damage_Fire": 0,
+    "Dot_Tick_Damage_Lightning": 0,
+    "Dot_Tick_Damage_Normal": 0,
+    "Dot_Tick_Damage_Water": 0,
+    "Effects": 1,
+    "FX_Scale": -1,
+    "FaeryList": -1,
+    "Fear_Duration": 0,
+    "Fear_Resist_Chance": 0,
+    "Fear_Target_Chance": 0,
+    "HP": -1,
+    "HP_Bonus": -1,
+    "Hurt_Resist_Chance": 0,
+    "Hurt_Target_Chance": 0,
+    "KillCount": 0,
+    "Leech_HP": 0,
+    "Leech_MP": 0,
+    "Level": 256,
+    "LevelMax": 256,
+    "LevelMin": 256,
+    "LevelOffset": 256,
+    "Loot": 97,
+    "MP": -1,
+    "MPLevelKillCount": 0,
+    "MP_Bonus": -1,
+    "Magical_Armor": 0,
+    "Max_HP": -1,
+    "Max_MP": -1,
+    "Max_XP": -1,
+    "Melee_Scale": 100,
+    "Menu_Average_Melee_To_Hit": 0,
+    "Menu_Average_Spell_To_Hit": 0,
+    "Menu_Melee_Damage_Reduction": 0,
+    "ModelFile": 80,
+    "ModularVisual": -1,
+    "Name": 1507497,
+    "Opacity_Modifier": 0,
+    "Physical_Armor": 0,
+    "Physical_Armor_Bonus_Shield": 0,
+    "Potion_HP_Modifier": 0,
+    "Potion_MP_Modifier": 0,
+    "Prereq_Dexterity": 0,
+    "Prereq_Endurance": 0,
+    "Prereq_Energy": 0,
+    "Prereq_Strength": 0,
+    "Push_Resist_Chance": 0,
+    "Push_Target_Chance": 0,
+    "RangeMaxDistance": 614400,
+    "RangeMinDistance": 153600,
+    "RangeProjectileID": 14,
+    "Rating_Attack": 0,
+    "Rating_Attack_Bonus_Axe": 0,
+    "Rating_Attack_Bonus_Dagger": 0,
+    "Rating_Attack_Bonus_Dual": 0,
+    "Rating_Attack_Bonus_Mace": 0,
+    "Rating_Attack_Bonus_Range": 0,
+    "Rating_Attack_Bonus_Staff": 0,
+    "Rating_Attack_Bonus_Sword": 0,
+    "Rating_Attack_Bonus_Wand": 0,
+    "Rating_Block": 0,
+    "Rating_Block_Bonus_Shield": 0,
+    "Rating_Critical": 0,
+    "Rating_Critical_Bonus_Axe": 0,
+    "Rating_Critical_Bonus_Dagger": 0,
+    "Rating_Critical_Bonus_Mace": 0,
+    "Rating_Critical_Bonus_Range": 0,
+    "Rating_Critical_Bonus_Staff": 0,
+    "Rating_Critical_Bonus_Sword": 0,
+    "Rating_Critical_Bonus_Wand": 0,
+    "Rating_Defense": 0,
+    "Rating_Dodge": 0,
+    "Regen_HP": -1,
+    "Regen_MP": -1,
+    "Resistance_Air": 0,
+    "Resistance_Earth": 0,
+    "Resistance_Fire": 0,
+    "Resistance_Lightning": 0,
+    "Resistance_Water": 0,
+    "RespawnTime": 0,
+    "Scale_X": 100,
+    "Scale_Y": 100,
+    "Scale_Z": 100,
+    "SkillTree": 30,
+    "Skill_Points": 0,
+    "Slow_Duration": 0,
+    "Slow_Resist_Chance": 0,
+    "Slow_Target_Chance": 0,
+    "SnS_Cooldown": 0,
+    "SnS_Dot_Duration": 0,
+    "SnS_Dot_Elemental_Type": -256,
+    "SnS_Dot_Max_Damage": 0,
+    "SnS_Dot_Min_Damage": 0,
+    "SnS_Duration": 0,
+    "SnS_Fear_Duration": 0,
+    "SnS_Fear_Target_Chance": 0,
+    "SnS_Hurt_Target_Chance": 0,
+    "SnS_Level": 0,
+    "SnS_ManaCost": 0,
+    "SnS_MaxDamage": 0,
+    "SnS_MinDamage": 0,
+    "SnS_Push_Target_Chance": 0,
+    "SnS_Slow_Duration": 0,
+    "SnS_Slow_Target_Chance": 0,
+    "SnS_Stun_Duration": 0,
+    "SnS_Stun_Target_Chance": 0,
+    "Sounds": 2,
+    "Special_Bonus_To_XP": 0,
+    "Special_Equip_2H_In_One": 0,
+    "Special_Equip_Main_In_Offhand": 0,
+    "Special_Loot_Gold_Multiplier": 0,
+    "Special_Loot_Magical_Chance": 0,
+    "Special_Loot_Max_Potions": 0,
+    "Special_Merchant_Price": 0,
+    "Special_Sneak": 0,
+    "Special_Sneak_Detection": 0,
+    "Special_Transmute_Efficiency": 0,
+    "Speed_Modifier_Attack": 0,
+    "Speed_Modifier_Rotation": 0,
+    "Speed_Modifier_Walk": 0,
+    "Spell_Damage_Bonus_Air": 0,
+    "Spell_Damage_Bonus_Earth": 0,
+    "Spell_Damage_Bonus_Fire": 0,
+    "Spell_Damage_Bonus_Lightning": 0,
+    "Spell_Damage_Bonus_Water": 0,
+    "Spell_Damage_Crit_Intensification": 0,
+    "Spell_Rating_Attack": 0,
+    "Spell_Rating_Attack_Bonus_Air": 0,
+    "Spell_Rating_Attack_Bonus_Earth": 0,
+    "Spell_Rating_Attack_Bonus_Fire": 0,
+    "Spell_Rating_Attack_Bonus_Lightning": 0,
+    "Spell_Rating_Attack_Bonus_Water": 0,
+    "Spell_Rating_Critical": 0,
+    "Spell_Rating_Dodge": 0,
+    "StatAutoAssignScheme": -1,
+    "Stat_Dexterity": 0,
+    "Stat_Endurance": 0,
+    "Stat_Energy": 0,
+    "Stat_Points": 0,
+    "Stat_Strength": 0,
+    "Stun_Duration": 0,
+    "Stun_Resist_Chance": 0,
+    "Stun_Target_Chance": 0,
+    "TempProp1": 0,
+    "TempProp2": 0,
+    "Threat_PerDamage": 0,
+    "Threat_PerDamageToFriendly": 0,
+    "Threat_PerHeal": 0,
+    "Value_XP": -1,
+    "Visual_AlphaFadeInSpawn": 3000,
+    "Visual_AlphaFadeOutDespawn": 3000,
+    "Visual_BlinkWhenHit": 1,
+    "XP": 0
+  },
+  "claim_scope": "character_properties_and_linked_tables",
+  "field_links": {
+    "AI": {
+      "index": 54,
+      "name": "RootTroll",
+      "raw": 54,
+      "reference_id": "eaf7ee45bdff4c0393cb",
+      "status": "RESOLVED",
+      "table": "ai#group0",
+      "target_id": "6760a3c06f79553dfbb7"
+    },
+    "AIFaction": {
+      "index": 7,
+      "name": "Monsters",
+      "raw": 7,
+      "reference_id": "4cc48ac0b880b7a0d980",
+      "status": "RESOLVED",
+      "table": "ai_factions#group0",
+      "target_id": "3e0761afa94cda0d6259"
+    },
+    "AnimTable": {
+      "index": 58,
+      "name": "RootTroll",
+      "raw": 58,
+      "reference_id": "18d52e29d8eb88740742",
+      "status": "RESOLVED",
+      "table": "character_animations",
+      "target_id": "87b0ab5c23a9fa1bea92"
+    },
+    "ClassID": {
+      "index": 121,
+      "name": "RootTrollBossMonster",
+      "raw": 121,
+      "reference_id": "641d85d94e0559c1883c",
+      "status": "RESOLVED",
+      "table": "character_classes#group0",
+      "target_id": "50e750560d5f336cdce3"
+    },
+    "Effects": {
+      "index": 1,
+      "name": "DefaultMonster",
+      "raw": 1,
+      "reference_id": "1f19d612801bd5079566",
+      "status": "RESOLVED",
+      "table": "character_effects",
+      "target_id": "602148208a935770b821"
+    },
+    "Loot": {
+      "index": 97,
+      "name": "ElemEarth_Boss_Loot",
+      "raw": 97,
+      "reference_id": "79775f89af5a699d585e",
+      "status": "RESOLVED",
+      "table": "loot_table#group5",
+      "target_id": "fca03b0aaf5647f5e06f"
+    },
+    "ModelFile": {
+      "index": 80,
+      "name": "root_troll",
+      "raw": 80,
+      "reference_id": "ce9523f219ee2b16ea39",
+      "status": "RESOLVED",
+      "table": "character_models_dictionary#group0",
+      "target_id": "538f8ca4de96c8fe3fd7"
+    },
+    "RangeProjectileID": {
+      "index": 14,
+      "name": "EarthMastery",
+      "raw": 14,
+      "reference_id": "92f0e314785b0e5268af",
+      "status": "RESOLVED",
+      "table": "projectiles#group0",
+      "target_id": "e61210a6801c2521215c"
+    },
+    "SkillTree": {
+      "index": 30,
+      "name": "RootTrollSkills",
+      "raw": 30,
+      "reference_id": "0c7afcca2ba01e24d919",
+      "status": "RESOLVED",
+      "table": "skills#group0",
+      "target_id": "36538daf03dafca03bcc"
+    },
+    "Sounds": {
+      "index": 2,
+      "name": "Default",
+      "raw": 2,
+      "reference_id": "c4094385c85eefc673dd",
+      "status": "RESOLVED",
+      "table": "sounds#group0",
+      "target_id": "f93e07b3f9ba3c48dc93"
+    }
+  },
+  "package_A_native_callsite_specs": [
+    {
+      "call_sites": [
+        {
+          "call_id": "d90ec6bc400e7922d512",
+          "expression": "GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 73,
+          "name": "GetPyOID",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "8c892dd5440810c16ef0",
+          "expression": "GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 76,
+          "name": "GetPyOID",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "a0759783c6f075987136",
+          "expression": "GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 81,
+          "name": "GetPyOID",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "a58a9cc5f1652493f6af",
+          "expression": "GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 97,
+          "name": "GetPyOID",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "e0a82425c04c29d8ace1",
+          "expression": "GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 111,
+          "name": "GetPyOID",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "dff2b1e4cdb6ceb8a770",
+          "expression": "GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 167,
+          "name": "GetPyOID",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPyOID.md",
+      "contract_page_sha256": "17f7084d85eb0c4a34756af1d182ecf8ba5a2594d5d334fea3148cb3cc26b309",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/script-runtime/script_design_bindings.c"
+        },
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "7df9bdce40bcc9b80a56",
+      "native_name": "GetPyOID",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "52480cefaa0baa3a739f",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"LevelMax\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 180,
+          "name": "GetPyStruct",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "660a82e1d21afe0f4292",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"LevelMin\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 181,
+          "name": "GetPyStruct",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "20818aa6edc3af9915f3",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"LevelOffset\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 182,
+          "name": "GetPyStruct",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "70d9521fbc85e149864f",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 18,
+          "name": "GetPyStruct",
+          "script": "roottroll_settings.luac"
+        },
+        {
+          "call_id": "0e5d951e7715242e1143",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 19,
+          "name": "GetPyStruct",
+          "script": "roottroll_settings.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPyStruct.md",
+      "contract_page_sha256": "50fb5ed112c6cbc0505e7212860a37dc52bc75867f6450c48be1386404b7747b",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/script-runtime/script_design_bindings.c"
+        },
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "1a1bbda728ae09a3cb6d",
+      "native_name": "GetPyStruct",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "4c5c6afb6cee1d9a7816",
+          "expression": "GetPyCst(\"AIStates\", \"Skill\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 10,
+          "name": "GetPyCst",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "6977c7622cca0260a9f2",
+          "expression": "GetPyCst(\"AIStates\", \"Idle\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 11,
+          "name": "GetPyCst",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "e66e0dec1c8801a35944",
+          "expression": "GetPyCst(\"AITargetList_CharacterFilter\", \"Player\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 136,
+          "name": "GetPyCst",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "c7d1aeac45bb462b4a14",
+          "expression": "GetPyCst(\"AITargetList_ObjectFilter\", \"NONE\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 137,
+          "name": "GetPyCst",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "d0e60cb03e74bd8ed5d1",
+          "expression": "GetPyCst(\"AITargetList_Sorting\", \"ClosestFirst\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 138,
+          "name": "GetPyCst",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPyCst.md",
+      "contract_page_sha256": "cf92c6dc72cf2ac9e6bcd366173a424730e30b1343a45992c32babd128dc1568",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/script-runtime/script_design_bindings.c"
+        },
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "ac001076d29a23615ef9",
+      "native_name": "GetPyCst",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "c59ec5d07b919dded3ba",
+          "expression": "IsTargetListEmpty()",
+          "function_id": "7f6c9732197731eb090e",
+          "line": 145,
+          "name": "IsTargetListEmpty",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "77169c18c612ac3aa74f",
+          "expression": "IsTargetListEmpty()",
+          "function_id": "7f6c9732197731eb090e",
+          "line": 161,
+          "name": "IsTargetListEmpty",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/IsTargetListEmpty.md",
+      "contract_page_sha256": "6cf3f60e2bcdcedd06b04f1dabeceaa686686f86198002d49a7c43c5b7055e98",
+      "contract_state": "DONE",
+      "current_port_difference": "The port computes the same empty predicate from list_.count in CharacterSkillNativeBindingsV5, but its evidence is a skill-native owner route with one retained list, not proof of the source GameObject-wide function/method binding domain.",
+      "current_port_evidence": [
+        {
+          "line": 12,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 23,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 102,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 103,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "7f6c9732197731eb090e",
+      "native_name": "IsTargetListEmpty",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "a669e5c112f763250813",
+          "expression": "GetTargetListTop()",
+          "function_id": "6cefbf80881bce92fa7f",
+          "line": 147,
+          "name": "GetTargetListTop",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetTargetListTop.md",
+      "contract_page_sha256": "6eb093b420a9023cbc733429e92c82451037704dcc53a49bfba67ffd07003204",
+      "contract_state": "DONE",
+      "current_port_difference": "The port's top entry returns the same identity, distance, angle conversion and flag bit, but hardcodes return value five to 0 instead of the source float at entry offset 16. On an empty list the port emits a default zero-initialized script value while source calls pushPointer(nullptr); their exact type parity is not established by the inspected handlers.",
+      "current_port_evidence": [
+        {
+          "line": 43,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 52,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 54,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 105,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 106,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 107,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 108,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "6cefbf80881bce92fa7f",
+      "native_name": "GetTargetListTop",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "0976301969bceb8c5639",
+          "expression": "TargetListSearch(RANGED_RANGE)",
+          "function_id": "1a57b77f4aea48ea0e78",
+          "line": 140,
+          "name": "TargetListSearch",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/TargetListSearch.md",
+      "contract_page_sha256": "777c13ae4db7deeb373569dd7b50068ea7e90dc57b531744f39cd66dcddbf994",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:120-143 rejects >3 args and nonEnemy/nonAttackable filters, so source arbitrary origins, relative coordinates, player/OOI/neutral/friend masks and backup selectors not fully supported. Its source search kernel supports selected live/backup identities only.",
+      "current_port_evidence": [
+        {
+          "line": 308,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "contains(text, \"TargetListSearch(RANGE)\");"
+        },
+        {
+          "line": 331,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "!contains(delayed, \"TargetListSearch(AOE_RANGE, 360\") || !contains(delayed, \"ApplyPropClass(AOE_CLASS_ID)\"))"
+        },
+        {
+          "line": 268,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "contains(pre, \"\\\"AITargetList_Sorting\\\", \\\"FrontalFirst\\\"\") && contains(pre, \"TargetListSearch(RANGE)\") &&"
+        },
+        {
+          "line": 236,
+          "path": "port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp",
+          "source_line": "return fail(error, \"Source Character TargetListSearch range/cone/sort is invalid\");"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "1a57b77f4aea48ea0e78",
+      "native_name": "TargetListSearch",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "016dd871d47b31f39831",
+          "expression": "SetTargetListSorting(GetPyCst(\"AITargetList_Sorting\", \"ClosestFirst\"))",
+          "function_id": "65c2269fc5b1efa9c9ae",
+          "line": 138,
+          "name": "SetTargetListSorting",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTargetListSorting.md",
+      "contract_page_sha256": "433c97e0943e13a88ee9cb982fbbc65a639ec78cd8c1e661f76ec68a06185543",
+      "contract_state": "DONE",
+      "current_port_difference": "The current skill-native implementation maps 1/2/other to closest/frontal/no-sort, but only changes list_.sort; the original native first pops all current results before changing its sorter. Existing results therefore remain in the port after an enum change.",
+      "current_port_evidence": [
+        {
+          "line": 96,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 100,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "65c2269fc5b1efa9c9ae",
+      "native_name": "SetTargetListSorting",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "d074acae7ff3980eeec6",
+          "expression": "SetTargetListCharacterFilter(GetPyCst(\"AITargetList_CharacterFilter\", \"Player\"))",
+          "function_id": "df0a08eeec4c08b9122d",
+          "line": 136,
+          "name": "SetTargetListCharacterFilter",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTargetListCharacterFilter.md",
+      "contract_page_sha256": "601fa628ea6aec8caf949c8cd42ab7bcfa3a2508bc9443141206a16337998a0a",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:96-100 implements the numeric gate and integer filter assignment, but target search later rejects any character filter except1 and object filter except0 (:122); arbitrary masks can be stored but cannot be consumed by that skill search path.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "df0a08eeec4c08b9122d",
+      "native_name": "SetTargetListCharacterFilter",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "77b020c3240e99fb7049",
+          "expression": "SetTargetListObjectFilter(GetPyCst(\"AITargetList_ObjectFilter\", \"NONE\"))",
+          "function_id": "09356c4f538053b2fdde",
+          "line": 137,
+          "name": "SetTargetListObjectFilter",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTargetListObjectFilter.md",
+      "contract_page_sha256": "6b0ce90bcee78e1f0366c0dc52d52709fd6dc9ce4ea95303a9ce82845de60a8c",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:96-100 implements the numeric gate and integer filter assignment, but target search later rejects any character filter except1 and object filter except0 (:122); arbitrary masks can be stored but cannot be consumed by that skill search path.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "09356c4f538053b2fdde",
+      "native_name": "SetTargetListObjectFilter",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "115aac13ba0b1ad4139d",
+          "expression": "LookAt(target)",
+          "function_id": "c546c459f3a08331edb0",
+          "line": 156,
+          "name": "LookAt",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/LookAt.md",
+      "contract_page_sha256": "74742c7e345bdba1b8cdd9d72145b231d9ccde96754656c35187e0b21aadae9e",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:115-118 admits pointer/object types and forwards world_.look_at; preserves wrapper but relies supplied controller service for lock/override behavior; does not itself prove those gates for every actor.",
+      "current_port_evidence": [
+        {
+          "line": 6353,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "if(dh2_character_look_at_point(&look,point)){e=\"Injured Blur source LookAt failed\";return false;}"
+        },
+        {
+          "line": 6399,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "if(dh2_nav_look_towards(&heading,direction)){e=\"KnockBack Focus source LookAt failed\";return false;}"
+        },
+        {
+          "line": 578,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "return fail(error, \"Original GameObject LookAt(Point) kernel rejected the target\");"
+        },
+        {
+          "line": 94,
+          "path": "port/windows-foundation/features/combat/b035_native_test_fixture_v1.hpp",
+          "source_line": "check(event.actor==1&&event.source_other_actor==2&&cells.at(1).locked,\"Source LookAt/CancelSneaking ordering/attacker\");"
+        },
+        {
+          "line": 97,
+          "path": "port/windows-foundation/features/combat/b035_native_test_fixture_v1.hpp",
+          "source_line": "float heading=actor->transform.rotation[2];check(dh2_nav_look_towards(&heading,direction)==0,\"Source LookAt heading\");"
+        },
+        {
+          "line": 69,
+          "path": "port/windows-foundation/features/combo_chain/source_combo_consumers.cpp",
+          "source_line": "if(dh2_character_look_at_point(&look,request->position)){bridge.failure=\"Original GameObject LookAt(Point) rejected backing\";return -1;}"
+        },
+        {
+          "line": 72,
+          "path": "port/windows-foundation/features/combo_chain/source_combo_consumers.cpp",
+          "source_line": "bridge.failure=\"Unexpected original LookAt controllable service\";return -1;"
+        },
+        {
+          "line": 77,
+          "path": "port/windows-foundation/features/combo_chain/source_combo_consumers.cpp",
+          "source_line": "error=bridge.failure.empty()?\"Original controller/Character LookAt failed\":std::move(bridge.failure);return false;"
+        },
+        {
+          "line": 269,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "contains(pre, \"LookAt(target)\");"
+        },
+        {
+          "line": 548,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "return fail(error, \"Original GameObject LookAt(Point) kernel rejected the target\");"
+        },
+        {
+          "line": 1226,
+          "path": "port/windows-foundation/features/generic_skills/runtime_skill_cast_coordinator_v1.cpp",
+          "source_line": "active.receipt.detail = \"GroundSlam source LookAt failed after OnPre\";"
+        },
+        {
+          "line": 400,
+          "path": "port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp",
+          "source_line": "return fail(error, \"BashDown LookAt requires a selected character target from its source query\");"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "c546c459f3a08331edb0",
+      "native_name": "LookAt",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "b5d4cf9d34716e1f427f",
+          "expression": "Trace(\"This boss will have special timed attacks\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 223,
+          "name": "Trace",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "c97fd4a6e835d6c179ac",
+          "expression": "Trace(\"No Boss music set for that boss! will be flagged by QA testers!!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 277,
+          "name": "Trace",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/Trace.md",
+      "contract_page_sha256": "5ac226a650a8a164a5232584708fc7fa905f416ebb9e04a7e40e7d3a028de189",
+      "contract_state": "DONE",
+      "current_port_difference": "GenericLuaScriptOwnerV13 trace function at generic_lua_script_owner_v13.cpp:49 is the same no-op; container_open_script_v1 has a separately scoped trace adapter. Android callback source parity, no iPhone comparison.",
+      "current_port_evidence": [
+        {
+          "line": 145,
+          "path": "port/windows-foundation/features/containers/container_open_script_v1.cpp",
+          "source_line": "set_error(context, error, error_capacity, \"Trace expects one string\");"
+        },
+        {
+          "line": 211,
+          "path": "port/windows-foundation/features/containers/container_open_script_v1.cpp",
+          "source_line": "{\"Trace\", lua_trace}, {\"GetName\", lua_get_name},"
+        },
+        {
+          "line": 63,
+          "path": "port/script-runtime/script_game_bindings.c",
+          "source_line": "return dh2_script_vm_bind_source_values(vm,\"Trace\",dh2_script_game_trace,NULL);"
+        },
+        {
+          "line": 16,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"Include\",0x37efe4},{\"Trace\",0x37ee80},{\"SetInt\",0x37de5c},{\"GetInt\",0x37ec14},"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "e5ccff747e7c51d8a2e5",
+      "native_name": "Trace",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "96a182d8d7db5e1f757a",
+          "expression": "PopTargetList()",
+          "function_id": "08a34a258195184437db",
+          "line": 159,
+          "name": "PopTargetList",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PopTargetList.md",
+      "contract_page_sha256": "6986f4c9bdc4d3a3c2e629af8102fb9de112752bb67f4b66b7d70a9888b30cc2",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:110 implements empty no-op and heap pop; callback supported. Static callback/source path proven; no runtime verification.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "08a34a258195184437db",
+      "native_name": "PopTargetList",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "41a8f1979f308dac4154",
+          "expression": "Include(\"RootTroll_settings\")",
+          "function_id": "3cc5c531b57e58d3da99",
+          "line": 1,
+          "name": "Include",
+          "script": "roottroll.luac"
+        },
+        {
+          "call_id": "dbead080484d9bd2ae5d",
+          "expression": "Include(\"roottroll_core\")",
+          "function_id": "3cc5c531b57e58d3da99",
+          "line": 2,
+          "name": "Include",
+          "script": "roottroll.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/Include.md",
+      "contract_page_sha256": "d35560af1435832644743b0754bc1a7eaaeefce01403512d80225eab46fd6ba9",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:79-81 source include and shared LuaScriptCacheOwnerV13 (:7-11) retain path/cache/loaded-set semantics; source callback supported. Independent supplied file readers/assets still determine actual availability; no runtime claim.",
+      "current_port_evidence": [
+        {
+          "line": 335,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "\"%s\",\"unsupported source Include error object\");}"
+        },
+        {
+          "line": 367,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "IncludeFrame* frame=include_frame(scope);return frame?frame->error:\"invalid Include scope\";"
+        },
+        {
+          "line": 376,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "return luaL_error(L,\"unsupported source Include execution context\");"
+        },
+        {
+          "line": 377,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "if(!lua_checkstack(L,1))return luaL_error(L,\"source Include projection stack exhausted\");"
+        },
+        {
+          "line": 387,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "if(binding->vm->scope_generation==UINT64_MAX)return luaL_error(L,\"source Include generation exhausted\");"
+        },
+        {
+          "line": 396,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "if(result){error[sizeof(error)-1]=0;return luaL_error(L,\"%s\",error[0]?error:\"Include provider rejected\");}"
+        },
+        {
+          "line": 403,
+          "path": "port/script-runtime/script_runtime.c",
+          "source_line": "lua_pushcclosure(L,include_trampoline,1);lua_setglobal(L,\"Include\");return 0;"
+        },
+        {
+          "line": 150,
+          "path": "port/script-runtime/script_runtime.h",
+          "source_line": "static_assert(sizeof(dh2_script_include_scope)==16,\"Include capability ABI\");"
+        },
+        {
+          "line": 334,
+          "path": "port/level-world/character_script_owner.cpp",
+          "source_line": "catch(const std::bad_alloc&){t.message=\"Native Include ownership allocation failed\";return -2;}"
+        },
+        {
+          "line": 336,
+          "path": "port/level-world/character_script_owner_v2.cpp",
+          "source_line": "catch(const std::bad_alloc&){t.message=\"Native Include ownership allocation failed\";return -2;}"
+        },
+        {
+          "line": 125,
+          "path": "port/level-world/character_script_session.cpp",
+          "source_line": "auto& b=*static_cast<PrivateBinding*>(opaque);auto* owner=b.self->owner.get();if(!owner)return fail(error,size,\"Closing session Include unsupported\");"
+        },
+        {
+          "line": 126,
+          "path": "port/level-world/character_script_session.cpp",
+          "source_line": "auto result=owner->include(b.identity,name,b.self->services,scope);return result?fail(error,size,\"Native session Include delivery failed\"):0;"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "3cc5c531b57e58d3da99",
+      "native_name": "Include",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "422bfbf6d43bd5a10835",
+          "expression": "DoSkill(2)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 52,
+          "name": "DoSkill",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "28ce5064c25edf1a0f61",
+          "expression": "DoSkill(3)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 57,
+          "name": "DoSkill",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "3625df1a80ee2cf09509",
+          "expression": "DoSkill(0)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 100,
+          "name": "DoSkill",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "f97ae33ca4d47ff18f8c",
+          "expression": "DoSkill(0)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 105,
+          "name": "DoSkill",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "7521604c9c0d65f2e7e3",
+          "expression": "DoSkill(0)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 109,
+          "name": "DoSkill",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/DoSkill.md",
+      "contract_page_sha256": "5ef0c3da87bb7c169581c04ecf71a892df8a151cc8602562549312d23d0e3c44",
+      "contract_state": "DONE",
+      "current_port_difference": "Enemy and selected player skill owners trigger custom operation services; CharacterSkillNativeBindingsV5 list (:12) omits0x3b8bd8 and general CharacterScriptObjects dispatch (:144) lacks it. Original OnSkillCheck and FSM admission cannot be assumed from gameplay request alone.",
+      "current_port_evidence": [
+        {
+          "line": 19,
+          "path": "port/windows-foundation/features/bosses/runtime_boss_encounter_plan_v1.cpp",
+          "source_line": "{\"intimidate\", \"idle\", \"swampking_OnEndOfAnim\", \"intimidateAnim_flag == 1; otherwise DoSkill(2)\", 0},"
+        },
+        {
+          "line": 104,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "const std::regex call(\"DoSkill\\\\(\\\\s*([0-9]+)\\\\s*\\\\)\");"
+        },
+        {
+          "line": 232,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!std::regex_search(end, m, std::regex(\"StartTimerCB\\\\(\\\\s*([0-9]+)\\\\s*,\\\\s*false\\\\s*,\\\\s*function\\\\(\\\\)\\\\s*DoSkill\\\\(\\\\s*([0-9]+)\\\\s*\\\\)\")))"
+        },
+        {
+          "line": 233,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "return fail(error, \"OnEndOfAnim intimidate DoSkill timer absent\");"
+        },
+        {
+          "line": 272,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "return fail(error, \"DoSkill branch layout differs from the dive-boss shape\");"
+        },
+        {
+          "line": 389,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (highest < 0 || static_cast<std::size_t>(highest) >= list.size()) { reason = \"DoSkill index outside the SkillTree list\"; return true; }"
+        },
+        {
+          "line": 871,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") rejected actor=\" + std::to_string(id) + \" state=\" + std::to_string(state));"
+        },
+        {
+          "line": 881,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") rejected: Anim root \" + std::to_string(skill.animation_sequence_id) + \" not in the actor bank\");"
+        },
+        {
+          "line": 961,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") rejected actor=\" + std::to_string(id) + \": \" + problem);"
+        },
+        {
+          "line": 965,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") actor=\" + std::to_string(id) + \" skill=\" + skill.skill_name + \" sequence=\" +"
+        },
+        {
+          "line": 11,
+          "path": "port/windows-foundation/features/enemy_ai/external_monster_natives.cpp",
+          "source_line": "if(!b||!b->character||!b->receiver_lease)return fail(\"Required retained Character DoSkill receiver\");"
+        },
+        {
+          "line": 14,
+          "path": "port/windows-foundation/features/enemy_ai/external_monster_scoped.cpp",
+          "source_line": "return dh2_script_vm_bind_source_scoped_values(vm,\"DoSkill\",scoped,b);"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "04bbc1b0620bafc48513",
+      "native_name": "DoSkill",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "2017e86bb45f962d3fda",
+          "expression": "GetRand(1,100)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 107,
+          "name": "GetRand",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetRand.md",
+      "contract_page_sha256": "fce0c0c16f2f940d4c6097608bb173e50014e43edadc41de78817b16a2440a58",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen CharacterScriptObjects explicitly fails online seed-owner delivery. Negative numeric conversion wraps signed value to unsigned instead of native getUInteger clamp to zero; nonfinite values are rejected.",
+      "current_port_evidence": [
+        {
+          "line": 104,
+          "source": "port/level-world/character_script_objects.cpp"
+        },
+        {
+          "line": 119,
+          "source": "port/level-world/character_script_objects.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "39ca384b24293669f15e",
+      "native_name": "GetRand",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "1e02e9725e46043e3f29",
+          "expression": "MoveTo(GetTarget())",
+          "function_id": "ed2b7c2e26fb52f28904",
+          "line": 308,
+          "name": "MoveTo",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "2b9e407add4681d2da9a",
+          "expression": "MoveTo(GetTarget())",
+          "function_id": "ed2b7c2e26fb52f28904",
+          "line": 311,
+          "name": "MoveTo",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "cf61bbff106ae25425ee",
+          "expression": "MoveTo(GetTarget())",
+          "function_id": "ed2b7c2e26fb52f28904",
+          "line": 328,
+          "name": "MoveTo",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/MoveTo.md",
+      "contract_page_sha256": "ca61942ed967f3cc1ce75413daf9d1ec7085368df73c7e06e8baab8100d954ce",
+      "contract_state": "DONE",
+      "current_port_difference": "Enemy/companion custom Lua operations map motion into selected source services, but general CharacterScriptObjects callback0x3bada8 absent (:144-146). Preserve raw/relative projection and controller admission; direct transform write does not reproduce Move/Head command behavior.",
+      "current_port_evidence": [
+        {
+          "line": 44,
+          "path": "port/windows-foundation/original_controller_commands.cpp",
+          "source_line": "return result(status,bridge.reached,\"point MoveTo\",error);"
+        },
+        {
+          "line": 121,
+          "path": "port/windows-foundation/features/companions/live_companion_scripts.cpp",
+          "source_line": "{\"ClearTarget\",Operation::clear_target,false,false},{\"MoveTo\",Operation::move_to,false,false},"
+        },
+        {
+          "line": 45,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "*context.error = \"MoveTo target handle differs from the reached same-Session master ActorId\";"
+        },
+        {
+          "line": 50,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "*context.error = \"MoveTo master ActorId became stale before target-position read\";"
+        },
+        {
+          "line": 77,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "*context.error = \"MoveTo PF/body owner is not the same live CombatSession ActorId\";"
+        },
+        {
+          "line": 88,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "*context.error = \"MoveTo reached an unsupported Character control service\";"
+        },
+        {
+          "line": 103,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "*context.move->error = \"Companion controller reached an unexpected MoveTo request\";"
+        },
+        {
+          "line": 173,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "return fail(error, \"Reached MoveTo has no live same-Session master ActorId\");"
+        },
+        {
+          "line": 177,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "return fail(error, \"MoveTo requires fresh source controller gate facts for this Session ActorId\");"
+        },
+        {
+          "line": 186,
+          "path": "port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp",
+          "source_line": "if (error.empty()) error = \"Original MoveTo controller command failed at a reached service\";"
+        },
+        {
+          "line": 59,
+          "path": "port/windows-foundation/features/companions/source_owner_scripts.cpp",
+          "source_line": "{\"SetMaster\",0x3b9084},{\"SetTarget\",0x3b8f38},{\"ClearTarget\",0x3b5690},{\"MoveTo\",0x3bada8},"
+        },
+        {
+          "line": 174,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "if (!body_of(\"OnTargetInRangedRange\", ranged) || !contains(ranged, \"MoveTo(GetTarget())\"))"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "ed2b7c2e26fb52f28904",
+      "native_name": "MoveTo",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "dd89c48ee976b87f4e30",
+          "expression": "Stop()",
+          "function_id": "15f6373a7f3104dc67a6",
+          "line": 289,
+          "name": "Stop",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "66d1179a69b7750b2fa4",
+          "expression": "Stop()",
+          "function_id": "15f6373a7f3104dc67a6",
+          "line": 325,
+          "name": "Stop",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "86689f57586b7722f618",
+          "expression": "Stop()",
+          "function_id": "15f6373a7f3104dc67a6",
+          "line": 339,
+          "name": "Stop",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "eded71b1c96be555b522",
+          "expression": "Stop()",
+          "function_id": "15f6373a7f3104dc67a6",
+          "line": 355,
+          "name": "Stop",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/Stop.md",
+      "contract_page_sha256": "344ac71bf8cefda5fa7d5f25c18b71304f8f5ebf1b1c3ef14442c11339a67c49",
+      "contract_state": "DONE",
+      "current_port_difference": "Source controller gates are reconstructed; session routes to required command services. Full physical Stop/event delivery depends on supplied live services and is not established by this contract audit.",
+      "current_port_evidence": [
+        {
+          "line": 168,
+          "source": "port/level-world/character_script_session.cpp"
+        },
+        {
+          "line": 34,
+          "source": "port/level-world/reference/character-controller-commands/NOTES.md"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "15f6373a7f3104dc67a6",
+      "native_name": "Stop",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "d2d84078366c324cd6ef",
+          "expression": "AddAggro(target, 10)",
+          "function_id": "171a44bcbbc27511a562",
+          "line": 155,
+          "name": "AddAggro",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/AddAggro.md",
+      "contract_page_sha256": "d3d09fa05e0e7d237154abae0c5ad4ac4173dac9bc89cb6016fea8cb6949082d",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected enemy threat tuning passes runtime values, but generic Lua receiver threat callback/reciprocal maps unavailable through CharacterScriptObjects (:144-146). Do not treat a one-sided numeric increment as original parity.",
+      "current_port_evidence": [
+        {
+          "line": 55,
+          "path": "port/level-world/character_update_aggro_v108.cpp",
+          "source_line": "float amount{};if(!required(bool(s.spotted_amount)&&bool(s.add),\"Required actual EnemySpottedAggro/AddAggro\")||!s.spotted_amount(amount,e))return false;"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "171a44bcbbc27511a562",
+      "native_name": "AddAggro",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "924392214c5f1bd660aa",
+          "expression": "ClearAggro(GetTarget())",
+          "function_id": "1c82a10bcea96a97985e",
+          "line": 132,
+          "name": "ClearAggro",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "cf2aaabd2cb139d3213f",
+          "expression": "ClearAggro(GetTarget())",
+          "function_id": "1c82a10bcea96a97985e",
+          "line": 290,
+          "name": "ClearAggro",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/ClearAggro.md",
+      "contract_page_sha256": "716d5bfb2eee490d8d66c5227f4192e041d2d67115842113b98bcc31c162e9f4",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected AI threat services exist, but actor Lua dispatch/general reciprocal threat callback missing in CharacterScriptObjects (:144-146); clearing only caller threat/target omits reciprocal stop/event side effects.",
+      "current_port_evidence": [
+        {
+          "line": 46,
+          "path": "port/level-world/character_clear_aggro.cpp",
+          "source_line": "if(!dh2_script_callback_scope_valid(scope)){if(error&&size)std::snprintf(error,size,\"Malformed ClearAggro callback capability\");return 1;}"
+        },
+        {
+          "line": 48,
+          "path": "port/level-world/character_clear_aggro.cpp",
+          "source_line": "if(status&&error&&size)std::snprintf(error,size,\"Native ClearAggro delivery failed (%d)\",status);return status?1:0;"
+        },
+        {
+          "line": 50,
+          "path": "port/level-world/character_clear_aggro.cpp",
+          "source_line": "extern \"C\" int dh2_character_clear_aggro_bind(dh2_script_vm* vm,ClearAggroBindings16* b){if(!aligned(b)||!aligned(b->state)||!aligned(b->services))return -1;return dh2_script_vm_bind_source_scoped(vm,\"ClearAggro\",dh2_character_clear_aggro_s"
+        },
+        {
+          "line": 45,
+          "path": "port/level-world/character_update_aggro_v108.cpp",
+          "source_line": "auto clear=[&]{if(!required(bool(s.clear)&&bool(s.set_target),\"Required source ClearAggro/SetTarget\")||!s.clear(current,e)||!s.set_target(0,e))return false;return dh2_character_ai_sync_last_target(&target)==0;};"
+        },
+        {
+          "line": 5,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(scope&&!dh2_script_callback_scope_valid(scope)){error_=\"Required valid current ClearAggro callback scope\";return -1;}"
+        },
+        {
+          "line": 7,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(!services_.actor||!services_.actor(services_.context,id,v,error_)){if(error_.empty())error_=\"Required SAME registered ClearAggro actor\";return false;}"
+        },
+        {
+          "line": 8,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(v.identity!=id||!v.lifetime||!v.target||!v.target->state||!v.target->state->owner||v.target->state->owner->identity!=id){error_=\"Required canonical Character/Target owner and lifetime for ClearAggro\";return false;}return true;"
+        },
+        {
+          "line": 15,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(dh2_aggro_apply(&change,&request,data::aggro_clear)){error_=\"Source ClearAggro reciprocal erase rejected\";return -1;}"
+        },
+        {
+          "line": 20,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(!a.target->state->owner||!b.target->state){error_=\"ClearAggro live target lifetime changed\";return -2;}"
+        },
+        {
+          "line": 24,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(dh2_character_ai_set_target(binding->state,0,0,&binding->services)){error_=\"Required source ClearAggro SetTarget(NULL)\";return -2;}"
+        },
+        {
+          "line": 28,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(fresh.target!=binding){error_=\"ClearAggro target binding lifetime changed\";return -2;}"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "1c82a10bcea96a97985e",
+      "native_name": "ClearAggro",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "f7ef6b6674f0591da916",
+          "expression": "GetHostPlayerDifficulty()",
+          "function_id": "eaca0171005d2d8dd390",
+          "line": 184,
+          "name": "GetHostPlayerDifficulty",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetHostPlayerDifficulty.md",
+      "contract_page_sha256": "3f94718c01394c05c6056d4bece91bf230fe1f83e587f0bbe513ecc7ff1c0232",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:22 registers this callback but :103-110 requires supplied native backend or returns explicit required-service failure. Selected gameplay reads elsewhere do not establish complete global Lua callback behavior.",
+      "current_port_evidence": [
+        {
+          "line": 73,
+          "path": "port/level-world/character_host_context.cpp",
+          "source_line": "result=dh2_script_vm_bind_source_values(vm,\"GetHostPlayerDifficulty\",difficulty,const_cast<HostContextBindings16*>(b));if(result)return result;"
+        },
+        {
+          "line": 21,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "eaca0171005d2d8dd390",
+      "native_name": "GetHostPlayerDifficulty",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "a779d5876eac3d3a5e6d",
+          "expression": "CallPyScript(\"ResumeLevelMusic\")",
+          "function_id": "4a0b3e51844e4a42922b",
+          "line": 237,
+          "name": "CallPyScript",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/CallPyScript.md",
+      "contract_page_sha256": "f56be4b7a1a6b1d65c2e800bcb8fef86a94aa98f3bd95fc136f1e70cc665d891",
+      "contract_state": "DONE",
+      "current_port_difference": "GenericLuaScriptOwnerV13 contains descriptor0x37ef3c but no built-in switch implementation; it asks resolve_native or installs explicit required-backend failure. Exact address/name search in level-world/windows-foundation/level-loader found no production callback backend. An arbitrary Include substitute would not preserve script-bank execution gates.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        },
+        {
+          "line": 111,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        },
+        {
+          "line": 115,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "MISSING",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "4a0b3e51844e4a42922b",
+      "native_name": "CallPyScript",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "bb1e35e4e0585bcaafe3",
+          "expression": "GetHostPlayerLevel()",
+          "function_id": "2da30fbc48804a5342ee",
+          "line": 183,
+          "name": "GetHostPlayerLevel",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetHostPlayerLevel.md",
+      "contract_page_sha256": "99d98218f1a2e2e18aeaeede42ae5a6fc65f43c495adbcf2dfee5b45404e7f9f",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:22 registers this callback but :103-110 requires supplied native backend or returns explicit required-service failure. Selected gameplay reads elsewhere do not establish complete global Lua callback behavior.",
+      "current_port_evidence": [
+        {
+          "line": 9,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.cpp",
+          "source_line": "error = \"monster_OnInit requires delivered GetHostPlayerLevel, difficulty, and current-level-range reads\";"
+        },
+        {
+          "line": 72,
+          "path": "port/level-world/character_host_context.cpp",
+          "source_line": "auto result=dh2_script_vm_bind_source_values(vm,\"GetHostPlayerLevel\",level,const_cast<HostContextBindings16*>(b));if(result)return result;"
+        },
+        {
+          "line": 21,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "2da30fbc48804a5342ee",
+      "native_name": "GetHostPlayerLevel",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "3e3a5bde278ad002ccde",
+          "expression": "GetCurrentLevelRange(pl_diff)",
+          "function_id": "d5ecb244a6f3308b38fd",
+          "line": 186,
+          "name": "GetCurrentLevelRange",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetCurrentLevelRange.md",
+      "contract_page_sha256": "cdc8149cc86d39b93bcb23c688a9900c1aa30e1bd99781d817a73103c173ec98",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:23 lists getter but requires native backend (:103-110). runtime_monster_level_policy_v1 consumes delivered range; does not establish generic Lua table selector result or max/min ordering.",
+      "current_port_evidence": [
+        {
+          "line": 74,
+          "path": "port/level-world/character_host_context.cpp",
+          "source_line": "return dh2_script_vm_bind_source_values(vm,\"GetCurrentLevelRange\",range,const_cast<HostContextBindings16*>(b));"
+        },
+        {
+          "line": 22,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"GetCurrentLevelRange\",0x37f1f0},{\"GetGameObjectsByType\",0x37f03c},{\"SetGameType\",0x37f878},{\"GetGameScript\",0x37c934},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "d5ecb244a6f3308b38fd",
+      "native_name": "GetCurrentLevelRange",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "178dc3f9e1f18d3ae0ae",
+          "expression": "PlayMusic(LEVEL_MUSIC, 1000)",
+          "function_id": "e29edbe1bf6a6986fbfc",
+          "line": 235,
+          "name": "PlayMusic",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "d98443b2c11f407e2102",
+          "expression": "PlayMusic(BOSS_MUSIC, 500)",
+          "function_id": "e29edbe1bf6a6986fbfc",
+          "line": 274,
+          "name": "PlayMusic",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PlayMusic.md",
+      "contract_page_sha256": "fc4ec0398a25266b50f69a67273d201d914b72ee739d9aea1fe4ba9e35500e4d",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:25 delegates backend; current audio helpers may switch music but complete source volume threshold, same-row resume, ambient/combat mode and current/previous track fields are not installed by descriptor alone.",
+      "current_port_evidence": [
+        {
+          "line": 42,
+          "path": "port/windows-foundation/features/audio/canonical_source_audio_adapter.cpp",
+          "source_line": "std::uint32_t flag{};if(!field(13,flag))return false;if(mode){if(!leaves_.play_music){error=\"Required SAME original PlayMusic owner\";return false;}return leaves_.play_music(id,flag!=0,argument!=0,2000,error);}if(id<0)return true;"
+        },
+        {
+          "line": 214,
+          "path": "port/windows-foundation/features/audio/frontend_menu_audio_v1.cpp",
+          "source_line": "receipt.detail=\"Source PlayMusic did not reach a focused frontend output\";"
+        },
+        {
+          "line": 364,
+          "path": "port/windows-foundation/features/audio/runtime_session_audio_v1.cpp",
+          "source_line": "if(missing_original_asset_v1(error)) {log_<<\"Script PlayMusic silent: \"<<error<<'\\n';error.clear();return true;}"
+        },
+        {
+          "line": 34,
+          "path": "port/windows-foundation/features/audio/source_audio_runtime.cpp",
+          "source_line": "if(c.kind==13){std::uint32_t flag{};if(!field(13,flag))return false;if(mode){if(!services_.play_music){error=\"Required original PlayMusic source owner\";return false;}return services_.play_music(id,flag!=0,arg!=0,2000,error);}"
+        },
+        {
+          "line": 284,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!music_call(body.at(vf.at(\"OnEnemySpotted\")), \"PlayMusic\", next.spotted_music, next.spotted_music_fade_ms))"
+        },
+        {
+          "line": 12,
+          "path": "port/windows-foundation/features/cinematics/script_source_services_v1.cpp",
+          "source_line": "if(!s.play_music)return missing(\"PlayMusic\",e);"
+        },
+        {
+          "line": 186,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "if (string_call_argument(spotted, \"PlayMusic\", next.spotted_music, &fade)) next.spotted_music_fade_ms = fade;"
+        },
+        {
+          "line": 229,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "if (string_call_argument(died, \"PlayMusic\", next.died_music, &fade)) next.died_music_fade_ms = fade;"
+        },
+        {
+          "line": 23,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "e29edbe1bf6a6986fbfc",
+      "native_name": "PlayMusic",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "a91f0f845d8e6e0a3bf5",
+          "expression": "Attack(GetTarget())",
+          "function_id": "f23ff626801d3ea6345b",
+          "line": 326,
+          "name": "Attack",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "b3e24bcabc08910f3a02",
+          "expression": "Attack(GetTarget())",
+          "function_id": "f23ff626801d3ea6345b",
+          "line": 340,
+          "name": "Attack",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "685c480e705a5f86cc6e",
+          "expression": "Attack(GetTarget())",
+          "function_id": "f23ff626801d3ea6345b",
+          "line": 356,
+          "name": "Attack",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/Attack.md",
+      "contract_page_sha256": "12b5971b8ebbe353d59ac83f2c30cbb303b6d2f5f966814107c5155b3d07f6fe",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected monster/player combat requests use source services; general0x3b9f44 callback absent in CharacterScriptObjects (:144-146). Controller gates and online probe restoration/message branch not proven by a normal hit event.",
+      "current_port_evidence": [
+        {
+          "line": 162,
+          "path": "port/windows-foundation/actor_combat_runtime.cpp",
+          "source_line": "error = \"Attack damage binding has no authored clip marker: \" + marker.marker_name; return false;"
+        },
+        {
+          "line": 127,
+          "path": "port/windows-foundation/actor_movement.cpp",
+          "source_line": "state_.action=ActorAction::Attack;state_.animationName=config_.attackAnimation;return false;"
+        },
+        {
+          "line": 173,
+          "path": "port/windows-foundation/actor_movement.cpp",
+          "source_line": "state_.action=ActorAction::Attack;state_.animationName=config_.attackAnimation;motionScale_=1;"
+        },
+        {
+          "line": 22,
+          "path": "port/windows-foundation/actor_movement.hpp",
+          "source_line": "enum class ActorAction { Idle, Walk, Run, Attack };"
+        },
+        {
+          "line": 253,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "if(selection->state==\"Attack\")event.source_attack_moving=true;"
+        },
+        {
+          "line": 885,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "selection.state=live_original_state(id)==4?\"Attack\":\"AttackStatic\";"
+        },
+        {
+          "line": 928,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "if(transitionDelivering||restoreTeardown||checkingAnimationCheckpoint){error=\"Attack command cannot reenter actor transition/checkpoint/teardown\";return false;}"
+        },
+        {
+          "line": 980,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "if(found==entries.end()){error=\"Attack command requires a bound live session actor\";return false;}"
+        },
+        {
+          "line": 1331,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "if((sequence.state!=\"Attack\"&&sequence.state!=\"AttackStatic\")||"
+        },
+        {
+          "line": 1333,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "throw std::runtime_error(\"Source attack bank may replace only explicit Attack/AttackStatic roots\");"
+        },
+        {
+          "line": 1367,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "!policy.sourceAttackBank->sequence(\"Attack\",0)||!policy.sourceAttackBank->sequence(\"AttackStatic\",0)))"
+        },
+        {
+          "line": 1795,
+          "path": "port/windows-foundation/combat_session.cpp",
+          "source_line": "error=\"Attack command requires a bound live session actor\";return false;"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "f23ff626801d3ea6345b",
+      "native_name": "Attack",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "584aeed082f2d96e0f80",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\"), nil, true)",
+          "function_id": "71364299af08fdc47245",
+          "line": 73,
+          "name": "PlayAnim",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "4803f940d7dd25d4a8b5",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\"), nil, true)",
+          "function_id": "71364299af08fdc47245",
+          "line": 76,
+          "name": "PlayAnim",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "dbb69502a97b7c11dda7",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\"), nil, true)",
+          "function_id": "71364299af08fdc47245",
+          "line": 81,
+          "name": "PlayAnim",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "1dd92a15d1427c6e657b",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\"), nil, true)",
+          "function_id": "71364299af08fdc47245",
+          "line": 97,
+          "name": "PlayAnim",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "6417d78a69cbdcc8b193",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\"), nil, true)",
+          "function_id": "71364299af08fdc47245",
+          "line": 111,
+          "name": "PlayAnim",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PlayAnim.md",
+      "contract_page_sha256": "f25855691b4a82db1779c6dc3374a68f39e6514264dd21b1035827edbf672a3a",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected actor animation player uses recovered animator, but general scene0x3ba388 callback missing (:144-146). Preserve global slot cycling, optional second clip and forced anim state; one asset play API lacks these semantics.",
+      "current_port_evidence": [
+        {
+          "line": 249,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!std::regex_search(b, m, std::regex(\"PlayAnim\\\\(\\\\s*GetPyOID\\\\(\\\\s*\\\"AnimDict\\\"\\\\s*,\\\\s*\\\"(\\\\w+)\\\"\\\\s*\\\\)\"))) return false;"
+        },
+        {
+          "line": 260,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!anim_of(intimidate, next.intimidate_anim) || !std::regex_search(intimidate, std::regex(\"PlayAnim\\\\([^\\\\n]*nil\\\\s*,\\\\s*true\\\\s*\\\\)\")))"
+        },
+        {
+          "line": 446,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "reason = \"PlayAnim AnimDict entries absent\"; return true;"
+        },
+        {
+          "line": 650,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!services_.play_clip) return fail(error, \"Boss PlayAnim requires the scripted clip owner\");"
+        },
+        {
+          "line": 656,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"PlayAnim not played actor=\" + std::to_string(id) + \" clip=\" + std::to_string(dict) + \": \" + problem);"
+        },
+        {
+          "line": 663,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(std::string(\"PlayAnim actor=\") + std::to_string(id) + \" \" + (dive ? def.ai.dive_anim : def.ai.intimidate_anim) +"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "71364299af08fdc47245",
+      "native_name": "PlayAnim",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "1c3729d62e13cd0e7696",
+          "expression": "target:IsPlayer()",
+          "function_id": "263746b879ca8d68419c",
+          "line": 149,
+          "name": "target:IsPlayer",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/target_IsPlayer.md",
+      "contract_page_sha256": "df52e41f68d44f9d9a3d94eae468e18b7ab028b788ab1cc1af809df73841e408",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_objects.cpp:96 accepts strstr!=nullptr for type0, so XPlayerCharacter incorrectly returns true; original requires prefix pointer equality.",
+      "current_port_evidence": [
+        {
+          "line": 6405,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "const auto* traits=combatSession->world()->traits(id);if(!traits){e=\"Dead Focus requires current IsPlayer\";return false;}"
+        },
+        {
+          "line": 22,
+          "path": "port/windows-foundation/playable_actor_bodies.cpp",
+          "source_line": "if(tracing) {bool ignored=false;if(!services.is_player) {error=\"Required original tracing IsPlayer query\";return false;}if(!services.is_player(owner,ignored,error))return false;}"
+        },
+        {
+          "line": 13,
+          "path": "port/windows-foundation/features/cinematics/source_camera_critical.cpp",
+          "source_line": "bool player=false;if(!providers_.isPlayer||!providers_.isPlayer(character,player,e))return missing(\"actual Character.IsPlayer\",e);"
+        },
+        {
+          "line": 114,
+          "path": "port/windows-foundation/features/cinematics/source_cinematics.cpp",
+          "source_line": "auto player=[&](std::uintptr_t actor,bool& out){return providers_.isPlayer?providers_.isPlayer(actor,out,e):missing(\"SAME Character.IsPlayer\",e);};"
+        },
+        {
+          "line": 74,
+          "path": "port/windows-foundation/features/physics/runtime_session_contact_v1.cpp",
+          "source_line": "throw ContactServiceFailure(\"Source owner IsPlayer request changed Character identity\");"
+        },
+        {
+          "line": 273,
+          "path": "port/windows-foundation/features/physics/runtime_session_contact_v1.cpp",
+          "source_line": "if (!traits) { error = \"Tracing collision IsPlayer owner left Session\"; return false; }"
+        },
+        {
+          "line": 297,
+          "path": "port/windows-foundation/features/physics/session_actor_transition_v1.cpp",
+          "source_line": "return fail(error,\"Reached Dead Focus after flags241 requires actual source IsPlayer getter\");"
+        },
+        {
+          "line": 6,
+          "path": "port/level-world/application_spawn_random_owner_v4.cpp",
+          "source_line": "if(!cached||!prob||!s.handle_as_player){e=\"Required actual Handle-AsChar-IsPlayer\";return false;}"
+        },
+        {
+          "line": 262,
+          "path": "port/level-world/canonical_character_candidate_v60.cpp",
+          "source_line": "b.handle_as_player_character=[weak](bool& value,std::string& e){auto same=weak.lock();if(!same){e=\"Expired canonical Handle-AsChar-IsPlayer receiver\";return false;}return same->is_player(value,e);};"
+        },
+        {
+          "line": 27,
+          "path": "port/level-world/character_language_scene_connection_v1.cpp",
+          "source_line": "if(skills::dh2_character_skill_target_query_v6(&value,target_providers::is_player,actor.character,nullptr,self.services_.ai_types,self.services_.target_services)){self.error_=\"Source IsPlayer delivery failed\";return -1;}"
+        },
+        {
+          "line": 10,
+          "path": "port/level-world/character_live_body_projection_v6.cpp",
+          "source_line": "if(candidate.character_type==0||candidate.character_type==1){error=\"Required source player/archetype IsPlayer branch\";return false;}"
+        },
+        {
+          "line": 19,
+          "path": "port/level-world/character_loot_actor_binding_v31.cpp",
+          "source_line": "if(!s.invoke||s.invoke(s.context,&q,&result)){e=world_.targets().error();if(e.empty())e=\"Required source IsPlayer virtual for loot\";return false;}out=result!=0;return true;"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "263746b879ca8d68419c",
+      "native_name": "target:IsPlayer",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "cbace0e412c53d1e79e4",
+          "expression": "AddToVFTable(\"OnInitFinal\", \"myBoss_OnInit\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 229,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "668a252b016ea44b3e04",
+          "expression": "AddToVFTable(\"OnDied\", \"myBoss_OnDied\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 260,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "f904adee86d790c10a99",
+          "expression": "AddToVFTable(\"OnTerminate\", \"myBoss_OnTerminate\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 266,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "671eeb1a7a71d590b1f7",
+          "expression": "AddToVFTable(\"OnEnemySpotted\", \"myBoss_OnEnemySpotted\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 284,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "b356ce1a5650c761231c",
+          "expression": "AddToVFTable(\"OnTargetOutOfSight\", \"myBoss_OnTargetOutOfSight\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 294,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "950c07adf799d06d5e69",
+          "expression": "AddToVFTable(\"OnTargetInSight\", \"myBoss_OnTargetInSight\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 301,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "c5b7a0e41b8bb885b2b7",
+          "expression": "AddToVFTable(\"OnTargetOutOfRange\", \"myBoss_OnTargetOutOfRange\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 314,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "e883f4d29f1953a8d315",
+          "expression": "AddToVFTable(\"OnTargetInRangedRange\", \"myBoss_OnTargetInRangedRange\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 331,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "2872351d52d8f0d73b8c",
+          "expression": "AddToVFTable(\"OnTargetInCloseRange\", \"myBoss_OnTargetInCloseRange\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 343,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "49e23ed26eb452203780",
+          "expression": "AddToVFTable(\"OnTargetInMeleeRange\", \"myBoss_OnTargetInMeleeRange\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 359,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "8de88c57f97cc450ba06",
+          "expression": "AddToVFTable(\"OnEndOfAnim\", \"myBoss_OnEndOfAnim\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 382,
+          "name": "AddToVFTable",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/AddToVFTable.md",
+      "contract_page_sha256": "6e31755ce177d75f23a50ae63617e14ee090dcc5eee4548c0789c54b33665222",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:75-77 and :90 bind script_function_alias maps; callback/source path proven, no runtime test. Alias map is hashed rather than Lua table assignment.",
+      "current_port_evidence": [
+        {
+          "line": 17,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "text": "{\"AddToVFTable\",0x37ec70},{\"PushVFTable\",0x37be00},{\"PopVFTable\",0x37dc44},"
+        },
+        {
+          "line": 127,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "auto result=op==0?dh2_script_alias_add_values(b.aliases,a,n):op==1?dh2_script_alias_push(b.aliases):dh2_script_alias_pop(b.aliases);"
+        },
+        {
+          "line": 130,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "static int alias_add(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return aliases(p,a,n,o,c,r,e,z,0);}"
+        },
+        {
+          "line": 131,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "static int alias_push(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return aliases(p,a,n,o,c,r,e,z,1);}"
+        },
+        {
+          "line": 132,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "static int alias_pop(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return aliases(p,a,n,o,c,r,e,z,2);}"
+        },
+        {
+          "line": 252,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x37ec70){function=&alias_add;context=&c;}"
+        },
+        {
+          "line": 253,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x37be00){function=&alias_push;context=&c;}"
+        },
+        {
+          "line": 254,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x37dc44){function=&alias_pop;context=&c;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "4521866fef28ea0d7264",
+      "native_name": "AddToVFTable",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "154a40488660e64dfdd6",
+          "expression": "ClearTarget()",
+          "function_id": "68c100374e94b349cc86",
+          "line": 133,
+          "name": "ClearTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "47ff59591e8c00b9d72b",
+          "expression": "ClearTarget()",
+          "function_id": "68c100374e94b349cc86",
+          "line": 291,
+          "name": "ClearTarget",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/ClearTarget.md",
+      "contract_page_sha256": "04f2dedb1ddf9935ede95587d8d9b37ab36603fcb62e3b95e73cdcc5b77c5cc9",
+      "contract_state": "DONE",
+      "current_port_difference": "character_target_bindings.cpp:58-60 implements null set then sync last-target; generic source-scoped binding at :86. Callback source parity, no runtime claim.",
+      "current_port_evidence": [
+        {
+          "line": 242,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(target&&(b.original_callback==0x3b8f38||b.original_callback==0x3b5690)){"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "68c100374e94b349cc86",
+      "native_name": "ClearTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "c03f9dbc35226b7e8a59",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMax\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 180,
+          "name": "FromFixed",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "fa20ddbb39595991ce7a",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMin\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 181,
+          "name": "FromFixed",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "7a603b87c5e0f39ab5d2",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelOffset\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 182,
+          "name": "FromFixed",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "f7769a2bd8c3ca08d653",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 18,
+          "name": "FromFixed",
+          "script": "roottroll_settings.luac"
+        },
+        {
+          "call_id": "6f5836b0ef320a068795",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 19,
+          "name": "FromFixed",
+          "script": "roottroll_settings.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/FromFixed.md",
+      "contract_page_sha256": "44b9478776d7a1d346b9bd41df566cc01846148527934a105b412ea62e1ca4f5",
+      "contract_state": "DONE",
+      "current_port_difference": "Scalar callback preserves ordered double reads and exact 0x1p-8 scale. Numeric identity/string conversion remains an explicit service; no gameplay verification.",
+      "current_port_evidence": [
+        {
+          "line": 74,
+          "source": "port/script-runtime/script_scalar_bindings.c"
+        },
+        {
+          "line": 77,
+          "source": "port/script-runtime/script_scalar_bindings.c"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "715ca7811b1f5a9a35b8",
+      "native_name": "FromFixed",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "88022c371e7c31a16119",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMax\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 180,
+          "name": "GetProp",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "82952bce62d15f6b3723",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMin\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 181,
+          "name": "GetProp",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "379f26195ad30124956c",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"LevelOffset\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 182,
+          "name": "GetProp",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "1b787b418cd3762f9e01",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 18,
+          "name": "GetProp",
+          "script": "roottroll_settings.luac"
+        },
+        {
+          "call_id": "4fcb1b74ab0713f3b1d7",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 19,
+          "name": "GetProp",
+          "script": "roottroll_settings.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetProp.md",
+      "contract_page_sha256": "5d2b9dba6c5c6893af665a32f7391229a7685b53b7c5a25ed699cb8e7c5751e1",
+      "contract_state": "DONE",
+      "current_port_difference": "Reusable callback preserves current/temp/external selection and unsigned conversion in ordinary valid sheet domain. Port validates service identity/alignment instead of dereferencing arbitrary original 32-bit pointers.",
+      "current_port_evidence": [
+        {
+          "line": 29,
+          "source": "port/level-world/character_property_bindings.cpp"
+        },
+        {
+          "line": 49,
+          "source": "port/level-world/character_property_bindings.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "7a0452b73f82e8a4b85b",
+      "native_name": "GetProp",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "4e76d9b3f2b7c4e4b3e7",
+          "expression": "GetState()",
+          "function_id": "717c3c6dd572a853c2a1",
+          "line": 67,
+          "name": "GetState",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "8f2f209070539154cfc4",
+          "expression": "GetState()",
+          "function_id": "717c3c6dd572a853c2a1",
+          "line": 91,
+          "name": "GetState",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "b29fa6eab02e08bd6a24",
+          "expression": "GetState()",
+          "function_id": "717c3c6dd572a853c2a1",
+          "line": 271,
+          "name": "GetState",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetState.md",
+      "contract_page_sha256": "3cb8db77e21b8fff029d50db7fa9488d6fbd29b7cc1182dbf4e1337a14e06895",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_session_v3.cpp:249 binds FSM getter; source state-machine adapter preserves -1/current ID. Callback path proven, no integrated runtime verification.",
+      "current_port_evidence": [
+        {
+          "line": 249,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(state_machine&&b.original_callback==0x3b6d78){function=&dh2_character_native_fsm_script_get_state;context=state_machine;}"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "717c3c6dd572a853c2a1",
+      "native_name": "GetState",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "1357563a5ff95c707d5e",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 132,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "28dd23cdff5484eb50d5",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 290,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "65c00f7a0380fba2fcc8",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 308,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "1ab720ad52aac1d27bb7",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 311,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "35b2d10a2e23faf5120c",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 326,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "6617bf10ce3d934da180",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 328,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "3b66aa707ade15c0a52a",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 340,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "3a23339dfc5824f7e053",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 356,
+          "name": "GetTarget",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetTarget.md",
+      "contract_page_sha256": "b296a6001e7029b28c0ca73468f7a47855bd87dbbf461442edf4afee12239631",
+      "contract_state": "DONE",
+      "current_port_difference": "gameobject_lua_representation.cpp:24-29 and character_script_objects.cpp:76 expose same retained target identity as source object. Callback path/source parity proven for supported receivers, no runtime claim.",
+      "current_port_evidence": [
+        {
+          "line": 237,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(target&&b.original_callback==0x3b6c7c&&objects){"
+        },
+        {
+          "line": 159,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "auto& t=*static_cast<Impl*>(opaque);if(!returned||!out||!capacity||!t.target)return fail(error,size,\"Malformed GetTarget output\");*returned=0;"
+        },
+        {
+          "line": 160,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "return dh2::gameobject_lua::dh2_gameobject_lua_get_target(out,returned,t.target->state)?fail(error,size,\"Native GetTarget delivery failed\"):0;"
+        },
+        {
+          "line": 239,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(dh2_script_vm_bind_source_objects(c.vm,b.name,&get_target,this))throw std::runtime_error(\"Source GetTarget registration failed\");"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "fda316ef3b1ac08ab1d4",
+      "native_name": "GetTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "cff516c36096672f3df9",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 131,
+          "name": "HasTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "5705e71d642e0ec7e433",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 280,
+          "name": "HasTarget",
+          "script": "roottroll_core.luac"
+        },
+        {
+          "call_id": "9ec59ebbe7ef292f0426",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 307,
+          "name": "HasTarget",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/HasTarget.md",
+      "contract_page_sha256": "5bf7ebd931137a69d04eab118d725029147b156d1ba7ef947eb8c83090e22bd5",
+      "contract_state": "DONE",
+      "current_port_difference": "character_target_bindings.cpp:59 and :67-75 implement pointer nonnull with Lua Boolean and bind at :84. Same target owner callback proven; no runtime verification.",
+      "current_port_evidence": [
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 60,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "extern \"C\" int dh2_character_target_has_lua(void* p,const dh2_script_value* a,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* e,std::size_t ec){"
+        },
+        {
+          "line": 64,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "if((count&&!a)||!bindings_valid(b)||!aligned(out)||!capacity)return fail(e,ec,\"Malformed HasTarget receiver/output\");"
+        },
+        {
+          "line": 65,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "std::uint32_t result=0;if(dh2_character_has_target(&result,b->state))return fail(e,ec,\"Malformed HasTarget state\");"
+        },
+        {
+          "line": 76,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "int r=dh2_script_vm_bind_source_values(vm,\"HasTarget\",dh2_character_target_has_lua,b);if(r)return r;"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "2b1d9cd51f7040057199",
+      "native_name": "HasTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "88cad652e0cf4b0228ca",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"root_troll_intimidate_02\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 167,
+          "name": "RegisterAnim",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/RegisterAnim.md",
+      "contract_page_sha256": "52543727e80b00ed6a2401b766e6bb2d90b7b343546d9420cb2ccdd8e041891d",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_session.cpp:212-226 implements numeric wrapper and supplied same-Character animator register_dictionary; binding at:308-312 covers RegisterAnim/RegisterActorAnim. Source callback path is present for safe signed numeric IDs; resource availability and actual runtime playback are separate.",
+      "current_port_evidence": [
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "68aadc7660a8bf8b62c1",
+      "native_name": "RegisterAnim",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "91cb4c677d2a3a8baf01",
+          "expression": "SetLevel(ToFixed(m_lvl))",
+          "function_id": "99c0c85b2ea2d6107dc6",
+          "line": 208,
+          "name": "SetLevel",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetLevel.md",
+      "contract_page_sha256": "8e52eea08650f84d32bf180f2ed490e87ddc62eccc2da055bba8d6b73c1bc643",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_session_v3.cpp:266 installs source SetLevel property/vitals callback for retained receiver. Selected source callback parity supported; class stats/assets and runtime invocation remain separate.",
+      "current_port_evidence": [
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "99c0c85b2ea2d6107dc6",
+      "native_name": "SetLevel",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "9c000c7363b6e91a6ea7",
+          "expression": "SetTarget(target)",
+          "function_id": "ebda0f41776f41d7eb90",
+          "line": 154,
+          "name": "SetTarget",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTarget.md",
+      "contract_page_sha256": "78957e8bb872f18bba6a9a63f6314bf19cf763c2a553c40feec1246072788544",
+      "contract_state": "DONE",
+      "current_port_difference": "character_target_bindings.cpp:29-58 and :77-85 reproduce candidate/publication/cache ordering and type gate with source services; source callback path proven, no runtime verification.",
+      "current_port_evidence": [
+        {
+          "line": 242,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(target&&(b.original_callback==0x3b8f38||b.original_callback==0x3b5690)){"
+        },
+        {
+          "line": 243,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(dh2_script_vm_bind_source_scoped(c.vm,b.name,b.original_callback==0x3b8f38?&set_target:&clear_target,this))throw std::runtime_error(\"Scoped target registration failed\");"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "ebda0f41776f41d7eb90",
+      "native_name": "SetTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "e7c496aa198318829c1c",
+          "expression": "ToFixed(m_lvl)",
+          "function_id": "1531141809c2023e4115",
+          "line": 208,
+          "name": "ToFixed",
+          "script": "roottroll_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/ToFixed.md",
+      "contract_page_sha256": "425b52792b03562b8f41365beb9f3408b445fe257176c4e5eebbad624abc0594",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable scalar callback implements signed conversion and wrapping shift, with identity/string services for nonnumeric values. No runtime equivalence is claimed here.",
+      "current_port_evidence": [
+        {
+          "line": 79,
+          "source": "port/script-runtime/script_scalar_bindings.c"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "1531141809c2023e4115",
+      "native_name": "ToFixed",
+      "scope_ledger_state": "TODO"
+    }
+  ],
+  "package_B_resource_crossrefs": [
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_name",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/character-f0db3f.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 140,
+            "name": "El_Earth",
+            "schema_evidence": "native GetCharPropertiesId 0x3b3d38; canonical_property_declarations_v1.inc:68 charpropsname offset 0x13b0; canonical_character_family_v4.cpp:40-47 cached id / char_template precedence / exact CharacterTable lookup; actor_population.cpp:144-170 explicit profile bind",
+            "source_row": {
+              "fields": {
+                "AI": 54,
+                "AIFaction": 7,
+                "Achievement_Block_Count": 0,
+                "Achievement_Break_Count": 0,
+                "Achievement_Chests_Count": 0,
+                "Achievement_Evade_Count": 0,
+                "Achievement_KnockedDown_Count": 0,
+                "Achievement_PickUp_Count": 0,
+                "Achievement_Potions_Count": 0,
+                "Achievement_Sell_Count": 0,
+                "Achievement_SkillUse_Count": 0,
+                "Achievement_Spent_Count": 0,
+                "Achievement_Transmute_Count": 0,
+                "AnimTable": 58,
+                "ClassDescString": 1835084,
+                "ClassID": 121,
+                "ClassString": 1835084,
+                "Collision_Scale": 85,
+                "CombatRegen_HP": -1,
+                "CombatRegen_MP": -1,
+                "Damage_Air_Max_Main_Hand": 0,
+                "Damage_Air_Max_Off_Hand": 0,
+                "Damage_Air_Min_Main_Hand": 0,
+                "Damage_Air_Min_Off_Hand": 0,
+                "Damage_Block_Mitigation": 0,
+                "Damage_Bonus_Axe": 0,
+                "Damage_Bonus_Combo": 0,
+                "Damage_Bonus_Dagger": 0,
+                "Damage_Bonus_Dual": 0,
+                "Damage_Bonus_Mace": 0,
+                "Damage_Bonus_Range": 0,
+                "Damage_Bonus_Sneaking": 0,
+                "Damage_Bonus_Staff": 0,
+                "Damage_Bonus_Stunned": 0,
+                "Damage_Bonus_Sword": 0,
+                "Damage_Bonus_TwoHand": 0,
+                "Damage_Bonus_Wand": 0,
+                "Damage_Crit_Intensification": 0,
+                "Damage_Earth_Max_Main_Hand": 0,
+                "Damage_Earth_Max_Off_Hand": 0,
+                "Damage_Earth_Min_Main_Hand": 0,
+                "Damage_Earth_Min_Off_Hand": 0,
+                "Damage_Elemental_Max_Main_Hand": 0,
+                "Damage_Elemental_Max_Off_Hand": 0,
+                "Damage_Elemental_Min_Main_Hand": 0,
+                "Damage_Elemental_Min_Off_Hand": 0,
+                "Damage_Elemental_Type_Main_Hand": 768,
+                "Damage_Elemental_Type_Off_Hand": -256,
+                "Damage_Fire_Max_Main_Hand": 0,
+                "Damage_Fire_Max_Off_Hand": 0,
+                "Damage_Fire_Min_Main_Hand": 0,
+                "Damage_Fire_Min_Off_Hand": 0,
+                "Damage_Lightning_Max_Main_Hand": 0,
+                "Damage_Lightning_Max_Off_Hand": 0,
+                "Damage_Lightning_Min_Main_Hand": 0,
+                "Damage_Lightning_Min_Off_Hand": 0,
+                "Damage_Max_Main_Hand": 0,
+                "Damage_Max_Off_Hand": 0,
+                "Damage_Min_Main_Hand": 0,
+                "Damage_Min_Off_Hand": 0,
+                "Damage_Water_Max_Main_Hand": 0,
+                "Damage_Water_Max_Off_Hand": 0,
+                "Damage_Water_Min_Main_Hand": 0,
+                "Damage_Water_Min_Off_Hand": 0,
+                "DeathCount": 0,
+                "Dialogs": -1,
+                "Diminishing_Return": 0,
+                "Dot_Duration": 0,
+                "Dot_Max_Damage": 0,
+                "Dot_Min_Damage": 0,
+                "Dot_Tick_Damage_Air": 0,
+                "Dot_Tick_Damage_Earth": 0,
+                "Dot_Tick_Damage_Fire": 0,
+                "Dot_Tick_Damage_Lightning": 0,
+                "Dot_Tick_Damage_Normal": 0,
+                "Dot_Tick_Damage_Water": 0,
+                "Effects": 1,
+                "FX_Scale": -1,
+                "FaeryList": -1,
+                "Fear_Duration": 0,
+                "Fear_Resist_Chance": 0,
+                "Fear_Target_Chance": 0,
+                "HP": -1,
+                "HP_Bonus": -1,
+                "Hurt_Resist_Chance": 0,
+                "Hurt_Target_Chance": 0,
+                "KillCount": 0,
+                "Leech_HP": 0,
+                "Leech_MP": 0,
+                "Level": 256,
+                "LevelMax": 256,
+                "LevelMin": 256,
+                "LevelOffset": 256,
+                "Loot": 97,
+                "MP": -1,
+                "MPLevelKillCount": 0,
+                "MP_Bonus": -1,
+                "Magical_Armor": 0,
+                "Max_HP": -1,
+                "Max_MP": -1,
+                "Max_XP": -1,
+                "Melee_Scale": 100,
+                "Menu_Average_Melee_To_Hit": 0,
+                "Menu_Average_Spell_To_Hit": 0,
+                "Menu_Melee_Damage_Reduction": 0,
+                "ModelFile": 80,
+                "ModularVisual": -1,
+                "Name": 1507497,
+                "Opacity_Modifier": 0,
+                "Physical_Armor": 0,
+                "Physical_Armor_Bonus_Shield": 0,
+                "Potion_HP_Modifier": 0,
+                "Potion_MP_Modifier": 0,
+                "Prereq_Dexterity": 0,
+                "Prereq_Endurance": 0,
+                "Prereq_Energy": 0,
+                "Prereq_Strength": 0,
+                "Push_Resist_Chance": 0,
+                "Push_Target_Chance": 0,
+                "RangeMaxDistance": 614400,
+                "RangeMinDistance": 153600,
+                "RangeProjectileID": 14,
+                "Rating_Attack": 0,
+                "Rating_Attack_Bonus_Axe": 0,
+                "Rating_Attack_Bonus_Dagger": 0,
+                "Rating_Attack_Bonus_Dual": 0,
+                "Rating_Attack_Bonus_Mace": 0,
+                "Rating_Attack_Bonus_Range": 0,
+                "Rating_Attack_Bonus_Staff": 0,
+                "Rating_Attack_Bonus_Sword": 0,
+                "Rating_Attack_Bonus_Wand": 0,
+                "Rating_Block": 0,
+                "Rating_Block_Bonus_Shield": 0,
+                "Rating_Critical": 0,
+                "Rating_Critical_Bonus_Axe": 0,
+                "Rating_Critical_Bonus_Dagger": 0,
+                "Rating_Critical_Bonus_Mace": 0,
+                "Rating_Critical_Bonus_Range": 0,
+                "Rating_Critical_Bonus_Staff": 0,
+                "Rating_Critical_Bonus_Sword": 0,
+                "Rating_Critical_Bonus_Wand": 0,
+                "Rating_Defense": 0,
+                "Rating_Dodge": 0,
+                "Regen_HP": -1,
+                "Regen_MP": -1,
+                "Resistance_Air": 0,
+                "Resistance_Earth": 0,
+                "Resistance_Fire": 0,
+                "Resistance_Lightning": 0,
+                "Resistance_Water": 0,
+                "RespawnTime": 0,
+                "Scale_X": 100,
+                "Scale_Y": 100,
+                "Scale_Z": 100,
+                "SkillTree": 30,
+                "Skill_Points": 0,
+                "Slow_Duration": 0,
+                "Slow_Resist_Chance": 0,
+                "Slow_Target_Chance": 0,
+                "SnS_Cooldown": 0,
+                "SnS_Dot_Duration": 0,
+                "SnS_Dot_Elemental_Type": -256,
+                "SnS_Dot_Max_Damage": 0,
+                "SnS_Dot_Min_Damage": 0,
+                "SnS_Duration": 0,
+                "SnS_Fear_Duration": 0,
+                "SnS_Fear_Target_Chance": 0,
+                "SnS_Hurt_Target_Chance": 0,
+                "SnS_Level": 0,
+                "SnS_ManaCost": 0,
+                "SnS_MaxDamage": 0,
+                "SnS_MinDamage": 0,
+                "SnS_Push_Target_Chance": 0,
+                "SnS_Slow_Duration": 0,
+                "SnS_Slow_Target_Chance": 0,
+                "SnS_Stun_Duration": 0,
+                "SnS_Stun_Target_Chance": 0,
+                "Sounds": 2,
+                "Special_Bonus_To_XP": 0,
+                "Special_Equip_2H_In_One": 0,
+                "Special_Equip_Main_In_Offhand": 0,
+                "Special_Loot_Gold_Multiplier": 0,
+                "Special_Loot_Magical_Chance": 0,
+                "Special_Loot_Max_Potions": 0,
+                "Special_Merchant_Price": 0,
+                "Special_Sneak": 0,
+                "Special_Sneak_Detection": 0,
+                "Special_Transmute_Efficiency": 0,
+                "Speed_Modifier_Attack": 0,
+                "Speed_Modifier_Rotation": 0,
+                "Speed_Modifier_Walk": 0,
+                "Spell_Damage_Bonus_Air": 0,
+                "Spell_Damage_Bonus_Earth": 0,
+                "Spell_Damage_Bonus_Fire": 0,
+                "Spell_Damage_Bonus_Lightning": 0,
+                "Spell_Damage_Bonus_Water": 0,
+                "Spell_Damage_Crit_Intensification": 0,
+                "Spell_Rating_Attack": 0,
+                "Spell_Rating_Attack_Bonus_Air": 0,
+                "Spell_Rating_Attack_Bonus_Earth": 0,
+                "Spell_Rating_Attack_Bonus_Fire": 0,
+                "Spell_Rating_Attack_Bonus_Lightning": 0,
+                "Spell_Rating_Attack_Bonus_Water": 0,
+                "Spell_Rating_Critical": 0,
+                "Spell_Rating_Dodge": 0,
+                "StatAutoAssignScheme": -1,
+                "Stat_Dexterity": 0,
+                "Stat_Endurance": 0,
+                "Stat_Energy": 0,
+                "Stat_Points": 0,
+                "Stat_Strength": 0,
+                "Stun_Duration": 0,
+                "Stun_Resist_Chance": 0,
+                "Stun_Target_Chance": 0,
+                "TempProp1": 0,
+                "TempProp2": 0,
+                "Threat_PerDamage": 0,
+                "Threat_PerDamageToFriendly": 0,
+                "Threat_PerHeal": 0,
+                "Value_XP": -1,
+                "Visual_AlphaFadeInSpawn": 3000,
+                "Visual_AlphaFadeOutDespawn": 3000,
+                "Visual_BlinkWhenHit": 1,
+                "XP": 0
+              },
+              "index": 140,
+              "name": "El_Earth",
+              "table": "character_properties#group0"
+            },
+            "table": "character_properties#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "gametype=\"Character\" charpropsname exact-name lookup in CharacterTable, subject to char_template precedence."
+      },
+      "kind": "character",
+      "name": "El_Earth",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "632acdda43c51e6c5827",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 80,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/root_troll/root_troll.bdae"
+              },
+              "index": 80,
+              "name": "root_troll",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "80",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "d4e3efab5565226df43b",
+      "selection_files": [],
+      "source_candidates": []
+    }
+  ],
+  "package_B_resource_dependencies": {
+    "animation": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [],
+      "source_names": [
+        "cs_swampking_outro_priest_scene05_talk",
+        "cs_swampking_outro_priest_scene06_talk",
+        "cs_swampking_outro_priest_scene07",
+        "cs_swampking_outro_priest_scene07_idle",
+        "cs_swampking_outro_prince_scene02",
+        "cs_swampking_outro_prince_scene02_idle",
+        "cs_swampking_outro_prince_scene02_talk",
+        "cs_swampking_outro_prince_scene03",
+        "cs_swampking_outro_prince_scene03_talk",
+        "cs_swampking_outro_prince_scene05",
+        "cs_swampking_outro_prince_scene05_idle",
+        "cs_swampking_outro_prince_scene05_talk"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+        "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae",
+        "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae",
+        "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae",
+        "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae",
+        "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "loot": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "ElemEarth_Boss_Loot"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "model": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/root_troll/root_troll.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/root_troll/root_troll.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 80,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/root_troll/root_troll.bdae"
+                  },
+                  "index": 80,
+                  "name": "root_troll",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "80",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "d4e3efab5565226df43b",
+          "selection_files": [],
+          "source_candidates": []
+        }
+      ],
+      "source_names": [],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/characters/root_troll/root_troll.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+        "data/3D/characters/root_troll/root_troll.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "sound": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "Default"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin"
+      ],
+      "status": "UNRESOLVED"
+    }
+  },
+  "resources": {
+    "animation": {
+      "claim_scope": "character_animation_table_rows",
+      "confidence": "PROVEN",
+      "reason": null,
+      "state_rows": {
+        "Attack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae",
+              "sha256": "69651beda8b2db93ed6592812535d42f3cac96180141df7cb912561a7bd43150",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 532,
+          "name": "cs_swampking_outro_priest_scene05_talk",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene05_talk.bdae"
+        },
+        "Blocking": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+              "sha256": "547521f3dd8d66aa1a24920cf56de9e7cf511dcdaeb1df157760f449f9cf20fd",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 540,
+          "name": "cs_swampking_outro_prince_scene03",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae"
+        },
+        "DeadlyGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae",
+              "sha256": "481034f46a52fd0bde8f495ba1cb7ad1589afea2f1b6fbcce81c91820bd88a68",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 534,
+          "name": "cs_swampking_outro_priest_scene06_talk",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene06_talk.bdae"
+        },
+        "Despawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae",
+              "sha256": "74642218949cf1a1ffa7c8791aa8f9b53da8c8e124f9cb181d62a3daa1442bf2",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 535,
+          "name": "cs_swampking_outro_priest_scene07",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene07.bdae"
+        },
+        "DespawnGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae",
+              "sha256": "341b43a183ce058b27c6da6d8e151089abe740214cfd60cc8f736ccf02ddf678",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 536,
+          "name": "cs_swampking_outro_priest_scene07_idle",
+          "path": "data/3D/characters/npcs/animations/cs_swampking_outro_priest_scene07_idle.bdae"
+        },
+        "Died": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae",
+              "sha256": "e6cce00acbdc22062b7fe54930ba42db5530b1b8a7aed472fdb27ac40c7abe0b",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 537,
+          "name": "cs_swampking_outro_prince_scene02",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02.bdae"
+        },
+        "Dodging": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+              "sha256": "547521f3dd8d66aa1a24920cf56de9e7cf511dcdaeb1df157760f449f9cf20fd",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 540,
+          "name": "cs_swampking_outro_prince_scene03",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae"
+        },
+        "GreatKnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae",
+              "sha256": "36aeba1f27d0e800838d42633883b11422d20d4c4d52fd7c7a7102f4568a6db2",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 538,
+          "name": "cs_swampking_outro_prince_scene02_idle",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02_idle.bdae"
+        },
+        "Idle": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae",
+              "sha256": "c76cf19593a49e41ed329e4916d00147af370ca57d49065b86cd9b6a66533931",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 539,
+          "name": "cs_swampking_outro_prince_scene02_talk",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene02_talk.bdae"
+        },
+        "Injured": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae",
+              "sha256": "547521f3dd8d66aa1a24920cf56de9e7cf511dcdaeb1df157760f449f9cf20fd",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 540,
+          "name": "cs_swampking_outro_prince_scene03",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03.bdae"
+        },
+        "KnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae",
+              "sha256": "b8dcf8ca24b2b539aba7b454720b1347738d7a4688d666603f7feda7a130075a",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 541,
+          "name": "cs_swampking_outro_prince_scene03_talk",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene03_talk.bdae"
+        },
+        "Scared": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae",
+              "sha256": "a12e57e47792af6cd41b21f08944bd935280bc60a5809966833e9826424d282c",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 545,
+          "name": "cs_swampking_outro_prince_scene05_talk",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae"
+        },
+        "Spawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae",
+              "sha256": "dc9d1570f15a6c84ac4107c481a02dcb280c6986b9c5f092a5e78f7288f57a34",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 543,
+          "name": "cs_swampking_outro_prince_scene05",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05.bdae"
+        },
+        "Template": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae",
+              "sha256": "996730c39ad564c056300c27bbed3e10ad627e3b6453c02ca5150e68a4c78bee",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 544,
+          "name": "cs_swampking_outro_prince_scene05_idle",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_idle.bdae"
+        },
+        "Walk": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae",
+              "sha256": "a12e57e47792af6cd41b21f08944bd935280bc60a5809966833e9826424d282c",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 545,
+          "name": "cs_swampking_outro_prince_scene05_talk",
+          "path": "data/3D/characters/prince/animations/cs_swampking_outro_prince_scene05_talk.bdae"
+        }
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 58,
+          "name": "RootTroll",
+          "raw": 58,
+          "reference_id": "18d52e29d8eb88740742",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "target_id": "87b0ab5c23a9fa1bea92"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Attack": 532,
+            "AttackStatic": -1,
+            "Blocking": 540,
+            "DeadlyGreatKB": 534,
+            "Despawn": 535,
+            "DespawnGreatKB": 536,
+            "Died": 537,
+            "Dodging": 540,
+            "GreatKnockedBack": 538,
+            "Idle": 539,
+            "IdleFromOOC": -1,
+            "IdleOOC": -1,
+            "IdleSneak": -1,
+            "IdleToOOC": -1,
+            "Injured": 540,
+            "Interact": [
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "KnockedBack": 541,
+            "LiftDrop": -1,
+            "LiftIdle": -1,
+            "LiftMove": -1,
+            "Limbus": -1,
+            "MenuIdle": -1,
+            "MenuOnSelect": -1,
+            "PreSpawn": -1,
+            "Revived": -1,
+            "Reviving": -1,
+            "Run": -1,
+            "Run180": -1,
+            "RunSneak": -1,
+            "Scared": 545,
+            "Spawn": 543,
+            "Spells": [],
+            "Stunned": -1,
+            "Template": 544,
+            "Walk": 545,
+            "Walk180": -1,
+            "WalkSneak": -1
+          },
+          "id": "87b0ab5c23a9fa1bea92",
+          "index": 58,
+          "name": "RootTroll",
+          "reason": null,
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "loot": {
+      "claim_scope": "character_loot_table_row",
+      "confidence": "PROVEN",
+      "reason": null,
+      "row": {
+        "confidence": "PROVEN",
+        "fields": {
+          "FixedLootEntries": [],
+          "NumRandomItemProbs": 2,
+          "RandomLootEntries": [],
+          "RollType": 0,
+          "SubLoots": [
+            256,
+            257,
+            258,
+            259,
+            308
+          ]
+        },
+        "id": "fca03b0aaf5647f5e06f",
+        "index": 97,
+        "name": "ElemEarth_Boss_Loot",
+        "reason": null,
+        "schema_evidence": "port/game-data/loot_tables_v2.cpp:22",
+        "section": 5,
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin",
+        "source_table": "loot_table",
+        "status": "RESOLVED",
+        "table": "loot_table#group5",
+        "work_status": "DONE"
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 97,
+          "name": "ElemEarth_Boss_Loot",
+          "raw": 97,
+          "reference_id": "79775f89af5a699d585e",
+          "status": "RESOLVED",
+          "table": "loot_table#group5",
+          "target_id": "fca03b0aaf5647f5e06f"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "FixedLootEntries": [],
+            "NumRandomItemProbs": 2,
+            "RandomLootEntries": [],
+            "RollType": 0,
+            "SubLoots": [
+              256,
+              257,
+              258,
+              259,
+              308
+            ]
+          },
+          "id": "fca03b0aaf5647f5e06f",
+          "index": 97,
+          "name": "ElemEarth_Boss_Loot",
+          "reason": null,
+          "schema_evidence": "port/game-data/loot_tables_v2.cpp:22",
+          "section": 5,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin",
+          "source_table": "loot_table",
+          "status": "RESOLVED",
+          "table": "loot_table#group5",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "model": {
+      "asset_candidates": [
+        {
+          "claim_scope": "source_file_presence",
+          "confidence": "PROVEN",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/root_troll/root_troll.bdae",
+          "sha256": "f2d2819c9181f78b858a846413ad5ef41de16454bd7301852692a80c15e1800c",
+          "source": "android",
+          "status": "REFERENCED"
+        }
+      ],
+      "claim_scope": "character_model_dictionary_row",
+      "confidence": "PROVEN",
+      "path": "data/3D/characters/root_troll/root_troll.bdae",
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 80,
+          "name": "root_troll",
+          "raw": 80,
+          "reference_id": "ce9523f219ee2b16ea39",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "target_id": "538f8ca4de96c8fe3fd7"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "Path": "data/3D/characters/root_troll/root_troll.bdae"
+          },
+          "id": "538f8ca4de96c8fe3fd7",
+          "index": 80,
+          "name": "root_troll",
+          "reason": null,
+          "schema_evidence": "port/game-data/data.cpp:35",
+          "section": 0,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+          "source_table": "character_models_dictionary",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "sound": {
+      "claim_scope": "character_sound_profile_row",
+      "confidence": "PROVEN",
+      "profile": {
+        "candidate_note": null,
+        "candidates": [],
+        "confidence": "PROVEN",
+        "fields": {
+          "Die": [],
+          "Hurt": [],
+          "ImpactVsFlesh": [],
+          "ImpactVsMetal": [],
+          "IsFlesh": true,
+          "IsMetallic": false
+        },
+        "id": "f93e07b3f9ba3c48dc93",
+        "index": 2,
+        "name": "Default",
+        "reason": null,
+        "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+        "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+        "status": "RESOLVED",
+        "table": "sounds#group0",
+        "work_status": "DONE"
+      },
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 2,
+          "name": "Default",
+          "raw": 2,
+          "reference_id": "c4094385c85eefc673dd",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "target_id": "f93e07b3f9ba3c48dc93"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
+          "id": "f93e07b3f9ba3c48dc93",
+          "index": 2,
+          "name": "Default",
+          "reason": null,
+          "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "work_status": "DONE"
+        }
+      }
+    }
+  },
+  "source_confidence": "PROVEN",
+  "source_port_snapshot": {
+    "production_runtime_status": "UNVERIFIED",
+    "reason": "Source table linkage does not prove resource loading or actor behavior in the Windows production path.",
+    "source_atlas_status": "RESOLVED",
+    "source_atlas_work_status": "DONE"
+  },
+  "source_table": "character_properties",
+  "status": "DONE",
+  "trophy_and_skill_fields": {
+    "skills": "RootTrollSkills [30]",
+    "trophy": -1
+  }
+}

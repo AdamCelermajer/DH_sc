@@ -1,0 +1,4166 @@
+{
+  "act": "act_1",
+  "count": 96,
+  "kind": "data file",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 436,
+        "character_offset": 436,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "line": 18
+      },
+      "id": "282616a76e282c9a2137",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "282616a76e282c9a2137",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp:18:attribute@436:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1439,
+        "character_offset": 1439,
+        "element": "GameObject",
+        "element_index": 3,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "line": 50
+      },
+      "id": "4784cefe81f786ec1638",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4784cefe81f786ec1638",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp:50:attribute@1439:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 981,
+        "character_offset": 981,
+        "element": "GameObject",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "line": 34
+      },
+      "id": "14ccd924611e6c5dda3e",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "14ccd924611e6c5dda3e",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp:34:attribute@981:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1463,
+        "character_offset": 1463,
+        "element": "GameObject",
+        "element_index": 3,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "line": 50
+      },
+      "id": "b079bc5633d6bb036254",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b079bc5633d6bb036254",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp:50:attribute@1463:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 2050,
+        "character_offset": 2050,
+        "element": "GameObject",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "line": 70
+      },
+      "id": "20ab5d4ae9656fc86f41",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "20ab5d4ae9656fc86f41",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp:70:attribute@2050:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 475,
+        "character_offset": 475,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+        "line": 19
+      },
+      "id": "29b465bf2c153cef7bfa",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "29b465bf2c153cef7bfa",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp:19:attribute@475:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 953,
+        "character_offset": 953,
+        "element": "GameObject",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+        "line": 35
+      },
+      "id": "3f52ac032cd2f8ac3433",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3f52ac032cd2f8ac3433",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp:35:attribute@953:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 475,
+        "character_offset": 475,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+        "line": 19
+      },
+      "id": "b91f7d67f27b9186a8bb",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b91f7d67f27b9186a8bb",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp:19:attribute@475:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 909,
+        "character_offset": 909,
+        "element": "GameObject",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+        "line": 34
+      },
+      "id": "6e2cf45a031b6a0a30d8",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6e2cf45a031b6a0a30d8",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp:34:attribute@909:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1427,
+        "character_offset": 1427,
+        "element": "GameObject",
+        "element_index": 3,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+        "line": 51
+      },
+      "id": "74d68cb71f3da7f31052",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "74d68cb71f3da7f31052",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp:51:attribute@1427:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 4487,
+        "character_offset": 4487,
+        "element": "GameObject",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "line": 167
+      },
+      "id": "64687ec152d2c89d7edc",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "64687ec152d2c89d7edc",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp:167:attribute@4487:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 4991,
+        "character_offset": 4991,
+        "element": "GameObject",
+        "element_index": 12,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "line": 185
+      },
+      "id": "18521be0cb6fa8ab988b",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "18521be0cb6fa8ab988b",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp:185:attribute@4991:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 500,
+        "character_offset": 500,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "line": 19
+      },
+      "id": "8ddbe1ab110b7b4483f2",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8ddbe1ab110b7b4483f2",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp:19:attribute@500:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1350,
+        "character_offset": 1350,
+        "element": "GameObject",
+        "element_index": 3,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "line": 50
+      },
+      "id": "c240ad1adb825bbf3de2",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c240ad1adb825bbf3de2",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp:50:attribute@1350:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1970,
+        "character_offset": 1970,
+        "element": "GameObject",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "line": 72
+      },
+      "id": "3eb3f8bdbdd3d1a8c014",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3eb3f8bdbdd3d1a8c014",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp:72:attribute@1970:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 2941,
+        "character_offset": 2941,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "line": 108
+      },
+      "id": "42c24c15be55ae25de4a",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "42c24c15be55ae25de4a",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp:108:attribute@2941:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 475,
+        "character_offset": 475,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "line": 19
+      },
+      "id": "3fcdf56ff443d080fb7c",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3fcdf56ff443d080fb7c",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp:19:attribute@475:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1045,
+        "character_offset": 1045,
+        "element": "GameObject",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "line": 39
+      },
+      "id": "b4123ff88482556c808f",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b4123ff88482556c808f",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp:39:attribute@1045:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 2373,
+        "character_offset": 2373,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "line": 88
+      },
+      "id": "e140f0c51e4ae293153b",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e140f0c51e4ae293153b",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp:88:attribute@2373:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "light_set",
+        "byte_offset": 727,
+        "character_offset": 727,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/scene/001_swamp.mlx",
+        "line": 29
+      },
+      "id": "61efaa18d3d4750c43d1",
+      "kind": "data file",
+      "name": "data/3D/Light/swamp.lightset_xml",
+      "reason": null,
+      "reference_id": "61efaa18d3d4750c43d1",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "156acd3b4f47a6b75b0b",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/swamp.lightset_xml",
+              "sha256": "967f4add7548c9e2004ad32e51333615eaa7550f18c04426a9ec58cd7a445986",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "CROSSCHECKED",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "967f4add7548c9e2004ad32e51333615eaa7550f18c04426a9ec58cd7a445986",
+              "id": "bfd518cd8ea4547e4601",
+              "logical_paths": [
+                "data/3d/light/swamp.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001990.dat",
+              "sha256": "3ac7ee31dd82f698e533270fc31298a6a202e512dbf8e83d2baa8f81fbe5114c",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/swamp.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 001_swamp.mlx .local-inputs/assets-extra/android/data/scene/001_swamp.mlx",
+        "scene source .local-inputs/assets-extra/android/data/scene/001_swamp.mlx"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/001_swamp.mlx:29:attribute@727:light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "fixed_light_set",
+        "byte_offset": 775,
+        "character_offset": 775,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/scene/001_swamp.mlx",
+        "line": 30
+      },
+      "id": "e5ab026ebb3722f77ad4",
+      "kind": "data file",
+      "name": "data/3D/Light/swamp_es_1_1.lightset_xml",
+      "reason": null,
+      "reference_id": "e5ab026ebb3722f77ad4",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "17633716271761562097",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/swamp_es_1_1.lightset_xml",
+              "sha256": "699a13c8ecd6fa3d76b35193ba3dff0456cfd68779707f996f612d0312fb242a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "CROSSCHECKED",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "699a13c8ecd6fa3d76b35193ba3dff0456cfd68779707f996f612d0312fb242a",
+              "id": "e0b2cdcf1a24e5973283",
+              "logical_paths": [
+                "data/3d/light/swamp_es_1_1.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005918.dat",
+              "sha256": "0f084900a1114c83f96c317e671a964960ebd23f7f22e28339819470ca0fc75d",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/swamp_es_1_1.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 001_swamp.mlx .local-inputs/assets-extra/android/data/scene/001_swamp.mlx",
+        "scene source .local-inputs/assets-extra/android/data/scene/001_swamp.mlx"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/001_swamp.mlx:30:attribute@775:fixed_light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "light_set",
+        "byte_offset": 523,
+        "character_offset": 523,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml",
+        "line": 16
+      },
+      "id": "89b0b8e75042d47a61af",
+      "kind": "data file",
+      "name": "data/3D/Light/swampcave.lightset_xml",
+      "reason": null,
+      "reference_id": "89b0b8e75042d47a61af",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "85ce1b02a2ee441bfffd",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/swampcave.lightset_xml",
+              "sha256": "241de32e6e579a9950a8d24aa61c971d8936397f028f493778f4dd0dcd786c63",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "241de32e6e579a9950a8d24aa61c971d8936397f028f493778f4dd0dcd786c63",
+              "id": "4b249a2c76940b19cf35",
+              "logical_paths": [
+                "data/3d/light/swampcave.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004392.dat",
+              "sha256": "5e6007a012e1178118b9b0fa162e949177b8b7e8e85be0995731d4719e5f08b3",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/swampcave.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml:16:attribute@523:light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "fixed_light_set",
+        "byte_offset": 574,
+        "character_offset": 574,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml",
+        "line": 17
+      },
+      "id": "a1235fa04f7b58bac09e",
+      "kind": "data file",
+      "name": "data/3D/Light/swampcave_es1_1.lightset_xml",
+      "reason": null,
+      "reference_id": "a1235fa04f7b58bac09e",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "2c02c61bd721d8b7f0bc",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/swampcave_es1_1.lightset_xml",
+              "sha256": "241de32e6e579a9950a8d24aa61c971d8936397f028f493778f4dd0dcd786c63",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "241de32e6e579a9950a8d24aa61c971d8936397f028f493778f4dd0dcd786c63",
+              "id": "842041f2a46d8cf4eb2c",
+              "logical_paths": [
+                "data/3d/light/swampcave_es1_1.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000889.dat",
+              "sha256": "5e6007a012e1178118b9b0fa162e949177b8b7e8e85be0995731d4719e5f08b3",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/swampcave_es1_1.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/002_swamp_witchcave.rule.xml:17:attribute@574:fixed_light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "80f38d57d94af973e437",
+      "kind": "data file",
+      "name": "spiritual_armor",
+      "reason": null,
+      "reference_id": "80f38d57d94af973e437",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 23,
+          "id": "769c1b6c430c45ca6f83",
+          "label": "spiritual_armor",
+          "name": "spiritual_armor",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "spiritual_armor",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=100].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=100].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b2bf097f8a729003a0e1",
+      "kind": "data file",
+      "name": "sidestep",
+      "reason": null,
+      "reference_id": "b2bf097f8a729003a0e1",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 46,
+          "id": "92c342a7a6d557080ff4",
+          "label": "sidestep",
+          "name": "sidestep",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "sidestep",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=101].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=101].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "efa755a944db0684bc5a",
+      "kind": "data file",
+      "name": "blank",
+      "reason": null,
+      "reference_id": "efa755a944db0684bc5a",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 2,
+          "id": "2443621e533a07dc09a3",
+          "label": "blank",
+          "name": "blank",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "blank",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, mage, rogue -> pydata/skills_pyarray.bin[skill=102].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=102].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d226860cf228667be036",
+      "kind": "data file",
+      "name": "wisardry",
+      "reason": null,
+      "reference_id": "d226860cf228667be036",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 22,
+          "id": "7b11e1c859952421014d",
+          "label": "wisardry",
+          "name": "wisardry",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "wisardry",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=103].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=103].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c6030450db59546a540c",
+      "kind": "data file",
+      "name": "doppleganger",
+      "reason": null,
+      "reference_id": "c6030450db59546a540c",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 8,
+          "id": "cc7f56040da0199614c9",
+          "label": "doppleganger",
+          "name": "doppleganger",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "doppleganger",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=104].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=104].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "dc66c29fb32f040e98b2",
+      "kind": "data file",
+      "name": "berserker_rage",
+      "reason": null,
+      "reference_id": "dc66c29fb32f040e98b2",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 44,
+          "id": "31537a847d863f3cce2c",
+          "label": "berserker_rage",
+          "name": "berserker_rage",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "berserker_rage",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=105].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=105].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "f16df3f10516ca091860",
+      "kind": "data file",
+      "name": "bow_mastery",
+      "reason": null,
+      "reference_id": "f16df3f10516ca091860",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 68,
+          "id": "ad12b3df7f35bfd206e0",
+          "label": "bow_mastery",
+          "name": "bow_mastery",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "bow_mastery",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=10].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=10].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "fea8d2f56f8e088e8a1e",
+      "kind": "data file",
+      "name": "terror",
+      "reason": null,
+      "reference_id": "fea8d2f56f8e088e8a1e",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 57,
+          "id": "7113a5a42244e761bc71",
+          "label": "terror",
+          "name": "terror",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "terror",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=110].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=110].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "f1a2ab2d4cfdad616655",
+      "kind": "data file",
+      "name": "hold_time",
+      "reason": null,
+      "reference_id": "f1a2ab2d4cfdad616655",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 56,
+          "id": "5ceed898b12e18b9f19b",
+          "label": "hold_time",
+          "name": "hold_time",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "hold_time",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=111].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=111].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "028b6b67dd2632a67c1a",
+      "kind": "data file",
+      "name": "toughness",
+      "reason": null,
+      "reference_id": "028b6b67dd2632a67c1a",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 24,
+          "id": "ffb1d53171c39739669e",
+          "label": "toughness",
+          "name": "toughness",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "toughness",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=112].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=112].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "be37b3fab1a5aa38ea7f",
+      "kind": "data file",
+      "name": "treasure_hunter",
+      "reason": null,
+      "reference_id": "be37b3fab1a5aa38ea7f",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 14,
+          "id": "b286dceb3e3f1455cf06",
+          "label": "treasure_hunter",
+          "name": "treasure_hunter",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "treasure_hunter",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=113].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=113].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "37d549be82cd4573e2b3",
+      "kind": "data file",
+      "name": "vicious_strike",
+      "reason": null,
+      "reference_id": "37d549be82cd4573e2b3",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 33,
+          "id": "b9d3b2f990f3fdbe4cde",
+          "label": "vicious_strike",
+          "name": "vicious_strike",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "vicious_strike",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=114].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=114].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "dea07e52907facf6f46f",
+      "kind": "data file",
+      "name": "pierce_shot",
+      "reason": null,
+      "reference_id": "dea07e52907facf6f46f",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 66,
+          "id": "e0dbed662498b7bcde95",
+          "label": "pierce_shot",
+          "name": "pierce_shot",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "pierce_shot",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=115].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=115].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a5469aeefd9ffb134979",
+      "kind": "data file",
+      "name": "annihilating_spin",
+      "reason": null,
+      "reference_id": "a5469aeefd9ffb134979",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 13,
+          "id": "07d68cb1d62056fb2094",
+          "label": "annihilating_spin",
+          "name": "annihilating_spin",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "annihilating_spin",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=116].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=116].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "054559f5460571fd7937",
+      "kind": "data file",
+      "name": "souleater",
+      "reason": null,
+      "reference_id": "054559f5460571fd7937",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 48,
+          "id": "7ddb5208549aa5b42c97",
+          "label": "souleater",
+          "name": "souleater",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "souleater",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=11].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=11].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8a4790bb2adb930d4aa5",
+      "kind": "data file",
+      "name": "spell_overdrive",
+      "reason": null,
+      "reference_id": "8a4790bb2adb930d4aa5",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 52,
+          "id": "3a209858beb35ac71beb",
+          "label": "spell_overdrive",
+          "name": "spell_overdrive",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "spell_overdrive",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=125].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=125].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5177145b3201a3ec20ec",
+      "kind": "data file",
+      "name": "dagger_mastery",
+      "reason": null,
+      "reference_id": "5177145b3201a3ec20ec",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 36,
+          "id": "660b38f4f9abe073093b",
+          "label": "dagger_mastery",
+          "name": "dagger_mastery",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "dagger_mastery",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=126].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=126].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c1095d322cab0c1e9d28",
+      "kind": "data file",
+      "name": "thunder_braid",
+      "reason": null,
+      "reference_id": "c1095d322cab0c1e9d28",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 28,
+          "id": "0289078ca782f8191050",
+          "label": "thunder_braid",
+          "name": "thunder_braid",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "thunder_braid",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=12].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=12].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "7b3aaa605dbdb6bb0441",
+      "kind": "data file",
+      "name": "fire_right",
+      "reason": null,
+      "reference_id": "7b3aaa605dbdb6bb0441",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 4,
+          "id": "8c5c37f1ea5a8bb9deed",
+          "label": "fire_right",
+          "name": "fire_right",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "fire_right",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=13].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=13].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a6c62bce34dbf9a9339e",
+      "kind": "data file",
+      "name": "cold_ray",
+      "reason": null,
+      "reference_id": "a6c62bce34dbf9a9339e",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 7,
+          "id": "231d0a1ae4f284de8936",
+          "label": "cold_ray",
+          "name": "cold_ray",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "cold_ray",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=14].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=14].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "6a557aa7ee5adcc157d8",
+      "kind": "data file",
+      "name": "master_of_arms",
+      "reason": null,
+      "reference_id": "6a557aa7ee5adcc157d8",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 25,
+          "id": "32cdfb775e5c53156529",
+          "label": "master_of_arms",
+          "name": "master_of_arms",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "master_of_arms",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=15].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=15].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ccfb1e8eeb77df3269b7",
+      "kind": "data file",
+      "name": "pummel",
+      "reason": null,
+      "reference_id": "ccfb1e8eeb77df3269b7",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 63,
+          "id": "496cd49b1e7ef96f7105",
+          "label": "pummel",
+          "name": "pummel",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "pummel",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=16].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=16].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "cd1dcec8dec904bb48e7",
+      "kind": "data file",
+      "name": "outbreak",
+      "reason": null,
+      "reference_id": "cd1dcec8dec904bb48e7",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 73,
+          "id": "45bc110a9f988cad98b5",
+          "label": "outbreak",
+          "name": "outbreak",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "outbreak",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=17].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=17].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "42ba7ba787d9ecd39a6e",
+      "kind": "data file",
+      "name": "conversion",
+      "reason": null,
+      "reference_id": "42ba7ba787d9ecd39a6e",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 39,
+          "id": "f7028660c8df8b23f532",
+          "label": "conversion",
+          "name": "conversion",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "conversion",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=18].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=18].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3fb94df6d120ac5370ac",
+      "kind": "data file",
+      "name": "storm_slave",
+      "reason": null,
+      "reference_id": "3fb94df6d120ac5370ac",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 6,
+          "id": "5277e96b89f7c13c64eb",
+          "label": "storm_slave",
+          "name": "storm_slave",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "storm_slave",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=19].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=19].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d259b1332619426e2e2a",
+      "kind": "data file",
+      "name": "reflex",
+      "reason": null,
+      "reference_id": "d259b1332619426e2e2a",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 47,
+          "id": "a3872380e2fcdd57d558",
+          "label": "reflex",
+          "name": "reflex",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "reflex",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=1].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=1].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "20a56deb277ef5f997f9",
+      "kind": "data file",
+      "name": "harrowing_grasp",
+      "reason": null,
+      "reference_id": "20a56deb277ef5f997f9",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 51,
+          "id": "5ae08a570f42e7f30cc8",
+          "label": "harrowing_grasp",
+          "name": "harrowing_grasp",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "harrowing_grasp",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=26].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=26].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1599f02ad45e62631c05",
+      "kind": "data file",
+      "name": "hypnotic_gaze",
+      "reason": null,
+      "reference_id": "1599f02ad45e62631c05",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 43,
+          "id": "74276a0e259631420968",
+          "label": "hypnotic_gaze",
+          "name": "hypnotic_gaze",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "hypnotic_gaze",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=27].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=27].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "676030dada932468660d",
+      "kind": "data file",
+      "name": "condemnation",
+      "reason": null,
+      "reference_id": "676030dada932468660d",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 26,
+          "id": "a6d41ed0d2cbc0023133",
+          "label": "condemnation",
+          "name": "condemnation",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "condemnation",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=28].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=28].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "93f29f4f534b1bb0742c",
+      "kind": "data file",
+      "name": "ambidextrous",
+      "reason": null,
+      "reference_id": "93f29f4f534b1bb0742c",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 41,
+          "id": "aa14fe47e66930df8f65",
+          "label": "ambidextrous",
+          "name": "ambidextrous",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "ambidextrous",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=2].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=2].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a527712804884e8f44ba",
+      "kind": "data file",
+      "name": "eclipse",
+      "reason": null,
+      "reference_id": "a527712804884e8f44ba",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 59,
+          "id": "def9c1deeb831e62505a",
+          "label": "eclipse",
+          "name": "eclipse",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "eclipse",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=30].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=30].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4ed87db5242d606e3e61",
+      "kind": "data file",
+      "name": "elemental_mastery",
+      "reason": null,
+      "reference_id": "4ed87db5242d606e3e61",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 12,
+          "id": "e5cd88a72c09d5009cd0",
+          "label": "elemental_mastery",
+          "name": "elemental_mastery",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "elemental_mastery",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=36].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=36].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "90bdaea672a628998342",
+      "kind": "data file",
+      "name": "elemental_strength",
+      "reason": null,
+      "reference_id": "90bdaea672a628998342",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 21,
+          "id": "3ff8cd3c87248d726b32",
+          "label": "elemental_strength",
+          "name": "elemental_strength",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "elemental_strength",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=39].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=39].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ec9bf95e974536c137f0",
+      "kind": "data file",
+      "name": "burst_shot",
+      "reason": null,
+      "reference_id": "ec9bf95e974536c137f0",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 67,
+          "id": "ce3c54622ec7897bf1dc",
+          "label": "burst_shot",
+          "name": "burst_shot",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "burst_shot",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=41].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=41].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ba47738589e9eb753b04",
+      "kind": "data file",
+      "name": "fairy_blood",
+      "reason": null,
+      "reference_id": "ba47738589e9eb753b04",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 31,
+          "id": "e0196c73b1b668d013cf",
+          "label": "fairy_blood",
+          "name": "fairy_blood",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "fairy_blood",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=42].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=42].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "6c8c8608c7120d22bd5a",
+      "kind": "data file",
+      "name": "inner_strength",
+      "reason": null,
+      "reference_id": "6c8c8608c7120d22bd5a",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 77,
+          "id": "b21b57a7ba60c2ef68b2",
+          "label": "inner_strength",
+          "name": "inner_strength",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "inner_strength",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=44].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=44].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "251d9bc185da20c1c4e8",
+      "kind": "data file",
+      "name": "nightmare",
+      "reason": null,
+      "reference_id": "251d9bc185da20c1c4e8",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 58,
+          "id": "5f74ac78d784c309e9fd",
+          "label": "nightmare",
+          "name": "nightmare",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "nightmare",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=45].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=45].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d5ffac2b669c8ae36ec7",
+      "kind": "data file",
+      "name": "discover_weakness",
+      "reason": null,
+      "reference_id": "d5ffac2b669c8ae36ec7",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 40,
+          "id": "ba70847e81b87e6adc13",
+          "label": "discover_weakness",
+          "name": "discover_weakness",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "discover_weakness",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=46].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=46].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "277b5e3e6fa64ae327b4",
+      "kind": "data file",
+      "name": "reaperstorm",
+      "reason": null,
+      "reference_id": "277b5e3e6fa64ae327b4",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 27,
+          "id": "2e0a8daa7dfc108f8433",
+          "label": "reaperstorm",
+          "name": "reaperstorm",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "reaperstorm",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=47].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=47].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1b5e5c6b2867e91eeea9",
+      "kind": "data file",
+      "name": "shadow_force",
+      "reason": null,
+      "reference_id": "1b5e5c6b2867e91eeea9",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 72,
+          "id": "9465765a77e986307359",
+          "label": "shadow_force",
+          "name": "shadow_force",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "shadow_force",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=4].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=4].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "f814625a1f482f3e36a6",
+      "kind": "data file",
+      "name": "grappling_hook",
+      "reason": null,
+      "reference_id": "f814625a1f482f3e36a6",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 34,
+          "id": "c4f668d2a9447b526d0f",
+          "label": "grappling_hook",
+          "name": "grappling_hook",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "grappling_hook",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=50].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=50].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "84f4d4c296e97e42a1be",
+      "kind": "data file",
+      "name": "ground_slam",
+      "reason": null,
+      "reference_id": "84f4d4c296e97e42a1be",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 5,
+          "id": "78b602c6abf2b73770a5",
+          "label": "ground_slam",
+          "name": "ground_slam",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "ground_slam",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=51].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=51].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "fa3010366e1d8396770f",
+      "kind": "data file",
+      "name": "alastors_protection",
+      "reason": null,
+      "reference_id": "fa3010366e1d8396770f",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 16,
+          "id": "493356e36b72dc40ea96",
+          "label": "alastors_protection",
+          "name": "alastors_protection",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "alastors_protection",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=52].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=52].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1d767b1dab20ff414cff",
+      "kind": "data file",
+      "name": "battle_hardened",
+      "reason": null,
+      "reference_id": "1d767b1dab20ff414cff",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 20,
+          "id": "e4e5e7ae285d678d351b",
+          "label": "battle_hardened",
+          "name": "battle_hardened",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "battle_hardened",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=53].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=53].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "81b3f4e258ee0b267bc3",
+      "kind": "data file",
+      "name": "spiritual_sight",
+      "reason": null,
+      "reference_id": "81b3f4e258ee0b267bc3",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 30,
+          "id": "7ad594b153bf296fd280",
+          "label": "spiritual_sight",
+          "name": "spiritual_sight",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "spiritual_sight",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=54].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=54].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ab4f049fc78d84b81379",
+      "kind": "data file",
+      "name": "bloodmoon_howl",
+      "reason": null,
+      "reference_id": "ab4f049fc78d84b81379",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 75,
+          "id": "2ee1816b610b0f540bbe",
+          "label": "bloodmoon_howl",
+          "name": "bloodmoon_howl",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "bloodmoon_howl",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=55].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=55].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "269191d8c5e9953b2de6",
+      "kind": "data file",
+      "name": "heel_strike",
+      "reason": null,
+      "reference_id": "269191d8c5e9953b2de6",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 11,
+          "id": "04098daa321d6843d22b",
+          "label": "heel_strike",
+          "name": "heel_strike",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "heel_strike",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=56].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=56].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e3382e0cc28bb1030dec",
+      "kind": "data file",
+      "name": "swipe",
+      "reason": null,
+      "reference_id": "e3382e0cc28bb1030dec",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 3,
+          "id": "2d8f51e13d062b78b75b",
+          "label": "swipe",
+          "name": "swipe",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "swipe",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=57].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=57].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3edc205ba9b7cfc6a606",
+      "kind": "data file",
+      "name": "bloodlust",
+      "reason": null,
+      "reference_id": "3edc205ba9b7cfc6a606",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 49,
+          "id": "bbea9cb9ec214ccf6a97",
+          "label": "bloodlust",
+          "name": "bloodlust",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "bloodlust",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=58].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=58].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a19c522dfa1442a22a8f",
+      "kind": "data file",
+      "name": "leadership",
+      "reason": null,
+      "reference_id": "a19c522dfa1442a22a8f",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 17,
+          "id": "6f630ce1ba495a76b10a",
+          "label": "leadership",
+          "name": "leadership",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "leadership",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=59].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=59].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "157da6125980841c42c6",
+      "kind": "data file",
+      "name": "assassinate",
+      "reason": null,
+      "reference_id": "157da6125980841c42c6",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 42,
+          "id": "ebe1f0e64b85bb3d074e",
+          "label": "assassinate",
+          "name": "assassinate",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "assassinate",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=5].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=5].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "855b9b58211967967a36",
+      "kind": "data file",
+      "name": "drainsphere",
+      "reason": null,
+      "reference_id": "855b9b58211967967a36",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 54,
+          "id": "bc1483098c1c14c3882b",
+          "label": "drainsphere",
+          "name": "drainsphere",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "drainsphere",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=60].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=60].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8df75ac86bb1c9f78f56",
+      "kind": "data file",
+      "name": "ward_of_protection",
+      "reason": null,
+      "reference_id": "8df75ac86bb1c9f78f56",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 18,
+          "id": "776cc847c68e35e5d855",
+          "label": "ward_of_protection",
+          "name": "ward_of_protection",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "ward_of_protection",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=72].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=72].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "bbf95be63fc2391a406b",
+      "kind": "data file",
+      "name": "charisma",
+      "reason": null,
+      "reference_id": "bbf95be63fc2391a406b",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 60,
+          "id": "e478402208665de9fe19",
+          "label": "charisma",
+          "name": "charisma",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "charisma",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=73].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=73].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "048e572291311554cc0f",
+      "kind": "data file",
+      "name": "retribution",
+      "reason": null,
+      "reference_id": "048e572291311554cc0f",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 61,
+          "id": "213d2e8504561b42b1f7",
+          "label": "retribution",
+          "name": "retribution",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "retribution",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=74].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=74].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a94484a4fbeb919d3cf8",
+      "kind": "data file",
+      "name": "rain_of_arrows",
+      "reason": null,
+      "reference_id": "a94484a4fbeb919d3cf8",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 64,
+          "id": "d55785d0c85492a11893",
+          "label": "rain_of_arrows",
+          "name": "rain_of_arrows",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "rain_of_arrows",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=75].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=75].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2e9964cf6859b9768316",
+      "kind": "data file",
+      "name": "sword_explosion",
+      "reason": null,
+      "reference_id": "2e9964cf6859b9768316",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 1,
+          "id": "b3134ae09bdf402a9189",
+          "label": "sword_explosion",
+          "name": "sword_explosion",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "sword_explosion",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=7].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=7].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4604d1206f6c5bc95305",
+      "kind": "data file",
+      "name": "crusade",
+      "reason": null,
+      "reference_id": "4604d1206f6c5bc95305",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 29,
+          "id": "aa49d959d84de06fe20f",
+          "label": "crusade",
+          "name": "crusade",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "crusade",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=80].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=80].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "809861f8b60ce26f6226",
+      "kind": "data file",
+      "name": "pestilence_breath",
+      "reason": null,
+      "reference_id": "809861f8b60ce26f6226",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 53,
+          "id": "81fe670fd5b234022428",
+          "label": "pestilence_breath",
+          "name": "pestilence_breath",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "pestilence_breath",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=81].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=81].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8a386183c1aaebb5999f",
+      "kind": "data file",
+      "name": "withering_touch",
+      "reason": null,
+      "reference_id": "8a386183c1aaebb5999f",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 62,
+          "id": "a13aab25f92ad81b52b9",
+          "label": "withering_touch",
+          "name": "withering_touch",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "withering_touch",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=82].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=82].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "17195a7cb80718cf987d",
+      "kind": "data file",
+      "name": "maim_shot",
+      "reason": null,
+      "reference_id": "17195a7cb80718cf987d",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 65,
+          "id": "806424bff2a4ee25f1bb",
+          "label": "maim_shot",
+          "name": "maim_shot",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "maim_shot",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=83].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=83].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5f6dadf7647d38cb4005",
+      "kind": "data file",
+      "name": "venom_shot",
+      "reason": null,
+      "reference_id": "5f6dadf7647d38cb4005",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 45,
+          "id": "d3724a1e61e59beb52ec",
+          "label": "venom_shot",
+          "name": "venom_shot",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "venom_shot",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=84].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=84].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2ad9d03a8e1d22fcef5e",
+      "kind": "data file",
+      "name": "plague_edge",
+      "reason": null,
+      "reference_id": "2ad9d03a8e1d22fcef5e",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 71,
+          "id": "5bf84afe3361437c8d3a",
+          "label": "plague_edge",
+          "name": "plague_edge",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "plague_edge",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=85].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=85].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2f5065dd847e1ef2f2cf",
+      "kind": "data file",
+      "name": "potion_capacity",
+      "reason": null,
+      "reference_id": "2f5065dd847e1ef2f2cf",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 32,
+          "id": "b9906af3e2a3ed3acef1",
+          "label": "potion_capacity",
+          "name": "potion_capacity",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "potion_capacity",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=86].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=86].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "fb7fe3509ef4130843a1",
+      "kind": "data file",
+      "name": "eagle_eye",
+      "reason": null,
+      "reference_id": "fb7fe3509ef4130843a1",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 69,
+          "id": "502ab35c5e855b23ac29",
+          "label": "eagle_eye",
+          "name": "eagle_eye",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "eagle_eye",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> pydata/skills_pyarray.bin[skill=87].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=87].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "089497e6d99b736c4e63",
+      "kind": "data file",
+      "name": "alastors_blessing",
+      "reason": null,
+      "reference_id": "089497e6d99b736c4e63",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 19,
+          "id": "18571fa2be3be9039cfd",
+          "label": "alastors_blessing",
+          "name": "alastors_blessing",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "alastors_blessing",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=88].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=88].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1d3cbc8d8f9b00ca9659",
+      "kind": "data file",
+      "name": "putrid_touch",
+      "reason": null,
+      "reference_id": "1d3cbc8d8f9b00ca9659",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 55,
+          "id": "d16a79284b05d6328700",
+          "label": "putrid_touch",
+          "name": "putrid_touch",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "putrid_touch",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=89].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=89].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e14542c2d2ff2e7965d0",
+      "kind": "data file",
+      "name": "crippling_strike",
+      "reason": null,
+      "reference_id": "e14542c2d2ff2e7965d0",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 15,
+          "id": "b174111b28fd6047fc22",
+          "label": "crippling_strike",
+          "name": "crippling_strike",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "crippling_strike",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=8].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=8].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e0587f5d178f09de3aae",
+      "kind": "data file",
+      "name": "featherfoot",
+      "reason": null,
+      "reference_id": "e0587f5d178f09de3aae",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 9,
+          "id": "dfe14a5f48c541bbaa16",
+          "label": "featherfoot",
+          "name": "featherfoot",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "featherfoot",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=90].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=90].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "f4f89dfdd1af7ed2ae42",
+      "kind": "data file",
+      "name": "unholy_strength",
+      "reason": null,
+      "reference_id": "f4f89dfdd1af7ed2ae42",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 76,
+          "id": "f5f23b964ad61049a592",
+          "label": "unholy_strength",
+          "name": "unholy_strength",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "unholy_strength",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=91].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=91].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "65b5496a7d1c42a73e97",
+      "kind": "data file",
+      "name": "raise",
+      "reason": null,
+      "reference_id": "65b5496a7d1c42a73e97",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 50,
+          "id": "dacedaf2ef04942a214c",
+          "label": "raise",
+          "name": "raise",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "raise",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=93].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=93].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "da3a9dbc123007a5d59e",
+      "kind": "data file",
+      "name": "desert_pinwheel",
+      "reason": null,
+      "reference_id": "da3a9dbc123007a5d59e",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 37,
+          "id": "7feec419845af08b3d26",
+          "label": "desert_pinwheel",
+          "name": "desert_pinwheel",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "desert_pinwheel",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=97].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=97].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a935d8062b2d2665c00e",
+      "kind": "data file",
+      "name": "concealing_cloud",
+      "reason": null,
+      "reference_id": "a935d8062b2d2665c00e",
+      "reference_kind": "skill_icon_symbol",
+      "resolves_to": [
+        {
+          "art_catalog_path": ".repo/port/windows-foundation/features/skill_ui/source_skill_art.json",
+          "asset_files": [
+            {
+              "id": "41da5cd1368bd28faa9d",
+              "path": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+              "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+              "source": "port-runtime-original-cache"
+            }
+          ],
+          "asset_uri": ".repo/port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+          "frame": 70,
+          "id": "30220c3a4e3773c64ce1",
+          "label": "concealing_cloud",
+          "name": "concealing_cloud",
+          "path": "data/menus/dqcharmenu_droid.swf",
+          "schema_evidence": "Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.",
+          "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+          "source_name": "concealing_cloud",
+          "sprite_id": 79,
+          "status": "RESOLVED_SWF_SYMBOL_FRAME",
+          "type": "skill_icon_symbol"
+        }
+      ],
+      "rule": "SkillTable named string field; game-data/skill_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=9].SkillIcon"
+      ],
+      "site": "pydata/skills_pyarray.bin[skill=9].SkillIcon",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

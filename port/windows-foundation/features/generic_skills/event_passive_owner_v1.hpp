@@ -20,6 +20,7 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace dh::foundation::generic_skills {
 
@@ -44,6 +45,10 @@ public:
     // Ages the Killing Frenzy reset timers (wall seconds, same clock as the buff owner).
     bool advance(CombatSession& session, double dt_seconds, std::string& error);
 
+    // One record per Carrion Eater kill heal (the host logs them; HP in whole units).
+    struct CarrionHealV1 { float before; float heal; float after; std::uint32_t rank; };
+    std::vector<CarrionHealV1> take_carrion_heals() { std::vector<CarrionHealV1> out; out.swap(carrion_heals_); return out; }
+
     std::uint32_t frenzy_counter() const noexcept { return frenzy_counter_; }
     bool frenzy_buff_active() const noexcept { return frenzy_active_; }
     // Last failure raised inside a listener (listeners cannot return errors); empty when none.
@@ -67,6 +72,7 @@ private:
     bool frenzy_active_ = false;
     double frenzy_timer_ms_ = 0.0;
     std::string error_;
+    std::vector<CarrionHealV1> carrion_heals_;
 };
 
 // Live wiring: maps the saved skill rows to their event passives and sets the ranks (rank 0 clears the listener's effect).

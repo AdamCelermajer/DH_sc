@@ -1,0 +1,4246 @@
+{
+  "act_boundary": "INFERENCE; reachability does not prove narrative Act 2 membership.",
+  "added_edges": [
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "bfa878abb23b6625c7ef",
+      "entrypoint_id": "2",
+      "fasttravel_id": "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "source_platform": "android",
+      "source_scene": "004_root_den.rule.xml",
+      "source_scene_id": "bf6ca7beefbed5a32c86",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "960882f17eb4b4693ada",
+      "entrypoint_id": "2",
+      "fasttravel_id": "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_01",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "source_platform": "android",
+      "source_scene": "004_root_den.rule.xml",
+      "source_scene_id": "bf6ca7beefbed5a32c86",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "72000495806502742b90",
+      "entrypoint_id": "0",
+      "fasttravel_id": "a09_DARKWOOD_SECRET_BASEMENT_01",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "source_platform": "android",
+      "source_scene": "006_basement.rule.xml",
+      "source_scene_id": "b392eb001343a839de27",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "3a430a1cc24c6c3274f6",
+      "target_name": "INFECTED_VILLAGE_01",
+      "target_scene": "005_infectedvillage.mlx",
+      "target_scene_id": "1ee09bcff06fac62bcc3"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "32536a6127e3be86606b",
+      "entrypoint_id": "0",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone02",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "source_platform": "android",
+      "source_scene": "006_basement.rule.xml",
+      "source_scene_id": "b392eb001343a839de27",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "3a430a1cc24c6c3274f6",
+      "target_name": "INFECTED_VILLAGE_01",
+      "target_scene": "005_infectedvillage.mlx",
+      "target_scene_id": "1ee09bcff06fac62bcc3"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "a5aca6160b7c22b93d5b",
+      "entrypoint_id": "6",
+      "fasttravel_id": "a10_DARKWOOD_CRYPT_01_ENTRANCE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toDW",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "a5ec9ff1f41b599226bf",
+      "entrypoint_id": "0",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_to_Castle",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "e387673e7b88b085fde5",
+      "target_name": "GOTHICUS_CASTLE_01",
+      "target_scene": "008_gothicus_castle_01.rule.xml",
+      "target_scene_id": "9e69404bebff0e9a7211"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "a52b96d2b0b2852ba8a8",
+      "entrypoint_id": "7",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_to_Darkwood",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": "IsBefore_GothicusAssassin",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "c0ec2c7935a1c59d5148",
+      "entrypoint_id": "0",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toGraveyard01",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "e387673e7b88b085fde5",
+      "target_name": "GOTHICUS_CASTLE_01",
+      "target_scene": "008_gothicus_castle_01.rule.xml",
+      "target_scene_id": "9e69404bebff0e9a7211"
+    },
+    {
+      "activation_condition": "IsAfter_Gothicus2Survivors",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "6a539ae402e9bbf78bdb",
+      "entrypoint_id": "2",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toGothicus2",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "41bb0da2ea312e96237d",
+      "target_name": "GOTHICUS_CASTLE_02",
+      "target_scene": "021_gothicus_castle_02.rule.xml",
+      "target_scene_id": "2adb7adbe4e5653621e3"
+    },
+    {
+      "activation_condition": "IsBefore_GothicusEscape",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "7bcb1ef474baac36212d",
+      "entrypoint_id": "0",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toGraveyard01",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "e387673e7b88b085fde5",
+      "target_name": "GOTHICUS_CASTLE_01",
+      "target_scene": "008_gothicus_castle_01.rule.xml",
+      "target_scene_id": "9e69404bebff0e9a7211"
+    },
+    {
+      "activation_condition": "IsAfter_Gothicus2Survivors",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "3020c9c6e072b2f878a9",
+      "entrypoint_id": "2",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toGothicus03",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "41bb0da2ea312e96237d",
+      "target_name": "GOTHICUS_CASTLE_02",
+      "target_scene": "021_gothicus_castle_02.rule.xml",
+      "target_scene_id": "2adb7adbe4e5653621e3"
+    },
+    {
+      "activation_condition": "IsBefore_GothicusEscape",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "667f9e9651ad4dec1bfd",
+      "entrypoint_id": "0",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toGraveyard01",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "e387673e7b88b085fde5",
+      "target_name": "GOTHICUS_CASTLE_01",
+      "target_scene": "008_gothicus_castle_01.rule.xml",
+      "target_scene_id": "9e69404bebff0e9a7211"
+    },
+    {
+      "activation_condition": "IsAfter_Gothicus2Survivors",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "5d5760aa8fb477c8ba7c",
+      "entrypoint_id": "2",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toGothicus04",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "source_platform": "android",
+      "source_scene": "007_crypt_01.rule.xml",
+      "source_scene_id": "00f4beec573704987fff",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "41bb0da2ea312e96237d",
+      "target_name": "GOTHICUS_CASTLE_02",
+      "target_scene": "021_gothicus_castle_02.rule.xml",
+      "target_scene_id": "2adb7adbe4e5653621e3"
+    },
+    {
+      "association_confidence": "PROVEN",
+      "claim_scope": "authored_source",
+      "command_index": 31,
+      "confidence": "PROVEN",
+      "edge_id": "88df804ec3a3147a1dd5",
+      "evidence_relation": "destination_level",
+      "field_offset": 16,
+      "kind": "script_change_level",
+      "script_commands_source": null,
+      "script_index": 4,
+      "script_name": "ExitCinematic",
+      "script_names_source": null,
+      "source_reference_id": "94d9749814d563ff0ca4",
+      "source_scene": "008_gothicus_castle_01.rule.xml",
+      "source_scene_id": "9e69404bebff0e9a7211",
+      "source_site": "campaign-references.json:94d9749814d563ff0ca4",
+      "source_variants": [
+        {
+          "conditional_module_choice": null,
+          "platform": "android",
+          "source_path": "campaign-references.json:94d9749814d563ff0ca4"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "0aea8fa8c4e211a0788c",
+      "entrypoint_id": "5",
+      "fasttravel_id": "a17_ELEMENTAL_LIGHT",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_fromlightning",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "source_platform": "android",
+      "source_scene": "010_el_lightning.rule.xml",
+      "source_scene_id": "fa629399ded8e23c4fb7",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "048bebca5ba250809407",
+      "entrypoint_id": "5",
+      "fasttravel_id": "a17_ELEMENTAL_LIGHT",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_lightningstart",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+      "source_platform": "android",
+      "source_scene": "010_el_lightning.rule.xml",
+      "source_scene_id": "fa629399ded8e23c4fb7",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "8f3006ce4fc3e44a1357",
+      "entrypoint_id": "1",
+      "fasttravel_id": "a14_ELEMENTAL_EARTH",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_fromearthboss",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp",
+      "source_platform": "android",
+      "source_scene": "014_el_earth.rule.xml",
+      "source_scene_id": "87474d560b2e8c1f85b5",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "b666f18842b93faa7a94",
+      "entrypoint_id": "1",
+      "fasttravel_id": "a14_ELEMENTAL_EARTH",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "source_platform": "android",
+      "source_scene": "014_el_earth.rule.xml",
+      "source_scene_id": "87474d560b2e8c1f85b5",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "9c8dcfd73869d4dbc21e",
+      "entrypoint_id": "0",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toBoss",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_02.rule.xml",
+      "source_scene_id": "247b44fa30e0237397a6",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "1ed1c1f4c764bbe82bd1",
+      "target_name": "LIGHT_HOUSE_03",
+      "target_scene": "019_light_house_03.rule.xml",
+      "target_scene_id": "7939d43105cf511cd73e"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "6b87c0ff92c9a9c7e448",
+      "entrypoint_id": "42",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_02.rule.xml",
+      "source_scene_id": "247b44fa30e0237397a6",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "0e8e5e75b55cb01c20a6",
+      "target_name": "LIGHT_HOUSE_01",
+      "target_scene": "019_light_house_01.rule.xml",
+      "target_scene_id": "b2b7ec3332bd71af7ff0"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "f1fccc32ee259f0b9955",
+      "entrypoint_id": "69",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_03.rule.xml",
+      "source_scene_id": "7939d43105cf511cd73e",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "0b62b9f71487fc57a0dd",
+      "target_name": "LIGHT_HOUSE_02",
+      "target_scene": "019_light_house_02.rule.xml",
+      "target_scene_id": "247b44fa30e0237397a6"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "7c4cb07a76ff4ee4b351",
+      "entrypoint_id": "0",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toBoss",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_03.rule.xml",
+      "source_scene_id": "7939d43105cf511cd73e",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "1ed1c1f4c764bbe82bd1",
+      "target_name": "LIGHT_HOUSE_03",
+      "target_scene": "019_light_house_03.rule.xml",
+      "target_scene_id": "7939d43105cf511cd73e"
+    },
+    {
+      "activation_condition": "IsAfter_LighthouseAssassin",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "dc7f4e6ca65bdb0e9051",
+      "entrypoint_id": "0",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_toLH2",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_03.rule.xml",
+      "source_scene_id": "7939d43105cf511cd73e",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "0b62b9f71487fc57a0dd",
+      "target_name": "LIGHT_HOUSE_02",
+      "target_scene": "019_light_house_02.rule.xml",
+      "target_scene_id": "247b44fa30e0237397a6"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "2a30ed8ad7e12d7c3ae2",
+      "entrypoint_id": "42",
+      "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_03.rule.xml",
+      "source_scene_id": "7939d43105cf511cd73e",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "0e8e5e75b55cb01c20a6",
+      "target_name": "LIGHT_HOUSE_01",
+      "target_scene": "019_light_house_01.rule.xml",
+      "target_scene_id": "b2b7ec3332bd71af7ff0"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "7151e7878f7a4bdb7248",
+      "entrypoint_id": "2",
+      "fasttravel_id": "a24_DESERT_LIGHT_HOUSE_ENTRANCE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "source_platform": "android",
+      "source_scene": "019_light_house_03.rule.xml",
+      "source_scene_id": "7939d43105cf511cd73e",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "2076398902843374a867",
+      "target_name": "RED_DESERT_HUB",
+      "target_scene": "015_red_desert_hub.mlx",
+      "target_scene_id": "145c9b75ecc0bcae66e0"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "e047ee9d50bf95547071",
+      "entrypoint_id": "7",
+      "fasttravel_id": "a11_DARKWOOD_CRYPT_02_ENTRANCE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_levelstart",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "source_platform": "android",
+      "source_scene": "020_crypt_02.rule.xml",
+      "source_scene_id": "a763713c29120b2d03f7",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "d75d58422357edd78d60",
+      "entrypoint_id": "7",
+      "fasttravel_id": null,
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_to_Darkwood",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "source_platform": "android",
+      "source_scene": "020_crypt_02.rule.xml",
+      "source_scene_id": "a763713c29120b2d03f7",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "c25f173ca6d3419d5bf0",
+      "target_name": "DARKWOOD",
+      "target_scene": "003_darkwood.mlx",
+      "target_scene_id": "2e1304ff2c8ed98caa94"
+    },
+    {
+      "activation_condition": "IsAfter_WT_Balrog",
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "f31cddbb33f1beb28980",
+      "entrypoint_id": "1",
+      "fasttravel_id": "Invalid",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "source_platform": "android",
+      "source_scene": "023_watertemple.rule.xml",
+      "source_scene_id": "6add1b5bcc34b6249574",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "5bee753026c020f9458a",
+      "target_name": "SWAMP_02",
+      "target_scene": "022_swamp2.rule.xml",
+      "target_scene_id": "6ee863765454d115924d"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "72060542f6b6bc03b1a6",
+      "entrypoint_id": "1",
+      "fasttravel_id": "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_to_Swamp1",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "source_platform": "android",
+      "source_scene": "023_watertemple.rule.xml",
+      "source_scene_id": "6add1b5bcc34b6249574",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "5bee753026c020f9458a",
+      "target_name": "SWAMP_02",
+      "target_scene": "022_swamp2.rule.xml",
+      "target_scene_id": "6ee863765454d115924d"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "6d9dad0b4a94cdcd33a8",
+      "entrypoint_id": "2",
+      "fasttravel_id": "a15_ELEMENTAL_WATER",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_fromwaterboss",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp",
+      "source_platform": "android",
+      "source_scene": "024_el_water.rule.xml",
+      "source_scene_id": "fc8f217aa6c8f4b41e89",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "8166b70c1f32486f99ee",
+      "entrypoint_id": "2",
+      "fasttravel_id": "a15_ELEMENTAL_WATER",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "source_platform": "android",
+      "source_scene": "024_el_water.rule.xml",
+      "source_scene_id": "fc8f217aa6c8f4b41e89",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "f0af5f0d2b2d1836189d",
+      "entrypoint_id": "3",
+      "fasttravel_id": "a16_ELEMENTAL_AIR",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_fromairboss01",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp",
+      "source_platform": "android",
+      "source_scene": "030_el_air.rule.xml",
+      "source_scene_id": "04afe51fc8b013539656",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "67a682bda85f73777b3c",
+      "entrypoint_id": "3",
+      "fasttravel_id": "a16_ELEMENTAL_AIR",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+      "source_platform": "android",
+      "source_scene": "030_el_air.rule.xml",
+      "source_scene_id": "04afe51fc8b013539656",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "75f7a64610f1d794ef5e",
+      "entrypoint_id": "4",
+      "fasttravel_id": "a13_ELEMENTAL_FIRE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone_fromfiree01",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp",
+      "source_platform": "android",
+      "source_scene": "032_el_fire.rule.xml",
+      "source_scene_id": "1803d31bc622e52e4ca3",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    },
+    {
+      "activation_condition": null,
+      "association_confidence": "LIKELY",
+      "claim_scope": "authored_source",
+      "conditional_module_choice": true,
+      "confidence": "PROVEN",
+      "deactivation_condition": null,
+      "edge_id": "8bacf9317966083f3d28",
+      "entrypoint_id": "4",
+      "fasttravel_id": "a13_ELEMENTAL_FIRE",
+      "kind": "trigger_zone_exit_level",
+      "source_object": "_prim_ExitLevelZone",
+      "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+      "source_platform": "android",
+      "source_scene": "032_el_fire.rule.xml",
+      "source_scene_id": "1803d31bc622e52e4ca3",
+      "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+      "source_variants": [
+        {
+          "conditional_module_choice": true,
+          "platform": "android",
+          "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp"
+        }
+      ],
+      "status": "TODO",
+      "target_level_row_id": "aa4867db26a3e8693b95",
+      "target_name": "ABBEY_RUINS_01",
+      "target_scene": "009a_abbey.mlx",
+      "target_scene_id": "b5c805e540ccbf63b432"
+    }
+  ],
+  "added_levels": [
+    {
+      "actor_candidate_count": 29,
+      "existing_atlas_bucket": "unplaced",
+      "level_script": "data\\pydata\\scripts\\008_gothicus_castle_01.pyscript",
+      "membership_candidate": "unknown_act_membership",
+      "membership_claim_scope": "narrative_act_boundary",
+      "membership_confidence": "GUESS",
+      "membership_evidence": "Source reachability proves a possible level connection, not the narrative act boundary.",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "script_count": 10,
+      "script_source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+      "script_source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+      "source": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+      "source_transition_edge_count": 1,
+      "status": "TODO"
+    },
+    {
+      "actor_candidate_count": 201,
+      "existing_atlas_bucket": "unplaced",
+      "level_script": "data\\pydata\\scripts\\019_light_house_01.pyscript",
+      "membership_candidate": "unknown_act_membership",
+      "membership_claim_scope": "narrative_act_boundary",
+      "membership_confidence": "GUESS",
+      "membership_evidence": "Source reachability proves a possible level connection, not the narrative act boundary.",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "script_count": 55,
+      "script_source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+      "script_source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+      "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+      "source_transition_edge_count": 5,
+      "status": "TODO"
+    }
+  ],
+  "added_module_sources": [
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/corner_rootden_nw__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/corner_rootden_nw__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/corner_rootden_se__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/corner_rootden_se__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_e__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/deadend_rootden_e__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/deadend_rootden_w__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/objboss_rootden_w__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/objentry_rootden_e__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/straight_rootden_ns__01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/straight_rootden_ns__01.mgp",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_corner_ne_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_nw_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_corner_nw_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_corner_se_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_sw_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_corner_sw_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_e_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_deadend_e_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_deadend_n_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_deadend_s_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_deadend_w_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_obj_n_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_straight_ew_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_straight_ew_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_straight_ns_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_straight_ns_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_merchant_sew_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_t_merchant_sew_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_sew_01.mgp",
+      "platform": "android",
+      "relative": "root_den/mgp/basement_t_sew_01.mgp",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_ne_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_ne_02.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_ne_03.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_nw_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_nw_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_nw_02.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_nw_02.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_se_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_se_02.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_03.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_se_03.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_sw_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_sw_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_sw_02.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_corner_sw_02.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_e_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_deadend_e_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_deadend_n_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_deadend_w_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_entrance_s_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_kings_chamber_s_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_straight_ns_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt_t_sew_01.mgp",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_corner_se_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_corner_wn_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_ws_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_corner_ws_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_deadend_n_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_entrance_ns_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_kingroom_s_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_objectiveroom_s_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_objectiveroom_s_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straighta_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_straighta_ns_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_straightb_ew_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_t_new_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/gc01_t_new_01.mgp",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/boss_lightning.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_corner_ne_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_corner_se_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_wn_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_corner_wn_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_ws_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_corner_ws_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_deadend_n_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_deadend_w_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_straighta_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_straighta_ns_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_straightb_ew_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_straightb_ew_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_t_new_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_lightning_t_new_01.mgp",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/boss_earth.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_corner_ne_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_corner_se_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_wn_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_corner_wn_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_ws_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_corner_ws_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_deadend_n_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_deadend_w_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_straighta_ew_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_straighta_ew_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_straighta_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_straighta_ns_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_t_new_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_earth_t_new_01.mgp",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_bossroom_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "platform": "android",
+      "relative": "lighthousse/mgp/lh01_startroom_01.mgp",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_corner_ne_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_nw_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_corner_nw_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_se_04.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_corner_se_04.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_sw_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_corner_sw_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_e_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_deadend_e_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_deadend_n_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_deadend_n_02.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_deadend_w_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_c_ew_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_straight_c_ew_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_ns_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_straight_ns_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_nse_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_t_nse_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp",
+      "platform": "android",
+      "relative": "crypt/mgp/crypt2_t_sew_01.mgp",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_ne_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_04.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_ne_04.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_se_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_sw_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_sw_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_sw_03.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_sw_03.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_wn_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_wn_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_wn_03.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_corner_wn_03.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_n_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_n_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_n_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_s_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_s_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_w_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_w_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_deadend_w_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ew_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ew_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ew_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ew_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_03.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ns_03.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_04.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ns_04.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_05.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_ns_05.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_nsw_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_t_nsw_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_wse_01.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_t_wse_01.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_wse_02.mgp",
+      "platform": "android",
+      "relative": "water_temple/mgp/watertemple_t_wse_02.mgp",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/boss_water.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_corner_ne_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_corner_se_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_wn_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_corner_wn_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_ws_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_corner_ws_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_deadend_n_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_deadend_w_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_straighta_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_straighta_ns_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_straightb_ew_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_straightb_ew_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_t_new_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_water_t_new_01.mgp",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/boss_air.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_corner_ne_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_corner_se_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_wn_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_corner_wn_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_ws_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_corner_ws_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_deadend_n_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_deadend_w_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_straighta_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_straighta_ns_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_straightb_ew_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_straightb_ew_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_t_new_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_air_t_new_01.mgp",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/boss_fire.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_ne_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_corner_ne_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_nw_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_corner_nw_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_se_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_corner_se_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_ws_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_corner_ws_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_deadend_n.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_w_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_deadend_w_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_straighta_ns_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_straighta_ns_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_straightb_ew_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_straightb_ew_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "conditional": true,
+      "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_t_new_01.mgp",
+      "platform": "android",
+      "relative": "castle/mgp/el_fire_t_new_01.mgp",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    }
+  ],
+  "all_new_rows_initial_state": "TODO",
+  "baseline_counts": {
+    "actor_candidates": 1670,
+    "edge_source_variants": 105,
+    "frontier_rows": 14,
+    "known_act1_backlink_levels": 2,
+    "levels": 37,
+    "module_source_variants": 306,
+    "source_edges": 86,
+    "unknown_act_membership_levels": 34
+  },
+  "baseline_scope": "act2/scope.json",
+  "current_counts": {
+    "actor_candidates": 1900,
+    "edge_source_variants": 140,
+    "frontier_rows": 4,
+    "known_act1_backlink_levels": 2,
+    "levels": 39,
+    "module_source_variants": 465,
+    "source_edges": 121,
+    "unknown_act_membership_levels": 36
+  },
+  "current_scope": "act2/scope-current.json",
+  "new_frontiers": [
+    {
+      "claim_scope": "transition_scope_completeness",
+      "confidence": "GUESS",
+      "platform": "android",
+      "reason": "module_parse_failed",
+      "scene": "019_light_house_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+      "status": "TODO"
+    }
+  ],
+  "package": "C-act2",
+  "resolved_frontiers": [
+    {
+      "detail": "mismatched tag: line 58, column 6",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "004_root_den.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-004"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 67, column 45",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "007_crypt_01.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-005"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 52, column 42",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "020_crypt_02.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-006"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 50, column 42",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "006_basement.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-007"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 46, column 44",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "014_el_earth.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-008"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 59, column 44",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "024_el_water.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-009"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 46, column 44",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "030_el_air.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-010"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 46, column 44",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "032_el_fire.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-011"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 46, column 44",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "010_el_lightning.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-012"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 80, column 46",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "023_watertemple.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-013"
+    },
+    {
+      "detail": "not well-formed (invalid token): line 57, column 1",
+      "reason": "scene_parse_failed",
+      "resolution_note": "Narrow in-memory source repair recovered authored module declarations; original source bytes remain unchanged.",
+      "resolution_status": "DONE",
+      "scene": "019_light_house_02.rule.xml",
+      "status": "TODO",
+      "step0_progress_id": "frontier-014"
+    }
+  ],
+  "rows": [
+    {
+      "id": "9e69404bebff0e9a7211",
+      "label": "008_gothicus_castle_01.rule.xml",
+      "row_type": "level",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e",
+      "label": "019_light_house_03.rule.xml",
+      "row_type": "level",
+      "state": "TODO"
+    },
+    {
+      "id": "bfa878abb23b6625c7ef",
+      "label": "004_root_den.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "960882f17eb4b4693ada",
+      "label": "004_root_den.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "72000495806502742b90",
+      "label": "006_basement.rule.xml -> INFECTED_VILLAGE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "32536a6127e3be86606b",
+      "label": "006_basement.rule.xml -> INFECTED_VILLAGE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "a5aca6160b7c22b93d5b",
+      "label": "007_crypt_01.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "a5ec9ff1f41b599226bf",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "a52b96d2b0b2852ba8a8",
+      "label": "007_crypt_01.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "c0ec2c7935a1c59d5148",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "6a539ae402e9bbf78bdb",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "7bcb1ef474baac36212d",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "3020c9c6e072b2f878a9",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "667f9e9651ad4dec1bfd",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "5d5760aa8fb477c8ba7c",
+      "label": "007_crypt_01.rule.xml -> GOTHICUS_CASTLE_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "88df804ec3a3147a1dd5",
+      "label": "008_gothicus_castle_01.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "0aea8fa8c4e211a0788c",
+      "label": "010_el_lightning.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "048bebca5ba250809407",
+      "label": "010_el_lightning.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "8f3006ce4fc3e44a1357",
+      "label": "014_el_earth.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "b666f18842b93faa7a94",
+      "label": "014_el_earth.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "9c8dcfd73869d4dbc21e",
+      "label": "019_light_house_02.rule.xml -> LIGHT_HOUSE_03",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "6b87c0ff92c9a9c7e448",
+      "label": "019_light_house_02.rule.xml -> LIGHT_HOUSE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "f1fccc32ee259f0b9955",
+      "label": "019_light_house_03.rule.xml -> LIGHT_HOUSE_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "7c4cb07a76ff4ee4b351",
+      "label": "019_light_house_03.rule.xml -> LIGHT_HOUSE_03",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "dc7f4e6ca65bdb0e9051",
+      "label": "019_light_house_03.rule.xml -> LIGHT_HOUSE_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "2a30ed8ad7e12d7c3ae2",
+      "label": "019_light_house_03.rule.xml -> LIGHT_HOUSE_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "7151e7878f7a4bdb7248",
+      "label": "019_light_house_03.rule.xml -> RED_DESERT_HUB",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "e047ee9d50bf95547071",
+      "label": "020_crypt_02.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "d75d58422357edd78d60",
+      "label": "020_crypt_02.rule.xml -> DARKWOOD",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "f31cddbb33f1beb28980",
+      "label": "023_watertemple.rule.xml -> SWAMP_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "72060542f6b6bc03b1a6",
+      "label": "023_watertemple.rule.xml -> SWAMP_02",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "6d9dad0b4a94cdcd33a8",
+      "label": "024_el_water.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "8166b70c1f32486f99ee",
+      "label": "024_el_water.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "f0af5f0d2b2d1836189d",
+      "label": "030_el_air.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "67a682bda85f73777b3c",
+      "label": "030_el_air.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "75f7a64610f1d794ef5e",
+      "label": "032_el_fire.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "8bacf9317966083f3d28",
+      "label": "032_el_fire.rule.xml -> ABBEY_RUINS_01",
+      "row_type": "source_edge",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/corner_rootden_nw__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/corner_rootden_nw__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/corner_rootden_se__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/corner_rootden_se__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/deadend_rootden_e__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_e__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/deadend_rootden_w__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/objboss_rootden_w__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/objentry_rootden_e__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "bf6ca7beefbed5a32c86:android:root_den/mgp/straight_rootden_ns__01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/straight_rootden_ns__01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_corner_nw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_nw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_corner_sw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_corner_sw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_deadend_e_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_e_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_deadend_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_obj_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_straight_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_straight_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_straight_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_straight_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_t_merchant_sew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_merchant_sew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "b392eb001343a839de27:android:root_den/mgp/basement_t_sew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_sew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_ne_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_ne_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_nw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_nw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_nw_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_nw_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_se_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_se_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_sw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_sw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_corner_sw_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_sw_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_deadend_e_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_e_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_entrance_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_kings_chamber_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_straight_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "00f4beec573704987fff:android:crypt/mgp/crypt_t_sew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_corner_wn_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_corner_ws_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_ws_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_entrance_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_kingroom_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_objectiveroom_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_objectiveroom_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_straighta_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straighta_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_straightb_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "9e69404bebff0e9a7211:android:castle/mgp/gc01_t_new_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_t_new_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/boss_lightning.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_corner_wn_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_wn_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_corner_ws_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_corner_ws_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_straighta_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_straighta_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_straightb_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_straightb_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fa629399ded8e23c4fb7:android:castle/mgp/el_lightning_t_new_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_t_new_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/boss_earth.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_corner_wn_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_wn_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_corner_ws_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_corner_ws_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_straighta_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_straighta_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_straighta_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_straighta_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "87474d560b2e8c1f85b5:android:castle/mgp/el_earth_t_new_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_t_new_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "247b44fa30e0237397a6:android:lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_bossroom_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "7939d43105cf511cd73e:android:lighthousse/mgp/lh01_startroom_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_corner_nw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_nw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_corner_se_04.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_se_04.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_corner_sw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_corner_sw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_deadend_e_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_e_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_deadend_n_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_straight_c_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_c_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_straight_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_straight_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_t_nse_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_nse_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "a763713c29120b2d03f7:android:crypt/mgp/crypt2_t_sew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_ne_04.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_04.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_sw_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_sw_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_sw_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_sw_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_wn_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_wn_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_corner_wn_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_wn_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_n_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_n_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_s_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_s_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_deadend_w_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_w_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ew_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ew_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ns_03.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_03.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ns_04.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_04.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_ns_05.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_ns_05.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_t_nsw_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_nsw_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_t_wse_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_wse_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "6add1b5bcc34b6249574:android:water_temple/mgp/watertemple_t_wse_02.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_t_wse_02.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/boss_water.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_corner_wn_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_wn_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_corner_ws_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_corner_ws_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_straighta_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_straighta_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_straightb_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_straightb_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "fc8f217aa6c8f4b41e89:android:castle/mgp/el_water_t_new_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_t_new_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/boss_air.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_corner_wn_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_wn_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_corner_ws_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_corner_ws_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_deadend_n_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_straighta_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_straighta_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_straightb_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_straightb_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "04afe51fc8b013539656:android:castle/mgp/el_air_t_new_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_t_new_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/boss_fire.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_corner_ne_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_ne_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_corner_nw_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_nw_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_corner_se_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_se_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_corner_ws_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_corner_ws_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_deadend_n.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_deadend_w_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_w_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_straighta_ns_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_straighta_ns_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_straightb_ew_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_straightb_ew_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "1803d31bc622e52e4ca3:android:castle/mgp/el_fire_t_new_01.mgp",
+      "label": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_t_new_01.mgp",
+      "row_type": "module_source",
+      "state": "TODO"
+    },
+    {
+      "id": "254b01cbef23689eb847",
+      "label": "module_parse_failed",
+      "row_type": "frontier",
+      "state": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-act2-scope-expansion-v1",
+  "source_parse_repairs": [
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "normalized_ForceBlock_case_variants",
+      "scene": "004_root_den.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/004_root_den.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "006_basement.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "normalized_ForceBlock_case_variants",
+      "scene": "006_basement.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "LIKELY",
+      "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
+      "repairs": "removed_source_surplus_ForceBlock_close",
+      "scene": "006_basement.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "007_crypt_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/007_crypt_01.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "010_el_lightning.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/010_el_lightning.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "014_el_earth.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/014_el_earth.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "normalized_ForceBlock_case_variants",
+      "scene": "019_light_house_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "LIKELY",
+      "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
+      "repairs": "removed_duplicate_trailing_root_closures",
+      "scene": "019_light_house_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "020_crypt_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "normalized_ForceBlock_case_variants",
+      "scene": "020_crypt_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "LIKELY",
+      "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
+      "repairs": "removed_source_surplus_ForceBlock_close",
+      "scene": "020_crypt_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "023_watertemple.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/023_watertemple.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "024_el_water.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/024_el_water.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "030_el_air.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/030_el_air.rule.xml",
+      "status": "DONE"
+    },
+    {
+      "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
+      "repairs": "quoted_unquoted_boolean_attributes",
+      "scene": "032_el_fire.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/scene/032_el_fire.rule.xml",
+      "status": "DONE"
+    }
+  ]
+}

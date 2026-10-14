@@ -1,0 +1,1236 @@
+{
+  "AI": {
+    "claim_scope": "character_AI_profile_row",
+    "confidence": "PROVEN",
+    "profile": {
+      "fields": {
+        "AttackDelay": 800,
+        "CombatBeat": -1,
+        "CombatMusic": -1,
+        "DelayedLoad": 1,
+        "Flags": 0,
+        "InteractRadius": 250.0,
+        "LeashDistance": 1500.0,
+        "MeleeRadius": 200.0,
+        "OnAggroSFX": -1,
+        "Script": "monster",
+        "SelfFX": -1,
+        "Trophy": -1,
+        "Type": 4,
+        "ViewRadius": 1500.0,
+        "ViewRadiusNoAggro": 1500.0
+      },
+      "index": 41,
+      "name": "Moth",
+      "reference_status": "RESOLVED",
+      "source_status": "RESOLVED",
+      "table": "ai#group0"
+    },
+    "script": "monster",
+    "source_chain": {
+      "reason": "generic_or_empty_AI_script",
+      "root": "monster",
+      "status": "NOT-NEEDED"
+    }
+  },
+  "actor_id": "b298df8fe9d963b41e6c",
+  "actor_name": "Swamp_MovieMoth",
+  "character_properties_fields": {
+    "AI": 41,
+    "AIFaction": 7,
+    "Achievement_Block_Count": 0,
+    "Achievement_Break_Count": 0,
+    "Achievement_Chests_Count": 0,
+    "Achievement_Evade_Count": 0,
+    "Achievement_KnockedDown_Count": 0,
+    "Achievement_PickUp_Count": 0,
+    "Achievement_Potions_Count": 0,
+    "Achievement_Sell_Count": 0,
+    "Achievement_SkillUse_Count": 0,
+    "Achievement_Spent_Count": 0,
+    "Achievement_Transmute_Count": 0,
+    "AnimTable": 42,
+    "ClassDescString": 1835084,
+    "ClassID": 39,
+    "ClassString": 1835084,
+    "Collision_Scale": 85,
+    "CombatRegen_HP": -1,
+    "CombatRegen_MP": -1,
+    "Damage_Air_Max_Main_Hand": 0,
+    "Damage_Air_Max_Off_Hand": 0,
+    "Damage_Air_Min_Main_Hand": 0,
+    "Damage_Air_Min_Off_Hand": 0,
+    "Damage_Block_Mitigation": 0,
+    "Damage_Bonus_Axe": 0,
+    "Damage_Bonus_Combo": 0,
+    "Damage_Bonus_Dagger": 0,
+    "Damage_Bonus_Dual": 0,
+    "Damage_Bonus_Mace": 0,
+    "Damage_Bonus_Range": 0,
+    "Damage_Bonus_Sneaking": 0,
+    "Damage_Bonus_Staff": 0,
+    "Damage_Bonus_Stunned": 0,
+    "Damage_Bonus_Sword": 0,
+    "Damage_Bonus_TwoHand": 0,
+    "Damage_Bonus_Wand": 0,
+    "Damage_Crit_Intensification": 0,
+    "Damage_Earth_Max_Main_Hand": 0,
+    "Damage_Earth_Max_Off_Hand": 0,
+    "Damage_Earth_Min_Main_Hand": 0,
+    "Damage_Earth_Min_Off_Hand": 0,
+    "Damage_Elemental_Max_Main_Hand": 0,
+    "Damage_Elemental_Max_Off_Hand": 0,
+    "Damage_Elemental_Min_Main_Hand": 0,
+    "Damage_Elemental_Min_Off_Hand": 0,
+    "Damage_Elemental_Type_Main_Hand": -256,
+    "Damage_Elemental_Type_Off_Hand": -256,
+    "Damage_Fire_Max_Main_Hand": 0,
+    "Damage_Fire_Max_Off_Hand": 0,
+    "Damage_Fire_Min_Main_Hand": 0,
+    "Damage_Fire_Min_Off_Hand": 0,
+    "Damage_Lightning_Max_Main_Hand": 0,
+    "Damage_Lightning_Max_Off_Hand": 0,
+    "Damage_Lightning_Min_Main_Hand": 0,
+    "Damage_Lightning_Min_Off_Hand": 0,
+    "Damage_Max_Main_Hand": 0,
+    "Damage_Max_Off_Hand": 0,
+    "Damage_Min_Main_Hand": 0,
+    "Damage_Min_Off_Hand": 0,
+    "Damage_Water_Max_Main_Hand": 0,
+    "Damage_Water_Max_Off_Hand": 0,
+    "Damage_Water_Min_Main_Hand": 0,
+    "Damage_Water_Min_Off_Hand": 0,
+    "DeathCount": 0,
+    "Dialogs": -1,
+    "Diminishing_Return": 0,
+    "Dot_Duration": 0,
+    "Dot_Max_Damage": 0,
+    "Dot_Min_Damage": 0,
+    "Dot_Tick_Damage_Air": 0,
+    "Dot_Tick_Damage_Earth": 0,
+    "Dot_Tick_Damage_Fire": 0,
+    "Dot_Tick_Damage_Lightning": 0,
+    "Dot_Tick_Damage_Normal": 0,
+    "Dot_Tick_Damage_Water": 0,
+    "Effects": 1,
+    "FX_Scale": -1,
+    "FaeryList": -1,
+    "Fear_Duration": 0,
+    "Fear_Resist_Chance": 0,
+    "Fear_Target_Chance": 0,
+    "HP": -1,
+    "HP_Bonus": -1,
+    "Hurt_Resist_Chance": 0,
+    "Hurt_Target_Chance": 0,
+    "KillCount": 0,
+    "Leech_HP": 0,
+    "Leech_MP": 0,
+    "Level": 256,
+    "LevelMax": 768,
+    "LevelMin": 256,
+    "LevelOffset": 0,
+    "Loot": 232,
+    "MP": -1,
+    "MPLevelKillCount": 0,
+    "MP_Bonus": -1,
+    "Magical_Armor": 0,
+    "Max_HP": -1,
+    "Max_MP": -1,
+    "Max_XP": -1,
+    "Melee_Scale": 100,
+    "Menu_Average_Melee_To_Hit": 0,
+    "Menu_Average_Spell_To_Hit": 0,
+    "Menu_Melee_Damage_Reduction": 0,
+    "ModelFile": 66,
+    "ModularVisual": -1,
+    "Name": 1507563,
+    "Opacity_Modifier": 0,
+    "Physical_Armor": 0,
+    "Physical_Armor_Bonus_Shield": 0,
+    "Potion_HP_Modifier": 0,
+    "Potion_MP_Modifier": 0,
+    "Prereq_Dexterity": 0,
+    "Prereq_Endurance": 0,
+    "Prereq_Energy": 0,
+    "Prereq_Strength": 0,
+    "Push_Resist_Chance": 0,
+    "Push_Target_Chance": 0,
+    "RangeMaxDistance": 0,
+    "RangeMinDistance": 0,
+    "RangeProjectileID": -1,
+    "Rating_Attack": 0,
+    "Rating_Attack_Bonus_Axe": 0,
+    "Rating_Attack_Bonus_Dagger": 0,
+    "Rating_Attack_Bonus_Dual": 0,
+    "Rating_Attack_Bonus_Mace": 0,
+    "Rating_Attack_Bonus_Range": 0,
+    "Rating_Attack_Bonus_Staff": 0,
+    "Rating_Attack_Bonus_Sword": 0,
+    "Rating_Attack_Bonus_Wand": 0,
+    "Rating_Block": 0,
+    "Rating_Block_Bonus_Shield": 0,
+    "Rating_Critical": 0,
+    "Rating_Critical_Bonus_Axe": 0,
+    "Rating_Critical_Bonus_Dagger": 0,
+    "Rating_Critical_Bonus_Mace": 0,
+    "Rating_Critical_Bonus_Range": 0,
+    "Rating_Critical_Bonus_Staff": 0,
+    "Rating_Critical_Bonus_Sword": 0,
+    "Rating_Critical_Bonus_Wand": 0,
+    "Rating_Defense": 0,
+    "Rating_Dodge": 0,
+    "Regen_HP": -1,
+    "Regen_MP": -1,
+    "Resistance_Air": 0,
+    "Resistance_Earth": 0,
+    "Resistance_Fire": 0,
+    "Resistance_Lightning": 0,
+    "Resistance_Water": 0,
+    "RespawnTime": 0,
+    "Scale_X": 100,
+    "Scale_Y": 100,
+    "Scale_Z": 100,
+    "SkillTree": -1,
+    "Skill_Points": 0,
+    "Slow_Duration": 0,
+    "Slow_Resist_Chance": 0,
+    "Slow_Target_Chance": 0,
+    "SnS_Cooldown": 0,
+    "SnS_Dot_Duration": 0,
+    "SnS_Dot_Elemental_Type": -256,
+    "SnS_Dot_Max_Damage": 0,
+    "SnS_Dot_Min_Damage": 0,
+    "SnS_Duration": 0,
+    "SnS_Fear_Duration": 0,
+    "SnS_Fear_Target_Chance": 0,
+    "SnS_Hurt_Target_Chance": 0,
+    "SnS_Level": 0,
+    "SnS_ManaCost": 0,
+    "SnS_MaxDamage": 0,
+    "SnS_MinDamage": 0,
+    "SnS_Push_Target_Chance": 0,
+    "SnS_Slow_Duration": 0,
+    "SnS_Slow_Target_Chance": 0,
+    "SnS_Stun_Duration": 0,
+    "SnS_Stun_Target_Chance": 0,
+    "Sounds": 2,
+    "Special_Bonus_To_XP": 0,
+    "Special_Equip_2H_In_One": 0,
+    "Special_Equip_Main_In_Offhand": 0,
+    "Special_Loot_Gold_Multiplier": 0,
+    "Special_Loot_Magical_Chance": 0,
+    "Special_Loot_Max_Potions": 0,
+    "Special_Merchant_Price": 0,
+    "Special_Sneak": 0,
+    "Special_Sneak_Detection": 0,
+    "Special_Transmute_Efficiency": 0,
+    "Speed_Modifier_Attack": 0,
+    "Speed_Modifier_Rotation": 0,
+    "Speed_Modifier_Walk": 0,
+    "Spell_Damage_Bonus_Air": 0,
+    "Spell_Damage_Bonus_Earth": 0,
+    "Spell_Damage_Bonus_Fire": 0,
+    "Spell_Damage_Bonus_Lightning": 0,
+    "Spell_Damage_Bonus_Water": 0,
+    "Spell_Damage_Crit_Intensification": 0,
+    "Spell_Rating_Attack": 0,
+    "Spell_Rating_Attack_Bonus_Air": 0,
+    "Spell_Rating_Attack_Bonus_Earth": 0,
+    "Spell_Rating_Attack_Bonus_Fire": 0,
+    "Spell_Rating_Attack_Bonus_Lightning": 0,
+    "Spell_Rating_Attack_Bonus_Water": 0,
+    "Spell_Rating_Critical": 0,
+    "Spell_Rating_Dodge": 0,
+    "StatAutoAssignScheme": -1,
+    "Stat_Dexterity": 0,
+    "Stat_Endurance": 0,
+    "Stat_Energy": 0,
+    "Stat_Points": 0,
+    "Stat_Strength": 0,
+    "Stun_Duration": 0,
+    "Stun_Resist_Chance": 0,
+    "Stun_Target_Chance": 0,
+    "TempProp1": 0,
+    "TempProp2": 0,
+    "Threat_PerDamage": 0,
+    "Threat_PerDamageToFriendly": 0,
+    "Threat_PerHeal": 0,
+    "Value_XP": -1,
+    "Visual_AlphaFadeInSpawn": 3000,
+    "Visual_AlphaFadeOutDespawn": 3000,
+    "Visual_BlinkWhenHit": 1,
+    "XP": 0
+  },
+  "claim_scope": "character_properties_and_linked_tables",
+  "field_links": {
+    "AI": {
+      "index": 41,
+      "name": "Moth",
+      "raw": 41,
+      "reference_id": "4c08b8e8c896de91a11e",
+      "status": "RESOLVED",
+      "table": "ai#group0",
+      "target_id": "895680c2249cb62af281"
+    },
+    "AIFaction": {
+      "index": 7,
+      "name": "Monsters",
+      "raw": 7,
+      "reference_id": "cdcf7ef00f7744d07ec2",
+      "status": "RESOLVED",
+      "table": "ai_factions#group0",
+      "target_id": "3e0761afa94cda0d6259"
+    },
+    "AnimTable": {
+      "index": 42,
+      "name": "Moth",
+      "raw": 42,
+      "reference_id": "67f4a4a3c915d12710f1",
+      "status": "RESOLVED",
+      "table": "character_animations",
+      "target_id": "9625d86d7cc03749f894"
+    },
+    "ClassID": {
+      "index": 39,
+      "name": "BaseMonsterWeak",
+      "raw": 39,
+      "reference_id": "46ae593e0c87e649b677",
+      "status": "RESOLVED",
+      "table": "character_classes#group0",
+      "target_id": "8aa7273e9c197cda70e2"
+    },
+    "Effects": {
+      "index": 1,
+      "name": "DefaultMonster",
+      "raw": 1,
+      "reference_id": "76a6ae0bbdca707f9157",
+      "status": "RESOLVED",
+      "table": "character_effects",
+      "target_id": "602148208a935770b821"
+    },
+    "Loot": {
+      "index": 232,
+      "name": "Swamp_Weak_Loot",
+      "raw": 232,
+      "reference_id": "9f5ba9a69b90696ea1fe",
+      "status": "RESOLVED",
+      "table": "loot_table#group5",
+      "target_id": "45d2907899ad104512a2"
+    },
+    "ModelFile": {
+      "index": 66,
+      "name": "moth",
+      "raw": 66,
+      "reference_id": "55b11fb7a7329a9997ca",
+      "status": "RESOLVED",
+      "table": "character_models_dictionary#group0",
+      "target_id": "d308c32adc70c5cd9659"
+    },
+    "Sounds": {
+      "index": 2,
+      "name": "Default",
+      "raw": 2,
+      "reference_id": "4e871a1c2169f1f9f078",
+      "status": "RESOLVED",
+      "table": "sounds#group0",
+      "target_id": "f93e07b3f9ba3c48dc93"
+    }
+  },
+  "package_A_native_callsite_specs": [],
+  "package_B_resource_crossrefs": [
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 66,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/moth/moth.bdae"
+              },
+              "index": 66,
+              "name": "moth",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "66",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "f8868b552107b13f95da",
+      "selection_files": [],
+      "source_candidates": []
+    }
+  ],
+  "package_B_resource_dependencies": {
+    "animation": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene_despawn.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_intimidate.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene05.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene18.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_death_cutscene.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_death_cutscene_despawn.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_intimidate.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene05.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene18.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [],
+      "source_names": [
+        "cs_swamp_intro_prisonner_scene03",
+        "cs_swamp_intro_troll_scene01",
+        "cs_swamp_intro_troll_scene02",
+        "cs_swamp_intro_troll_scene03",
+        "cs_swamp_intro_troll_scene05",
+        "cs_swamp_intro_troll_scene18",
+        "cs_swampking_death_cutscene",
+        "cs_swampking_death_cutscene_despawn",
+        "cs_swampking_intimidate",
+        "cs_swampking_intro_camera_scene02",
+        "cs_swampking_intro_camera_scene03",
+        "cs_swampking_intro_camera_scene04",
+        "cs_swampking_intro_camera_scene06"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+        ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+        ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+        ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene_despawn.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_intimidate.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene03.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene05.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene18.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+        "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+        "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+        "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+        "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+        "data/3D/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae",
+        "data/3D/characters/swampking/animations/CS_swampking_death_cutscene.bdae",
+        "data/3D/characters/swampking/animations/CS_swampking_death_cutscene_despawn.bdae",
+        "data/3D/characters/swampking/animations/CS_swampking_intimidate.bdae",
+        "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae",
+        "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae",
+        "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene03.bdae",
+        "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene05.bdae",
+        "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene18.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "loot": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "Swamp_Weak_Loot"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "model": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/moth/moth.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/moth/moth.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 66,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/moth/moth.bdae"
+                  },
+                  "index": 66,
+                  "name": "moth",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "66",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "f8868b552107b13f95da",
+          "selection_files": [],
+          "source_candidates": []
+        }
+      ],
+      "source_names": [],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/characters/moth/moth.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+        "data/3D/characters/moth/moth.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "sound": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "Default"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin"
+      ],
+      "status": "UNRESOLVED"
+    }
+  },
+  "resources": {
+    "animation": {
+      "claim_scope": "character_animation_table_rows",
+      "confidence": "PROVEN",
+      "reason": null,
+      "state_rows": {
+        "Attack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae",
+              "sha256": "503d58bd18e0f3d9d96849a7ca9b2cba5857c3eba79bfd5164790ae6076bbb4c",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 441,
+          "name": "cs_swamp_intro_prisonner_scene03",
+          "path": "data/3D/characters/npcs/animations/cs_swamp_intro_prisonner_scene03.bdae"
+        },
+        "Blocking": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene_despawn.bdae",
+              "sha256": "44616706e99928cbfccf73828f51bb043610d99a832091f6e2cd3f6475bc33bd",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 448,
+          "name": "cs_swampking_death_cutscene_despawn",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_death_cutscene_despawn.bdae"
+        },
+        "DeadlyGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae",
+              "sha256": "d68250f1147210ba98d71e6e11e19637f9314a4f8f43ba7cdb60ea932c15a59e",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 442,
+          "name": "cs_swamp_intro_troll_scene01",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae"
+        },
+        "Despawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae",
+              "sha256": "31c6c893d97bc836d2482770fe3e958fb63d5efc8f03210ef271a3e44ae6a0d2",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 443,
+          "name": "cs_swamp_intro_troll_scene02",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae"
+        },
+        "DespawnGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene03.bdae",
+              "sha256": "8d6db92d7e963134505526f660b3d95b47c65655dad717ec8e26ccfa793c2750",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 444,
+          "name": "cs_swamp_intro_troll_scene03",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene03.bdae"
+        },
+        "Died": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene05.bdae",
+              "sha256": "0f600e008d692a1b065693b4dbaeaf386691c7a2aae113db92e66cebc2bb09e4",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 445,
+          "name": "cs_swamp_intro_troll_scene05",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene05.bdae"
+        },
+        "Dodging": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene_despawn.bdae",
+              "sha256": "44616706e99928cbfccf73828f51bb043610d99a832091f6e2cd3f6475bc33bd",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 448,
+          "name": "cs_swampking_death_cutscene_despawn",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_death_cutscene_despawn.bdae"
+        },
+        "GreatKnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/troll/animations/cs_swamp_intro_troll_scene18.bdae",
+              "sha256": "ab2114894fdd8eeceac37068a3d7e59f48601ef690cbc9fae412eeae9f4579db",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 446,
+          "name": "cs_swamp_intro_troll_scene18",
+          "path": "data/3D/characters/troll/animations/cs_swamp_intro_troll_scene18.bdae"
+        },
+        "Idle": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene.bdae",
+              "sha256": "06a41b931e227926d56488e430b7d3283a113fd66fd9f662c00e8ff1c6d46d3c",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 447,
+          "name": "cs_swampking_death_cutscene",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_death_cutscene.bdae"
+        },
+        "Injured": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_death_cutscene_despawn.bdae",
+              "sha256": "44616706e99928cbfccf73828f51bb043610d99a832091f6e2cd3f6475bc33bd",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 448,
+          "name": "cs_swampking_death_cutscene_despawn",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_death_cutscene_despawn.bdae"
+        },
+        "KnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/animations/cs_swampking_intimidate.bdae",
+              "sha256": "eb37b568752872f9e517186115fd43327225baf21abd1db51b17e45af362ebe6",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 449,
+          "name": "cs_swampking_intimidate",
+          "path": "data/3D/characters/swampking/animations/CS_swampking_intimidate.bdae"
+        },
+        "Scared": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+              "sha256": "7d168fd08f0ff3dbaa27df9d7a1a5dea665063fca85cf04fa1015627ea760874",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 455,
+          "name": "cs_swampking_intro_camera_scene06",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae"
+        },
+        "Spawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+              "sha256": "c460546ed2fe458c546b8106e9a71fbfece722c3437c44eeaa61e89a8dd8cc87",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 451,
+          "name": "cs_swampking_intro_camera_scene02",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae"
+        },
+        "Stunned": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+              "sha256": "4b66c0fa381c1ce72748e926507414786c850996fca8e35c80604a9017db6592",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 452,
+          "name": "cs_swampking_intro_camera_scene03",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae"
+        },
+        "Template": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+              "sha256": "f03feeb3392c204aabba7c01ecbb8b08339324708beccf2a7f59ef67221188bb",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 453,
+          "name": "cs_swampking_intro_camera_scene04",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae"
+        },
+        "Walk": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+              "sha256": "7d168fd08f0ff3dbaa27df9d7a1a5dea665063fca85cf04fa1015627ea760874",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 455,
+          "name": "cs_swampking_intro_camera_scene06",
+          "path": "data/3D/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae"
+        }
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 42,
+          "name": "Moth",
+          "raw": 42,
+          "reference_id": "67f4a4a3c915d12710f1",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "target_id": "9625d86d7cc03749f894"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Attack": 441,
+            "AttackStatic": -1,
+            "Blocking": 448,
+            "DeadlyGreatKB": 442,
+            "Despawn": 443,
+            "DespawnGreatKB": 444,
+            "Died": 445,
+            "Dodging": 448,
+            "GreatKnockedBack": 446,
+            "Idle": 447,
+            "IdleFromOOC": -1,
+            "IdleOOC": -1,
+            "IdleSneak": -1,
+            "IdleToOOC": -1,
+            "Injured": 448,
+            "Interact": [
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "KnockedBack": 449,
+            "LiftDrop": -1,
+            "LiftIdle": -1,
+            "LiftMove": -1,
+            "Limbus": -1,
+            "MenuIdle": -1,
+            "MenuOnSelect": -1,
+            "PreSpawn": -1,
+            "Revived": -1,
+            "Reviving": -1,
+            "Run": -1,
+            "Run180": -1,
+            "RunSneak": -1,
+            "Scared": 455,
+            "Spawn": 451,
+            "Spells": [],
+            "Stunned": 452,
+            "Template": 453,
+            "Walk": 455,
+            "Walk180": -1,
+            "WalkSneak": -1
+          },
+          "id": "9625d86d7cc03749f894",
+          "index": 42,
+          "name": "Moth",
+          "reason": null,
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "loot": {
+      "claim_scope": "character_loot_table_row",
+      "confidence": "PROVEN",
+      "reason": null,
+      "row": {
+        "confidence": "PROVEN",
+        "fields": {
+          "FixedLootEntries": [],
+          "NumRandomItemProbs": 32,
+          "RandomLootEntries": [],
+          "RollType": 0,
+          "SubLoots": [
+            233,
+            285
+          ]
+        },
+        "id": "45d2907899ad104512a2",
+        "index": 232,
+        "name": "Swamp_Weak_Loot",
+        "reason": null,
+        "schema_evidence": "port/game-data/loot_tables_v2.cpp:22",
+        "section": 5,
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin",
+        "source_table": "loot_table",
+        "status": "RESOLVED",
+        "table": "loot_table#group5",
+        "work_status": "DONE"
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 232,
+          "name": "Swamp_Weak_Loot",
+          "raw": 232,
+          "reference_id": "9f5ba9a69b90696ea1fe",
+          "status": "RESOLVED",
+          "table": "loot_table#group5",
+          "target_id": "45d2907899ad104512a2"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "FixedLootEntries": [],
+            "NumRandomItemProbs": 32,
+            "RandomLootEntries": [],
+            "RollType": 0,
+            "SubLoots": [
+              233,
+              285
+            ]
+          },
+          "id": "45d2907899ad104512a2",
+          "index": 232,
+          "name": "Swamp_Weak_Loot",
+          "reason": null,
+          "schema_evidence": "port/game-data/loot_tables_v2.cpp:22",
+          "section": 5,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin",
+          "source_table": "loot_table",
+          "status": "RESOLVED",
+          "table": "loot_table#group5",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "model": {
+      "asset_candidates": [
+        {
+          "claim_scope": "source_file_presence",
+          "confidence": "PROVEN",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/moth/moth.bdae",
+          "sha256": "c1ef1fef10e8ae846845734d1808eabe8acd219ad2f0d0b710dc70a9dcafbc7c",
+          "source": "android",
+          "status": "REFERENCED"
+        }
+      ],
+      "claim_scope": "character_model_dictionary_row",
+      "confidence": "PROVEN",
+      "path": "data/3D/characters/moth/moth.bdae",
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 66,
+          "name": "moth",
+          "raw": 66,
+          "reference_id": "55b11fb7a7329a9997ca",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "target_id": "d308c32adc70c5cd9659"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "Path": "data/3D/characters/moth/moth.bdae"
+          },
+          "id": "d308c32adc70c5cd9659",
+          "index": 66,
+          "name": "moth",
+          "reason": null,
+          "schema_evidence": "port/game-data/data.cpp:35",
+          "section": 0,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+          "source_table": "character_models_dictionary",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "sound": {
+      "claim_scope": "character_sound_profile_row",
+      "confidence": "PROVEN",
+      "profile": {
+        "candidate_note": null,
+        "candidates": [],
+        "confidence": "PROVEN",
+        "fields": {
+          "Die": [],
+          "Hurt": [],
+          "ImpactVsFlesh": [],
+          "ImpactVsMetal": [],
+          "IsFlesh": true,
+          "IsMetallic": false
+        },
+        "id": "f93e07b3f9ba3c48dc93",
+        "index": 2,
+        "name": "Default",
+        "reason": null,
+        "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+        "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+        "status": "RESOLVED",
+        "table": "sounds#group0",
+        "work_status": "DONE"
+      },
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 2,
+          "name": "Default",
+          "raw": 2,
+          "reference_id": "4e871a1c2169f1f9f078",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "target_id": "f93e07b3f9ba3c48dc93"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
+          "id": "f93e07b3f9ba3c48dc93",
+          "index": 2,
+          "name": "Default",
+          "reason": null,
+          "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "work_status": "DONE"
+        }
+      }
+    }
+  },
+  "source_confidence": "PROVEN",
+  "source_port_snapshot": {
+    "production_runtime_status": "UNVERIFIED",
+    "reason": "Source table linkage does not prove resource loading or actor behavior in the Windows production path.",
+    "source_atlas_status": "RESOLVED",
+    "source_atlas_work_status": "DONE"
+  },
+  "source_table": "character_properties",
+  "status": "DONE",
+  "trophy_and_skill_fields": {
+    "skills": "-1",
+    "trophy": -1
+  }
+}

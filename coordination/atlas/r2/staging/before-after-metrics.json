@@ -1,0 +1,523 @@
+{
+  "after_source_unresolved_by_act": {
+    "act_1": 1976,
+    "act_2_inferred": 4571
+  },
+  "already_staged_by_act": {
+    "act_1": 499,
+    "act_2_inferred": 845
+  },
+  "already_staged_definition": "RESOLVED_STAGED rows whose destination is in the frozen staged2 manifest.",
+  "before_source_unresolved_by_act": {
+    "act_1": 1787,
+    "act_2_inferred": 6527
+  },
+  "by_act_family": {
+    "act_1:anim": {
+      "after_source_unresolved": 35,
+      "already_staged": 1,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 472
+    },
+    "act_1:effect": {
+      "after_source_unresolved": 0,
+      "already_staged": 41,
+      "before_source_unresolved": 0,
+      "staging_ready": 32,
+      "total": 152
+    },
+    "act_1:model": {
+      "after_source_unresolved": 1695,
+      "already_staged": 324,
+      "before_source_unresolved": 1279,
+      "staging_ready": 0,
+      "total": 3732
+    },
+    "act_1:other/nonresource": {
+      "after_source_unresolved": 207,
+      "already_staged": 4,
+      "before_source_unresolved": 464,
+      "staging_ready": 0,
+      "total": 3034
+    },
+    "act_1:projectile": {
+      "after_source_unresolved": 0,
+      "already_staged": 5,
+      "before_source_unresolved": 0,
+      "staging_ready": 12,
+      "total": 21
+    },
+    "act_1:script": {
+      "after_source_unresolved": 37,
+      "already_staged": 35,
+      "before_source_unresolved": 42,
+      "staging_ready": 38,
+      "total": 145
+    },
+    "act_1:sound": {
+      "after_source_unresolved": 2,
+      "already_staged": 89,
+      "before_source_unresolved": 2,
+      "staging_ready": 0,
+      "total": 279
+    },
+    "act_2_inferred:anim": {
+      "after_source_unresolved": 35,
+      "already_staged": 1,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 743
+    },
+    "act_2_inferred:effect": {
+      "after_source_unresolved": 0,
+      "already_staged": 41,
+      "before_source_unresolved": 0,
+      "staging_ready": 32,
+      "total": 451
+    },
+    "act_2_inferred:model": {
+      "after_source_unresolved": 2913,
+      "already_staged": 425,
+      "before_source_unresolved": 2516,
+      "staging_ready": 111,
+      "total": 13920
+    },
+    "act_2_inferred:other/nonresource": {
+      "after_source_unresolved": 1246,
+      "already_staged": 31,
+      "before_source_unresolved": 3629,
+      "staging_ready": 43,
+      "total": 9032
+    },
+    "act_2_inferred:projectile": {
+      "after_source_unresolved": 0,
+      "already_staged": 5,
+      "before_source_unresolved": 0,
+      "staging_ready": 12,
+      "total": 46
+    },
+    "act_2_inferred:script": {
+      "after_source_unresolved": 368,
+      "already_staged": 35,
+      "before_source_unresolved": 373,
+      "staging_ready": 38,
+      "total": 622
+    },
+    "act_2_inferred:sound": {
+      "after_source_unresolved": 9,
+      "already_staged": 307,
+      "before_source_unresolved": 9,
+      "staging_ready": 0,
+      "total": 729
+    }
+  },
+  "by_act_kind": {
+    "act_1:actor_name_candidate": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 5,
+      "staging_ready": 0,
+      "total": 5
+    },
+    "act_1:anim": {
+      "after_source_unresolved": 35,
+      "already_staged": 1,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 148
+    },
+    "act_1:animated effect": {
+      "after_source_unresolved": 0,
+      "already_staged": 41,
+      "before_source_unresolved": 0,
+      "staging_ready": 32,
+      "total": 73
+    },
+    "act_1:animation event": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 102
+    },
+    "act_1:animation_dictionary": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 222
+    },
+    "act_1:campaign_script_target_index": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 55
+    },
+    "act_1:character": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 353
+    },
+    "act_1:class": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 97
+    },
+    "act_1:data file": {
+      "after_source_unresolved": 0,
+      "already_staged": 4,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 96
+    },
+    "act_1:dialog_style_id": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 123,
+      "staging_ready": 0,
+      "total": 123
+    },
+    "act_1:dialog_text_string_id": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 123,
+      "staging_ready": 0,
+      "total": 123
+    },
+    "act_1:effect set": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 57
+    },
+    "act_1:effect_set": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 22
+    },
+    "act_1:faction": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 90
+    },
+    "act_1:loot": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 16
+    },
+    "act_1:model": {
+      "after_source_unresolved": 30,
+      "already_staged": 30,
+      "before_source_unresolved": 30,
+      "staging_ready": 0,
+      "total": 1420
+    },
+    "act_1:model component": {
+      "after_source_unresolved": 1245,
+      "already_staged": 0,
+      "before_source_unresolved": 1245,
+      "staging_ready": 0,
+      "total": 1245
+    },
+    "act_1:named_reference": {
+      "after_source_unresolved": 15,
+      "already_staged": 0,
+      "before_source_unresolved": 15,
+      "staging_ready": 0,
+      "total": 744
+    },
+    "act_1:numeric_reference": {
+      "after_source_unresolved": 71,
+      "already_staged": 0,
+      "before_source_unresolved": 41,
+      "staging_ready": 0,
+      "total": 71
+    },
+    "act_1:projectile": {
+      "after_source_unresolved": 0,
+      "already_staged": 5,
+      "before_source_unresolved": 0,
+      "staging_ready": 12,
+      "total": 21
+    },
+    "act_1:scene_object_condition": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 53
+    },
+    "act_1:script": {
+      "after_source_unresolved": 37,
+      "already_staged": 35,
+      "before_source_unresolved": 42,
+      "staging_ready": 38,
+      "total": 145
+    },
+    "act_1:serialized_string": {
+      "after_source_unresolved": 99,
+      "already_staged": 0,
+      "before_source_unresolved": 134,
+      "staging_ready": 0,
+      "total": 646
+    },
+    "act_1:skill": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 3
+    },
+    "act_1:sound": {
+      "after_source_unresolved": 2,
+      "already_staged": 89,
+      "before_source_unresolved": 2,
+      "staging_ready": 0,
+      "total": 259
+    },
+    "act_1:source_sound_ordinal": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 20
+    },
+    "act_1:symbolic_reference": {
+      "after_source_unresolved": 22,
+      "already_staged": 0,
+      "before_source_unresolved": 23,
+      "staging_ready": 0,
+      "total": 912
+    },
+    "act_1:texture": {
+      "after_source_unresolved": 420,
+      "already_staged": 294,
+      "before_source_unresolved": 4,
+      "staging_ready": 0,
+      "total": 714
+    },
+    "act_2_inferred:actor_name_candidate": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 9,
+      "staging_ready": 0,
+      "total": 35
+    },
+    "act_2_inferred:anim": {
+      "after_source_unresolved": 35,
+      "already_staged": 1,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 294
+    },
+    "act_2_inferred:animated effect": {
+      "after_source_unresolved": 0,
+      "already_staged": 41,
+      "before_source_unresolved": 0,
+      "staging_ready": 32,
+      "total": 73
+    },
+    "act_2_inferred:animation event": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 102
+    },
+    "act_2_inferred:animation_dictionary": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 347
+    },
+    "act_2_inferred:campaign_script_target_index": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 520
+    },
+    "act_2_inferred:character": {
+      "after_source_unresolved": 484,
+      "already_staged": 0,
+      "before_source_unresolved": 503,
+      "staging_ready": 0,
+      "total": 9449
+    },
+    "act_2_inferred:class": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 166
+    },
+    "act_2_inferred:data file": {
+      "after_source_unresolved": 2,
+      "already_staged": 31,
+      "before_source_unresolved": 2,
+      "staging_ready": 43,
+      "total": 192
+    },
+    "act_2_inferred:dialog_style_id": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 1027,
+      "staging_ready": 0,
+      "total": 1027
+    },
+    "act_2_inferred:dialog_text_string_id": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 1027,
+      "staging_ready": 0,
+      "total": 1027
+    },
+    "act_2_inferred:effect set": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 203
+    },
+    "act_2_inferred:effect_set": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 175
+    },
+    "act_2_inferred:faction": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 236
+    },
+    "act_2_inferred:level_name_candidate": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 7
+    },
+    "act_2_inferred:loot": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 100
+    },
+    "act_2_inferred:model": {
+      "after_source_unresolved": 764,
+      "already_staged": 131,
+      "before_source_unresolved": 764,
+      "staging_ready": 111,
+      "total": 2512
+    },
+    "act_2_inferred:model component": {
+      "after_source_unresolved": 1245,
+      "already_staged": 0,
+      "before_source_unresolved": 1245,
+      "staging_ready": 0,
+      "total": 1245
+    },
+    "act_2_inferred:named_reference": {
+      "after_source_unresolved": 15,
+      "already_staged": 0,
+      "before_source_unresolved": 15,
+      "staging_ready": 0,
+      "total": 744
+    },
+    "act_2_inferred:numeric_reference": {
+      "after_source_unresolved": 71,
+      "already_staged": 0,
+      "before_source_unresolved": 41,
+      "staging_ready": 0,
+      "total": 71
+    },
+    "act_2_inferred:projectile": {
+      "after_source_unresolved": 0,
+      "already_staged": 5,
+      "before_source_unresolved": 0,
+      "staging_ready": 12,
+      "total": 46
+    },
+    "act_2_inferred:scene_object_condition": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 8,
+      "staging_ready": 0,
+      "total": 408
+    },
+    "act_2_inferred:script": {
+      "after_source_unresolved": 368,
+      "already_staged": 35,
+      "before_source_unresolved": 373,
+      "staging_ready": 38,
+      "total": 622
+    },
+    "act_2_inferred:serialized_string": {
+      "after_source_unresolved": 1136,
+      "already_staged": 0,
+      "before_source_unresolved": 1477,
+      "staging_ready": 0,
+      "total": 3569
+    },
+    "act_2_inferred:skill": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 18
+    },
+    "act_2_inferred:sound": {
+      "after_source_unresolved": 9,
+      "already_staged": 307,
+      "before_source_unresolved": 9,
+      "staging_ready": 0,
+      "total": 630
+    },
+    "act_2_inferred:source_sound_ordinal": {
+      "after_source_unresolved": 0,
+      "already_staged": 0,
+      "before_source_unresolved": 0,
+      "staging_ready": 0,
+      "total": 99
+    },
+    "act_2_inferred:symbolic_reference": {
+      "after_source_unresolved": 22,
+      "already_staged": 0,
+      "before_source_unresolved": 23,
+      "staging_ready": 0,
+      "total": 912
+    },
+    "act_2_inferred:texture": {
+      "after_source_unresolved": 420,
+      "already_staged": 294,
+      "before_source_unresolved": 4,
+      "staging_ready": 0,
+      "total": 714
+    }
+  },
+  "schema": "atlas-r2-staging-metrics-v1",
+  "source_unresolved_definition": "original status UNRESOLVED before classification; after means UNRESOLVED, AMBIGUOUS, PORT_RULE_ABSENT, or ABSENT_ALL_CORPORA.",
+  "staging_ready_by_act": {
+    "act_1": 82,
+    "act_2_inferred": 236
+  },
+  "staging_ready_definition": "ORIGINAL_EXISTS_NOT_STAGED rows with an exact source path, destination, hash, and selection entry."
+}

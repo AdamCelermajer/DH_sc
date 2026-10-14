@@ -1,0 +1,783 @@
+{
+  "act": "act_2_inferred",
+  "count": 18,
+  "kind": "skill",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 110,
+        "table": "character_properties#group0"
+      },
+      "id": "0cb69b0e155aa402a66b",
+      "kind": "skill",
+      "name": "7",
+      "reason": null,
+      "reference_id": "0cb69b0e155aa402a66b",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                29
+              ]
+            },
+            "index": 7,
+            "name": "Dummy",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=110].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "6ddb190672d9f707af1e",
+      "kind": "skill",
+      "name": "0",
+      "reason": null,
+      "reference_id": "6ddb190672d9f707af1e",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                3
+              ]
+            },
+            "index": 0,
+            "name": "Assassin",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 14,
+        "table": "character_properties#group0"
+      },
+      "id": "d65e87d0c4057cbbd1a5",
+      "kind": "skill",
+      "name": "0",
+      "reason": null,
+      "reference_id": "d65e87d0c4057cbbd1a5",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                3
+              ]
+            },
+            "index": 0,
+            "name": "Assassin",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 14 AssassinAbbey (badbf492c0d7858aaa7c); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=14].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 16,
+        "table": "character_properties#group0"
+      },
+      "id": "01bcc67dc5e3b25954d1",
+      "kind": "skill",
+      "name": "0",
+      "reason": null,
+      "reference_id": "01bcc67dc5e3b25954d1",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                3
+              ]
+            },
+            "index": 0,
+            "name": "Assassin",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 16 AssassinLighthouse (87e8e6404dccb09ddc22); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=16].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 171,
+        "table": "character_properties#group0"
+      },
+      "id": "56809950b3fa1e9adf2d",
+      "kind": "skill",
+      "name": "12",
+      "reason": null,
+      "reference_id": "56809950b3fa1e9adf2d",
+      "resolves_to": [
+        {
+          "index": 12,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                48,
+                48,
+                49
+              ]
+            },
+            "index": 12,
+            "name": "FlaminiteSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 171 Flaminite (fc0f9c7f5e537c94cf66); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=171].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "7e2619a9bb3dd9c4c722",
+      "kind": "skill",
+      "name": "9",
+      "reason": null,
+      "reference_id": "7e2619a9bb3dd9c4c722",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                37,
+                38,
+                37,
+                38
+              ]
+            },
+            "index": 9,
+            "name": "Emissary",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 281,
+        "table": "character_properties#group0"
+      },
+      "id": "bffa265db4e453f5ed2a",
+      "kind": "skill",
+      "name": "5",
+      "reason": null,
+      "reference_id": "bffa265db4e453f5ed2a",
+      "resolves_to": [
+        {
+          "index": 5,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                22,
+                23,
+                25,
+                22,
+                23
+              ]
+            },
+            "index": 5,
+            "name": "DarkQueen2",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 281 MachineRoom_DarkFaery (8ac8e5db3a7ce5c38863); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=281].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 285,
+        "table": "character_properties#group0"
+      },
+      "id": "e7b8e22be0fc5550f2bc",
+      "kind": "skill",
+      "name": "10",
+      "reason": null,
+      "reference_id": "e7b8e22be0fc5550f2bc",
+      "resolves_to": [
+        {
+          "index": 10,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                40
+              ]
+            },
+            "index": 10,
+            "name": "EnergySpawner",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 285 MadrukEnergySpawner (48f07134656a2cda8b03); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=285].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 287,
+        "table": "character_properties#group0"
+      },
+      "id": "d4fba0d3c33b1e6a71dc",
+      "kind": "skill",
+      "name": "20",
+      "reason": null,
+      "reference_id": "d4fba0d3c33b1e6a71dc",
+      "resolves_to": [
+        {
+          "index": 20,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                64,
+                63,
+                65,
+                66
+              ]
+            },
+            "index": 20,
+            "name": "MadrukTorso",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 287 MadrukTorso (e90cdf184470499d5d8c); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=287].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 288,
+        "table": "character_properties#group0"
+      },
+      "id": "ff0748d7792a1aad4c45",
+      "kind": "skill",
+      "name": "17",
+      "reason": null,
+      "reference_id": "ff0748d7792a1aad4c45",
+      "resolves_to": [
+        {
+          "index": 17,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                70,
+                67,
+                69,
+                71,
+                68
+              ]
+            },
+            "index": 17,
+            "name": "Madruk",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 288 Madruk_A (6049d17d9d924ff5b265); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=288].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 321,
+        "table": "character_properties#group0"
+      },
+      "id": "ac782aa3ef776d265f7f",
+      "kind": "skill",
+      "name": "26",
+      "reason": null,
+      "reference_id": "ac782aa3ef776d265f7f",
+      "resolves_to": [
+        {
+          "index": 26,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                92
+              ]
+            },
+            "index": 26,
+            "name": "ResGod",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 321 ResurrectingGod (603bed866fd56e342161); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=321].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 328,
+        "table": "character_properties#group0"
+      },
+      "id": "bc6513360f3f81ed318d",
+      "kind": "skill",
+      "name": "30",
+      "reason": null,
+      "reference_id": "bc6513360f3f81ed318d",
+      "resolves_to": [
+        {
+          "index": 30,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                95,
+                96,
+                96,
+                94,
+                96
+              ]
+            },
+            "index": 30,
+            "name": "RootTrollSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 328 RootTroll (125d78f1be84734bc100); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=328].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 331,
+        "table": "character_properties#group0"
+      },
+      "id": "366f28b1fef2aac8bf8c",
+      "kind": "skill",
+      "name": "34",
+      "reason": null,
+      "reference_id": "366f28b1fef2aac8bf8c",
+      "resolves_to": [
+        {
+          "index": 34,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                118,
+                120,
+                117,
+                121,
+                119
+              ]
+            },
+            "index": 34,
+            "name": "WindDragon",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 331 SKYGUARDIAN (e0068a13716136a1af28); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=331].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 332,
+        "table": "character_properties#group0"
+      },
+      "id": "aa1368cdae782308bb34",
+      "kind": "skill",
+      "name": "31",
+      "reason": null,
+      "reference_id": "aa1368cdae782308bb34",
+      "resolves_to": [
+        {
+          "index": 31,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                123,
+                124,
+                99,
+                98
+              ]
+            },
+            "index": 31,
+            "name": "SandWormSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 332 SandWorm (c4504e979373d63945c2); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=332].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 333,
+        "table": "character_properties#group0"
+      },
+      "id": "163147928571179c16f8",
+      "kind": "skill",
+      "name": "31",
+      "reason": null,
+      "reference_id": "163147928571179c16f8",
+      "resolves_to": [
+        {
+          "index": 31,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                123,
+                124,
+                99,
+                98
+              ]
+            },
+            "index": 31,
+            "name": "SandWormSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 333 SandWorm2 (9a42adb6e7886b87354d); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=333].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 334,
+        "table": "character_properties#group0"
+      },
+      "id": "faa2ff1e8573d4727a83",
+      "kind": "skill",
+      "name": "31",
+      "reason": null,
+      "reference_id": "faa2ff1e8573d4727a83",
+      "resolves_to": [
+        {
+          "index": 31,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                123,
+                124,
+                99,
+                98
+              ]
+            },
+            "index": 31,
+            "name": "SandWormSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 334 SandWormQueen (e9d398b946cb853feb9c); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=334].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 388,
+        "table": "character_properties#group0"
+      },
+      "id": "f84fb253a8066d1eb5e0",
+      "kind": "skill",
+      "name": "9",
+      "reason": null,
+      "reference_id": "f84fb253a8066d1eb5e0",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                37,
+                38,
+                37,
+                38
+              ]
+            },
+            "index": 9,
+            "name": "Emissary",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 388 UW_Emissary (4a8c8f6b3f21d75a27da); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=388].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 62,
+        "table": "character_properties#group0"
+      },
+      "id": "3986d067897abaf83182",
+      "kind": "skill",
+      "name": "4",
+      "reason": null,
+      "reference_id": "3986d067897abaf83182",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                20,
+                21
+              ]
+            },
+            "index": 4,
+            "name": "DarkQueen1",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 62 DarkQueenForm1 (78dd4d9c682bce11db47); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=62].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}
