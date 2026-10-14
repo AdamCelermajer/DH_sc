@@ -31,18 +31,28 @@ namespace dh::foundation::generic_skills {
 inline constexpr RuntimeSkillBuffProfileV1 kOffensiveAuraBuffV1 = {
     "Skill_Paladin_OffensiveAura", "skill_dh2_prince_warrior_paladin_offensive_aura_persist",
     12000.0f, 0.0f, 12000.0f};
+// prince_paladin_offensive_aura.luac OnSkill_ loop: target:PlayFX(BUFF_FX2) + CreateBuff/ApplyBuff on every other ally.
+inline constexpr RuntimeSkillAllyAuraProfileV1 kOffensiveAuraAllyV1 = {
+    "spell_dh2_prince_warrior_paladin_offensive_aura", 0.0f, false, 6000.0f};
 
 // prince_paladin_guarding_aura.luac: BUFF_ID Skill_Paladin_GuardingAura, BUFF_PERSIST
 // skill_dh2_prince_warrior_paladin_guarding_aura_persist, BUFF_TIME 12000.
 inline constexpr RuntimeSkillBuffProfileV1 kGuardingAuraBuffV1 = {
     "Skill_Paladin_GuardingAura", "skill_dh2_prince_warrior_paladin_guarding_aura_persist",
     12000.0f, 0.0f, 12000.0f};
+// prince_paladin_guarding_aura.luac OnSkill_ loop (no IsPlayer re-check, as Offensive).
+inline constexpr RuntimeSkillAllyAuraProfileV1 kGuardingAuraAllyV1 = {
+    "spell_dh2_prince_warrior_paladin_guarding_aura", 0.0f, false, 6000.0f};
 
 // prince_paladin_purifying_aura.luac: BUFF_ID Skill_Paladin_PurifyingAura, BUFF_PERSIST
 // skill_dh2_prince_warrior_paladin_purifying_aura_persist, BUFF_TIME 12000.
 inline constexpr RuntimeSkillBuffProfileV1 kPurifyingAuraBuffV1 = {
     "Skill_Paladin_PurifyingAura", "skill_dh2_prince_warrior_paladin_purifying_aura_persist",
     12000.0f, 0.0f, 12000.0f};
+// prince_paladin_purifying_aura.luac OnSkill_ loop: `if target:IsPlayer() and name ~= self`: PlayFX(BUFF_FX2), Heal(target,
+// HEAL_AMOUNT 15 per rank), CreateBuff/ApplyBuff.
+inline constexpr RuntimeSkillAllyAuraProfileV1 kPurifyingAuraAllyV1 = {
+    "spell_dh2_prince_warrior_paladin_purifying_aura", 15.0f, true, 6000.0f};
 
 // prince_berseeker_berserk.luac OnSkill_: skill_inc cycle of three volleys, each re-searching TargetListSearch(200, 360).
 // Volley 0 stuns every Character (Skill_Berserk_Berserk_Stun), volley 1 damages the top target (_Damage, also the mana
@@ -104,19 +114,19 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesKnightV1[] = {
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kOffensiveAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_offensive_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, false, nullptr, nullptr, false, false, nullptr, nullptr, 0.0f},
+     false, true, false, &kOffensiveAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_offensive_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, false, nullptr, nullptr, false, false, nullptr, nullptr, 0.0f, &kOffensiveAuraAllyV1},
     {"GuardingAura", "prince_paladin_guarding_aura", "Skill_Paladin_GuardingAura",
      0.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kGuardingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_guarding_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, false, nullptr, nullptr, false, false, nullptr, nullptr, 0.0f},
+     false, true, false, &kGuardingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_guarding_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, false, nullptr, nullptr, false, false, nullptr, nullptr, 0.0f, &kGuardingAuraAllyV1},
     {"PurifyingAura", "prince_paladin_purifying_aura", "Skill_Paladin_PurifyingAura",
      0.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kPurifyingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_purifying_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, false, nullptr, nullptr, false, false, nullptr, nullptr, 15.0f},
+     false, true, false, &kPurifyingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_purifying_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, false, nullptr, nullptr, false, false, nullptr, nullptr, 15.0f, &kPurifyingAuraAllyV1},
     // Warcry's OnSkill_ loops the OnPre list (PopTargetList, no re-search): the scare/stun arm reaches every non-boss
     // Character of that list, not only the OnPre target (es-berserker phase-1 correction, prince_berseeker_warcry.luac 95-127).
     {"Intimidation", "prince_berseeker_warcry", "Skill_Berserk_Intimidation",

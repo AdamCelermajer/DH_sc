@@ -42,6 +42,22 @@ struct DotTickV1 {
     double tick_hp = 0.0; // damage of this tick, HP units (raw x256 / 256)
 };
 
+// v21.8 w3-dot: the DoT words of one hit's CombatResult (dh2_combat_result: dot_duration / dot_amount x256, dot_element index
+// or -1). Source (skill) hits carry the elemental CF_CalcDotDamage branch (props 178-181, resistance already subtracted by the
+// calculation); melee hits carry the normal branch (props 123-125). F_ApplyResult runs the PROPS_AddDot tail only when both the
+// duration and the tick are positive; the result is returned in ms / HP.
+struct DotResultWordsV1 {
+    std::int32_t duration_raw = -1;
+    std::int32_t amount_raw = -1;
+    std::int32_t element = kDotNormalElement;
+};
+inline bool dot_from_result_words_v1(const DotResultWordsV1& words, double& duration_ms, double& tick_hp) {
+    if (words.duration_raw <= 0 || words.amount_raw <= 0) return false;
+    duration_ms = double(words.duration_raw) / 256.0;
+    tick_hp = double(words.amount_raw) / 256.0;
+    return true;
+}
+
 class DotTickOwnerV1 {
 public:
     // PROPS_AddDot: capacity 1 per element; a new DoT replaces the old one (its duration and tick are the new ones).

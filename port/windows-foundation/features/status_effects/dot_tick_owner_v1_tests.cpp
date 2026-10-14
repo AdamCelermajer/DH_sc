@@ -80,6 +80,28 @@ int main() {
             check(ticks.size() == 3, "three boundaries crossed in 3.5 s give three ticks");
         }
 
+        // v21.8 w3-dot: source-hit DoT words (CombatResult dot_duration / dot_amount x256, dot_element). F_ApplyResult runs
+        // the PROPS_AddDot tail only for a positive duration and a positive tick.
+        {
+            double duration = -1.0, tick = -1.0;
+            check(!dot_from_result_words_v1(DotResultWordsV1{0, 4608, -1}, duration, tick), "zero duration adds no DoT");
+            check(!dot_from_result_words_v1(DotResultWordsV1{4000 * 256, 0, -1}, duration, tick), "zero tick adds no DoT");
+            check(!dot_from_result_words_v1(DotResultWordsV1{4000 * 256, -256, -1}, duration, tick), "negative tick adds no DoT");
+            check(dot_from_result_words_v1(DotResultWordsV1{4000 * 256, 18 * 256 + 128, 2}, duration, tick),
+                  "positive duration and tick add a DoT");
+            check(near(duration, 4000.0) && near(tick, 18.5), "duration ms and tick HP are the x256 words divided by 256");
+
+            // Elemental source hit: the element is kept as its own DoT (capacity 1 per element), normal stays separate.
+            DotTickOwnerV1 dots;
+            dots.add(attacker, target, 2, duration, tick);
+            dots.add(attacker, target, kDotNormalElement, 3000.0, 5.0);
+            check(dots.size() == 2, "elemental and normal DoTs on one target are separate entries");
+            dots.add(attacker, target, 2, 1000.0, 7.0);
+            check(dots.size() == 2, "a new DoT of the same element replaces the old one");
+            auto ticks = dots.advance(1000.0);
+            check(ticks.size() == 2, "both DoTs tick at the boundary");
+        }
+
         std::cout << "dot_tick_owner_v1 tests passed\n";
         return 0;
     } catch (const std::exception& error) {

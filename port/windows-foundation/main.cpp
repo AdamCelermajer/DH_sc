@@ -9227,6 +9227,12 @@ int main(int argc,char** argv) {
                     passivePendingHits.clear();
                     for(const auto& heal:passiveEvents->take_carrion_heals())
                         std::cout<<"Carrion Eater heal frame="<<drawn<<" rank="<<heal.rank<<" hp="<<heal.before<<"->"<<heal.after<<" heal="<<heal.heal<<'\n';
+                    // v21.8 w3-ally: passive PlaySound labels (Conversion) through the runtime audio, once each.
+                    for(const auto& soundName:passiveEvents->take_sound_cues()) {
+                        std::string soundError;
+                        if(!runtimeAudio||!runtimeAudio->play_named_plain(soundName.c_str(),soundError))std::cerr<<"Passive sound diagnostic: "<<soundName<<' '<<soundError<<'\n';
+                        else std::cout<<"Passive sound frame="<<drawn<<" name="<<soundName<<'\n';
+                    }
                     if(!gameplayPaused) {
                         std::string frenzyError;
                         if(!passiveEvents->advance(*combatSession,gameplayDt,frenzyError)) std::cerr<<"Event passive frame="<<drawn<<": "<<frenzyError<<'\n';

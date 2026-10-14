@@ -35,4 +35,11 @@ inline constexpr int VK_DOWN = 0x28;
 inline constexpr int VK_ESCAPE = 0x1b;
 inline constexpr int VK_F5 = 0x74;
 inline constexpr int VK_F9 = 0x78;
+inline constexpr int VK_PRIOR = 0x21;
+inline constexpr int VK_NEXT = 0x22;
+inline constexpr int VK_HOME = 0x24;
+inline constexpr int VK_ADD = 0x6b;
+inline constexpr int VK_SUBTRACT = 0x6d;
+inline constexpr int VK_OEM_PLUS = 0xbb;
+inline constexpr int VK_OEM_MINUS = 0xbd;
 #endif

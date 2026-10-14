@@ -76,4 +76,9 @@ bool prepare_skill_cast_mana_v1(
     const SkillManaSourceFactsV1&, SkillManaPrepareResultV1&,
     std::string& error, bool check_only = false);
 
+// v21.8 w3-ally: UseMana debit alone (MP cell 41 -= cost, raw x256) for an authored step that charges mana after the OnPre
+// admission (Terror: add_slot charges per conversion). Publishes through PlayableActorWorld::update_combat_properties.
+bool debit_skill_mana_v1(CombatSession&, ActorId, std::int32_t cost,
+                         const dh2::data::PropertyRules&, std::string& error);
+
 } // namespace dh::foundation::generic_skills

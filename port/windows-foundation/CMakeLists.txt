@@ -21,7 +21,8 @@ else()
   set(DH2_FRONTEND_HOST_SOURCE features/frontend/native_host_sdl.cpp)
   set(DH2_AUDIO_CONTROL_SOURCES
     features/audio/linux_sdl2_source_session_control_v1.cpp
-    features/audio/linux_sdl2_output.cpp)
+    features/audio/linux_sdl2_output.cpp
+    features/audio/winmm_output_linux_shim.cpp)
   set(DH2_AUDIO_LIBRARIES PkgConfig::SDL2)
 endif()
 add_library(recovered_content STATIC
@@ -1178,6 +1179,10 @@ add_test(NAME runtime_skill_use_profile_magesub_v1 COMMAND runtime_skill_use_pro
 add_executable(runtime_timed_buff_v1_tests features/generic_skills/runtime_timed_buff_v1_tests.cpp)
 target_link_libraries(runtime_timed_buff_v1_tests PRIVATE foundation_runtime_skill_cast)
 add_test(NAME runtime_timed_buff_v1 COMMAND runtime_timed_buff_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# v21.8 w3-ally: CharAI regen tick (RegenHP/MP caps, AI_Tick 3000 ms clock, idle/combat cells), Terror per-conversion UseMana, heal cap.
+add_executable(w3_ally_tests features/generic_skills/w3_ally_tests.cpp)
+target_link_libraries(w3_ally_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME w3_ally COMMAND w3_ally_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 # v21.8 es-passive: OnTargetHit bus, generic passive owner, buff capacity admission (real session fixture).
 add_executable(passive_skill_owner_v1_tests features/generic_skills/passive_skill_owner_v1_tests.cpp)
 target_link_libraries(passive_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast)

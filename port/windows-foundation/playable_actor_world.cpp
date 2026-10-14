@@ -184,6 +184,32 @@ bool PlayableActorWorld::current_health(ActorId id,float& health,float& maximum)
     maximum=original_signed256(properties->sheets.resolved[38]);
     return true;
 }
+bool PlayableActorWorld::regen_vitals(ActorId id,std::int32_t hp_add,std::int32_t mp_add,std::string& error) {
+    error.clear();
+    auto* actor=find_actor(id);const auto* current=combat_properties(id);const auto* live_traits=traits(id);
+    if(!actor||!current||!live_traits){error="RegenTick requires a bound actor with its source property sheet";return false;}
+    if(!actor->alive())return true; // CharAI::_UpdateRegen returns before RegenTick for a dead Character.
+    OriginalCombatProperties next=*current;
+    bool changed=false;
+    // Character::RegenHP(a2): a2 = maximum - current when the sum would pass the maximum; PROPS_Add only when a2 > 0.
+    const auto add=[&](unsigned cell,unsigned maximum,std::int32_t amount){
+        auto& resolved=next.sheets.resolved[cell];
+        if(amount<=0||resolved<0||next.sheets.resolved[maximum]<0)return;
+        const std::int64_t room=std::int64_t(next.sheets.resolved[maximum])-std::int64_t(resolved);
+        const std::int64_t step=std::min<std::int64_t>(amount,room);
+        if(step<=0)return;
+        const auto bits=std::uint32_t(next.sheets.saved[cell])+std::uint32_t(step);
+        std::memcpy(&next.sheets.saved[cell],&bits,4);
+        resolved=std::int32_t(resolved+step);changed=true;
+    };
+    add(36,38,hp_add);
+    add(41,43,mp_add);
+    if(!changed)return true;
+    if(!update_combat_properties(id,std::move(next),PlayableActorTraits(*live_traits),error))return false;
+    actor->health=original_signed256(combat_properties(id)->sheets.resolved[36]);
+    actor->resource=std::max(0.0f,original_signed256(combat_properties(id)->sheets.resolved[41]));
+    return true;
+}
 ActorState* PlayableActorWorld::find_actor(ActorId id) {
     auto found=actors_.find(id);return found==actors_.end()?nullptr:&found->second;
 }

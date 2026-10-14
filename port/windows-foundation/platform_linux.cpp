@@ -21,6 +21,7 @@ struct Window::Impl {
     int width{}, height{};
     bool close{true}, minimized{};
     bool focused{};
+    int wheel_notches{};
     std::string error;
 
     void update_dimensions() noexcept {
@@ -118,6 +119,7 @@ void Window::poll() {
     auto& state = *impl_;
     SDL_Event event{};
     while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_MOUSEWHEEL) state.wheel_notches += event.wheel.y; // positive = away from the user, like WM_MOUSEWHEEL
         if (event.type == SDL_QUIT ||
             (event.type == SDL_WINDOWEVENT && event.window.windowID == SDL_GetWindowID(state.window) &&
              event.window.event == SDL_WINDOWEVENT_CLOSE)) {
@@ -163,12 +165,14 @@ bool Window::key_down(int key) const noexcept {
     if (key == platform_key::mouse_left) return (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;
     const auto* state = SDL_GetKeyboardState(nullptr);
     SDL_Scancode code = SDL_SCANCODE_UNKNOWN;
-    switch (key) {
-    case 'A': case 'a': code = SDL_SCANCODE_A; break;
-    case 'D': case 'd': code = SDL_SCANCODE_D; break;
-    case 'S': case 's': code = SDL_SCANCODE_S; break;
-    case 'W': case 'w': code = SDL_SCANCODE_W; break;
+    if (key >= 'a' && key <= 'z') key -= 'a' - 'A';
+    if (key >= 'A' && key <= 'Z') code = static_cast<SDL_Scancode>(SDL_SCANCODE_A + (key - 'A'));
+    else if (key >= '1' && key <= '9') code = static_cast<SDL_Scancode>(SDL_SCANCODE_1 + (key - '1'));
+    else if (key == '0') code = SDL_SCANCODE_0;
+    else if (key >= 0x70 && key <= 0x7b) code = static_cast<SDL_Scancode>(SDL_SCANCODE_F1 + (key - 0x70)); // VK_F1..VK_F12
+    else switch (key) {
     case platform_key::tab: code = SDL_SCANCODE_TAB; break;
+    case platform_key::enter: code = SDL_SCANCODE_RETURN; break;
     case platform_key::escape: code = SDL_SCANCODE_ESCAPE; break;
     case platform_key::shift: code = SDL_SCANCODE_LSHIFT; break;
     case platform_key::space: code = SDL_SCANCODE_SPACE; break;
@@ -176,12 +180,23 @@ bool Window::key_down(int key) const noexcept {
     case platform_key::up: code = SDL_SCANCODE_UP; break;
     case platform_key::right: code = SDL_SCANCODE_RIGHT; break;
     case platform_key::down: code = SDL_SCANCODE_DOWN; break;
-    case platform_key::f5: code = SDL_SCANCODE_F5; break;
-    case platform_key::f9: code = SDL_SCANCODE_F9; break;
+    case 0x21: code = SDL_SCANCODE_PAGEUP; break;      // VK_PRIOR
+    case 0x22: code = SDL_SCANCODE_PAGEDOWN; break;    // VK_NEXT
+    case 0x24: code = SDL_SCANCODE_HOME; break;        // VK_HOME
+    case 0x6b: code = SDL_SCANCODE_KP_PLUS; break;     // VK_ADD
+    case 0x6d: code = SDL_SCANCODE_KP_MINUS; break;    // VK_SUBTRACT
+    case 0xbb: code = SDL_SCANCODE_EQUALS; break;      // VK_OEM_PLUS
+    case 0xbd: code = SDL_SCANCODE_MINUS; break;       // VK_OEM_MINUS
     default: break;
     }
     if (code == SDL_SCANCODE_LSHIFT) return state[SDL_SCANCODE_LSHIFT] || state[SDL_SCANCODE_RSHIFT];
     return code != SDL_SCANCODE_UNKNOWN && state[code] != 0;
+}
+
+int Window::take_wheel_notches() noexcept {
+    const int notches = impl_->wheel_notches;
+    impl_->wheel_notches = 0;
+    return notches;
 }
 
 bool Window::focused() const noexcept { return impl_->focused; }

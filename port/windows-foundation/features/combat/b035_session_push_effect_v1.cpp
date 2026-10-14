@@ -1,4 +1,5 @@
 #include "b035_session_push_effect_v1.hpp"
+#include <algorithm>
 #include "../skills_animation/skill_animation_program.hpp"
 #include "../../content_paths.hpp"
 
