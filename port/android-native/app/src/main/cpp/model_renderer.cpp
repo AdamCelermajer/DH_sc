@@ -26440,7 +26440,9 @@ int native_level_script_actor_command_impl(void*,
   // create one, so the original boss stays body-less after its intro. This port's
   // movement, Player collision and AIS natives are body-driven, so the Character
   // that just left Limbus receives the body its Spawn path would have given it.
-  if(was_limbus&&!owner.body.body&&owner.config.enabled) {
+  if(!owner.body.body&&owner.config.enabled) {
+   // Also reached when the Character already left Limbus (state 3) by another
+   // path (an AI wake) before the script placed it: it is still body-less.
    owner.create_body();owner.character.state.body_present=1;
   }
   if(!owner.body.body)return (native_script_actor_command_fail_line=__LINE__,-1);
@@ -27297,7 +27299,13 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!actor->spawn_owner||actor->spawn_owner->actor!=actor||
       actor->spawn_owner->character.owner()!=actor->identity)return -1;
    actor->spawn_owner->spawn.respawn_timer_eligible=c.fields[0].value.boolean?1u:0u;
-   return actor->spawn_owner->character.spawn_transition(0)>=0?1:-1;
+   // SM_SetLimbusState runs _SetState(0) from whatever state the machine is in.
+   // A Character the same script has already put through PlayActorAnim sits in
+   // CSAnim (14), which the spawn-family entry refuses; its Coordinator
+   // transition runs CSAnim::OnBlur then CSLimbus::OnFocus instead.
+   auto& machine=actor->spawn_owner->character;
+   const int moved=machine.state.current==14?machine.transition(0):machine.spawn_transition(0);
+   return moved>=0?1:-1;
   }
   case 44: {
    // Script_KillActor::Execute 0x114224: v2Controller::Cmd_Kill(ctrl, nullptr, 0)
