@@ -7,6 +7,11 @@
 //     kept, the next hit with no buff restarts at 1); at counter 5 the buff is rebuilt at 5 x rank with a 5000 ms timer.
 //   prince_necromancer_carrioneater.luac: OnTargetHit with attacker == self and defender dead: heal TempProp1 of
 //     Skill_Necromancer_CarrionEater at the rank (clamped to max HP).
+//   prince_paladin_shield.luac (w2-paladin): OnTargetHit with defender == self and the attacker in melee range (radius
+//     reach, INFERENCE as Putrid). Two GetRand(0,100) rolls: SnS_Push_Target_Chance (knockback, SetKnockBackState(false):
+//     no displacement in the shipped Lua, logged only) and SnS_Stun_Target_Chance (stun): a 500 ms timer then
+//     SetStunState(SnS_Stun_Duration = 3000 ms, true) through the session's script status service (bosses refused).
+//     Simplified: one tick (the Lua repeats until Stunned); the Lua Stop() on a non-Attack state is not called.
 //   prince_paladin_holy_weapon.luac (w2-paladin): OnTargetHit with defender == self: the attacker loses TempProp1 of
 //     Skill_Paladin_HolyWeapon (2 x rank) HP, clamped at 0; at 0 the attacker is killed. The Lua SetProp/ApplyPropClass on the
 //     attacker's own sheet (TempProp1 only) is not applied.
@@ -21,7 +26,7 @@
 //     CharAI::OnCombatResults not identified, OPEN-4). The HP check reads the actor HP at dispatch time.
 //     The Lua PlaySound("sfx_passive_skill_activate_3") is NOT dispatched here (presentation gap).
 // Not implemented (listed in the report): the CanAttackInMelee gate of KillingFrenzy (every hit counts), and the
-// passives whose outcome needs knockback/stun state or HasBow (Precision, SideStep, Shield, Mirror, Petrify).
+// passives whose outcome needs HasBow or a defender-side faction/targetability change (Precision, SideStep, Mirror, Petrify).
 #include "combat_result_event_bus_v1.hpp"
 #include "runtime_timed_buff_v1.hpp"
 #include "../../../game-data/class_tables.hpp"
@@ -31,13 +36,14 @@
 
 #include <cstdint>
 #include <map>
+#include <random>
 #include <string>
 #include <string_view>
 #include <vector>
 
 namespace dh::foundation::generic_skills {
 
-enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, killing_streak, survival, holy_weapon };
+enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, killing_streak, survival, holy_weapon, shield, energy_balance, conversion };
 
 // SkillTable script name -> event passive kind (kept next to the implemented scripts only).
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script);
@@ -50,6 +56,8 @@ public:
     RuntimeEventPassiveOwnerV1(const RuntimeEventPassiveOwnerV1&) = delete;
     RuntimeEventPassiveOwnerV1& operator=(const RuntimeEventPassiveOwnerV1&) = delete;
 
+    // Equipped faery element for Energy Balance (GetEquippedFaeryElement); -1 = no faery (the Lua falls back to Lightning).
+    void set_equipped_element(std::int32_t element) { equipped_element_ = element; }
     // Rank of one event passive (0 = not learned: its listener does nothing).
     void set_rank(EventPassiveKindV1 kind, std::uint32_t rank);
     std::uint32_t rank(EventPassiveKindV1 kind) const;
@@ -77,6 +85,10 @@ private:
     void holy_hit(ActorId attacker);
     void streak_kill();
     void survival_hit();
+    void shield_hit(ActorId attacker);
+    void shield_advance(CombatSession& session, double dt_ms);
+    void energy_advance(CombatSession& session, double dt_ms, std::string& error);
+    void conversion_hit(ActorId defender);
 
     TimedBuffSinkV1* buffs_;
     const dh2::data::ClassTables* classes_;
@@ -94,6 +106,19 @@ private:
     bool survival_buff_ = false;       // the Survival buff instance is present (removed at HP >= 35%)
     std::string error_;
     std::vector<CarrionHealV1> carrion_heals_;
+    // Guardian Shield stun ticks (StartSkillTimerCB(500): the stun is applied when the tick fires).
+    struct ShieldStunV1 { ActorId actor; double left_ms; double duration_ms; };
+    std::vector<ShieldStunV1> shield_stuns_;
+    std::mt19937 rng_{1u};  // GetRand(0,100) source (seeded, like the Putrid owner)
+    // Energy Balance: CreateBuff(class of the equipped element, 3000, false, rank) on a rank change and every 3000 ms.
+    std::int32_t equipped_element_ = -1;  // faery element of the equipped faery (FaeryTypes), -1 = none
+    std::uint32_t energy_rank_seen_ = 0;
+    bool energy_active_ = false;
+    std::string energy_class_;
+    double energy_timer_ms_ = 0.0;
+    // Conversion: the monsters converted by a FactionBuff3 buff (Lua memory_object/memory_buff, 6 slots).
+    std::vector<ActorId> converted_;
+    std::uint32_t conversion_procs_ = 0;
 };
 
 // Live wiring: maps the saved skill rows to their event passives and sets the ranks (rank 0 clears the listener's effect).

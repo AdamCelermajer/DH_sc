@@ -27,13 +27,17 @@ dh2::data::Bytes bytes_of(const std::vector<std::uint8_t>& value) {
 } // namespace
 
 int main(int argc, char** argv) {
-    if (argc != 7) {
+    if (argc != 7 && argc != 8) {
         std::cerr << "usage: subclass_save_writer_v21_8 <repo-root> <in.save> <out.save> <row> <skill> <level>\n";
         return 2;
     }
     const std::filesystem::path repo = argv[1];
     const std::string row = argv[4];
-    const std::string skill = argv[5];
+    // w2-paladin test seed: "RANKED+SLOT" ranks RANKED (a passive) and puts SLOT (an active) on hotbar slot 0.
+    const std::string skill_arg = argv[5];
+    const auto plus_at = skill_arg.find('+');
+    const std::string skill = plus_at == std::string::npos ? skill_arg : skill_arg.substr(0, plus_at);
+    const std::string slot_skill = plus_at == std::string::npos ? skill : skill_arg.substr(plus_at + 1);
     const auto level = static_cast<std::int32_t>(std::stol(argv[6]));
     if (level < 1) { std::cerr << "level must be positive\n"; return 2; }
     std::string error;
@@ -96,13 +100,24 @@ int main(int argc, char** argv) {
     state.stats.max_health = original_signed256(resolved.sheets.resolved[38]);
     state.stats.resource = original_signed256(resolved.sheets.resolved[41]);
     state.stats.max_resource = original_signed256(resolved.sheets.resolved[43]);
+    // w2-paladin test seed only: optional absolute starting HP (clamped to max), for heal and damage before/after runs.
+    if (argc == 8) state.stats.health = std::min(static_cast<float>(std::stod(argv[7])), state.stats.max_health);
     state.skills.clear();
     for (const auto table_id : source_list) {
         state.skills.push_back({skill_tables.skill_names()[std::size_t(table_id)], 0});
     }
+    std::size_t slot_chosen = source_list.size();
+    for (std::size_t i = 0; i < source_list.size(); ++i) {
+        const auto id = source_list[i];
+        if (id >= 0 && std::size_t(id) < skill_tables.skill_names().size() && skill_tables.skill_names()[std::size_t(id)] == slot_skill) {
+            slot_chosen = i;
+            break;
+        }
+    }
+    if (slot_chosen == source_list.size()) { std::cerr << "slot skill " << slot_skill << " is not in the SkillList\n"; return 2; }
     state.skills[chosen].rank = 1;
     state.skill_slots.clear();
-    state.skill_slots.push_back({0, 0, static_cast<std::uint32_t>(chosen)});
+    state.skill_slots.push_back({0, 0, static_cast<std::uint32_t>(slot_chosen)});
     state.source_skill_slots_known = true;
     if (!save_character(argv[3], state, error)) {
         std::cerr << "save failed: " << error << "\n";

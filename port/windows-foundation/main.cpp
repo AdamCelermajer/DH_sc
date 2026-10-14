@@ -8931,6 +8931,13 @@ int main(int argc,char** argv) {
                        !f::generic_skills::sync_event_passive_ranks_v1(*passiveEvents,state,passiveSkillTables,passiveError)||
                        !f::generic_skills::sync_necromancer_passive_ranks_v1(*necroPassives,state,passiveSkillTables,passiveError))
                         std::cerr<<"Passive rank sync frame="<<drawn<<": "<<passiveError<<'\n';
+
+                    // v21.8 w2-paladin: GetEquippedFaeryElement() for Energy Balance (-1 = no faery: the Lua uses the Lightning row).
+                    {
+                        const auto energyFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
+                        const auto* energyFaeryAbility=f::faery_menu::faery_ability_for_list_slot_v1(sourceFaeryTables,state.source_faery_list_id,energyFaery);
+                        passiveEvents->set_equipped_element(energyFaeryAbility?energyFaeryAbility->element:-1);
+                    }
                     // es-passive TEST ONLY (--test-event-passive-rank killing_frenzy=N | carrion_eater=N): the event passive's
                     // rank without a saved row. The saved SkillList of the available saves (Rogue) has no such row.
                     for(const auto& entry:options.testEventPassiveRanks) {
