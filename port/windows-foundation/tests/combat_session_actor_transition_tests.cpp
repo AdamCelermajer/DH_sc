@@ -628,6 +628,25 @@ void run_dead_select_no_nested_interruption(const char* root){
     check(!seen.empty(),"the admitted lifecycle transition was delivered");
     for(const auto& event:seen)check(event.actor==1&&event.cause!=CombatRuntimeTransitionCause::interruption,"dead actor selection delivered a nested interruption prefix");
 }
+// w5-mud2: Script_PlayActorAnim on a DEAD Character (Mud Lord outro clips cs_swampking_outro_swampking_scene01..03). SM_SetAnimState has no dead
+// guard, so the scripted clip owns the pose. The runtime used to re-assert Died for every dead actor that no longer owned a pose, which restarted
+// the death clip behind each scripted clip (the body stayed upright and filled the outro camera).
+void run_scripted_clip_on_dead_actor(const char* root){
+    Fixture f(root);
+    check(f.bind([](const CombatSessionActorTransition&,std::string& error){error.clear();return true;}),f.error);
+    check(f.session.script_kill_actor(1,f.error),f.error);
+    check(f.session.owns_pose(1)&&!f.session.scripted_actor_pose(1),"the killed actor owns the Died pose before the scripted clip");
+    const auto* idle=f.knight_plan.phase("Idle",0,{0});check(idle,"Knight Idle clip unavailable");
+    for(unsigned clip=0;clip<2;++clip){ // a second scripted clip replaces the first one (the outro plays three in a row)
+        check(f.session.play_actor_clip(1,idle->clipName,idle->resolvedPath,false,f.error),f.error);
+        check(f.session.scripted_actor_pose(1)&&!f.session.owns_pose(1),"the scripted clip did not take the pose of the dead actor");
+        for(unsigned frame=0;frame<45;++frame)check(f.session.update(1.0/60,{},actor_position(*f.session.actor(1)),0,f.error),f.error);
+        check(!f.session.owns_pose(1)&&f.session.scripted_actor_pose(1),"the runtime re-asserted Died over the scripted clip of a dead actor");
+        check(f.session.debug_pose_state(1).find("selectedClip="+idle->clipName)!=std::string::npos&&f.session.debug_pose_state(1).find("runtimeOwns=0")!=std::string::npos,
+              "the dead actor does not show the scripted clip: "+f.session.debug_pose_state(1));
+        check(!f.session.actor(1)->alive(),"the scripted clip revived the actor");
+    }
+}
 int main(int argc,char** argv){try{
     check(argc==2,"Original shared asset root required");
     run_attack_and_restore(argv[1]);
@@ -641,6 +660,7 @@ int main(int argc,char** argv){try{
     run_scripted_move_handoff(argv[1]);
     run_retained_interaction_leaf_neutral_frame(argv[1]);
     run_dead_select_no_nested_interruption(argv[1]);
+    run_scripted_clip_on_dead_actor(argv[1]); // w5-mud2
     std::cout<<"PASS accepted source transition stages, predecessor-selected Attack/AttackStatic roots, held full-bank sourceCombo target continuity, authored positive AttackDelay departure ordering, generic Skill/Cast normal Post ordering and failure prefix, rejected actions, pose-owned retry, zero-time Move freeze, HP-only and gated Injury, death ordering, restore rebind and failure-prefix no replay\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<"FAIL: "<<exception.what()<<'\n';return 1;}}

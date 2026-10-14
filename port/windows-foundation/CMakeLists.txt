@@ -649,6 +649,8 @@ add_test(NAME game_save COMMAND game_save_tests "${CMAKE_CURRENT_SOURCE_DIR}/../
 add_executable(hud_target_tests tests/hud_target_tests.cpp)
 target_link_libraries(hud_target_tests PRIVATE foundation_data)
 add_test(NAME hud_target COMMAND hud_target_tests)
+add_executable(target_bar_anchor_v1_tests tests/target_bar_anchor_v1_tests.cpp) # w5-mud2
+add_test(NAME target_bar_anchor_v1 COMMAND target_bar_anchor_v1_tests)
 add_executable(hud_glyphs_tests tests/hud_glyphs_tests.cpp)
 target_link_libraries(hud_glyphs_tests PRIVATE foundation_data)
 add_test(NAME hud_glyphs COMMAND hud_glyphs_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets/data/Fontin SmallCaps.ttf")

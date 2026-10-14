@@ -1835,7 +1835,11 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         // P16 DESPAWN2: a lifecycle-owned state sequence (the Despawn clip after death, CSDespawn) keeps playing on a dead
         // actor. Generic source sequences (Skill/Cast/KnockedBack) still stop with the actor, as before.
         const bool lifecycleSequenceOnDead=entry.second.stateManaged&&entry.second.stateSequence&&!entry.second.sourceStatePolicy;
-        if(!a->alive()&&!entry.second.animationOnly&&!lifecycleSequenceOnDead)continue;
+        // w5-mud2: a script-driven clip (Script_PlayActorAnim -> SM_SetAnimState, play_actor_clip: stateManaged, no state sequence,
+        // lifecycle state 14) is not gated by the death flag either: CSAnim keeps running on a dead Character, so the Mud Lord outro
+        // clips (cs_swampking_outro_swampking_scene01..) pose the dead body. Before, the body stayed frozen on frame 0 of the clip.
+        const bool scriptedClipOnDead=entry.second.stateManaged&&!entry.second.stateSequence&&entry.second.lifecycleOriginalState&&*entry.second.lifecycleOriginalState==14;
+        if(!a->alive()&&!entry.second.animationOnly&&!lifecycleSequenceOnDead&&!scriptedClipOnDead)continue;
         if(entry.second.stateManaged){
             if(entry.second.stateSequence){
                 // w3-pose: a Stunned9 / Scared8 pose past its entry clip is either the seeded infinite leaf or a held last frame.
@@ -2241,6 +2245,17 @@ ActorState* CombatSession::actor(ActorId id)noexcept{return impl_?impl_->world->
 const ActorState* CombatSession::actor(ActorId id)const noexcept{return impl_?impl_->world->find_actor(id):nullptr;}
 ActorId CombatSession::player_id()const noexcept{return impl_?impl_->player:invalid_actor_id;}
 bool CombatSession::owns_pose(ActorId id)const noexcept{if(!impl_||impl_->detached)return false;const auto entry=impl_->entries.find(id);return impl_->runtime->owns_pose(id)||(entry!=impl_->entries.end()&&entry->second.stateManaged&&(entry->second.stateSequence||entry->second.stateFrozen||!entry->second.retained->seeded()));}
+std::string CombatSession::debug_pose_state(ActorId id)const{
+    if(!impl_||impl_->detached)return "detached";
+    const auto entry=impl_->entries.find(id);
+    if(entry==impl_->entries.end())return "no-entry";
+    const auto& e=entry->second;
+    std::string out="runtimeOwns="+std::to_string(impl_->runtime->owns_pose(id))+" stateManaged="+std::to_string(e.stateManaged)+" stateSequence="+std::to_string(e.stateSequence)+
+        " frozen="+std::to_string(e.stateFrozen)+" seeded="+std::to_string(e.retained?e.retained->seeded():-1)+" selectedClip="+e.sourceSelectedClip+
+        " lifecycleState="+(e.lifecycleOriginalState?std::to_string(*e.lifecycleOriginalState):std::string("none"))+" animationOnly="+std::to_string(e.animationOnly)+
+        " policy="+std::to_string(e.sourceStatePolicy.has_value());
+    return out;
+}
 bool CombatSession::owns_population_pose(std::uint64_t id)const noexcept{return impl_&&id!=impl_->player&&impl_->entries.count(id);}
 const ActorState* CombatSession::selectedactor()const noexcept{const auto* p=actor(player_id());return p?actor(p->target_id):nullptr;}
 const std::vector<DamageEvent>& CombatSession::events()const noexcept{static const std::vector<DamageEvent> empty;return impl_?impl_->events:empty;}
@@ -2564,6 +2579,10 @@ bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std
     if(!s.actor_transition(id,receipt,error))return false;
     {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
         if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
+        // w5-mud2: Script_PlayActorAnim on a DEAD Character (the Mud Lord outro clips). SM_SetAnimState has no dead guard (like SM_SetIdleState
+        // 0x3c1a00), so the clip owns the pose. The runtime re-asserts Died for every dead actor that no longer owns a pose, which restarted
+        // the death clip at every scripted clip and kept the body standing; hand the pose over (yield_pose) as the Despawn owner does.
+        if(const auto* clipActor=s.world->find_actor(id);clipActor&&clipActor->is_dead()){if(!s.runtime->yield_pose(id,error))return false;}
     RetainedAnimationFrame frame;
     if(!entry.retained->seed_sequence(*s.assets,clip,path,1.0f,0,false,loop?-1:0,frame,error))return false;
     entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};entry.sourceAction=false;

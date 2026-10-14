@@ -464,8 +464,19 @@ bool CampaignHost::execute_router(CampaignCommandPhase phase, const OriginalCamp
     if (phase == CampaignCommandPhase::execute) {
         int index = -1;
         const std::string script = script_name_of(c, index);
+        // w5-mud2 diagnostic: the named arguments of the actor verbs (offsets as decoded by actor_verb), so a played and a
+        // skipped run can be compared command by command.
+        std::string args;
+        switch (c.kind) {
+        case 41: case 46: args = " actor=" + string_field(c, 20) + " target=" + string_field(c, 12); break;
+        case 42: case 43: args = " actor=" + string_field(c, 12); break;
+        case 45: args = " actor=" + string_field(c, 24) + " clip=" + std::to_string(signed_field(c, 8)) + " wait=" + std::to_string(signed_field(c, 28)); break;
+        case 29: args = " actor=" + string_field(c, 16); break;
+        case 8: args = " target=" + string_field(c, 16); break;
+        default: break;
+        }
         std::cout << "[campaign] command script=" << script << " index=" << index << " kind=" << c.kind
-                  << " class=" << c.class_name << (skip ? " skip=1" : "") << " frame=" << frames_ << '\n';
+                  << " class=" << c.class_name << args << (skip ? " skip=1" : "") << " frame=" << frames_ << '\n';
     }
     const bool ok = world_->command(phase, c, module, skip, blocking, e);
     if (!ok && phase == CampaignCommandPhase::execute && is_adapter_unsupported(e))
