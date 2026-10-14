@@ -1,6 +1,7 @@
 #include "android/asset_manager.h"
 #include "gameplay_audio_sdl.hpp"
 #include "model_renderer.hpp"
+#include "../android-native/app/src/main/cpp/player_skill_effect_audit_v1.hpp"
 #include "original_ui_session.hpp"
 #include "../android-native/app/src/main/cpp/menu_start_commit_gate_v1.hpp"
 #include "../game-data/campaign_profile_files_v1.hpp"
@@ -1658,6 +1659,7 @@ private:
     int fs_pre_cd_ = 0, fs_pre_usable_ = 0, fs_peak_cd_ = 0, fs_min_usable_ = 1;
     int fs_pre_state_ = -1;
     bool fs_saw_spell_state_ = false, fs_stuck_before_ = false;
+    dh2::native::player_skill_effect_audit_v1::Counters fs_ec_pre_;
     int fs_target_ = -1;
     double fs_target_hp_before_ = 0.0, fs_target_hp_min_ = 0.0;
     double fs_player_hp_peak_ = 0.0;
@@ -1767,6 +1769,7 @@ private:
         fs_stuck_before_ = fs_pre_state_ == 6 || fs_pre_state_ == 7;
         fs_player_hp_peak_ = fs_pre_vitals_[0] / 256.0;
         fs_transitions_.clear();
+        fs_ec_pre_ = dh2::native::player_skill_effect_audit_v1::counters();
         std::string error;
         if (options_.faery_hud_tap) {
             // Authored HUD faery button: press now, release 6 frames later (the
@@ -1848,8 +1851,27 @@ private:
                 verdict += fmt(" player HP rose to %.1f (from %.1f);", fs_player_hp_peak_, fs_pre_vitals_[0] / 256.0);
         }
         verdict += fmt(" | Player state at end %d", state);
-        if (fs_use_ok_ && !fs_stuck_before_ && (fs_saw_spell_state_ || cooldown || mp_spent || enemy_delta < -0.01))
-            ++fs_effective_;
+        // Effect ledger from the owners: the spell counts as effective only when
+        // the faery OnSkill ran and something it asked for was delivered.
+        {
+            const auto ec = dh2::native::player_skill_effect_audit_v1::counters();
+            const auto& pre = fs_ec_pre_;
+            const std::uint32_t on_skill = ec.on_skill_dispatched - pre.on_skill_dispatched;
+            const std::uint32_t failed = (ec.on_skill_failed - pre.on_skill_failed) + (ec.native_failed - pre.native_failed);
+            const std::uint32_t hits = ec.attack_hits - pre.attack_hits;
+            const std::uint32_t projectiles = ec.projectiles - pre.projectiles;
+            const std::uint32_t buffs = ec.buffs - pre.buffs;
+            const std::uint32_t fx_matched = ec.fx_matched - pre.fx_matched;
+            const std::uint32_t fx_launched = ec.fx_launched - pre.fx_launched;
+            const std::uint32_t sounds = ec.sound_playable - pre.sound_playable;
+            // Positive spell/skill rolls count only when an enemy HP actually fell.
+            const bool hp_fell = enemy_delta < -0.01 || fs_target_hp_min_ < fs_target_hp_before_ - 0.01;
+            const bool ledger_effect = (hits && hp_fell) || projectiles || buffs || fx_launched || sounds;
+            verdict += fmt(" | ledger OnSkill x%u (failed %u) attack-hits %u projectile %u buff %u FX matched %u launched %u sound %u%s%s",
+                           on_skill, failed, hits, projectiles, buffs, fx_matched, fx_launched, sounds,
+                           failed ? " BROKEN: " : "", failed ? ec.last_error.c_str() : "");
+            if (failed == 0 && fs_use_ok_ && !fs_stuck_before_ && ledger_effect) ++fs_effective_;
+        }
         plog(fmt("faery-skill CAST end | frame %llu (+%llu) | player at %s | faery %d level %d cast #%u | transitions [%s] | "
                  "player HP %.1f -> %.1f (peak %.1f) MP %.1f -> %.1f | target %d HP %.1f -> min %.1f | "
                  "all enemies hp-sum %.1f -> %.1f (live %d -> %d) | HUD cd peak %d%% usable min %d, now cd %d%% usable %d | %s",
@@ -1924,6 +1946,9 @@ private:
     unsigned mx_deaths_at_use_ = 0;
     model_renderer::UiPlayerStatsReadV1 mx_stats_pre_, mx_stats_mid_;
     bool mx_stats_mid_taken_ = false;
+    // Effect counters sampled just before each USE; the deltas at settle time
+    // are what the verdict is allowed to count as delivered.
+    dh2::native::player_skill_effect_audit_v1::Counters mx_ec_pre_;
     struct MxRecord {
         std::size_t index;
         std::int32_t id;
@@ -2122,6 +2147,7 @@ private:
         std::string error;
         mx_stats_mid_taken_ = false;
         model_renderer::ui_player_stats(player_, mx_stats_pre_, error);
+        mx_ec_pre_ = dh2::native::player_skill_effect_audit_v1::counters();
         mx_use_ok_ = model_renderer::ui_player_use_skill_slot(player_, 0, error);
         mx_use_error_ = error;
         mx_use_frame_ = frame_;
@@ -2182,15 +2208,60 @@ private:
         if (!mx_use_ok_) {
             verdict = "ERROR: use call failed: " + mx_use_error_;
         } else if (mx_saw6_) {
-            verdict = fmt("WORKS: entered skill state 6 for %d frames", mx_state6_frames_);
-            if (enemy_delta < -0.01)
-                verdict += fmt("; enemy HP-sum %.1f -> %.1f (-%.1f)", mx_pre_enemies_.hp, enemies.hp, -enemy_delta);
-            else verdict += "; no enemy damage observed";
-            if (mp_spent) verdict += fmt("; MP %.1f -> %.1f", mx_pre_vitals_[2] / 256.0, vitals[2] / 256.0);
-            if (cooldown) verdict += fmt("; cooldown peak %d%%", mx_peak_cd_);
-            if (mx_stats_mid_taken_) {
-                const auto sheet = stats_diff(mx_stats_pre_, mx_stats_mid_);
-                if (sheet != " none") verdict += "; Character-sheet change while active:" + sheet;
+            // State 6 alone is not evidence. Count an effect only when the
+            // source requested it and the owner delivered it: OnSkill dispatched,
+            // a native damage/projectile/buff/sound/FX call succeeded, or the
+            // target's HP fell.
+            const auto ec = dh2::native::player_skill_effect_audit_v1::counters();
+            const auto& pre = mx_ec_pre_;
+            const std::uint32_t on_skill = ec.on_skill_dispatched - pre.on_skill_dispatched;
+            const std::uint32_t failed = (ec.on_skill_failed - pre.on_skill_failed) +
+                                         (ec.native_failed - pre.native_failed);
+            const std::uint32_t attacks = ec.attacks - pre.attacks;
+            const std::uint32_t attack_hits = ec.attack_hits - pre.attack_hits;
+            const std::uint32_t projectiles = ec.projectiles - pre.projectiles;
+            const std::uint32_t buffs = ec.buffs - pre.buffs;
+            const std::uint32_t fx_matched = ec.fx_matched - pre.fx_matched;
+            const std::uint32_t fx_launched = ec.fx_launched - pre.fx_launched;
+            const std::uint32_t fx_missing = fx_matched > fx_launched ? fx_matched - fx_launched : 0;
+            const std::uint32_t sounds = ec.sound_playable - pre.sound_playable;
+            const std::uint32_t sound_requests = ec.sound_requests - pre.sound_requests;
+            const bool target_hit = mx_target_min_ < mx_target_before_ - 0.01;
+            const bool sheet_changed = mx_stats_mid_taken_ &&
+                stats_diff(mx_stats_pre_, mx_stats_mid_) != " none";
+            std::string effects;
+            if (target_hit) effects += fmt("damage(target %.1f->%.1f) ", mx_target_before_, mx_target_min_);
+            // A positive roll only counts when an enemy's HP actually fell.
+            const bool enemy_hp_fell = enemy_delta < -0.01;
+            const bool unapplied_roll = attack_hits && !target_hit && !enemy_hp_fell;
+            if (attack_hits && !unapplied_roll) effects += fmt("attack-hit x%u ", attack_hits);
+            if (projectiles) effects += fmt("projectile x%u ", projectiles);
+            if (buffs || sheet_changed) effects += fmt("buff(x%u%s) ", buffs, sheet_changed ? ", sheet" : "");
+            if (fx_launched) effects += fmt("fx-launched x%u ", fx_launched);
+            if (sounds) effects += fmt("sound x%u ", sounds);
+            const std::string detail = fmt("OnSkill x%u (failed %u) | attack rolls %u (positive damage %u) | "
+                                           "FX matched %u launched %u | sound requests %u playable %u%s",
+                                           on_skill, failed, attacks, attack_hits, fx_matched, fx_launched,
+                                           sound_requests, sounds,
+                                           ec.last_error.empty() ? "" : (" | last error: " + ec.last_error).c_str());
+            plog(fmt("matrix skill %zu (id %d) effect ledger | %s", mx_k_, mx_rows_[mx_k_].id, detail.c_str()));
+            if (failed) {
+                verdict = "BROKEN: " + ec.last_error;
+            } else if (on_skill == 0) {
+                verdict = "NO-ONSKILL: entered state 6 but the authored do_skill never dispatched OnSkill";
+            } else if (effects.empty() && unapplied_roll) {
+                verdict = fmt("PARTIAL: OnSkill ran and %u positive attack roll(s), but no enemy HP fell",
+                              attack_hits);
+            } else if (effects.empty()) {
+                verdict = fmt("NO-EFFECT: OnSkill ran, no damage/projectile/buff/FX/sound observed%s",
+                              fx_missing ? fmt(" (FX matched but not launched x%u: asset or pool)", fx_missing).c_str() : "");
+            } else {
+                verdict = "WORKS: " + effects;
+                if (fx_missing) verdict += fmt("; FX matched but not launched x%u", fx_missing);
+            }
+            if (!effects.empty() || on_skill) {
+                if (mp_spent) verdict += fmt("; MP %.1f -> %.1f", mx_pre_vitals_[2] / 256.0, vitals[2] / 256.0);
+                if (cooldown) verdict += fmt("; cooldown peak %d%%", mx_peak_cd_);
             }
         } else if (cooldown || mp_spent || enemy_delta < -0.01) {
             verdict = fmt("PARTIAL: use ok, never entered state 6, but side effects: %s%s%s",
@@ -2200,7 +2271,12 @@ private:
             verdict = fmt("REFUSED/NO-EFFECT: use ok but no state 6, no MP spent, no cooldown (MP %.1f, HUD usable %d)",
                           vitals[2] / 256.0, mx_pre_usable_);
         }
-        const bool needs_retry = mx_use_ok_ && !mx_saw6_ && !cooldown && !mp_spent && mx_attempt_ < 4 && !died;
+        // A state-6 use whose attack rolls all missed (or that delivered nothing
+        // observable) is retried too, so one unlucky roll is not reported as a
+        // skill that does nothing.
+        const bool no_effect_retry = mx_saw6_ && verdict.rfind("NO-EFFECT", 0) == 0;
+        const bool needs_retry = mx_use_ok_ && ((!mx_saw6_ && !cooldown && !mp_spent) || no_effect_retry) &&
+                                 mx_attempt_ < 4 && !died;
         if (needs_retry) {
             plog(fmt("matrix skill %zu (id %d) | attempt %u gave no effect; waiting for mana/cooldown, then retrying",
                      mx_k_, mx_rows_[mx_k_].id, mx_attempt_));
@@ -2230,17 +2306,22 @@ private:
 
     void matrix_finish() {
         unsigned works = 0, partial = 0, passive_ok = 0, placeholder = 0, other = 0;
+        unsigned no_effect = 0, broken = 0, no_onskill = 0;
         for (const auto& r : mx_records_) {
             if (r.verdict.rfind("WORKS", 0) == 0) ++works;
             else if (r.verdict.rfind("PARTIAL", 0) == 0) ++partial;
             else if (r.verdict.rfind("PASSIVE OK", 0) == 0) ++passive_ok;
             else if (r.verdict.rfind("NOT-A-SKILL", 0) == 0) ++placeholder;
+            else if (r.verdict.rfind("NO-EFFECT", 0) == 0) ++no_effect;
+            else if (r.verdict.rfind("BROKEN", 0) == 0) ++broken;
+            else if (r.verdict.rfind("NO-ONSKILL", 0) == 0) ++no_onskill;
             else ++other;
         }
-        plog(fmt("matrix summary | skill rows %zu | recorded %zu | active WORKS %u | active PARTIAL %u | passive OK %u | "
+        plog(fmt("matrix summary | skill rows %zu | recorded %zu | active WORKS %u | active NO-EFFECT %u | "
+                 "active NO-ONSKILL %u | active BROKEN %u | active PARTIAL %u | passive OK %u | "
                  "placeholder rows %u | other (failures/not tested) %u | level-ups applied %u | deaths %u",
-                 mx_rows_.size(), mx_records_.size(), works, partial, passive_ok, placeholder, other, mx_level_ups_,
-                 deaths_));
+                 mx_rows_.size(), mx_records_.size(), works, no_effect, no_onskill, broken, partial, passive_ok,
+                 placeholder, other, mx_level_ups_, deaths_));
         for (const auto& r : mx_records_)
             plog(fmt("matrix table | skill %zu | id %d | %s", r.index, r.id, r.verdict.c_str()));
     }

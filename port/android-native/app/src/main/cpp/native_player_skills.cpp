@@ -39,6 +39,9 @@ extern "C" {
 #include "../../../../../../port/pydata-names/names.h"
 #include "../../../../../../port/pydata-constants/constants.h"
 }
+#include <cstdlib>
+#include <cstring>
+#include "player_skill_effect_audit_v1.hpp"
 #include <android/log.h>
 #include <algorithm>
 #include <cmath>
@@ -502,7 +505,56 @@ struct Runtime::Impl {
   return dh2_class_recalc_base(s.class_rows.data(),std::uint32_t(s.class_rows.size()),
       s.bindings.properties->base.data(),&s.property_view)?fail(text,bytes,q.name):0;
  }
+ // DH2_ABIL_AUDIT=1: one line per Player skill/faery native call, so a skill's
+ // requested effects (damage, projectile, buff, FX, sound) can be checked
+ // against what the script actually reached. Failures carry the native's text.
  static int native(void* raw,const dh2::player_skill_session_v1::NativeRequest& q,const dh2_script_value* a,std::uint32_t count,
+          dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* text,std::size_t bytes){
+  static const bool audit=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+  const int rc=native_body(raw,q,a,count,out,capacity,returned,text,bytes);
+  {
+   using Fn=dh2::character_native_bindings::Function;
+   auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+   ++ec.native_calls;
+   if(rc){++ec.native_failed;if(text&&text[0])ec.last_error=std::string(q.name?q.name:"?")+": "+text;}
+   const bool ok=rc==0;
+   if(q.domain==dh2::player_skill_session_v1::Domain::character){
+    if(q.character_function==Fn::game_object_play_fx)++ec.fx_requests;
+    if(q.character_function==Fn::game_object_play_sound3_d)++ec.sound_requests;
+    if(ok&&(q.character_function==Fn::game_object_deal_damages||q.character_function==Fn::character_attack||
+            q.character_function==Fn::character_skill_combat_roll))++ec.damage_natives;
+    if(ok&&q.character_function==Fn::character_spawn_skill_projectile)++ec.projectiles;
+    if(ok&&(q.character_function==Fn::character_create_buff||
+            (q.character_function==Fn::character_apply_prop_class&&q.name&&std::strcmp(q.name,"ApplyBuff")==0)))++ec.buffs;
+   }
+  }
+  if(audit){
+   // Numeric/identity arguments are printed (up to four) so search radii,
+   // filters and targets can be checked against the script's intent.
+   std::string values;
+   for(std::uint32_t i=0;a&&i<count&&i<4;++i){
+    char buf[48];
+    if(a[i].type==DH2_SCRIPT_NUMBER)std::snprintf(buf,sizeof buf," %g",double(a[i].number));
+    else if(a[i].type==DH2_SCRIPT_BOOLEAN)std::snprintf(buf,sizeof buf," %s",a[i].boolean?"true":"false");
+    else std::snprintf(buf,sizeof buf," type%d",int(a[i].type));
+    values+=buf;
+   }
+   std::string result;
+   if(returned&&*returned&&out){
+    char buf[48];
+    if(out[0].type==DH2_SCRIPT_NUMBER)std::snprintf(buf,sizeof buf,"%g",double(out[0].number));
+    else if(out[0].type==DH2_SCRIPT_BOOLEAN)std::snprintf(buf,sizeof buf,"%s",out[0].boolean?"true":"false");
+    else std::snprintf(buf,sizeof buf,"type%d",int(out[0].type));
+    result=buf;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT native | %s | domain %d | args %u%s | rc %d | returned %u%s%s%s%s",
+       q.name?q.name:"?",int(q.domain),count,values.c_str(),rc,returned?*returned:0u,
+       result.empty()?"":" value ",result.c_str(),
+       (rc&&text&&text[0])?" | ":"",(rc&&text)?text:"");
+  }
+  return rc;
+ }
+ static int native_body(void* raw,const dh2::player_skill_session_v1::NativeRequest& q,const dh2_script_value* a,std::uint32_t count,
           dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* text,std::size_t bytes){
   auto& s=self(raw);if(!returned||!s.bindings.character||q.character!=s.bindings.character||(!a&&count))return fail(text,bytes,q.name);
   *returned=0;

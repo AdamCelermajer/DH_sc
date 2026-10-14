@@ -1,4 +1,5 @@
 #include "model_renderer.hpp"
+#include "player_skill_effect_audit_v1.hpp"
 #include "../../../../../level-world/char_ai_anim_step_skill_v1.hpp"
 #include "../../../../../../port/level-world/level_frame_v1.hpp"
 #include "../../../../../../port/level-world/item_manager_pool_v1.hpp"
@@ -32975,12 +32976,23 @@ int spell_apply_result_invoke(void* raw,
  case Operation::combat_text: {
   if(request->subject||request->peer||!request->result)return 1;
   std::string failure;
-  if(defender_actor)
-   return native_sct_apply_combat_v1(context->kill.text,*defender_actor,
+  if(defender_actor) {
+   const int status=native_sct_apply_combat_v1(context->kill.text,*defender_actor,
        *request->result,request->attacker,request->defender,failure);
-  return attacker_actor&&request->defender==prince_character.identity()&&
+   if(status)
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+        "F_ApplyResult combat text (Monster defender) failed | defender %s | status %d | %s",
+        defender_actor->name.c_str(),status,failure.c_str());
+   return status;
+  }
+  const int status=attacker_actor&&request->defender==prince_character.identity()&&
       native_sct_apply_to_player_v1(context->player_text,*attacker_actor,
           *request->result,failure)==0?0:1;
+  if(status)
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "F_ApplyResult combat text (Player defender) failed | attacker %s | %s",
+       attacker_actor?attacker_actor->name.c_str():"?",failure.c_str());
+  return status;
  }
  case Operation::combat_sound:
   if(request->subject||request->peer||!request->result)return 1;
@@ -33670,6 +33682,10 @@ int player_spell_combat_native(void* raw,std::uint32_t raw_function,
   auto* output=static_cast<PlayerSkillLuaValue*>(raw_out);
   if(!output||!capacity)return -1;
   output[0]={};output[0].type=3;output[0].number=float(result.amount);*returned=1;
+  // Spell damage rolls count in the same ledger as SkillCombatRoll attacks.
+  auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+  ++ec.attacks;
+  if(result.amount>0)++ec.attack_hits;
  } else if(result.disposition==dh2::character_spell_combat_roll_v1::Disposition::boolean_false) {
   auto* output=static_cast<PlayerSkillLuaValue*>(raw_out);
   if(!output||!capacity)return -1;
@@ -36020,6 +36036,15 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   }else if(dh2_target_search_object_list_at(&state->list,
        &state->source_methods,radius,cone,search_center,&state->services))
    return fail("TargetListSearch canonical ObjectList provider failed");
+  {
+   static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+   if(audit_on)
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+        "AUDIT TargetListSearch | radius %.1f cone %.3f | center %.1f %.1f %.1f | player %.1f %.1f %.1f | filter %d object %d sort %d | monster owner %d | found %u",
+        radius,cone,search_center[0],search_center[1],search_center[2],actor_position[0],actor_position[1],actor_position[2],
+        int(state->character_filter),int(state->object_filter),int(state->sort),state->monster_owner?1:0,
+        unsigned(state->list.count));
+  }
   return 0;
  }
  case Fn::game_object_is_target_list_empty:
@@ -36096,6 +36121,20 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   if(result.disposition==Disposition::attacks) {
    if(result.attack_count>capacity||!out)
     return fail("SkillCombatRoll result buffer cannot hold source attack returns");
+   {
+    auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+    ec.attacks+=result.attack_count;
+    for(std::uint32_t i=0;i<result.attack_count;++i)
+     if(result.attacks[i].amount>0)++ec.attack_hits;
+    static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+    if(audit_on){
+     std::string amounts;
+     for(std::uint32_t i=0;i<result.attack_count;++i)
+      amounts+=" "+std::to_string(result.attacks[i].amount);
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT SkillCombatRoll | skill row %u | attack amounts%s",
+         skill_index,amounts.c_str());
+    }
+   }
    for(std::uint32_t i=0;i<result.attack_count;++i) {
     out[i]={};out[i].type=3;out[i].number=float(result.attacks[i].amount);
    }
@@ -36226,32 +36265,52 @@ int skill_host_object_facts(void*,std::uintptr_t identity,skill_host::ObjectFact
 // VisualFXManager::PlayAnimFXSet. A GameObject receiver takes the attached
 // overload (PlayAnimFX stores the GameObject at AnimatedFX+0x28 and syncs it);
 // an explicit position takes the Point3D overload with no GameObject.
+// DH2_ABIL_AUDIT=1 enables per-call logs for the skill/faery effect audit.
+bool abil_audit_enabled(){
+ static const bool enabled=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+ return enabled;
+}
 int skill_host_play_fx(void*,std::int32_t effect,std::uintptr_t attach,
     const float* position,std::string& error){
  if(!native_fx_owner){error="level VisualFXManager is not bound";return 1;}
  bool matched=false,launched=false;
+ dh2::native_visual_fx_manager_v1::Status status=dh2::native_visual_fx_manager_v1::Status::ok;
+ const char* target="point";
  if(!attach){
   if(!position){error="PlayFX has neither a GameObject nor a position";return 1;}
   const std::array<float,3> point{position[0],position[1],position[2]};
-  return native_fx_owner->PlayAnimFXSet(effect,point,nullptr,matched,launched,error)==
-      dh2::native_visual_fx_manager_v1::Status::ok?0:1;
+  status=native_fx_owner->PlayAnimFXSet(effect,point,nullptr,matched,launched,error);
+ } else {
+  void* character=nullptr;
+  void* object=nullptr;
+  if(attach==prince_character.identity()){
+   if(!native_actor_ready){error="Player is not live";return 1;}
+   sync_prince_search_projection();
+   character=&prince_search_projection.character;
+   target="player";
+  }else{
+   auto* actor=native_char_ai_actor(attach);
+   if(!actor||actor->identity!=attach){error="PlayFX target is not a live GameObject";return 1;}
+   sync_search_projection(*actor);
+   if(actor->kind==1)character=&actor->search_projection.character;
+   else object=&actor->search_projection.object;
+   target="actor";
+  }
+  status=native_fx_owner->PlayAnimFXSetAttached(effect,character?character:object,
+      character,object,matched,launched,error);
  }
- void* character=nullptr;
- void* object=nullptr;
- if(attach==prince_character.identity()){
-  if(!native_actor_ready){error="Player is not live";return 1;}
-  sync_prince_search_projection();
-  character=&prince_search_projection.character;
- }else{
-  auto* actor=native_char_ai_actor(attach);
-  if(!actor||actor->identity!=attach){error="PlayFX target is not a live GameObject";return 1;}
-  sync_search_projection(*actor);
-  if(actor->kind==1)character=&actor->search_projection.character;
-  else object=&actor->search_projection.object;
+ // Source PlayFX returns nothing, so a miss or a pool/asset no-launch is not an
+ // error here. The audit log makes those silent outcomes visible.
+ {
+  auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+  if(matched)++ec.fx_matched;
+  if(launched)++ec.fx_launched;
  }
- return native_fx_owner->PlayAnimFXSetAttached(effect,character?character:object,
-     character,object,matched,launched,error)==
-     dh2::native_visual_fx_manager_v1::Status::ok?0:1;
+ if(abil_audit_enabled())
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "AUDIT PlayFX | effect %d | target %s | status %d | matched %d | launched %d%s%s",
+      effect,target,int(status),int(matched),int(launched),error.empty()?"":" | ",error.c_str());
+ return status==dh2::native_visual_fx_manager_v1::Status::ok?0:1;
 }
 // VoxSoundManager::Play3D(soundId, position, false, ...). Sounds are named by
 // the SDD Sounds table; a name outside that table resolves to id -1 (no-op), and
@@ -36261,7 +36320,11 @@ int skill_host_play_sound_3d(void*,const char* name,std::size_t bytes,
  const auto resolved=dh2::player_gameplay_audio::resolve_source_sound_name(
      std::string_view(name?name:"",name?bytes:0));
  using SoundStatus=dh2::player_gameplay_audio::SourceSoundStatusV1;
+ if(abil_audit_enabled())
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT Play3D | sound %s | resolved status %d",
+      name?name:"(null)",int(resolved.status));
  if(resolved.status!=SoundStatus::playable)return 0;
+ ++dh2::native::player_skill_effect_audit_v1::counters().sound_playable;
  if(!resolved.source||!resolved.playback){error="Sound resolver returned an invalid source/playback pair";return 1;}
  const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{
      position[0],position[1],position[2]};
@@ -44699,6 +44762,11 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
   // swallows script errors (the same reason OnPreSkill/OnPostSkill failures and
   // UpdateAllSkills failures continue). A skill script that needs a native the port
   // has not bound yet must not abort the process; keep it loud in the log.
+  {
+   auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+   if(status<0){++ec.on_skill_failed;ec.last_error="OnSkill: "+callback_error;}
+   else ++ec.on_skill_dispatched;
+  }
   if(status<0){
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "Source CharAISkillScript::OnSkill failed; the source ignores script failures and the skill continues | skill row %u | clip %d | %s",
@@ -44729,6 +44797,11 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
   const int status=prince_skills->invoke_faery_callback(
       static_cast<std::uint32_t>(faery_slot),
       dh2::native::player_skills::SkillCallback::use,callback,callback_error);
+  {
+   auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+   if(status<0){++ec.on_skill_failed;ec.last_error="faery OnSkill: "+callback_error;}
+   else ++ec.on_skill_dispatched;
+  }
   if(status<0)throw std::runtime_error("Source CharAISkillScript faery OnSkill failed: "+callback_error);
   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
       "Source state-7 do_spell dispatched through retained Player VM | faery slot %d | calls %u | Lua status %d | value %u | clip %d",
