@@ -4016,6 +4016,11 @@ int main(int argc,char** argv) {
                     }
                     ++receipt.clamped;
                 }
+                // w5 diagnostic (DH_STATE_TRACE=1 only): per-frame player admission with facing and heading, to measure wall stalls.
+                if(stateTraceEnabled&&combatSession&&id==combatSession->player_id()&&(worldDelta.x!=0||worldDelta.y!=0))
+                    std::cout<<"Player admission trace frame="<<stateTraceFrame<<" current="<<current.x<<','<<current.y<<" delta="<<worldDelta.x<<','<<worldDelta.y
+                             <<" facingDeg="<<movement.state().facingRadians*57.2957795f<<" headingDeg="<<movement.state().desiredHeading.sourceAngleRadians*57.2957795f
+                             <<" headingActive="<<int(movement.state().desiredHeading.active)<<" kind="<<result.kind<<" out="<<result.position.x<<','<<result.position.y<<'\n';
                 out.position=result.position;out.grounded=result.grounded;return true;
             };
             bool moved=false;return authored?movement.apply_authored_root_motion(delta,admission,moved,e):movement.apply_root_motion(delta,admission,moved,e);

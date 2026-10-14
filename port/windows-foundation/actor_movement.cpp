@@ -7,6 +7,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <utility>
+#include <vector>
 
 namespace dh::foundation {
 namespace {
@@ -26,21 +27,40 @@ bool intersects(Vec3 from,Vec3 to,const CollisionTriangle& t) {
     const float fraction=dot(e2,q)*inv;
     return fraction>=0 && fraction<=1;
 }
-bool blocked(Vec3 from,Vec3 to,const CollisionScene& scene,const ActorMovementConfig& c) {
+// Horizontal unit normal of a wall triangle (empty when the triangle is horizontal).
+bool wall_normal(const CollisionTriangle& t,Vec3& out) {
+    const auto n=cross(subtract(t.b,t.a),subtract(t.c,t.a));
+    const float length=std::hypot(n.x,n.y);
+    if(!(length>1e-6f)||!std::isfinite(length))return false;
+    out={n.x/length,n.y/length,0};return true;
+}
+bool blocked(Vec3 from,Vec3 to,const CollisionScene& scene,const ActorMovementConfig& c,std::vector<Vec3>* contacts=nullptr) {
     // Sweep an octagonal approximation of the upright body's perimeter at
     // lower, middle and upper heights against the original collision helpers.
+    // With `contacts`, every wall hit is collected (its horizontal normal) instead of stopping at the first.
     const float lower=std::min(c.bodyHeight*.9f,c.maxStepUp+1e-4f);
+    bool hit=false;
     for(int ring=0;ring<8;++ring) {
         const float angle=ring*pi/4;
         const float ox=std::cos(angle)*c.bodyRadius,oy=std::sin(angle)*c.bodyRadius;
         for(float height : {lower,std::max(lower,c.bodyHeight*.5f),c.bodyHeight}) {
             Vec3 a{from.x+ox,from.y+oy,from.z+height};
             Vec3 b{to.x+ox,to.y+oy,to.z+height};
-            for(const auto& triangle:scene.triangles)
-                if(!triangle.floor&&intersects(a,b,triangle))return true;
+            for(const auto& triangle:scene.triangles) {
+                if(triangle.floor||!intersects(a,b,triangle))continue;
+                if(!contacts)return true;
+                hit=true;
+                Vec3 n{};
+                if(wall_normal(triangle,n)) {
+                    // Keep distinct normals only (corners contribute two or more).
+                    bool seen=false;
+                    for(const auto& existing:*contacts)if(std::abs(dot(existing,n))>0.999f)seen=true;
+                    if(!seen&&contacts->size()<8)contacts->push_back(n);
+                }
+            }
         }
     }
-    return false;
+    return hit;
 }
 bool supported(Vec3& candidate,Vec3 from,const CollisionScene& scene,const ActorMovementConfig& c) {
     FloorHit hit;
@@ -264,6 +284,26 @@ bool ActorMovement::advance(Vec3 delta,const CollisionScene& collision) {
         const Vec3 from=state_.position;
         Vec3 full{from.x+dx,from.y+dy,from.z};
         if(supported(full,from,collision,config_)){state_.position=full;continue;}
+        // Wall tangent slide (w5): the blocked step's wall contacts give horizontal normals; the step is projected
+        // onto each contact plane (and onto pairs, at corners) and the admitted candidate with the most progress wins.
+        // Axis slides below remain only for blocks without a recorded wall contact (floor edges, step limits).
+        std::vector<Vec3> contacts;
+        blocked(from,full,collision,config_,&contacts);
+        const Vec3 step{dx,dy,0};
+        auto project=[](Vec3 v,Vec3 n){const float d=v.x*n.x+v.y*n.y;return Vec3{v.x-d*n.x,v.y-d*n.y,0};};
+        Vec3 bestPosition=from;double bestProgress=0;
+        auto consider=[&](Vec3 tangent){
+            Vec3 candidate{from.x+tangent.x,from.y+tangent.y,from.z};
+            if(!supported(candidate,from,collision,config_))return;
+            const double progress=double(candidate.x-from.x)*dx+double(candidate.y-from.y)*dy;
+            if(progress>bestProgress){bestProgress=progress;bestPosition=candidate;}
+        };
+        for(std::size_t a=0;a<contacts.size();++a) {
+            const Vec3 single=project(step,contacts[a]);
+            consider(single);
+            for(std::size_t b=0;b<contacts.size();++b)if(b!=a)consider(project(single,contacts[b]));
+        }
+        if(bestProgress>0){state_.position=bestPosition;continue;}
         Vec3 slideX{from.x+dx,from.y,from.z};
         if(supported(slideX,from,collision,config_))state_.position=slideX;
         const auto current=state_.position;

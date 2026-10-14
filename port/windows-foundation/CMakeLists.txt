@@ -1485,3 +1485,8 @@ add_executable(runtime_necromancer_skill_owner_v1_tests features/generic_skills/
 target_link_libraries(runtime_necromancer_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
 add_test(NAME runtime_necromancer_skill_owner_v1 COMMAND runtime_necromancer_skill_owner_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
+
+# w5-collision harness: real Swamp collision walk census (stall = covered < 30% while a free heading covers >= 90%).
+add_executable(actor_collision_stall_tests tests/actor_collision_stall_tests.cpp)
+target_link_libraries(actor_collision_stall_tests PRIVATE foundation_data)
+add_test(NAME actor_collision_stall COMMAND actor_collision_stall_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged3/assets")
