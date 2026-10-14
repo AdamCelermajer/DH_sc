@@ -1,0 +1,3373 @@
+{
+  "act": "act_1",
+  "count": 53,
+  "kind": "scene_object_condition",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6f46f5bc8ace91bfd51b",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6f46f5bc8ace91bfd51b",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#0]=_prim_TriggerZone_17.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f763015acdc867730bce",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f763015acdc867730bce",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#0]=_prim_TriggerZone_17.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "57d7b54c06f3236d28f9",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "57d7b54c06f3236d28f9",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#10]=_prim_Monster_MisterSnack.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "64839b386d00fe962b6c",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "64839b386d00fe962b6c",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#10]=_prim_Monster_MisterSnack.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0db98531f97de56e6e90",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0db98531f97de56e6e90",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#11]=_prim_Monster_LizardFan03.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "734b7800103300549926",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "734b7800103300549926",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#11]=_prim_Monster_LizardFan03.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1ff57c23a61908323ecf",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1ff57c23a61908323ecf",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#13]=_prim_EntryPoint_from_darkwood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "687d0aa435c3b47e41bd",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "687d0aa435c3b47e41bd",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#13]=_prim_EntryPoint_from_darkwood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2bc815a6126236bf62bc",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2bc815a6126236bf62bc",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#14]=_prim_Boss_SwampKing_01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e6ff19aa3cf1c3ba62b4",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e6ff19aa3cf1c3ba62b4",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#14]=_prim_Boss_SwampKing_01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "62d4c245fb48d4124fb5",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_DWGoToGothicus",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "62d4c245fb48d4124fb5",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#19]=_prim_TriggerZone_openwall.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d9ef6c23fe44e8183a72",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_DWGoToGothicus",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d9ef6c23fe44e8183a72",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#19]=_prim_TriggerZone_openwall.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6fd98b3ce3d0e04a3c94",
+          "index": 111,
+          "name": "NoFollowers1",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "44ee3fa4f3e5557a3b1e",
+      "kind": "scene_object_condition",
+      "name": "NoFollowers1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "44ee3fa4f3e5557a3b1e",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6fd98b3ce3d0e04a3c94",
+          "index": 111,
+          "name": "NoFollowers1",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#23]=_prim_EntryPoint_from_darkwood03.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6fd98b3ce3d0e04a3c94",
+          "index": 111,
+          "name": "NoFollowers1",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "806baa3ee7f90601a006",
+      "kind": "scene_object_condition",
+      "name": "NoFollowers1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "806baa3ee7f90601a006",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6fd98b3ce3d0e04a3c94",
+          "index": 111,
+          "name": "NoFollowers1",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#23]=_prim_EntryPoint_from_darkwood03.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6eb43daa101a6059dffe",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6eb43daa101a6059dffe",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#24]=_prim_EntryPoint_from_darkwood04.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e7cd205a73c3d178e75b",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e7cd205a73c3d178e75b",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#24]=_prim_EntryPoint_from_darkwood04.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 23,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "02064c7a27aa954bccfb",
+          "index": 22,
+          "name": "IsAfter_KillFlaminite",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "336678980f18ae7fbb46",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_KillFlaminite",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "336678980f18ae7fbb46",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 23,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "02064c7a27aa954bccfb",
+          "index": 22,
+          "name": "IsAfter_KillFlaminite",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#25]=_prim_EntryPoint_from_darkwood05.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 23,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "02064c7a27aa954bccfb",
+          "index": 22,
+          "name": "IsAfter_KillFlaminite",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fff2e6c3af673aeb8e99",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_KillFlaminite",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fff2e6c3af673aeb8e99",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 23,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "02064c7a27aa954bccfb",
+          "index": 22,
+          "name": "IsAfter_KillFlaminite",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#25]=_prim_EntryPoint_from_darkwood05.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2fe9ced6140089dc9d3f",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2fe9ced6140089dc9d3f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#26]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3f51c34067f93f7f1744",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3f51c34067f93f7f1744",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#26]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "1f969d3d6445e81748d5",
+          "index": 32,
+          "name": "IsAfter_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a08f17f0d073bdfe1e37",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a08f17f0d073bdfe1e37",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "1f969d3d6445e81748d5",
+          "index": 32,
+          "name": "IsAfter_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#7]=_prim_ExitLevelZone_001.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "1f969d3d6445e81748d5",
+          "index": 32,
+          "name": "IsAfter_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d817824cdc013cf141ab",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d817824cdc013cf141ab",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "1f969d3d6445e81748d5",
+          "index": 32,
+          "name": "IsAfter_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#7]=_prim_ExitLevelZone_001.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7c1c6b499a3a85a43690",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7c1c6b499a3a85a43690",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#9]=_prim_Monster_LizardFan01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fd1a87860eddf5b8a87c",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_Escape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fd1a87860eddf5b8a87c",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "7aadc116c8186bcfeaf7",
+          "index": 71,
+          "name": "IsBefore_Swamp_Escape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "C source edge 001_swamp.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp[GameObject#9]=_prim_Monster_LizardFan01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a32810860e0653a1c4e1",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a32810860e0653a1c4e1",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#16]=_prim_TriggerZone_BugFix.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ab97e65ffd6c2d10f895",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ab97e65ffd6c2d10f895",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#16]=_prim_TriggerZone_BugFix.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ff86c8325040a07d45a2",
+          "index": 33,
+          "name": "IsAfter_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "abf5ff3a50a483ed521f",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "abf5ff3a50a483ed521f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ff86c8325040a07d45a2",
+          "index": 33,
+          "name": "IsAfter_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#17]=_prim_TriggerZone_12.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ff86c8325040a07d45a2",
+          "index": 33,
+          "name": "IsAfter_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ba4660128dc3d018590f",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ba4660128dc3d018590f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ff86c8325040a07d45a2",
+          "index": 33,
+          "name": "IsAfter_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#17]=_prim_TriggerZone_12.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a0cbcb738c56edd2bf51",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a0cbcb738c56edd2bf51",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#1]=_prim_TriggerZone_11.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dfd6e340edb267f28128",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dfd6e340edb267f28128",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#1]=_prim_TriggerZone_11.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "59f3a1535806576e6c9a",
+          "index": 34,
+          "name": "IsAfter_Swamp_KillWitch2",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c436601bcd8631f9bc1c",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_KillWitch2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c436601bcd8631f9bc1c",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "59f3a1535806576e6c9a",
+          "index": 34,
+          "name": "IsAfter_Swamp_KillWitch2",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#8]=_prim_ExitLevelZone_42.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "59f3a1535806576e6c9a",
+          "index": 34,
+          "name": "IsAfter_Swamp_KillWitch2",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cb7c4be3b1b46f317ec9",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_KillWitch2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cb7c4be3b1b46f317ec9",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "59f3a1535806576e6c9a",
+          "index": 34,
+          "name": "IsAfter_Swamp_KillWitch2",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp[GameObject#8]=_prim_ExitLevelZone_42.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fdf899315a695b15bcc5",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fdf899315a695b15bcc5",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "C source edge 001_swamp.mlx -> 002_swamp_witchcave.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp[GameObject#2]=_prim_EntryPoint_WitchCaveExit.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6fd98b3ce3d0e04a3c94",
+          "index": 111,
+          "name": "NoFollowers1",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e228885e7694b4397003",
+      "kind": "scene_object_condition",
+      "name": "NoFollowers1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e228885e7694b4397003",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6fd98b3ce3d0e04a3c94",
+          "index": 111,
+          "name": "NoFollowers1",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "C source edge 001_swamp.mlx -> 002_swamp_witchcave.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp[GameObject#3]=_prim_EntryPoint_WitchCaveExit01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bc7d381d9908a8db7287",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bc7d381d9908a8db7287",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "C source edge 001_swamp.mlx -> 002_swamp_witchcave.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp[GameObject#4]=_prim_EntryPoint_WitchCaveExit02.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 23,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "02064c7a27aa954bccfb",
+          "index": 22,
+          "name": "IsAfter_KillFlaminite",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c688c37f8f1a9f6c7989",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_KillFlaminite",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c688c37f8f1a9f6c7989",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 23,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "02064c7a27aa954bccfb",
+          "index": 22,
+          "name": "IsAfter_KillFlaminite",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "C source edge 001_swamp.mlx -> 002_swamp_witchcave.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp[GameObject#5]=_prim_EntryPoint_WitchCaveExit03.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "056c1bacecd264f6eb54",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "056c1bacecd264f6eb54",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp[GameObject#4]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0a306175cf104799624a",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0a306175cf104799624a",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp[GameObject#4]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e48282959a38af7d5f76",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e48282959a38af7d5f76",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp[GameObject#4]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0f7bd61f7c8d36fea7db",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0f7bd61f7c8d36fea7db",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp[GameObject#7]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "55ff78f4107b8e0d855a",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "55ff78f4107b8e0d855a",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp[GameObject#7]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7821fc3390272013f929",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7821fc3390272013f929",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 002_swamp_witchcave.rule.xml .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "C source edge 002_swamp_witchcave.rule.xml -> 001_swamp.mlx via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp[GameObject#7]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7557cdce41ded9eeab1e",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7557cdce41ded9eeab1e",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "C source edge 001_swamp.mlx -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp[GameObject#13]=_prim_ExitLevelZone_toSwamp02.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9790820b593999265681",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9790820b593999265681",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "C source edge 001_swamp.mlx -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp[GameObject#14]=_prim_WitchQuestStart.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 51,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "3c941f37182c5cf758dd",
+          "index": 35,
+          "name": "IsAfter_Swamp_LizBlood",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0473ca6eb7667a25efe5",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Swamp_LizBlood",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0473ca6eb7667a25efe5",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 51,
+                "Op": 0,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "3c941f37182c5cf758dd",
+          "index": 35,
+          "name": "IsAfter_Swamp_LizBlood",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "C source edge 001_swamp.mlx -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp[GameObject#15]=_prim_NPC_LizBloodPOST.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e518b0231d05661e6856",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Swamp_KillWitch",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e518b0231d05661e6856",
+      "reference_kind": "object_deactivation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 52,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "5e9926cbae663cec3206",
+          "index": 72,
+          "name": "IsBefore_Swamp_KillWitch",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "C source edge 001_swamp.mlx -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp[GameObject#1]=_prim_NPC_05.deactivate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "555b3b660922f377fe27",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "555b3b660922f377fe27",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "C source edge 001_swamp.mlx -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp[GameObject#21]=_prim_Swamp2Door_FIRE.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a1a0ff10f2d5f02ac55a",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a1a0ff10f2d5f02ac55a",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "C source edge 001_swamp.mlx -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp[GameObject#25]=_prim_TriggerZone_hacksavething.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "500162a463829ec03ff7",
+          "index": 4,
+          "name": "GameStartOnly",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "31c77f796dca8e8cc6b7",
+      "kind": "scene_object_condition",
+      "name": "GameStartOnly",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "31c77f796dca8e8cc6b7",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "500162a463829ec03ff7",
+          "index": 4,
+          "name": "GameStartOnly",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp[GameObject#19]=_prim_ActorTroll.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "500162a463829ec03ff7",
+          "index": 4,
+          "name": "GameStartOnly",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5df549922d8a2f68a25a",
+      "kind": "scene_object_condition",
+      "name": "GameStartOnly",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5df549922d8a2f68a25a",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 50,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "500162a463829ec03ff7",
+          "index": 4,
+          "name": "GameStartOnly",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp[GameObject#20]=_prim_ActorPrisoner.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f66bd9d7e9775a6867e3",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f66bd9d7e9775a6867e3",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp[GameObject#25]=_prim_TriggerZone_001.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fb50a94106c1aea889bf",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fb50a94106c1aea889bf",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp[GameObject#26]=_prim_TriggerZone_18.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1a19c33c5bc2d6ebf0ac",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1a19c33c5bc2d6ebf0ac",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 001_swamp.mlx .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp[GameObject#2]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

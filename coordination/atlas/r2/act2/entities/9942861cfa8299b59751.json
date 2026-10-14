@@ -1,0 +1,2079 @@
+{
+  "AI": {
+    "claim_scope": "character_AI_profile_row",
+    "confidence": "PROVEN",
+    "profile": {
+      "fields": {
+        "AttackDelay": 0,
+        "CombatBeat": -1,
+        "CombatMusic": -1,
+        "DelayedLoad": 1,
+        "Flags": 0,
+        "InteractRadius": 250.0,
+        "LeashDistance": 1500.0,
+        "MeleeRadius": 200.0,
+        "OnAggroSFX": -1,
+        "Script": "__npc__",
+        "SelfFX": -1,
+        "Trophy": -1,
+        "Type": 6,
+        "ViewRadius": 250.0,
+        "ViewRadiusNoAggro": 2300.0
+      },
+      "index": 70,
+      "name": "Villager",
+      "reference_status": "RESOLVED",
+      "source_status": "RESOLVED",
+      "table": "ai#group0"
+    },
+    "script": "__npc__",
+    "source_chain": {
+      "reason": "generic_or_empty_AI_script",
+      "root": "__npc__",
+      "status": "NOT-NEEDED"
+    }
+  },
+  "actor_id": "9942861cfa8299b59751",
+  "actor_name": "Sandwalker_Worm_b",
+  "character_properties_fields": {
+    "AI": 70,
+    "AIFaction": 15,
+    "Achievement_Block_Count": 0,
+    "Achievement_Break_Count": 0,
+    "Achievement_Chests_Count": 0,
+    "Achievement_Evade_Count": 0,
+    "Achievement_KnockedDown_Count": 0,
+    "Achievement_PickUp_Count": 0,
+    "Achievement_Potions_Count": 0,
+    "Achievement_Sell_Count": 0,
+    "Achievement_SkillUse_Count": 0,
+    "Achievement_Spent_Count": 0,
+    "Achievement_Transmute_Count": 0,
+    "AnimTable": 60,
+    "ClassDescString": 1835084,
+    "ClassID": -1,
+    "ClassString": 1835084,
+    "Collision_Scale": 85,
+    "CombatRegen_HP": -1,
+    "CombatRegen_MP": -1,
+    "Damage_Air_Max_Main_Hand": 0,
+    "Damage_Air_Max_Off_Hand": 0,
+    "Damage_Air_Min_Main_Hand": 0,
+    "Damage_Air_Min_Off_Hand": 0,
+    "Damage_Block_Mitigation": 0,
+    "Damage_Bonus_Axe": 0,
+    "Damage_Bonus_Combo": 0,
+    "Damage_Bonus_Dagger": 0,
+    "Damage_Bonus_Dual": 0,
+    "Damage_Bonus_Mace": 0,
+    "Damage_Bonus_Range": 0,
+    "Damage_Bonus_Sneaking": 0,
+    "Damage_Bonus_Staff": 0,
+    "Damage_Bonus_Stunned": 0,
+    "Damage_Bonus_Sword": 0,
+    "Damage_Bonus_TwoHand": 0,
+    "Damage_Bonus_Wand": 0,
+    "Damage_Crit_Intensification": 0,
+    "Damage_Earth_Max_Main_Hand": 0,
+    "Damage_Earth_Max_Off_Hand": 0,
+    "Damage_Earth_Min_Main_Hand": 0,
+    "Damage_Earth_Min_Off_Hand": 0,
+    "Damage_Elemental_Max_Main_Hand": 0,
+    "Damage_Elemental_Max_Off_Hand": 0,
+    "Damage_Elemental_Min_Main_Hand": 0,
+    "Damage_Elemental_Min_Off_Hand": 0,
+    "Damage_Elemental_Type_Main_Hand": -256,
+    "Damage_Elemental_Type_Off_Hand": -256,
+    "Damage_Fire_Max_Main_Hand": 0,
+    "Damage_Fire_Max_Off_Hand": 0,
+    "Damage_Fire_Min_Main_Hand": 0,
+    "Damage_Fire_Min_Off_Hand": 0,
+    "Damage_Lightning_Max_Main_Hand": 0,
+    "Damage_Lightning_Max_Off_Hand": 0,
+    "Damage_Lightning_Min_Main_Hand": 0,
+    "Damage_Lightning_Min_Off_Hand": 0,
+    "Damage_Max_Main_Hand": 0,
+    "Damage_Max_Off_Hand": 0,
+    "Damage_Min_Main_Hand": 0,
+    "Damage_Min_Off_Hand": 0,
+    "Damage_Water_Max_Main_Hand": 0,
+    "Damage_Water_Max_Off_Hand": 0,
+    "Damage_Water_Min_Main_Hand": 0,
+    "Damage_Water_Min_Off_Hand": 0,
+    "DeathCount": 0,
+    "Dialogs": -1,
+    "Diminishing_Return": 0,
+    "Dot_Duration": 0,
+    "Dot_Max_Damage": 0,
+    "Dot_Min_Damage": 0,
+    "Dot_Tick_Damage_Air": 0,
+    "Dot_Tick_Damage_Earth": 0,
+    "Dot_Tick_Damage_Fire": 0,
+    "Dot_Tick_Damage_Lightning": 0,
+    "Dot_Tick_Damage_Normal": 0,
+    "Dot_Tick_Damage_Water": 0,
+    "Effects": 0,
+    "FX_Scale": -1,
+    "FaeryList": -1,
+    "Fear_Duration": 0,
+    "Fear_Resist_Chance": 0,
+    "Fear_Target_Chance": 0,
+    "HP": 153600,
+    "HP_Bonus": -1,
+    "Hurt_Resist_Chance": 0,
+    "Hurt_Target_Chance": 0,
+    "KillCount": 0,
+    "Leech_HP": 0,
+    "Leech_MP": 0,
+    "Level": 0,
+    "LevelMax": -1,
+    "LevelMin": 1,
+    "LevelOffset": 0,
+    "Loot": -1,
+    "MP": -1,
+    "MPLevelKillCount": 0,
+    "MP_Bonus": -1,
+    "Magical_Armor": 0,
+    "Max_HP": 153600,
+    "Max_MP": -1,
+    "Max_XP": -1,
+    "Melee_Scale": 100,
+    "Menu_Average_Melee_To_Hit": 0,
+    "Menu_Average_Spell_To_Hit": 0,
+    "Menu_Melee_Damage_Reduction": 0,
+    "ModelFile": 31,
+    "ModularVisual": -1,
+    "Name": 1507674,
+    "Opacity_Modifier": 0,
+    "Physical_Armor": 0,
+    "Physical_Armor_Bonus_Shield": 0,
+    "Potion_HP_Modifier": 0,
+    "Potion_MP_Modifier": 0,
+    "Prereq_Dexterity": 0,
+    "Prereq_Endurance": 0,
+    "Prereq_Energy": 0,
+    "Prereq_Strength": 0,
+    "Push_Resist_Chance": 0,
+    "Push_Target_Chance": 0,
+    "RangeMaxDistance": 0,
+    "RangeMinDistance": 0,
+    "RangeProjectileID": -1,
+    "Rating_Attack": 0,
+    "Rating_Attack_Bonus_Axe": 0,
+    "Rating_Attack_Bonus_Dagger": 0,
+    "Rating_Attack_Bonus_Dual": 0,
+    "Rating_Attack_Bonus_Mace": 0,
+    "Rating_Attack_Bonus_Range": 0,
+    "Rating_Attack_Bonus_Staff": 0,
+    "Rating_Attack_Bonus_Sword": 0,
+    "Rating_Attack_Bonus_Wand": 0,
+    "Rating_Block": 0,
+    "Rating_Block_Bonus_Shield": 0,
+    "Rating_Critical": 0,
+    "Rating_Critical_Bonus_Axe": 0,
+    "Rating_Critical_Bonus_Dagger": 0,
+    "Rating_Critical_Bonus_Mace": 0,
+    "Rating_Critical_Bonus_Range": 0,
+    "Rating_Critical_Bonus_Staff": 0,
+    "Rating_Critical_Bonus_Sword": 0,
+    "Rating_Critical_Bonus_Wand": 0,
+    "Rating_Defense": 0,
+    "Rating_Dodge": 0,
+    "Regen_HP": -1,
+    "Regen_MP": -1,
+    "Resistance_Air": 0,
+    "Resistance_Earth": 0,
+    "Resistance_Fire": 0,
+    "Resistance_Lightning": 0,
+    "Resistance_Water": 0,
+    "RespawnTime": 0,
+    "Scale_X": 100,
+    "Scale_Y": 100,
+    "Scale_Z": 100,
+    "SkillTree": -1,
+    "Skill_Points": 0,
+    "Slow_Duration": 0,
+    "Slow_Resist_Chance": 0,
+    "Slow_Target_Chance": 0,
+    "SnS_Cooldown": 0,
+    "SnS_Dot_Duration": 0,
+    "SnS_Dot_Elemental_Type": -256,
+    "SnS_Dot_Max_Damage": 0,
+    "SnS_Dot_Min_Damage": 0,
+    "SnS_Duration": 0,
+    "SnS_Fear_Duration": 0,
+    "SnS_Fear_Target_Chance": 0,
+    "SnS_Hurt_Target_Chance": 0,
+    "SnS_Level": 0,
+    "SnS_ManaCost": 0,
+    "SnS_MaxDamage": 0,
+    "SnS_MinDamage": 0,
+    "SnS_Push_Target_Chance": 0,
+    "SnS_Slow_Duration": 0,
+    "SnS_Slow_Target_Chance": 0,
+    "SnS_Stun_Duration": 0,
+    "SnS_Stun_Target_Chance": 0,
+    "Sounds": 2,
+    "Special_Bonus_To_XP": 0,
+    "Special_Equip_2H_In_One": 0,
+    "Special_Equip_Main_In_Offhand": 0,
+    "Special_Loot_Gold_Multiplier": 0,
+    "Special_Loot_Magical_Chance": 0,
+    "Special_Loot_Max_Potions": 0,
+    "Special_Merchant_Price": 0,
+    "Special_Sneak": 0,
+    "Special_Sneak_Detection": 0,
+    "Special_Transmute_Efficiency": 0,
+    "Speed_Modifier_Attack": 0,
+    "Speed_Modifier_Rotation": 0,
+    "Speed_Modifier_Walk": 0,
+    "Spell_Damage_Bonus_Air": 0,
+    "Spell_Damage_Bonus_Earth": 0,
+    "Spell_Damage_Bonus_Fire": 0,
+    "Spell_Damage_Bonus_Lightning": 0,
+    "Spell_Damage_Bonus_Water": 0,
+    "Spell_Damage_Crit_Intensification": 0,
+    "Spell_Rating_Attack": 0,
+    "Spell_Rating_Attack_Bonus_Air": 0,
+    "Spell_Rating_Attack_Bonus_Earth": 0,
+    "Spell_Rating_Attack_Bonus_Fire": 0,
+    "Spell_Rating_Attack_Bonus_Lightning": 0,
+    "Spell_Rating_Attack_Bonus_Water": 0,
+    "Spell_Rating_Critical": 0,
+    "Spell_Rating_Dodge": 0,
+    "StatAutoAssignScheme": -1,
+    "Stat_Dexterity": 0,
+    "Stat_Endurance": 0,
+    "Stat_Energy": 0,
+    "Stat_Points": 0,
+    "Stat_Strength": 0,
+    "Stun_Duration": 0,
+    "Stun_Resist_Chance": 0,
+    "Stun_Target_Chance": 0,
+    "TempProp1": 0,
+    "TempProp2": 0,
+    "Threat_PerDamage": 0,
+    "Threat_PerDamageToFriendly": 0,
+    "Threat_PerHeal": 0,
+    "Value_XP": -1,
+    "Visual_AlphaFadeInSpawn": 3000,
+    "Visual_AlphaFadeOutDespawn": 3000,
+    "Visual_BlinkWhenHit": 1,
+    "XP": 0
+  },
+  "claim_scope": "character_properties_and_linked_tables",
+  "field_links": {
+    "AI": {
+      "index": 70,
+      "name": "Villager",
+      "raw": 70,
+      "reference_id": "aef72c174a90a6d8b2c4",
+      "status": "RESOLVED",
+      "table": "ai#group0",
+      "target_id": "78be241ae007324a5e52"
+    },
+    "AIFaction": {
+      "index": 15,
+      "name": "Villagers",
+      "raw": 15,
+      "reference_id": "0f9488bd497214c7d9ea",
+      "status": "RESOLVED",
+      "table": "ai_factions#group0",
+      "target_id": "fb44159c7975f590cc75"
+    },
+    "AnimTable": {
+      "index": 60,
+      "name": "Sandwalker",
+      "raw": 60,
+      "reference_id": "a619bd019f0f38088800",
+      "status": "RESOLVED",
+      "table": "character_animations",
+      "target_id": "d15700ca70133c9961c3"
+    },
+    "Effects": {
+      "index": 0,
+      "name": "Default",
+      "raw": 0,
+      "reference_id": "53c5ab08c1befad60232",
+      "status": "RESOLVED",
+      "table": "character_effects",
+      "target_id": "110827d516e56c5347bd"
+    },
+    "ModelFile": {
+      "index": 31,
+      "name": "f_sandwalker",
+      "raw": 31,
+      "reference_id": "008c78825254e6b0ef50",
+      "status": "RESOLVED",
+      "table": "character_models_dictionary#group0",
+      "target_id": "c95f49632a863e4d3501"
+    },
+    "Sounds": {
+      "index": 2,
+      "name": "Default",
+      "raw": 2,
+      "reference_id": "03c208c0dca635b9655c",
+      "status": "RESOLVED",
+      "table": "sounds#group0",
+      "target_id": "f93e07b3f9ba3c48dc93"
+    }
+  },
+  "package_A_native_callsite_specs": [],
+  "package_B_resource_crossrefs": [
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 31,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+              },
+              "index": 31,
+              "name": "f_sandwalker",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "31",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "008c78825254e6b0ef50",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_name",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/character-f0db3f.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 347,
+            "name": "Sandwalker_Worm_b",
+            "schema_evidence": "native GetCharPropertiesId 0x3b3d38; canonical_property_declarations_v1.inc:68 charpropsname offset 0x13b0; canonical_character_family_v4.cpp:40-47 cached id / char_template precedence / exact CharacterTable lookup; actor_population.cpp:144-170 explicit profile bind",
+            "source_row": {
+              "fields": {
+                "AI": 70,
+                "AIFaction": 15,
+                "Achievement_Block_Count": 0,
+                "Achievement_Break_Count": 0,
+                "Achievement_Chests_Count": 0,
+                "Achievement_Evade_Count": 0,
+                "Achievement_KnockedDown_Count": 0,
+                "Achievement_PickUp_Count": 0,
+                "Achievement_Potions_Count": 0,
+                "Achievement_Sell_Count": 0,
+                "Achievement_SkillUse_Count": 0,
+                "Achievement_Spent_Count": 0,
+                "Achievement_Transmute_Count": 0,
+                "AnimTable": 60,
+                "ClassDescString": 1835084,
+                "ClassID": -1,
+                "ClassString": 1835084,
+                "Collision_Scale": 85,
+                "CombatRegen_HP": -1,
+                "CombatRegen_MP": -1,
+                "Damage_Air_Max_Main_Hand": 0,
+                "Damage_Air_Max_Off_Hand": 0,
+                "Damage_Air_Min_Main_Hand": 0,
+                "Damage_Air_Min_Off_Hand": 0,
+                "Damage_Block_Mitigation": 0,
+                "Damage_Bonus_Axe": 0,
+                "Damage_Bonus_Combo": 0,
+                "Damage_Bonus_Dagger": 0,
+                "Damage_Bonus_Dual": 0,
+                "Damage_Bonus_Mace": 0,
+                "Damage_Bonus_Range": 0,
+                "Damage_Bonus_Sneaking": 0,
+                "Damage_Bonus_Staff": 0,
+                "Damage_Bonus_Stunned": 0,
+                "Damage_Bonus_Sword": 0,
+                "Damage_Bonus_TwoHand": 0,
+                "Damage_Bonus_Wand": 0,
+                "Damage_Crit_Intensification": 0,
+                "Damage_Earth_Max_Main_Hand": 0,
+                "Damage_Earth_Max_Off_Hand": 0,
+                "Damage_Earth_Min_Main_Hand": 0,
+                "Damage_Earth_Min_Off_Hand": 0,
+                "Damage_Elemental_Max_Main_Hand": 0,
+                "Damage_Elemental_Max_Off_Hand": 0,
+                "Damage_Elemental_Min_Main_Hand": 0,
+                "Damage_Elemental_Min_Off_Hand": 0,
+                "Damage_Elemental_Type_Main_Hand": -256,
+                "Damage_Elemental_Type_Off_Hand": -256,
+                "Damage_Fire_Max_Main_Hand": 0,
+                "Damage_Fire_Max_Off_Hand": 0,
+                "Damage_Fire_Min_Main_Hand": 0,
+                "Damage_Fire_Min_Off_Hand": 0,
+                "Damage_Lightning_Max_Main_Hand": 0,
+                "Damage_Lightning_Max_Off_Hand": 0,
+                "Damage_Lightning_Min_Main_Hand": 0,
+                "Damage_Lightning_Min_Off_Hand": 0,
+                "Damage_Max_Main_Hand": 0,
+                "Damage_Max_Off_Hand": 0,
+                "Damage_Min_Main_Hand": 0,
+                "Damage_Min_Off_Hand": 0,
+                "Damage_Water_Max_Main_Hand": 0,
+                "Damage_Water_Max_Off_Hand": 0,
+                "Damage_Water_Min_Main_Hand": 0,
+                "Damage_Water_Min_Off_Hand": 0,
+                "DeathCount": 0,
+                "Dialogs": -1,
+                "Diminishing_Return": 0,
+                "Dot_Duration": 0,
+                "Dot_Max_Damage": 0,
+                "Dot_Min_Damage": 0,
+                "Dot_Tick_Damage_Air": 0,
+                "Dot_Tick_Damage_Earth": 0,
+                "Dot_Tick_Damage_Fire": 0,
+                "Dot_Tick_Damage_Lightning": 0,
+                "Dot_Tick_Damage_Normal": 0,
+                "Dot_Tick_Damage_Water": 0,
+                "Effects": 0,
+                "FX_Scale": -1,
+                "FaeryList": -1,
+                "Fear_Duration": 0,
+                "Fear_Resist_Chance": 0,
+                "Fear_Target_Chance": 0,
+                "HP": 153600,
+                "HP_Bonus": -1,
+                "Hurt_Resist_Chance": 0,
+                "Hurt_Target_Chance": 0,
+                "KillCount": 0,
+                "Leech_HP": 0,
+                "Leech_MP": 0,
+                "Level": 0,
+                "LevelMax": -1,
+                "LevelMin": 1,
+                "LevelOffset": 0,
+                "Loot": -1,
+                "MP": -1,
+                "MPLevelKillCount": 0,
+                "MP_Bonus": -1,
+                "Magical_Armor": 0,
+                "Max_HP": 153600,
+                "Max_MP": -1,
+                "Max_XP": -1,
+                "Melee_Scale": 100,
+                "Menu_Average_Melee_To_Hit": 0,
+                "Menu_Average_Spell_To_Hit": 0,
+                "Menu_Melee_Damage_Reduction": 0,
+                "ModelFile": 31,
+                "ModularVisual": -1,
+                "Name": 1507674,
+                "Opacity_Modifier": 0,
+                "Physical_Armor": 0,
+                "Physical_Armor_Bonus_Shield": 0,
+                "Potion_HP_Modifier": 0,
+                "Potion_MP_Modifier": 0,
+                "Prereq_Dexterity": 0,
+                "Prereq_Endurance": 0,
+                "Prereq_Energy": 0,
+                "Prereq_Strength": 0,
+                "Push_Resist_Chance": 0,
+                "Push_Target_Chance": 0,
+                "RangeMaxDistance": 0,
+                "RangeMinDistance": 0,
+                "RangeProjectileID": -1,
+                "Rating_Attack": 0,
+                "Rating_Attack_Bonus_Axe": 0,
+                "Rating_Attack_Bonus_Dagger": 0,
+                "Rating_Attack_Bonus_Dual": 0,
+                "Rating_Attack_Bonus_Mace": 0,
+                "Rating_Attack_Bonus_Range": 0,
+                "Rating_Attack_Bonus_Staff": 0,
+                "Rating_Attack_Bonus_Sword": 0,
+                "Rating_Attack_Bonus_Wand": 0,
+                "Rating_Block": 0,
+                "Rating_Block_Bonus_Shield": 0,
+                "Rating_Critical": 0,
+                "Rating_Critical_Bonus_Axe": 0,
+                "Rating_Critical_Bonus_Dagger": 0,
+                "Rating_Critical_Bonus_Mace": 0,
+                "Rating_Critical_Bonus_Range": 0,
+                "Rating_Critical_Bonus_Staff": 0,
+                "Rating_Critical_Bonus_Sword": 0,
+                "Rating_Critical_Bonus_Wand": 0,
+                "Rating_Defense": 0,
+                "Rating_Dodge": 0,
+                "Regen_HP": -1,
+                "Regen_MP": -1,
+                "Resistance_Air": 0,
+                "Resistance_Earth": 0,
+                "Resistance_Fire": 0,
+                "Resistance_Lightning": 0,
+                "Resistance_Water": 0,
+                "RespawnTime": 0,
+                "Scale_X": 100,
+                "Scale_Y": 100,
+                "Scale_Z": 100,
+                "SkillTree": -1,
+                "Skill_Points": 0,
+                "Slow_Duration": 0,
+                "Slow_Resist_Chance": 0,
+                "Slow_Target_Chance": 0,
+                "SnS_Cooldown": 0,
+                "SnS_Dot_Duration": 0,
+                "SnS_Dot_Elemental_Type": -256,
+                "SnS_Dot_Max_Damage": 0,
+                "SnS_Dot_Min_Damage": 0,
+                "SnS_Duration": 0,
+                "SnS_Fear_Duration": 0,
+                "SnS_Fear_Target_Chance": 0,
+                "SnS_Hurt_Target_Chance": 0,
+                "SnS_Level": 0,
+                "SnS_ManaCost": 0,
+                "SnS_MaxDamage": 0,
+                "SnS_MinDamage": 0,
+                "SnS_Push_Target_Chance": 0,
+                "SnS_Slow_Duration": 0,
+                "SnS_Slow_Target_Chance": 0,
+                "SnS_Stun_Duration": 0,
+                "SnS_Stun_Target_Chance": 0,
+                "Sounds": 2,
+                "Special_Bonus_To_XP": 0,
+                "Special_Equip_2H_In_One": 0,
+                "Special_Equip_Main_In_Offhand": 0,
+                "Special_Loot_Gold_Multiplier": 0,
+                "Special_Loot_Magical_Chance": 0,
+                "Special_Loot_Max_Potions": 0,
+                "Special_Merchant_Price": 0,
+                "Special_Sneak": 0,
+                "Special_Sneak_Detection": 0,
+                "Special_Transmute_Efficiency": 0,
+                "Speed_Modifier_Attack": 0,
+                "Speed_Modifier_Rotation": 0,
+                "Speed_Modifier_Walk": 0,
+                "Spell_Damage_Bonus_Air": 0,
+                "Spell_Damage_Bonus_Earth": 0,
+                "Spell_Damage_Bonus_Fire": 0,
+                "Spell_Damage_Bonus_Lightning": 0,
+                "Spell_Damage_Bonus_Water": 0,
+                "Spell_Damage_Crit_Intensification": 0,
+                "Spell_Rating_Attack": 0,
+                "Spell_Rating_Attack_Bonus_Air": 0,
+                "Spell_Rating_Attack_Bonus_Earth": 0,
+                "Spell_Rating_Attack_Bonus_Fire": 0,
+                "Spell_Rating_Attack_Bonus_Lightning": 0,
+                "Spell_Rating_Attack_Bonus_Water": 0,
+                "Spell_Rating_Critical": 0,
+                "Spell_Rating_Dodge": 0,
+                "StatAutoAssignScheme": -1,
+                "Stat_Dexterity": 0,
+                "Stat_Endurance": 0,
+                "Stat_Energy": 0,
+                "Stat_Points": 0,
+                "Stat_Strength": 0,
+                "Stun_Duration": 0,
+                "Stun_Resist_Chance": 0,
+                "Stun_Target_Chance": 0,
+                "TempProp1": 0,
+                "TempProp2": 0,
+                "Threat_PerDamage": 0,
+                "Threat_PerDamageToFriendly": 0,
+                "Threat_PerHeal": 0,
+                "Value_XP": -1,
+                "Visual_AlphaFadeInSpawn": 3000,
+                "Visual_AlphaFadeOutDespawn": 3000,
+                "Visual_BlinkWhenHit": 1,
+                "XP": 0
+              },
+              "index": 347,
+              "name": "Sandwalker_Worm_b",
+              "table": "character_properties#group0"
+            },
+            "table": "character_properties#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "gametype=\"Character\" charpropsname exact-name lookup in CharacterTable, subject to char_template precedence."
+      },
+      "kind": "character",
+      "name": "Sandwalker_Worm_b",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "3252a54ed84b25d18899",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 31,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+              },
+              "index": 31,
+              "name": "f_sandwalker",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "31",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "5065e1fab9172b8ad81f",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 31,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+              },
+              "index": 31,
+              "name": "f_sandwalker",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "31",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "806c6d603ea92c5426fe",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 31,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+              },
+              "index": 31,
+              "name": "f_sandwalker",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "31",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "81837c26ae202223c29c",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 31,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+              },
+              "index": 31,
+              "name": "f_sandwalker",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "31",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "ad0cb1822592dbdc22d8",
+      "selection_files": [],
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "association_method": "exact_resource_path",
+      "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+      "classification": "NOT_NEEDED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 31,
+            "source_row": {
+              "fields": {
+                "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+              },
+              "index": 31,
+              "name": "f_sandwalker",
+              "table": "character_models_dictionary#group0"
+            },
+            "table": "character_models_dictionary#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field ModelFile"
+      },
+      "kind": "model",
+      "name": "31",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reference_id": "e4b8b9784d56ac9dec8f",
+      "selection_files": [],
+      "source_candidates": []
+    }
+  ],
+  "package_B_resource_dependencies": {
+    "animation": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/cs_king_intro_faery_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/cs_king_intro_faery_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_edward_scene11.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/faeries/animations/cs_king_intro_faery_scene02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/faeries/animations/cs_king_intro_faery_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_edward_scene11.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene03.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "c496145e29065169980f",
+                "index": 261,
+                "name": "cs_king_intro_faery_scene03",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_faery_scene03",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "07eb2f9fef97c4761a18",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "447ebe60f395c7a2033a",
+                "index": 282,
+                "name": "cs_king_intro_priest_scene08_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene08_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "3cf5df07562043460dd3",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "447ebe60f395c7a2033a",
+                "index": 282,
+                "name": "cs_king_intro_priest_scene08_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene08_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "3e2c5bd647d64389f5e4",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "a947611fab411dfe1128",
+                "index": 278,
+                "name": "cs_king_intro_priest_scene03",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene03",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "406f6ab8e72bedd7b586",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "9239b9470fc0b6ade340",
+                "index": 200,
+                "name": "cs_earthtemple_intro_scene06_cultist_r",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_earthtemple_intro_scene06_cultist_r",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "636f2be3964dbffdb0b3",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "8045a6fb54ca83886445",
+                "index": 259,
+                "name": "cs_king_intro_edward_scene13_talk",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_edward_scene13_talk",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "6429d71d43df61091d6a",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "447ebe60f395c7a2033a",
+                "index": 282,
+                "name": "cs_king_intro_priest_scene08_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene08_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "6dda983b12928b91624c",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "0d1cc303d15d71c5f49a",
+                "index": 279,
+                "name": "cs_king_intro_priest_scene05_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene05_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "83016956cf0079e24130",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "533b29fc3c4cc971df3c",
+                "index": 260,
+                "name": "cs_king_intro_faery_scene02",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_faery_scene02",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "895f6574de35b9f575f8",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "447ebe60f395c7a2033a",
+                "index": 282,
+                "name": "cs_king_intro_priest_scene08_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene08_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "a6170d1120f8c4bed0db",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "ee559902a5746005340d",
+                "index": 255,
+                "name": "cs_king_intro_edward_scene11",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_edward_scene11",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "ab1257545d99e62845b9",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "447ebe60f395c7a2033a",
+                "index": 282,
+                "name": "cs_king_intro_priest_scene08_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene08_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "b8f2e99a12c6eb9619fc",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "447ebe60f395c7a2033a",
+                "index": 282,
+                "name": "cs_king_intro_priest_scene08_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene08_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "bc70310089baa5dcec84",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "1104290c526dc80dced5",
+                "index": 267,
+                "name": "cs_king_intro_guard3_scene13_run",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_guard3_scene13_run",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "c30b7f93917dddc0a3ac",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "8045a6fb54ca83886445",
+                "index": 259,
+                "name": "cs_king_intro_edward_scene13_talk",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_edward_scene13_talk",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "ce65e2b5e0874fc7dc08",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_name",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "id": "0d1cc303d15d71c5f49a",
+                "index": 279,
+                "name": "cs_king_intro_priest_scene05_idle",
+                "table": "animations_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+          },
+          "kind": "animation_dictionary",
+          "name": "cs_king_intro_priest_scene05_idle",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "fd5fe955da457148d23d",
+          "selection_files": [],
+          "source_candidates": []
+        }
+      ],
+      "source_names": [
+        "cs_earthtemple_intro_scene06_cultist_r",
+        "cs_king_intro_camera_scene11",
+        "cs_king_intro_edward_scene11",
+        "cs_king_intro_edward_scene13_talk",
+        "cs_king_intro_faery_scene02",
+        "cs_king_intro_faery_scene03",
+        "cs_king_intro_guard3_scene13_run",
+        "cs_king_intro_guard_scene03_idle",
+        "cs_king_intro_priest_scene03",
+        "cs_king_intro_priest_scene05_idle",
+        "cs_king_intro_priest_scene08_idle"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/cs_king_intro_faery_scene02.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/cs_king_intro_faery_scene03.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_edward_scene11.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene03.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+        "data/3D/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae",
+        "data/3D/characters/faeries/animations/cs_king_intro_faery_scene02.bdae",
+        "data/3D/characters/faeries/animations/cs_king_intro_faery_scene03.bdae",
+        "data/3D/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_edward_scene11.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_priest_scene03.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae",
+        "data/3D/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "loot": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [],
+      "source_paths": [],
+      "status": "UNRESOLVED"
+    },
+    "model": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/f_sandwalker.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/f_sandwalker.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 31,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+                  },
+                  "index": 31,
+                  "name": "f_sandwalker",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "31",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "008c78825254e6b0ef50",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 31,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+                  },
+                  "index": 31,
+                  "name": "f_sandwalker",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "31",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "5065e1fab9172b8ad81f",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 31,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+                  },
+                  "index": 31,
+                  "name": "f_sandwalker",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "31",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "806c6d603ea92c5426fe",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 31,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+                  },
+                  "index": 31,
+                  "name": "f_sandwalker",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "31",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "81837c26ae202223c29c",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 31,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+                  },
+                  "index": 31,
+                  "name": "f_sandwalker",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "31",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "ad0cb1822592dbdc22d8",
+          "selection_files": [],
+          "source_candidates": []
+        },
+        {
+          "act": "act_2_inferred",
+          "association_method": "exact_resource_path",
+          "claim_scope": "package_B_current_classification_and_copy_selection_cross_join",
+          "classification": "NOT_NEEDED",
+          "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+          "confidence": "PROVEN",
+          "evidence": {
+            "resolves_to": [
+              {
+                "index": 31,
+                "source_row": {
+                  "fields": {
+                    "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+                  },
+                  "index": 31,
+                  "name": "f_sandwalker",
+                  "table": "character_models_dictionary#group0"
+                },
+                "table": "character_models_dictionary#group0",
+                "type": "table-row"
+              }
+            ],
+            "rule": "port/game-data/data.cpp:25; field ModelFile"
+          },
+          "kind": "model",
+          "name": "31",
+          "port_candidates": [],
+          "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+          "reference_id": "e4b8b9784d56ac9dec8f",
+          "selection_files": [],
+          "source_candidates": []
+        }
+      ],
+      "source_names": [],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/f_sandwalker.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+        "data/3D/characters/npcs/f_sandwalker.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "sound": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "Default"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin"
+      ],
+      "status": "UNRESOLVED"
+    }
+  },
+  "resources": {
+    "animation": {
+      "claim_scope": "character_animation_table_rows",
+      "confidence": "PROVEN",
+      "reason": null,
+      "state_rows": {
+        "Attack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae",
+              "sha256": "642d675d9a36852d4632529d3b26c2b003838522a7a1c65cbf2136a1d73dad6e",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 248,
+          "name": "cs_king_intro_camera_scene11",
+          "path": "data/3D/camera/animations/cs_king_intro/cs_king_intro_camera_scene11.bdae"
+        },
+        "DeadlyGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_edward_scene11.bdae",
+              "sha256": "7e6a637043b343dfb65129b4a71af2b99890aa3a2bf4a63c42ce74b68c5ea7e8",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 255,
+          "name": "cs_king_intro_edward_scene11",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_edward_scene11.bdae"
+        },
+        "Died": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae",
+              "sha256": "6a8946bece1742c34003d2ec127c9bdba20ae11525a01435991a6d4160d9e8bf",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 259,
+          "name": "cs_king_intro_edward_scene13_talk",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_edward_scene13_talk.bdae"
+        },
+        "GreatKnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/cs_king_intro_faery_scene03.bdae",
+              "sha256": "14b4d2f4234f0b5640ac59e1a50abc308fb1b0cbac0d89e4bfd9b8cea5d05c1d",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 261,
+          "name": "cs_king_intro_faery_scene03",
+          "path": "data/3D/characters/faeries/animations/cs_king_intro_faery_scene03.bdae"
+        },
+        "Idle": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae",
+              "sha256": "d8866990151d9c5785efa6bf3deb53244e967fb654d42026b06d4aa355eddc80",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 200,
+          "name": "cs_earthtemple_intro_scene06_cultist_r",
+          "path": "data/3D/characters/npcs/animations/cs_earthtemple_intro_scene06_cultist_r.bdae"
+        },
+        "Injured": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae",
+              "sha256": "2c5164fab64afa77c0066f9dc06a3b1b00f4f54045cf15b6ada5302beee185f9",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 267,
+          "name": "cs_king_intro_guard3_scene13_run",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_guard3_scene13_run.bdae"
+        },
+        "KnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae",
+              "sha256": "8ef88f0c0c686197516912080cf5c8869f7e0cb84484a3cf8333cd6b05737820",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 270,
+          "name": "cs_king_intro_guard_scene03_idle",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_guard_scene03_idle.bdae"
+        },
+        "Scared": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae",
+              "sha256": "a0b63f08aa4c694a678d3794845c3180e572de4f2964980cea92c55d847abb15",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae"
+        },
+        "Spawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/cs_king_intro_faery_scene02.bdae",
+              "sha256": "0de39feee9d9df2dcdf4a2804f259f7a4ad5958fb2e6ff02af5c3e24422a6931",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 260,
+          "name": "cs_king_intro_faery_scene02",
+          "path": "data/3D/characters/faeries/animations/cs_king_intro_faery_scene02.bdae"
+        },
+        "Stunned": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene03.bdae",
+              "sha256": "ba817d5f7ec0749c837a2f3cabc9bcc22982515184978470f913c71e31327fb3",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 278,
+          "name": "cs_king_intro_priest_scene03",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene03.bdae"
+        },
+        "Template": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae",
+              "sha256": "ec770bd7216c7da4bb453aacd167b02c6e041a0f6df65e183ebf7bff9ac285a1",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 279,
+          "name": "cs_king_intro_priest_scene05_idle",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene05_idle.bdae"
+        },
+        "Walk": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae",
+              "sha256": "a0b63f08aa4c694a678d3794845c3180e572de4f2964980cea92c55d847abb15",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "path": "data/3D/characters/npcs/animations/cs_king_intro_priest_scene08_idle.bdae"
+        }
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 60,
+          "name": "Sandwalker",
+          "raw": 60,
+          "reference_id": "a619bd019f0f38088800",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "target_id": "d15700ca70133c9961c3"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Attack": 248,
+            "AttackStatic": -1,
+            "Blocking": -1,
+            "DeadlyGreatKB": 255,
+            "Despawn": -1,
+            "DespawnGreatKB": -1,
+            "Died": 259,
+            "Dodging": -1,
+            "GreatKnockedBack": 261,
+            "Idle": 200,
+            "IdleFromOOC": -1,
+            "IdleOOC": -1,
+            "IdleSneak": -1,
+            "IdleToOOC": -1,
+            "Injured": 267,
+            "Interact": [
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "KnockedBack": 270,
+            "LiftDrop": -1,
+            "LiftIdle": -1,
+            "LiftMove": -1,
+            "Limbus": -1,
+            "MenuIdle": -1,
+            "MenuOnSelect": -1,
+            "PreSpawn": -1,
+            "Revived": -1,
+            "Reviving": -1,
+            "Run": -1,
+            "Run180": -1,
+            "RunSneak": -1,
+            "Scared": 282,
+            "Spawn": 260,
+            "Spells": [],
+            "Stunned": 278,
+            "Template": 279,
+            "Walk": 282,
+            "Walk180": -1,
+            "WalkSneak": -1
+          },
+          "id": "d15700ca70133c9961c3",
+          "index": 60,
+          "name": "Sandwalker",
+          "reason": null,
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "loot": {
+      "claim_scope": "character_loot_table_row",
+      "confidence": "PROVEN",
+      "reason": "Loot link has no indexed loot-table row; drops remain unknown.",
+      "row": null,
+      "status": "UNRESOLVED",
+      "table_link": {
+        "reference": null,
+        "status": "UNRESOLVED",
+        "target": null
+      }
+    },
+    "model": {
+      "asset_candidates": [
+        {
+          "claim_scope": "source_file_presence",
+          "confidence": "PROVEN",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/f_sandwalker.bdae",
+          "sha256": "f8f6f77325b837d08191d6d9d34b2db4b6a14618e04ef1b32cfb2788272cd81d",
+          "source": "android",
+          "status": "REFERENCED"
+        }
+      ],
+      "claim_scope": "character_model_dictionary_row",
+      "confidence": "PROVEN",
+      "path": "data/3D/characters/npcs/f_sandwalker.bdae",
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 31,
+          "name": "f_sandwalker",
+          "raw": 31,
+          "reference_id": "008c78825254e6b0ef50",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "target_id": "c95f49632a863e4d3501"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "Path": "data/3D/characters/npcs/f_sandwalker.bdae"
+          },
+          "id": "c95f49632a863e4d3501",
+          "index": 31,
+          "name": "f_sandwalker",
+          "reason": null,
+          "schema_evidence": "port/game-data/data.cpp:35",
+          "section": 0,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+          "source_table": "character_models_dictionary",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "sound": {
+      "claim_scope": "character_sound_profile_row",
+      "confidence": "PROVEN",
+      "profile": {
+        "candidate_note": null,
+        "candidates": [],
+        "confidence": "PROVEN",
+        "fields": {
+          "Die": [],
+          "Hurt": [],
+          "ImpactVsFlesh": [],
+          "ImpactVsMetal": [],
+          "IsFlesh": true,
+          "IsMetallic": false
+        },
+        "id": "f93e07b3f9ba3c48dc93",
+        "index": 2,
+        "name": "Default",
+        "reason": null,
+        "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+        "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+        "status": "RESOLVED",
+        "table": "sounds#group0",
+        "work_status": "DONE"
+      },
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 2,
+          "name": "Default",
+          "raw": 2,
+          "reference_id": "03c208c0dca635b9655c",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "target_id": "f93e07b3f9ba3c48dc93"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
+          "id": "f93e07b3f9ba3c48dc93",
+          "index": 2,
+          "name": "Default",
+          "reason": null,
+          "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "work_status": "DONE"
+        }
+      }
+    }
+  },
+  "source_confidence": "PROVEN",
+  "source_port_snapshot": {
+    "production_runtime_status": "UNVERIFIED",
+    "reason": "Source table linkage does not prove resource loading or actor behavior in the Windows production path.",
+    "source_atlas_status": "RESOLVED",
+    "source_atlas_work_status": "DONE"
+  },
+  "source_table": "character_properties",
+  "status": "DONE",
+  "trophy_and_skill_fields": {
+    "skills": "-1",
+    "trophy": -1
+  }
+}

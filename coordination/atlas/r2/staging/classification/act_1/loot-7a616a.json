@@ -1,0 +1,742 @@
+{
+  "act": "act_1",
+  "count": 16,
+  "kind": "loot",
+  "rows": [
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 9,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 1,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  124,
+                  124,
+                  124
+                ]
+              },
+              "index": 9,
+              "name": "Barrel_Level_01",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "9",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "65e048f9835882feebaf",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 150 Epic_merchant_swamp (182ca511b74b336a5f8d); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=150].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 8,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 22,
+                "RandomLootEntries": [
+                  {
+                    "ItemListID": 4,
+                    "ItemPowerList": 28,
+                    "MProb": 0,
+                    "NumPowerProbs": 13,
+                    "Pct": -1,
+                    "Prob": 40,
+                    "RProb": 0,
+                    "WProb": 0
+                  }
+                ],
+                "RollType": 0,
+                "SubLoots": []
+              },
+              "index": 8,
+              "name": "AssassinTreasure",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "8",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "1c60cbfd9fcd4f3b49e9",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 294 NPCmerchantCamp (b35c45d342195815c1ba); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=294].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 188,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 20,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": []
+              },
+              "index": 188,
+              "name": "NoLoot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "188",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "c0b84a5be3fc5adc8b48",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=323].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 232,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 32,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  285
+                ]
+              },
+              "index": 232,
+              "name": "Swamp_Weak_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "232",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "2b3881aa6cb790a493a7",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 349 Slime (c052441fdd99de0663f8); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=349].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 229,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 2,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  235,
+                  234,
+                  236,
+                  237,
+                  302
+                ]
+              },
+              "index": 229,
+              "name": "SwampKing_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "229",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "608b4bb880749c4dabb1",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 358 SwampKing (debe3161f75f83cfc4a0); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=358].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 231,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 6,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  233,
+                  233,
+                  234,
+                  235,
+                  301
+                ]
+              },
+              "index": 231,
+              "name": "Swamp_Champion_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "231",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "df5087e897edec68e72e",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 359 Swamp_ActorTroll (85e3752f001d5903f863); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=359].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 230,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 19,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  301
+                ]
+              },
+              "index": 230,
+              "name": "Swamp_Basic_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "230",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "26d694218016420db644",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 360 Swamp_LizadMan_Type1 (4857e9afd486029389df); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=360].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 231,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 6,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  233,
+                  233,
+                  234,
+                  235,
+                  301
+                ]
+              },
+              "index": 231,
+              "name": "Swamp_Champion_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "231",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "b04d00b848401662a6c8",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 362 Swamp_LizadMan_Type2 (32a6018452d04659b538); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=362].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 231,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 6,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  233,
+                  233,
+                  234,
+                  235,
+                  301
+                ]
+              },
+              "index": 231,
+              "name": "Swamp_Champion_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "231",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "31cbdd59f113ee91d04d",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 363 Swamp_LizadMan_Type3 (d247470ac9c21be0bc4e); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=363].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 232,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 32,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  285
+                ]
+              },
+              "index": 232,
+              "name": "Swamp_Weak_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "232",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "9f5ba9a69b90696ea1fe",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 373 Swamp_MovieMoth (b298df8fe9d963b41e6c); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=373].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 230,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 19,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  301
+                ]
+              },
+              "index": 230,
+              "name": "Swamp_Basic_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "230",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "92143b91058a03cf63de",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 374 Swamp_SnackMan (a2c77cc142e62db476d1); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=374].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 231,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 6,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  233,
+                  233,
+                  233,
+                  234,
+                  235,
+                  301
+                ]
+              },
+              "index": 231,
+              "name": "Swamp_Champion_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "231",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "d021e20d5a5eda57ace9",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 383 Troll (5aa52bd105935c0a1b76); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=383].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 192,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 20,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": []
+              },
+              "index": 192,
+              "name": "PriestStartingLoot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "192",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "32791987064e559b6e2a",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 192,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 20,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": []
+              },
+              "index": 192,
+              "name": "PriestStartingLoot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "192",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "0d1d7a41c8ba2df3db47",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 338,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 2,
+                "RandomLootEntries": [],
+                "RollType": 0,
+                "SubLoots": [
+                  235,
+                  234,
+                  236,
+                  237,
+                  303
+                ]
+              },
+              "index": 338,
+              "name": "Witch_Loot",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "338",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "012a3b5d91f14b66fd3a",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 435 Witch (493d2e115ad25e84db5e); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=435].Loot",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 8,
+            "source_row": {
+              "fields": {
+                "FixedLootEntries": [],
+                "NumRandomItemProbs": 22,
+                "RandomLootEntries": [
+                  {
+                    "ItemListID": 4,
+                    "ItemPowerList": 28,
+                    "MProb": 0,
+                    "NumPowerProbs": 13,
+                    "Pct": -1,
+                    "Prob": 40,
+                    "RProb": 0,
+                    "WProb": 0
+                  }
+                ],
+                "RollType": 0,
+                "SubLoots": []
+              },
+              "index": 8,
+              "name": "AssassinTreasure",
+              "table": "loot_table#group5"
+            },
+            "table": "loot_table#group5",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field Loot"
+      },
+      "kind": "loot",
+      "name": "8",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "59005a8455ec14e054fa",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 444 zKill5Lizman_Post (ffced55104feb850c42e); membership act_1 -> Loot"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=444].Loot",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}
