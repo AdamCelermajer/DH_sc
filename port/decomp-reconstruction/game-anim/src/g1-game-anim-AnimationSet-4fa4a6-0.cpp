@@ -17,15 +17,20 @@
 #include <cstdint>
 
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp"
 #include "pydata-accessors/member_names.hpp"
 
 // 0x36497c _ZN12AnimationSet10SetAnimSetEPN6glitch7collada20CDynamicAnimationSetE
-// partial: the original releases the previous set through glitch::IReferenceCounted::drop and adds a use to
-// the new one (counter at +0x04). CDynamicAnimationSet does not declare that base, so only the pointer store
-// and the +0x2c flag are reproduced. The original returns drop()'s result in r0; the header declares void.
+// The previous set is dropped, the flag at +0x2c is set, and the new set takes a use (counter at +0x04). The
+// original returns drop()'s result in r0; the header declares void, so that value is not returned.
 void AnimationSet::SetAnimSet(glitch::collada::CDynamicAnimationSet* animSet) {
-    m_animSet = animSet;
+    if (m_animSet) {
+        m_animSet->drop();
+        m_animSet = nullptr;
+    }
     unk_2c = 1;
+    m_animSet = animSet;
+    ++m_animSet->referenceCounter;
 }
 
 // 0x3649bc _ZN12AnimationSet18CalculateCacheSizeEv
@@ -107,7 +112,16 @@ Animation* AnimationSet::GetAnimationBySetIndex(int setIndex) {
 // constructor, C1Ev at 0x3648c4, not declared in its header) and returns the result of the new object's virtual
 // slot 7 (+0x1c, not declared) called with 1. Only the flag is reproduced; no set is created. Stub: returns 0.
 int AnimationSet::CreateAnimSet() {
+    if (m_animSet) {
+        m_animSet->drop();
+        m_animSet = nullptr;
+    }
     unk_2c = 1;
+    auto* set = new glitch::collada::CDynamicAnimationSet();
+    m_animSet = set;
+    // partial: the original returns the r0 of the set's setMismatchBehavior(1) (vptr+0x1c, returns CAnimationSet&),
+    // which the int return cannot carry. The call is made; the value is not returned.
+    (void)set->setMismatchBehavior(static_cast<glitch::collada::CAnimationSet::E_MISMATCH_BEHAVIOR>(1));
     return 0;
 }
 
@@ -117,7 +131,10 @@ int AnimationSet::CreateAnimSet() {
 // is cleared. The tree part is reproduced: erasing every node and resetting the header is std::map::clear, and
 // each erased Animation runs its destructor.
 void AnimationSet::FreeAll() {
-    m_animSet = nullptr;
+    if (m_animSet) {
+        m_animSet->drop();
+        m_animSet = nullptr;
+    }
     m_animations.clear();
 }
 
