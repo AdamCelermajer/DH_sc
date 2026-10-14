@@ -86,6 +86,7 @@ class RuntimeSessionAudioV1 final {
     // explicitly. The start is pending from those events until it succeeds; it is not re-asserted every frame, so a
     // scripted PlayMusic holds until the next source event.
     bool level_music_start_pending_{};
+    bool level_music_user_off_{}; // v21.8 w4-hud: the HUD music-note button switched the level music off
     std::ostream& log_;
 public:
     explicit RuntimeSessionAudioV1(std::ostream&);
@@ -126,6 +127,11 @@ public:
     // Original MenuMainMenu::Hide StopMusic(1000) on the way out of gameplay.
     // Clears the track so after_update cannot restart it before teardown.
     bool on_return_to_menu(std::string& error);
+    // v21.8 w4-hud, PC ADAPTATION of the original-touch HUD music-note button (btn_itunes): stops the level music, or starts it
+    // again. The original button opens the iTunes bar that drives the DEVICE's own music player (nativePlayBGMusic /
+    // nativePauseMusicBG, VoxSoundManager::IPodControl), which has no PC counterpart. While off, level-start / safezone /
+    // revive restarts are held back; scripted PlayMusic is unaffected. playing = the state after the call.
+    bool toggle_level_music(bool& playing,std::string& error);
     // I024 DEATH: source SetSoundVolume(VolumeFX) for the death mute (true) and the revive restore (false).
     bool set_fx_muted(bool muted,std::string& error);
     // Publish actual camera/player and window state before the Session update.

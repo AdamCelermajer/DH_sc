@@ -9,7 +9,8 @@
 namespace dh::foundation::platform_input {
 enum class Control : std::uint8_t {
     none, world, joystick, attack, skill1, skill2, skill3, spell, potion,
-    interact, target, profile, menu_item, pause
+    interact, target, profile, menu_item, pause,
+    music // original-touch HUD: the btn_itunes music-note button (PC adaptation: toggles the level music)
 };
 enum class PointerPhase : std::uint8_t { down, move, up, cancel };
 struct Point { float x{}, y{}; };
@@ -20,7 +21,7 @@ struct Frame {
     InputActions actions{};
     ButtonEdges attack{}, spell{}, potion{};
     std::array<ButtonEdges, 3> skills{};
-    bool profile_pressed{}, pause_pressed{}, menu_back{};
+    bool profile_pressed{}, pause_pressed{}, menu_back{}, music_pressed{};
     std::vector<Click> clicks;
     bool target_point_requested{};
     Point target_point{};

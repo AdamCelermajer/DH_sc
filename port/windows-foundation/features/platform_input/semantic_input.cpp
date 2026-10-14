@@ -97,6 +97,7 @@ void SemanticInput::pointer(std::int64_t id,PointerPhase phase,Point p) {
     if(!same_hit(captured.hit,released))return;
     if(captured.hit.control==Control::profile)pending_.profile_pressed=true;
     else if(captured.hit.control==Control::pause&&!menu_open_&&level_enabled_)pending_.pause_pressed=true;
+    else if(captured.hit.control==Control::music&&!menu_open_&&level_enabled_)pending_.music_pressed=true;
     else if(captured.menu&&captured.hit.control==Control::menu_item)pending_.clicks.push_back({captured.hit,p});
     else if(!menu_open_&&level_enabled_) {
         if(captured.hit.control==Control::interact)pending_.actions.interact=true;

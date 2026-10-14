@@ -3,6 +3,7 @@
 #include "../skill_ui/original_skill_art.hpp"
 #include "pc_gameplay_hud_button_art_v1.hpp"
 #include "../hud_panels/hud_panels_art_v1.hpp"
+#include "../hud_panels/touch_hud_art_v1.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -41,6 +42,24 @@ bool label_is_below_and_centered(const PcGameplayHudCirclePlacementV1& p) {
 }
 
 HudGeometryVertex vertex(float x, float y) { return {x, y, 0.0f, 0.0f}; }
+
+// AS's gotoAndStop is one-based. The source onPush adds one to the active ID, yielding the same zero-based frame
+// index. The -1 sentinel requests frame0 (invalid); the new btimg instance remains at its authored initial frame0,
+// matching source timeline startup. Missing = the caller has no source value and adds no icon.
+bool resolve_faery_icon(const std::optional<std::int32_t>& active_faery_id,
+                        const PcGameplayHudSourceFaeryIconV1*& faery_icon, std::string& error) {
+    faery_icon = nullptr;
+    if (!active_faery_id) return true;
+    if (*active_faery_id < -1 || *active_faery_id > 12)
+        return fail(error, "Source HUD active Faery ID is outside the authored btn_spell frame domain");
+    const auto source_frame = static_cast<std::uint32_t>(*active_faery_id < 0 ? 0 : *active_faery_id);
+    const auto& icons = original_pc_gameplay_hud_faery_icons_v1();
+    faery_icon = &icons[source_frame];
+    if (faery_icon->source_frame != source_frame)
+        return fail(error, "Original Faery art table does not match the source one-based frame mapping");
+    return true;
+}
+
 
 // One transform for the whole original button family (ring/base, Grey, CoolDown)
 // so the source's relative geometry is preserved. The ring's extent maps to the
@@ -95,8 +114,8 @@ void append_fitted_batches(const std::vector<PcGameplayHudArtBatchV1>& source,
     }
 }
 
-void append_button_hit_region(const PcGameplayHudCirclePlacementV1& p,
-                              const std::string& path, frontend::art::ScreenArt& art) {
+frontend::art::HitRegion circle_hit_region(const PcGameplayHudCirclePlacementV1& p,
+                                           const std::string& path) {
     frontend::art::HitRegion hit;
     hit.button_path = path;
     hit.triangles.reserve(circle_segments * 3);
@@ -108,7 +127,12 @@ void append_button_hit_region(const PcGameplayHudCirclePlacementV1& p,
             vertex(p.center_x + p.radius * std::cos(a0), p.center_y + p.radius * std::sin(a0)),
             vertex(p.center_x + p.radius * std::cos(a1), p.center_y + p.radius * std::sin(a1))});
     }
-    art.hit_regions.push_back(std::move(hit));
+    return hit;
+}
+
+void append_button_hit_region(const PcGameplayHudCirclePlacementV1& p,
+                              const std::string& path, frontend::art::ScreenArt& art) {
+    art.hit_regions.push_back(circle_hit_region(p, path));
 }
 
 bool cooldown_frame_is_valid(std::int32_t frame) {
@@ -279,6 +303,108 @@ bool circle_contains(const frontend::art::HitRegion& region, float x, float y) {
     }
     return false;
 }
+
+// ---- v21.8 w4-hud: original-touch composition helpers (authored dqhud_droid menu_HUD_2 placements) ----
+
+struct StageRect {
+    float x0 = std::numeric_limits<float>::infinity();
+    float y0 = std::numeric_limits<float>::infinity();
+    float x1 = -std::numeric_limits<float>::infinity();
+    float y1 = -std::numeric_limits<float>::infinity();
+    bool valid() const { return x1 > x0 && y1 > y0; }
+    void add(float x, float y) { x0 = std::min(x0, x); x1 = std::max(x1, x); y0 = std::min(y0, y); y1 = std::max(y1, y); }
+};
+
+StageRect batches_bounds(const std::vector<PcGameplayHudArtBatchV1>& batches) {
+    StageRect r;
+    for (const auto& b : batches) for (const auto& v : b.triangles) r.add(v.x, v.y);
+    return r;
+}
+
+// Circle that inscribes a stage rectangle (centre, radius = half of the smaller side).
+PcGameplayHudCirclePlacementV1 circle_of(const StageRect& r) {
+    PcGameplayHudCirclePlacementV1 c;
+    c.center_x = (r.x0 + r.x1) * 0.5f;
+    c.center_y = (r.y0 + r.y1) * 0.5f;
+    c.radius = std::min(r.x1 - r.x0, r.y1 - r.y0) * 0.5f;
+    return c;
+}
+
+// The authored transform maps the whole button family (ring/base, Grey, CoolDown) from sprite-local px to the stage:
+// stage = local * scale + origin (+ the screen-edge shift). The circle is the ring's footprint under that transform.
+bool fit_authored_family(const std::vector<PcGameplayHudArtBatchV1>& base,
+                         const hud_panels::TouchHudPlacementV1& place, float shift_x,
+                         ButtonFit& fit, PcGameplayHudCirclePlacementV1& circle, std::string& error) {
+    const auto bounds = batches_bounds(base);
+    if (base.empty() || !bounds.valid())
+        return fail(error, "Original PC HUD button base art is empty");
+    if (!(place.scale > 0.0f) || !std::isfinite(place.scale))
+        return fail(error, "Authored touch HUD placement has no scale");
+    fit.source_cx = (bounds.x0 + bounds.x1) * 0.5f;
+    fit.source_cy = (bounds.y0 + bounds.y1) * 0.5f;
+    fit.scale = place.scale;
+    fit.center_x = fit.source_cx * place.scale + place.origin_x + shift_x;
+    fit.center_y = fit.source_cy * place.scale + place.origin_y;
+    circle.center_x = fit.center_x;
+    circle.center_y = fit.center_y;
+    circle.radius = std::max(bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) * place.scale * 0.5f;
+    return true;
+}
+
+// Stage-space art (already authored at a stage position) shifted by (dx, dy).
+void append_stage_batches_shifted(const std::vector<PcGameplayHudArtBatchV1>& source, const std::string& role,
+                                  float dx, float dy, frontend::art::ScreenArt& art) {
+    for (const auto& src : source) {
+        HudGeometryBatch batch;
+        batch.role = role + "/shape" + std::to_string(src.source_shape_id);
+        batch.shape_id = src.source_shape_id;
+        batch.triangles = src.triangles;
+        for (auto& v : batch.triangles) { v.x += dx; v.y += dy; }
+        art.batches.push_back(std::move(batch));
+        art.bitmap_ids.push_back(src.bitmap ? 1u : 0u);
+        art.batch_colors.push_back({src.rgba[0], src.rgba[1], src.rgba[2], src.rgba[3]});
+    }
+}
+
+std::vector<PcGameplayHudArtBatchV1> shifted_copy(const std::vector<PcGameplayHudArtBatchV1>& source, float dx, float dy) {
+    auto copy = source;
+    for (auto& b : copy) for (auto& v : b.triangles) { v.x += dx; v.y += dy; }
+    return copy;
+}
+
+// Sprite-local art (potion badge) placed by an authored transform.
+void append_authored_batches(const std::vector<PcGameplayHudArtBatchV1>& source,
+                             const hud_panels::TouchHudPlacementV1& place, float shift_x,
+                             const std::string& role, frontend::art::ScreenArt& art) {
+    for (const auto& src : source) {
+        HudGeometryBatch batch;
+        batch.role = role + "/shape" + std::to_string(src.source_shape_id);
+        batch.shape_id = src.source_shape_id;
+        batch.triangles = src.triangles;
+        for (auto& v : batch.triangles) {
+            v.x = v.x * place.scale + place.origin_x + shift_x;
+            v.y = v.y * place.scale + place.origin_y;
+        }
+        art.batches.push_back(std::move(batch));
+        art.bitmap_ids.push_back(src.bitmap ? 1u : 0u);
+        art.batch_colors.push_back({src.rgba[0], src.rgba[1], src.rgba[2], src.rgba[3]});
+    }
+}
+
+void append_count_text(const std::array<float, 4>& rect, float height, const std::string& text,
+                       float shift_x, frontend::art::ScreenArt& art) {
+    frontend::art::TextField field;
+    field.path = "pc_hud/potion_count";
+    field.font_id = 5;
+    field.source_height = height;
+    field.bounds = {rect[0] + shift_x, rect[2] + shift_x, rect[1], rect[3]};
+    field.local_bounds = {0.0f, rect[2] - rect[0], 0.0f, rect[3] - rect[1]};
+    field.rgba = {255, 255, 255, 255};
+    field.align = 2; // authored cnt.value is centred (EditText layout align 2)
+    field.matrix = {1.0f, 0.0f, 0.0f, 1.0f, rect[0] + shift_x, rect[1]};
+    field.initial_text = text;
+    art.text_fields.push_back(std::move(field));
+}
 } // namespace
 
 bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
@@ -299,20 +425,7 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
     if (!cooldown_frame_is_valid(layout.faery_cooldown_frame))
         return fail(error, "PC HUD Faery cooldown frame is outside the source CoolDown domain");
     const PcGameplayHudSourceFaeryIconV1* faery_icon = nullptr;
-    if (layout.active_faery_id) {
-        if (*layout.active_faery_id < -1 || *layout.active_faery_id > 12)
-            return fail(error, "Source HUD active Faery ID is outside the authored btn_spell frame domain");
-        // AS's gotoAndStop is one-based. The source onPush adds one to the
-        // active ID, yielding the same zero-based frame index. The -1 sentinel
-        // requests frame0 (invalid); the new btimg instance remains at its
-        // authored initial frame0, matching source timeline startup.
-        const auto source_frame = static_cast<std::uint32_t>(
-            *layout.active_faery_id < 0 ? 0 : *layout.active_faery_id);
-        const auto& icons = original_pc_gameplay_hud_faery_icons_v1();
-        faery_icon = &icons[source_frame];
-        if (faery_icon->source_frame != source_frame)
-            return fail(error, "Original Faery art table does not match the source one-based frame mapping");
-    }
+    if (!resolve_faery_icon(layout.active_faery_id, faery_icon, error)) return false;
     for (unsigned i = 0; i < 3; ++i) {
         const auto& cell = source.left_middle_right[i];
         if (cell.physical_position != i || cell.pc_key_number != i + 1 ||
@@ -405,6 +518,136 @@ bool compose_pc_gameplay_hud_v1(const PcSkillHudFrameV1& source,
     return true;
 }
 
+bool compose_pc_touch_gameplay_hud_v1(const PcSkillHudFrameV1& source,
+                                      unsigned source_class_frame,
+                                      const PcTouchGameplayHudLayoutV1& layout,
+                                      PcGameplayHudPresentationV1& output,
+                                      std::string& error) {
+    error.clear();
+    if (source_class_frame > 2 || !std::isfinite(layout.stage_shift_x) ||
+        layout.stage_shift_x < -480.0f || layout.stage_shift_x > 4000.0f)
+        return fail(error, "PC touch HUD requires a supported class frame and a finite screen-edge shift");
+    if (layout.potion_count &&
+        (layout.potion_count->character_state_id.empty() ||
+         layout.potion_count->character_state_id != source.character_state_id ||
+         layout.potion_count->source_actor == invalid_actor_id ||
+         layout.potion_count->source_actor != source.source_actor))
+        return fail(error, "PC HUD potion count does not belong to the exact projected CharacterState and actor");
+    if (!cooldown_frame_is_valid(layout.faery_cooldown_frame))
+        return fail(error, "PC HUD Faery cooldown frame is outside the source CoolDown domain");
+    const PcGameplayHudSourceFaeryIconV1* faery_icon = nullptr;
+    if (!resolve_faery_icon(layout.active_faery_id, faery_icon, error)) return false;
+    for (unsigned i = 0; i < 3; ++i) {
+        const auto& cell = source.left_middle_right[i];
+        if (cell.physical_position != i || cell.pc_key_number != i + 1 ||
+            cell.source_slot != source_slots[i] || cell.key_label != std::to_string(i + 1))
+            return fail(error, "PC gameplay HUD frame does not preserve physical keys/source order [2,0,1]");
+        if (cell.source_cooldown_frame && !cooldown_frame_is_valid(*cell.source_cooldown_frame))
+            return fail(error, "PC HUD skill cooldown frame is outside the source CoolDown domain");
+    }
+
+    const auto& authored = hud_panels::touch_hud_authored_layout_v1();
+    const float shift = layout.stage_shift_x;
+    // Source slot n is the authored btn_skill{n+1} (InfoHUDManager::FastUpdate reads btn_skill%d for slot i).
+    const std::array<const hud_panels::TouchHudPlacementV1*, 3> skill_by_slot{
+        {&authored.skill1, &authored.skill2, &authored.skill3}};
+
+    PcGameplayHudPresentationV1 next;
+    for (unsigned i = 0; i < 3; ++i) {
+        const auto path = "pc_hud/skill" + std::to_string(i + 1);
+        const auto& cell = source.left_middle_right[i];
+        ButtonFit fit;
+        PcGameplayHudCirclePlacementV1 circle;
+        if (!fit_authored_family(original_pc_gameplay_hud_skill_base_v1(), *skill_by_slot[cell.source_slot],
+                                 shift, fit, circle, error)) return false;
+        append_fitted_batches(original_pc_gameplay_hud_skill_base_v1(), fit, path + "/ring", next.art);
+        if (!append_source_icon(source_class_frame, cell, circle, next.art, error)) return false;
+        if (!cell.assigned)
+            append_fitted_batches(original_pc_gameplay_hud_grey_overlay_v1(), fit, path + "/grey", next.art);
+        if (!append_button_cooldown(cell.source_cooldown_frame.value_or(0), fit, path, next.art, error))
+            return false;
+        append_button_hit_region(circle, path, next.art);
+        next.actions[i] = {static_cast<platform_input::Control>(
+            static_cast<unsigned>(platform_input::Control::skill1) + i), i + 1};
+    }
+    {
+        ButtonFit fit;
+        PcGameplayHudCirclePlacementV1 circle;
+        if (!fit_authored_family(original_pc_gameplay_hud_spell_base_v1(), authored.spell, shift, fit, circle, error))
+            return false;
+        append_fitted_batches(original_pc_gameplay_hud_spell_base_v1(), fit, "pc_hud/faery/ring", next.art);
+        if (faery_icon && !faery_icon->triangles.empty()) {
+            if (faery_icon->source_shape_ids.size() != 1 ||
+                !append_source_hud_icon(faery_icon->triangles, faery_icon->source_shape_ids.front(), circle,
+                                        "pc_hud/faery/source_frame_" + std::to_string(faery_icon->source_frame),
+                                        next.art, error)) return false;
+        }
+        if (!append_button_cooldown(layout.faery_cooldown_frame, fit, "pc_hud/faery", next.art, error))
+            return false;
+        append_button_hit_region(circle, "pc_hud/faery", next.art);
+        next.actions[3] = {platform_input::Control::spell, 4};
+    }
+    {
+        // Potion: btframe (shape 105, the bottle in its holder; sprite space shifted by the btframe placement), then
+        // the pd6 counter badge (shape 109); the number sits in the authored cnt.value field. Both under btn_potion's
+        // authored transform. No CoolDown child exists in the source movie.
+        const auto& place = authored.potion;
+        const auto& icon_source = original_pc_gameplay_hud_potion_icon_v1();
+        if (icon_source.empty() || icon_source.size() % 3 != 0)
+            return fail(error, "Original PC HUD potion icon triangles are incomplete");
+        HudGeometryBatch icon;
+        icon.role = "pc_hud/potion/source_shape_105";
+        icon.shape_id = 105;
+        icon.triangles = icon_source;
+        StageRect bounds;
+        for (auto& v : icon.triangles) {
+            if (!std::isfinite(v.x) || !std::isfinite(v.y) || !std::isfinite(v.u) || !std::isfinite(v.v) ||
+                v.u < 0.0f || v.u > 1.0f || v.v < 0.0f || v.v > 1.0f)
+                return fail(error, "Original PC HUD icon contains invalid source geometry or atlas UVs");
+            v.x = (v.x + authored.potion_icon_offset[0]) * place.scale + place.origin_x + shift;
+            v.y = (v.y + authored.potion_icon_offset[1]) * place.scale + place.origin_y;
+            bounds.add(v.x, v.y);
+        }
+        if (!bounds.valid()) return fail(error, "Original PC HUD icon has empty source bounds");
+        next.art.batches.push_back(std::move(icon));
+        next.art.bitmap_ids.push_back(1);
+        next.art.batch_colors.push_back({1.0f, 1.0f, 1.0f, 1.0f});
+        append_authored_batches(original_pc_gameplay_hud_potion_base_v1(), place, shift, "pc_hud/potion/badge", next.art);
+        append_button_hit_region(circle_of(bounds), "pc_hud/potion", next.art);
+        if (layout.potion_count)
+            append_count_text(authored.potion_count_rect, authored.potion_count_height * place.scale,
+                              std::to_string(layout.potion_count->quantity), shift, next.art);
+        next.actions[4] = {platform_input::Control::potion, 5};
+    }
+    {
+        // Attack / context action: btn_interact (art generated at menu_HUD_0, same sprite) moved to its menu_HUD_2 origin.
+        const float dx = authored.action_translate[0] + shift;
+        const float dy = authored.action_translate[1];
+        const auto& idle = hud_panels::action_base_v1();
+        const auto& pressed = hud_panels::action_pressed_v1();
+        const auto ring = batches_bounds(shifted_copy(idle, dx, dy));
+        if (!ring.valid()) return fail(error, "Original action button art is empty");
+        append_stage_batches_shifted(layout.action_pressed ? pressed : idle, "pc_hud/action", dx, dy, next.art);
+        const auto icon = layout.action_icon >= 0 &&
+            static_cast<std::size_t>(layout.action_icon) < hud_panels::action_icon_count_v1()
+            ? static_cast<std::size_t>(layout.action_icon) : std::size_t{5}; // out of range -> Attack (source table)
+        append_stage_batches_shifted(hud_panels::action_icon_v1(icon), "pc_hud/action_icon", dx, dy, next.art);
+        next.extra_hits.push_back({{platform_input::Control::attack, 0}, circle_hit_region(circle_of(ring), "pc_hud/action")});
+    }
+    {
+        // Music note: btn_itunes (itunes_controls) idle frame at its authored position.
+        const auto& music = hud_panels::touch_music_button_v1();
+        const auto bounds = batches_bounds(shifted_copy(music, shift, 0.0f));
+        if (!bounds.valid()) return fail(error, "Original music button art is empty");
+        append_stage_batches_shifted(music, "pc_hud/music", shift, 0.0f, next.art);
+        next.extra_hits.push_back({{platform_input::Control::music, 0}, circle_hit_region(circle_of(bounds), "pc_hud/music")});
+    }
+    next.joystick_zone = authored.joystick_zone; // seam only: no joystick art, no hit region
+    output = std::move(next);
+    error.clear();
+    return true;
+}
+
 bool pc_gameplay_hud_hit_test_v1(const PcGameplayHudPresentationV1& frame,
                                  float stage_x, float stage_y,
                                  platform_input::Hit& output,
@@ -427,6 +670,13 @@ bool pc_gameplay_hud_hit_test_v1(const PcGameplayHudPresentationV1& frame,
             frame.actions[i].item != expected[i].item ||
             frame.art.hit_regions[i].button_path != expected_paths[i])
             return fail(error, "PC HUD hit order/action identity was changed after composition");
+    }
+    for (std::size_t i = frame.extra_hits.size(); i-- > 0;) { // original-touch attack / music, drawn last
+        if (circle_contains(frame.extra_hits[i].region, stage_x, stage_y)) {
+            output = frame.extra_hits[i].hit;
+            error.clear();
+            return true;
+        }
     }
     for (std::size_t i = frame.art.hit_regions.size(); i-- > 0;) {
         if (circle_contains(frame.art.hit_regions[i], stage_x, stage_y)) {

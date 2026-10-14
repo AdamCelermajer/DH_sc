@@ -154,6 +154,7 @@
 #include "features/physics/session_actor_transition_v1.hpp"
 #include "features/audio/runtime_audio_host_v1.hpp"
 #include "features/audio/level_music_v1.hpp"
+#include "features/hud_panels/touch_hud_art_v1.hpp" // v21.8 w4-hud: authored mobile HUD placements
 #include "features/audio/frontend_music_v1.hpp"  // B064 frontend title/main-menu music
 #include "features/audio/runtime_session_audio_v1.hpp"
 #include "features/loot/world_item_sound_v1.hpp"
@@ -551,6 +552,7 @@ struct Options {
     bool sourceHeadingRotation=false;
     bool sourceTargetPosition=false;
     unsigned hudPortrait=0;
+    bool touchHud=false; // v21.8 w4-hud: --hud-layout original-touch (authored mobile menu_HUD_2) instead of the desktop layout
     int profileClickFrame=-1;
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
@@ -767,6 +769,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--camera-root") o.cameraRoot=value();
         else if(arg=="--hud") o.hud=true;
         else if(arg=="--combat-text") o.combatText=true;
+        else if(arg=="--hud-layout") {auto mode=value();if(mode=="original-touch")o.touchHud=true;else if(mode=="desktop")o.touchHud=false;else throw std::runtime_error("HUD layout must be original-touch or desktop");}
         else if(arg=="--hud-portrait") {auto n=std::stoi(value());if(n<0||n>2)throw std::runtime_error("HUD portrait source frame must be 0..2");o.hudPortrait=unsigned(n);}
         else if(arg=="--move-axis") {auto v=vector(value());o.scriptedMove={v.x,v.y};}
         else if(arg=="--move-frames") {o.moveFrames=std::stoi(value());if(o.moveFrames<1)throw std::runtime_error("Move frames must be positive");}
@@ -5822,7 +5825,15 @@ int main(int argc,char** argv) {
             statConfirmOpen=true;
             return false;
         };
-        const auto pauseHudArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::hud_pause_button);
+        // v21.8 w4-hud: HUD style the base HUD (portrait/bars) and the pause button are laid out for. The desktop layout keeps the
+        // established menu_HUD_0 placement; original-touch uses the authored menu_HUD_2 placement (fixed three skills, left joystick).
+        const unsigned hudStyleIndex=options.touchHud?2u:0u;
+        auto pauseHudArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::hud_pause_button);
+        if(options.touchHud) { // btn_mainmenu art is generated at menu_HUD_0; move it (art and hit regions) to its menu_HUD_2 origin
+            const auto& moved=f::hud_panels::touch_hud_authored_layout_v1().pause_translate;
+            for(auto& batch:pauseHudArt.art.batches)for(auto& v:batch.triangles){v.x+=moved[0];v.y+=moved[1];}
+            for(auto& region:pauseHudArt.art.hit_regions)for(auto& v:region.triangles){v.x+=moved[0];v.y+=moved[1];}
+        }
         const auto pausePageArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::pause_page);
         const auto pauseConfirmArt=f::pause_ui::source_pause_ui_frame_v1(f::pause_ui::SourcePauseSurfaceV1::confirmation);
         const auto currentPauseArt=[&]() -> const f::pause_ui::SourcePauseUiFrameV1& {return pauseConfirmation?pauseConfirmArt:pausePageArt;};
@@ -5875,9 +5886,22 @@ int main(int argc,char** argv) {
             }
             // B002/B024: exact NativeHUDGetActiveFaery result = Character::SG_GetCurrentFaerieId(-1), the saved current_faery of difficulty 0 (difficulty used by this build's Faery cast arm).
             if(state.source_faery_state_known)layout.active_faery_id=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
-            if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);
             std::uint64_t potionCount=0;
             for(const auto& item:state.inventory)if(item.definition_id=="Potion0")potionCount+=item.quantity;
+            if(options.touchHud) {
+                // v21.8 w4-hud: original mobile layout. Right cluster anchored to the right screen edge (circles stay round),
+                // the left cluster (portrait, bars, pause) stays at the left edge like the base HUD; the joystick area is empty.
+                f::generic_skills::PcTouchGameplayHudLayoutV1 touch;
+                const float stageScale=window.height()/320.f;
+                touch.stage_shift_x=window.width()/stageScale-480.f; // negative for windows narrower than 3:2: the cluster stays on screen
+                touch.action_icon=layout.action_icon;touch.action_pressed=layout.action_pressed;
+                touch.faery_cooldown_frame=layout.faery_cooldown_frame;touch.active_faery_id=layout.active_faery_id;
+                touch.potion_count=f::generic_skills::PcGameplayHudLayoutV1::PotionCount{frame.character_state_id,frame.source_actor,potionCount};
+                if(!f::generic_skills::compose_pc_touch_gameplay_hud_v1(frame,classFrame,touch,pcHudPresentation,error))throw std::runtime_error("PC touch HUD geometry: "+error);
+                pcHudReady=true;
+                return;
+            }
+            if(!f::generic_skills::compose_pc_gameplay_hud_v1(frame,classFrame,layout,pcHudPresentation,error))throw std::runtime_error("PC HUD geometry: "+error);
             for(auto& field:pcHudPresentation.art.text_fields) {
                 if(field.path=="pc_hud/key_4"){field.initial_text="4 Faery";field.source_height=10;}
                 if(field.path=="pc_hud/key_5"){field.initial_text="5 Potion: "+std::to_string(potionCount);field.source_height=10;}
@@ -5974,12 +5998,12 @@ int main(int argc,char** argv) {
             if(f::pause_ui::source_pause_ui_hit_test_v1(pauseHudArt,point.x*480.f/window.width(),point.y*320.f/window.height()).hit)return Hit{Control::pause,0};
             if(pcHudReady) {
                 const float scale=window.height()/320.f;
-                const float offset=(window.width()/scale-480.f)*.5f;
+                const float offset=options.touchHud?0.f:(window.width()/scale-480.f)*.5f; // original-touch is composed in screen-stage coordinates (edge anchored)
                 Hit hit;
                 if(!f::generic_skills::pc_gameplay_hud_hit_test_v1(pcHudPresentation,point.x/scale-offset,point.y/scale,hit,error))throw std::runtime_error("PC HUD hit: "+error);
                 if(hit.control!=Control::none)return hit;
             }
-            std::array<float,4> bounds;if(!f::original_hud_portrait_bounds(0,bounds,error))throw std::runtime_error(error);
+            std::array<float,4> bounds;if(!f::original_hud_portrait_bounds(hudStyleIndex,bounds,error))throw std::runtime_error(error);
             const float scale=window.height()/320.f;
             if(point.x>=bounds[0]*scale&&point.x<=bounds[1]*scale&&point.y>=bounds[2]*scale&&point.y<=bounds[3]*scale)return Hit{Control::profile,0};
             return Hit{};
@@ -7315,7 +7339,7 @@ int main(int argc,char** argv) {
                 enterHeld=enterDown;
             }
             if(drawn==options.profileClickFrame) {
-                std::array<float,4> bounds;if(!f::original_hud_portrait_bounds(0,bounds,error))throw std::runtime_error(error);
+                std::array<float,4> bounds;if(!f::original_hud_portrait_bounds(hudStyleIndex,bounds,error))throw std::runtime_error(error);
                 const float scale=window.height()/320.f;const f::platform_input::Point point{(bounds[0]+bounds[1])*.5f*scale,(bounds[2]+bounds[3])*.5f*scale};
                 semanticInput.pointer(-1,f::platform_input::PointerPhase::down,point);semanticInput.pointer(-1,f::platform_input::PointerPhase::up,point);
             }
@@ -7399,6 +7423,12 @@ int main(int argc,char** argv) {
                 else if(characterMenu.is_open()){escapeClosedMenu=characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
+            }
+            if(uiInput.music_pressed&&options.hud&&combatSession&&!characterMenu.is_open()&&!pauseMenuOpen) { // v21.8 w4-hud: HUD music note (PC adaptation: toggles the level music)
+                bool musicPlaying=false;std::string musicToggleError;
+                if(!runtimeAudio)std::cout<<"HUD music button pressed frame="<<drawn<<" (audio is not running: nothing to toggle)\n";
+                else if(runtimeAudio->toggle_level_music(musicPlaying,musicToggleError))std::cout<<"HUD music button pressed frame="<<drawn<<" level music now "<<(musicPlaying?"on":"off")<<"\n";
+                else std::cerr<<"HUD music button diagnostic: "<<musicToggleError<<'\n';
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
             if(uiInput.profile_pressed&&options.hud&&combatSession&&!equipmentActionConfirmation.visible()){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())(void)characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});else{characterMenu.open();playMenuUiCue("MenuTab");statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
@@ -10182,14 +10212,14 @@ int main(int argc,char** argv) {
                 // B038: XP bar from the live player sheet (resolved 33 = XP, 34 = XP for level); empty without a player.
                 unsigned xpFrame=0;
                 if(player){const auto* xpSheet=combatSession->world()->combat_properties(combatSession->player_id());if(!xpSheet||!f::original_hud_xp_frame(xpSheet->sheets.resolved[33],xpSheet->sheets.resolved[34],xpFrame))throw std::runtime_error("Unbound live HUD XP sheet");}
-                f::HudGeometry hud;if(!f::compose_original_hud(0,player?liveFrame(player->health,player->max_health):frame(36,38),player?liveFrame(player->resource,player->max_resource):frame(41,43),xpFrame,options.hudPortrait,hud,error))throw std::runtime_error(error);
+                f::HudGeometry hud;if(!f::compose_original_hud(hudStyleIndex,player?liveFrame(player->health,player->max_health):frame(36,38),player?liveFrame(player->resource,player->max_resource):frame(41,43),xpFrame,options.hudPortrait,hud,error))throw std::runtime_error(error);
                 overlay.begin(window.width(),window.height());
                 const float scale=float(window.height())/hud.height;
                 if(campaignHost.hud_visible()) for(const auto& batch:hud.batches){std::vector<f::OverlayTriangleVertex> vertices; // P16 HOST: HideFlash HUD also hides the original HUD batches
 for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.v});if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("HUD triangle draw rejected");}
                 updatePcHud();
                 if(pcHudReady&&!characterMenu.is_open()&&!pauseMenuOpen&&campaignHost.hud_visible()) { // P16 HOST: HideFlash HUD
-                    const float offset=(window.width()/scale-480.f)*.5f;
+                    const float offset=options.touchHud?0.f:(window.width()/scale-480.f)*.5f; // original-touch: screen-stage coordinates (see updatePcHud)
                     for(std::size_t i=0;i<pcHudPresentation.art.batches.size();++i) {
                         std::vector<f::OverlayTriangleVertex> vertices;
                         for(const auto& v:pcHudPresentation.art.batches[i].triangles)vertices.push_back({(v.x+offset)*scale,v.y*scale,v.u,v.v});

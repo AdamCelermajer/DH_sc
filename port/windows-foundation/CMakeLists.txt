@@ -760,7 +760,13 @@ add_test(NAME campaign_trigger_zones COMMAND campaign_trigger_zone_tests "${CMAK
 # P16 CINE (Preview 16): cinematic runner (caption queue, cutscene contract, SKIP hit test, frame description).
 target_sources(foundation_data PRIVATE features/cinematic_runner/cinematic_runner.cpp features/cinematic_runner/dialog_tables.cpp) # B068 dialog tables
 # P16 HUDART: original dqhud_droid HUD panels (btn_interact, SKIP, caption box, quest banners), generated batches.
-target_sources(foundation_data PRIVATE features/hud_panels/hud_panels_art_v1.cpp features/hud_panels/status_message_v1.cpp) # B144 status line queue/timeline
+target_sources(foundation_data PRIVATE features/hud_panels/hud_panels_art_v1.cpp features/hud_panels/touch_hud_art_v1.cpp features/hud_panels/status_message_v1.cpp) # B144 status line queue/timeline
+# v21.8 w4-hud: original-touch gameplay HUD layout (authored menu_HUD_2) + hit testing + semantic music click.
+add_executable(pc_touch_gameplay_hud_v1_tests features/generic_skills/pc_touch_gameplay_hud_v1_tests.cpp
+  features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp
+  features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
+target_link_libraries(pc_touch_gameplay_hud_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data foundation_runtime_skill_cast foundation_frontend)
+add_test(NAME pc_touch_gameplay_hud_v1 COMMAND pc_touch_gameplay_hud_v1_tests)
 # B144: original HUD status line (queue + authored itemname_text timeline), isolated host test.
 add_executable(status_message_v1_tests features/hud_panels/status_message_v1_tests.cpp)
 target_link_libraries(status_message_v1_tests PRIVATE foundation_data)
