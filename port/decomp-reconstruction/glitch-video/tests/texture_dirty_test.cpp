@@ -58,18 +58,27 @@ int main() {
     CHECK(locked.m_lockCount42 == 0);
     CHECK((locked.m_flags3f & 0x40) == 0);
 
-    // removeTexture: present textures are removed, absent or null ones report zero.
+    // removeTexture: the texture leaves the list and the id collection (found by name), its placeholder is cleared
+    // and the pointer comes back. A texture the collection does not hold reports nullptr, and the list entry is
+    // still taken off. The collection holds the only use of the heap texture, so the removal frees it.
     CTextureManager manager;
-    test::TestTexture a;
+    auto* a = new test::TestTexture();
+    a->m_flags38 = 1;
+    boost::intrusive_ptr<ITexture> held(a, false);  // takes the constructor's use
+    manager.insert("test", held, false);            // the collection's use
+    held.reset();                                   // the collection is now the only holder
     test::TestTexture b;
-    a.m_flags38 = 1;
-    manager.m_textures = {&a, &b};
-    manager.m_placeHolders[1] = &a;
-    CHECK(manager.removeTexture(&a) == 1);
+    b.m_name = "other";
+    manager.m_textures = {a, &b};
+    manager.m_placeHolders[1] = a;
+    ITexture* raw = a;
+    CHECK(manager.removeTexture(raw) == raw);
     CHECK(manager.m_textures.size() == 1 && manager.m_textures[0] == &b);
     CHECK(manager.m_placeHolders[1] == nullptr);
-    CHECK(manager.removeTexture(&a) == 0);
-    CHECK(manager.removeTexture(nullptr) == 0);
+    CHECK(manager.size() == 0);
+    CHECK(manager.removeTexture(&b) == nullptr);    // not in the collection; still taken off the list
+    CHECK(manager.m_textures.empty());
+    CHECK(manager.removeTexture(nullptr) == nullptr);
 
     std::printf("%s\n", failures ? "texture_dirty: FAILED" : "texture_dirty: ok");
     return failures != 0;

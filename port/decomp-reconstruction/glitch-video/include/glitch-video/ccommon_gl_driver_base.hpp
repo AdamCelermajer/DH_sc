@@ -7,6 +7,8 @@
 
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/deps/glitch_core.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/texture.hpp"
 #include "glitch-video/deps/glitch_video_types.hpp"
 
 namespace glitch::video {
@@ -35,13 +37,18 @@ public:
         uint8_t* m_mappedPtr = nullptr;           // +0x1c
     };
 
-    class CTextureBase {
+    // Derives from glitch::video::ITexture (texture.hpp, 0x54 bytes). The base constructor (0x5fe404) provides
+    // the name, the descriptor fields, the level table, the dirty bitmap and the driver pointer, so only the two
+    // words at +0x54 and +0x58 are kept here. The class stays abstract: bindImpl, unbindImpl, mapImpl and
+    // generateMipmapsImpl are pure in ITexture and are overridden by the GL texture classes.
+    class CTextureBase : public ITexture {
     public:
-        // 0x6dde98 (C2) / 0x6dded8 (C1). Partial: the ITexture base constructor (0x5fe404) is not
-        // ported, so only the vtable and the two fields after the base call are set here.
-        CTextureBase(const char* name, CCommonGLDriverBase* driver, const STextureDesc& desc);
-        void* getMappedPtr() const;  // 0x6dcbec
-        void unmapImpl() const;      // 0x6dcbf4
+        // 0x6dded8 (C2) / 0x6dde98 (C1). The original passes its driver to the ITexture base as an IVideoDriver*;
+        // the port's CCommonGLDriverBase is not derived from IVideoDriver yet (IVideoDriver's constructor needs the
+        // device and the managers), so the driver is taken as IVideoDriver* here.
+        CTextureBase(const char* name, IVideoDriver* driver, const STextureDesc& desc);
+        uint8_t* getMappedPtr() const override;  // +0x1c, 0x6dcbec
+        void unmapImpl() const override;         // +0x18, 0x6dcbf4
     private:
         uint32_t m_unknown54 = 0;  // +0x54, zeroed by the constructor
         uint8_t m_unknown58 = 0;   // +0x58, zeroed by the constructor
@@ -52,7 +59,11 @@ public:
         void unbind();               // 0x6dcbf8
     };
 
-    class CRenderTargetBase {
+    // Derives from IMultipleRenderTarget (render_target.hpp), which derives from IRenderTarget (0x24 bytes), so the
+    // base supplies the vptr, the driver, the target size and the viewport that the original keeps at +0x08..+0x23.
+    // The class stays abstract: bind, unbind, the two addTarget and setTarget overloads and removeTarget are pure in
+    // the bases and are not reconstructed for this class.
+    class CRenderTargetBase : public IMultipleRenderTarget {
     public:
         // One attachment slot, 8 bytes in the original: a 16-bit kind (255 = empty), two flag
         // bytes, then a reference-counted object pointer at +4.
@@ -63,16 +74,15 @@ public:
             const void* object = nullptr;  // +0x04, reference-counted in the original
         };
 
-        // 0x6ddbec (C2) / 0x6ddb2c (C1). PARTIAL: the IRenderTarget base constructor (which
-        // takes the driver and {-1, -1}) and the vtable store (off_98B088) are not ported, so
-        // the driver pointer is not kept. The member initialisers below give the state that
+        // 0x6ddbec (C2) / 0x6ddb2c (C1). The IRenderTarget base takes the driver and the size {-1, -1}; the
+        // driver is taken as IVideoDriver* (see CTextureBase). The member initialisers below give the state that
         // the constructor writes after the base call.
-        explicit CRenderTargetBase(CCommonGLDriverBase* driver);
-        E_PIXEL_FORMAT getColorFormat() const;  // 0x6dcd4c
+        explicit CRenderTargetBase(IVideoDriver* driver);
+        E_PIXEL_FORMAT getColorFormat() const override;  // +0x18, 0x6dcd4c
         // 0x6dcbfc: number of targets for an IRenderTarget::E_ATTACHMENT_TYPE (int32 alias).
         // Type 0 returns the byte at +0x59, types 1 and 2 test the two handles, and type 3
         // tests that the first handle is set and equal to the second.
-        int32_t getTargetCount(int32_t attachmentType) const;
+        int32_t getTargetCount(E_ATTACHMENT_TYPE attachmentType) const override;  // +0x2c
         // Test helper, not in the original: sets the three fields that getTargetCount reads.
         void setTargetStateForTest(const void* attachment0, const void* attachment1, uint8_t count) {
             m_attachment0.object = attachment0;

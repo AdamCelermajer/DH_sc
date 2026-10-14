@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/image.hpp"
 #include "glitch-video/image_loaders.hpp"
@@ -27,7 +28,18 @@
 
 namespace glitch::video {
 
-class CTextureManager {
+namespace detail::texturemanager {
+// Props record of the texture collection (SIdValue derives from it). The original's record holds a glitch string and
+// the int 39 that every SIdValue constructor of the instance writes; only the int is modelled, the string is not
+// recovered. Layout of the rest: see the glitch-core-io sided_collection header.
+struct STextureProperties {
+    int32_t unk18 = 39;  // +0x18 of the SIdValue, 39 after construction (meaning not recovered)
+};
+}  // namespace detail::texturemanager
+
+class CTextureManager : public core::detail::SIDedCollection<boost::intrusive_ptr<ITexture>, uint16_t, false,
+                                                             detail::texturemanager::STextureProperties,
+                                                             core::detail::sidedcollection::SValueTraits> {
 public:
     using E_PLACE_HOLDER = int32_t;
     struct SIterator;  // the SIDedCollection iterator of rmReloadDataTexture
@@ -38,7 +50,8 @@ public:
     // loaders (BMP, JPG, TGA, ATC, PNG, DDS, PVR) and writers (JPG, TGA, PNG) and the placeholder table. Declared only.
     explicit CTextureManager(IVideoDriver* driver);
     // 0x5ea050 (D2) / 0x5ea138 (D1): clearPlaceHolders(), then removeAll() on the collection and the releases of the loader
-    // and writer lists and of the file system. Partial: the collection is not modelled; the members release themselves.
+    // and writer lists and of the file system. The loader and writer releases are explicit here, the file system is the
+    // member's own destructor.
     ~CTextureManager();
 
     // 0x5e8260: clears the placeholder for a texture type when it matches the texture.
@@ -50,14 +63,16 @@ public:
     // 0x5eaa20: appends a writer and bumps its reference count (the original keeps raw pointers in a std::vector and
     // drops them in an explicit loop of the destructor; one use per entry either way).
     void addExternalImageWriter(IImageWriter* writer);
-    // 0x3849a0: removes the texture from the list and clears its placeholder. Returns 1 when
-    // it was present. Partial: the original removes by id from the SIDedCollection; the
-    // port's list is a plain vector, so presence in the list stands for the id removal.
-    int32_t removeTexture(ITexture* texture);
+    // 0x3849a0: takes the texture off the m_textures list (whether or not it is there), then removes it from the
+    // SIDedCollection by the id found from its name (getId(name.c_str())) and clears its placeholder. The type
+    // (+0x38 & 3) and the name are read before the collection removal, which can free the texture. Returns the
+    // collection's removed value, or nullptr when nothing was removed (the collection's remove keeps the entry
+    // when another use is held, unless forced).
+    ITexture* removeTexture(ITexture* texture);
     // 0x5e8dd4: appends the texture to the m_textures list when it is not already in it.
     void markTextureAsUnloadable(const boost::intrusive_ptr<ITexture>& texture);
-    // 0x384eb4: clears the smart pointer (dropping the caller's use) and removes the texture. Partial: see the pointer form.
-    uint32_t removeTexture(boost::intrusive_ptr<ITexture>& texture);
+    // 0x384eb4: clears the smart pointer (dropping the caller's use), then removes the texture with the pointer form.
+    ITexture* removeTexture(boost::intrusive_ptr<ITexture>& texture);
 
     // ---- the rest of the queue, declared only ----
     // Placeholders: 0x5ea228 / 0x5ec1b8 (free-function form of setPlaceHolder in misc_wave4_b.hpp).
@@ -99,7 +114,8 @@ public:
     void clearDriverSpecificResources();
 
     // Layout (32-bit, from the constructor 0x5eaa7c and the destructor 0x5ea050): +0x00..+0x27 is the
-    // SIDedCollection<intrusive_ptr<ITexture>, ushort, false, STextureProperties, SValueTraits> base (not modelled).
+    // SIDedCollection<intrusive_ptr<ITexture>, ushort, false, STextureProperties, SValueTraits> base (the base class
+    // above; its members are the name map at +0x00 and the entry vector at +0x18, see the shared header).
     IVideoDriver* m_driver = nullptr;                                         // +0x28
     boost::intrusive_ptr<glitch::IReferenceCounted> m_fileSystem;            // +0x2c, io::IFileSystem (driver device +0x34)
     std::vector<boost::intrusive_ptr<IImageLoader>> m_externalImageLoaders;  // +0x30..+0x38

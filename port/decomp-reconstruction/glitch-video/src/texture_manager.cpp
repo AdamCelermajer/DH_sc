@@ -7,9 +7,10 @@ namespace glitch::video {
 // 0x5ea050 _ZN6glitch5video15CTextureManagerD2Ev / 0x5ea138 D1
 // clearPlaceHolders(), removeAll() on the collection, then the explicit drop of every loader (each loader carries the
 // extra use that addExternalImageLoader and the constructor give it, and the vector's destructor drops the other) and
-// of every writer, and the file system. Partial: the SIDedCollection::removeAll step is not modelled.
+// of every writer, and the file system. The file system and the writer releases are the members' own destructors here.
 CTextureManager::~CTextureManager() {
     clearPlaceHolders();
+    removeAll();
     for (const boost::intrusive_ptr<IImageLoader>& loader : m_externalImageLoaders) {
         if (loader) loader->drop();  // the explicit loop of the original; the vector's destructor drops the second use
     }
@@ -58,31 +59,42 @@ void CTextureManager::markTextureAsUnloadable(const boost::intrusive_ptr<ITextur
 }
 
 // 0x3849a0 _ZN6glitch5video15CTextureManager13removeTextureEPNS0_8ITextureE
-int32_t CTextureManager::removeTexture(ITexture* texture) {
+// The original reads the type (+0x38 & 3) and the name pointer (+0x1c, the std::string's c_str) before the
+// collection removal, because the removal can free the texture; the placeholder is cleared only when the
+// collection returned the value.
+ITexture* CTextureManager::removeTexture(ITexture* texture) {
     if (texture == nullptr) {
-        return 0;
+        return nullptr;
     }
-    int32_t removed = 0;
-    auto it = std::find(m_textures.begin(), m_textures.end(), texture);
+    const int32_t type = static_cast<int32_t>(texture->m_flags38 & 3);
+    const std::uint16_t id = getId(texture->m_name.c_str());
+    const auto it = std::find(m_textures.begin(), m_textures.end(), texture);
     if (it != m_textures.end()) {
         m_textures.erase(it);
-        removed = 1;
     }
-    if (removed != 0) {
-        clearPlaceHolder(static_cast<int32_t>(texture->m_flags38 & 3), texture);
+    // The collection's remove returns bool here; the value it held is read first so the caller gets the pointer.
+    ITexture* removed = nullptr;
+    if (const auto* entry = get(id); entry != nullptr && entry->value) {
+        removed = entry->value.get();
+    }
+    if (!remove(id, false)) {
+        return nullptr;
+    }
+    if (removed != nullptr) {
+        clearPlaceHolder(type, texture);
     }
     return removed;
 }
 
 // 0x384eb4 _ZN6glitch5video15CTextureManager13removeTextureERN5boost13intrusive_ptrINS0_8ITextureEEE
-// Clears the smart pointer (dropping the caller's use) and removes the texture. Partial: returns the count, not the ITexture*.
-uint32_t CTextureManager::removeTexture(boost::intrusive_ptr<ITexture>& texture) {
+// Clears the smart pointer (dropping the caller's use), then removes the texture by pointer.
+ITexture* CTextureManager::removeTexture(boost::intrusive_ptr<ITexture>& texture) {
     ITexture* raw = texture.get();
     if (raw == nullptr) {
-        return 0;
+        return nullptr;
     }
     texture = boost::intrusive_ptr<ITexture>();  // drops the caller's use
-    return static_cast<uint32_t>(removeTexture(raw));
+    return removeTexture(raw);
 }
 
 }  // namespace glitch::video

@@ -9,6 +9,21 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+// CRenderTargetBase is abstract (IMultipleRenderTarget's bind, unbind and attachment slots are pure and not
+// reconstructed for it). The test only needs the getters, so this helper supplies no-op overrides.
+struct TestRenderTarget : glitch::video::CCommonGLDriverBase::CRenderTargetBase {
+    using CRenderTargetBase::CRenderTargetBase;
+    void bind() override {}
+    void unbind() override {}
+    void addTarget(E_ATTACHMENT_TYPE, const boost::intrusive_ptr<glitch::video::IRenderBuffer>&) override {}
+    void addTarget(E_ATTACHMENT_TYPE, const boost::intrusive_ptr<glitch::video::ITexture>&,
+                   glitch::video::E_TEXTURE_CUBE_MAP_FACE, uint32_t) override {}
+    void setTarget(E_ATTACHMENT_TYPE, const boost::intrusive_ptr<glitch::video::IRenderBuffer>&, uint32_t) override {}
+    void setTarget(E_ATTACHMENT_TYPE, const boost::intrusive_ptr<glitch::video::ITexture>&,
+                   glitch::video::E_TEXTURE_CUBE_MAP_FACE, uint32_t, uint32_t) override {}
+    void removeTarget(E_ATTACHMENT_TYPE, uint32_t) override {}
+};
+
 
 
 int main() {
@@ -81,7 +96,7 @@ int main() {
 
     // getTargetCount: type 0 returns the count byte, 1 and 2 test the handles,
     // 3 needs both handles equal, anything else is zero.
-    CCommonGLDriverBase::CRenderTargetBase target(nullptr);
+    TestRenderTarget target(nullptr);
     int handleA = 0;
     int handleB = 0;
     target.setTargetStateForTest(nullptr, nullptr, 3);

@@ -6,7 +6,7 @@ namespace glitch::video {
 uint8_t* CCommonGLDriverBase::CBufferBase::getMappedPtr() const { return m_mappedPtr; }
 
 // 0x6dcbec _ZNK6glitch5video19CCommonGLDriverBase12CTextureBase12getMappedPtrEv
-void* CCommonGLDriverBase::CTextureBase::getMappedPtr() const { return nullptr; }
+uint8_t* CCommonGLDriverBase::CTextureBase::getMappedPtr() const { return nullptr; }
 
 // 0x6dcbf4 _ZNK6glitch5video19CCommonGLDriverBase12CTextureBase9unmapImplEv
 void CCommonGLDriverBase::CTextureBase::unmapImpl() const {}
@@ -27,10 +27,11 @@ CCommonGLDriverBase::CBufferBase::CBufferBase(CCommonGLDriverBase* driver, E_BUF
 
 // 0x6dded8 _ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC2EPKcPS1_RKNS0_12STextureDescE
 // 0x6dde98 _ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC1EPKcPS1_RKNS0_12STextureDescE
-// Partial: the ITexture base constructor (0x5fe404) is not ported. Only the two fields that
-// follow the base call are set, by the member initialisers.
-CCommonGLDriverBase::CTextureBase::CTextureBase(const char*, CCommonGLDriverBase*,
-                                                const STextureDesc&) {}
+// The ITexture base constructor (0x5fe404) does the copy of the name and descriptor; the two words after it are
+// zeroed by the member initialisers.
+CCommonGLDriverBase::CTextureBase::CTextureBase(const char* name, IVideoDriver* driver,
+                                                const STextureDesc& desc)
+    : ITexture(name, driver, desc) {}
 
 // 0x6dcbf8 _ZN6glitch5video19CCommonGLDriverBase16CFramebufferBase6unbindEv
 void CCommonGLDriverBase::CFramebufferBase::unbind() {}
@@ -42,13 +43,14 @@ E_PIXEL_FORMAT CCommonGLDriverBase::CRenderTargetBase::getColorFormat() const {
 
 // 0x6ddbec _ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC2EPS1_
 // 0x6ddb2c _ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC1EPS1_
-// PARTIAL: see the header. The four slots and the two single attachments start empty (kind 255),
-// the colour format is 39, the target count is 0 and the byte at +0x5a is 1. The IRenderTarget
-// base call and the vtable store are not reproduced.
-CCommonGLDriverBase::CRenderTargetBase::CRenderTargetBase(CCommonGLDriverBase*) {}
+// The IMultipleRenderTarget / IRenderTarget base takes the driver and the size {-1, -1}. The four slots and the two
+// single attachments start empty (kind 255), the colour format is 39, the target count is 0 and the byte at +0x5a
+// is 1, all by member initialisers.
+CCommonGLDriverBase::CRenderTargetBase::CRenderTargetBase(IVideoDriver* driver)
+    : IMultipleRenderTarget(driver, core::dimension2d<int32_t>{-1, -1}) {}
 
 // 0x6dcbfc _ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getTargetCountENS0_13IRenderTarget17E_ATTACHMENT_TYPEE
-int32_t CCommonGLDriverBase::CRenderTargetBase::getTargetCount(int32_t attachmentType) const {
+int32_t CCommonGLDriverBase::CRenderTargetBase::getTargetCount(E_ATTACHMENT_TYPE attachmentType) const {
     switch (attachmentType) {
         case 0:
             return m_targetCount;
