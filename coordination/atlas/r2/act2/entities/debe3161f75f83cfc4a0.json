@@ -1,0 +1,4690 @@
+{
+  "AI": {
+    "claim_scope": "character_AI_profile_row",
+    "confidence": "PROVEN",
+    "profile": {
+      "fields": {
+        "AttackDelay": 800,
+        "CombatBeat": -1,
+        "CombatMusic": -1,
+        "DelayedLoad": 0,
+        "Flags": 5,
+        "InteractRadius": 250.0,
+        "LeashDistance": 1500.0,
+        "MeleeRadius": 300.0,
+        "OnAggroSFX": -1,
+        "Script": "swampking_core",
+        "SelfFX": -1,
+        "Trophy": -1,
+        "Type": 4,
+        "ViewRadius": 3500.0,
+        "ViewRadiusNoAggro": 4000.0
+      },
+      "index": 63,
+      "name": "SwampKing",
+      "reference_status": "RESOLVED",
+      "source_status": "RESOLVED",
+      "table": "ai#group0"
+    },
+    "script": "swampking_core",
+    "source_chain": {
+      "files": [
+        {
+          "claim_scope": "original_lua_source",
+          "confidence": "PROVEN",
+          "includes": [],
+          "line_count": 768,
+          "native_calls_matched": [
+            "AddAggro",
+            "AddToVFTable",
+            "ClearAggro",
+            "ClearTarget",
+            "DoSkill",
+            "FromFixed",
+            "GetCurrentLevelRange",
+            "GetDistanceBetween",
+            "GetHostPlayerDifficulty",
+            "GetHostPlayerLevel",
+            "GetName",
+            "GetProp",
+            "GetPropHP",
+            "GetPyCst",
+            "GetPyOID",
+            "GetPyStruct",
+            "GetRand",
+            "GetState",
+            "GetTarget",
+            "GetTargetListTop",
+            "HasTarget",
+            "IsTargetListEmpty",
+            "LookAt",
+            "LookAtTarget",
+            "MarkAsFlying",
+            "myTarget:IsPlayer",
+            "PlayAnim",
+            "PlayMusic",
+            "PlaySound",
+            "PopTargetList",
+            "RegisterAnim",
+            "SetActorPosition",
+            "SetIsTargetable",
+            "SetLevel",
+            "SetTarget",
+            "SetTargetListCharacterFilter",
+            "SetTargetListObjectFilter",
+            "SetTargetListSorting",
+            "Stop",
+            "StopSound",
+            "target:GetName",
+            "TargetListSearch",
+            "ToFixed",
+            "Trace"
+          ],
+          "phase_and_behavior_evidence_lines": [
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 3,
+              "text": "local attack_flag\t\t\t\t\t= false; \t-- checks if the character is ready to attack."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 10,
+              "text": "local musicStarted_flag\t\t\t\t= false; -- checks if the boss music has started or not."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 14,
+              "text": "--\t= 2; -- Perform DoSkill(2)."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 16,
+              "text": "local diveCounter\t\t\t\t\t= 0; -- checks how many times Dive has been performed"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 20,
+              "text": "local timer_attack_flag\t\t\t\t= nil;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 36,
+              "text": "local SK_PHASE_ID\t\t\t\t\t= -1;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 44,
+              "text": "local normalRangedAttack_prob\t\t= 80;\t\t\t\t\t-- chances in PCT to perform a regular ranged attack."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 45,
+              "text": "local normalMeleeAttack1_prob \t\t= 80; \t\t\t\t-- chances in PCT to perform a regular melee attack in phase 1."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 46,
+              "text": "local normalMeleeAttack2_prob\t\t= {40, 50, 10};\t-- chances in PCT to perform one of the 3 regular melee/ranged attacks in phase 2 - !Cumulative values - MUST MATCH 100%."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 47,
+              "text": "--  {Atk 1, Atk 2, Atk 4} - HARDCODED table for phase 2 probs."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 49,
+              "text": "local firstMeleeAttack2_prob \t\t= 50; \t\t\t\t-- chances in PCT to perform a first regular melee attack in phase 2."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 51,
+              "text": "local phase2_initPct\t\t\t\t= 75;\t\t\t\t\t-- HP PCT of the character at when to init phase 2. 25%"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 53,
+              "text": "\"_prim_BossSpawnPoint_03\", -- HARDCODED - First one is the phase 2 only SawnPoint."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 80,
+              "text": "attack_flag\t\t\t\t\t\t= false; \t-- checks if the character is ready to attack."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 87,
+              "text": "musicStarted_flag\t\t\t\t= false; -- checks if the boss music has started or not."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 92,
+              "text": "--\t= 2; -- Perform DoSkill(2)."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 94,
+              "text": "diveCounter\t\t\t\t\t\t= 0; -- checks how many times Dive has been performed"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 106,
+              "text": "SK_PHASE_ID\t\t\t\t\t\t= -1;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 114,
+              "text": "normalRangedAttack_prob\t\t\t= 80;\t\t\t\t\t-- chances in PCT to perform a regular ranged attack."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 115,
+              "text": "normalMeleeAttack1_prob\t\t\t= 80; \t\t\t\t-- chances in PCT to perform a regular melee attack in phase 1."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 116,
+              "text": "normalMeleeAttack2_prob\t\t\t= {40, 50, 10};\t-- chances in PCT to perform one of the 3 regular melee/ranged attacks in phase 2 - !Cumulative values - MUST MATCH 100%."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 117,
+              "text": "--  {Atk 1, Atk 2, Atk 4} - HARDCODED table for phase 2 probs."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 119,
+              "text": "firstMeleeAttack2_prob \t\t\t= 50; \t\t\t\t-- chances in PCT to perform a first regular melee attack in phase 2."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 121,
+              "text": "phase2_initPct\t\t\t\t\t= 75;\t\t\t\t\t-- HP PCT of the character at when to init phase 2. 25%"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 123,
+              "text": "\"_prim_BossSpawnPoint_03\", -- HARDCODED - First one is the phase 2 only SawnPoint."
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 140,
+              "text": "if (timer_attack_flag ~= nil) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 141,
+              "text": "StopTimerCB(timer_attack_flag);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 142,
+              "text": "timer_attack_flag = nil;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 219,
+              "text": "attack_flag = true;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 222,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 246,
+              "text": "function Do_RangedAttackPhase1()"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 247,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Ranged Attack phase 1, random roll on the attack...\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 251,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 256,
+              "text": "function Do_RangedAttackPhase2()"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 257,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Ranged Attack phase 2 - DoSkill(2) - Spit\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 258,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 260,
+              "text": "DoSkill(2);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 264,
+              "text": "function Do_MeleeAttackPhase1()"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 265,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Melee Attack phase 1, checking for initial melee attack...\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 266,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 269,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Result is - first melee attack - DoSkill(1) - Bite 2)\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 270,
+              "text": "DoSkill(1);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 275,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Result is DoSkill(1) - Bite 2)\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 276,
+              "text": "DoSkill(1);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 278,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Result is DoSkill(0) - Bite 1)\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 279,
+              "text": "DoSkill(0);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 284,
+              "text": "function Do_MeleeAttackPhase2()"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 285,
+              "text": "if (debugTrace_flag) then Trace(\"[SWAMPKING] Melee Attack phase 2, checking for initial melee attack...\"); end"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 286,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 293,
+              "text": "DoSkill(0);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 295,
+              "text": "DoSkill(1);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 301,
+              "text": "DoSkill(0);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 303,
+              "text": "DoSkill(1);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 352,
+              "text": "if (not weakAnim_flag) then  -- weakAnim_flag is set to true when Actor is less than 25% health"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 366,
+              "text": "if (attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 367,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 390,
+              "text": "Do_RangedAttackPhase2();"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 420,
+              "text": "if (SK_PHASE_ID == 1) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 422,
+              "text": "elseif (SK_PHASE_ID == 2) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 428,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 430,
+              "text": "DoSkill(2);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 470,
+              "text": "DoSkill(3);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 548,
+              "text": "SK_PHASE_ID = 1;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 551,
+              "text": "if (timer_attack_flag==-1) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 552,
+              "text": "if (timer_attack_flag ~= nil) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 553,
+              "text": "StopTimerCB(timer_attack_flag);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 568,
+              "text": "if (not musicStarted_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 569,
+              "text": "musicStarted_flag = true;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 585,
+              "text": "if (SK_PHASE_ID == 1) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 598,
+              "text": "if (SK_PHASE_ID == 1) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 599,
+              "text": "if (attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 600,
+              "text": "Do_RangedAttackPhase1();"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 603,
+              "text": "elseif (SK_PHASE_ID == 2) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 604,
+              "text": "if (attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 605,
+              "text": "Do_RangedAttackPhase2();"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 616,
+              "text": "if (SK_PHASE_ID == 1) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 617,
+              "text": "if (first_melee_flag and attack_flag) then"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 618,
+              "text": "DoSkill(1);"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 620,
+              "text": "attack_flag = false;"
+            },
+            {
+              "claim_scope": "original_lua_source_line",
+              "confidence": "PROVEN",
+              "line": 621,
+              "text": "elseif (attack_flag) then"
+            }
+          ],
+          "sha256": "c6ea4676f14bfa5340a7c3f5160490202742781326b779bb85f6542649c9781b",
+          "source": ".local-inputs/assets-extra/android/data/scripts/ai/swampking_core.luac",
+          "stem": "swampking_core"
+        }
+      ],
+      "include_edges": [],
+      "root": "swampking_core",
+      "status": "RESOLVED"
+    }
+  },
+  "actor_id": "debe3161f75f83cfc4a0",
+  "actor_name": "SwampKing",
+  "character_properties_fields": {
+    "AI": 63,
+    "AIFaction": 7,
+    "Achievement_Block_Count": 0,
+    "Achievement_Break_Count": 0,
+    "Achievement_Chests_Count": 0,
+    "Achievement_Evade_Count": 0,
+    "Achievement_KnockedDown_Count": 0,
+    "Achievement_PickUp_Count": 0,
+    "Achievement_Potions_Count": 0,
+    "Achievement_Sell_Count": 0,
+    "Achievement_SkillUse_Count": 0,
+    "Achievement_Spent_Count": 0,
+    "Achievement_Transmute_Count": 0,
+    "AnimTable": 70,
+    "ClassDescString": 1835084,
+    "ClassID": 243,
+    "ClassString": 1835084,
+    "Collision_Scale": 50,
+    "CombatRegen_HP": -1,
+    "CombatRegen_MP": -1,
+    "Damage_Air_Max_Main_Hand": 0,
+    "Damage_Air_Max_Off_Hand": 0,
+    "Damage_Air_Min_Main_Hand": 0,
+    "Damage_Air_Min_Off_Hand": 0,
+    "Damage_Block_Mitigation": 0,
+    "Damage_Bonus_Axe": 0,
+    "Damage_Bonus_Combo": 0,
+    "Damage_Bonus_Dagger": 0,
+    "Damage_Bonus_Dual": 0,
+    "Damage_Bonus_Mace": 0,
+    "Damage_Bonus_Range": 0,
+    "Damage_Bonus_Sneaking": 0,
+    "Damage_Bonus_Staff": 0,
+    "Damage_Bonus_Stunned": 0,
+    "Damage_Bonus_Sword": 0,
+    "Damage_Bonus_TwoHand": 0,
+    "Damage_Bonus_Wand": 0,
+    "Damage_Crit_Intensification": 0,
+    "Damage_Earth_Max_Main_Hand": 0,
+    "Damage_Earth_Max_Off_Hand": 0,
+    "Damage_Earth_Min_Main_Hand": 0,
+    "Damage_Earth_Min_Off_Hand": 0,
+    "Damage_Elemental_Max_Main_Hand": 0,
+    "Damage_Elemental_Max_Off_Hand": 0,
+    "Damage_Elemental_Min_Main_Hand": 0,
+    "Damage_Elemental_Min_Off_Hand": 0,
+    "Damage_Elemental_Type_Main_Hand": 256,
+    "Damage_Elemental_Type_Off_Hand": -256,
+    "Damage_Fire_Max_Main_Hand": 0,
+    "Damage_Fire_Max_Off_Hand": 0,
+    "Damage_Fire_Min_Main_Hand": 0,
+    "Damage_Fire_Min_Off_Hand": 0,
+    "Damage_Lightning_Max_Main_Hand": 0,
+    "Damage_Lightning_Max_Off_Hand": 0,
+    "Damage_Lightning_Min_Main_Hand": 0,
+    "Damage_Lightning_Min_Off_Hand": 0,
+    "Damage_Max_Main_Hand": 0,
+    "Damage_Max_Off_Hand": 0,
+    "Damage_Min_Main_Hand": 0,
+    "Damage_Min_Off_Hand": 0,
+    "Damage_Water_Max_Main_Hand": 0,
+    "Damage_Water_Max_Off_Hand": 0,
+    "Damage_Water_Min_Main_Hand": 0,
+    "Damage_Water_Min_Off_Hand": 0,
+    "DeathCount": 0,
+    "Dialogs": -1,
+    "Diminishing_Return": 0,
+    "Dot_Duration": 0,
+    "Dot_Max_Damage": 0,
+    "Dot_Min_Damage": 0,
+    "Dot_Tick_Damage_Air": 0,
+    "Dot_Tick_Damage_Earth": 0,
+    "Dot_Tick_Damage_Fire": 0,
+    "Dot_Tick_Damage_Lightning": 0,
+    "Dot_Tick_Damage_Normal": 0,
+    "Dot_Tick_Damage_Water": 0,
+    "Effects": 1,
+    "FX_Scale": 140,
+    "FaeryList": -1,
+    "Fear_Duration": 0,
+    "Fear_Resist_Chance": 0,
+    "Fear_Target_Chance": 0,
+    "HP": -1,
+    "HP_Bonus": -1,
+    "Hurt_Resist_Chance": 0,
+    "Hurt_Target_Chance": 0,
+    "KillCount": 0,
+    "Leech_HP": 0,
+    "Leech_MP": 0,
+    "Level": 256,
+    "LevelMax": 1536,
+    "LevelMin": 1280,
+    "LevelOffset": 0,
+    "Loot": 229,
+    "MP": -1,
+    "MPLevelKillCount": 0,
+    "MP_Bonus": -1,
+    "Magical_Armor": 0,
+    "Max_HP": -1,
+    "Max_MP": -1,
+    "Max_XP": -1,
+    "Melee_Scale": 100,
+    "Menu_Average_Melee_To_Hit": 0,
+    "Menu_Average_Spell_To_Hit": 0,
+    "Menu_Melee_Damage_Reduction": 0,
+    "ModelFile": 99,
+    "ModularVisual": -1,
+    "Name": 1507570,
+    "Opacity_Modifier": 0,
+    "Physical_Armor": 0,
+    "Physical_Armor_Bonus_Shield": 0,
+    "Potion_HP_Modifier": 0,
+    "Potion_MP_Modifier": 0,
+    "Prereq_Dexterity": 0,
+    "Prereq_Endurance": 0,
+    "Prereq_Energy": 0,
+    "Prereq_Strength": 0,
+    "Push_Resist_Chance": 0,
+    "Push_Target_Chance": 0,
+    "RangeMaxDistance": 1536000,
+    "RangeMinDistance": 153600,
+    "RangeProjectileID": 34,
+    "Rating_Attack": 0,
+    "Rating_Attack_Bonus_Axe": 0,
+    "Rating_Attack_Bonus_Dagger": 0,
+    "Rating_Attack_Bonus_Dual": 0,
+    "Rating_Attack_Bonus_Mace": 0,
+    "Rating_Attack_Bonus_Range": 0,
+    "Rating_Attack_Bonus_Staff": 0,
+    "Rating_Attack_Bonus_Sword": 0,
+    "Rating_Attack_Bonus_Wand": 0,
+    "Rating_Block": 0,
+    "Rating_Block_Bonus_Shield": 0,
+    "Rating_Critical": 0,
+    "Rating_Critical_Bonus_Axe": 0,
+    "Rating_Critical_Bonus_Dagger": 0,
+    "Rating_Critical_Bonus_Mace": 0,
+    "Rating_Critical_Bonus_Range": 0,
+    "Rating_Critical_Bonus_Staff": 0,
+    "Rating_Critical_Bonus_Sword": 0,
+    "Rating_Critical_Bonus_Wand": 0,
+    "Rating_Defense": 0,
+    "Rating_Dodge": 0,
+    "Regen_HP": -1,
+    "Regen_MP": -1,
+    "Resistance_Air": 0,
+    "Resistance_Earth": 0,
+    "Resistance_Fire": 0,
+    "Resistance_Lightning": 0,
+    "Resistance_Water": 0,
+    "RespawnTime": 0,
+    "Scale_X": 100,
+    "Scale_Y": 100,
+    "Scale_Z": 100,
+    "SkillTree": 33,
+    "Skill_Points": 0,
+    "Slow_Duration": 0,
+    "Slow_Resist_Chance": 0,
+    "Slow_Target_Chance": 0,
+    "SnS_Cooldown": 0,
+    "SnS_Dot_Duration": 0,
+    "SnS_Dot_Elemental_Type": -256,
+    "SnS_Dot_Max_Damage": 0,
+    "SnS_Dot_Min_Damage": 0,
+    "SnS_Duration": 0,
+    "SnS_Fear_Duration": 0,
+    "SnS_Fear_Target_Chance": 0,
+    "SnS_Hurt_Target_Chance": 0,
+    "SnS_Level": 0,
+    "SnS_ManaCost": 0,
+    "SnS_MaxDamage": 0,
+    "SnS_MinDamage": 0,
+    "SnS_Push_Target_Chance": 0,
+    "SnS_Slow_Duration": 0,
+    "SnS_Slow_Target_Chance": 0,
+    "SnS_Stun_Duration": 0,
+    "SnS_Stun_Target_Chance": 0,
+    "Sounds": 2,
+    "Special_Bonus_To_XP": 0,
+    "Special_Equip_2H_In_One": 0,
+    "Special_Equip_Main_In_Offhand": 0,
+    "Special_Loot_Gold_Multiplier": 0,
+    "Special_Loot_Magical_Chance": 0,
+    "Special_Loot_Max_Potions": 0,
+    "Special_Merchant_Price": 0,
+    "Special_Sneak": 0,
+    "Special_Sneak_Detection": 0,
+    "Special_Transmute_Efficiency": 0,
+    "Speed_Modifier_Attack": 33280,
+    "Speed_Modifier_Rotation": 0,
+    "Speed_Modifier_Walk": 0,
+    "Spell_Damage_Bonus_Air": 0,
+    "Spell_Damage_Bonus_Earth": 0,
+    "Spell_Damage_Bonus_Fire": 0,
+    "Spell_Damage_Bonus_Lightning": 0,
+    "Spell_Damage_Bonus_Water": 0,
+    "Spell_Damage_Crit_Intensification": 0,
+    "Spell_Rating_Attack": 0,
+    "Spell_Rating_Attack_Bonus_Air": 0,
+    "Spell_Rating_Attack_Bonus_Earth": 0,
+    "Spell_Rating_Attack_Bonus_Fire": 0,
+    "Spell_Rating_Attack_Bonus_Lightning": 0,
+    "Spell_Rating_Attack_Bonus_Water": 0,
+    "Spell_Rating_Critical": 0,
+    "Spell_Rating_Dodge": 0,
+    "StatAutoAssignScheme": -1,
+    "Stat_Dexterity": 0,
+    "Stat_Endurance": 0,
+    "Stat_Energy": 0,
+    "Stat_Points": 0,
+    "Stat_Strength": 0,
+    "Stun_Duration": 0,
+    "Stun_Resist_Chance": 0,
+    "Stun_Target_Chance": 0,
+    "TempProp1": 0,
+    "TempProp2": 0,
+    "Threat_PerDamage": 0,
+    "Threat_PerDamageToFriendly": 0,
+    "Threat_PerHeal": 0,
+    "Value_XP": -1,
+    "Visual_AlphaFadeInSpawn": 3000,
+    "Visual_AlphaFadeOutDespawn": 3000,
+    "Visual_BlinkWhenHit": 1,
+    "XP": 0
+  },
+  "claim_scope": "character_properties_and_linked_tables",
+  "field_links": {
+    "AI": {
+      "index": 63,
+      "name": "SwampKing",
+      "raw": 63,
+      "reference_id": "45f35d2f47600f1195c3",
+      "status": "RESOLVED",
+      "table": "ai#group0",
+      "target_id": "994a751eaa98fd64607e"
+    },
+    "AIFaction": {
+      "index": 7,
+      "name": "Monsters",
+      "raw": 7,
+      "reference_id": "3e7edffcc3c855e86b95",
+      "status": "RESOLVED",
+      "table": "ai_factions#group0",
+      "target_id": "3e0761afa94cda0d6259"
+    },
+    "AnimTable": {
+      "index": 70,
+      "name": "SwampKing",
+      "raw": 70,
+      "reference_id": "40f29b78c023293a74f8",
+      "status": "RESOLVED",
+      "table": "character_animations",
+      "target_id": "60c0a42c17b57e660b59"
+    },
+    "ClassID": {
+      "index": 243,
+      "name": "SwampkingBossMonster",
+      "raw": 243,
+      "reference_id": "fded7040a91bd09c90ae",
+      "status": "RESOLVED",
+      "table": "character_classes#group0",
+      "target_id": "3e30f31dc169f85c43cc"
+    },
+    "Effects": {
+      "index": 1,
+      "name": "DefaultMonster",
+      "raw": 1,
+      "reference_id": "5dbd125e0e591c90ff64",
+      "status": "RESOLVED",
+      "table": "character_effects",
+      "target_id": "602148208a935770b821"
+    },
+    "Loot": {
+      "index": 229,
+      "name": "SwampKing_Loot",
+      "raw": 229,
+      "reference_id": "608b4bb880749c4dabb1",
+      "status": "RESOLVED",
+      "table": "loot_table#group5",
+      "target_id": "865b429e3ca187ccb054"
+    },
+    "ModelFile": {
+      "index": 99,
+      "name": "swampking",
+      "raw": 99,
+      "reference_id": "e020062312835b29e93b",
+      "status": "RESOLVED",
+      "table": "character_models_dictionary#group0",
+      "target_id": "c24d5e4d3bbc44b334ce"
+    },
+    "RangeProjectileID": {
+      "index": 34,
+      "name": "SwampkingSpit",
+      "raw": 34,
+      "reference_id": "ccc12009bf3086fe898c",
+      "status": "RESOLVED",
+      "table": "projectiles#group0",
+      "target_id": "11ae639e7c88175b5098"
+    },
+    "SkillTree": {
+      "index": 33,
+      "name": "SwampKingSkills",
+      "raw": 33,
+      "reference_id": "e9fda0c6da40476e1a51",
+      "status": "RESOLVED",
+      "table": "skills#group0",
+      "target_id": "c55ce11cd17f3149b46b"
+    },
+    "Sounds": {
+      "index": 2,
+      "name": "Default",
+      "raw": 2,
+      "reference_id": "df17883f951272af25cc",
+      "status": "RESOLVED",
+      "table": "sounds#group0",
+      "target_id": "f93e07b3f9ba3c48dc93"
+    }
+  },
+  "package_A_native_callsite_specs": [
+    {
+      "call_sites": [
+        {
+          "call_id": "6b8493c6aac01f903638",
+          "expression": "GetPyOID(\"ClassTable\", \"Swampking_Debuff\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 38,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "fffee3b3117441ff4a20",
+          "expression": "GetPyOID(\"ClassTable\", \"Swampking_Debuff\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 108,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "837a69997831b1cdfd41",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_idle\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 231,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "1d0506c9a6a3269c899c",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_intimidate\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 232,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "0e35a0413e76c3b2a763",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_dive\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 233,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "8b87ace003fca9fc1ff7",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_emerge\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 234,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "151b4b42ec1b6fc89689",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_fall\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 235,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f9fdc444f841741f1da3",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_fall_idle\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 236,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "b1c2d5067eb8acd1b3ad",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_fall_idle_to_idle\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 237,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "566e8f703ed5c9923c3e",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_dive\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 454,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ec3952105111dedeefe8",
+          "expression": "GetPyOID(\"AnimDict\", \"swampking_intimidate\")",
+          "function_id": "7df9bdce40bcc9b80a56",
+          "line": 488,
+          "name": "GetPyOID",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPyOID.md",
+      "contract_page_sha256": "17f7084d85eb0c4a34756af1d182ecf8ba5a2594d5d334fea3148cb3cc26b309",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/script-runtime/script_design_bindings.c"
+        },
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "7df9bdce40bcc9b80a56",
+      "native_name": "GetPyOID",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "79a3dc138709a7dc2320",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 40,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "65a0f9d0928c6f70100b",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 41,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "43af852e87dedd4223d5",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 110,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c84c19c1b5133d2e626a",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 111,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "17097e4e08bf6bfc6e25",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"LevelMax\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 510,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "cd5bec39c4a681781a9f",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"LevelMin\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 511,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "24cf3c1b268604475209",
+          "expression": "GetPyStruct(\"CharacterProperties\", \"LevelOffset\")",
+          "function_id": "1a1bbda728ae09a3cb6d",
+          "line": 512,
+          "name": "GetPyStruct",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPyStruct.md",
+      "contract_page_sha256": "50fb5ed112c6cbc0505e7212860a37dc52bc75867f6450c48be1386404b7747b",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/script-runtime/script_design_bindings.c"
+        },
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "1a1bbda728ae09a3cb6d",
+      "native_name": "GetPyStruct",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "cff688f938bb1ef383c9",
+          "expression": "GetPyCst(\"AITargetList_CharacterFilter\", \"Player\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 178,
+          "name": "GetPyCst",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "2441c739c9bbc6c59f2b",
+          "expression": "GetPyCst(\"AITargetList_ObjectFilter\", \"NONE\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 179,
+          "name": "GetPyCst",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "6e915c12e445d70cc087",
+          "expression": "GetPyCst(\"AITargetList_Sorting\", \"ClosestFirst\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 180,
+          "name": "GetPyCst",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c3f55664282be677f748",
+          "expression": "GetPyCst(\"AIStates\", \"Skill\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 217,
+          "name": "GetPyCst",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "7842ca9c8750ab95ae5e",
+          "expression": "GetPyCst(\"AIStates\", \"Idle\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 371,
+          "name": "GetPyCst",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "206af3988507afaab185",
+          "expression": "GetPyCst(\"AIStates\", \"Idle\")",
+          "function_id": "ac001076d29a23615ef9",
+          "line": 665,
+          "name": "GetPyCst",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPyCst.md",
+      "contract_page_sha256": "cf92c6dc72cf2ac9e6bcd366173a424730e30b1343a45992c32babd128dc1568",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "current_port_evidence": [
+        {
+          "line": 20,
+          "source": "port/script-runtime/script_design_bindings.c"
+        },
+        {
+          "line": 20,
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "ac001076d29a23615ef9",
+      "native_name": "GetPyCst",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "638d9502ae30518afe79",
+          "expression": "IsTargetListEmpty()",
+          "function_id": "7f6c9732197731eb090e",
+          "line": 186,
+          "name": "IsTargetListEmpty",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "876de4954de0a27aa3a4",
+          "expression": "IsTargetListEmpty()",
+          "function_id": "7f6c9732197731eb090e",
+          "line": 202,
+          "name": "IsTargetListEmpty",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/IsTargetListEmpty.md",
+      "contract_page_sha256": "6cf3f60e2bcdcedd06b04f1dabeceaa686686f86198002d49a7c43c5b7055e98",
+      "contract_state": "DONE",
+      "current_port_difference": "The port computes the same empty predicate from list_.count in CharacterSkillNativeBindingsV5, but its evidence is a skill-native owner route with one retained list, not proof of the source GameObject-wide function/method binding domain.",
+      "current_port_evidence": [
+        {
+          "line": 12,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 23,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 102,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 103,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "7f6c9732197731eb090e",
+      "native_name": "IsTargetListEmpty",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "7d28cb96f64380d7ae90",
+          "expression": "GetTargetListTop()",
+          "function_id": "6cefbf80881bce92fa7f",
+          "line": 188,
+          "name": "GetTargetListTop",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetTargetListTop.md",
+      "contract_page_sha256": "6eb093b420a9023cbc733429e92c82451037704dcc53a49bfba67ffd07003204",
+      "contract_state": "DONE",
+      "current_port_difference": "The port's top entry returns the same identity, distance, angle conversion and flag bit, but hardcodes return value five to 0 instead of the source float at entry offset 16. On an empty list the port emits a default zero-initialized script value while source calls pushPointer(nullptr); their exact type parity is not established by the inspected handlers.",
+      "current_port_evidence": [
+        {
+          "line": 43,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 52,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 54,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 105,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 106,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 107,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 108,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "6cefbf80881bce92fa7f",
+      "native_name": "GetTargetListTop",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "a6c4f9186f8a90119881",
+          "expression": "TargetListSearch(RANGED_RANGE)",
+          "function_id": "1a57b77f4aea48ea0e78",
+          "line": 182,
+          "name": "TargetListSearch",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/TargetListSearch.md",
+      "contract_page_sha256": "777c13ae4db7deeb373569dd7b50068ea7e90dc57b531744f39cd66dcddbf994",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:120-143 rejects >3 args and nonEnemy/nonAttackable filters, so source arbitrary origins, relative coordinates, player/OOI/neutral/friend masks and backup selectors not fully supported. Its source search kernel supports selected live/backup identities only.",
+      "current_port_evidence": [
+        {
+          "line": 308,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "contains(text, \"TargetListSearch(RANGE)\");"
+        },
+        {
+          "line": 331,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "!contains(delayed, \"TargetListSearch(AOE_RANGE, 360\") || !contains(delayed, \"ApplyPropClass(AOE_CLASS_ID)\"))"
+        },
+        {
+          "line": 268,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "contains(pre, \"\\\"AITargetList_Sorting\\\", \\\"FrontalFirst\\\"\") && contains(pre, \"TargetListSearch(RANGE)\") &&"
+        },
+        {
+          "line": 236,
+          "path": "port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp",
+          "source_line": "return fail(error, \"Source Character TargetListSearch range/cone/sort is invalid\");"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "1a57b77f4aea48ea0e78",
+      "native_name": "TargetListSearch",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "195d7a9ce6642a24dc26",
+          "expression": "SetTargetListSorting(GetPyCst(\"AITargetList_Sorting\", \"ClosestFirst\"))",
+          "function_id": "65c2269fc5b1efa9c9ae",
+          "line": 180,
+          "name": "SetTargetListSorting",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTargetListSorting.md",
+      "contract_page_sha256": "433c97e0943e13a88ee9cb982fbbc65a639ec78cd8c1e661f76ec68a06185543",
+      "contract_state": "DONE",
+      "current_port_difference": "The current skill-native implementation maps 1/2/other to closest/frontal/no-sort, but only changes list_.sort; the original native first pops all current results before changing its sorter. Existing results therefore remain in the port after an enum change.",
+      "current_port_evidence": [
+        {
+          "line": 96,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        },
+        {
+          "line": 100,
+          "source": "port/level-world/character_skill_native_v5.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "65c2269fc5b1efa9c9ae",
+      "native_name": "SetTargetListSorting",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "405d60a2fe446f5c6fa4",
+          "expression": "SetTargetListCharacterFilter(GetPyCst(\"AITargetList_CharacterFilter\", \"Player\"))",
+          "function_id": "df0a08eeec4c08b9122d",
+          "line": 178,
+          "name": "SetTargetListCharacterFilter",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTargetListCharacterFilter.md",
+      "contract_page_sha256": "601fa628ea6aec8caf949c8cd42ab7bcfa3a2508bc9443141206a16337998a0a",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:96-100 implements the numeric gate and integer filter assignment, but target search later rejects any character filter except1 and object filter except0 (:122); arbitrary masks can be stored but cannot be consumed by that skill search path.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "df0a08eeec4c08b9122d",
+      "native_name": "SetTargetListCharacterFilter",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "6d562a6c0aef5005cf53",
+          "expression": "SetTargetListObjectFilter(GetPyCst(\"AITargetList_ObjectFilter\", \"NONE\"))",
+          "function_id": "09356c4f538053b2fdde",
+          "line": 179,
+          "name": "SetTargetListObjectFilter",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTargetListObjectFilter.md",
+      "contract_page_sha256": "6b0ce90bcee78e1f0366c0dc52d52709fd6dc9ce4ea95303a9ce82845de60a8c",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:96-100 implements the numeric gate and integer filter assignment, but target search later rejects any character filter except1 and object filter except0 (:122); arbitrary masks can be stored but cannot be consumed by that skill search path.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "09356c4f538053b2fdde",
+      "native_name": "SetTargetListObjectFilter",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "304fbdcc8f29e4999474",
+          "expression": "LookAt(myTarget)",
+          "function_id": "c546c459f3a08331edb0",
+          "line": 197,
+          "name": "LookAt",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/LookAt.md",
+      "contract_page_sha256": "74742c7e345bdba1b8cdd9d72145b231d9ccde96754656c35187e0b21aadae9e",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:115-118 admits pointer/object types and forwards world_.look_at; preserves wrapper but relies supplied controller service for lock/override behavior; does not itself prove those gates for every actor.",
+      "current_port_evidence": [
+        {
+          "line": 6353,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "if(dh2_character_look_at_point(&look,point)){e=\"Injured Blur source LookAt failed\";return false;}"
+        },
+        {
+          "line": 6399,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "if(dh2_nav_look_towards(&heading,direction)){e=\"KnockBack Focus source LookAt failed\";return false;}"
+        },
+        {
+          "line": 578,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "return fail(error, \"Original GameObject LookAt(Point) kernel rejected the target\");"
+        },
+        {
+          "line": 94,
+          "path": "port/windows-foundation/features/combat/b035_native_test_fixture_v1.hpp",
+          "source_line": "check(event.actor==1&&event.source_other_actor==2&&cells.at(1).locked,\"Source LookAt/CancelSneaking ordering/attacker\");"
+        },
+        {
+          "line": 97,
+          "path": "port/windows-foundation/features/combat/b035_native_test_fixture_v1.hpp",
+          "source_line": "float heading=actor->transform.rotation[2];check(dh2_nav_look_towards(&heading,direction)==0,\"Source LookAt heading\");"
+        },
+        {
+          "line": 69,
+          "path": "port/windows-foundation/features/combo_chain/source_combo_consumers.cpp",
+          "source_line": "if(dh2_character_look_at_point(&look,request->position)){bridge.failure=\"Original GameObject LookAt(Point) rejected backing\";return -1;}"
+        },
+        {
+          "line": 72,
+          "path": "port/windows-foundation/features/combo_chain/source_combo_consumers.cpp",
+          "source_line": "bridge.failure=\"Unexpected original LookAt controllable service\";return -1;"
+        },
+        {
+          "line": 77,
+          "path": "port/windows-foundation/features/combo_chain/source_combo_consumers.cpp",
+          "source_line": "error=bridge.failure.empty()?\"Original controller/Character LookAt failed\":std::move(bridge.failure);return false;"
+        },
+        {
+          "line": 269,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "contains(pre, \"LookAt(target)\");"
+        },
+        {
+          "line": 548,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "return fail(error, \"Original GameObject LookAt(Point) kernel rejected the target\");"
+        },
+        {
+          "line": 1226,
+          "path": "port/windows-foundation/features/generic_skills/runtime_skill_cast_coordinator_v1.cpp",
+          "source_line": "active.receipt.detail = \"GroundSlam source LookAt failed after OnPre\";"
+        },
+        {
+          "line": 400,
+          "path": "port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp",
+          "source_line": "return fail(error, \"BashDown LookAt requires a selected character target from its source query\");"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "c546c459f3a08331edb0",
+      "native_name": "LookAt",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "233872bedfe9bb2b633d",
+          "expression": "Trace(\"[SWAMPKING] Attack is ready!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 218,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "7fa8b18b1c4e379ed31d",
+          "expression": "Trace(\"[SWAMPKING] Preventing attack to be ready!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 221,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "51a9f43c7de403a44c39",
+          "expression": "Trace(\"[SWAMPKING] Ranged Attack phase 1, random roll on the attack...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 247,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "1b85f7bcea7d466b2c7f",
+          "expression": "Trace(\"[SWAMPKING] Ranged Attack phase 2 - DoSkill(2) - Spit\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 257,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c42cb78aa2fd91d9c956",
+          "expression": "Trace(\"[SWAMPKING] Melee Attack phase 1, checking for initial melee attack...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 265,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "d76f9cb0a58d97e0b208",
+          "expression": "Trace(\"[SWAMPKING] Result is - first melee attack - DoSkill(1) - Bite 2)\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 269,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c310c417a8aa0d320c84",
+          "expression": "Trace(\"[SWAMPKING] Result is DoSkill(1) - Bite 2)\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 275,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "6b1f21f05737ea91b10e",
+          "expression": "Trace(\"[SWAMPKING] Result is DoSkill(0) - Bite 1)\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 278,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "6886bd93a338cb13eb3a",
+          "expression": "Trace(\"[SWAMPKING] Melee Attack phase 2, checking for initial melee attack...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 285,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "79ce47e91ebca67f261d",
+          "expression": "Trace(\"[SWAMPKING] Player: Player: \"..target:GetName())",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 325,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "51070a5696e457ecb71f",
+          "expression": "Trace(\"[SWAMPKING] object: \"..obj)",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 326,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "1973cba6e46684d74aae",
+          "expression": "Trace(\"[SWAMPKING] Distance between: \"..FromFixed(distance))",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 327,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "d6c63d0071d4fc92caaf",
+          "expression": "Trace(\"[SWAMPKING] No Target. Fallback: \"..sk_spawn_points[1])",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 338,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "4782822f9f1adc6733bf",
+          "expression": "Trace(\"WARNING!!! NOT WORKING!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 340,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "b05bbe0b5aff817d9adf",
+          "expression": "Trace(\"[SWAMPKING] Choosen object is: \"..objectName)",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 341,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "fbb61be4d74f4b728d85",
+          "expression": "Trace(\"Picked Random Spawn Point!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 353,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "97cfc6b02cc710c65fe6",
+          "expression": "Trace(\"Picked First Spawn Point!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 356,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "3b9149d5335df15fed8d",
+          "expression": "Trace(\"DivePattern told me to dive!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 365,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "a43e7332969b82b0f496",
+          "expression": "Trace(\"Can't dive yet!  Try again soon!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 372,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f3d88d9e529146b90a1d",
+          "expression": "Trace(\"I can dive now!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 375,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "44064aa5a4693712b27a",
+          "expression": "Trace(\"DiveAttackDecision told me to dive!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 387,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "4127750d273c7ef8a91e",
+          "expression": "Trace(\"[SWAMPKING/STATES] Going to SPIT from DECISION...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 389,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "62892c125ee2bd7d1e87",
+          "expression": "Trace(\"[SWAMPKING/STATES] Going back in IDLE state from DECISION...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 392,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "0d07bc0fa8f10584ce58",
+          "expression": "Trace(\"Moving to a position!\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 405,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "a61daec4493286148140",
+          "expression": "Trace(\"[SWAMPKING/STATES] Going back in IDLE state...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 414,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "0b5087f29be2a9708d11",
+          "expression": "Trace (\"Enabling back the the targetting (disabled for now\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 434,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c2c953fc7627b2fae83b",
+          "expression": "Trace(\"[SWAMPKING/STATES] Going into DIVE state...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 441,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "36a38224f0eb87bab0ee",
+          "expression": "Trace(\"[SWAMPKING/STATES] Playing EMERGE state...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 469,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "513369d88f8a7fa185e0",
+          "expression": "Trace (\"Enabling back the the targetting (disabled for now\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 473,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "423dbf1aefc29c079549",
+          "expression": "Trace(\"[SWAMPKING/STATES] Going into INTIMIDATE state...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 481,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "e598aec99aa134288996",
+          "expression": "Trace(\"intimidateAnim_flag: \"..intimidateAnim_flag)",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 486,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "5726c4de928cae7c07d5",
+          "expression": "Trace(\"[SWAMPKING] Attack is ready!\" .. m_lvl)",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 538,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "3a6ddf5c7fc66be11ccc",
+          "expression": "Trace(\"[SWAMPKING] Found an enemy:\"..enemy:GetName())",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 576,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "d4f9ae18aa8761a7663f",
+          "expression": "Trace(\"The target lost...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 587,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f8d2dbb4e0f98d9dc5d5",
+          "expression": "Trace(\"[SWAMPKING] Enemy is in range, attack 1:\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 601,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "5bd5a26336bf6d144412",
+          "expression": "Trace(\"[SWAMPKING] Enemy is in range, attack 2:\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 606,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "0ec22b6d86cd22a9ed46",
+          "expression": "Trace(\"The target is dead now...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 651,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c4473ef5cd0912b631e0",
+          "expression": "Trace(\"Starting attack timer...\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 667,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "866f517ad81b788ce5fe",
+          "expression": "Trace(\"[SWAMPKING] Started Emerge Delay timer\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 743,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "3597c456bca8bcf0127a",
+          "expression": "Trace(\"[SWAMPKING] Ended EMERGE anim\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 747,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "5115776f60eda0a9c3c1",
+          "expression": "Trace(\"[SWAMPKING] Result is DoSkill(2) - Spit)\")",
+          "function_id": "e5ccff747e7c51d8a2e5",
+          "line": 757,
+          "name": "Trace",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/Trace.md",
+      "contract_page_sha256": "5ac226a650a8a164a5232584708fc7fa905f416ebb9e04a7e40e7d3a028de189",
+      "contract_state": "DONE",
+      "current_port_difference": "GenericLuaScriptOwnerV13 trace function at generic_lua_script_owner_v13.cpp:49 is the same no-op; container_open_script_v1 has a separately scoped trace adapter. Android callback source parity, no iPhone comparison.",
+      "current_port_evidence": [
+        {
+          "line": 145,
+          "path": "port/windows-foundation/features/containers/container_open_script_v1.cpp",
+          "source_line": "set_error(context, error, error_capacity, \"Trace expects one string\");"
+        },
+        {
+          "line": 211,
+          "path": "port/windows-foundation/features/containers/container_open_script_v1.cpp",
+          "source_line": "{\"Trace\", lua_trace}, {\"GetName\", lua_get_name},"
+        },
+        {
+          "line": 63,
+          "path": "port/script-runtime/script_game_bindings.c",
+          "source_line": "return dh2_script_vm_bind_source_values(vm,\"Trace\",dh2_script_game_trace,NULL);"
+        },
+        {
+          "line": 16,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"Include\",0x37efe4},{\"Trace\",0x37ee80},{\"SetInt\",0x37de5c},{\"GetInt\",0x37ec14},"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "e5ccff747e7c51d8a2e5",
+      "native_name": "Trace",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "aa22f50253d6506d9b0e",
+          "expression": "PopTargetList()",
+          "function_id": "08a34a258195184437db",
+          "line": 200,
+          "name": "PopTargetList",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PopTargetList.md",
+      "contract_page_sha256": "6986f4c9bdc4d3a3c2e629af8102fb9de112752bb67f4b66b7d70a9888b30cc2",
+      "contract_state": "DONE",
+      "current_port_difference": "character_skill_native_v5.cpp:110 implements empty no-op and heap pop; callback supported. Static callback/source path proven; no runtime verification.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "08a34a258195184437db",
+      "native_name": "PopTargetList",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "53f265925b0e02be3cbe",
+          "expression": "DoSkill(2)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 260,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "44c15a01d412cba5145b",
+          "expression": "DoSkill(1)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 270,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "23a67bad522abeb58135",
+          "expression": "DoSkill(1)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 276,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "9f15f1a2ff5163d797aa",
+          "expression": "DoSkill(0)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 279,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f268adbbc6dbd5ef2ef5",
+          "expression": "DoSkill(0)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 293,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "5e7e7bd8a89de167ed23",
+          "expression": "DoSkill(1)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 295,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ed2a078d0de3077f54e7",
+          "expression": "DoSkill(0)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 301,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "0f7e1d018917d713229d",
+          "expression": "DoSkill(1)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 303,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "755567342de514139b06",
+          "expression": "DoSkill(2)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 430,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "155214b5a648e828f9ae",
+          "expression": "DoSkill(3)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 470,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ea6ba99faff5c2ddcae5",
+          "expression": "DoSkill(1)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 618,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "7066606b49718e5756ec",
+          "expression": "DoSkill(2)",
+          "function_id": "04bbc1b0620bafc48513",
+          "line": 761,
+          "name": "DoSkill",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/DoSkill.md",
+      "contract_page_sha256": "5ef0c3da87bb7c169581c04ecf71a892df8a151cc8602562549312d23d0e3c44",
+      "contract_state": "DONE",
+      "current_port_difference": "Enemy and selected player skill owners trigger custom operation services; CharacterSkillNativeBindingsV5 list (:12) omits0x3b8bd8 and general CharacterScriptObjects dispatch (:144) lacks it. Original OnSkillCheck and FSM admission cannot be assumed from gameplay request alone.",
+      "current_port_evidence": [
+        {
+          "line": 19,
+          "path": "port/windows-foundation/features/bosses/runtime_boss_encounter_plan_v1.cpp",
+          "source_line": "{\"intimidate\", \"idle\", \"swampking_OnEndOfAnim\", \"intimidateAnim_flag == 1; otherwise DoSkill(2)\", 0},"
+        },
+        {
+          "line": 104,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "const std::regex call(\"DoSkill\\\\(\\\\s*([0-9]+)\\\\s*\\\\)\");"
+        },
+        {
+          "line": 232,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!std::regex_search(end, m, std::regex(\"StartTimerCB\\\\(\\\\s*([0-9]+)\\\\s*,\\\\s*false\\\\s*,\\\\s*function\\\\(\\\\)\\\\s*DoSkill\\\\(\\\\s*([0-9]+)\\\\s*\\\\)\")))"
+        },
+        {
+          "line": 233,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "return fail(error, \"OnEndOfAnim intimidate DoSkill timer absent\");"
+        },
+        {
+          "line": 272,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "return fail(error, \"DoSkill branch layout differs from the dive-boss shape\");"
+        },
+        {
+          "line": 389,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (highest < 0 || static_cast<std::size_t>(highest) >= list.size()) { reason = \"DoSkill index outside the SkillTree list\"; return true; }"
+        },
+        {
+          "line": 871,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") rejected actor=\" + std::to_string(id) + \" state=\" + std::to_string(state));"
+        },
+        {
+          "line": 881,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") rejected: Anim root \" + std::to_string(skill.animation_sequence_id) + \" not in the actor bank\");"
+        },
+        {
+          "line": 961,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") rejected actor=\" + std::to_string(id) + \": \" + problem);"
+        },
+        {
+          "line": 965,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"DoSkill(\" + std::to_string(slot) + \") actor=\" + std::to_string(id) + \" skill=\" + skill.skill_name + \" sequence=\" +"
+        },
+        {
+          "line": 11,
+          "path": "port/windows-foundation/features/enemy_ai/external_monster_natives.cpp",
+          "source_line": "if(!b||!b->character||!b->receiver_lease)return fail(\"Required retained Character DoSkill receiver\");"
+        },
+        {
+          "line": 14,
+          "path": "port/windows-foundation/features/enemy_ai/external_monster_scoped.cpp",
+          "source_line": "return dh2_script_vm_bind_source_scoped_values(vm,\"DoSkill\",scoped,b);"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "04bbc1b0620bafc48513",
+      "native_name": "DoSkill",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "7ad39aa50b1f33d81b12",
+          "expression": "GetRand(1,100)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 249,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "e26e1ecbe2d111cfc89a",
+          "expression": "GetRand(1,100)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 272,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "9b83459eb387e82a6432",
+          "expression": "GetRand(1,100)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 290,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "aec1bc012e285a70b1dd",
+          "expression": "GetRand(1,100)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 298,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ad4966ca98739774c6be",
+          "expression": "GetRand(1, numSpawners)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 350,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ebee961793256c3c6657",
+          "expression": "GetRand(1,3)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 489,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "53753724ed82e3230fe8",
+          "expression": "GetRand(OUTOFRANGE_MIN_DELAY, OUTOFRANGE_MAX_DELAY)",
+          "function_id": "39ca384b24293669f15e",
+          "line": 586,
+          "name": "GetRand",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetRand.md",
+      "contract_page_sha256": "fce0c0c16f2f940d4c6097608bb173e50014e43edadc41de78817b16a2440a58",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen CharacterScriptObjects explicitly fails online seed-owner delivery. Negative numeric conversion wraps signed value to unsigned instead of native getUInteger clamp to zero; nonfinite values are rejected.",
+      "current_port_evidence": [
+        {
+          "line": 104,
+          "source": "port/level-world/character_script_objects.cpp"
+        },
+        {
+          "line": 119,
+          "source": "port/level-world/character_script_objects.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "39ca384b24293669f15e",
+      "native_name": "GetRand",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "6430ecfcc3defbc745f2",
+          "expression": "Stop()",
+          "function_id": "15f6373a7f3104dc67a6",
+          "line": 676,
+          "name": "Stop",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/Stop.md",
+      "contract_page_sha256": "344ac71bf8cefda5fa7d5f25c18b71304f8f5ebf1b1c3ef14442c11339a67c49",
+      "contract_state": "DONE",
+      "current_port_difference": "Source controller gates are reconstructed; session routes to required command services. Full physical Stop/event delivery depends on supplied live services and is not established by this contract audit.",
+      "current_port_evidence": [
+        {
+          "line": 168,
+          "source": "port/level-world/character_script_session.cpp"
+        },
+        {
+          "line": 34,
+          "source": "port/level-world/reference/character-controller-commands/NOTES.md"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "15f6373a7f3104dc67a6",
+      "native_name": "Stop",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "ec0e71c23cf05584e54c",
+          "expression": "AddAggro(myTarget, 10)",
+          "function_id": "171a44bcbbc27511a562",
+          "line": 196,
+          "name": "AddAggro",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c9d6a99b0d48f45e2714",
+          "expression": "AddAggro(enemy, 0)",
+          "function_id": "171a44bcbbc27511a562",
+          "line": 574,
+          "name": "AddAggro",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/AddAggro.md",
+      "contract_page_sha256": "d3d09fa05e0e7d237154abae0c5ad4ac4173dac9bc89cb6016fea8cb6949082d",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected enemy threat tuning passes runtime values, but generic Lua receiver threat callback/reciprocal maps unavailable through CharacterScriptObjects (:144-146). Do not treat a one-sided numeric increment as original parity.",
+      "current_port_evidence": [
+        {
+          "line": 55,
+          "path": "port/level-world/character_update_aggro_v108.cpp",
+          "source_line": "float amount{};if(!required(bool(s.spotted_amount)&&bool(s.add),\"Required actual EnemySpottedAggro/AddAggro\")||!s.spotted_amount(amount,e))return false;"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "171a44bcbbc27511a562",
+      "native_name": "AddAggro",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "1e197b97b0ca6a3ddae1",
+          "expression": "ClearAggro(GetTarget())",
+          "function_id": "1c82a10bcea96a97985e",
+          "line": 174,
+          "name": "ClearAggro",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "cf54aac298adb6af46aa",
+          "expression": "ClearAggro(myTarget)",
+          "function_id": "1c82a10bcea96a97985e",
+          "line": 448,
+          "name": "ClearAggro",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "8372d99beb97f3e9bb66",
+          "expression": "ClearAggro(GetTarget())",
+          "function_id": "1c82a10bcea96a97985e",
+          "line": 678,
+          "name": "ClearAggro",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "61934d6d01845f989147",
+          "expression": "ClearAggro(GetTarget())",
+          "function_id": "1c82a10bcea96a97985e",
+          "line": 690,
+          "name": "ClearAggro",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/ClearAggro.md",
+      "contract_page_sha256": "716d5bfb2eee490d8d66c5227f4192e041d2d67115842113b98bcc31c162e9f4",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected AI threat services exist, but actor Lua dispatch/general reciprocal threat callback missing in CharacterScriptObjects (:144-146); clearing only caller threat/target omits reciprocal stop/event side effects.",
+      "current_port_evidence": [
+        {
+          "line": 46,
+          "path": "port/level-world/character_clear_aggro.cpp",
+          "source_line": "if(!dh2_script_callback_scope_valid(scope)){if(error&&size)std::snprintf(error,size,\"Malformed ClearAggro callback capability\");return 1;}"
+        },
+        {
+          "line": 48,
+          "path": "port/level-world/character_clear_aggro.cpp",
+          "source_line": "if(status&&error&&size)std::snprintf(error,size,\"Native ClearAggro delivery failed (%d)\",status);return status?1:0;"
+        },
+        {
+          "line": 50,
+          "path": "port/level-world/character_clear_aggro.cpp",
+          "source_line": "extern \"C\" int dh2_character_clear_aggro_bind(dh2_script_vm* vm,ClearAggroBindings16* b){if(!aligned(b)||!aligned(b->state)||!aligned(b->services))return -1;return dh2_script_vm_bind_source_scoped(vm,\"ClearAggro\",dh2_character_clear_aggro_s"
+        },
+        {
+          "line": 45,
+          "path": "port/level-world/character_update_aggro_v108.cpp",
+          "source_line": "auto clear=[&]{if(!required(bool(s.clear)&&bool(s.set_target),\"Required source ClearAggro/SetTarget\")||!s.clear(current,e)||!s.set_target(0,e))return false;return dh2_character_ai_sync_last_target(&target)==0;};"
+        },
+        {
+          "line": 5,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(scope&&!dh2_script_callback_scope_valid(scope)){error_=\"Required valid current ClearAggro callback scope\";return -1;}"
+        },
+        {
+          "line": 7,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(!services_.actor||!services_.actor(services_.context,id,v,error_)){if(error_.empty())error_=\"Required SAME registered ClearAggro actor\";return false;}"
+        },
+        {
+          "line": 8,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(v.identity!=id||!v.lifetime||!v.target||!v.target->state||!v.target->state->owner||v.target->state->owner->identity!=id){error_=\"Required canonical Character/Target owner and lifetime for ClearAggro\";return false;}return true;"
+        },
+        {
+          "line": 15,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(dh2_aggro_apply(&change,&request,data::aggro_clear)){error_=\"Source ClearAggro reciprocal erase rejected\";return -1;}"
+        },
+        {
+          "line": 20,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(!a.target->state->owner||!b.target->state){error_=\"ClearAggro live target lifetime changed\";return -2;}"
+        },
+        {
+          "line": 24,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(dh2_character_ai_set_target(binding->state,0,0,&binding->services)){error_=\"Required source ClearAggro SetTarget(NULL)\";return -2;}"
+        },
+        {
+          "line": 28,
+          "path": "port/level-world/character_world_clear_aggro_v40.cpp",
+          "source_line": "if(fresh.target!=binding){error_=\"ClearAggro target binding lifetime changed\";return -2;}"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "1c82a10bcea96a97985e",
+      "native_name": "ClearAggro",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "e20628e2ccce4efc3979",
+          "expression": "GetHostPlayerDifficulty()",
+          "function_id": "eaca0171005d2d8dd390",
+          "line": 514,
+          "name": "GetHostPlayerDifficulty",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetHostPlayerDifficulty.md",
+      "contract_page_sha256": "3f94718c01394c05c6056d4bece91bf230fe1f83e587f0bbe513ecc7ff1c0232",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:22 registers this callback but :103-110 requires supplied native backend or returns explicit required-service failure. Selected gameplay reads elsewhere do not establish complete global Lua callback behavior.",
+      "current_port_evidence": [
+        {
+          "line": 73,
+          "path": "port/level-world/character_host_context.cpp",
+          "source_line": "result=dh2_script_vm_bind_source_values(vm,\"GetHostPlayerDifficulty\",difficulty,const_cast<HostContextBindings16*>(b));if(result)return result;"
+        },
+        {
+          "line": 21,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "eaca0171005d2d8dd390",
+      "native_name": "GetHostPlayerDifficulty",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "d076e99dc4d38b0874be",
+          "expression": "GetDistanceBetween(sk_spawn_points[1], target:GetName())",
+          "function_id": "44ea10a68ad9d9a053ff",
+          "line": 320,
+          "name": "GetDistanceBetween",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "cbb65c60785d95cdf26d",
+          "expression": "GetDistanceBetween(obj, target:GetName())",
+          "function_id": "44ea10a68ad9d9a053ff",
+          "line": 323,
+          "name": "GetDistanceBetween",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetDistanceBetween.md",
+      "contract_page_sha256": "5d8df72a69cfedda2abafcbbc7dfbebafe3b6c5b8480c9cf2d75e7eaee032dd5",
+      "contract_state": "DONE",
+      "current_port_difference": "character_spatial_bindings.cpp:43-55 implements names/type gate, both synchronous resolutions and squared distance; reusable callback path parity supported, no runtime test.",
+      "current_port_evidence": [
+        {
+          "line": 48,
+          "path": "port/level-world/character_spatial_bindings.cpp",
+          "source_line": "if(!valid(source)||a[0].reserved||a[1].reserved||!a[0].text||!a[1].text||!out||!capacity)return fail(error,ec,\"Malformed GetDistanceBetween receiver/output\");"
+        },
+        {
+          "line": 59,
+          "path": "port/level-world/character_spatial_bindings.cpp",
+          "source_line": "const char* names[]={\"GetPosition\",\"GetDistanceFrom\",\"GetDistanceBetween\"};"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "44ea10a68ad9d9a053ff",
+      "native_name": "GetDistanceBetween",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "e710de950f1709ddc7ad",
+          "expression": "GetHostPlayerLevel()",
+          "function_id": "2da30fbc48804a5342ee",
+          "line": 513,
+          "name": "GetHostPlayerLevel",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetHostPlayerLevel.md",
+      "contract_page_sha256": "99d98218f1a2e2e18aeaeede42ae5a6fc65f43c495adbcf2dfee5b45404e7f9f",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:22 registers this callback but :103-110 requires supplied native backend or returns explicit required-service failure. Selected gameplay reads elsewhere do not establish complete global Lua callback behavior.",
+      "current_port_evidence": [
+        {
+          "line": 9,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.cpp",
+          "source_line": "error = \"monster_OnInit requires delivered GetHostPlayerLevel, difficulty, and current-level-range reads\";"
+        },
+        {
+          "line": 72,
+          "path": "port/level-world/character_host_context.cpp",
+          "source_line": "auto result=dh2_script_vm_bind_source_values(vm,\"GetHostPlayerLevel\",level,const_cast<HostContextBindings16*>(b));if(result)return result;"
+        },
+        {
+          "line": 21,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "2da30fbc48804a5342ee",
+      "native_name": "GetHostPlayerLevel",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "d96cb77287755a0167d1",
+          "expression": "GetCurrentLevelRange(pl_diff)",
+          "function_id": "d5ecb244a6f3308b38fd",
+          "line": 516,
+          "name": "GetCurrentLevelRange",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetCurrentLevelRange.md",
+      "contract_page_sha256": "cdc8149cc86d39b93bcb23c688a9900c1aa30e1bd99781d817a73103c173ec98",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:23 lists getter but requires native backend (:103-110). runtime_monster_level_policy_v1 consumes delivered range; does not establish generic Lua table selector result or max/min ordering.",
+      "current_port_evidence": [
+        {
+          "line": 74,
+          "path": "port/level-world/character_host_context.cpp",
+          "source_line": "return dh2_script_vm_bind_source_values(vm,\"GetCurrentLevelRange\",range,const_cast<HostContextBindings16*>(b));"
+        },
+        {
+          "line": 22,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"GetCurrentLevelRange\",0x37f1f0},{\"GetGameObjectsByType\",0x37f03c},{\"SetGameType\",0x37f878},{\"GetGameScript\",0x37c934},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "d5ecb244a6f3308b38fd",
+      "native_name": "GetCurrentLevelRange",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "248c102d8b7da9564a6e",
+          "expression": "PlayMusic(\"SwampKingMusic\", 500)",
+          "function_id": "e29edbe1bf6a6986fbfc",
+          "line": 570,
+          "name": "PlayMusic",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "1d9b88abd931a6a8641b",
+          "expression": "PlayMusic(\"SwampHubAmbientMusic\", 1000)",
+          "function_id": "e29edbe1bf6a6986fbfc",
+          "line": 653,
+          "name": "PlayMusic",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PlayMusic.md",
+      "contract_page_sha256": "fc4ec0398a25266b50f69a67273d201d914b72ee739d9aea1fe4ba9e35500e4d",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:25 delegates backend; current audio helpers may switch music but complete source volume threshold, same-row resume, ambient/combat mode and current/previous track fields are not installed by descriptor alone.",
+      "current_port_evidence": [
+        {
+          "line": 42,
+          "path": "port/windows-foundation/features/audio/canonical_source_audio_adapter.cpp",
+          "source_line": "std::uint32_t flag{};if(!field(13,flag))return false;if(mode){if(!leaves_.play_music){error=\"Required SAME original PlayMusic owner\";return false;}return leaves_.play_music(id,flag!=0,argument!=0,2000,error);}if(id<0)return true;"
+        },
+        {
+          "line": 214,
+          "path": "port/windows-foundation/features/audio/frontend_menu_audio_v1.cpp",
+          "source_line": "receipt.detail=\"Source PlayMusic did not reach a focused frontend output\";"
+        },
+        {
+          "line": 364,
+          "path": "port/windows-foundation/features/audio/runtime_session_audio_v1.cpp",
+          "source_line": "if(missing_original_asset_v1(error)) {log_<<\"Script PlayMusic silent: \"<<error<<'\\n';error.clear();return true;}"
+        },
+        {
+          "line": 34,
+          "path": "port/windows-foundation/features/audio/source_audio_runtime.cpp",
+          "source_line": "if(c.kind==13){std::uint32_t flag{};if(!field(13,flag))return false;if(mode){if(!services_.play_music){error=\"Required original PlayMusic source owner\";return false;}return services_.play_music(id,flag!=0,arg!=0,2000,error);}"
+        },
+        {
+          "line": 284,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!music_call(body.at(vf.at(\"OnEnemySpotted\")), \"PlayMusic\", next.spotted_music, next.spotted_music_fade_ms))"
+        },
+        {
+          "line": 12,
+          "path": "port/windows-foundation/features/cinematics/script_source_services_v1.cpp",
+          "source_line": "if(!s.play_music)return missing(\"PlayMusic\",e);"
+        },
+        {
+          "line": 186,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "if (string_call_argument(spotted, \"PlayMusic\", next.spotted_music, &fade)) next.spotted_music_fade_ms = fade;"
+        },
+        {
+          "line": 229,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "if (string_call_argument(died, \"PlayMusic\", next.died_music, &fade)) next.died_music_fade_ms = fade;"
+        },
+        {
+          "line": 23,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "e29edbe1bf6a6986fbfc",
+      "native_name": "PlayMusic",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "a43d0f4619730754e234",
+          "expression": "PlaySound(\"sfx_serpent_submerge\", false, 0, false)",
+          "function_id": "e4c425b377a223cdfdf8",
+          "line": 455,
+          "name": "PlaySound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ce3e42988ef5b4ab5987",
+          "expression": "PlaySound(\"sfx_serpent_intimidate_1\", false, 0, false)",
+          "function_id": "e4c425b377a223cdfdf8",
+          "line": 490,
+          "name": "PlaySound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "c0dc79239e47cb7bb1b6",
+          "expression": "PlaySound(\"sfx_serpent_intimidate_2\", false, 0, false)",
+          "function_id": "e4c425b377a223cdfdf8",
+          "line": 491,
+          "name": "PlaySound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "7b845c83b6cc80064d08",
+          "expression": "PlaySound(\"sfx_serpent_intimidate_3\", false, 0, false)",
+          "function_id": "e4c425b377a223cdfdf8",
+          "line": 492,
+          "name": "PlaySound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "7d127707f647155efce8",
+          "expression": "PlaySound(\"SwampHubAmbientMusic\", true, 1000, true)",
+          "function_id": "e4c425b377a223cdfdf8",
+          "line": 722,
+          "name": "PlaySound",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PlaySound.md",
+      "contract_page_sha256": "b0f34f76ea790373ff0bf0264ca7f1fc31aabe413d1323fce02f62359de890db",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:25 lists callback but default backend (:103-110) requires service; Windows selected audio paths may play sound but do not provide four-arg stop-music-before-lookup behavior or original Vox fade/emitter policy.",
+      "current_port_evidence": [
+        {
+          "line": 376,
+          "path": "port/windows-foundation/features/audio/runtime_session_audio_v1.cpp",
+          "source_line": "if(missing_original_asset_v1(error)) {log_<<\"Script PlaySound silent: \"<<error<<'\\n';error.clear();return true;}"
+        },
+        {
+          "line": 387,
+          "path": "port/windows-foundation/features/audio/runtime_session_audio_v1.cpp",
+          "source_line": "if(missing_original_asset_v1(error)){log_<<\"Script PlaySound silent: \"<<error<<'\\n';error.clear();return true;}"
+        },
+        {
+          "line": 256,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "const auto sounds = string_arguments(dive, \"PlaySound\");"
+        },
+        {
+          "line": 262,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "next.intimidate_sounds = string_arguments(intimidate, \"PlaySound\");"
+        },
+        {
+          "line": 287,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "!music_call(body.at(vf.at(\"OnDied\")), \"PlaySound\", next.died_music, next.died_music_fade_ms))"
+        },
+        {
+          "line": 335,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "const auto pre_sounds = string_arguments(pre, \"PlaySound\");"
+        },
+        {
+          "line": 340,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "const auto sounds = string_arguments(skill, \"PlaySound\");"
+        },
+        {
+          "line": 763,
+          "path": "port/windows-foundation/features/campaign_host/campaign_host.cpp",
+          "source_line": "std::cout << \"[campaign] PlaySound dispatch music=\" << sound.music << \" ordinal=\" << sound.ordinal << \" fade_ms=\" << sound.fade_ms"
+        },
+        {
+          "line": 766,
+          "path": "port/windows-foundation/features/campaign_host/campaign_host.cpp",
+          "source_line": "unsupported_.note(\"PlaySound not applied: \" + detail);"
+        },
+        {
+          "line": 203,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "string_call_argument(callback, \"PlaySound\", next.teleport.sound_name);"
+        },
+        {
+          "line": 23,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "e4c425b377a223cdfdf8",
+      "native_name": "PlaySound",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "68e66c4434a949c8b4b9",
+          "expression": "GetPropHP()",
+          "function_id": "a6850f6e44d0ed586050",
+          "line": 637,
+          "name": "GetPropHP",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetPropHP.md",
+      "contract_page_sha256": "f161174b5d0c246622e9cf1ff365b84b888af13069119e2129ef348d25daab8f",
+      "contract_state": "DONE",
+      "current_port_difference": "Reusable frozen callback preserves ordinary HP/max and exposes source arithmetic failure boundaries; source review does not prove integrated gameplay.",
+      "current_port_evidence": [
+        {
+          "line": 238,
+          "source": "port/level-world/character_script_session.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "a6850f6e44d0ed586050",
+      "native_name": "GetPropHP",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "fd09c4245271d576b1d5",
+          "expression": "target:GetName()",
+          "function_id": "8b2f937fb861f53a62c5",
+          "line": 320,
+          "name": "target:GetName",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "a670c609d341f229aa00",
+          "expression": "target:GetName()",
+          "function_id": "8b2f937fb861f53a62c5",
+          "line": 323,
+          "name": "target:GetName",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/target_GetName.md",
+      "contract_page_sha256": "b80c97f2aa6fefa4f2be9530d657392adfe8f822815ab9ae9f34e7d8f806c899",
+      "contract_state": "DONE",
+      "current_port_difference": "Container-script callback returns its container-context name and rejects extra arguments (container_open_script_v1.cpp:153-166); original ignores arguments and reads any bound GameObject name. Scene Character dispatch does not implement 0x38ebf0 (character_script_objects.cpp:144-146).",
+      "current_port_evidence": [
+        {
+          "line": 158,
+          "path": "port/windows-foundation/features/containers/container_open_script_v1.cpp",
+          "source_line": "set_error(context, error, error_capacity, \"GetName expects no arguments\");"
+        },
+        {
+          "line": 211,
+          "path": "port/windows-foundation/features/containers/container_open_script_v1.cpp",
+          "source_line": "{\"Trace\", lua_trace}, {\"GetName\", lua_get_name},"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "8b2f937fb861f53a62c5",
+      "native_name": "target:GetName",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "70d5bc2c94d80bd2d759",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"swampking_dive\"))",
+          "function_id": "71364299af08fdc47245",
+          "line": 454,
+          "name": "PlayAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "36d3772a4a809553b58a",
+          "expression": "PlayAnim(GetPyOID(\"AnimDict\", \"swampking_intimidate\"), nil, true)",
+          "function_id": "71364299af08fdc47245",
+          "line": 488,
+          "name": "PlayAnim",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/PlayAnim.md",
+      "contract_page_sha256": "f25855691b4a82db1779c6dc3374a68f39e6514264dd21b1035827edbf672a3a",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected actor animation player uses recovered animator, but general scene0x3ba388 callback missing (:144-146). Preserve global slot cycling, optional second clip and forced anim state; one asset play API lacks these semantics.",
+      "current_port_evidence": [
+        {
+          "line": 249,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!std::regex_search(b, m, std::regex(\"PlayAnim\\\\(\\\\s*GetPyOID\\\\(\\\\s*\\\"AnimDict\\\"\\\\s*,\\\\s*\\\"(\\\\w+)\\\"\\\\s*\\\\)\"))) return false;"
+        },
+        {
+          "line": 260,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!anim_of(intimidate, next.intimidate_anim) || !std::regex_search(intimidate, std::regex(\"PlayAnim\\\\([^\\\\n]*nil\\\\s*,\\\\s*true\\\\s*\\\\)\")))"
+        },
+        {
+          "line": 446,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "reason = \"PlayAnim AnimDict entries absent\"; return true;"
+        },
+        {
+          "line": 650,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!services_.play_clip) return fail(error, \"Boss PlayAnim requires the scripted clip owner\");"
+        },
+        {
+          "line": 656,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"PlayAnim not played actor=\" + std::to_string(id) + \" clip=\" + std::to_string(dict) + \": \" + problem);"
+        },
+        {
+          "line": 663,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(std::string(\"PlayAnim actor=\") + std::to_string(id) + \" \" + (dive ? def.ai.dive_anim : def.ai.intimidate_anim) +"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "71364299af08fdc47245",
+      "native_name": "PlayAnim",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "f4072dbfc0aee7d2034f",
+          "expression": "MarkAsFlying(true)",
+          "function_id": "88ab8743f2c6607e4814",
+          "line": 546,
+          "name": "MarkAsFlying",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/MarkAsFlying.md",
+      "contract_page_sha256": "b4f9e694f0632388eeb74a78e786d57dd0b2c13fb31fb6dfb90883ce205208b9",
+      "contract_state": "DONE",
+      "current_port_difference": "Original PF flag owner/setter is distinct from render airborne position. Catalog only does not expose0x390900 in CharacterScriptObjects (:144-146); arbitrary Lua flag mutation remains unproven.",
+      "current_port_evidence": [],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "MISSING",
+      "ledger_function_id": "88ab8743f2c6607e4814",
+      "native_name": "MarkAsFlying",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "491869ec387b7d0b6aad",
+          "expression": "LookAtTarget()",
+          "function_id": "0475840796394a5d15ac",
+          "line": 214,
+          "name": "LookAtTarget",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/LookAtTarget.md",
+      "contract_page_sha256": "dc456534b7d6395dfccbecab3417b8c65682cf27d0bd5e434c3fd778de322ee8",
+      "contract_state": "DONE",
+      "current_port_difference": "No0x3b5684 branch in character_skill_native_v5 supported list (:12); existing LookAt goes through controller and cannot substitute direct target-facing semantics.",
+      "current_port_evidence": [
+        {
+          "line": 173,
+          "path": "port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp",
+          "source_line": "next.close_range_looks_at_target = contains(close, \"LookAtTarget()\");"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "0475840796394a5d15ac",
+      "native_name": "LookAtTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "c8066206e3f3963dff94",
+          "expression": "SetIsTargetable(true)",
+          "function_id": "319892c47cf825e5d437",
+          "line": 435,
+          "name": "SetIsTargetable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "8fa9d960b3b72994e3a3",
+          "expression": "SetIsTargetable(false)",
+          "function_id": "319892c47cf825e5d437",
+          "line": 452,
+          "name": "SetIsTargetable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "a9d3f3ebb94e9601a0fd",
+          "expression": "SetIsTargetable(true)",
+          "function_id": "319892c47cf825e5d437",
+          "line": 460,
+          "name": "SetIsTargetable",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetIsTargetable.md",
+      "contract_page_sha256": "fb5f32ecb4eef835ee2ed60cce3c169f3a079fa62f45b5c05f05f456ad324686",
+      "contract_state": "DONE",
+      "current_port_difference": "Selected status-effect targetability owners mutate native actor fields, but general scene Character dispatcher lacks0x3b7a64 (:144-146); reusable global/object Boolean binding not established.",
+      "current_port_evidence": [
+        {
+          "line": 255,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!anim_of(dive, next.dive_anim) || !contains(dive, \"SetIsTargetable(false)\")) return fail(error, \"dive state animation absent\");"
+        },
+        {
+          "line": 1325,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"SetIsTargetable(\" + std::string(runtime.targetable ? \"true\" : \"false\") + \") actor=\" + std::to_string(pair.first));"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "319892c47cf825e5d437",
+      "native_name": "SetIsTargetable",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "10d0965303e3574c611c",
+          "expression": "SetActorPosition(targetSpot)",
+          "function_id": "39139f1e81abbb60af2c",
+          "line": 407,
+          "name": "SetActorPosition",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f9bb1e2f728c4d341c38",
+          "expression": "SetActorPosition(targetSpot)",
+          "function_id": "39139f1e81abbb60af2c",
+          "line": 426,
+          "name": "SetActorPosition",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetActorPosition.md",
+      "contract_page_sha256": "396a1fe70dc4ae21cc256ec76f3b168c0e834e91795052934f3956b571504f67",
+      "contract_state": "DONE",
+      "current_port_difference": "Character spatial getters exist but generic scene0x3928f0 setter missing (:144-146). Directly changing renderer point does not reproduce PF/destination/AABB/physical/forced-visual side effects.",
+      "current_port_evidence": [
+        {
+          "line": 3364,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "std::cout<<\"[campaign] SetActorPosition: actor \"<<id<<\" has no live instance; command is a no-op\\n\";e.clear();return true;"
+        },
+        {
+          "line": 627,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!services_.waypoint || !services_.warp) return fail(error, \"Boss SetActorPosition requires the waypoint and position owners\");"
+        },
+        {
+          "line": 631,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!found) { log(\"SetActorPosition waypoint not found: \" + waypoint); error.clear(); return true; }"
+        },
+        {
+          "line": 635,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "log(\"SetActorPosition actor=\" + std::to_string(id) + \" waypoint=\" + waypoint + \" at=\" + std::to_string(at[0]) + \",\" + std::to_string(at[1]) +"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "39139f1e81abbb60af2c",
+      "native_name": "SetActorPosition",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "23c82107a45b3e83a6c2",
+          "expression": "myTarget:IsPlayer()",
+          "function_id": "22585a813434e0ab4439",
+          "line": 190,
+          "name": "myTarget:IsPlayer",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/myTarget_IsPlayer.md",
+      "contract_page_sha256": "3e0e575a478e57594e2bc2ba11b18ac1e6de3480e563d48e23c89d4e4d409ee2",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_objects.cpp:96 accepts strstr!=nullptr for type0, so XPlayerCharacter incorrectly returns true; original requires prefix pointer equality.",
+      "current_port_evidence": [
+        {
+          "line": 6405,
+          "path": "port/windows-foundation/main.cpp",
+          "source_line": "const auto* traits=combatSession->world()->traits(id);if(!traits){e=\"Dead Focus requires current IsPlayer\";return false;}"
+        },
+        {
+          "line": 22,
+          "path": "port/windows-foundation/playable_actor_bodies.cpp",
+          "source_line": "if(tracing) {bool ignored=false;if(!services.is_player) {error=\"Required original tracing IsPlayer query\";return false;}if(!services.is_player(owner,ignored,error))return false;}"
+        },
+        {
+          "line": 13,
+          "path": "port/windows-foundation/features/cinematics/source_camera_critical.cpp",
+          "source_line": "bool player=false;if(!providers_.isPlayer||!providers_.isPlayer(character,player,e))return missing(\"actual Character.IsPlayer\",e);"
+        },
+        {
+          "line": 114,
+          "path": "port/windows-foundation/features/cinematics/source_cinematics.cpp",
+          "source_line": "auto player=[&](std::uintptr_t actor,bool& out){return providers_.isPlayer?providers_.isPlayer(actor,out,e):missing(\"SAME Character.IsPlayer\",e);};"
+        },
+        {
+          "line": 74,
+          "path": "port/windows-foundation/features/physics/runtime_session_contact_v1.cpp",
+          "source_line": "throw ContactServiceFailure(\"Source owner IsPlayer request changed Character identity\");"
+        },
+        {
+          "line": 273,
+          "path": "port/windows-foundation/features/physics/runtime_session_contact_v1.cpp",
+          "source_line": "if (!traits) { error = \"Tracing collision IsPlayer owner left Session\"; return false; }"
+        },
+        {
+          "line": 297,
+          "path": "port/windows-foundation/features/physics/session_actor_transition_v1.cpp",
+          "source_line": "return fail(error,\"Reached Dead Focus after flags241 requires actual source IsPlayer getter\");"
+        },
+        {
+          "line": 6,
+          "path": "port/level-world/application_spawn_random_owner_v4.cpp",
+          "source_line": "if(!cached||!prob||!s.handle_as_player){e=\"Required actual Handle-AsChar-IsPlayer\";return false;}"
+        },
+        {
+          "line": 262,
+          "path": "port/level-world/canonical_character_candidate_v60.cpp",
+          "source_line": "b.handle_as_player_character=[weak](bool& value,std::string& e){auto same=weak.lock();if(!same){e=\"Expired canonical Handle-AsChar-IsPlayer receiver\";return false;}return same->is_player(value,e);};"
+        },
+        {
+          "line": 27,
+          "path": "port/level-world/character_language_scene_connection_v1.cpp",
+          "source_line": "if(skills::dh2_character_skill_target_query_v6(&value,target_providers::is_player,actor.character,nullptr,self.services_.ai_types,self.services_.target_services)){self.error_=\"Source IsPlayer delivery failed\";return -1;}"
+        },
+        {
+          "line": 10,
+          "path": "port/level-world/character_live_body_projection_v6.cpp",
+          "source_line": "if(candidate.character_type==0||candidate.character_type==1){error=\"Required source player/archetype IsPlayer branch\";return false;}"
+        },
+        {
+          "line": 19,
+          "path": "port/level-world/character_loot_actor_binding_v31.cpp",
+          "source_line": "if(!s.invoke||s.invoke(s.context,&q,&result)){e=world_.targets().error();if(e.empty())e=\"Required source IsPlayer virtual for loot\";return false;}out=result!=0;return true;"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "22585a813434e0ab4439",
+      "native_name": "myTarget:IsPlayer",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "2ed7b32dffd48d0f5ca2",
+          "expression": "AddToVFTable(\"OnInitFinal\", \"swampking_OnInit\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 563,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "6c79761871a91b8bd487",
+          "expression": "AddToVFTable(\"OnEnemySpotted\", \"swampking_OnEnemySpotted\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 580,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ce29a9b58791c3c8833c",
+          "expression": "AddToVFTable(\"OnTargetOutOfSight\", \"swampking_OnTargetOutOfSight\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 591,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "d022b9be6e4598eb3350",
+          "expression": "AddToVFTable(\"OnTargetInRangedRange\", \"swampking_OnTargetInRangedRange\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 611,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "4398434357e30bf47f73",
+          "expression": "AddToVFTable(\"OnTargetInCloseRange\", \"swampking_OnTargetInCloseRange\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 631,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "035a876e6c52705cfd31",
+          "expression": "AddToVFTable(\"OnUpdate\", \"swampking_OnUpdate\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 673,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "6e9c620e86d86399166e",
+          "expression": "AddToVFTable(\"OnTargetDied\", \"swampking_OnTargetDied\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 685,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "98d8131908cad5836790",
+          "expression": "AddToVFTable(\"OnDied\", \"swampking_OnDied\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 726,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "96e24395d440dd6403e4",
+          "expression": "AddToVFTable(\"OnTerminate\", \"swampking_OnTerminate\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 732,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "07107398effdd8cd8235",
+          "expression": "AddToVFTable(\"OnEndOfAnim\", \"swampking_OnEndOfAnim\")",
+          "function_id": "4521866fef28ea0d7264",
+          "line": 768,
+          "name": "AddToVFTable",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/AddToVFTable.md",
+      "contract_page_sha256": "6e31755ce177d75f23a50ae63617e14ee090dcc5eee4548c0789c54b33665222",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:75-77 and :90 bind script_function_alias maps; callback/source path proven, no runtime test. Alias map is hashed rather than Lua table assignment.",
+      "current_port_evidence": [
+        {
+          "line": 17,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "text": "{\"AddToVFTable\",0x37ec70},{\"PushVFTable\",0x37be00},{\"PopVFTable\",0x37dc44},"
+        },
+        {
+          "line": 127,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "auto result=op==0?dh2_script_alias_add_values(b.aliases,a,n):op==1?dh2_script_alias_push(b.aliases):dh2_script_alias_pop(b.aliases);"
+        },
+        {
+          "line": 130,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "static int alias_add(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return aliases(p,a,n,o,c,r,e,z,0);}"
+        },
+        {
+          "line": 131,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "static int alias_push(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return aliases(p,a,n,o,c,r,e,z,1);}"
+        },
+        {
+          "line": 132,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "static int alias_pop(void* p,const dh2_script_value* a,std::uint32_t n,dh2_script_value* o,std::uint32_t c,std::uint32_t* r,char* e,std::size_t z){return aliases(p,a,n,o,c,r,e,z,2);}"
+        },
+        {
+          "line": 252,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x37ec70){function=&alias_add;context=&c;}"
+        },
+        {
+          "line": 253,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x37be00){function=&alias_push;context=&c;}"
+        },
+        {
+          "line": 254,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x37dc44){function=&alias_pop;context=&c;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "4521866fef28ea0d7264",
+      "native_name": "AddToVFTable",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "3261005cd785c540233a",
+          "expression": "ClearTarget()",
+          "function_id": "68c100374e94b349cc86",
+          "line": 175,
+          "name": "ClearTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f1d6793c9907105968d6",
+          "expression": "ClearTarget()",
+          "function_id": "68c100374e94b349cc86",
+          "line": 679,
+          "name": "ClearTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "a7e9aac774b74b0c0d1a",
+          "expression": "ClearTarget()",
+          "function_id": "68c100374e94b349cc86",
+          "line": 691,
+          "name": "ClearTarget",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/ClearTarget.md",
+      "contract_page_sha256": "04f2dedb1ddf9935ede95587d8d9b37ab36603fcb62e3b95e73cdcc5b77c5cc9",
+      "contract_state": "DONE",
+      "current_port_difference": "character_target_bindings.cpp:58-60 implements null set then sync last-target; generic source-scoped binding at :86. Callback source parity, no runtime claim.",
+      "current_port_evidence": [
+        {
+          "line": 242,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(target&&(b.original_callback==0x3b8f38||b.original_callback==0x3b5690)){"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "68c100374e94b349cc86",
+      "native_name": "ClearTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "829145dd813ed745061f",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 40,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "3ba625bc0c134578dc48",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 41,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "33fb888a975b2546d9db",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 110,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "9cd3490c35d35d2d545a",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 111,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "2526db51083ef9871d59",
+          "expression": "FromFixed(GetDistanceBetween(sk_spawn_points[1], target:GetName()))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 320,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "169d7a971aa58f0f813f",
+          "expression": "FromFixed(GetDistanceBetween(obj, target:GetName()))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 323,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "ab42f1c58bfc94a13888",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMax\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 510,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "2b62c71a08b7aa69092a",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMin\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 511,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "88dd8ab1395a8a3cbc7b",
+          "expression": "FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelOffset\")))",
+          "function_id": "715ca7811b1f5a9a35b8",
+          "line": 512,
+          "name": "FromFixed",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/FromFixed.md",
+      "contract_page_sha256": "44b9478776d7a1d346b9bd41df566cc01846148527934a105b412ea62e1ca4f5",
+      "contract_state": "DONE",
+      "current_port_difference": "Scalar callback preserves ordered double reads and exact 0x1p-8 scale. Numeric identity/string conversion remains an explicit service; no gameplay verification.",
+      "current_port_evidence": [
+        {
+          "line": 74,
+          "source": "port/script-runtime/script_scalar_bindings.c"
+        },
+        {
+          "line": 77,
+          "source": "port/script-runtime/script_scalar_bindings.c"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "715ca7811b1f5a9a35b8",
+      "native_name": "FromFixed",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "de8a8491e990d5960528",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 40,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "50eb943e1b4eab0f98ce",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 41,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "8d55c4ded60b9f4071a3",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMinDistance\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 110,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "8896fb1eef5702a3b450",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"RangeMaxDistance\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 111,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "37ed6744075140b0c3ef",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMax\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 510,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "a00169f71103c5fcaa10",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMin\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 511,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "87cd27438d218b93d5fd",
+          "expression": "GetProp(GetPyStruct(\"CharacterProperties\", \"LevelOffset\"))",
+          "function_id": "7a0452b73f82e8a4b85b",
+          "line": 512,
+          "name": "GetProp",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetProp.md",
+      "contract_page_sha256": "5d2b9dba6c5c6893af665a32f7391229a7685b53b7c5a25ed699cb8e7c5751e1",
+      "contract_state": "DONE",
+      "current_port_difference": "Reusable callback preserves current/temp/external selection and unsigned conversion in ordinary valid sheet domain. Port validates service identity/alignment instead of dereferencing arbitrary original 32-bit pointers.",
+      "current_port_evidence": [
+        {
+          "line": 29,
+          "source": "port/level-world/character_property_bindings.cpp"
+        },
+        {
+          "line": 49,
+          "source": "port/level-world/character_property_bindings.cpp"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "7a0452b73f82e8a4b85b",
+      "native_name": "GetProp",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "fd4bb056ad2673e241d1",
+          "expression": "GetState()",
+          "function_id": "717c3c6dd572a853c2a1",
+          "line": 211,
+          "name": "GetState",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "b7de4b19d582b8288d01",
+          "expression": "GetState()",
+          "function_id": "717c3c6dd572a853c2a1",
+          "line": 370,
+          "name": "GetState",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "0473a40566ace85b1354",
+          "expression": "GetState()",
+          "function_id": "717c3c6dd572a853c2a1",
+          "line": 664,
+          "name": "GetState",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetState.md",
+      "contract_page_sha256": "3cb8db77e21b8fff029d50db7fa9488d6fbd29b7cc1182dbf4e1337a14e06895",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_session_v3.cpp:249 binds FSM getter; source state-machine adapter preserves -1/current ID. Callback path proven, no integrated runtime verification.",
+      "current_port_evidence": [
+        {
+          "line": 249,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(state_machine&&b.original_callback==0x3b6d78){function=&dh2_character_native_fsm_script_get_state;context=state_machine;}"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "717c3c6dd572a853c2a1",
+      "native_name": "GetState",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "dd2b3ea1279bc09b511f",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 174,
+          "name": "GetTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "e87c28063d3936135b2a",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 417,
+          "name": "GetTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "62805194fdd7cd59a4d3",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 446,
+          "name": "GetTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "cf4ee841f1157e0db871",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 650,
+          "name": "GetTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "8ab2cb5a6c2f3ffa889a",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 678,
+          "name": "GetTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "642339fb88b1e2145c28",
+          "expression": "GetTarget()",
+          "function_id": "fda316ef3b1ac08ab1d4",
+          "line": 690,
+          "name": "GetTarget",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/GetTarget.md",
+      "contract_page_sha256": "b296a6001e7029b28c0ca73468f7a47855bd87dbbf461442edf4afee12239631",
+      "contract_state": "DONE",
+      "current_port_difference": "gameobject_lua_representation.cpp:24-29 and character_script_objects.cpp:76 expose same retained target identity as source object. Callback path/source parity proven for supported receivers, no runtime claim.",
+      "current_port_evidence": [
+        {
+          "line": 237,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(target&&b.original_callback==0x3b6c7c&&objects){"
+        },
+        {
+          "line": 159,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "auto& t=*static_cast<Impl*>(opaque);if(!returned||!out||!capacity||!t.target)return fail(error,size,\"Malformed GetTarget output\");*returned=0;"
+        },
+        {
+          "line": 160,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "return dh2::gameobject_lua::dh2_gameobject_lua_get_target(out,returned,t.target->state)?fail(error,size,\"Native GetTarget delivery failed\"):0;"
+        },
+        {
+          "line": 239,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(dh2_script_vm_bind_source_objects(c.vm,b.name,&get_target,this))throw std::runtime_error(\"Source GetTarget registration failed\");"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "fda316ef3b1ac08ab1d4",
+      "native_name": "GetTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "ed972f8db7e03aa9cbbf",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 173,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "9946e711fb99b3a7053e",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 213,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "5939075ef179e0d4885d",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 445,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "698db1f1c48327ef2b68",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 573,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f75f56dc284a72a52396",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 650,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "30e6754b269e84afc3f8",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 677,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "500992b7389b17cb3e59",
+          "expression": "HasTarget()",
+          "function_id": "2b1d9cd51f7040057199",
+          "line": 689,
+          "name": "HasTarget",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/HasTarget.md",
+      "contract_page_sha256": "5bf7ebd931137a69d04eab118d725029147b156d1ba7ef947eb8c83090e22bd5",
+      "contract_state": "DONE",
+      "current_port_difference": "character_target_bindings.cpp:59 and :67-75 implement pointer nonnull with Lua Boolean and bind at :84. Same target owner callback proven; no runtime verification.",
+      "current_port_evidence": [
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 60,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "extern \"C\" int dh2_character_target_has_lua(void* p,const dh2_script_value* a,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* e,std::size_t ec){"
+        },
+        {
+          "line": 64,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "if((count&&!a)||!bindings_valid(b)||!aligned(out)||!capacity)return fail(e,ec,\"Malformed HasTarget receiver/output\");"
+        },
+        {
+          "line": 65,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "std::uint32_t result=0;if(dh2_character_has_target(&result,b->state))return fail(e,ec,\"Malformed HasTarget state\");"
+        },
+        {
+          "line": 76,
+          "path": "port/level-world/character_target_bindings.cpp",
+          "text": "int r=dh2_script_vm_bind_source_values(vm,\"HasTarget\",dh2_character_target_has_lua,b);if(r)return r;"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "2b1d9cd51f7040057199",
+      "native_name": "HasTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "d2f010b0b38253e69ba1",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_idle\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 231,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "7e905e480dd05e6a58ea",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_intimidate\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 232,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "6221a60e7ac76a37eb82",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_dive\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 233,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "45667a5af385fbc17784",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_emerge\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 234,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "b185fab1d99b7adff0f0",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_fall\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 235,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "f31a98ea4b9a58b2d736",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_fall_idle\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 236,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "90fba5ba22e95d93ead6",
+          "expression": "RegisterAnim(GetPyOID(\"AnimDict\", \"swampking_fall_idle_to_idle\"))",
+          "function_id": "68aadc7660a8bf8b62c1",
+          "line": 237,
+          "name": "RegisterAnim",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/RegisterAnim.md",
+      "contract_page_sha256": "52543727e80b00ed6a2401b766e6bb2d90b7b343546d9420cb2ccdd8e041891d",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_session.cpp:212-226 implements numeric wrapper and supplied same-Character animator register_dictionary; binding at:308-312 covers RegisterAnim/RegisterActorAnim. Source callback path is present for safe signed numeric IDs; resource availability and actual runtime playback are separate.",
+      "current_port_evidence": [
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "68aadc7660a8bf8b62c1",
+      "native_name": "RegisterAnim",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "f1869764214e3e1c9523",
+          "expression": "SetLevel(ToFixed(m_lvl))",
+          "function_id": "99c0c85b2ea2d6107dc6",
+          "line": 539,
+          "name": "SetLevel",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetLevel.md",
+      "contract_page_sha256": "8e52eea08650f84d32bf180f2ed490e87ddc62eccc2da055bba8d6b73c1bc643",
+      "contract_state": "DONE",
+      "current_port_difference": "character_script_session_v3.cpp:266 installs source SetLevel property/vitals callback for retained receiver. Selected source callback parity supported; class stats/assets and runtime invocation remain separate.",
+      "current_port_evidence": [
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "99c0c85b2ea2d6107dc6",
+      "native_name": "SetLevel",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "66d2f57a2b89f96e9e54",
+          "expression": "SetTarget(myTarget)",
+          "function_id": "ebda0f41776f41d7eb90",
+          "line": 195,
+          "name": "SetTarget",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "662da72e9e31efd42ffa",
+          "expression": "SetTarget(enemy)",
+          "function_id": "ebda0f41776f41d7eb90",
+          "line": 575,
+          "name": "SetTarget",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/SetTarget.md",
+      "contract_page_sha256": "78957e8bb872f18bba6a9a63f6314bf19cf763c2a553c40feec1246072788544",
+      "contract_state": "DONE",
+      "current_port_difference": "character_target_bindings.cpp:29-58 and :77-85 reproduce candidate/publication/cache ordering and type gate with source services; source callback path proven, no runtime verification.",
+      "current_port_evidence": [
+        {
+          "line": 242,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(target&&(b.original_callback==0x3b8f38||b.original_callback==0x3b5690)){"
+        },
+        {
+          "line": 243,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "if(dh2_script_vm_bind_source_scoped(c.vm,b.name,b.original_callback==0x3b8f38?&set_target:&clear_target,this))throw std::runtime_error(\"Scoped target registration failed\");"
+        },
+        {
+          "line": 248,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(target&&b.original_callback==0x3b6f50){function=&dh2_character_target_has_lua;context=target;}"
+        },
+        {
+          "line": 265,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b9d8c){function=&dh2_character_get_prop;context=&property_bindings;}"
+        },
+        {
+          "line": 266,
+          "path": "port/level-world/character_script_session_v3.cpp",
+          "text": "else if(b.original_callback==0x3b73a4){function=&dh2_character_set_level_lua;context=&level_bindings;}"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "ebda0f41776f41d7eb90",
+      "native_name": "SetTarget",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "477563750cd88623c723",
+          "expression": "StopSound(\"SwampKingMusic\", 2000)",
+          "function_id": "eed4eaf63ace6a583ea4",
+          "line": 88,
+          "name": "StopSound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "abd77f40076e0856006f",
+          "expression": "StopSound(\"SwampKingMusic\", 2000)",
+          "function_id": "eed4eaf63ace6a583ea4",
+          "line": 652,
+          "name": "StopSound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "db5dfd2bb36b6fb0fce9",
+          "expression": "StopSound(\"SwampKingMusic\", 2000)",
+          "function_id": "eed4eaf63ace6a583ea4",
+          "line": 682,
+          "name": "StopSound",
+          "script": "swampking_core.luac"
+        },
+        {
+          "call_id": "60fcfe32a6ceb0cf9f30",
+          "expression": "StopSound(\"SwampKingMusic\", 2000)",
+          "function_id": "eed4eaf63ace6a583ea4",
+          "line": 721,
+          "name": "StopSound",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/StopSound.md",
+      "contract_page_sha256": "8de65acffb91a68cc50664b377d91d6dbe9f2187988c56c165783942e741c3ce",
+      "contract_state": "DONE",
+      "current_port_difference": "generic_lua_script_owner_v13.cpp:25 lists native but delegates source backend (:103-110); selected sound APIs do not prove per-row up-to10 emitter stopping/fade handling.",
+      "current_port_evidence": [
+        {
+          "line": 286,
+          "path": "port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp",
+          "source_line": "if (!music_call(body.at(vf.at(\"OnDied\")), \"StopSound\", next.died_stop_music, next.died_stop_fade_ms) ||"
+        },
+        {
+          "line": 739,
+          "path": "port/windows-foundation/features/campaign_host/campaign_host.cpp",
+          "source_line": "std::cout << \"[campaign] StopSound dispatch music=\" << sound.music << \" ordinal=\" << sound.ordinal << \" fade_ms=\" << sound.fade_ms"
+        },
+        {
+          "line": 742,
+          "path": "port/windows-foundation/features/campaign_host/campaign_host.cpp",
+          "source_line": "unsupported_.note(\"StopSound not applied: \" + detail);"
+        },
+        {
+          "line": 23,
+          "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "source_line": "{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};"
+        }
+      ],
+      "current_port_semantic_status": "PARTIAL",
+      "frozen_atlas_port_status_reference_only": "PARTIAL",
+      "ledger_function_id": "eed4eaf63ace6a583ea4",
+      "native_name": "StopSound",
+      "scope_ledger_state": "TODO"
+    },
+    {
+      "call_sites": [
+        {
+          "call_id": "4e559980d721f8917fc6",
+          "expression": "ToFixed(m_lvl)",
+          "function_id": "1531141809c2023e4115",
+          "line": 539,
+          "name": "ToFixed",
+          "script": "swampking_core.luac"
+        }
+      ],
+      "claim_scope": "package_A_current_callsite_and_contract_page_cross_join",
+      "confidence": "PROVEN",
+      "contract_page": "r2/natives/ToFixed.md",
+      "contract_page_sha256": "425b52792b03562b8f41365beb9f3408b445fe257176c4e5eebbad624abc0594",
+      "contract_state": "DONE",
+      "current_port_difference": "Frozen reusable scalar callback implements signed conversion and wrapping shift, with identity/string services for nonnumeric values. No runtime equivalence is claimed here.",
+      "current_port_evidence": [
+        {
+          "line": 79,
+          "source": "port/script-runtime/script_scalar_bindings.c"
+        }
+      ],
+      "current_port_semantic_status": "PORTED",
+      "frozen_atlas_port_status_reference_only": "PORTED",
+      "ledger_function_id": "1531141809c2023e4115",
+      "native_name": "ToFixed",
+      "scope_ledger_state": "TODO"
+    }
+  ],
+  "package_B_resource_crossrefs": [],
+  "package_B_resource_dependencies": {
+    "animation": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_intimidate_02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_spawn.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_template_anim.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/faeries_celeste_alarm.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_pre_combo_01.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/traps/animations/elemental_trap_despawn.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/dragon/animations/dragon_intimidate_02.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/dragon/animations/dragon_spawn.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/dragon/animations/dragon_template_anim.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/faeries/animations/faeries_celeste_alarm.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_combo_01.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_pre_combo_01.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/traps/animations/elemental_trap_despawn.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [],
+      "source_names": [
+        "dragon_intimidate_02",
+        "dragon_spawn",
+        "dragon_template_anim",
+        "edward_1hand_combo_01",
+        "edward_1hand_combo_01_to_idle",
+        "edward_1hand_pre_combo_01",
+        "elemental_trap_despawn",
+        "faeries_celeste_alarm"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_intimidate_02.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_spawn.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_template_anim.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/faeries_celeste_alarm.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_pre_combo_01.bdae",
+        ".local-inputs/assets-extra/android/data/3d/characters/traps/animations/elemental_trap_despawn.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+        "data/3D/characters/dragon/animations/dragon_intimidate_02.bdae",
+        "data/3D/characters/dragon/animations/dragon_spawn.bdae",
+        "data/3D/characters/dragon/animations/dragon_template_anim.bdae",
+        "data/3D/characters/faeries/animations/faeries_celeste_alarm.bdae",
+        "data/3D/characters/npcs/animations/edward_1hand_combo_01.bdae",
+        "data/3D/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae",
+        "data/3D/characters/npcs/animations/edward_1hand_pre_combo_01.bdae",
+        "data/3D/characters/traps/animations/elemental_trap_despawn.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "loot": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "SwampKing_Loot"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "model": {
+      "file_dependencies": [
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/swampking.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        },
+        {
+          "claim_scope": "logical_resource_path_staging_receipt; source-platform/native equivalence is not asserted",
+          "path": "data/3D/characters/swampking/swampking.bdae",
+          "reason": "No exact Package B file classification; a typed parent key or diagnostic filename candidate does not establish media availability.",
+          "references": [],
+          "status": "UNRESOLVED"
+        }
+      ],
+      "reason": "At least one linked file requires staging or an exact classification; inspect file_dependencies.",
+      "references": [],
+      "source_names": [],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/3d/characters/swampking/swampking.bdae",
+        ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+        "data/3D/characters/swampking/swampking.bdae"
+      ],
+      "status": "UNRESOLVED"
+    },
+    "sound": {
+      "reason": "No exact current Package B act_2_inferred classification row matched this linked resource name or path; source-table presence is not staging evidence.",
+      "references": [],
+      "source_names": [
+        "Default"
+      ],
+      "source_paths": [
+        ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin"
+      ],
+      "status": "UNRESOLVED"
+    }
+  },
+  "resources": {
+    "animation": {
+      "claim_scope": "character_animation_table_rows",
+      "confidence": "PROVEN",
+      "reason": null,
+      "state_rows": {
+        "Attack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_intimidate_02.bdae",
+              "sha256": "b1e1237f296c748b10dddc302cad03b28c3bba9c20a43dd69c6ece8bfad90faf",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 669,
+          "name": "dragon_intimidate_02",
+          "path": "data/3D/characters/dragon/animations/dragon_intimidate_02.bdae"
+        },
+        "Blocking": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_template_anim.bdae",
+              "sha256": "8dba7c2f207431f56bbb8b06e6707e44e8d5f90f16f9ae46bfb3acd1bafed7de",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 673,
+          "name": "dragon_template_anim",
+          "path": "data/3D/characters/dragon/animations/dragon_template_anim.bdae"
+        },
+        "DeadlyGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01.bdae",
+              "sha256": "1b728d7ee9f60cc866cf12594e1869ecd7428e90d1561a158b9879a8836ca332",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 674,
+          "name": "edward_1hand_combo_01",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_combo_01.bdae"
+        },
+        "Despawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/faeries/animations/faeries_celeste_alarm.bdae",
+              "sha256": "8a53f8c7914551ee95331355643fde645211722e17ab9484b2d3929e19c79088",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 681,
+          "name": "faeries_celeste_alarm",
+          "path": "data/3D/characters/faeries/animations/faeries_celeste_alarm.bdae"
+        },
+        "DespawnGreatKB": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/traps/animations/elemental_trap_despawn.bdae",
+              "sha256": "1bd200e30a16c01f8828fa6cb9a2bb47522f8f58c25a5c523dddd97389114111",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 678,
+          "name": "elemental_trap_despawn",
+          "path": "data/3D/characters/traps/animations/elemental_trap_despawn.bdae"
+        },
+        "Died": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_spawn.bdae",
+              "sha256": "cfbcf3efd8ba855afaa609a4f0faa55c1c3b08a093681f48f29f0f45018f4fb2",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 672,
+          "name": "dragon_spawn",
+          "path": "data/3D/characters/dragon/animations/dragon_spawn.bdae"
+        },
+        "Dodging": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_template_anim.bdae",
+              "sha256": "8dba7c2f207431f56bbb8b06e6707e44e8d5f90f16f9ae46bfb3acd1bafed7de",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 673,
+          "name": "dragon_template_anim",
+          "path": "data/3D/characters/dragon/animations/dragon_template_anim.bdae"
+        },
+        "GreatKnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01.bdae",
+              "sha256": "1b728d7ee9f60cc866cf12594e1869ecd7428e90d1561a158b9879a8836ca332",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 674,
+          "name": "edward_1hand_combo_01",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_combo_01.bdae"
+        },
+        "Idle": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_spawn.bdae",
+              "sha256": "cfbcf3efd8ba855afaa609a4f0faa55c1c3b08a093681f48f29f0f45018f4fb2",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 672,
+          "name": "dragon_spawn",
+          "path": "data/3D/characters/dragon/animations/dragon_spawn.bdae"
+        },
+        "Injured": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_template_anim.bdae",
+              "sha256": "8dba7c2f207431f56bbb8b06e6707e44e8d5f90f16f9ae46bfb3acd1bafed7de",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 673,
+          "name": "dragon_template_anim",
+          "path": "data/3D/characters/dragon/animations/dragon_template_anim.bdae"
+        },
+        "KnockedBack": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01.bdae",
+              "sha256": "1b728d7ee9f60cc866cf12594e1869ecd7428e90d1561a158b9879a8836ca332",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 674,
+          "name": "edward_1hand_combo_01",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_combo_01.bdae"
+        },
+        "Scared": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/traps/animations/elemental_trap_despawn.bdae",
+              "sha256": "1bd200e30a16c01f8828fa6cb9a2bb47522f8f58c25a5c523dddd97389114111",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 678,
+          "name": "elemental_trap_despawn",
+          "path": "data/3D/characters/traps/animations/elemental_trap_despawn.bdae"
+        },
+        "Spawn": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae",
+              "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 675,
+          "name": "edward_1hand_combo_01_to_idle",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae"
+        },
+        "Stunned": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/dragon/animations/dragon_template_anim.bdae",
+              "sha256": "8dba7c2f207431f56bbb8b06e6707e44e8d5f90f16f9ae46bfb3acd1bafed7de",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 673,
+          "name": "dragon_template_anim",
+          "path": "data/3D/characters/dragon/animations/dragon_template_anim.bdae"
+        },
+        "Template": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/npcs/animations/edward_1hand_pre_combo_01.bdae",
+              "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 676,
+          "name": "edward_1hand_pre_combo_01",
+          "path": "data/3D/characters/npcs/animations/edward_1hand_pre_combo_01.bdae"
+        },
+        "Walk": {
+          "asset_candidates": [
+            {
+              "claim_scope": "source_file_presence",
+              "confidence": "PROVEN",
+              "path": ".local-inputs/assets-extra/android/data/3d/characters/traps/animations/elemental_trap_despawn.bdae",
+              "sha256": "1bd200e30a16c01f8828fa6cb9a2bb47522f8f58c25a5c523dddd97389114111",
+              "source": "android",
+              "status": "REFERENCED"
+            }
+          ],
+          "claim_scope": "animation_table_row",
+          "confidence": "PROVEN",
+          "index": 678,
+          "name": "elemental_trap_despawn",
+          "path": "data/3D/characters/traps/animations/elemental_trap_despawn.bdae"
+        }
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 70,
+          "name": "SwampKing",
+          "raw": 70,
+          "reference_id": "40f29b78c023293a74f8",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "target_id": "60c0a42c17b57e660b59"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Attack": 669,
+            "AttackStatic": -1,
+            "Blocking": 673,
+            "DeadlyGreatKB": 674,
+            "Despawn": 681,
+            "DespawnGreatKB": 678,
+            "Died": 672,
+            "Dodging": 673,
+            "GreatKnockedBack": 674,
+            "Idle": 672,
+            "IdleFromOOC": -1,
+            "IdleOOC": -1,
+            "IdleSneak": -1,
+            "IdleToOOC": -1,
+            "Injured": 673,
+            "Interact": [
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "KnockedBack": 674,
+            "LiftDrop": -1,
+            "LiftIdle": -1,
+            "LiftMove": -1,
+            "Limbus": -1,
+            "MenuIdle": -1,
+            "MenuOnSelect": -1,
+            "PreSpawn": -1,
+            "Revived": -1,
+            "Reviving": -1,
+            "Run": -1,
+            "Run180": -1,
+            "RunSneak": -1,
+            "Scared": 678,
+            "Spawn": 675,
+            "Spells": [],
+            "Stunned": 673,
+            "Template": 676,
+            "Walk": 678,
+            "Walk180": -1,
+            "WalkSneak": -1
+          },
+          "id": "60c0a42c17b57e660b59",
+          "index": 70,
+          "name": "SwampKing",
+          "reason": null,
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/animations_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "character_animations",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "loot": {
+      "claim_scope": "character_loot_table_row",
+      "confidence": "PROVEN",
+      "reason": null,
+      "row": {
+        "confidence": "PROVEN",
+        "fields": {
+          "FixedLootEntries": [],
+          "NumRandomItemProbs": 2,
+          "RandomLootEntries": [],
+          "RollType": 0,
+          "SubLoots": [
+            235,
+            234,
+            236,
+            237,
+            302
+          ]
+        },
+        "id": "865b429e3ca187ccb054",
+        "index": 229,
+        "name": "SwampKing_Loot",
+        "reason": null,
+        "schema_evidence": "port/game-data/loot_tables_v2.cpp:22",
+        "section": 5,
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin",
+        "source_table": "loot_table",
+        "status": "RESOLVED",
+        "table": "loot_table#group5",
+        "work_status": "DONE"
+      },
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 229,
+          "name": "SwampKing_Loot",
+          "raw": 229,
+          "reference_id": "608b4bb880749c4dabb1",
+          "status": "RESOLVED",
+          "table": "loot_table#group5",
+          "target_id": "865b429e3ca187ccb054"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "FixedLootEntries": [],
+            "NumRandomItemProbs": 2,
+            "RandomLootEntries": [],
+            "RollType": 0,
+            "SubLoots": [
+              235,
+              234,
+              236,
+              237,
+              302
+            ]
+          },
+          "id": "865b429e3ca187ccb054",
+          "index": 229,
+          "name": "SwampKing_Loot",
+          "reason": null,
+          "schema_evidence": "port/game-data/loot_tables_v2.cpp:22",
+          "section": 5,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin",
+          "source_table": "loot_table",
+          "status": "RESOLVED",
+          "table": "loot_table#group5",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "model": {
+      "asset_candidates": [
+        {
+          "claim_scope": "source_file_presence",
+          "confidence": "PROVEN",
+          "path": ".local-inputs/assets-extra/android/data/3d/characters/swampking/swampking.bdae",
+          "sha256": "8f19f222bcfff6a5c4df93463310922e1b780026005c00c3cfecbee889233a81",
+          "source": "android",
+          "status": "REFERENCED"
+        }
+      ],
+      "claim_scope": "character_model_dictionary_row",
+      "confidence": "PROVEN",
+      "path": "data/3D/characters/swampking/swampking.bdae",
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 99,
+          "name": "swampking",
+          "raw": 99,
+          "reference_id": "e020062312835b29e93b",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "target_id": "c24d5e4d3bbc44b334ce"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "confidence": "PROVEN",
+          "fields": {
+            "Path": "data/3D/characters/swampking/swampking.bdae"
+          },
+          "id": "c24d5e4d3bbc44b334ce",
+          "index": 99,
+          "name": "swampking",
+          "reason": null,
+          "schema_evidence": "port/game-data/data.cpp:35",
+          "section": 0,
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/character_models_dictionary_pyarray.bin",
+          "source_table": "character_models_dictionary",
+          "status": "RESOLVED",
+          "table": "character_models_dictionary#group0",
+          "work_status": "DONE"
+        }
+      }
+    },
+    "sound": {
+      "claim_scope": "character_sound_profile_row",
+      "confidence": "PROVEN",
+      "profile": {
+        "candidate_note": null,
+        "candidates": [],
+        "confidence": "PROVEN",
+        "fields": {
+          "Die": [],
+          "Hurt": [],
+          "ImpactVsFlesh": [],
+          "ImpactVsMetal": [],
+          "IsFlesh": true,
+          "IsMetallic": false
+        },
+        "id": "f93e07b3f9ba3c48dc93",
+        "index": 2,
+        "name": "Default",
+        "reason": null,
+        "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+        "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+        "status": "RESOLVED",
+        "table": "sounds#group0",
+        "work_status": "DONE"
+      },
+      "reason": null,
+      "status": "RESOLVED",
+      "table_link": {
+        "reference": {
+          "index": 2,
+          "name": "Default",
+          "raw": 2,
+          "reference_id": "df17883f951272af25cc",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "target_id": "f93e07b3f9ba3c48dc93"
+        },
+        "status": "RESOLVED",
+        "target": {
+          "candidate_note": null,
+          "candidates": [],
+          "confidence": "PROVEN",
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
+          "id": "f93e07b3f9ba3c48dc93",
+          "index": 2,
+          "name": "Default",
+          "reason": null,
+          "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+          "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
+          "status": "RESOLVED",
+          "table": "sounds#group0",
+          "work_status": "DONE"
+        }
+      }
+    }
+  },
+  "source_confidence": "PROVEN",
+  "source_port_snapshot": {
+    "production_runtime_status": "UNVERIFIED",
+    "reason": "Source table linkage does not prove resource loading or actor behavior in the Windows production path.",
+    "source_atlas_status": "RESOLVED",
+    "source_atlas_work_status": "DONE"
+  },
+  "source_table": "character_properties",
+  "status": "DONE",
+  "trophy_and_skill_fields": {
+    "skills": "SwampKingSkills [33]",
+    "trophy": -1
+  }
+}

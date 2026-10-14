@@ -16,3 +16,6 @@ Original first: your phase-1 report has the Lua/IDA/atlas findings; re-check any
 
 ## Rules
 Branch `v21.8-w2-<name>`, worktree `.claude/worktrees/w2-<name>`, own subst letter and build dir. Never push, do not merge (the lead merges). Commits end with `Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>`. Final report `coordination/v21.8/w2-<name>-report.md`: per-skill table (cast / animation / FX / sound-file / effect-or-damage, verdict, evidence), engine changes made, remaining gaps, CTest count. If a step fails twice for the same reason, stop and report; the lead escalates to Sonnet.
+
+## Atlas round 2 is merged (use it)
+Native contract pages: `coordination/atlas/r2/natives/<Name>.md` (index `natives/INDEX.md`), the seven answered questions `coordination/atlas/r2/natives/QUESTIONS.md` (OnCombatResults delivery order attacker CharAI then defender CharAI, both slot +180, result mask 0x20000000 suppresses both; chance compare Random(100)<<8; class formula types 5/6; PROPS_AddBuff capacity; RemoveBuff receiver; SM_SetStunState CharAnimTable field at byte 140; ApplyBuff -> _ApplyPropClass), staging selections `coordination/atlas/r2/staging/selections/*.json` (ready-to-use asset groups for Acts 1 and 2; same schema as asset-selection-v21.8.json).

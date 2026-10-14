@@ -18,6 +18,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -86,10 +87,18 @@ struct RuntimeSkillCastReceiptV1 {
     // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
     std::string timed_buff_class;
     double timed_buff_duration_ms = 0.0;
+    // v21.8 w2-illusionist enemy arms: outcomes of the per-target enemy buff loop (Eclipse/TimeControl/Figments) and the
+    // targets that received a SetStunState request (Figments). Empty when the row has no such arm.
+    std::vector<TargetBuffOutcomeV1> enemy_buff_outcomes;
+    std::vector<ActorId> enemy_stun_targets;
     // v21.8 mage: authored per-target hit FX (profile.target_hit_fx_name): the AnimatedEffectTable name and the Character
     // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
     std::string target_hit_fx_name;
     std::vector<ActorId> target_hit_fx_targets;
+    // v21.8 w2-necromancer: Characters for which the explicit SetKnockBackState(true) was delivered, and the sink
+    // failures (a failed Lua call is not an error in the source, so the Use still completes).
+    std::vector<ActorId> knockback_targets;
+    std::vector<std::string> knockback_diagnostics;
     // v21.8 ES-API: PlaySound / PlayFX cues in authored order (OnPre cues first, then each Use). Never cleared by a
     // repeated volley, so the host dispatches only the cues appended since its last look at this generation.
     std::vector<SkillPresentationCueV1> presentation_cues;
@@ -106,6 +115,18 @@ struct RuntimeSkillCastReceiptV1 {
 // population. The coordinator deliberately supports only source scripts whose
 // complete Use payload has been recovered; an unsupported script rejects
 // before committing mana or changing the actor/session.
+// v21.8 w2-necromancer: one explicit `target:SetKnockBackState(true)` (great bank) from a skill Use. The pre-hit original
+// state is the admission state (CombatSession::original_actor_state before the roll), as capture_session_push_admission_v1.
+struct RuntimeSkillKnockBackRequestV1 {
+    ActorId attacker = invalid_actor_id;
+    ActorId target = invalid_actor_id;
+    std::uint64_t generation = 0;
+    std::uint32_t event_index = 0;
+    std::string source_id;
+    std::int32_t target_state_before_hit = -1;
+};
+using RuntimeSkillKnockBackSinkV1 = std::function<bool(CombatSession&, const RuntimeSkillKnockBackRequestV1&, std::string&)>;
+
 struct RuntimeSkillCastRequestV1 {
     RuntimeSkillCastDispatchV1 dispatch = RuntimeSkillCastDispatchV1::native_hud_skill;
     ActorId actor = invalid_actor_id;
@@ -140,12 +161,18 @@ struct RuntimeSkillCastRequestV1 {
     // Buff owner for skills whose Use creates a timed buff (profile.buff). Skills with a buff arm are rejected
     // before any mana/animation commit when this is null.
     TimedBuffSinkV1* timed_buffs = nullptr;
+    // v21.8 w2-necromancer: knockback sink for profile.knockback_great_on_character_hit (the Lua SetKnockBackState on a
+    // hit Character). Borrowed; the host binds it to the same same-Session Push consumer the source hits use.
+    const RuntimeSkillKnockBackSinkV1* knockback_great = nullptr;
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
     // v21.8 mage: executes the Pre/Use bodies of profile rows with `external_owner` (borrowed; the host owns it).
     RuntimeSkillExternalOwnerV1* external_owner = nullptr;
     // v21.8 ES-API test seam: an authored variant of the admitted (name, script) row, used instead of the table row.
     // Null in play; the variant must carry the same skill_name and script or it is ignored.
     const RuntimeSkillUseProfileV1* profile_override = nullptr;
+    // v21.8 w2-illusionist: SetStunState(duration_ms, true) on a target (Figments). The host binds it to the ES-STATUS owner.
+    // Null = a row with an enemy_stun arm is rejected before any mana commit.
+    std::function<bool(CombatSession&, ActorId target, double duration_ms, std::string& error)> stun_target;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,
@@ -232,6 +259,9 @@ private:
         std::vector<SkillTargetSourceFactsV1> target_facts;
         std::optional<bool> non_character_attackable_objects_absent;
         float target_range = 0.0f, target_cone_radians = 3.1415927410125732421875f;
+        // v21.8 w2-necromancer: OnPre search range (profile.pre_range, or the class TempProp1 when pre_range_from_temp_prop1).
+        float pre_range = 0.0f;
+        const RuntimeSkillKnockBackSinkV1* knockback_great = nullptr;
         SkillTargetSortV1 target_sort = SkillTargetSortV1::frontal_first;
         double cooldown_ms = 0.0;
         bool is_hotty = false;
@@ -266,6 +296,7 @@ private:
         // ViciousStrike's three strike markers. These fields identify the last delivered marker so an exact duplicate
         // callback of the same marker stays suppressed.
         TimedBuffSinkV1* timed_buffs = nullptr;
+        std::function<bool(CombatSession&, ActorId, double, std::string&)> stun_target; // v21.8 w2-illusionist
         bool repeat_use = false, last_use_key_valid = false;
         std::uint32_t last_use_wall_ms = 0, last_use_slot = 0, use_volleys = 0, next_event_index = 0;
         std::int32_t last_use_lag_ms = 0;
@@ -274,6 +305,12 @@ private:
     // v21.8 es-runtime: Uses delivered per (actor, SkillTable id) for a profile volley plan. Persists across casts, as the
     // Lua file-level skill_inc does; a new coordinator (session rebuild) starts it again, like a reloaded script.
     std::map<std::pair<ActorId, int>, std::uint32_t> volley_cursor_;
+    // v21.8 w2-illusionist: Figments stun duration draws (GetRand, inclusive). Fixed seed for reproducible runs.
+    std::mt19937 stun_rng_{0x5EEDu};
+    // v21.8 w2-illusionist: conversion slots per (actor, SkillTable id) for enemy buffs with conversion_slots (Terror).
+    // FIFO; a slot is released at its expiry (Lua StartSkillTimerCB(BUFF_DURATION, delete_slot)). Persists across casts.
+    struct ConversionSlotV1 { ActorId target; double release_at_ms; };
+    std::map<std::pair<ActorId, int>, std::vector<ConversionSlotV1>> conversion_slots_;
     std::uint64_t timer_update_serial_ = 0;
     double elapsed_ms_ = 0.0;
     bool timer_clock_bound_ = false;

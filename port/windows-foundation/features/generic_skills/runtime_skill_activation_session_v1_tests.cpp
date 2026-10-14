@@ -384,6 +384,8 @@ void run_rogue_source_slot0_fixture(
     buff_bindings.rules = &property_rules;
     RuntimeTimedBuffOwnerV1 buff_owner(buff_bindings);
     request.timed_buffs = &buff_owner;
+    // v21.8 w2-illusionist: Figments' per-target stun hook (the fixture only checks the cast path; the stun is a no-op here).
+    request.stun_target = [](CombatSession&, ActorId, double, std::string&) { return true; };
     const auto walk_before = session.world()->combat_properties(1)->sheets.resolved[46];
     const auto rot_before = session.world()->combat_properties(1)->sheets.resolved[47];
     const auto atk_before = session.world()->combat_properties(1)->sheets.resolved[48];

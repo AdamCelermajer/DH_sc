@@ -1,0 +1,3671 @@
+{
+  "act": "act_2_inferred",
+  "count": 99,
+  "kind": "source_sound_ordinal",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5d1ec3b114e99d89783d",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5d1ec3b114e99d89783d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_defeated command[7] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[44]=HG2_boss_defeated/command[7]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4fd128b62dab38749ce8",
+          "index": 360,
+          "name": "sfx_cutscene_forbidden_seal_cast_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a0d970b7ec8bc07ec8bf",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_forbidden_seal_cast_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a0d970b7ec8bc07ec8bf",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "4fd128b62dab38749ce8",
+          "index": 360,
+          "name": "sfx_cutscene_forbidden_seal_cast_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[113] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[113]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58294823b5d8d3cacf29",
+          "index": 359,
+          "name": "sfx_cutscene_forbidden_seal_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "655a66e01f84618a3339",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_forbidden_seal_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "655a66e01f84618a3339",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "58294823b5d8d3cacf29",
+          "index": 359,
+          "name": "sfx_cutscene_forbidden_seal_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[114] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[114]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "31442ee8a6d9298f8dd6",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "31442ee8a6d9298f8dd6",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[22] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[22]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4fd128b62dab38749ce8",
+          "index": 360,
+          "name": "sfx_cutscene_forbidden_seal_cast_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c5c98180bb42f88d2c19",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_forbidden_seal_cast_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c5c98180bb42f88d2c19",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "4fd128b62dab38749ce8",
+          "index": 360,
+          "name": "sfx_cutscene_forbidden_seal_cast_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[63] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[63]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "33f3704285bb47180bc1",
+          "index": 358,
+          "name": "sfx_cutscene_forbidden_seal_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "afbd860d47ab6f9fe90a",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_forbidden_seal_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "afbd860d47ab6f9fe90a",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "33f3704285bb47180bc1",
+          "index": 358,
+          "name": "sfx_cutscene_forbidden_seal_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[71] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[71]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "33f3704285bb47180bc1",
+          "index": 358,
+          "name": "sfx_cutscene_forbidden_seal_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e274e2189e2a4f4ce914",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_forbidden_seal_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e274e2189e2a4f4ce914",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "33f3704285bb47180bc1",
+          "index": 358,
+          "name": "sfx_cutscene_forbidden_seal_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[81] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[81]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1bc688f82740f18e9917",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1bc688f82740f18e9917",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 Post_Escape command[12] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[75]=Post_Escape/command[12]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "b757f655e53cd1c32bc7",
+          "index": 91,
+          "name": "GatedCastleVillageMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dbaae9cf4a5ea4574c81",
+      "kind": "source_sound_ordinal",
+      "name": "GatedCastleVillageMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dbaae9cf4a5ea4574c81",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "b757f655e53cd1c32bc7",
+          "index": 91,
+          "name": "GatedCastleVillageMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 enterLocation_Gated command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[93]=enterLocation_Gated/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1a2547f76eb3dce2abd4",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1a2547f76eb3dce2abd4",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 Door_Teleport command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[9]=Door_Teleport/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6884a38463cdb126473c",
+          "index": 5,
+          "name": "AssassinFloodedCastleMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "eb10e6cca535c6651c57",
+      "kind": "source_sound_ordinal",
+      "name": "AssassinFloodedCastleMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "eb10e6cca535c6651c57",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "6884a38463cdb126473c",
+          "index": 5,
+          "name": "AssassinFloodedCastleMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[21] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[21]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2552d2abdc36163f6843",
+          "index": 598,
+          "name": "sfx_swoosh_dagger_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dc7d701c723c08d79e11",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_swoosh_dagger_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dc7d701c723c08d79e11",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2552d2abdc36163f6843",
+          "index": 598,
+          "name": "sfx_swoosh_dagger_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[38] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[38]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a205b229da4a66b69374",
+          "index": 599,
+          "name": "sfx_swoosh_dagger_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f7cea5eb61d18cf94c95",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_swoosh_dagger_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f7cea5eb61d18cf94c95",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "a205b229da4a66b69374",
+          "index": 599,
+          "name": "sfx_swoosh_dagger_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[39] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[39]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0822e121b6429a26ab8f",
+          "index": 499,
+          "name": "sfx_npc_priest_hurt_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b261fbf2b7298dfbdc4e",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_npc_priest_hurt_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b261fbf2b7298dfbdc4e",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "0822e121b6429a26ab8f",
+          "index": 499,
+          "name": "sfx_npc_priest_hurt_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[44] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[44]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b7bd22b8279a71a3eecf",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b7bd22b8279a71a3eecf",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 Door_Teleport command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[2]=Door_Teleport/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b59346cbb51790adf7a3",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b59346cbb51790adf7a3",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 EddieEscape command[0] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[3]=EddieEscape/command[0]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bf6e25eaa67e33b51bf2",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bf6e25eaa67e33b51bf2",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[14] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[14]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9fc19769c36863e36b16",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9fc19769c36863e36b16",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[19] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[19]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bada5ac1aa79301d7a9e",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bada5ac1aa79301d7a9e",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[24] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[24]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c11a7fc0fa948f5b52f3",
+          "index": 361,
+          "name": "sfx_cutscene_gothicus_edward_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2666ca103bb91e21e94a",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2666ca103bb91e21e94a",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "c11a7fc0fa948f5b52f3",
+          "index": 361,
+          "name": "sfx_cutscene_gothicus_edward_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[114] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[114]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c11a7fc0fa948f5b52f3",
+          "index": 361,
+          "name": "sfx_cutscene_gothicus_edward_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "47142bbbaea0c5cb19cc",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "47142bbbaea0c5cb19cc",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "c11a7fc0fa948f5b52f3",
+          "index": 361,
+          "name": "sfx_cutscene_gothicus_edward_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[124] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[124]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "7fd592fc4affa4ebf41f",
+          "index": 340,
+          "name": "sfx_cs_soldier_enter",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "94a12b534732222674f8",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cs_soldier_enter",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "94a12b534732222674f8",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "7fd592fc4affa4ebf41f",
+          "index": 340,
+          "name": "sfx_cs_soldier_enter",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[147] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[147]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e79505f05d3ba2408169",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e79505f05d3ba2408169",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3ab62ac27153b619fb00",
+          "index": 362,
+          "name": "sfx_cutscene_gothicus_edward_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[165] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[165]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1b611ad595dd8c4c5705",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1b611ad595dd8c4c5705",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[167] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[167]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "357359fb0c9f3d313a50",
+          "index": 232,
+          "name": "WeaponSwoosh1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4a7826741bbfda122783",
+      "kind": "source_sound_ordinal",
+      "name": "WeaponSwoosh1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4a7826741bbfda122783",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "357359fb0c9f3d313a50",
+          "index": 232,
+          "name": "WeaponSwoosh1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[20] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[20]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0089aab43dec61eaad76",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0089aab43dec61eaad76",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 PlayerReturn1 command[7] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[6]=PlayerReturn1/command[7]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c11a7fc0fa948f5b52f3",
+          "index": 361,
+          "name": "sfx_cutscene_gothicus_edward_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2a88a061428e2db86ff8",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_gothicus_edward_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2a88a061428e2db86ff8",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "c11a7fc0fa948f5b52f3",
+          "index": 361,
+          "name": "sfx_cutscene_gothicus_edward_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 StopSound command[0] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[8]=StopSound/command[0]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "54f062451268abff5e11",
+          "index": 4,
+          "name": "AssassinAbbeyRuinsMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6ddf3636e64db60557e3",
+      "kind": "source_sound_ordinal",
+      "name": "AssassinAbbeyRuinsMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6ddf3636e64db60557e3",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "54f062451268abff5e11",
+          "index": 4,
+          "name": "AssassinAbbeyRuinsMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_intro command[10] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[1]=AbbeyB_assassin_intro/command[10]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "54f062451268abff5e11",
+          "index": 4,
+          "name": "AssassinAbbeyRuinsMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9d47a7f0fab0b15437c2",
+      "kind": "source_sound_ordinal",
+      "name": "AssassinAbbeyRuinsMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9d47a7f0fab0b15437c2",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "54f062451268abff5e11",
+          "index": 4,
+          "name": "AssassinAbbeyRuinsMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_intro command[10] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[1]=AbbeyB_assassin_intro/command[10]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2d16689ee0ea13ba03a5",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2d16689ee0ea13ba03a5",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 Boss_Teleport command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[4]=Boss_Teleport/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d19e39bdfceb923ad83c",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d19e39bdfceb923ad83c",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd Boss_Teleport command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[4]=Boss_Teleport/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cf8a45853649c2a97317",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_magic_circle_activated",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cf8a45853649c2a97317",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Troll_Killed command[113] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[10]=Troll_Killed/command[113]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8a63d214194699a439c8",
+          "index": 65,
+          "name": "EarthTempleAmbientMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fbf330cf7d4c871daf4d",
+      "kind": "source_sound_ordinal",
+      "name": "EarthTempleAmbientMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fbf330cf7d4c871daf4d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "8a63d214194699a439c8",
+          "index": 65,
+          "name": "EarthTempleAmbientMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Troll_Killed command[22] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[10]=Troll_Killed/command[22]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4a7263bbf937e57060b8",
+          "index": 352,
+          "name": "sfx_cutscene_earth_troll_die",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b6d7d1d18a9e768ffdd1",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_earth_troll_die",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b6d7d1d18a9e768ffdd1",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "4a7263bbf937e57060b8",
+          "index": 352,
+          "name": "sfx_cutscene_earth_troll_die",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Troll_Killed command[23] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[10]=Troll_Killed/command[23]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "31566df7d0aea86bcc5c",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "31566df7d0aea86bcc5c",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Door_Teleport command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[1]=Door_Teleport/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bb88ebb936b9c5c3de37",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_mage_thunder_braid_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bb88ebb936b9c5c3de37",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[4] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[4]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8a63d214194699a439c8",
+          "index": 65,
+          "name": "EarthTempleAmbientMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "69e663c51d49a078977e",
+      "kind": "source_sound_ordinal",
+      "name": "EarthTempleAmbientMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "69e663c51d49a078977e",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "8a63d214194699a439c8",
+          "index": 65,
+          "name": "EarthTempleAmbientMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[5] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[5]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cffcab8538e63e1a4c1d",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cffcab8538e63e1a4c1d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[6] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[6]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8d6e7cd6b51ce243a2a0",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8d6e7cd6b51ce243a2a0",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[82] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[82]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "e5a8ca61c109c08c7eca",
+          "index": 67,
+          "name": "EarthTrollMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4e57960a0a75a816f55e",
+      "kind": "source_sound_ordinal",
+      "name": "EarthTrollMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4e57960a0a75a816f55e",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "e5a8ca61c109c08c7eca",
+          "index": 67,
+          "name": "EarthTrollMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[89] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[89]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4f89ce494afd24463c83",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4f89ce494afd24463c83",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[29] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[29]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6e8f7008d22c14c7d7ad",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6e8f7008d22c14c7d7ad",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[29] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[29]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2552d2abdc36163f6843",
+          "index": 598,
+          "name": "sfx_swoosh_dagger_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "beb634679fa1eed18051",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_swoosh_dagger_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "beb634679fa1eed18051",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2552d2abdc36163f6843",
+          "index": 598,
+          "name": "sfx_swoosh_dagger_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[21] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[21]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2552d2abdc36163f6843",
+          "index": 598,
+          "name": "sfx_swoosh_dagger_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "deef2b0ff9ab2c5e86be",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_swoosh_dagger_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "deef2b0ff9ab2c5e86be",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2552d2abdc36163f6843",
+          "index": 598,
+          "name": "sfx_swoosh_dagger_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[21] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[21]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a205b229da4a66b69374",
+          "index": 599,
+          "name": "sfx_swoosh_dagger_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "255a0ef0c4f8633004ed",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_swoosh_dagger_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "255a0ef0c4f8633004ed",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "a205b229da4a66b69374",
+          "index": 599,
+          "name": "sfx_swoosh_dagger_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[23] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[23]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a205b229da4a66b69374",
+          "index": 599,
+          "name": "sfx_swoosh_dagger_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fd64c24a438bc29440cd",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_swoosh_dagger_2",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fd64c24a438bc29440cd",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "a205b229da4a66b69374",
+          "index": 599,
+          "name": "sfx_swoosh_dagger_2",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[23] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[23]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "cd56f8f413f60b761b35",
+          "index": 120,
+          "name": "ImpactMetalFlesh1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "602ec6faf6d35e84a65f",
+      "kind": "source_sound_ordinal",
+      "name": "ImpactMetalFlesh1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "602ec6faf6d35e84a65f",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "cd56f8f413f60b761b35",
+          "index": 120,
+          "name": "ImpactMetalFlesh1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[25] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[25]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "cd56f8f413f60b761b35",
+          "index": 120,
+          "name": "ImpactMetalFlesh1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d893baa1f2b8400e6dfe",
+      "kind": "source_sound_ordinal",
+      "name": "ImpactMetalFlesh1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d893baa1f2b8400e6dfe",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "cd56f8f413f60b761b35",
+          "index": 120,
+          "name": "ImpactMetalFlesh1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[25] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[25]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b5ff929a8f02bb38be64",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_unnamed_one_vortex_fire_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b5ff929a8f02bb38be64",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[3] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[3]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ba033e6fcbaceaec5ed1",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_unnamed_one_vortex_fire_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ba033e6fcbaceaec5ed1",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[3] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[3]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8a2e11d3be3ea00c320a",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8a2e11d3be3ea00c320a",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[14] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[14]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b4e63e6f2dc2f9523436",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b4e63e6f2dc2f9523436",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[14] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[14]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0b5880ab1054b3bf95ff",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_unnamed_one_vortex_fire_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0b5880ab1054b3bf95ff",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[33] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[33]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "10e9bdbcb481fa3eabe4",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_unnamed_one_vortex_fire_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "10e9bdbcb481fa3eabe4",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "56053161acf0dbed1b97",
+          "index": 609,
+          "name": "sfx_unnamed_one_vortex_fire_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[33] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[33]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8412e9e457aac351d28b",
+          "index": 521,
+          "name": "sfx_serpent_shockwave",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "55a0b2956fdd8200c96d",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_serpent_shockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "55a0b2956fdd8200c96d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "8412e9e457aac351d28b",
+          "index": 521,
+          "name": "sfx_serpent_shockwave",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[41] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[41]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8412e9e457aac351d28b",
+          "index": 521,
+          "name": "sfx_serpent_shockwave",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6e80cbad2236518c2fa1",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_serpent_shockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6e80cbad2236518c2fa1",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "8412e9e457aac351d28b",
+          "index": 521,
+          "name": "sfx_serpent_shockwave",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[41] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[41]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "85b5311f6ae6b08e5da2",
+          "index": 205,
+          "name": "SpikeTrapActivate",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8f078818683966601351",
+      "kind": "source_sound_ordinal",
+      "name": "SpikeTrapActivate",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8f078818683966601351",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "85b5311f6ae6b08e5da2",
+          "index": 205,
+          "name": "SpikeTrapActivate",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 CloseDoors command[9] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[0]=CloseDoors/command[9]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "29294fb874bd03c6884f",
+          "index": 328,
+          "name": "sfx_cave_troll_smash_ground",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "572f5c00f6f85f0027fa",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cave_troll_smash_ground",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "572f5c00f6f85f0027fa",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "29294fb874bd03c6884f",
+          "index": 328,
+          "name": "sfx_cave_troll_smash_ground",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e6cb2d21b3bb5326d90 barbarian_boss_intro command[8] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/027_icy_caverns_02_pyscripts.bin:script[4]=barbarian_boss_intro/command[8]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8b8a9078528ab06f210a",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8b8a9078528ab06f210a",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToNS command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[10]=TeleportToNS/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2265c29c47e5c5470a8d",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2265c29c47e5c5470a8d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToNW command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[11]=TeleportToNW/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5af8b97a3c14cb18d297",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5af8b97a3c14cb18d297",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToSW command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[12]=TeleportToSW/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "941bbe9c4e7affdc1f71",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "941bbe9c4e7affdc1f71",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToT1 command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[13]=TeleportToT1/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e1a1c6c6ae9849f652b8",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_magic_circle_activated",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e1a1c6c6ae9849f652b8",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_defeated command[7] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[1]=Boss_defeated/command[7]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "203a4d4084922982429d",
+          "index": 559,
+          "name": "sfx_skill_warrior_pld_condemnation",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "659a2a42e69d3a26e784",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_warrior_pld_condemnation",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "659a2a42e69d3a26e784",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "203a4d4084922982429d",
+          "index": 559,
+          "name": "sfx_skill_warrior_pld_condemnation",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[24] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[24]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "203a4d4084922982429d",
+          "index": 559,
+          "name": "sfx_skill_warrior_pld_condemnation",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "89c4ce8e7f6718bb88ed",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_warrior_pld_condemnation",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "89c4ce8e7f6718bb88ed",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "203a4d4084922982429d",
+          "index": 559,
+          "name": "sfx_skill_warrior_pld_condemnation",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[29] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[29]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4c17fcc6b628da39655a",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4c17fcc6b628da39655a",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[2] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[2]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f4768bf620a10f3c3bdc",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_magic_circle_activated",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f4768bf620a10f3c3bdc",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[43] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[43]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4505f2225d7629bd498f",
+          "index": 392,
+          "name": "sfx_dragon_spawn",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d522155a7f44510672b3",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_dragon_spawn",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d522155a7f44510672b3",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "4505f2225d7629bd498f",
+          "index": 392,
+          "name": "sfx_dragon_spawn",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[55] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[55]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7bb4e6c4f4ff859534dd",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7bb4e6c4f4ff859534dd",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToBoss command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[8]=TeleportToBoss/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "373c063430a1f8997b81",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "373c063430a1f8997b81",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToMidBoss command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[9]=TeleportToMidBoss/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3b5dc2ee7b49dbe112a6",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3b5dc2ee7b49dbe112a6",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_Teleport command[1] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[0]=Boss_Teleport/command[1]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6ed450501a3d191821af",
+          "index": 526,
+          "name": "sfx_skill_mage_doppelganger",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "907ef1a2d590f8eb08f9",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_mage_doppelganger",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "907ef1a2d590f8eb08f9",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "6ed450501a3d191821af",
+          "index": 526,
+          "name": "sfx_skill_mage_doppelganger",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[109] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[109]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "50c54a48045e3c72f23d",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_mage_thunder_braid_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "50c54a48045e3c72f23d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[116] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[116]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7dea1152c2e2ad028af4",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7dea1152c2e2ad028af4",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[143] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[143]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "22901352ac1e94365ac2",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "22901352ac1e94365ac2",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[145] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[145]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "520d00c39090ae73f1ba",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "520d00c39090ae73f1ba",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[16] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[16]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "165fe0f249e6a9d03938",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "165fe0f249e6a9d03938",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[18] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[18]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8cb31861abd08fcda718",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_magic_circle_activated",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8cb31861abd08fcda718",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[47] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[47]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "203a4d4084922982429d",
+          "index": 559,
+          "name": "sfx_skill_warrior_pld_condemnation",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "caa8c2c83227067ce106",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_warrior_pld_condemnation",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "caa8c2c83227067ce106",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "203a4d4084922982429d",
+          "index": 559,
+          "name": "sfx_skill_warrior_pld_condemnation",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[71] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[71]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c25b318558cb0267a97d",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_mage_thunder_braid_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c25b318558cb0267a97d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[74] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[74]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8684df0c2f4dd9faf81d",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8684df0c2f4dd9faf81d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_intro command[2] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[2]=Boss_intro/command[2]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "45b7f8c6cd1a353f2e78",
+          "index": 357,
+          "name": "sfx_cutscene_fire_temple_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0759fe607176e429734b",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_fire_temple_1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0759fe607176e429734b",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "45b7f8c6cd1a353f2e78",
+          "index": 357,
+          "name": "sfx_cutscene_fire_temple_1",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_intro command[51] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[2]=Boss_intro/command[51]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0eb9c223203f869f4ab7",
+          "index": 70,
+          "name": "FireSpritesMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c6cbd6c87e15857aca7d",
+      "kind": "source_sound_ordinal",
+      "name": "FireSpritesMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c6cbd6c87e15857aca7d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "0eb9c223203f869f4ab7",
+          "index": 70,
+          "name": "FireSpritesMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_intro command[69] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[2]=Boss_intro/command[69]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "783503e87a35ebea0545",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "783503e87a35ebea0545",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Blood_changelevel command[2] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[0]=Blood_changelevel/command[2]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8412e9e457aac351d28b",
+          "index": 521,
+          "name": "sfx_serpent_shockwave",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6183d0387a891c6776a8",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_serpent_shockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6183d0387a891c6776a8",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "8412e9e457aac351d28b",
+          "index": 521,
+          "name": "sfx_serpent_shockwave",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Quest_bloodsands command[4] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[12]=Quest_bloodsands/command[4]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "413426e73a556bc68095",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "413426e73a556bc68095",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Quest_machine_room_pre_propose command[17] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[16]=Quest_machine_room_pre_propose/command[17]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "de968412e7c737e50704",
+          "index": 367,
+          "name": "sfx_cutscene_swamp_intro_faerie",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "480430de95883ce7361d",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_swamp_intro_faerie",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "480430de95883ce7361d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "de968412e7c737e50704",
+          "index": 367,
+          "name": "sfx_cutscene_swamp_intro_faerie",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Intro command[17] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[8]=Intro/command[17]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7f2107173f77473b1c29",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7f2107173f77473b1c29",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "3337e0974fc3eeda4aff",
+          "index": 604,
+          "name": "sfx_teleport",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Intro command[58] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[8]=Intro/command[58]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "21040e630e5cf34e1702",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "21040e630e5cf34e1702",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9fc3c1a42c6b469bbf26 Boss_intro command[3] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/037_machine_rooms_01_pyscripts.bin:script[0]=Boss_intro/command[3]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a55343472c901398df2b",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_magic_circle_activated",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a55343472c901398df2b",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "ad59660d2b188acf363c",
+          "index": 483,
+          "name": "sfx_magic_circle_activated",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f AssDemon command[13] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[0]=AssDemon/command[13]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "adff8e8d7f33ad0af336",
+          "index": 6,
+          "name": "AssassinVoidMazeMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9e0a9cf7a4fa9ee75d50",
+      "kind": "source_sound_ordinal",
+      "name": "AssassinVoidMazeMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9e0a9cf7a4fa9ee75d50",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "adff8e8d7f33ad0af336",
+          "index": 6,
+          "name": "AssassinVoidMazeMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f Assassin_start command[19] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[1]=Assassin_start/command[19]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9fd95b9eb4620bfc9a64",
+      "kind": "source_sound_ordinal",
+      "name": "BossIntroIntenseMusic",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9fd95b9eb4620bfc9a64",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2fd5d265af0643cfff0a",
+          "index": 22,
+          "name": "BossIntroIntenseMusic",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f Assassin_start command[2] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[1]=Assassin_start/command[2]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "353a4d6c988d5a20386e",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_skill_mage_thunder_braid_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "353a4d6c988d5a20386e",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "2396c646272089bde645",
+          "index": 541,
+          "name": "sfx_skill_mage_thunder_braid_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[22] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[22]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9e13e34b77dcc852a6c6",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_final_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9e13e34b77dcc852a6c6",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[23] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[23]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9ea43cec1e32eca8f2a8",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_final_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9ea43cec1e32eca8f2a8",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[93] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[93]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2425a4bb53344416e6e2",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_final_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2425a4bb53344416e6e2",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[12] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[12]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f1d3fa65eac25134fc53",
+          "index": 354,
+          "name": "sfx_cutscene_final_intro",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "43bf2bf3ae956f5656ff",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_final_intro",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "43bf2bf3ae956f5656ff",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "f1d3fa65eac25134fc53",
+          "index": 354,
+          "name": "sfx_cutscene_final_intro",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[22] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[22]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a51d329edd25c68554c8",
+          "index": 339,
+          "name": "sfx_cs_glowing_rene",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "92c5ec8f86cc9089717f",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cs_glowing_rene",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "92c5ec8f86cc9089717f",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "a51d329edd25c68554c8",
+          "index": 339,
+          "name": "sfx_cs_glowing_rene",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[46] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[46]=Script_PlaySound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c7e8e94214caee83b52d",
+      "kind": "source_sound_ordinal",
+      "name": "sfx_cutscene_final_loop",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c7e8e94214caee83b52d",
+      "reference_kind": "source_sound_ordinal",
+      "resolves_to": [
+        {
+          "id": "6668b0e8b2eed9c2f7a0",
+          "index": 355,
+          "name": "sfx_cutscene_final_loop",
+          "table": "sdd_dungeon_hunter_2_iphone",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[72] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[72]=Script_StopSound/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

@@ -1,0 +1,2055 @@
+{
+  "confidence_policy": {
+    "GUESS": "unknown membership/completeness only",
+    "LIKELY": "source association or inferred boundary",
+    "PROVEN": "exact source field/table/IDA or line evidence"
+  },
+  "cross_join_source_snapshots": [
+    {
+      "path": "r2/package-a-progress.json",
+      "sha256": "43b0ef087b5dbd2e650e27eb3c65228e58a5b7f282f26871257ea3bc98877eaf"
+    },
+    {
+      "path": "r2/natives/scope.json",
+      "sha256": "d43ec2654585f66fde13909247004f54a788f85518fb48b3acc5637cbf52f976"
+    },
+    {
+      "path": "r2/natives/scope-refined.json",
+      "sha256": "28d7b5965b50860835476ec496d7d2454f2841a36e200b09c51dcdcf73a89642"
+    },
+    {
+      "path": "r2/package-b-progress.json",
+      "sha256": "eba76f96669afbd6e0f49fc3bcbedcba033024b968494bc6f938c46d83a18c3d"
+    },
+    {
+      "path": "r2/staging/classification/act_1/actor_name_candidate-da6eea.json",
+      "sha256": "3c19bdc10e442f7b86a0e50ca17234e883d0c6b045336856f86af82717539483"
+    },
+    {
+      "path": "r2/staging/classification/act_1/anim-ca317c.json",
+      "sha256": "52e7eff59b6cbe0ac702d6b55064fd751fba95b8e9af3e09cd6ef7c2b19685ab"
+    },
+    {
+      "path": "r2/staging/classification/act_1/animated_effect-c59995.json",
+      "sha256": "e17f505919e05312b55cf1172d75bda95dd45bb93e944a0319002c5f191f01be"
+    },
+    {
+      "path": "r2/staging/classification/act_1/animation_dictionary-892f6c.json",
+      "sha256": "8b6fde0ce6b3540b8e6659bb1770ec179c45cf4b50ab658498d59229755153fd"
+    },
+    {
+      "path": "r2/staging/classification/act_1/animation_event-861cc8.json",
+      "sha256": "15104e2143dbc6da892bfc4d1bf47b0d00c59e0f93f342e7d1a3b1c7315ca01e"
+    },
+    {
+      "path": "r2/staging/classification/act_1/campaign_script_target_index-2fe64e.json",
+      "sha256": "f6f6231a8f94a7ad9599e6bc371cdea1d53e267e9cca1a7611154c0d276bede7"
+    },
+    {
+      "path": "r2/staging/classification/act_1/character-f0db3f.json",
+      "sha256": "92380b7ab76130ba773de5d182b2336c003316086042ec0afebd76668c97ce31"
+    },
+    {
+      "path": "r2/staging/classification/act_1/class-8d767b.json",
+      "sha256": "9cabb6b4dc03d95a829da9e22fc4728c48a4dfeedd9f87652f2ded1fcf5a7ef2"
+    },
+    {
+      "path": "r2/staging/classification/act_1/data_file-249bd3.json",
+      "sha256": "b3dfb146435577eb5a7049a3dbf73342a4f02ef3f13290ce2e3f0f871a44d758"
+    },
+    {
+      "path": "r2/staging/classification/act_1/dialog_style_id-57ff6a.json",
+      "sha256": "f934f6dbfa6110fb89944bb50a1ab995d6d0e5d36b586cd8fb08b727dca8bc41"
+    },
+    {
+      "path": "r2/staging/classification/act_1/dialog_text_string_id-e47fca.json",
+      "sha256": "f97d3ded3e83dd685ae9ac57e8b2d343f440c260196f95aee5a9a464518b76f5"
+    },
+    {
+      "path": "r2/staging/classification/act_1/effect_set-5c0dfb.json",
+      "sha256": "287b5bbf418047787596dc0e971da187cf4764665e49e977aa05c15f26dcdd59"
+    },
+    {
+      "path": "r2/staging/classification/act_1/effect_set-92c345.json",
+      "sha256": "07997c2a1cb5454d32971868ddbfc392be738a973aee692bc7a65fb6e5e560e8"
+    },
+    {
+      "path": "r2/staging/classification/act_1/faction-53763a.json",
+      "sha256": "919729c37139eeb2f98a2a37f351d657617148433ecddebe7177fd931b993ba0"
+    },
+    {
+      "path": "r2/staging/classification/act_1/loot-7a616a.json",
+      "sha256": "1abcfd2a0321fbbd17e44f9bd0c252414e793e0b050693893a2a9b033af866b4"
+    },
+    {
+      "path": "r2/staging/classification/act_1/model-1d06a0.json",
+      "sha256": "93ecd518829f74a7410a759ed0deb63bf61afe02bcc0b9a89abe3e2833aa416b"
+    },
+    {
+      "path": "r2/staging/classification/act_1/model_component-092a85.json",
+      "sha256": "cff6fd2a9c705f604561e5036a932cec34418020055dfa8440afb517aa79efdf"
+    },
+    {
+      "path": "r2/staging/classification/act_1/named_reference-9518a6.json",
+      "sha256": "0039ce7cb91c2c929a70d2d7529aeaa8cbc117fdecd49370458779594b319bfb"
+    },
+    {
+      "path": "r2/staging/classification/act_1/numeric_reference-90a0bd.json",
+      "sha256": "2798e90436c1d088007c03fec56ac2949c9b914c10beace7c7af5a9b0fae8f9a"
+    },
+    {
+      "path": "r2/staging/classification/act_1/projectile-ae3767.json",
+      "sha256": "53a79ff1e9b7273a2cba1de7e00510bff4c70e7a89020a6dff60eb8c234ed284"
+    },
+    {
+      "path": "r2/staging/classification/act_1/scene_object_condition-ee85fd.json",
+      "sha256": "21791e16cbc76ebabc0120e1a7bd554d7bef74a1d335dad815a7324aed092600"
+    },
+    {
+      "path": "r2/staging/classification/act_1/script-cb5346.json",
+      "sha256": "616eba73cad51999780c9647fa020e797a8cd64981d10fb2891a3b7aca066710"
+    },
+    {
+      "path": "r2/staging/classification/act_1/serialized_string-cad36c.json",
+      "sha256": "2f54f3379f63d25b664a503407e9165baeee8dcaf155eb5f8bc87b2ed3ef205a"
+    },
+    {
+      "path": "r2/staging/classification/act_1/skill-34b33e.json",
+      "sha256": "9fe8f52d05d77c41d40a2f9b587e3a5ddc4afdd8e327cb2d599a457d0e7a119f"
+    },
+    {
+      "path": "r2/staging/classification/act_1/sound-5e2e97.json",
+      "sha256": "d9c1719401527865affc68a89fa438e0a83f413eef8f07ab8832bdb3ee06fd1d"
+    },
+    {
+      "path": "r2/staging/classification/act_1/source_sound_ordinal-8b4309.json",
+      "sha256": "6722601969fc220020583cf51d5dd93be230ef396be55bd006092dd7cd633716"
+    },
+    {
+      "path": "r2/staging/classification/act_1/symbolic_reference-cc85b6.json",
+      "sha256": "2c7d41bcb474c2cee2c34c129b72b8d492fb433b46e13928770b183133e4b1bc"
+    },
+    {
+      "path": "r2/staging/classification/act_1/texture-8ab5cb.json",
+      "sha256": "72fe8b0e483bee0c5b5b7ee2c591e732bb8726051937b030c064d9f3fbbac350"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/actor_name_candidate-da6eea.json",
+      "sha256": "ebe8262b15ab3d945ef84f6aa3b209b2d42220d813dc52ab96e9411caa5966c8"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/anim-ca317c.json",
+      "sha256": "ec107ada48d9935c3be610126d444b211c47a595469575d09f929a61fa46e1d4"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/animated_effect-c59995.json",
+      "sha256": "218304fe0fc81857ae07d4521609f85a9dcc6c54402f692f1eee56ece8ea2e41"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+      "sha256": "630e12c188996efc7145f01d7293d463003f33bb658672f28065798d630e1a88"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/animation_event-861cc8.json",
+      "sha256": "138cbf5d11f4c1e71ba46844f711149f32309e9dd51fa0b98836ffd6f5613786"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/campaign_script_target_index-2fe64e.json",
+      "sha256": "27dfdfcdc9e1f37317cc5b3d15992fbcfd9a3a02d540f41a1d820f85a8d998ce"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/character-f0db3f.json",
+      "sha256": "5fdfbb426ed03d0dbc7a54d6bf93628d1d13e766824337cb29261fadbd9e7421"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/class-8d767b.json",
+      "sha256": "675c4e0bdd77ae05bb8743d060d02e6325783aa9dd080ac435a267ddb0718653"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/data_file-249bd3.json",
+      "sha256": "a3cc7838e2cc8bef32ee5876af425e4167b7bad4dcf5e06664bb6f26e7508797"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/dialog_style_id-57ff6a.json",
+      "sha256": "9e742f83dbfa3168edcd8c738dee1c13a9ababe2c7c50603dccd7dbd957f4d6d"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/dialog_text_string_id-e47fca.json",
+      "sha256": "32898672fc6d996ce41ab0ab512c946d7ada192377c39d827bf1a8e828b911e0"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/effect_set-5c0dfb.json",
+      "sha256": "a064531deb92c86f6ef52143a88a994a143c78199e10465d1b3d64bd50866690"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/effect_set-92c345.json",
+      "sha256": "e59f2ee0e4c9da3cca3946cbf871100e5428e93e6fdb09d20db0ece445d5ca69"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/faction-53763a.json",
+      "sha256": "a69765735aaabaf2e1b4edc254382fd3ff9013e4668cd523a922c8201ec6fe57"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/level_name_candidate-ad3e4f.json",
+      "sha256": "b1cc5e998a85f586ede412b739ca3dfa09c341aff58845e8909f5499a550d3dc"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/loot-7a616a.json",
+      "sha256": "e3d27fef610571cd8db25c787fedc6a9e11bbdef2217493ad181dab1be5b0e0b"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "sha256": "14af1e9c17af0c884642603811dc472c86be1aacd921e38d9295534d63b67208"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/model_component-092a85.json",
+      "sha256": "5d7051957bc5d4a22045bad040f22348006216ce227f93d8ba5c22e4036203a9"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/named_reference-9518a6.json",
+      "sha256": "db8cf139ab90e288424ae3b8a0782cab477f31de5661b7baecec520b72a05caf"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/numeric_reference-90a0bd.json",
+      "sha256": "8fa0abf711fa8a65716ef08bd3bcac14e0afe750915cdf1877ef1903d32656e3"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/projectile-ae3767.json",
+      "sha256": "dd461dbbd311e9dfab390419b3314085b05476cc50ff80de4bd6e4bc97b60400"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/scene_object_condition-ee85fd.json",
+      "sha256": "893d8451d480eaabe551c04de3ba3c915241efac9daa8e6586def4fad62c2955"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/script-cb5346.json",
+      "sha256": "e632c21c16ecf9f243872c0de1514f1fa98ca3ca9dc9ef787edff2536d628a79"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/serialized_string-cad36c.json",
+      "sha256": "79f4c51e451992ce413df3fa3e615f68f9c13ecfc03c41168aec0863fe4efe6a"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/skill-34b33e.json",
+      "sha256": "6a191a7feb94faade0c7148cb86b80138047b36591211603c0d868891e999f48"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/sound-5e2e97.json",
+      "sha256": "f4a339b278f769551b6a3d72303fcb63a3e16094684791787a5540d90c1c9abb"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/source_sound_ordinal-8b4309.json",
+      "sha256": "29c91548a1ad58034f3d27b86718deda778a5a0bbe2568b605da39975a0e92f1"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/symbolic_reference-cc85b6.json",
+      "sha256": "4929a1d7f2f6451e3441f6865b7ca57084a9060632d3eec14f17a5bb7ffc56d9"
+    },
+    {
+      "path": "r2/staging/classification/act_2_inferred/texture-8ab5cb.json",
+      "sha256": "178ad2d2ca4a95187e46631d35f06e8ce1a6392f5d3cbfa1e413802e3259e456"
+    }
+  ],
+  "entities": [
+    {
+      "actor_id": "a2c77cc142e62db476d1",
+      "actor_name": "Swamp_SnackMan",
+      "details_path": "entities/a2c77cc142e62db476d1.json",
+      "sha256": "e4103f212b57c457aa56ee3f9c4bf15b4a9fdf7f58ab05824475e6d29a535946",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "debe3161f75f83cfc4a0",
+      "actor_name": "SwampKing",
+      "details_path": "entities/debe3161f75f83cfc4a0.json",
+      "sha256": "ab31ba250a38f72d754b390cd3eb00baa1861dd7dde0ee7a813a26aef11a668d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "details_path": "entities/2845e42f9cfb1f916815.json",
+      "sha256": "e249672db0f36cde28eb2429e94b82c624d5e86ed80780a92695a3e9458c57af",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "5aa52bd105935c0a1b76",
+      "actor_name": "Troll",
+      "details_path": "entities/5aa52bd105935c0a1b76.json",
+      "sha256": "23bcbfdc8eb7fdb9e58cf817b2d31e3297434d2890fc02001aee33a21a683389",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "32a6018452d04659b538",
+      "actor_name": "Swamp_LizadMan_Type2",
+      "details_path": "entities/32a6018452d04659b538.json",
+      "sha256": "c6b6cdc8341a7186a397db4942e49571598ee17eaa7ad79bf1c1699635defe4d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "d247470ac9c21be0bc4e",
+      "actor_name": "Swamp_LizadMan_Type3",
+      "details_path": "entities/d247470ac9c21be0bc4e.json",
+      "sha256": "2345f4d316a11f7f110c9c2ebd10aa4c92805e5437dba571897c205bec3cebb9",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4857e9afd486029389df",
+      "actor_name": "Swamp_LizadMan_Type1",
+      "details_path": "entities/4857e9afd486029389df.json",
+      "sha256": "e1d6c0fa3ea62f5ce72c616686ba82dbcd05474856e58fbadfda72eb767f55fb",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "b35c45d342195815c1ba",
+      "actor_name": "NPCmerchantCamp",
+      "details_path": "entities/b35c45d342195815c1ba.json",
+      "sha256": "cfbe9a423c45a3e23d67434a6c67bde872cc2c856f71cc2aaf5b3ebfd889398f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "947922c76e6510899ab0",
+      "actor_name": "Swamp_MerchantCamp_NPC_A",
+      "details_path": "entities/947922c76e6510899ab0.json",
+      "sha256": "324b054df0e6a95be1d3b7b1361a2b00a29d5c702548fe9d0f18b2def61035a5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "21318615b56fef370891",
+      "actor_name": "Swamp_MerchantCamp_NPC_C",
+      "details_path": "entities/21318615b56fef370891.json",
+      "sha256": "69a8bd8b04e84a4cdff8f6fcc524c4629e02c3b47e1e361073f581f0c815ab7e",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ffced55104feb850c42e",
+      "actor_name": "zKill5Lizman_Post",
+      "details_path": "entities/ffced55104feb850c42e.json",
+      "sha256": "df09ff895baf7a5bbc921bab9d7bb715206b23e55a2dd0f2801c49950360450d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "72fca2c25f55b40c4d82",
+      "actor_name": "Swamp_MerchantCamp_NPC_B",
+      "details_path": "entities/72fca2c25f55b40c4d82.json",
+      "sha256": "ce9d15336bdf1a914868967022136eab4a335ca5449581a086c2eda21641947d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "b298df8fe9d963b41e6c",
+      "actor_name": "Swamp_MovieMoth",
+      "details_path": "entities/b298df8fe9d963b41e6c.json",
+      "sha256": "c767988e9c730f08f54a60e6cc284275757ed22b2c1871539ffc71cd54b1baec",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "893b2e8fb38716fa20a8",
+      "actor_name": "WanderingPriest",
+      "details_path": "entities/893b2e8fb38716fa20a8.json",
+      "sha256": "ad5d33ccb5be26046962875c70489eb4db890fc6280079806169c3d411676f90",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "01ed68f07c7770cccd16",
+      "actor_name": "Prisonier2",
+      "details_path": "entities/01ed68f07c7770cccd16.json",
+      "sha256": "fe72fa711f75d3fe8d370d6e1546a14d346e7a49c0e9e1a8dc8e1a7ae13b1566",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9ec6aeb5ab0c12d7a056",
+      "actor_name": "Prisonier",
+      "details_path": "entities/9ec6aeb5ab0c12d7a056.json",
+      "sha256": "a35c6be6063fabc344b2f60be2e3165b6022b6ac27a3b31fe7bf35830187ce72",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "details_path": "entities/fc65221a5384c667d68a.json",
+      "sha256": "6c7f97f9bcd979835f9af465e5a8c10de4611a7d3f144963e4f9b3d7d8c10c4b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "85e3752f001d5903f863",
+      "actor_name": "Swamp_ActorTroll",
+      "details_path": "entities/85e3752f001d5903f863.json",
+      "sha256": "bc0d150995176961f9e1a7944c218f126545ff1978fe8325f4225df2057b2892",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "493d2e115ad25e84db5e",
+      "actor_name": "Witch",
+      "details_path": "entities/493d2e115ad25e84db5e.json",
+      "sha256": "1a0cb9159fd37b34f4b0a7e91dc7b46a923c7a7cbb73422bebb11276a03916af",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "182ca511b74b336a5f8d",
+      "actor_name": "Epic_merchant_swamp",
+      "details_path": "entities/182ca511b74b336a5f8d.json",
+      "sha256": "068311d3c54ccb8d06a548fcf03b63740ccb25683ee107d6ad278c608e305bb5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c052441fdd99de0663f8",
+      "actor_name": "Slime",
+      "details_path": "entities/c052441fdd99de0663f8.json",
+      "sha256": "989e67f4375855cb8b406851367289cc2ea335630cc4156e554254ad4416e2aa",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9c2e07ae3973d6568b2c",
+      "actor_name": "IcyHub_StillStatue",
+      "details_path": "entities/9c2e07ae3973d6568b2c.json",
+      "sha256": "291b695d285065396927d8a7a64ada7a1e50b3f8857841c8d73146c08673ee3e",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "78dd4d9c682bce11db47",
+      "actor_name": "DarkQueenForm1",
+      "details_path": "entities/78dd4d9c682bce11db47.json",
+      "sha256": "30f42bdf985a34eafb9545f9032967e455d602ed1eae269abef585c10fa6b810",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "d7a08ef42384b8eec32f",
+      "actor_name": "ReneHG",
+      "details_path": "entities/d7a08ef42384b8eec32f.json",
+      "sha256": "133ec1d4b19e99aece31b9acd0faaa3d66478ed91b82f3b77b4ef9d614b72c93",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "89309ecba5b72e7de55d",
+      "actor_name": "King",
+      "details_path": "entities/89309ecba5b72e7de55d.json",
+      "sha256": "ca6ff2a374d3faac5cf05416c6932298f1ffab6a8ed3d8ed8cfb77f08334292c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0347a6a75b182724aedb",
+      "actor_name": "Edward",
+      "details_path": "entities/0347a6a75b182724aedb.json",
+      "sha256": "335ebc9bd9b986b0627184aeb63732294525a7775873b3ba87f7587ce61c34e4",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f619aeb1bb817eeb2fa4",
+      "actor_name": "HellMan_DW_final",
+      "details_path": "entities/f619aeb1bb817eeb2fa4.json",
+      "sha256": "d72be5613f83758627fbc9c11d7c3e29b7d13ac0ac56258791ffdf44488feee6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7aeb4a2b7aed1df5a462",
+      "actor_name": "HellMan_quest_1",
+      "details_path": "entities/7aeb4a2b7aed1df5a462.json",
+      "sha256": "b81e8e610b4fed1867d2aeb45ec14a464c33305bed47abf07743bf8313b8ac09",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "d1d82769d268bd1c1cda",
+      "actor_name": "GCV_DemonChild",
+      "details_path": "entities/d1d82769d268bd1c1cda.json",
+      "sha256": "f67ea2cbe061ddf173167641114d9607b6a62a5a80c7f35eee2678031303141a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0ce60473126f02b88205",
+      "actor_name": "GCV_BanditHunt_a",
+      "details_path": "entities/0ce60473126f02b88205.json",
+      "sha256": "12f1848c21b4559c811d1f9762dd2e74cf47efad9f72bdc0a665670daa6613cb",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3d70d1909e15ec342d55",
+      "actor_name": "GCV_GUARD_P1_001",
+      "details_path": "entities/3d70d1909e15ec342d55.json",
+      "sha256": "5e8f30732d12b5917065b634484c9df9e62e49080b73f5d743075818d6227700",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "343c6d75393048f7e8a5",
+      "actor_name": "GCV_GUARD_P2_001",
+      "details_path": "entities/343c6d75393048f7e8a5.json",
+      "sha256": "3915c3854a4c4cf8b22d60ed9695629b59c5d3877dea881f636eeeeb5895382b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "13fba2b932a50175954d",
+      "actor_name": "GCV_GUARD_P4_001",
+      "details_path": "entities/13fba2b932a50175954d.json",
+      "sha256": "55b3f1bc76a34ef302d460bf6f2154ba8dc4a2cfec4a96956902bc33456825cf",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8991f970a2c80d37c726",
+      "actor_name": "GCV_GUARD_P1_002",
+      "details_path": "entities/8991f970a2c80d37c726.json",
+      "sha256": "9f5bcb6560983af4c9542e329687698ca8838c2503d6ebd98169534dcd70c16a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "a734c77ee707acd6a8cc",
+      "actor_name": "GCV_P1_004",
+      "details_path": "entities/a734c77ee707acd6a8cc.json",
+      "sha256": "8be99bf4ba5650cfb110732668cc09512c60c0da7908f84cf2f55981a2eb2b37",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "31b254353b819892de3f",
+      "actor_name": "GCV_P1_005",
+      "details_path": "entities/31b254353b819892de3f.json",
+      "sha256": "4ed5e1c97670b147fa6654900ef2c9b628ec1339b8d7fe70cea0808937608c31",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e58e430b7903795b0b43",
+      "actor_name": "GCV_P1_008",
+      "details_path": "entities/e58e430b7903795b0b43.json",
+      "sha256": "734c4dc53347874ab3acb0d23a294553ea595a173f61f7ceaf7f818a9cd0f816",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6b75456a861372fca2ad",
+      "actor_name": "GCV_P2_005",
+      "details_path": "entities/6b75456a861372fca2ad.json",
+      "sha256": "e98c0267764a509b017daad276eeaf22b8a047d5c7f2cb4ffd51ccc9e3672a1c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3aa76c37955db412f61b",
+      "actor_name": "GCV_P3_001",
+      "details_path": "entities/3aa76c37955db412f61b.json",
+      "sha256": "fe753b1442e130c893a7af097d8d024c3c83a15a4821c65841d91e7e214d75d9",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6898a1a8a3dfad8e4ea4",
+      "actor_name": "GCV_P3_003",
+      "details_path": "entities/6898a1a8a3dfad8e4ea4.json",
+      "sha256": "f70f78ef1b8cae020be2e71ee2b3c5efe383b29534a013aa3733b066423c0c27",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "40e3da4a9eb3f8df88a8",
+      "actor_name": "GCV_P3_004",
+      "details_path": "entities/40e3da4a9eb3f8df88a8.json",
+      "sha256": "51f087ed57aaf57396c188dedfe47b5f9252774df3655e1704f83c5fe98a253b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "75959bb3cf8f697f3de2",
+      "actor_name": "GCV_P4_002",
+      "details_path": "entities/75959bb3cf8f697f3de2.json",
+      "sha256": "58ac803e631de5ac9b66c8e7776904bcbc108a38b43479130fe4665e499037f1",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "1f16b65ee2bf288f4f2f",
+      "actor_name": "GCV_GUARD_P2_002",
+      "details_path": "entities/1f16b65ee2bf288f4f2f.json",
+      "sha256": "bda33e40a0b4bcabc68dc43301e8aff463f8c2202d72ebf06391ae7e6a7e6d07",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7f5c6e2c8a53c2377084",
+      "actor_name": "DoorCultists2",
+      "details_path": "entities/7f5c6e2c8a53c2377084.json",
+      "sha256": "eb5eff27ca69094c3a91dc895879f3429300264ea8b5d5ad9372cf61eeb13aa5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "89d6b10973db87e6eecd",
+      "actor_name": "DW_Merchant",
+      "details_path": "entities/89d6b10973db87e6eecd.json",
+      "sha256": "e7b985f548a13c25b33caa50aa99f149e532a167717d038daadce660e5576461",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f27f53abe71e3c84009f",
+      "actor_name": "DummyLightningFaery",
+      "details_path": "entities/f27f53abe71e3c84009f.json",
+      "sha256": "7e7a0217785795750b9799b9441b0e3b4520e332e58e8e01d93356292defa100",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f53bda09f68d2994b795",
+      "actor_name": "DW_Statue",
+      "details_path": "entities/f53bda09f68d2994b795.json",
+      "sha256": "bb4802d697e34100eef0276f40cbf96094ff6f9d27d655ece104ed983c3a0f07",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "975fcd941392ad6a19b5",
+      "actor_name": "DW_Cherub_RE",
+      "details_path": "entities/975fcd941392ad6a19b5.json",
+      "sha256": "d409802120b9baea841b7f424b3f893b3554a88467c16e33c0d7fd7af02b6f1d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "605e48da248aba0a9e07",
+      "actor_name": "RD_Spider",
+      "details_path": "entities/605e48da248aba0a9e07.json",
+      "sha256": "60c59230df579a4fd85ab1452215e065b0f384fc28f997a1537bc9cb8194a28c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e7f3914480bdb65b776a",
+      "actor_name": "RD_Dog",
+      "details_path": "entities/e7f3914480bdb65b776a.json",
+      "sha256": "37594c150de547477d85eb7894f937377c10a04c7adcf3dd0c9f548e9496694c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "005bb387d4ca92085fde",
+      "actor_name": "InfectedBurned",
+      "details_path": "entities/005bb387d4ca92085fde.json",
+      "sha256": "532bbada4db6acec44805c05d04cdf664405dfbce1ebd07596900d036bc140ee",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "53f2dc7db37b4cb101cb",
+      "actor_name": "Epic_merchant_darkwoods",
+      "details_path": "entities/53f2dc7db37b4cb101cb.json",
+      "sha256": "6d2306f4e69dafc42595a07c7fa048efaf929a476cdd37fcad36d9141de98659",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "59ec2ca797d9067ec0fb",
+      "actor_name": "RD_BigDog",
+      "details_path": "entities/59ec2ca797d9067ec0fb.json",
+      "sha256": "bf54f35f6df5b9ff3e7d191605189ec760ef046fccf9f702bbb958e85113a12f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "be0595cbcdc642fcad98",
+      "actor_name": "TrollKing",
+      "details_path": "entities/be0595cbcdc642fcad98.json",
+      "sha256": "1cbdd86584a832acd3698652a0ab4eb6a87763429929937f9551a9d3f5bd01e0",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9451549fd82f4f148f8b",
+      "actor_name": "InfectedNun",
+      "details_path": "entities/9451549fd82f4f148f8b.json",
+      "sha256": "f29b20c6560d69c8b156cb20901c9975be51c44fc24bd484990a8232e6103121",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c5c01828480de106ac40",
+      "actor_name": "Infected_Werewolf_Midboss",
+      "details_path": "entities/c5c01828480de106ac40.json",
+      "sha256": "136c31bb15bf3c988a7f0686de4b4942ea333b5dd6cae5d72e7c9a26a06aebfc",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3c31a6b313323b180174",
+      "actor_name": "MadWoman",
+      "details_path": "entities/3c31a6b313323b180174.json",
+      "sha256": "9b5e194c0dbe20da14d9dfae48bad3419327c9d5334268c484604a506406631c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8d75eff0eb72a87b77f9",
+      "actor_name": "InfectedMadWoman",
+      "details_path": "entities/8d75eff0eb72a87b77f9.json",
+      "sha256": "9f7dfaab593857b1d4e18ef2c82d74bd5ecb251cdeb4fedd4bef24ebd44fac26",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "d36b04a07d04549229c9",
+      "actor_name": "RD_BigSpider",
+      "details_path": "entities/d36b04a07d04549229c9.json",
+      "sha256": "1ba079238a23af49601e39c6e411338165486d2012c11fbfb05cd10e8a379c5f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "bee1e6b7d5e0c1f9bdfe",
+      "actor_name": "Crypt_Skeleton",
+      "details_path": "entities/bee1e6b7d5e0c1f9bdfe.json",
+      "sha256": "4e95e76f0efacabd26fd411fb5b9e58a30c4fa498256f4a20bea218d927f4f88",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8dfa57d6e2979bb74978",
+      "actor_name": "CryptSlime",
+      "details_path": "entities/8dfa57d6e2979bb74978.json",
+      "sha256": "995a60542bb949016fda8311f8344990be0a9c8028f9b1e653857a0d2623d716",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "124805f2567b4083ad0e",
+      "actor_name": "Crypt_SkeletonXL",
+      "details_path": "entities/124805f2567b4083ad0e.json",
+      "sha256": "f9b702cafe06686b426f3319a602a222217f01e3cb2a5149a7a65af960ffd7a3",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "60092225061857777a78",
+      "actor_name": "CryptSlime_RE",
+      "details_path": "entities/60092225061857777a78.json",
+      "sha256": "5ceff1611cc8efa59bbdf3067acfce6a5784baf9a52f3770e254148449e45072",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "fa5c665fea224255bc4b",
+      "actor_name": "Crypt_Ugly_Dog",
+      "details_path": "entities/fa5c665fea224255bc4b.json",
+      "sha256": "1fbbf881833e1f49cbd2faaee2899a8f0feff462aae10a48f19086b9e7582127",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "a2cd1367275abf58a321",
+      "actor_name": "Crypt_Ghost",
+      "details_path": "entities/a2cd1367275abf58a321.json",
+      "sha256": "aa8051e4c76a5ca7621275e18901b1ed5dfd5c32484459bf6db147d13f66d83a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "b36b3702a74967a891e8",
+      "actor_name": "SisterEllen",
+      "details_path": "entities/b36b3702a74967a891e8.json",
+      "sha256": "6731f76a0c0d2aaaf57e3a5acb7c06c4114162108409685a55bf754036ab914e",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c33cc036c56b1f0eb5a0",
+      "actor_name": "Darklin_CRYPT1",
+      "details_path": "entities/c33cc036c56b1f0eb5a0.json",
+      "sha256": "771403899c413937416e9e1ca9baa337a43299e08dbe0679ccd6abe7ef1b4827",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "b8d200d97507f568654f",
+      "actor_name": "Assassin",
+      "details_path": "entities/b8d200d97507f568654f.json",
+      "sha256": "6483efb96136b9ac6f1fab28e1616a4223b0facfb23b5bccf1d50376f4893769",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "394cbe898ccaa17172f4",
+      "actor_name": "Abbey_DeadMonkA",
+      "details_path": "entities/394cbe898ccaa17172f4.json",
+      "sha256": "d079d638f7d8548eb40a119c5e3f9eed855101ee15eb196411f7cf1d98a90d1b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6699957dfaacf031484b",
+      "actor_name": "zInvisibleMonk1",
+      "details_path": "entities/6699957dfaacf031484b.json",
+      "sha256": "b3e1ab3dcc1abf8f9b91afbd56844dedb485f03059781d22af4694a9d0cbf6b3",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "bf0cc29875ed76acc5f9",
+      "actor_name": "Abbey_DeadMonkB",
+      "details_path": "entities/bf0cc29875ed76acc5f9.json",
+      "sha256": "ea2ae6251dde460ec7c79bcafe44f4fcf5897901d594b03452e1592f66dbe195",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8317fd5395f510b18b1a",
+      "actor_name": "zInvisibleMonk2",
+      "details_path": "entities/8317fd5395f510b18b1a.json",
+      "sha256": "b14d1d8ac8ca392f7224a5a4e3df22877c971dcacd2d0e690c760e382de41ac8",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2250ee8f43e126ff975e",
+      "actor_name": "zInvisibleMonk3",
+      "details_path": "entities/2250ee8f43e126ff975e.json",
+      "sha256": "f06f987f7413095dc39c9e11d625eb73ca5ebe29ad874d30e8f4fa3c1558337b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "699a4dc17084b8a677b3",
+      "actor_name": "Abbey_DeadMonkC",
+      "details_path": "entities/699a4dc17084b8a677b3.json",
+      "sha256": "b510ebb32af8447fde07c86ae6dc350284ec976ecde073fb4f9335998500aad7",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "badbf492c0d7858aaa7c",
+      "actor_name": "AssassinAbbey",
+      "details_path": "entities/badbf492c0d7858aaa7c.json",
+      "sha256": "be3084650bc02af3490eee34ece289ddbc8c66d332f10b697587c2d1f7906fdf",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8a3d7e3b6a076a6f8abb",
+      "actor_name": "Abbey_DeadMonkFinal",
+      "details_path": "entities/8a3d7e3b6a076a6f8abb.json",
+      "sha256": "1673c442aab985fc52405043634ccda97c0d4f64f449bc9920d482e23b605f39",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3c33e8c665188117add7",
+      "actor_name": "Fallen_monk",
+      "details_path": "entities/3c33e8c665188117add7.json",
+      "sha256": "51d471ebc935dbfb83a3fe3f7ce8909cb3d2976fa6ab66f3fbe16e62a5f3903c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "036b66e209c21f7ba44d",
+      "actor_name": "Darklin_ABBEY",
+      "details_path": "entities/036b66e209c21f7ba44d.json",
+      "sha256": "7d4e8bb5cbb5d6604d42fed94f5c8b536ba88cf744aed99a86109e4d1e37db9a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9b7c26516c99f24b8cad",
+      "actor_name": "DummyEarthFaery",
+      "details_path": "entities/9b7c26516c99f24b8cad.json",
+      "sha256": "f3968018c5ce9d23ac211a66d3d2cbf710c2c83caa3393689f0a3f718319ca98",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "df93f79abc72069cb7a9",
+      "actor_name": "zInvisibleMonk4",
+      "details_path": "entities/df93f79abc72069cb7a9.json",
+      "sha256": "33db7cc2e295690220a71fb1775c94b8ad21bed6b1bab74205ff4f119f788aa3",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7c7325b6ef30d289a321",
+      "actor_name": "Crypt_Ghost_RE",
+      "details_path": "entities/7c7325b6ef30d289a321.json",
+      "sha256": "7d08d95a001b020e05670f00a614716218f3f4b275305b67cbb64436ffe00423",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8668f29d8807a4d5619b",
+      "actor_name": "AbbeyA_MonkA",
+      "details_path": "entities/8668f29d8807a4d5619b.json",
+      "sha256": "1bc0d3a951cab0be8851a6e67f23e98d80eb1b2d860a827551744fbc535cfabf",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "1fd0a2fd24e92311b464",
+      "actor_name": "AbbeyA_MonkB",
+      "details_path": "entities/1fd0a2fd24e92311b464.json",
+      "sha256": "6766de12784ce99dfe4eb84d0856db4168b6c0ed49491d6a8b233d9fe7545e9a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "dbba49b8138633649b1c",
+      "actor_name": "AbbeyA_MonkC",
+      "details_path": "entities/dbba49b8138633649b1c.json",
+      "sha256": "e7e47356383607d0546850ea01e68a9391fec2757ea76432291eec6e2b73be23",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "716016a1e4765ee77a5e",
+      "actor_name": "AbbeyA_MonkD",
+      "details_path": "entities/716016a1e4765ee77a5e.json",
+      "sha256": "c00396d6b608ede2ca621a6ce0a17b95c4eaace0ea1f01b8ed2bdc3646702748",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "61ca7917d1aad5f2b1ce",
+      "actor_name": "Rene_NPC",
+      "details_path": "entities/61ca7917d1aad5f2b1ce.json",
+      "sha256": "952faef4cd8e2e727969f1d099c5f5091af6c47a35f05355022154de95c2b178",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "35fb1002566566ef48e9",
+      "actor_name": "Abbey_Merchant",
+      "details_path": "entities/35fb1002566566ef48e9.json",
+      "sha256": "2d5efe5aff132e88e185f4c07c5440479619a89134a71fce6172d9c2cc5cb316",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "a2b92db29157348fe12c",
+      "actor_name": "El_Lightning",
+      "details_path": "entities/a2b92db29157348fe12c.json",
+      "sha256": "da374c650ade2e3cec0d51dd768222b850721527f6c9edf2a13a233ba4741909",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0ec37266cdebe539c582",
+      "actor_name": "EarthTemple_DoorPlant_A",
+      "details_path": "entities/0ec37266cdebe539c582.json",
+      "sha256": "b35944c4fecf13d747d4b26b2a2b40215d47b82d2528ba4f3bb621b1f1f3d9d6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c08739eb7d6fef71dacc",
+      "actor_name": "EarthTemple_SmallPlantMinion",
+      "details_path": "entities/c08739eb7d6fef71dacc.json",
+      "sha256": "e6e11c8fb1ffa8d2cd633d593240746bc5e81b3ac0a691b49d9cfe056f59da70",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e7758de741552a7f15c0",
+      "actor_name": "EarthTemple_Spider_HUGE",
+      "details_path": "entities/e7758de741552a7f15c0.json",
+      "sha256": "796a2411924d6ad1399907bc480ab21f6450deef2e084e78109938dcbc6c6704",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "819ba04ddfde08f1627c",
+      "actor_name": "EarthTemple_Spider_helper",
+      "details_path": "entities/819ba04ddfde08f1627c.json",
+      "sha256": "f21eb6e857afd90ef4e5d065aa86a5f926ba770f3df5b85245bcb3ba0c0d7e56",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "25022a8b13e74bf7af99",
+      "actor_name": "EarthTemple_BigSpider",
+      "details_path": "entities/25022a8b13e74bf7af99.json",
+      "sha256": "5c136dd355677480346b919393d0d23e117139ca2c82369f267a0d3c70c5b4e1",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "274760ff95a8475a61e8",
+      "actor_name": "EarthTemple_Goblin_Shaman_BOSS",
+      "details_path": "entities/274760ff95a8475a61e8.json",
+      "sha256": "200a3ec8e52c560c7bbfa2de6f5df6632107e1644246d46d45149d199ac22111",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ee302fd73a60178f6ad3",
+      "actor_name": "EarthTemple_Goblin_Rogue_HELPER",
+      "details_path": "entities/ee302fd73a60178f6ad3.json",
+      "sha256": "44a224fc3c90101f6e2ec1cd084a5663cbcf94f88cb5cd5fc33623ca7ab10801",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "332fb9d0829accdce45e",
+      "actor_name": "EarthTemple_SmallPlant",
+      "details_path": "entities/332fb9d0829accdce45e.json",
+      "sha256": "7a6aeac62110fdee0c6b0ee300009ff8095ddcccd8312425a016ce14f55cfdca",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "71129f6e1eb075528284",
+      "actor_name": "ET_Treething",
+      "details_path": "entities/71129f6e1eb075528284.json",
+      "sha256": "0ca953d4dcf89362f66b66bd3bd3cf483de8ae4692ea06df0f83e78cc86c7882",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f5eb746d05ff50079aa3",
+      "actor_name": "EarthTemple_Spider",
+      "details_path": "entities/f5eb746d05ff50079aa3.json",
+      "sha256": "fdcbee4ac9d475a202fdfe8595d4cd01cba56e76ef9c0b7fc5139983f51011a4",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ba343ee81e8b99576bdf",
+      "actor_name": "EarthTemple_Cultist",
+      "details_path": "entities/ba343ee81e8b99576bdf.json",
+      "sha256": "3aa4e718c517dd5be9bd900e51abd5daf9943ae494e9c420b3bf43d2107404bc",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "17360f430d64f0054a38",
+      "actor_name": "EarthTemple_Cultist_Talker",
+      "details_path": "entities/17360f430d64f0054a38.json",
+      "sha256": "d10108c95d31e312ee030abaa3a9df377c5181d5bc6bf379d8a783b129187bac",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "125d78f1be84734bc100",
+      "actor_name": "RootTroll",
+      "details_path": "entities/125d78f1be84734bc100.json",
+      "sha256": "797fdd96d7fad671766525fbbf2890312de62ca08600217e5bd27b1171120fcb",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "151f72f7b090a555c146",
+      "actor_name": "EarthTemple_DoorPlant_C",
+      "details_path": "entities/151f72f7b090a555c146.json",
+      "sha256": "3f8aa4edaaeb09e6928a2d92c840e8c09d528b54189f4102e678dcae634480af",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2379284ed9a5dbadc71f",
+      "actor_name": "El_Earth",
+      "details_path": "entities/2379284ed9a5dbadc71f.json",
+      "sha256": "0d113e662ba57be3f9083a6c27609d814242e925ad53cb7099d7828d3f1843c4",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c467363094be3ef5cd89",
+      "actor_name": "Sandwalker_001",
+      "details_path": "entities/c467363094be3ef5cd89.json",
+      "sha256": "cf0c663e7fe896dbce773eaa0782e6b76267f337622d112978d4e905d2172588",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "cd94c5bd9675bb694186",
+      "actor_name": "Sandwalker_003",
+      "details_path": "entities/cd94c5bd9675bb694186.json",
+      "sha256": "dd590e7f1d2ed1fc02ba312269fe8f1d93320e75e992fd32427e1bd2a39ccf2b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3136a4940ed0be313384",
+      "actor_name": "Sandwalker_Worm_a",
+      "details_path": "entities/3136a4940ed0be313384.json",
+      "sha256": "8a88b7e55bb35e4a481095928f764298548f2f85fa72d4d4748918bab58e187c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f4cbca910e1f8c451fdf",
+      "actor_name": "Sandwalker_Tar_a",
+      "details_path": "entities/f4cbca910e1f8c451fdf.json",
+      "sha256": "cac52b6793b15d7c0493d222a19b9f6b190e3be5d83cae690f7dd983d0931743",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "90c2824ea98847b1fa56",
+      "actor_name": "Sandwalker_002",
+      "details_path": "entities/90c2824ea98847b1fa56.json",
+      "sha256": "299d1dfef3ca825b850c66512a4944efc69e697348b18720d4a2e625a81c44d5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9c291b44ea5ae5e5118f",
+      "actor_name": "Sandwalker_005",
+      "details_path": "entities/9c291b44ea5ae5e5118f.json",
+      "sha256": "022d13b7c637af6d90857a6f31c0dfc48d2ddd91b35932560b858f77d5b37824",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "99166b8ab940cfe9c0be",
+      "actor_name": "Sandwalker_004",
+      "details_path": "entities/99166b8ab940cfe9c0be.json",
+      "sha256": "5cb2c36084081eb6288b4f67c01bb0c8fd88124d1ba8fcd42c52ecfb2aa0a08b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "1bfae6cf92bdbc1132d1",
+      "actor_name": "Sandwalker_Bandit_a",
+      "details_path": "entities/1bfae6cf92bdbc1132d1.json",
+      "sha256": "48cb72f67e2d2b0144b11eb545521989b1059cdb2fc40f656c4811500273b243",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "b9ab5f689ea028f11fb9",
+      "actor_name": "Sandwalker_Bandit_b",
+      "details_path": "entities/b9ab5f689ea028f11fb9.json",
+      "sha256": "b5368191082147abac0999a78d5bd4b3a0ecfadacb38966bc203dedadc4c0dbe",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9942861cfa8299b59751",
+      "actor_name": "Sandwalker_Worm_b",
+      "details_path": "entities/9942861cfa8299b59751.json",
+      "sha256": "37ccc4a2965ef958f47df7f5214852b43fbf73b8b280113ea6a6939c7bd2b2de",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4056363237826ab022a2",
+      "actor_name": "Sandwalker_Tar_b",
+      "details_path": "entities/4056363237826ab022a2.json",
+      "sha256": "4bfdee7d57ef9e0b5b4a65fe4c571e3eeab08333ef416ab014d0e64f776674bd",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "54f1876e5935d7a4287b",
+      "actor_name": "Desert_Merchant",
+      "details_path": "entities/54f1876e5935d7a4287b.json",
+      "sha256": "cc11195fcd1149be09bfaed837dbe24db58f3ec115a13be333eb36af97c1b31c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2cbc6f63ea784576e2cf",
+      "actor_name": "Desert_Spider_Midboss",
+      "details_path": "entities/2cbc6f63ea784576e2cf.json",
+      "sha256": "93d5abff52f6090cbc405130f0b4a27eaae8f340d2d927377b73827372141612",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3da7d2f21cc7b083c36f",
+      "actor_name": "Desert_Spider2",
+      "details_path": "entities/3da7d2f21cc7b083c36f.json",
+      "sha256": "2c107d537333705f21a7c04e85a4fb5172e0287672008409358e842e2117590a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6d657067ae55dec21317",
+      "actor_name": "Desert_Spider1_XL",
+      "details_path": "entities/6d657067ae55dec21317.json",
+      "sha256": "8006af127ff86e522f33a461dbc8dc2163dde6daba505822e7a11949a137c426",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3776f158db2e8922ab32",
+      "actor_name": "Epic_merchant_bloodsands",
+      "details_path": "entities/3776f158db2e8922ab32.json",
+      "sha256": "ae07b0be225561cbdf50e3facf6cf1bffc5fd5984c5454fe0400f169a0fc9de2",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e9d398b946cb853feb9c",
+      "actor_name": "SandWormQueen",
+      "details_path": "entities/e9d398b946cb853feb9c.json",
+      "sha256": "791af20a79fa6070e88842911eebc6e2bfeeae406dccb442db43403579a5feb0",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9a42adb6e7886b87354d",
+      "actor_name": "SandWorm2",
+      "details_path": "entities/9a42adb6e7886b87354d.json",
+      "sha256": "bf7c6adaec28eae1e0c238fecc8ee47ebe31075a997d38970528ab6416e98099",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c4504e979373d63945c2",
+      "actor_name": "SandWorm",
+      "details_path": "entities/c4504e979373d63945c2.json",
+      "sha256": "5990914f9fad0ede8c2aa987214d8ae0284836055f6b26924d1ed3d8ee1db59d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "86f2f79f0f11c5a8ed25",
+      "actor_name": "Tar_mine_queen",
+      "details_path": "entities/86f2f79f0f11c5a8ed25.json",
+      "sha256": "6ad49544050e0844200299971e166eaf7af378ba37a9c8706d964d41184eab8b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2c25b8b64a02a262e893",
+      "actor_name": "TarSlime",
+      "details_path": "entities/2c25b8b64a02a262e893.json",
+      "sha256": "5d3cae2ea975cab41d08c9e4216e15b05007caca8a0f0e3547672fb7890f69e5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "eeb1a192a8fd6ee43af7",
+      "actor_name": "Lighthouse_Zombie_Champion",
+      "details_path": "entities/eeb1a192a8fd6ee43af7.json",
+      "sha256": "8bb07381f81481fa20a7ed35b80de3a1c8bdd119bdb721ec17cd5eb6943930ed",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "509db0a2864c67e271bf",
+      "actor_name": "Lighthouse_Zombie_RE",
+      "details_path": "entities/509db0a2864c67e271bf.json",
+      "sha256": "cf27611e6d3c7c2474945783a6e09ecba321903fd6fd942217fb6cf2cf8f5bfa",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "87e8e6404dccb09ddc22",
+      "actor_name": "AssassinLighthouse",
+      "details_path": "entities/87e8e6404dccb09ddc22.json",
+      "sha256": "974e62a2ce9fb32d4fdd576c6a442abd47a59a4c5de3052d5bd5ec9f9f1fd8c4",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2770426a1d30696ab79f",
+      "actor_name": "Lighthouse_Ghost_Champion",
+      "details_path": "entities/2770426a1d30696ab79f.json",
+      "sha256": "70383a56cbe60e91a8446ef8bb31db85291666b54690f3e88a2b2f2b06ca7e50",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ed89241ac39f8a4efc08",
+      "actor_name": "Lighthouse_Ghost_dark",
+      "details_path": "entities/ed89241ac39f8a4efc08.json",
+      "sha256": "186e991ef20209970e72d075b1176a93e6ebf2262843934dc70bb88fa0d2c9c5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "1379e0295ad7eeb698b4",
+      "actor_name": "Lighthouse_Ghost_dark_RE",
+      "details_path": "entities/1379e0295ad7eeb698b4.json",
+      "sha256": "68e1f1b0d06ceb917838893cd840f95b70872fd3215ea3e21a478a57291b8ad8",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "48a468f30edbfe91f1e1",
+      "actor_name": "Lighthouse_Emissary",
+      "details_path": "entities/48a468f30edbfe91f1e1.json",
+      "sha256": "9dd0cb60d9cc387a17701fc6b5b69589a026e111d723a56629d7bf7df9ff2a3c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "30728cf893a99d385b85",
+      "actor_name": "Darklin",
+      "details_path": "entities/30728cf893a99d385b85.json",
+      "sha256": "6958a05fb99d38141608280b21f8ba615e1909e4ac7dea325903f3322220c6ef",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6cbe1936658dfe259ea6",
+      "actor_name": "Crypt_Ghost_MIDBOSS",
+      "details_path": "entities/6cbe1936658dfe259ea6.json",
+      "sha256": "910c97ae0996775eaf43ffb378dc549c089661062237d6208582aa4f3d5eb1ad",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7d20e5132e00dfffb578",
+      "actor_name": "Darklin_CRYPT2",
+      "details_path": "entities/7d20e5132e00dfffb578.json",
+      "sha256": "744de7a03a4ef7f4c28be5e87a946d02b4f041b77686290deaf544c5a265e56a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "09b43484fbfd3f5c9ff2",
+      "actor_name": "Castle2RCultist",
+      "details_path": "entities/09b43484fbfd3f5c9ff2.json",
+      "sha256": "65183f63975f8a56a4411177a1ab4ca5aad464b3edbffd40e3a49aef2d841de2",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "d32709057d6294da0f00",
+      "actor_name": "FallenGuard",
+      "details_path": "entities/d32709057d6294da0f00.json",
+      "sha256": "ac873af0c25426e73bacffeca0cb24c904c9428afb5e25b9ffa407c95303436c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "bd30f9fd4884fdd6c6a2",
+      "actor_name": "GothicusB_survivor_d",
+      "details_path": "entities/bd30f9fd4884fdd6c6a2.json",
+      "sha256": "9a1b4e22396c23a81c156b2c4f11d30debc1a0bbff40566c89495cad1d727239",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "25852d65f372d5345d96",
+      "actor_name": "GC02_DeadGuard",
+      "details_path": "entities/25852d65f372d5345d96.json",
+      "sha256": "e16d3cbcf80a7fc83a21dcf68492b4a5621b81a61b4ad6413b223676deeb15a0",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "baccf17fb76493f99e9c",
+      "actor_name": "NPC_friendly_cultist",
+      "details_path": "entities/baccf17fb76493f99e9c.json",
+      "sha256": "04375c671411bb3b0a81344349aac7a7e8261848af6cc095ffc6f28b55a6f166",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "fb5b26b0ed4f2800fae8",
+      "actor_name": "GothicusB_survivor_a",
+      "details_path": "entities/fb5b26b0ed4f2800fae8.json",
+      "sha256": "6e1111babdd16b198a4624de4e1b6e65ba696534cea11c92f4afd9103a63f13f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "fa7c3f5e02076e041d4c",
+      "actor_name": "Castle2Cultist",
+      "details_path": "entities/fa7c3f5e02076e041d4c.json",
+      "sha256": "d00f35adb5da7ca6bb88a239ea6849c43b7302f79ab6ba88b7b205f695e23165",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0788a4ef5bcf383a9b2c",
+      "actor_name": "Swamp2_LizadMan_Type1",
+      "details_path": "entities/0788a4ef5bcf383a9b2c.json",
+      "sha256": "d700a5c6cea7c5c446019c4b2363e0eb97c0675e0956a0231760a75c20b7bf2c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "5fc0c347c051fed8515c",
+      "actor_name": "Swamp2_Moth_Type1",
+      "details_path": "entities/5fc0c347c051fed8515c.json",
+      "sha256": "21b9a8e45a468fe501718d5723b4f96eda9d85244b46b8d4c233f9dc4cc9e538",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ed021b6febbc9ef4ec5e",
+      "actor_name": "Swamp2_LizadMan_Type2",
+      "details_path": "entities/ed021b6febbc9ef4ec5e.json",
+      "sha256": "4e9ab0dfaa488b9a79f1156ffcb1369f647950082213317bd4007fc4837c5c13",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7cf3ad15e220ca2caa00",
+      "actor_name": "Fallen_cultist_1",
+      "details_path": "entities/7cf3ad15e220ca2caa00.json",
+      "sha256": "34d5abb6326a68bbb507851296d3b08d098f873d203766a747abc8522f7b168c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "89e62d1af1e2d587891f",
+      "actor_name": "Swamp_Moth_Cocoon",
+      "details_path": "entities/89e62d1af1e2d587891f.json",
+      "sha256": "aaf9c26bdbfe2244a7a767d0df4ea22e1df3d11a0cf4ad3314f043d2a6eeab6b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "9311543617acd314349f",
+      "actor_name": "Troll2",
+      "details_path": "entities/9311543617acd314349f.json",
+      "sha256": "f2f0cacd209166a64e20404661064898a1bb255626d99345d48ef0808d87aed5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "75d4fe5dac155fb9bd8a",
+      "actor_name": "Swamp2_LizadMan_Type1_Respawn",
+      "details_path": "entities/75d4fe5dac155fb9bd8a.json",
+      "sha256": "7a8ecf2e79522973f1104cc7893a16aaf72a9cb449c27dcf576ce569ade2e217",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "85ab22a9ca49b59dd505",
+      "actor_name": "Epic_merchant_notherlands",
+      "details_path": "entities/85ab22a9ca49b59dd505.json",
+      "sha256": "8a9b4df9951c9753c35ab15bc326e82b6eaae6900b406d5c5f5660bd5576330a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4a2b9ff0967e8f8643cc",
+      "actor_name": "Swamp2_Slime",
+      "details_path": "entities/4a2b9ff0967e8f8643cc.json",
+      "sha256": "319ae7252f093bebcf356be507719415077332a2ace83234768ad5ae199458d5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4ed3b91e21197d70e6f5",
+      "actor_name": "Swamp_Moth_Cocoon_Queen",
+      "details_path": "entities/4ed3b91e21197d70e6f5.json",
+      "sha256": "d7235fcdd01e57f42111cca9f1f3f3c261786f3bf2d672fc19504a5095b1a4c2",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6e14511e3c9f602b1246",
+      "actor_name": "Swamp2_Slime_Large",
+      "details_path": "entities/6e14511e3c9f602b1246.json",
+      "sha256": "afe5b757350af2bd1423f023afff8971cb52d75bf058ff0962fb92e2866808ff",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "08514b5bdd51e7b69bce",
+      "actor_name": "WT_Sharkman",
+      "details_path": "entities/08514b5bdd51e7b69bce.json",
+      "sha256": "b684fa47c1b2c4c2236960d323f2a1dd163bebb764d19b551869581759109707",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "5a3374777ecf1edacb5b",
+      "actor_name": "EdwardBoss",
+      "details_path": "entities/5a3374777ecf1edacb5b.json",
+      "sha256": "89779d91fa32a89956a00acf8f2485daef23a592a52f4239f2c5d97371e5b0e2",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "871560646aa019f10acd",
+      "actor_name": "Balrog",
+      "details_path": "entities/871560646aa019f10acd.json",
+      "sha256": "005383354704e537a41ff0fd81205dd401f54b975ee7085efe05d0772abdbf5e",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0d93d5f1688103d7d167",
+      "actor_name": "DummyWaterFaery",
+      "details_path": "entities/0d93d5f1688103d7d167.json",
+      "sha256": "427e12c490e7a862bec93413790e6c837c5c0a5aae09336fc944c4f920c14a0f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "bb79d45184cd086c4217",
+      "actor_name": "King_WT",
+      "details_path": "entities/bb79d45184cd086c4217.json",
+      "sha256": "a9b88b019d6f8438b409e822053f84020bc20dc070586b6c63273a851b6e64d5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "70aec56592031f5a97f1",
+      "actor_name": "WT_Skeleton2",
+      "details_path": "entities/70aec56592031f5a97f1.json",
+      "sha256": "d683d27e8558b86faa7f1fc58053f27042e25623fce320d7d04838826f62a05e",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "d0a6f3f7896fb27aa3e0",
+      "actor_name": "WT_Skeleton3",
+      "details_path": "entities/d0a6f3f7896fb27aa3e0.json",
+      "sha256": "89086de70e4395c273dfd9c689ae49467de518a2e04c2f7405bed7a7ffc05ae0",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ad83c58d27a75fbd717f",
+      "actor_name": "WT_Skeleton1",
+      "details_path": "entities/ad83c58d27a75fbd717f.json",
+      "sha256": "4b0d26d648db19567adb9836db220ff04b9218c2ab91f827261e4bf6afc73fc6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f46d2d88b7650b897a05",
+      "actor_name": "WT_Ghost",
+      "details_path": "entities/f46d2d88b7650b897a05.json",
+      "sha256": "7cde9da485b5b77ddbebe5cd03e155384964bcddecc82ea956f995642e43b2f4",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "a4b8fe2f6c4d67a84674",
+      "actor_name": "El_Water",
+      "details_path": "entities/a4b8fe2f6c4d67a84674.json",
+      "sha256": "56085de818aa68664ac17e51da49316ecf4c58261429d1db5f3c7e58f2371660",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8cc85841cb4984d659c9",
+      "actor_name": "IH_Statue",
+      "details_path": "entities/8cc85841cb4984d659c9.json",
+      "sha256": "4ac137f7b13aefbdf5ff6ea29ddecda86d8abc88389453a3a3fbea6efad8f383",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3454e3bfb3a64ec469aa",
+      "actor_name": "IcyHub_NPC_FrostComb_a",
+      "details_path": "entities/3454e3bfb3a64ec469aa.json",
+      "sha256": "eff93ed9732409618bd4ae9c8d87d9c093437a0d985f5c15acae6c4cc48af93c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "96ec6202786cbebe1605",
+      "actor_name": "IcyHub_NPC_FrostComb_b",
+      "details_path": "entities/96ec6202786cbebe1605.json",
+      "sha256": "67b0b48784c3655ca1c262b0462dffb264cff0a5492e1f185c7a8e6d01b06741",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8e13ed1b0f92d083113d",
+      "actor_name": "IcyHub_NPC_Howling_b",
+      "details_path": "entities/8e13ed1b0f92d083113d.json",
+      "sha256": "55600189408953df05d899f54649b84045013686777c573338047b21462ae3ee",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7a195e23def78e3dd78d",
+      "actor_name": "IcyHub_NPC_Howling_a",
+      "details_path": "entities/7a195e23def78e3dd78d.json",
+      "sha256": "8846fe6154ddfdc2e2c571bfd6fc96020d6a762e36cad86c5d2284d2f5150ca6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ebac7b73734f9b758e02",
+      "actor_name": "IcyHub_NPC_Icemurk_a",
+      "details_path": "entities/ebac7b73734f9b758e02.json",
+      "sha256": "4cd1eb5a214b7aae33e082e260598ef7749b01f3a6016721e4d09ddc9f1e3b8b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "270e80cf23a3d6ae45e8",
+      "actor_name": "IcyHub_NPC_Icemurk_b",
+      "details_path": "entities/270e80cf23a3d6ae45e8.json",
+      "sha256": "cd5bb47fcfaf9920ad2c957a1b869f3a86ec3ae2581f7ead107d6505da31aafa",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "70d92cab3d5dec9bdaa5",
+      "actor_name": "IcyHub_NPC_monk_001",
+      "details_path": "entities/70d92cab3d5dec9bdaa5.json",
+      "sha256": "e5c159dab4744c5f7c8a3f36cd658442abbd0f458b92e1e55ba1a16f57ee88ef",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f28d0afbe23defd8f80d",
+      "actor_name": "IcyHub_NPC_monk_002",
+      "details_path": "entities/f28d0afbe23defd8f80d.json",
+      "sha256": "c44d0ba0ce8b0b46f9ac7b10f52722faa8613f960d2a918e791146dde09d608c",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c2bc6368012cdf0bbf27",
+      "actor_name": "IcyHub_Merchant",
+      "details_path": "entities/c2bc6368012cdf0bbf27.json",
+      "sha256": "cd7ae06aab5a72e8c1c41aa50fde234a841299e8d28d658c47151d73eb09708f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f0e9502e4e1d0aadf61b",
+      "actor_name": "HellMan",
+      "details_path": "entities/f0e9502e4e1d0aadf61b.json",
+      "sha256": "cea41465e4e5492433a8a8bd2fe2238f07d90032f8e05874a8cfaa3564341cfc",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "bf142bd31a2dea3f1884",
+      "actor_name": "IC_Crawler_Midboss",
+      "details_path": "entities/bf142bd31a2dea3f1884.json",
+      "sha256": "9de44cff60d5786925364bcc9f29fcd40c89e74d6431e2994a6ed72df552a3e7",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "3e66e9d2b46eceb1d11f",
+      "actor_name": "IC_Spider",
+      "details_path": "entities/3e66e9d2b46eceb1d11f.json",
+      "sha256": "5369df7f34c5c66ce80392e6e15ffc891fcdf1eac51b6c74d23ad9d29d60862a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4dbf733887483efd722e",
+      "actor_name": "IH_Barbarian_King_Quest",
+      "details_path": "entities/4dbf733887483efd722e.json",
+      "sha256": "cb80d7dc5ad1941763607c50f3bb59a0f577f8c96d7289b936be7b19a0767e4f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "332f3e8d529b44b00ccf",
+      "actor_name": "IC_Snow_Wolf_Hound",
+      "details_path": "entities/332f3e8d529b44b00ccf.json",
+      "sha256": "b666d4416a464eb556f94944e974a128fc67cae9657a55b283876efba5f74cb5",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "88d600ed4738eefadccc",
+      "actor_name": "IH_Snow_Wolf_MIDBOSS",
+      "details_path": "entities/88d600ed4738eefadccc.json",
+      "sha256": "7dd7b283dbdffb5d02ef5536598c0d433963cb98c629f616c001847bf37a17e2",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e02b9210c5ac9e0e6775",
+      "actor_name": "IH_Snow_Wolf_Pup",
+      "details_path": "entities/e02b9210c5ac9e0e6775.json",
+      "sha256": "558b6deeb3293d07f193878f19750ad3361af23c329e25227283d801edb271de",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4a97a8951b17eb74ef42",
+      "actor_name": "IcyHub_NPC_cultist_cave_001",
+      "details_path": "entities/4a97a8951b17eb74ef42.json",
+      "sha256": "743a399d2f1eb6b18e256eb3c57e926c99e5ab040fb080eb98197faab56e45a1",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "719e7fa4fc4d135cb951",
+      "actor_name": "IcyHub_NPC_cultist_cave_002",
+      "details_path": "entities/719e7fa4fc4d135cb951.json",
+      "sha256": "9d6493977ac88e7b58ee09f020fcb98f2785bced67c2f3524a8cc72192092502",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "91a4d94813cfd410984c",
+      "actor_name": "WindYeti_1",
+      "details_path": "entities/91a4d94813cfd410984c.json",
+      "sha256": "b821e03b91d38ac269542d8a92331ea1743bb2879224289afe71bda025fcba86",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "c7ac0a2c3e1f3aaa7b52",
+      "actor_name": "Wind_Moth_Champion",
+      "details_path": "entities/c7ac0a2c3e1f3aaa7b52.json",
+      "sha256": "3eb273403d144d58b25f100f8414c0b6f7c906eba89eed00e1266752052d1465",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8866ddfa0e8a5f8088dc",
+      "actor_name": "Wind_Moth_Type0_RE",
+      "details_path": "entities/8866ddfa0e8a5f8088dc.json",
+      "sha256": "88e9312f528e5e27c534a42c5928d986caeaf78f14a07c98ac630387a4888fbb",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e0068a13716136a1af28",
+      "actor_name": "SKYGUARDIAN",
+      "details_path": "entities/e0068a13716136a1af28.json",
+      "sha256": "dceef094fe4806662f9c2bc13878f751dd7f1c4626eaf0ecc8987a71f60f9b8a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "b9fe6ff0ba507ba66191",
+      "actor_name": "DummyAirFaery",
+      "details_path": "entities/b9fe6ff0ba507ba66191.json",
+      "sha256": "c024f2a7d70def4b685d8bc24715765019dca8f801724982143927e9eba63998",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "84423f83e93bcca2522c",
+      "actor_name": "FireTemplar_Sword",
+      "details_path": "entities/84423f83e93bcca2522c.json",
+      "sha256": "44ed29baf4e5d896b907bdcbe0ccb76b370e3357f6a9d47b18cf83b8c42b8560",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "eea3e251a12f39e58684",
+      "actor_name": "El_Wind",
+      "details_path": "entities/eea3e251a12f39e58684.json",
+      "sha256": "9d07220a6c173c4f18ddff4729c2c508afbd4e8921fa2fa23fb0ccef28a72733",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "720bd180605786f2a42d",
+      "actor_name": "FireTemple_FriendlyCultist1",
+      "details_path": "entities/720bd180605786f2a42d.json",
+      "sha256": "1443977fc24f9f1bcf2040c1e5d986b49b56c220c0c9b859ba9fa0679a666ac3",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "11e97b3985fc336204b6",
+      "actor_name": "Epic_merchant_fallenkingdom",
+      "details_path": "entities/11e97b3985fc336204b6.json",
+      "sha256": "4a3740018e9ad9e85f06966c3570d62d1a47470f1d7cec371936eaf11d02330f",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "fc0f9c7f5e537c94cf66",
+      "actor_name": "Flaminite",
+      "details_path": "entities/fc0f9c7f5e537c94cf66.json",
+      "sha256": "1467530e604b8e6f208bc651a489f8b997bbf842b361a1c7f7f5f66dcf09f8c9",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "37317faed954565e0b83",
+      "actor_name": "DummyFireFaery",
+      "details_path": "entities/37317faed954565e0b83.json",
+      "sha256": "3124fdb403c796c1e32677a3c13939f6370112a8742e76dd3a12e3a302bdd81a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7dac889979bfc1c180a5",
+      "actor_name": "El_Fire",
+      "details_path": "entities/7dac889979bfc1c180a5.json",
+      "sha256": "967eae275f424328188416f3e46c715f294b1d768ae9fee4741348b1d1757632",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e1e9fcc3e7d4f121973e",
+      "actor_name": "HellMan_UW_talk",
+      "details_path": "entities/e1e9fcc3e7d4f121973e.json",
+      "sha256": "ddd7df6cd5719298e26c68484c90d1e376e09dc51bc8103f10ddeeb98ab689b6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "4a8c8f6b3f21d75a27da",
+      "actor_name": "UW_Emissary",
+      "details_path": "entities/4a8c8f6b3f21d75a27da.json",
+      "sha256": "5c91d479e157392ceb97f4205a502fe0dc5124304f5821b270716d7ef2a6cebd",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "eac2886bbf425505a7bc",
+      "actor_name": "UW_Treething",
+      "details_path": "entities/eac2886bbf425505a7bc.json",
+      "sha256": "08b5dfc47d2e32d8081be3e336d61b4ee502e4009c130eed03e30848981c37eb",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e132f88889624c0c65e9",
+      "actor_name": "UW_Cherub",
+      "details_path": "entities/e132f88889624c0c65e9.json",
+      "sha256": "13a75241ebdb9c620b5539af8e080c65b049531d551a7fd7dd4e0a1f72242836",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "afe9cbf2d56aa2052763",
+      "actor_name": "UW_Statue",
+      "details_path": "entities/afe9cbf2d56aa2052763.json",
+      "sha256": "09de99f5d2b60c03ce8d6c6dae9c0baaf4d8e79a32c04e12e549f3272d0bd492",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "265479a8a8125bc9aa9d",
+      "actor_name": "UW_Skydevil_RE",
+      "details_path": "entities/265479a8a8125bc9aa9d.json",
+      "sha256": "ee30b8700f1d81d47c21ca9a1d30a879c00453343643a654d20d911d34969d87",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "7f1e6a124316e6580503",
+      "actor_name": "Epic_merchant_underworld",
+      "details_path": "entities/7f1e6a124316e6580503.json",
+      "sha256": "f685e7c628772a6be8b4c6d18a6227a79d1620f5ff9af1a27208ff98a4875607",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0ebe402a9e952527ca77",
+      "actor_name": "UW_CherubRE",
+      "details_path": "entities/0ebe402a9e952527ca77.json",
+      "sha256": "a45b7ae3a62d259e58b34c51621fe1afad0e18d9ffd42efb8e00075a6ed333e6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "1ebacc192f96109f811b",
+      "actor_name": "zKingGrave",
+      "details_path": "entities/1ebacc192f96109f811b.json",
+      "sha256": "9c9555f90e04e53d81cb24dc2fe937dcb7ff1254d6bcfd485d06037a055a067b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "799341333d588a1b6f30",
+      "actor_name": "zEdwardGrave",
+      "details_path": "entities/799341333d588a1b6f30.json",
+      "sha256": "85011fe560041259c07794cfcde178d4b74cb1670bb5787dc77a36bbedb06ea7",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "0a6ad56ef69401dc8b80",
+      "actor_name": "zCrown",
+      "details_path": "entities/0a6ad56ef69401dc8b80.json",
+      "sha256": "12f21acb4f30edc0ea20448476a1eb63e03e576917c68199c8123dafa6df0557",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "318c68af88fe46ed18b9",
+      "actor_name": "MachineRoom_HellSkeleton",
+      "details_path": "entities/318c68af88fe46ed18b9.json",
+      "sha256": "017b7bcd94abfbc24a27f76cab9defc2b65c97c4a67bb90cd8e106f885fe6516",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "ab80b77080aeac53484d",
+      "actor_name": "Ref_FAUX_ree",
+      "details_path": "entities/ab80b77080aeac53484d.json",
+      "sha256": "ee956debb84aa598a0fb343e9dfc4dca7282ff0da865bf7e50c23231e7706e39",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "8ac8e5db3a7ce5c38863",
+      "actor_name": "MachineRoom_DarkFaery",
+      "details_path": "entities/8ac8e5db3a7ce5c38863.json",
+      "sha256": "a7b97df8bd13f76cf90578e906514107c8f6ce8b88a6a64ad58ca3a5edeb2b61",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "132b7271e97fe81ad7c5",
+      "actor_name": "Referee_MachineRoom",
+      "details_path": "entities/132b7271e97fe81ad7c5.json",
+      "sha256": "cc7c05eb1c5bc364f985233bd784ba870121d424649e2099f437d08bf4856b5d",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6b4c8391d3b5a1028d7f",
+      "actor_name": "DT_DarkGuardianXL",
+      "details_path": "entities/6b4c8391d3b5a1028d7f.json",
+      "sha256": "419b33d8e8d66eb8d3cdbc32d3e10810889ec083f92eab128be40c2336d9c47b",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "733419bdc77f2b1c1f8d",
+      "actor_name": "DT_Cherub",
+      "details_path": "entities/733419bdc77f2b1c1f8d.json",
+      "sha256": "c007df82a4ebf3e3221499fbcee40f3138be9fd5235e911700140338d995d3be",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "f3df0564741e64e3a9a4",
+      "actor_name": "DT_SkydevilXL",
+      "details_path": "entities/f3df0564741e64e3a9a4.json",
+      "sha256": "e6db70162b0863ec9957eac3d5fd369cfcf02d69463b2547bcfe76a5d609efb3",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "96d62070ec13843e3c0b",
+      "actor_name": "AssassinDemon",
+      "details_path": "entities/96d62070ec13843e3c0b.json",
+      "sha256": "814967591caadece079fd0fbef766dd5c03f7a71d33e0f653149e26b9848b49a",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "603bed866fd56e342161",
+      "actor_name": "ResurrectingGod",
+      "details_path": "entities/603bed866fd56e342161.json",
+      "sha256": "57ea6dcb01a9c62fd944c2651d4da8f4cd4b8169d5fc52b4470c2f45283c4c70",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "48f07134656a2cda8b03",
+      "actor_name": "MadrukEnergySpawner",
+      "details_path": "entities/48f07134656a2cda8b03.json",
+      "sha256": "e0445351f89bdc42b482292413eb1cf4cc8d7ea92c0ab03895824114281b0ae6",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "e90cdf184470499d5d8c",
+      "actor_name": "MadrukTorso",
+      "details_path": "entities/e90cdf184470499d5d8c.json",
+      "sha256": "28c645edde12dfa600a8ba83e40c043a5909a3364ebec91dd29fe9ef85d0cf90",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "2bea13ed077eb4bd8c55",
+      "actor_name": "zMadrukTorso_Target",
+      "details_path": "entities/2bea13ed077eb4bd8c55.json",
+      "sha256": "47e0510291a58d2081c250ad2bd5328a0cca2315089b15d7b910821e8711a5a1",
+      "status": "DONE"
+    },
+    {
+      "actor_id": "6049d17d9d924ff5b265",
+      "actor_name": "Madruk_A",
+      "details_path": "entities/6049d17d9d924ff5b265.json",
+      "sha256": "4e89b72339e3f20ba0021007c3d8b2629db584bdeacf69e74941d0fa947c15ae",
+      "status": "DONE"
+    }
+  ],
+  "entity_count": 217,
+  "level_count": 39,
+  "levels": [
+    {
+      "details_path": "levels/6b2f662bc32e54797884.json",
+      "membership_candidate": "act_1_backlink",
+      "scene": "001_swamp.mlx",
+      "scene_id": "6b2f662bc32e54797884",
+      "sha256": "44fe4c7e93b45641032b2179bd9cc82557d7da98d3bfb3ee865415da3739b2ca"
+    },
+    {
+      "details_path": "levels/f6ed60ebabd20b89aaf1.json",
+      "membership_candidate": "act_1_backlink",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "scene_id": "f6ed60ebabd20b89aaf1",
+      "sha256": "10857a6adf59ec79ee4e897ffc7b9891cb6c7b9303a44bf9b96198c4e6f1171e"
+    },
+    {
+      "details_path": "levels/2e1304ff2c8ed98caa94.json",
+      "membership_candidate": "act_2_inferred_start",
+      "scene": "003_darkwood.mlx",
+      "scene_id": "2e1304ff2c8ed98caa94",
+      "sha256": "a954fef515d29a4d6ee602376396bd0f474924f6086eacc8a10486d310875fdb"
+    },
+    {
+      "details_path": "levels/bf6ca7beefbed5a32c86.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "sha256": "faf39bc7f65d72b98922f9aa43f176a81a0d0adf7428f020f3369e2d753aabdf"
+    },
+    {
+      "details_path": "levels/1ee09bcff06fac62bcc3.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "005_infectedvillage.mlx",
+      "scene_id": "1ee09bcff06fac62bcc3",
+      "sha256": "185801204aee01d42070a41dd62011bafed6cff28d2f770fb2186ca052292525"
+    },
+    {
+      "details_path": "levels/b392eb001343a839de27.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "sha256": "fc69700036ce4c5d82de7ae7411d54c987e79c76fa42b5d34ae632d013546806"
+    },
+    {
+      "details_path": "levels/00f4beec573704987fff.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "sha256": "8e047cee75c5aa9c27f13a876668410d956c22715595b808f82f6a1b274393f3"
+    },
+    {
+      "details_path": "levels/9e69404bebff0e9a7211.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "sha256": "ee0b6b37ed6cffb6807124cb023f2f70974a2f9f1a3b8c6e4fffb6bce5225a1e"
+    },
+    {
+      "details_path": "levels/00d6b04d855fccf54bfd.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "009_abbey.rule.xml",
+      "scene_id": "00d6b04d855fccf54bfd",
+      "sha256": "d71eb4f8ac0828a630af0851911925aa6767967ad51ea22d947283441421aea0"
+    },
+    {
+      "details_path": "levels/b5c805e540ccbf63b432.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "009a_abbey.mlx",
+      "scene_id": "b5c805e540ccbf63b432",
+      "sha256": "5a2eda1687eabd6ebaa4bbf03dbb56a213331b7e1372f8835f76ded176e7a385"
+    },
+    {
+      "details_path": "levels/fa629399ded8e23c4fb7.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "sha256": "4272b85eedfc1505e1d1d689f29cf05129b274b71f841b9115ab5e8280742fc1"
+    },
+    {
+      "details_path": "levels/dedfd7d9431f2172275e.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "011_earth_temple_01.rule.xml",
+      "scene_id": "dedfd7d9431f2172275e",
+      "sha256": "9cb98f755edea8da57696ca542d071d1bd4246f0209b15d999b472fce0c64ed0"
+    },
+    {
+      "details_path": "levels/3ccb758ba39eee28aa87.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "012_earth_temple_02.rule.xml",
+      "scene_id": "3ccb758ba39eee28aa87",
+      "sha256": "c50899beb5aebe5ff2e7e7c6a26544975ea809acfa1b39999aea5cfa6ce9e1df"
+    },
+    {
+      "details_path": "levels/45fe61c5ea04fd4f4dea.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "013_earth_temple_03.rule.xml",
+      "scene_id": "45fe61c5ea04fd4f4dea",
+      "sha256": "0bf674f519d1259fd63233f15d57f5d32f0d94a58f8f4d8acdccc45a2f017ee6"
+    },
+    {
+      "details_path": "levels/87474d560b2e8c1f85b5.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "sha256": "52afb2bd24dcb94d154f1cb06c640c0fea98b0391036b06ebda4c7a9b43c45d3"
+    },
+    {
+      "details_path": "levels/145c9b75ecc0bcae66e0.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "015_red_desert_hub.mlx",
+      "scene_id": "145c9b75ecc0bcae66e0",
+      "sha256": "aaa05dd830dace677bc09d632b8e7060799bfc89c617f661a62e5246decd1237"
+    },
+    {
+      "details_path": "levels/5d5bf670c8e428777dbe.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "016_red_desert_cave_01.rule.xml",
+      "scene_id": "5d5bf670c8e428777dbe",
+      "sha256": "71b181a95c3cb77ed96528915712aac185ac3c35739ed5a434672775957a5ee7"
+    },
+    {
+      "details_path": "levels/1670cdc190d298717e82.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "scene_id": "1670cdc190d298717e82",
+      "sha256": "555c0beb4667b0ea3c029ac54412a67ddd7a80e4495885c66e113180ea47c2f7"
+    },
+    {
+      "details_path": "levels/7cb216ae991b0f5391f8.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "018_red_desert_cave_03.rule.xml",
+      "scene_id": "7cb216ae991b0f5391f8",
+      "sha256": "d7c702c6c2df9debfa6d36fc0fe14445777cfeb541df2a32c14f6f32091421e1"
+    },
+    {
+      "details_path": "levels/b2b7ec3332bd71af7ff0.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "019_light_house_01.rule.xml",
+      "scene_id": "b2b7ec3332bd71af7ff0",
+      "sha256": "5edec8fe64a55da89497768351cba5b29a35c767603956e9ad43a864385692c4"
+    },
+    {
+      "details_path": "levels/247b44fa30e0237397a6.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "sha256": "f6f4df3fc31707c79bbcb05fe10a479a3257ccbfb644bc4c5f091b199dc34a4f"
+    },
+    {
+      "details_path": "levels/7939d43105cf511cd73e.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "sha256": "c78a4a6d21a520df13ae9401fbbe836608461c3ca946f459d0c11054faa9c980"
+    },
+    {
+      "details_path": "levels/a763713c29120b2d03f7.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "sha256": "f05278ed65ae21e6b6dba928da82e28b8606989806ee80d2d899cf7e3abe0588"
+    },
+    {
+      "details_path": "levels/2adb7adbe4e5653621e3.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "scene_id": "2adb7adbe4e5653621e3",
+      "sha256": "b512857c4b61e62f27e56cb3d6405d6c68c758b0ced64a404bec05aceea71a3b"
+    },
+    {
+      "details_path": "levels/6ee863765454d115924d.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "022_swamp2.rule.xml",
+      "scene_id": "6ee863765454d115924d",
+      "sha256": "0d21d97e4bc957d944fbfe4e93972a66700149bce78968621ca5682d4cc5c12c"
+    },
+    {
+      "details_path": "levels/a548290f261f5521bfe7.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "scene_id": "a548290f261f5521bfe7",
+      "sha256": "6e166c6af66e2226fdbc4bfb25bfe4df45120a84d399a80396d553a15063922c"
+    },
+    {
+      "details_path": "levels/6add1b5bcc34b6249574.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "sha256": "e8c1ff4f6dda6acf5d90630e6e07d0fc5612b1b3ba7e7ed391c3d96b24684a42"
+    },
+    {
+      "details_path": "levels/fc8f217aa6c8f4b41e89.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "sha256": "a5089d1d63014380ff87c6fb0a9c73463d17b303bec02663e07e974d66d3cd50"
+    },
+    {
+      "details_path": "levels/4a600b19f18959411fdf.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "025_icy_hub.mlx",
+      "scene_id": "4a600b19f18959411fdf",
+      "sha256": "46559b8b807eae4c6f20e5b7b6d783f22ee0ce24951d4faafb315320a6f73bc2"
+    },
+    {
+      "details_path": "levels/283f20b8e682c7f9b20a.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "scene_id": "283f20b8e682c7f9b20a",
+      "sha256": "60eb2a4ad891dac0e553529c439f6c1419e00701fba3ee1b4a377bcdd3aad403"
+    },
+    {
+      "details_path": "levels/9e6cb2d21b3bb5326d90.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "scene_id": "9e6cb2d21b3bb5326d90",
+      "sha256": "aa771fac0b68895fdd60b82d70ce0eac0ebdd7ecf6631f2e53085920e37ac78c"
+    },
+    {
+      "details_path": "levels/7bac2e2741f6bd3044a0.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "029_wind_temple.rule.xml",
+      "scene_id": "7bac2e2741f6bd3044a0",
+      "sha256": "aa00c5106b0e1d41b89a3e9d823e795782feaa1290fc75fdedaf6ca62d49727f"
+    },
+    {
+      "details_path": "levels/04afe51fc8b013539656.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "sha256": "a922a41d980ab32d77674149145c7638f2a690cfea75540558b67cdfadafcea0"
+    },
+    {
+      "details_path": "levels/bf01948063f214749992.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "031_firetemple.mlx",
+      "scene_id": "bf01948063f214749992",
+      "sha256": "91768d952cbb1b8fe11212e4e69396a1a6eb7ddebee8c0fa110808f944fd2afb"
+    },
+    {
+      "details_path": "levels/1803d31bc622e52e4ca3.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "sha256": "e5edf3af85ff80b1f4a673c1561d02c170aae27059e8c4dd26ebdd7d7cb4d6e8"
+    },
+    {
+      "details_path": "levels/a9e0f80e1d8689ad5593.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "036_underworld_hub.mlx",
+      "scene_id": "a9e0f80e1d8689ad5593",
+      "sha256": "d987e4ce8f01810ce813b47195503d78a76e15ed5275829ba9d6dd88d306fe9b"
+    },
+    {
+      "details_path": "levels/9fc3c1a42c6b469bbf26.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "037_machine_rooms_01.mlx",
+      "scene_id": "9fc3c1a42c6b469bbf26",
+      "sha256": "54be1948e278bcbf8ad9d4ad0f1b2edb4fbad50a0073bf0d32ba34491a699847"
+    },
+    {
+      "details_path": "levels/f5c436de2b255f87b02f.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "sha256": "154c6e9b3d30263bc894291bbfbfb7d2ce004845ffe1cd367a914268d37b9fcd"
+    },
+    {
+      "details_path": "levels/0995df95dc10822639cb.json",
+      "membership_candidate": "unknown_act_membership",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "sha256": "e94be024ef93671969c781a6930a5ca2e0837d4ee57b4e2e9ce381cb85af8902"
+    }
+  ],
+  "package": "C-act2",
+  "schema": "atlas-r2-act2-dossiers-v1",
+  "source_scope": "act2/scope-current.json",
+  "support_policy": "Asset/source presence, staging-reference status, native contract state, Windows production support and runtime/visual verification are distinct fields; asset presence alone never increments playable support."
+}

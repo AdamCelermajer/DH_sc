@@ -48,11 +48,58 @@ struct RuntimeSkillBuffProfileV1 {
     bool suppress_selection = false;
 };
 
+// v21.8 w2-illusionist: per-target enemy buff arm. The Lua loop over popped Character targets runs
+// target:CreateBuff(BUFF_ID, duration, false, rank, BUFF_FX) + target:ApplyBuff for each target that passes the skip
+// rules (Eclipse, TimeControl, Figments). duration = the projected CharacterProperties cell (ms) when duration_prop_index
+// >= 0, else duration_base_ms + duration_inc_ms * rank; a zero projected value falls back to the same formula (Eclipse
+// `if bufftime == 0`). Capacity is always 1 (the Lua `false`).
+struct RuntimeSkillEnemyBuffProfileV1 {
+    const char* buff_class;       // ClassTable row (Buff_Illusionist_TimeControl, Skill_Illusionist_Eclipse, ...)
+    const char* fx_set;           // AnimatedEffectTable name of BUFF_FX (presentation only)
+    int duration_prop_index;      // CharacterProperties cell read as the duration, or -1 for the formula only
+    float duration_base_ms;
+    float duration_inc_ms;
+    bool skip_boss;               // Lua `not IsBoss(target)`
+    bool skip_miniboss;           // Lua `not IsMiniBoss(target)`
+    // v21.8 w2-illusionist: 0 = every Character of the Use list gets the buff (Eclipse, TimeControl, Figments). N > 0 = the
+    // Terror conversion memory: one target per Use (the first popped Character that holds no live slot), at most N slots
+    // (FIFO: the oldest slot is freed when full), each slot released when the buff's duration has run out.
+    std::uint8_t conversion_slots = 0;
+};
+
+// v21.8 w2-illusionist: per-target SetStunState arm (Lua Figments: `if not IsBoss and not IsMiniBoss then
+// SetStunState(GetRand(MIN, MAX), true)`). The duration is drawn per target, inclusive, from the cast coordinator's
+// generator (the native GetRand bounds are an inference: the Lua constants are treated as inclusive).
+struct RuntimeSkillEnemyStunProfileV1 {
+    float min_ms;
+    float max_ms;
+    bool skip_boss_and_miniboss;
+};
+
 // One step of a volley cycle: the ClassTable row projected for that marker, and whether it rolls every target
 // (top_target_only = false, Lua loop over the list) or only the first one (GetTargetListTop, no pop).
 struct RuntimeSkillVolleyV1 {
     const char* class_token;
     bool top_target_only;
+};
+
+// v21.8 berserker: OnPreSkill_ self HP cost (prince_berseeker_berserk.luac): while the caster's HP percent is above
+// gate_percent, SetProp(HP, health - health / divisor). The write runs after the OnPre target query and before UseMana.
+struct RuntimeSkillSelfHpCostV1 {
+    float gate_percent;
+    float divisor;
+};
+
+// v21.8 berserker: OnSkill_ scare/stun arm (prince_berseeker_warcry.luac). For every Character of the Use list that is not a
+// boss or miniboss: GetRand(1, faces) == stun_face gives SetStunState(duration, true), any other face SetScareState(duration,
+// true). Duration = projected SnS_Duration in ms, or fallback_ms when it is 0. After the loop each sound plays once when at
+// least one state of its kind was applied (Lua canPlayFearSFX / canPlayStunSFX).
+struct RuntimeSkillStatusArmV1 {
+    std::uint32_t faces;
+    std::uint32_t stun_face;
+    float fallback_ms;
+    const char* scare_sound;
+    const char* stun_sound;
 };
 
 struct RuntimeSkillUseProfileV1 {
@@ -107,6 +154,19 @@ struct RuntimeSkillUseProfileV1 {
     // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
     const RuntimeSkillVolleyV1* volleys = nullptr;
     std::uint8_t volley_count = 0;
+    // v21.8 berserker: OnPreSkill_ self HP cost (Berserk), or nullptr.
+    const RuntimeSkillSelfHpCostV1* self_hp_cost = nullptr;
+    // v21.8 berserker: OnSkill_ scare/stun arm (Intimidation), or nullptr. Applied to every Character of the Use list.
+    const RuntimeSkillStatusArmV1* status_arm = nullptr;
+    // v21.8 w2-necromancer: OnPre TargetListSearch(RANGE) with RANGE = CharacterProperties.TempProp1 (Pestilence:
+    // RANGE = FromFixed(TempProp1)). Uses the class projection's TempProp1 like use_range_from_temp_prop1 does for Use.
+    bool pre_range_from_temp_prop1 = false;
+    // v21.8 w2-necromancer: the Lua `target:SetKnockBackState(true)` after each Character SkillCombatRoll with dmg > 0
+    // (DeathClaw). The great bank is selected (the Lua default great=true). Routed through the request's knockback sink.
+    bool knockback_great_on_character_hit = false;
+    // v21.8 w2-illusionist: per-target enemy buff / stun arms (nullptr = the Lua has no such loop). Appended last.
+    const RuntimeSkillEnemyBuffProfileV1* enemy_buff = nullptr;
+    const RuntimeSkillEnemyStunProfileV1* enemy_stun = nullptr;
     // v21.8 assassin: the Use acts on the first Character of its target list only (Lua GetTargetListTop); objects are ignored.
     bool top_character_only = false;
     // v21.8 assassin: Assassination OnSkill_ execution gate, for the top Character. When it is not a boss and its raw Level

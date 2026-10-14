@@ -1,0 +1,2349 @@
+{
+  "act": "act_2_inferred",
+  "count": 46,
+  "kind": "projectile",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 33,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 245,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 24,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 33,
+              "name": "Spiderspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "33",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "addb143eb6ce29796b35",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 106 Desert_Spider_Midboss (2cbc6f63ea784576e2cf); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=106].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 28,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 242,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 21,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1090519040,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 28,
+              "name": "Plantspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "28",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "18e92db022a329d1c2f6",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 124 EarthTemple_DoorPlant_A (0ec37266cdebe539c582); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=124].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 28,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 242,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 21,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1090519040,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 28,
+              "name": "Plantspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "28",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "68ae141dfec7b7d5f307",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 125 EarthTemple_DoorPlant_C (151f72f7b090a555c146); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=125].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 15,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 240,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 0,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1101004800,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 15,
+              "name": "EarthWandProjectile",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "15",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "20c374336e5932d20acc",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 129 EarthTemple_Goblin_Shaman_BOSS (274760ff95a8475a61e8); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=129].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 28,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 242,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 21,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1090519040,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 28,
+              "name": "Plantspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "28",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "bd4a3b1a7b7455839d03",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 134 EarthTemple_SmallPlantMinion (c08739eb7d6fef71dacc); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=134].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 33,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 245,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 24,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 33,
+              "name": "Spiderspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "33",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "afc407790904f4cebfad",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 136 EarthTemple_Spider_HUGE (e7758de741552a7f15c0); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=136].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 8,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 221,
+                  "ImpactSFX": 291,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 14,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1108082688,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 8,
+              "name": "AssassinBlades",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "8",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "212c6e973d6577a71ef7",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 14 AssassinAbbey (badbf492c0d7858aaa7c); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=14].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 8,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 221,
+                  "ImpactSFX": 291,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 14,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1108082688,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 8,
+              "name": "AssassinBlades",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "8",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "ef6813f66197a202b89d",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 16 AssassinLighthouse (87e8e6404dccb09ddc22); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=16].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 37,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 246,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 5,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 37,
+              "name": "WaterMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "37",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "558bae477df7d6463170",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 217 IC_Crawler_Midboss (bf142bd31a2dea3f1884); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=217].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 3,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 221,
+                  "ImpactSFX": 291,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 9,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1110704128,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 3,
+              "name": "ArrowDefault",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "f35875c3e32331cfd566",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 21 Castle2RCultist (09b43484fbfd3f5c9ff2); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=21].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 36,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 247,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": 1148026880,
+                  "MaxRotation": 1135869952,
+                  "Model": 25,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1084227584,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 36,
+              "name": "Tornado",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "36",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "2518f720e4d99d6c4eca",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 223 IH_Barbarian_King_Quest (4dbf733887483efd722e); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=223].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 37,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 246,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 5,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 37,
+              "name": "WaterMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "37",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "5d3a04fc4eb0f19afb36",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 231 IH_Statue (8cc85841cb4984d659c9); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=231].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 22,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 243,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 3,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 22,
+              "name": "LightningMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "22",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "a49fe485343b4a1d7902",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 40,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 43,
+                  "ImpactSFX": 613,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 19,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 40,
+              "name": "darkqueen_form01",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "40",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "6e88ef88fed3c8f31eb1",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 281 MachineRoom_DarkFaery (8ac8e5db3a7ce5c38863); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=281].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 16,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 1,
+                  "ImpactFX": 243,
+                  "ImpactSFX": 461,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 17,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 461,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1092616192,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 16,
+              "name": "EnergyBolt",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "16",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "0445d3bc9245dbcdc9b7",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 285 MadrukEnergySpawner (48f07134656a2cda8b03); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=285].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 9,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 1,
+                  "DisappearOnHit": 0,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": -1,
+                  "ImpactSFX": -1,
+                  "IsLaser": 1,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 18,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 1,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 5000,
+                  "Velocity": 1082130432,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 9,
+              "name": "BlueLaser",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "9",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "29f925cedd1b6d1156f0",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 287 MadrukTorso (e90cdf184470499d5d8c); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=287].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 3,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 221,
+                  "ImpactSFX": 291,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 9,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1110704128,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 3,
+              "name": "ArrowDefault",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "855bec76645d8bc35dcc",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 288 Madruk_A (6049d17d9d924ff5b265); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=288].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 3,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 221,
+                  "ImpactSFX": 291,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 9,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1110704128,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 3,
+              "name": "ArrowDefault",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "d8008b2a3bfd2f61c300",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 328 RootTroll (125d78f1be84734bc100); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=328].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 16,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 1,
+                  "ImpactFX": 243,
+                  "ImpactSFX": 461,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 17,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 461,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1092616192,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 16,
+              "name": "EnergyBolt",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "16",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "9abb149ae9d088528a89",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 331 SKYGUARDIAN (e0068a13716136a1af28); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=331].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 33,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 245,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 24,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 33,
+              "name": "Spiderspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "33",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "91982b65e89bfea584ca",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 332 SandWorm (c4504e979373d63945c2); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=332].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 33,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 245,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 24,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 33,
+              "name": "Spiderspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "33",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "ac96ffa6b92fb5dc05c3",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 333 SandWorm2 (9a42adb6e7886b87354d); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=333].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 33,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 245,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 0,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 0,
+                  "Model": 24,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 2000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 1048576000
+                }
+              },
+              "index": 33,
+              "name": "Spiderspit",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "33",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "92be9c54af696ac6347a",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 334 SandWormQueen (e9d398b946cb853feb9c); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=334].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 22,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 243,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 3,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 22,
+              "name": "LightningMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "22",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "f17bdf9795b51eb57854",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 388 UW_Emissary (4a8c8f6b3f21d75a27da); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=388].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 22,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 243,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 3,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 22,
+              "name": "LightningMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "22",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "8b28032254279abc12f6",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 397 UW_Statue (afe9cbf2d56aa2052763); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=397].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 22,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 243,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 3,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 22,
+              "name": "LightningMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "22",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "ac1a10d51d0df432c072",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 19,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 241,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 1,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 19,
+              "name": "FireMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "19",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "06b683beb13264fa5534",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 36,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 247,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": 1148026880,
+                  "MaxRotation": 1135869952,
+                  "Model": 25,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1084227584,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 36,
+              "name": "Tornado",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "36",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "43c26eba9d78ee1950ba",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 49 DT_SkydevilXL (f3df0564741e64e3a9a4); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=49].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 19,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 241,
+                  "ImpactSFX": -1,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 1,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": -1,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1109131264,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 19,
+              "name": "FireMastery",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "19",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "38319cdcbaddf81ff4a8",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 57 DW_Statue (f53bda09f68d2994b795); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=57].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "index": 40,
+            "source_row": {
+              "fields": {
+                "fields": {
+                  "Dedicated": 0,
+                  "DisappearOnHit": 1,
+                  "ExpireFX": -1,
+                  "ExpireSFX": -1,
+                  "FriendlyFire": 0,
+                  "ImpactFX": 43,
+                  "ImpactSFX": 613,
+                  "IsLaser": 0,
+                  "IsMagic": 1,
+                  "MaxDistance": -1082130432,
+                  "MaxRotation": 1135869952,
+                  "Model": 19,
+                  "ObjectImpactFX": -1,
+                  "ObjectImpactSFX": 292,
+                  "StayOnFloor": 0,
+                  "TargetLock": 0,
+                  "TimeBetweenHit": 1000,
+                  "Timer": 4000,
+                  "Velocity": 1097859072,
+                  "VelocityDamping": 0
+                }
+              },
+              "index": 40,
+              "name": "darkqueen_form01",
+              "table": "projectiles#group0"
+            },
+            "table": "projectiles#group0",
+            "type": "table-row"
+          }
+        ],
+        "rule": "port/game-data/data.cpp:25; field RangeProjectileID"
+      },
+      "kind": "projectile",
+      "name": "40",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "b8ac7cecfed3a4afd1de",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 62 DarkQueenForm1 (78dd4d9c682bce11db47); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=62].RangeProjectileID",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_explode.bdae",
+        "destination_root": "assets/data",
+        "provenance": "port path candidate data/3D/projectiles/projectile_arrow_explode.bdae",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_explode.bdae",
+        "sha256": "F6092901B6D7E514380EAFD74A0985148C319FA93A881B6DC4F016D2F4A8F7BA",
+        "size": 23288,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_explode.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_explode.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_arrow_explode.bdae",
+        "data/pydata/data/3D/projectiles/projectile_arrow_explode.bdae",
+        "original-cache/data/3D/projectiles/projectile_arrow_explode.bdae",
+        "data/3d/actors/projectile_arrow_explode.bdae",
+        "original-cache/data/3d/actors/projectile_arrow_explode.bdae",
+        "data/3d/models/projectile_arrow_explode.bdae",
+        "original-cache/data/3d/models/projectile_arrow_explode.bdae",
+        "models/projectile_arrow_explode.bdae",
+        "original-cache/models/projectile_arrow_explode.bdae",
+        "actors/projectile_arrow_explode.bdae",
+        "original-cache/actors/projectile_arrow_explode.bdae",
+        "animations/projectile_arrow_explode.bdae",
+        "original-cache/animations/projectile_arrow_explode.bdae",
+        "worlds/projectile_arrow_explode.bdae",
+        "original-cache/worlds/projectile_arrow_explode.bdae"
+      ],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "af4ca211a012be387ebc",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=10].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+        "destination_root": "assets/data",
+        "provenance": "port path candidate data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+        "sha256": "066A535311180098B0C7E8BDC8AD2554644A1F949C80B3D5E4DF5CD3D25640A3",
+        "size": 23300,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_pin_shot.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+        "data/pydata/data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+        "original-cache/data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+        "data/3d/actors/projectile_arrow_pin_shot.bdae",
+        "original-cache/data/3d/actors/projectile_arrow_pin_shot.bdae",
+        "data/3d/models/projectile_arrow_pin_shot.bdae",
+        "original-cache/data/3d/models/projectile_arrow_pin_shot.bdae",
+        "models/projectile_arrow_pin_shot.bdae",
+        "original-cache/models/projectile_arrow_pin_shot.bdae",
+        "actors/projectile_arrow_pin_shot.bdae",
+        "original-cache/actors/projectile_arrow_pin_shot.bdae",
+        "animations/projectile_arrow_pin_shot.bdae",
+        "original-cache/animations/projectile_arrow_pin_shot.bdae",
+        "worlds/projectile_arrow_pin_shot.bdae",
+        "original-cache/worlds/projectile_arrow_pin_shot.bdae"
+      ],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "903d4a9f4223f8ded6c3",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=12].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_poison.bdae",
+        "destination_root": "assets/data",
+        "provenance": "port path candidate data/3D/projectiles/projectile_arrow_poison.bdae",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_poison.bdae",
+        "sha256": "55CF0ADFBC9E3D98AF80DB12EA04B741401FE473AE122795A19DF31740F6C808",
+        "size": 23276,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_poison.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_poison.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_arrow_poison.bdae",
+        "data/pydata/data/3D/projectiles/projectile_arrow_poison.bdae",
+        "original-cache/data/3D/projectiles/projectile_arrow_poison.bdae",
+        "data/3d/actors/projectile_arrow_poison.bdae",
+        "original-cache/data/3d/actors/projectile_arrow_poison.bdae",
+        "data/3d/models/projectile_arrow_poison.bdae",
+        "original-cache/data/3d/models/projectile_arrow_poison.bdae",
+        "models/projectile_arrow_poison.bdae",
+        "original-cache/models/projectile_arrow_poison.bdae",
+        "actors/projectile_arrow_poison.bdae",
+        "original-cache/actors/projectile_arrow_poison.bdae",
+        "animations/projectile_arrow_poison.bdae",
+        "original-cache/animations/projectile_arrow_poison.bdae",
+        "worlds/projectile_arrow_poison.bdae",
+        "original-cache/worlds/projectile_arrow_poison.bdae"
+      ],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "c54bfa430d459d4e3037",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=13].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 30880,
+          "path": "assets/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+          "sha256": "B0EA6CB75504CE9141AD663CF038EEE2C948854EE38DBFEBE237EE7F668FD132"
+        },
+        "manifest_path": "assets/data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+        "provenance": "resolved file URI",
+        "uri": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+        "data/pydata/data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+        "data/3d/actors/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/data/3d/actors/projectile_dh2_prince_mage_cyclone.bdae",
+        "data/3d/models/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/data/3d/models/projectile_dh2_prince_mage_cyclone.bdae",
+        "models/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/models/projectile_dh2_prince_mage_cyclone.bdae",
+        "actors/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/actors/projectile_dh2_prince_mage_cyclone.bdae",
+        "animations/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/animations/projectile_dh2_prince_mage_cyclone.bdae",
+        "worlds/projectile_dh2_prince_mage_cyclone.bdae",
+        "original-cache/worlds/projectile_dh2_prince_mage_cyclone.bdae"
+      ],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "b1615c3ea8bed7c17dc9",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=25].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 22460,
+          "path": "assets/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+          "sha256": "54FEB204B3FE8B96C0074A30BE3E5C508067242B9BA192099BAC3DB935CA1D66"
+        },
+        "manifest_path": "assets/data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+        "provenance": "resolved file URI",
+        "uri": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+        "data/pydata/data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+        "data/3d/actors/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/data/3d/actors/projectile_dh2_simplified_chain_lightning.bdae",
+        "data/3d/models/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/data/3d/models/projectile_dh2_simplified_chain_lightning.bdae",
+        "models/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/models/projectile_dh2_simplified_chain_lightning.bdae",
+        "actors/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/actors/projectile_dh2_simplified_chain_lightning.bdae",
+        "animations/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/animations/projectile_dh2_simplified_chain_lightning.bdae",
+        "worlds/projectile_dh2_simplified_chain_lightning.bdae",
+        "original-cache/worlds/projectile_dh2_simplified_chain_lightning.bdae"
+      ],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "b91b0d83e84cd1a8ad1e",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=26].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_returning_knives.bdae",
+        "destination_root": "assets/data",
+        "provenance": "port path candidate data/3D/projectiles/projectile_returning_knives.bdae",
+        "selection_destination": "assets/data/3d/projectiles/projectile_returning_knives.bdae",
+        "sha256": "E1A0FD5924A216B1A48FE1F04379BE498980C3F34947CDD0787A7B07642F0740",
+        "size": 21476,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_returning_knives.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_returning_knives.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_returning_knives.bdae",
+        "data/pydata/data/3D/projectiles/projectile_returning_knives.bdae",
+        "original-cache/data/3D/projectiles/projectile_returning_knives.bdae",
+        "data/3d/actors/projectile_returning_knives.bdae",
+        "original-cache/data/3d/actors/projectile_returning_knives.bdae",
+        "data/3d/models/projectile_returning_knives.bdae",
+        "original-cache/data/3d/models/projectile_returning_knives.bdae",
+        "models/projectile_returning_knives.bdae",
+        "original-cache/models/projectile_returning_knives.bdae",
+        "actors/projectile_returning_knives.bdae",
+        "original-cache/actors/projectile_returning_knives.bdae",
+        "animations/projectile_returning_knives.bdae",
+        "original-cache/animations/projectile_returning_knives.bdae",
+        "worlds/projectile_returning_knives.bdae",
+        "original-cache/worlds/projectile_returning_knives.bdae"
+      ],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "15e4824e11f461380e2f",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=27].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/invisible_bolt.bdae",
+        "destination_root": "assets/data",
+        "provenance": "port path candidate data/3D/projectiles/invisible_bolt.bdae",
+        "selection_destination": "assets/data/3d/projectiles/invisible_bolt.bdae",
+        "sha256": "27386C882568665FD166562CFFCA6C78EC21C07B1C815DF647A32D42645CBFFA",
+        "size": 5280,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/invisible_bolt.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/invisible_bolt.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/invisible_bolt.bdae",
+        "data/pydata/data/3D/projectiles/invisible_bolt.bdae",
+        "original-cache/data/3D/projectiles/invisible_bolt.bdae",
+        "data/3d/actors/invisible_bolt.bdae",
+        "original-cache/data/3d/actors/invisible_bolt.bdae",
+        "data/3d/models/invisible_bolt.bdae",
+        "original-cache/data/3d/models/invisible_bolt.bdae",
+        "models/invisible_bolt.bdae",
+        "original-cache/models/invisible_bolt.bdae",
+        "actors/invisible_bolt.bdae",
+        "original-cache/actors/invisible_bolt.bdae",
+        "animations/invisible_bolt.bdae",
+        "original-cache/animations/invisible_bolt.bdae",
+        "worlds/invisible_bolt.bdae",
+        "original-cache/worlds/invisible_bolt.bdae"
+      ],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "672109f3f1b73b0740ff",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=7].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_default.bdae",
+        "destination_root": "assets/data",
+        "provenance": "port path candidate data/3D/projectiles/projectile_arrow_default.bdae",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_default.bdae",
+        "sha256": "31E70C15854776DAFF5C23CD66E5022B430C7A839345C1E752E87089A429BE98",
+        "size": 23092,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_default.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_default.bdae",
+      "port_candidates": [
+        "data/3D/projectiles/projectile_arrow_default.bdae",
+        "data/pydata/data/3D/projectiles/projectile_arrow_default.bdae",
+        "original-cache/data/3D/projectiles/projectile_arrow_default.bdae",
+        "data/3d/actors/projectile_arrow_default.bdae",
+        "original-cache/data/3d/actors/projectile_arrow_default.bdae",
+        "data/3d/models/projectile_arrow_default.bdae",
+        "original-cache/data/3d/models/projectile_arrow_default.bdae",
+        "models/projectile_arrow_default.bdae",
+        "original-cache/models/projectile_arrow_default.bdae",
+        "actors/projectile_arrow_default.bdae",
+        "original-cache/actors/projectile_arrow_default.bdae",
+        "animations/projectile_arrow_default.bdae",
+        "original-cache/animations/projectile_arrow_default.bdae",
+        "worlds/projectile_arrow_default.bdae",
+        "original-cache/worlds/projectile_arrow_default.bdae"
+      ],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "8a309c39df892cc57506",
+      "reference_kind": null,
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=9].Path",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_returning_knives.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/projectiles/projectile_returning_knives.bdae",
+        "sha256": "E1A0FD5924A216B1A48FE1F04379BE498980C3F34947CDD0787A7B07642F0740",
+        "size": 21476,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_returning_knives.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "27",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "4f562dbcba238fa48b82",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=21].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 22460,
+          "path": "assets/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+          "sha256": "54FEB204B3FE8B96C0074A30BE3E5C508067242B9BA192099BAC3DB935CA1D66"
+        },
+        "manifest_path": "assets/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+      },
+      "kind": "projectile",
+      "name": "26",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "3ae50e588d32e1160ef2",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/projectiles_pyarray.bin[row=30].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 22460,
+          "path": "assets/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+          "sha256": "54FEB204B3FE8B96C0074A30BE3E5C508067242B9BA192099BAC3DB935CA1D66"
+        },
+        "manifest_path": "assets/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+      },
+      "kind": "projectile",
+      "name": "26",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "e136c18325476cf8af54",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/projectiles_pyarray.bin[row=31].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/invisible_bolt.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/projectiles/invisible_bolt.bdae",
+        "sha256": "27386C882568665FD166562CFFCA6C78EC21C07B1C815DF647A32D42645CBFFA",
+        "size": 5280,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/invisible_bolt.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "7",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "1a642bff2cd5bb1b6fa0",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=35].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 30880,
+          "path": "assets/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+          "sha256": "B0EA6CB75504CE9141AD663CF038EEE2C948854EE38DBFEBE237EE7F668FD132"
+        },
+        "manifest_path": "assets/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae"
+      },
+      "kind": "projectile",
+      "name": "25",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "889c75a91189cfd57047",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/projectiles_pyarray.bin[row=36].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_default.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_default.bdae",
+        "sha256": "31E70C15854776DAFF5C23CD66E5022B430C7A839345C1E752E87089A429BE98",
+        "size": 23092,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_default.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "9",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "b4902290e4820bdd2fa2",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=3].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_explode.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_explode.bdae",
+        "sha256": "F6092901B6D7E514380EAFD74A0985148C319FA93A881B6DC4F016D2F4A8F7BA",
+        "size": 23288,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_explode.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "10",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "21dbc00268803b7307fd",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=4].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+        "sha256": "066A535311180098B0C7E8BDC8AD2554644A1F949C80B3D5E4DF5CD3D25640A3",
+        "size": 23300,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_pin_shot.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "12",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "5c55ee4d93984a005da5",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=6].Model",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/projectiles/projectile_arrow_poison.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/projectiles/projectile_arrow_poison.bdae",
+        "sha256": "55CF0ADFBC9E3D98AF80DB12EA04B741401FE473AE122795A19DF31740F6C808",
+        "size": 23276,
+        "source_label": "android",
+        "source_relative": "3d/projectiles/projectile_arrow_poison.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "projectile",
+      "name": "13",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "480663a7eb6bec6d75dc",
+      "reference_kind": null,
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=7].Model",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}

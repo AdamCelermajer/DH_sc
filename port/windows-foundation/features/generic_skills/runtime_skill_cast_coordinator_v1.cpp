@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream> // v21.8 w2-assassin: execution-gate evidence
 #include <cmath>
+#include <iostream>
 #include <limits>
 #include <utility>
 
@@ -759,6 +760,19 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         error.clear();
         return true;
     }
+    if ((profile->enemy_buff && !request.timed_buffs) || (profile->enemy_stun && !request.stun_target)) {
+        output.actor = request.actor;
+        output.source_slot = request.source_slot;
+        output.saved_skill_row = saved_row;
+        output.class_skill_position = position;
+        output.skill_table_id = visual.skill_table_id;
+        output.skill_name = visual.source_skill_name;
+        output.source_script = visual.source_script;
+        output.phase = RuntimeSkillCastPhaseV1::rejected;
+        output.detail = "Skill applies per-target enemy buff/stun arms but its buff owner or stun hook is not bound to this request";
+        error.clear();
+        return true;
+    }
     const auto& skill_row = request.skills.skills()[std::size_t(visual.skill_table_id)];
     // Native _SkillCombatRoll (IDA 0x3b9fbc; audit docs/ida-fidelity-audit-2026-10-11/character3.md F2):
     // mask 0x800000 needs the equipped-hand facts before any hit is formed.
@@ -845,6 +859,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.category = current->facts.main_damage_class;
     active.use_profile = profile;
     active.timed_buffs = request.timed_buffs;
+    active.stun_target = request.stun_target;
     active.source_post_clears_target = profile->post_clear_target;
     active.class_token = class_token;
     active.external_owner = request.external_owner;
@@ -856,6 +871,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         ? static_cast<float>(projected_range) : profile->use_range;
     active.target_cone_radians = profile->use_cone_radians;
     active.cooldown_ms = profile->sets_cooldown ? cooldown_ms : 0.0;
+    active.pre_range = profile->pre_range_from_temp_prop1 ? static_cast<float>(projected_range) : profile->pre_range;
+    active.knockback_great = request.knockback_great;
     if (request.object_targets) active.object_targets = *request.object_targets;
     // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
     // failed sequence start must not restore Attack with no attack owner.
@@ -895,9 +912,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         target.caster = request.actor;
         target.status = SkillActorTargetQueryStatusV1::no_actor_target;
         // pre_range == 0: the authored OnPre has no target query (GroundSlam).
-        if (profile->pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
+        if (active.pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
                 order, request.target_facts, request.non_character_attackable_objects_absent,
-                profile->pre_range, profile->pre_cone_radians,
+                active.pre_range, profile->pre_cone_radians,
                 profile->pre_sort, target, error, request.object_targets)) return false;
         if(target.status==SkillActorTargetQueryStatusV1::non_character_target_unknown)
             return fail(error,"Source Focus Pre target query lacks its typed AttackableOnly owner");
@@ -909,6 +926,25 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
 
         active.target_query=target;
         active.receipt.target_order=request.object_targets?target.ordered_targets:target.ordered_character_targets;
+        // v21.8 berserker: prince_berseeker_berserk.luac OnPreSkill_ self HP cost, after the target query and LookAt and
+        // before UseMana: `if HPPercentCurr > 10 then SetProp(HP, health - health/10)`. The Lua order is kept; a later
+        // UseMana failure after this write is reported as a partial failure like the other OnPre prefixes.
+        if (profile->self_hp_cost) {
+            float health = 0.0f, maximum = 0.0f;
+            auto* live_world = session.world();
+            if (!live_world || !live_world->current_health(request.actor, health, maximum) || !(maximum > 0.0f))
+                return fail(error, "Source OnPre HP cost requires the caster's live HP sheet");
+            if (health / maximum * 100.0f > profile->self_hp_cost->gate_percent) {
+                std::string hp_error;
+                const float next_health = health - health / profile->self_hp_cost->divisor;
+                if (!live_world->set_current_health(request.actor, next_health, hp_error))
+                    return fail(error, ("Source OnPre HP cost SetProp(HP): " + hp_error).c_str());
+                std::cout << "[skill] OnPre self HP cost " << profile->skill_name << " before=" << health << " after=" << next_health
+                          << " max=" << maximum << " gate=" << profile->self_hp_cost->gate_percent << '\n';
+            } else {
+                std::cout << "[skill] OnPre self HP cost " << profile->skill_name << " skipped hp=" << health << " max=" << maximum << '\n';
+            }
+        }
         // v21.8 ES-API: OnPre `PopTargetList` + `target:PlayFX(...)` for every popped Character (unconditional).
         if (profile->pre_target_fx_name)
             for (const auto victim : target.ordered_character_targets)
@@ -1366,6 +1402,41 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx, profile.target_fx_each_name, victim});
         }
     }
+    // v21.8 berserker: prince_berseeker_warcry.luac OnSkill_ over the OnPre list (PopTargetList, no re-search). Per Character:
+    // GetRand(1, faces) == stun_face gives SetStunState(duration, true), any other face SetScareState(duration, true). The draw
+    // also happens for bosses (the Lua draws only for non-bosses; the boss refusal is inside the status owner), so the RNG
+    // sequence differs from the original, not the gameplay outcome. Sounds follow the loop, fear then stun.
+    if (profile.status_arm) {
+        const auto& arm = *profile.status_arm;
+        double duration_ms = original_signed256(active.formula_sheet[std::size_t(176)]); // SnS_Duration (ms)
+        if (!(duration_ms > 0.0) || !std::isfinite(duration_ms)) duration_ms = double(arm.fallback_ms);
+        bool scared_any = false, stunned_any = false;
+        for (const auto victim : use_targets.ordered_character_targets) {
+            std::uint32_t draw = 0;
+            std::string rng_error;
+            if (!session.world()->random_uniform(arm.faces, draw, rng_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Warcry GetRand failed after committed OnPre: " + rng_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            const bool stun = draw + 1u == arm.stun_face;
+            bool applied = false;
+            std::string status_error;
+            if (!session.script_status_actor(victim, stun, duration_ms, applied, status_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Warcry SetStunState/SetScareState failed after committed OnPre: " + status_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            if (applied) (stun ? stunned_any : scared_any) = true;
+        }
+        if (scared_any && arm.scare_sound)
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, arm.scare_sound, invalid_actor_id});
+        if (stunned_any && arm.stun_sound)
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, arm.stun_sound, invalid_actor_id});
+    }
+
     std::uint32_t event_index = active.next_event_index;
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
@@ -1459,6 +1530,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             hit.element = active.element;
             hit.direct_amount = 0;
             hit.attacker_formula_sheet = roll_formula;
+            // v21.8 w2-necromancer: the pre-hit original state is the admission state of the SetKnockBackState request.
+            const std::int32_t state_before_hit = session.original_actor_state(target);
             DamageEvent result;
             if (!session.apply_source_result(hit, result, error)) {
                 active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
@@ -1473,8 +1546,112 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
                               target) == active.receipt.target_hit_fx_targets.end())
                     active.receipt.target_hit_fx_targets.push_back(target);
             }
+            // v21.8 w2-necromancer: DeathClaw `if(character) and (dmg > 0) then target:SetKnockBackState(true)`. The Lua
+            // return value is not checked, so a sink failure is recorded as a diagnostic and the Use continues.
+            if (profile.knockback_great_on_character_hit && active.knockback_great && *active.knockback_great &&
+                result.requested_damage > 0.0f) {
+                RuntimeSkillKnockBackRequestV1 knockback;
+                knockback.attacker = actor_id;
+                knockback.target = target;
+                knockback.generation = generation;
+                knockback.event_index = hit.event_index;
+                knockback.source_id = active.receipt.skill_name;
+                knockback.target_state_before_hit = state_before_hit;
+                std::string knockback_error;
+                if (!(*active.knockback_great)(session, knockback, knockback_error))
+                    active.receipt.knockback_diagnostics.push_back(knockback_error);
+                else
+                    active.receipt.knockback_targets.push_back(target);
+            }
             active.receipt.applied_results.push_back(std::move(result));
         }
+    }
+    // v21.8 w2-illusionist enemy arms, after the Use rolls (Lua per-target loops over the popped Character targets).
+    // Figments: SetStunState(GetRand(MIN, MAX), true) for each target that is neither boss nor miniboss. The stun pass
+    // runs over the whole list before the buff pass; the two touch different owners, and the Figments buff carries no
+    // property rows, so the change of order does not alter a roll.
+    active.receipt.enemy_stun_targets.clear();
+    if (profile.enemy_stun) {
+        for (const auto target : use_targets.ordered_character_targets) {
+            if (profile.enemy_stun->skip_boss_and_miniboss) {
+                const auto flags = target_buff_flags_v1(session, target);
+                if (flags.is_boss || flags.is_miniboss) continue;
+            }
+            std::uniform_int_distribution<int> draw(static_cast<int>(profile.enemy_stun->min_ms),
+                                                    static_cast<int>(profile.enemy_stun->max_ms));
+            const double duration_ms = static_cast<double>(draw(stun_rng_));
+            std::string stun_error;
+            if (!active.stun_target || !active.stun_target(session, target, duration_ms, stun_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source SetStunState failed after the committed Use rolls: " + stun_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            active.receipt.enemy_stun_targets.push_back(target);
+        }
+    }
+    // Eclipse / TimeControl / Figments: CreateBuff(BUFF_ID, duration, false, rank, BUFF_FX) + ApplyBuff on each popped
+    // Character target that passes the skip rules (player always skipped: `not target:IsPlayer()`).
+    if (profile.enemy_buff) {
+        if (!active.timed_buffs) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Enemy buff Use lost its buff owner after the committed OnPre prefix";
+            output = active.receipt;
+            return fail(error, active.receipt.detail.c_str());
+        }
+        const auto& enemy_buff = *profile.enemy_buff;
+        const std::uint32_t rank = active.receipt.mana.skill.saved_rank;
+        double duration_ms = 0.0;
+        if (enemy_buff.duration_prop_index >= 0)
+            duration_ms = original_signed256(active.formula_sheet[std::size_t(enemy_buff.duration_prop_index)]);
+        if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))
+            duration_ms = double(enemy_buff.duration_base_ms) + double(enemy_buff.duration_inc_ms) * double(rank);
+        TimedBuffSpecV1 spec;
+        spec.class_name = enemy_buff.buff_class;
+        spec.fx_set_name = enemy_buff.fx_set ? enemy_buff.fx_set : "";
+        spec.strength = rank;
+        spec.duration_ms = duration_ms;
+        spec.capacity = 1;
+        spec.sns_level_from_receiver = true;  // v21.8 w2-illusionist: the enemy's own SnS_Level (IDA a4 = 0 path)
+        spec.source = active.receipt.skill_name;
+        TargetBuffPolicyV1 policy;
+        policy.skip_player = true;
+        policy.skip_boss = enemy_buff.skip_boss;
+        policy.skip_miniboss = enemy_buff.skip_miniboss;
+        std::vector<ActorId> buffed_targets = use_targets.ordered_character_targets;
+        const std::pair<ActorId, int> slot_key{actor_id, active.receipt.skill_table_id};
+        auto& slots = conversion_slots_[slot_key];
+        if (enemy_buff.conversion_slots > 0) {
+            // Terror OnSkill_: release the slots whose timer ran out, then convert only the first popped Character that holds
+            // no slot (`not_there`); nothing is converted when every popped Character already holds one.
+            slots.erase(std::remove_if(slots.begin(), slots.end(),
+                                       [&](const ConversionSlotV1& slot) { return slot.release_at_ms <= elapsed_ms_; }),
+                        slots.end());
+            buffed_targets.clear();
+            for (const auto victim : use_targets.ordered_character_targets) {
+                const bool held = std::any_of(slots.begin(), slots.end(),
+                                              [&](const ConversionSlotV1& slot) { return slot.target == victim; });
+                if (!held) {
+                    buffed_targets.push_back(victim);
+                    break;
+                }
+            }
+        }
+        std::string buff_error;
+        if (!buffed_targets.empty() && !active.timed_buffs->apply_timed_buff_to_targets(
+                session, actor_id, buffed_targets, spec, policy, active.receipt.enemy_buff_outcomes, buff_error)) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Source enemy CreateBuff/ApplyBuff loop failed after the committed OnPre prefix: " + buff_error;
+            output = active.receipt;
+            return fail(error, active.receipt.detail.c_str());
+        }
+        if (enemy_buff.conversion_slots > 0 && !buffed_targets.empty()) {
+            // The Lua frees the oldest slot before the new one takes it (the freed monster keeps its buff until that buff ends).
+            if (slots.size() >= enemy_buff.conversion_slots) slots.erase(slots.begin());
+            slots.push_back({buffed_targets.front(), elapsed_ms_ + duration_ms});
+        }
+        active.receipt.timed_buff_class = spec.class_name;
+        active.receipt.timed_buff_duration_ms = duration_ms;
     }
     active.next_event_index = event_index;
     if (volley) ++volley_cursor_[volley_key];  // the Lua skill_inc advances once the OnSkill_ volley has run

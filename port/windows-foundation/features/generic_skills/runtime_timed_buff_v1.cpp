@@ -1,4 +1,5 @@
 #include "runtime_timed_buff_v1.hpp"
+#include "../../../game-data/ai.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -217,6 +218,31 @@ bool RuntimeTimedBuffOwnerV1::remove_timed_buff_by_handle(CombatSession& session
     return true;
 }
 
+TargetBuffActorFlagsV1 target_buff_flags_v1(const CombatSession& session, ActorId target) {
+    TargetBuffActorFlagsV1 flags;
+    const auto* world = session.world();
+    if (!world) return flags;
+    if (const auto* traits = world->traits(target)) flags.is_player = traits->is_player;
+    const auto* props = world->combat_properties(target);
+    const auto* tables = session.original_ai_tables();
+    if (props && tables) {
+        if (const auto* ai = dh2::data::ai_props(*tables, props->sheets.resolved[1])) {
+            flags.is_boss = (ai->flags & 4u) != 0;
+            flags.is_miniboss = (ai->flags & 2u) != 0;
+        }
+    }
+    return flags;
+}
+
+bool RuntimeTimedBuffOwnerV1::apply_timed_buff_to_targets(CombatSession& session, ActorId caster,
+                                                          const std::vector<ActorId>& targets, const TimedBuffSpecV1& spec,
+                                                          const TargetBuffPolicyV1& policy,
+                                                          std::vector<TargetBuffOutcomeV1>& outcomes, std::string& error) {
+    return apply_timed_buff_to_targets(session, caster, targets, spec, policy,
+                                       [&session](ActorId id) { return target_buff_flags_v1(session, id); },
+                                       outcomes, error);
+}
+
 bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId actor, const TimedBuffSpecV1& spec,
                                                std::string& error) {
     std::uint64_t handle = 0;
@@ -288,9 +314,14 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff_handle(CombatSession& session, Ac
     // resolved sheet, where the Lua SetProp(SnS_Level) has just put the same value.
     instance->sheet = bindings_.rules->defaults;
     const std::int32_t level_raw = static_cast<std::int32_t>(spec.strength << 8);
-    instance->sheet[kSnsLevel] = level_raw;
     auto owner_view = live->sheets.resolved;
-    owner_view[kSnsLevel] = level_raw;
+    if (spec.sns_level_from_receiver) {
+        // v21.8 w2-illusionist: the receiver's own SnS_Level feeds the formulas (no caster rank is written).
+        instance->sheet[kSnsLevel] = owner_view[kSnsLevel];
+    } else {
+        instance->sheet[kSnsLevel] = level_raw;
+        owner_view[kSnsLevel] = level_raw;
+    }
     if (!dh2::data::apply_class(*bindings_.classes, instance->class_id, instance->sheet, error, &owner_view)) {
         if (error.empty()) error = "Timed buff class evaluation failed: " + spec.class_name;
         return false;

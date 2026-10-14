@@ -1,0 +1,774 @@
+{
+  "act": "act_1",
+  "count": 16,
+  "kind": "loot",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 150,
+        "table": "character_properties#group0"
+      },
+      "id": "65e048f9835882feebaf",
+      "kind": "loot",
+      "name": "9",
+      "reason": null,
+      "reference_id": "65e048f9835882feebaf",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 1,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                124,
+                124,
+                124
+              ]
+            },
+            "index": 9,
+            "name": "Barrel_Level_01",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 150 Epic_merchant_swamp (182ca511b74b336a5f8d); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=150].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 294,
+        "table": "character_properties#group0"
+      },
+      "id": "1c60cbfd9fcd4f3b49e9",
+      "kind": "loot",
+      "name": "8",
+      "reason": null,
+      "reference_id": "1c60cbfd9fcd4f3b49e9",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 22,
+              "RandomLootEntries": [
+                {
+                  "ItemListID": 4,
+                  "ItemPowerList": 28,
+                  "MProb": 0,
+                  "NumPowerProbs": 13,
+                  "Pct": -1,
+                  "Prob": 40,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 8,
+            "name": "AssassinTreasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 294 NPCmerchantCamp (b35c45d342195815c1ba); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=294].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 323,
+        "table": "character_properties#group0"
+      },
+      "id": "c0b84a5be3fc5adc8b48",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "c0b84a5be3fc5adc8b48",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=323].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 349,
+        "table": "character_properties#group0"
+      },
+      "id": "2b3881aa6cb790a493a7",
+      "kind": "loot",
+      "name": "232",
+      "reason": null,
+      "reference_id": "2b3881aa6cb790a493a7",
+      "resolves_to": [
+        {
+          "index": 232,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                285
+              ]
+            },
+            "index": 232,
+            "name": "Swamp_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 349 Slime (c052441fdd99de0663f8); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=349].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 358,
+        "table": "character_properties#group0"
+      },
+      "id": "608b4bb880749c4dabb1",
+      "kind": "loot",
+      "name": "229",
+      "reason": null,
+      "reference_id": "608b4bb880749c4dabb1",
+      "resolves_to": [
+        {
+          "index": 229,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                235,
+                234,
+                236,
+                237,
+                302
+              ]
+            },
+            "index": 229,
+            "name": "SwampKing_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 358 SwampKing (debe3161f75f83cfc4a0); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=358].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 359,
+        "table": "character_properties#group0"
+      },
+      "id": "df5087e897edec68e72e",
+      "kind": "loot",
+      "name": "231",
+      "reason": null,
+      "reference_id": "df5087e897edec68e72e",
+      "resolves_to": [
+        {
+          "index": 231,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                233,
+                233,
+                234,
+                235,
+                301
+              ]
+            },
+            "index": 231,
+            "name": "Swamp_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 359 Swamp_ActorTroll (85e3752f001d5903f863); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=359].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 360,
+        "table": "character_properties#group0"
+      },
+      "id": "26d694218016420db644",
+      "kind": "loot",
+      "name": "230",
+      "reason": null,
+      "reference_id": "26d694218016420db644",
+      "resolves_to": [
+        {
+          "index": 230,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                301
+              ]
+            },
+            "index": 230,
+            "name": "Swamp_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 360 Swamp_LizadMan_Type1 (4857e9afd486029389df); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=360].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 362,
+        "table": "character_properties#group0"
+      },
+      "id": "b04d00b848401662a6c8",
+      "kind": "loot",
+      "name": "231",
+      "reason": null,
+      "reference_id": "b04d00b848401662a6c8",
+      "resolves_to": [
+        {
+          "index": 231,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                233,
+                233,
+                234,
+                235,
+                301
+              ]
+            },
+            "index": 231,
+            "name": "Swamp_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 362 Swamp_LizadMan_Type2 (32a6018452d04659b538); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=362].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 363,
+        "table": "character_properties#group0"
+      },
+      "id": "31cbdd59f113ee91d04d",
+      "kind": "loot",
+      "name": "231",
+      "reason": null,
+      "reference_id": "31cbdd59f113ee91d04d",
+      "resolves_to": [
+        {
+          "index": 231,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                233,
+                233,
+                234,
+                235,
+                301
+              ]
+            },
+            "index": 231,
+            "name": "Swamp_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 363 Swamp_LizadMan_Type3 (d247470ac9c21be0bc4e); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=363].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 373,
+        "table": "character_properties#group0"
+      },
+      "id": "9f5ba9a69b90696ea1fe",
+      "kind": "loot",
+      "name": "232",
+      "reason": null,
+      "reference_id": "9f5ba9a69b90696ea1fe",
+      "resolves_to": [
+        {
+          "index": 232,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                285
+              ]
+            },
+            "index": 232,
+            "name": "Swamp_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 373 Swamp_MovieMoth (b298df8fe9d963b41e6c); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=373].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 374,
+        "table": "character_properties#group0"
+      },
+      "id": "92143b91058a03cf63de",
+      "kind": "loot",
+      "name": "230",
+      "reason": null,
+      "reference_id": "92143b91058a03cf63de",
+      "resolves_to": [
+        {
+          "index": 230,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                301
+              ]
+            },
+            "index": 230,
+            "name": "Swamp_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 374 Swamp_SnackMan (a2c77cc142e62db476d1); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=374].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 383,
+        "table": "character_properties#group0"
+      },
+      "id": "d021e20d5a5eda57ace9",
+      "kind": "loot",
+      "name": "231",
+      "reason": null,
+      "reference_id": "d021e20d5a5eda57ace9",
+      "resolves_to": [
+        {
+          "index": 231,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                233,
+                233,
+                233,
+                234,
+                235,
+                301
+              ]
+            },
+            "index": 231,
+            "name": "Swamp_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 383 Troll (5aa52bd105935c0a1b76); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=383].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 418,
+        "table": "character_properties#group0"
+      },
+      "id": "32791987064e559b6e2a",
+      "kind": "loot",
+      "name": "192",
+      "reason": null,
+      "reference_id": "32791987064e559b6e2a",
+      "resolves_to": [
+        {
+          "index": 192,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 192,
+            "name": "PriestStartingLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 419,
+        "table": "character_properties#group0"
+      },
+      "id": "0d1d7a41c8ba2df3db47",
+      "kind": "loot",
+      "name": "192",
+      "reason": null,
+      "reference_id": "0d1d7a41c8ba2df3db47",
+      "resolves_to": [
+        {
+          "index": 192,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 192,
+            "name": "PriestStartingLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 435,
+        "table": "character_properties#group0"
+      },
+      "id": "012a3b5d91f14b66fd3a",
+      "kind": "loot",
+      "name": "338",
+      "reason": null,
+      "reference_id": "012a3b5d91f14b66fd3a",
+      "resolves_to": [
+        {
+          "index": 338,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                235,
+                234,
+                236,
+                237,
+                303
+              ]
+            },
+            "index": 338,
+            "name": "Witch_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 435 Witch (493d2e115ad25e84db5e); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=435].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 444,
+        "table": "character_properties#group0"
+      },
+      "id": "59005a8455ec14e054fa",
+      "kind": "loot",
+      "name": "8",
+      "reason": null,
+      "reference_id": "59005a8455ec14e054fa",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 22,
+              "RandomLootEntries": [
+                {
+                  "ItemListID": 4,
+                  "ItemPowerList": 28,
+                  "MProb": 0,
+                  "NumPowerProbs": 13,
+                  "Pct": -1,
+                  "Prob": 40,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 8,
+            "name": "AssassinTreasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 444 zKill5Lizman_Post (ffced55104feb850c42e); membership act_1 -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=444].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}
