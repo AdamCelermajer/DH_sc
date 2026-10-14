@@ -82,6 +82,8 @@ struct RuntimeSkillCastReceiptV1 {
     std::vector<ActorId> target_order;
     std::vector<DamageEvent> applied_results;
     std::vector<ObjectId> delivered_object_interactions;
+    // v21.8 assassin: Characters killed by the execution gate (Assassination, Character:Kill with the caster as killer).
+    std::vector<ActorId> execution_kills;
     // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
     std::string timed_buff_class;
     double timed_buff_duration_ms = 0.0;

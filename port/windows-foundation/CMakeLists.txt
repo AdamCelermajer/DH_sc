@@ -1184,6 +1184,9 @@ add_test(NAME passive_skill_owner_v1 COMMAND passive_skill_owner_v1_tests "${CMA
 add_executable(event_passive_owner_v1_tests features/generic_skills/event_passive_owner_v1_tests.cpp)
 target_link_libraries(event_passive_owner_v1_tests PRIVATE foundation_runtime_skill_cast)
 add_test(NAME event_passive_owner_v1 COMMAND event_passive_owner_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# v21.8 w2-assassin: DoT owner (PROPS_AddDot capacity, DoT_Tick boundaries, expiry); header-only, no session needed.
+add_executable(dot_tick_owner_v1_tests features/status_effects/dot_tick_owner_v1_tests.cpp)
+add_test(NAME dot_tick_owner_v1 COMMAND dot_tick_owner_v1_tests)
 # v21.8 skills-a: full-session Knight/Rogue skill cast fixture (real CombatSession, retained do_skill markers): per-hand hits of the
 # dual-wield rows (both hands and one-hand paths), ViciousStrike's three marker volleys, Quickness' timed buff, duplicate suppression.
 # The coordinator is compiled here with the Warrior-only switch (no Hotty/Celest closure), so it is built from source, not from the library.
@@ -1199,7 +1202,7 @@ add_executable(runtime_skill_activation_session_v1_tests
   features/generic_skills/runtime_timed_buff_v1.cpp
   ../level-world/character_path_commands.cpp)
 target_compile_definitions(runtime_skill_activation_session_v1_tests PRIVATE DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
-target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data)
+target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data foundation_runtime_skill_cast)
 # v21.8 magewire: external owner of ChainLightning / Cyclone / StoneEscape (StoneEscape on a real session; error paths).
 add_executable(mage_skill_owner_v1_tests features/generic_skills/runtime_mage_skill_owner_v1_tests.cpp)
 target_link_libraries(mage_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)

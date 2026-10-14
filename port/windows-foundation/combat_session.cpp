@@ -6,9 +6,11 @@
 #include <set>
 #include <stdexcept>
 #include <limits>
+#include <iostream> // v21.8 w2-assassin: DoT diagnostics
 #include "../level-world/actor_rotation.hpp"
 #include "../level-world/navigation_heading.hpp"
 #include "retained_sequence_playback.hpp"
+#include "features/status_effects/dot_tick_owner_v1.hpp" // v21.8 w2-assassin: DoT owner
 #include "original_controller_commands.hpp"
 #include "features/combo_chain/source_combo_chain.hpp"
 #include "features/audio/retained_frame_audio_observer.hpp"
@@ -104,6 +106,8 @@ struct CombatSession::Impl {
     std::vector<DamageEvent> pendingSourceHits;
     CombatSession::CombatResultObserver combatResultObserver; // v21.8 es-passive
     CombatSession::StatusOutcomeObserver statusOutcomeObserver; // v21.8 es-status
+    status_effects::DotTickOwnerV1 dots; // v21.8 w2-assassin: PROPS_AddDot entries, ticked by HandleDots
+    std::string dotFailure; // v21.8 w2-assassin: a DoT roll failure, reported by the next update
     struct SourceHitBatch {
         std::uint64_t generation=0;
         std::set<std::pair<ActorId,std::uint32_t>> delivered;
@@ -1156,6 +1160,25 @@ bool CombatSession::bind_reconstructible_actor_transition_handler(ActorTransitio
      catch(...){error="Actor transition binding validator threw";return false;}
 }
 namespace {
+// v21.8 w2-assassin: CF_CalcDotDamage (normal) + F_ApplyResult DoT tail for one applied hit. Read from the ATTACKER's live sheet
+// (the original reads PROPS_Get(attacker, ...) after the buff cells are applied); the victim must not be the player.
+void queue_dot_from_applied_hit_v1(PlayableActorWorld& world,status_effects::DotTickOwnerV1& dots,ActorId player,
+                                   const DamageEvent& hit,std::string& failure){
+    // The player's own ActorId is invalid_actor_id in this Session (the combat logs show attacker=18446744073709551615 for
+    // player hits), so the attacker is not range-checked here; a missing sheet returns below.
+    if(!hit.applied||hit.target_died||hit.target==player)return;
+    const auto* attacker=world.combat_properties(hit.attacker);
+    if(!attacker)return;
+    const auto& sheet=attacker->sheets.resolved;
+    const std::int32_t durationRaw=sheet[status_effects::kDotDurationRawIndex];
+    if(durationRaw<=0)return;
+    const std::int32_t lo=sheet[status_effects::kDotMinRawIndex],hi=sheet[status_effects::kDotMaxRawIndex];
+    std::uint32_t offset=0;std::string error;
+    if(hi>lo&&!world.random_uniform(std::uint32_t(hi-lo),offset,error)){failure="DoT tick roll: "+error;return;}
+    dots.add(hit.attacker,hit.target,status_effects::kDotNormalElement,double(durationRaw)/256.0,(double(lo)+double(offset))/256.0);
+    std::cout<<"DoT applied attacker="<<hit.attacker<<" target="<<hit.target<<" durationMs="<<double(durationRaw)/256.0
+             <<" tickHp="<<(double(lo)+double(offset))/256.0<<" (Dot_Min="<<double(lo)/256.0<<" Dot_Max="<<double(hi)/256.0<<")"<<"\n";
+}
 const OriginalCombatPhase& choose(const OriginalCombatVisualPlan& plan,const CombatSessionChoice& choice){
     const auto* result=plan.phase(choice.state,choice.variant,choice.leafPath);
     if(!result||!result->has_visual()||!std::isfinite(result->speed)||result->speed<=0)
@@ -1191,6 +1214,7 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
         Impl* observed=next.get(); // moved into impl_ below; the pointer is stable
         next->runtime->set_combat_result_observer([observed](const DamageEvent& hit){
             if(observed->combatResultObserver)observed->combatResultObserver(hit.attacker,hit.target,hit.source_outcomes.value_or(0u),hit.target_died);
+            queue_dot_from_applied_hit_v1(*observed->world,observed->dots,observed->player,hit,observed->dotFailure); // v21.8 w2-assassin
         });
         OriginalSequencePolicies sequencePolicies;
         if(std::any_of(config.profiles.begin(),config.profiles.end(),[](const auto& p){return bool(p.second.sequenceAction)||p.second.animationOnly;})&&
@@ -1662,6 +1686,16 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     // A source LookAt/position mutation inside frameBegin must not be erased
     // by arguments captured before that synchronous command was dispatched.
     player->transform.position={position.x,position.y,position.z};player->transform.rotation[2]=facing;
+    // v21.8 w2-assassin: HandleDots (CharAI command 52 on the DoT_Tick timer): each due tick is an applied hit with no roll.
+    if(!s.dotFailure.empty()){error=s.dotFailure;s.dotFailure.clear();return false;}
+    for(const auto& tick:s.dots.advance(dt*1000.0)){
+        const auto* victim=s.world->find_actor(tick.target);
+        if(!victim||victim->health<=0.0f){s.dots.forget_target(tick.target);continue;}
+        DamageEvent receipt;
+        if(!s.runtime->apply_calculated_hit(tick.attacker,tick.target,"dot_normal","dot_tick",float(tick.tick_hp),std::optional<std::uint32_t>(0u),std::nullopt,receipt,error))return false;
+        std::cout<<"DoT tick target="<<tick.target<<" attacker="<<tick.attacker<<" tickHp="<<tick.tick_hp<<" applied="<<receipt.applied<<" targetDied="<<receipt.target_died<<"\n";
+        if(receipt.applied)s.events.push_back(receipt); // reported like every other applied hit ("Damage" lines)
+    }
     {DH_PROBE("sim.frameBeginProvider(physics)");if(s.frameBeginProvider&&!s.frameBeginProvider(*this,dt,error))return false;}
     // A clear published between session frames belongs to its source owner
     // (for example an explicit skill ClearTarget). Do not resurrect it from

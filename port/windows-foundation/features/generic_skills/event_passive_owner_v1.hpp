@@ -40,7 +40,11 @@ namespace dh::foundation::generic_skills {
 // permanent capacity-5 damage debuff on the struck monster when its Damage_Min_Main_Hand is above 10, or above 30 for
 // boss/miniboss), Mirror (defender = self, melee-range attacker stunned with TempProp1 chance for TempProp2 ms).
 // v21.8 berserker: KillingStreak (attacker), Survival (defender-side HP gate).
-enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, disciples, petrify, mirror, killing_streak, survival };
+// v21.8 w2-assassin: contaminate (defender = self, melee-range attacker slowed by Debuff_Slow on a percent proc).
+// blindness_break is not a passive: it is the Blindness OnTargetHit listener (prince_assassin_blindness.luac), which removes
+// the Blindness buff when the caster itself lands a hit. Its rank is the skill rank (slvl > 0 in the Lua).
+enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, disciples, petrify, mirror, killing_streak, survival,
+                                               contaminate, blindness_break };
 
 // SkillTable script name -> event passive kind (kept next to the implemented scripts only).
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script);
@@ -86,6 +90,8 @@ private:
     bool projected_class_cell(const char* class_name, std::uint32_t level, unsigned cell, float& value);
     void streak_kill();
     void survival_hit();
+    void contaminate_hit(ActorId attacker);
+    void blindness_break_hit();
 
     TimedBuffSinkV1* buffs_;
     const dh2::data::ClassTables* classes_;
