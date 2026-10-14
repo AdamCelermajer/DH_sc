@@ -156,7 +156,7 @@ struct Options {
     // walk-level: walk the Player through every TriggerZone of the level in route order,
     // logging every Character spawn/visibility/state change and each trigger start count.
     bool walk_level_scenario = false;
-    // --walk-from N / --walk-to M: first / last (exclusive) kSwampWalk target; --walk-from teleports there.
+    // --walk-from N / --walk-to M: first / last (exclusive) walk target (kSwampWalk or kDarkwoodWalk by level row); --walk-from teleports there.
     int walk_from = 0, walk_to = 99;
     // talk-npc: stand the Player next to a named quest-giver Character and press the
     // authored HUD attack button (Character::Interact on the selected NPC); the run
@@ -1679,7 +1679,27 @@ private:
     };
     std::size_t wl_target_ = 0;
     bool wl_init_ = false, wl_teleported_ = false;
-    std::size_t wl_end() const {return std::min<std::size_t>(sizeof(kSwampWalk) / sizeof(kSwampWalk[0]), std::size_t(options_.walk_to));}
+    // DARKWOOD (row 4) route: TriggerZone centres from "TriggerZone InitPost" (count-1 story triggers
+    // and the enterLocation zones; Door_Teleport doorports are excluded because they change level).
+    static constexpr WalkTarget kDarkwoodWalk[] = {
+        {"_prim_TriggerZone_Hellgate", 3633.5f, -3568.2f},
+        {"_prim_zone_location_east", 11128.9f, -8720.3f},
+        {"_prim_TriggerZone_StatueRed", 13973.9f, -8676.5f},
+        {"_prim_zone_location_graveyard", 6436.0f, 4772.0f},
+        {"_prim_zone_location_north", -3026.7f, 6920.7f},
+        {"_prim_zone_location_GCV", -3596.7f, 17870.7f},
+        {"_prim_TriggerZone_CathedralLocked", -10869.8f, 10741.8f},
+        {"_prim_zone_location_west", -10497.0f, -699.0f},
+        {"_prim_TriggerZone_IceLocked", -13257.9f, -2975.3f},
+        {"_prim_zone_location_south", -7356.8f, -12498.8f},
+        {"_prim_TriggerZone_Tuto_WalkCombo", 3350.0f, -17514.1f},
+    };
+    const WalkTarget* wl_table() const {return options_.level_row == 4 ? kDarkwoodWalk : kSwampWalk;}
+    std::size_t wl_count() const {
+        return options_.level_row == 4 ? sizeof(kDarkwoodWalk) / sizeof(kDarkwoodWalk[0])
+                                       : sizeof(kSwampWalk) / sizeof(kSwampWalk[0]);
+    }
+    std::size_t wl_end() const {return std::min<std::size_t>(wl_count(), std::size_t(options_.walk_to));}
     std::uint64_t wl_target_frame_ = 0, wl_arrived_frame_ = 0;
     bool wl_arrived_ = false, wl_done_ = false;
     std::map<std::string, std::string> wl_last_;
@@ -1737,7 +1757,7 @@ private:
             wl_init_ = true;
             wl_target_ = std::size_t(std::max(0, options_.walk_from));
             if (wl_target_ > 0 && wl_target_ < wl_end()) {
-                const auto& f = kSwampWalk[wl_target_ - 1];
+                const auto& f = wl_table()[wl_target_ - 1];
                 std::string err;
                 const bool ok = model_renderer::boss_probe_place_player({f.x, f.y, 255.f}, err);
                 plog(fmt("walk start-at | place at target %zu (%s) %s %s", wl_target_ - 1, f.name, ok ? "ok" : "ERROR", err.c_str()));
@@ -1748,7 +1768,7 @@ private:
             if (frame_ - wl_arrived_frame_ > 120) wl_done_ = true;
             return;
         }
-        const auto& t = kSwampWalk[wl_target_];
+        const auto& t = wl_table()[wl_target_];
         const Vec3 goal{t.x, t.y, 255.f};
         if (!wl_target_frame_) wl_target_frame_ = frame_;
         if (!have_pose_) return;
