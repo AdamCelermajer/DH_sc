@@ -23,6 +23,19 @@
 #include <cstdlib>
 
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/RenderFX.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
+#include "gameswf/gameswf_character.h"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "dh2/CameraBase.hpp"
 #include "dh2/CameraLevel.hpp"
 #include "dh2/GameObject.hpp"
@@ -49,13 +62,16 @@ void HUDMinimap::InitAll() {
 }
 
 // 0x41b43c _ZN10HUDMinimap4HideEv
-// PARTIAL: the tail is not made. After the icons are hidden and the flag is cleared, the original reads
-// (device +0x1c) +0x28c and, when that is non-null, calls its vtable slot +0x48 with it. The device +0x1c member is
-// not declared (layout request above), and the object at +0x28c is not identified, so the call is omitted.
+// The game camera is restored, the icons are hidden, the shown flag is cleared, and the scene map root node (when one exists)
+// is hidden.
 void HUDMinimap::Hide() {
     DisableMapCamera();  // vtable +0x90
     HideAllIcons();      // vtable +0x6c
     unk_c4 = false;      // +0xc4, Show sets it
+    glitch::scene::CEmptySceneNode* root = DeviceSceneManager()->m_nodeMapRoot;
+    if (root != nullptr) {
+        root->setVisible(false);  // ISceneNode vtable +0x48
+    }
 }
 
 // 0x41b4a8 _ZN10HUDMinimap16DestroyMapCameraEv
@@ -124,24 +140,32 @@ void HUDMinimap::InitAllObjects() {
 }
 
 // 0x41b628 _ZN10HUDMinimap12HideAllIconsEv
-// PARTIAL: for every non-null icon the original clears its visible flag (+0x9b, layout request above). Order: unk_ec
-// (4), unk_fc (8), unk_11c (8), unk_13c (12), unk_16c (12). The flag is not declared, so the stores are not made and
-// the icon arrays are only visited.
+// Every non-null icon has its visible flag (+0x9b) cleared. Order: unk_ec (4), unk_fc (8), unk_11c (8), unk_13c (12), unk_16c (12).
 void HUDMinimap::HideAllIcons() {
     for (gameswf::character* icon : unk_ec) {
-        static_cast<void>(icon);  // PARTIAL: icon +0x9b = 0 not made
+        if (icon != nullptr) {
+            icon->set_visible(false);
+        }
     }
     for (gameswf::character* icon : unk_fc) {
-        static_cast<void>(icon);  // PARTIAL
+        if (icon != nullptr) {
+            icon->set_visible(false);
+        }
     }
     for (gameswf::character* icon : unk_11c) {
-        static_cast<void>(icon);  // PARTIAL
+        if (icon != nullptr) {
+            icon->set_visible(false);
+        }
     }
     for (gameswf::character* icon : unk_13c) {
-        static_cast<void>(icon);  // PARTIAL
+        if (icon != nullptr) {
+            icon->set_visible(false);
+        }
     }
     for (gameswf::character* icon : unk_16c) {
-        static_cast<void>(icon);  // PARTIAL
+        if (icon != nullptr) {
+            icon->set_visible(false);
+        }
     }
 }
 
@@ -170,35 +194,65 @@ bool HUDMinimap::IsInsideVisitedRooms(const Point3D<float>& position) {
 }
 
 // 0x41b8b4 _ZN10HUDMinimap20SetObjectsVisibilityEP5Level
-// PARTIAL: the visible flags of the icons are not stored (layout request above). The test for each icon is kept.
-// Over unk_d4 entries of unk_3dc: an object is visible on the map when it is non-null, the level is non-null, its
-// entry point id equals the level's, and it lies in a visited room. Over unk_d0 entries of unk_3fc: visible when it
-// is non-null and lies in a visited room. The original short-circuits in the same order.
+// Over unk_d4 entries of unk_3dc: an object is visible on the map when it is non-null, the level is non-null, its entry point id
+// equals the level, and it lies in a visited room; the result is stored in the visible flag of unk_fc[i]. Over unk_d0 entries
+// of unk_3fc: visible when it is non-null and lies in a visited room (flag of unk_11c[i]). The original short-circuits in the
+// same order.
 void HUDMinimap::SetObjectsVisibility(Level* level) {
     for (int i = 0; i < unk_d4; ++i) {
         GameObject* object = unk_3dc[i];
         const bool visible = object != nullptr && level != nullptr && object->m_entryPointId == level->m_entryPointId &&
                              IsInsideVisitedRooms(object->m_position);
-        static_cast<void>(visible);  // PARTIAL: unk_fc[i] +0x9b = visible not stored
+        unk_fc[i]->set_visible(visible);
     }
     for (int i = 0; i < unk_d0; ++i) {
         GameObject* object = unk_3fc[i];
         const bool visible = object != nullptr && IsInsideVisitedRooms(object->m_position);
-        static_cast<void>(visible);  // PARTIAL: unk_11c[i] +0x9b = visible not stored
+        unk_11c[i]->set_visible(visible);
     }
 }
 
 // 0x41b9bc _ZN10HUDMinimap19UpdateIconPositionsEPS_N7gameswf4rectE
-// PARTIAL: the whole body is not rebuilt. The original runs only when (device +0x1c) +0xe4 (the scene manager's active
-// camera) is non-null, and that device member is not declared (layout request above). Then it places the five icon
-// groups. For each group it calls GetMapScreenCoord with the rect's X range, Y range and their centres (the rect is
-// {m_x_min, m_x_max, m_y_min, m_y_max}), and passes the result to RenderFX::SetPosition (not declared). Icons from
-// unk_ec, unk_16c, unk_13c get their flag set (+0x9b). Group unk_ec first copies the position of each player's
-// character (+0x660 of PlayerInfo, +0x160 of GameObject) into unk_1cc. Group unk_16c calls the virtual SetEnemies()
-// before each icon, and the positions are unk_34c. Nothing is written here.
+// Runs only when the scene has an active camera. The rect (by value) gives the width, height and centre; five icon groups are
+// then placed with GetMapScreenCoord and RenderFX::SetPosition: the players (unk_ec, positions copied from the players
+// characters into unk_1cc; visible), the enemies (unk_16c; SetEnemies is called before each; visible), unk_fc and unk_11c
+// (positions as stored) and unk_13c (visible).
 void HUDMinimap::UpdateIconPositions(HUDMinimap* menu, gameswf::rect rect) {
-    static_cast<void>(menu);
-    static_cast<void>(rect);
+    if (DeviceSceneManager()->activeCamera == nullptr) {
+        return;
+    }
+    const float width = rect.m_x_max - rect.m_x_min;
+    const float height = rect.m_y_max - rect.m_y_min;
+    const float centerX = rect.m_x_min + width * 0.5f;
+    const float centerY = rect.m_y_min + height * 0.5f;
+    for (int i = 0; i < unk_c8; ++i) {
+        Character* character = dword_99F76C->GetPlayer(i, true)->unk_660;  // PlayerInfo +0x660
+        if (character != nullptr) {
+            unk_1cc[i] = character->m_position;  // GameObject +0x160
+            const Point2D<float> screen = GetMapScreenCoord(unk_1cc[i], width, height, centerX, centerY);
+            menu->m_menu->SetPosition(unk_ec[i], static_cast<int>(screen.X), static_cast<int>(screen.Y));
+            unk_ec[i]->set_visible(true);
+        }
+    }
+    for (int i = 0; i < unk_d8; ++i) {
+        SetEnemies();  // vtable +0x50
+        const Point2D<float> screen = GetMapScreenCoord(unk_34c[i], width, height, centerX, centerY);
+        menu->m_menu->SetPosition(unk_16c[i], static_cast<int>(screen.X), static_cast<int>(screen.Y));
+        unk_16c[i]->set_visible(true);
+    }
+    for (int i = 0; i < unk_d4; ++i) {
+        const Point2D<float> screen = GetMapScreenCoord(unk_1fc[i], width, height, centerX, centerY);
+        menu->m_menu->SetPosition(unk_fc[i], static_cast<int>(screen.X), static_cast<int>(screen.Y));
+    }
+    for (int i = 0; i < unk_d0; ++i) {
+        const Point2D<float> screen = GetMapScreenCoord(unk_25c[i], width, height, centerX, centerY);
+        menu->m_menu->SetPosition(unk_11c[i], static_cast<int>(screen.X), static_cast<int>(screen.Y));
+    }
+    for (int i = 0; i < unk_cc; ++i) {
+        const Point2D<float> screen = GetMapScreenCoord(unk_2bc[i], width, height, centerX, centerY);
+        menu->m_menu->SetPosition(unk_13c[i], static_cast<int>(screen.X), static_cast<int>(screen.Y));
+        unk_13c[i]->set_visible(true);
+    }
 }
 
 // 0x41be34 _ZN10HUDMinimap16EnableGameCameraEv
@@ -223,32 +277,24 @@ void HUDMinimap::EnableMapCamera() {
 }
 
 // 0x41be88 _ZN10HUDMinimap15CreateMapCameraEv
-// Creates the map camera once. If it exists, nothing else happens.
-// PARTIAL: the original then calls CameraLevel::Load(m_mapCam, "data/3D/camera/CameraTests.bdae", index,
-// "PlayerCamera_Default") with index = the row of "MiniMap" in Arrays::CamAnimSetTable (-1 when absent), and at the
-// end CameraLevel::PlayAnim(clip, 0, false) with clip = the row's clip id. Both are not made: the table has two
-// declarations in this tree (see the file comment). The setup calls that remain run in the original order.
+// Creates the map camera once, loads it from the camera tests rig (anim set row "MiniMap" of CamAnimSetTable, -1 when absent),
+// sets it up and plays the clip of that row. If the camera exists, nothing else happens. The null check after operator new
+// (assert m_mapCam, line 272) is not written: C++ new throws instead of returning null.
 void HUDMinimap::CreateMapCamera() {
     if (m_mapCam != nullptr) {
         return;
     }
     m_mapCam = new CameraLevel();  // operator new(0xa8) and the CameraLevel constructor
-    if (m_mapCam == nullptr) {
-        // ASSERT(m_mapCam) failed. Same policy as the other gAssertLevel asserts in the tree.
-        if (gAssertLevel == 2) {
-            std::abort();  // the original writes address 0 here to force a crash
-        } else if (gAssertLevel == 1) {
-            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "m_mapCam",
-                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\HUDMinimap.cpp", 272);
-        }
-    }
-    // PARTIAL: CameraLevel::Load(...) is not made (see above).
+    const int camTableIndex =
+        pydata::FindMemberName(Arrays::CamAnimSetTable::m_memberNames, static_cast<int>(Arrays::CamAnimSetTable::size), "MiniMap");
+    m_mapCam->Load("data/3D/camera/CameraTests.bdae", camTableIndex, "PlayerCamera_Default");
     m_mapCam->m_useObjectPosition = true;  // +0x85
     m_mapCam->EnableDamping(false);        // CameraTarget::EnableDamping(m_mapCam, 0)
     m_mapCam->SetData(0.42963f, 1.0f, 0.0f, 100000.0f, false);
     m_mapCam->m_zoomTarget = 1.0f;   // +0x8c
     m_mapCam->m_zoomCurrent = 0.0f;  // +0x88
-    // PARTIAL: CameraLevel::PlayAnim(clip, 0, false) is not made (see above).
+    m_mapCam->PlayAnim(reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[m_mapCam->m_camTableIndex].m_w4, 0,
+                       false);
 }
 
 // 0x41c058 _ZN10HUDMinimap23RegisterDisplayCallbackEv

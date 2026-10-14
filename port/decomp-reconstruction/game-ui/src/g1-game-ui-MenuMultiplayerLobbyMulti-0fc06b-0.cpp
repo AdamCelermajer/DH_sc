@@ -16,15 +16,12 @@
 #include "dh2/MenuMultiplayerLobbyMulti.hpp"
 
 // 0x435714 _ZN25MenuMultiplayerLobbyMulti6UpdateEv
-// PARTIAL: the original calls gameswf::weak_ptr<gameswf::character>::check_proxy (0x386144) on the State proxy at +0x48
-// (m_characterProxy) after MenuBase::Update and before the callback. That call is not made: the weak_ptr type has no
-// declaration in this tree and m_characterProxy is void* in MenuFX.hpp. check_proxy clears the proxy and the cached
-// character (+0x4c) when the character has died, so for a dead context the original passes null to the callback and
-// this port passes the stale pointer. Waits on a typed weak_ptr<character> member for MenuFX::State +0x48.
-// The callback's int result is discarded (the Hex-Rays return value; the header returns void).
+// After MenuBase::Update the context is re-checked (weak_ptr::check_proxy at +0x48 drops a dead context, as
+// GetCurrentMenuContext does) and the "updatePlayerList" callback runs on it with no arguments. The callback int result is
+// discarded (the header returns void).
 void MenuMultiplayerLobbyMulti::Update() {
     MenuBase::Update();
-    m_menu->InvokeASCallback(m_character, "updatePlayerList", nullptr, 0);  // +0x4c
+    m_menu->InvokeASCallback(GetCurrentMenuContext(), "updatePlayerList", nullptr, 0);  // check_proxy drops a dead context
 }
 
 // 0x43575c _ZN25MenuMultiplayerLobbyMulti4HideEv

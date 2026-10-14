@@ -16,7 +16,7 @@
 //  - Arrays::StrID_Languages elements are host Structs::LangSheetList records, and their sheets are Structs::LangSheet
 //    records (pydata-accessors, w7_structs_1.hpp). The original 12-byte and 20-byte strides are not used to step.
 //
-// PARTIAL: getNumberOfStrings(int) with no pack switched in (see its comment).
+// getNumberOfStrings(int) deviates only where the original reads garbage (no pack switched in, see its comment).
 
 #include <cstdint>
 #include <cstdio>
@@ -86,7 +86,7 @@ int StringManager::addSpace() {
 // 0x507534 _ZNK13StringManager18getNumberOfStringsEi
 // The string count of sheet sheetIdx in the current pack. Its count word is m_list_count[m_currentPack][sheetIdx],
 // read as a signed 16-bit value as the original does.
-// PARTIAL: the original does not check m_currentPack. With no pack switched in (-1) it reads a half-word of the
+// The original does not check m_currentPack. With no pack switched in (-1) it reads a half-word of the
 // m_lists pointer table, which is not a count, and that read is not reproduced. This port returns 0 for -1.
 int StringManager::getNumberOfStrings(int sheetIdx) const {
     if (m_currentPack < 0) {

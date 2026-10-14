@@ -15,10 +15,19 @@
 #include "dh2/AnimationSet.hpp"
 
 #include <cstdint>
+#include <utility>
 
 #include "glitch-core-io/os/logging.hpp"
 #include "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp"
 #include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
+
+// The profiling markers (0x3136b4, 0x3136b8); declared in dh2/global/runtime_support.hpp, repeated here to keep that header's glitch core stand-in out.
+void PushProfilingContext(const char* name);
+void PopProfilingContext(const char* name);
+
+// The shared "no entry" result of the lookups; 48 bytes, built by the default Animation state.
+Animation AnimationSet::s_invalidAnim;
 
 // 0x36497c _ZN12AnimationSet10SetAnimSetEPN6glitch7collada20CDynamicAnimationSetE
 // The previous set is dropped, the flag at +0x2c is set, and the new set takes a use (counter at +0x04). The
@@ -85,12 +94,12 @@ int AnimationSet::_FindCacheCandidate() {
 }
 
 // 0x364af4 _ZN12AnimationSet23_UpdateAnimationIndicesEv
-// partial: the original visits every entry in key order and stores CDynamicAnimationSet::getDatabaseIndex(m_animSet,
-// database) into the entry's set index (Animation +0x20, unk_20). getDatabaseIndex is declared in the engine
-// header (0x62dbb8), but the entry's database at Animation +0x18 is not: dh2/Animation.hpp keeps it as pad_18
-// (layout request: glitch::collada::CColladaDatabase, two words, record and factory). The original's r0 result
-// is the last index written; the header declares void and no caller uses it. Stub: no-op.
-void AnimationSet::_UpdateAnimationIndices() {}
+// Refreshes the library index of every entry from the engine set (CDynamicAnimationSet::getDatabaseIndex of its database).
+void AnimationSet::_UpdateAnimationIndices() {
+    for (auto node = m_animations.begin(); node != m_animations.end(); ++node) {
+        node->second.unk_20 = m_animSet->getDatabaseIndex(node->second.m_database);
+    }
+}
 
 // 0x364bf4 _ZN12AnimationSet22GetAnimationBySetIndexEi
 // Scans the entries in key order for the first one whose set index (Animation +0x20, unk_20 in dh2/Animation.hpp)
@@ -107,10 +116,9 @@ Animation* AnimationSet::GetAnimationBySetIndex(int setIndex) {
 }
 
 // 0x364ca0 _ZN12AnimationSet13CreateAnimSetEv
-// partial: the original releases the previous set (glitch::IReferenceCounted::drop, base not declared on
-// CDynamicAnimationSet), sets the +0x2c flag, constructs a CDynamicAnimationSet (operator new(0x80), then its
-// constructor, C1Ev at 0x3648c4, not declared in its header) and returns the result of the new object's virtual
-// slot 7 (+0x1c, not declared) called with 1. Only the flag is reproduced; no set is created. Stub: returns 0.
+// Drops the previous engine set, sets the flag at +0x2c and builds a new CDynamicAnimationSet (operator new(0x80)) with
+// setMismatchBehavior(1) (vtable +0x1c). The original returns the r0 of that call (a reference, a register residue); the int
+// return carries 0.
 int AnimationSet::CreateAnimSet() {
     if (m_animSet) {
         m_animSet->drop();
@@ -119,8 +127,6 @@ int AnimationSet::CreateAnimSet() {
     unk_2c = 1;
     auto* set = new glitch::collada::CDynamicAnimationSet();
     m_animSet = set;
-    // partial: the original returns the r0 of the set's setMismatchBehavior(1) (vptr+0x1c, returns CAnimationSet&),
-    // which the int return cannot carry. The call is made; the value is not returned.
     (void)set->setMismatchBehavior(static_cast<glitch::collada::CAnimationSet::E_MISMATCH_BEHAVIOR>(1));
     return 0;
 }
@@ -155,13 +161,16 @@ AnimationSet::~AnimationSet() {
 // glitch::IReferenceCounted::drop deletes through it. The original's CustomFree after D1 is not modelled.
 
 // 0x36504c _ZN12AnimationSet16_RemoveAnimationENSt4priv17_Rb_tree_iteratorISt4pairIKi9AnimationENS0_11_MapTraitsTIS5_EEEEb
-// partial: the original first releases the entry's library binding on m_animSet (when it is non-null), using the
-// entry's set index (Animation +0x20, unk_20): CDynamicAnimationSet::remAnimationLibrary(unsigned int) at 0x62fb2c
-// when the byte at +0x70 of the set is non-zero, else CDynamicAnimationSet::remAnimationLibraryBindings(unsigned
-// int) at 0x62fa44. Both overloads exist in the binary but are not declared in glitch-scene-collada-gui's
-// CDynamicAnimationSet, and the byte is named setCleared there (layout request). Only the erase is reproduced,
-// and only when keepEntry is false.
+// The entry library binding is released on the engine set: the whole library when the set is dirty (+0x70), only its bindings
+// otherwise; the entry is erased unless keepEntry.
 void AnimationSet::_RemoveAnimation(std::map<int, Animation>::iterator node, bool keepEntry) {
+    if (m_animSet) {
+        if (m_animSet->dirty) {
+            m_animSet->remAnimationLibrary(static_cast<unsigned int>(node->second.unk_20));
+        } else {
+            m_animSet->remAnimationLibraryBindings(static_cast<unsigned int>(node->second.unk_20));
+        }
+    }
     if (!keepEntry) {
         m_animations.erase(node);
     }
@@ -193,18 +202,32 @@ bool AnimationSet::UnloadAnimation(const char* name) {
 }
 
 // 0x3659ec _ZN12AnimationSet13LoadAnimationEi
-// partial: the original range-checks animId against the AnimDict table, builds the collada database named by the
-// table entry (glitch::collada::CColladaDatabase; its (path, factory) constructor and DefaultFactory are not
-// declared), adds it to the engine set (virtual slot +44 of CAnimationSet, which the header does not mark virtual,
-// when the byte at +0x70 is set; otherwise CAnimationSet::getAnimationCount followed by
-// CDynamicAnimationSet::addAnimationLibraryBindings at 0x62ee9c, which is declared in the engine header but needs
-// the CAnimationSet base relation the header does not state), and inserts an Animation whose name string (+0x00), database (+0x18),
-// set index (+0x20, unk_20), use count (+0x24), timer stamp (+0x28) and counter (+0x2c) are all declared except
-// the first two (layout request in dh2/Animation.hpp). The AnimDict element layout (32-bit name pointer at +8,
-// stride 12) is not declared. Stub: returns the invalid entry.
+// Builds the entry of an AnimDict id: the collada database of its file is loaded, the entry gets the current time stamp and use
+// count 0, the database is added to the engine set (the whole library when the set is dirty, else its bindings; the entry takes the
+// resulting library index) and the entry goes into the map. An id outside the table gives the invalid entry.
 Animation* AnimationSet::LoadAnimation(int animId) {
-    (void)animId;
-    return &s_invalidAnim;
+    PushProfilingContext("AnimationSet::ReplaceAnimation");
+    Animation* result = &s_invalidAnim;
+    if (animId >= 0 && animId < static_cast<int>(Arrays::AnimDict::size)) {
+        Animation entry;
+        entry.m_fileName = reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members)[animId].m_w2;
+        entry.m_database = glitch::collada::CColladaDatabase(entry.m_fileName.c_str(), nullptr);
+        entry.m_useCount = 0;
+        entry.m_lastUseTime = glitch::os::Timer::getRealTime();
+        entry.unk_2c = 0;
+        if (m_animSet) {
+            if (m_animSet->dirty) {
+                entry.unk_20 = m_animSet->addAnimationLibrary(entry.m_database);
+            } else {
+                entry.unk_20 = static_cast<int>(m_animSet->getAnimationCount());
+                m_animSet->addAnimationLibraryBindings(entry.m_database);
+            }
+        }
+        m_animations.insert(std::make_pair(animId, entry));
+        result = &m_animations[animId];
+    }
+    PopProfilingContext("AnimationSet::ReplaceAnimation");
+    return result;
 }
 
 // 0x365d18 _ZN12AnimationSet13LoadAnimationEPKc
@@ -214,16 +237,30 @@ Animation* AnimationSet::LoadAnimation(const char* name) {
 }
 
 // 0x365d38 _ZN12AnimationSet16ReplaceAnimationEii
-// partial: the original looks cacheSlot up in the tree and returns the invalid entry when it is missing or animId
-// is outside the AnimDict table. Otherwise it builds the new database as LoadAnimation does, overwrites the slot's
-// library binding with CDynamicAnimationSet::overwriteAnimationLibraryBindings(database, slot's set index) at
-// 0x62e204 (not declared in the engine header), erases the slot, inserts an Animation for animId that takes the
-// slot's set index, and returns it. The database (Animation +0x18) and name (+0x00) layouts and the
-// CColladaDatabase constructor are not declared (layout requests), so every call returns the invalid entry here.
+// The entry of cacheSlot is replaced by the entry of animId: the new database overwrites the library binding of the old one (the
+// new entry takes its library index), the old entry is erased and the new one inserted. A missing slot or an id outside the
+// AnimDict table gives the invalid entry.
 Animation* AnimationSet::ReplaceAnimation(int animId, int cacheSlot) {
-    (void)animId;
-    (void)cacheSlot;
-    return &s_invalidAnim;
+    PushProfilingContext("AnimationSet::ReplaceAnimation");
+    Animation* result = &s_invalidAnim;
+    auto node = m_animations.find(cacheSlot);
+    if (node != m_animations.end() && animId >= 0 && animId < static_cast<int>(Arrays::AnimDict::size)) {
+        Animation entry;
+        entry.m_fileName = reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members)[animId].m_w2;
+        entry.m_database = glitch::collada::CColladaDatabase(entry.m_fileName.c_str(), nullptr);
+        entry.m_useCount = 0;
+        entry.m_lastUseTime = glitch::os::Timer::getRealTime();
+        entry.unk_2c = 0;
+        if (m_animSet) {
+            entry.unk_20 = node->second.unk_20;
+            m_animSet->overwriteAnimationLibraryBindings(entry.m_database, static_cast<unsigned int>(entry.unk_20));
+        }
+        m_animations.erase(node);
+        m_animations.insert(std::make_pair(animId, entry));
+        result = &m_animations[animId];
+    }
+    PopProfilingContext("AnimationSet::ReplaceAnimation");
+    return result;
 }
 
 // 0x3660b0 _ZN12AnimationSet16ReplaceAnimationEi

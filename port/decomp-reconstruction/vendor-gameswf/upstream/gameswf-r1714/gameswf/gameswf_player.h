@@ -70,7 +70,7 @@ namespace gameswf
 		tu_string m_flash_vars;	// +0x68 (set_flash_vars 0x76d5ac; root::advance passes it to root::set_flash_vars)
 		as_value unk_7c;	// DH2: +0x7c, set to a new plain as_object by the constructor; no other reader
 		as_value m_movieclip_ctor;	// DH2: +0x88, the C function as_global_movieclip_ctor; the constructor sets it
-		int unk_94;	// DH2: +0x94, cleared by the constructor; no reader
+		void* m_render_fx;	// DH2: +0x94, the RenderFX that loaded this player (RenderFX::Load stores it; ClearFonts reads it), cleared by the constructor
 		bool unk_98;	// DH2: +0x98, cleared by the constructor; no reader
 #if 0 /* DH2: no counterpart in the binary (no accessor row in the queue, and the bytes at +0x94 and +0x98 are not these) */
 		bool m_force_realtime_framerate;

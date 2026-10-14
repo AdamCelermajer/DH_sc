@@ -1,5 +1,0 @@
-elf_address,symbol,status,source_file,notes
-0x50cdb0,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SFrustumBoxIntersector3>(unsigned int, glitch::scene::SFrustumBoxIntersector3)",missing,,no body in src (declaration or stand-in only)
-0x50d198,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SUniverseIntersector>(unsigned int, glitch::scene::SUniverseIntersector)",missing,,no body in src (declaration or stand-in only)
-0x50d2c0,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SBoxIntersector>(unsigned int, glitch::scene::SBoxIntersector)",missing,,no body in src (declaration or stand-in only)
-0x50d49c,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SFrustumBoxIntersector>(unsigned int, glitch::scene::SFrustumBoxIntersector)",missing,,no body in src (declaration or stand-in only)

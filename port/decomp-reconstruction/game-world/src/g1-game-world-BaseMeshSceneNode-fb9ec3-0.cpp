@@ -2,14 +2,8 @@
 // for T = glitch::collada::CMeshSceneNode, CSkinnedMeshSceneNode and CModularSkinnedMeshSceneNode.
 // Declarations come from dh2/BaseMeshSceneNode.hpp, which drops "override" on the dtor and render (see its comment).
 //
-// Tree limits:
-//   - There is no complete glitch::collada::CSkinnedMeshSceneNode. recon/slice_22.hpp declares one in
-//     glitch::collada::recon_22 with a different constructor signature. BaseMeshSceneNode<CSkinnedMeshSceneNode>
-//     cannot be instantiated, so every CSkinnedMeshSceneNode function below has no body here.
-//   - The collada stand-ins (collada_scene_accessors.hpp) have no base class, no virtuals and no constructor with the
-//     binary's arguments. The constructors therefore default-construct T and cannot pass the mesh on. The complete
-//     destructors write the vtable and virtual-base pointers that the compiler emits from the declared hierarchy,
-//     which cannot be checked against the binary until the engine hierarchy is declared.
+// The engine nodes are the canonical glitch::collada classes (collada/CMeshSceneNode.hpp): the constructors pass the mesh on with
+// node 0, id -1, position 0, the identity rotation and unit scale, and the vptr and virtual-base stores are the compiler's.
 //
 // Deleting destructors (D0) and the VTT-taking base-object destructor are compiler-generated and have no body here.
 

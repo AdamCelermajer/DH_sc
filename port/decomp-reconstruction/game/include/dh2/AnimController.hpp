@@ -7,9 +7,10 @@
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 
 class RootSceneNode;
+class AnimationSet;
 namespace glitch {
 namespace scene { class ITimelineController; }
-namespace collada { class CAnimationSet; class ISceneNodeAnimator; struct STriggeredEvent; }
+namespace collada { class ISceneNodeAnimator; struct STriggeredEvent; }
 }  // namespace glitch
 
 class AnimController {
@@ -22,7 +23,7 @@ public:
     AnimController(RootSceneNode* node, bool trackEvents);  // 0x474d30 / 0x474e44; asserts "m_node", takes a reference on it
     virtual ~AnimController();                         // +0x00 0x474684 (D1), +0x04 0x474d14 (D0), 0x4746c8; drops the node
 
-    virtual boost::intrusive_ptr<glitch::collada::CAnimationSet> GetAnimationSet();  // +0x08 0x474678 empty here
+    virtual boost::intrusive_ptr<AnimationSet> GetAnimationSet();  // +0x08 0x474678 empty here
     virtual int GetNumAnim() const;                    // +0x0c 0x474734 number of animators on the node
     virtual int GetNumClip(unsigned int animIndex) const;                          // +0x10 0x47487c
     virtual bool HasClip(const char* clipName, unsigned int animIndex) const;      // +0x14 0x474814

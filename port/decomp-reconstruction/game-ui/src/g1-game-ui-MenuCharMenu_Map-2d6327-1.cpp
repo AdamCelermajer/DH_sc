@@ -18,6 +18,15 @@
 #include "dh2/MenuFX.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "gameswf/gameswf_sprite.h"
+#include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
+#include "net-session-online/c_online.hpp"
+#include <limits>
 #include "dh2/Objective.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
@@ -120,34 +129,32 @@ glitch::core::vector3d<float> ToVector3d(const Point3D<float>& p) {
 // (the 0x454368 row). A second definition here fails to link ("multiple definition") when both parts are built.
 
 // 0x454504 _ZN16MenuCharMenu_Map13DuplicateIconENS_9EIconTypeERKN6glitch4core8vector3dIfEE
-// PARTIAL: the icon itself is not made. The original clones the map dummy (m_mapIconsDummy, +0xf8) under the name
-// "MapIcon_<n>" at the highest depth of the dummy's parent sprite, goes to movie frame 13 for types 14..17 (the
-// type's own frame otherwise), and records (clone, position) in m_icons[type]. The clone needs
-// sprite_instance::get_highest_depth(), and gameswf/gameswf_sprite.h does not compile in this tree: its goto_frame(int)
-// returns void where gameswf/gameswf_character.h declares int, so including it fails (the same failure stops
-// FlashAnimManager and SWFAnimManager). Declaring the call by hand would be a stand-in for another class, so the
-// clone, the goto_frame and the m_icons record are left out. The name counter, the name and the assert are kept.
-// For a type past ICON_COUNT the original reports the failed assert and then writes past the end of m_icons
-// (undefined behaviour); this rebuild stops after the report. No caller in this batch passes such a type.
+// The map dummy (m_mapIconsDummy, +0xf8) is cloned under the name "MapIcon_<n>" at the highest depth of its parent sprite, the
+// clone goes to movie frame 13 for types 14..17 (the type own frame otherwise), and (clone, position) is recorded in
+// m_icons[type]. For a type past ICON_COUNT the original reports the failed assert and then writes past the end of m_icons
+// (undefined behaviour); this rebuild stops after the report.
 void MenuCharMenu_Map::DuplicateIcon(EIconType type, const glitch::core::vector3d<float>& pos) {
     const int iconType = static_cast<int>(type);
     if (iconType > 17) {  // ICON_COUNT is 18
-        // ASSERT(iconType < ICON_COUNT) failed. Same policy as the other gAssertLevel asserts in the tree.
         if (gAssertLevel == 2) {
             std::abort();  // the original writes address 0 here to force a crash
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "iconType < ICON_COUNT",
-                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\CharacterMenu\\MenuCharMenu_Map.cpp",
-                         625);
+                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\CharacterMenu\\MenuCharMenu_Map.cpp", 625);
         }
-        return;  // PARTIAL: the original indexes past m_icons here
+        return;
     }
 
     static int s_nextIconIndex = 0;  // MenuCharMenu_Map::DuplicateIcon(...)::i, post-incremented
-    const std::string name = "MapIcon_" + std::to_string(s_nextIconIndex++);
-    // PARTIAL: the clone of m_mapIconsDummy named `name`, goto_frame and the m_icons[iconType] record (pos) are not made.
-    (void)name;
-    (void)pos;
+    char buffer[100];
+    std::snprintf(buffer, sizeof(buffer), "MapIcon_%d", s_nextIconIndex++);
+    const std::string name = buffer;
+    gameswf::character* dummy = m_mapIconsDummy;
+    gameswf::sprite_instance* parent = static_cast<gameswf::sprite_instance*>(dummy->get_parent());
+    const int depth = parent->get_highest_depth();
+    gameswf::character* clone = dummy->clone_display_object(::tu_string(name.c_str()), depth);  // vtable +0xd4
+    clone->goto_frame((iconType >= 14 && iconType <= 17) ? 13 : iconType);                             // vtable +0x14c
+    m_icons[iconType].push_back(std::make_pair(clone, pos));
 }
 
 // 0x4548ac _ZN16MenuCharMenu_Map19ShowObjectivesIconsEv
@@ -179,12 +186,14 @@ void MenuCharMenu_Map::ShowObjectivesIcons() {
 }
 
 // 0x454a08 _ZN16MenuCharMenu_Map16ShowPlayersIconsEv
-// PARTIAL: the original chooses between two branches on the COnline byte at +0x05 (COnline::isOnlineGame_, which is
-// protected and has no public getter). That choice is missing, so neither branch runs. The two branch bodies are
-// written as ShowOnlinePlayersIcons (flag set) and ShowOfflineLocalPlayerIcon (flag clear), and the dispatch needs
-// a public read of COnline::isOnlineGame_ (layout request: COnline +0x05 bool, protected, no getter).
+// Online (the COnline flag): every player in the PlayerManager list gets an icon, the local one icon 3 (and sets m_playerPos).
+// Offline: the local player alone.
 void MenuCharMenu_Map::ShowPlayersIcons() {
-    // PARTIAL: dispatch on COnline::isOnlineGame_ is not written; see the comment above.
+    if (GetOnline()->IsOnlineGame()) {
+        ShowOnlinePlayersIcons(*this);
+    } else {
+        ShowOfflineLocalPlayerIcon(*this);
+    }
 }
 
 // 0x454b8c _ZN16MenuCharMenu_Map18ShowRoomExitsIconsEv
@@ -292,20 +301,91 @@ void MenuCharMenu_Map::ShowNpcIcons() {
 }
 
 // 0x455138 _ZN16MenuCharMenu_Map4ShowEv
-// PARTIAL: the original's steps after MenuBase::Show are not written. They run only when the scene root (the
-// SceneManager node root, SceneManager +0x28c, reached through the device word at IDevice +0x1c) exists and the local
-// player has a character. That device word is not declared (no layout). Left out with them:
-//   (1) setVisible(true) on the scene root (ISceneNode vtable +0x48);
-//   (2) the visited and unvisited room lists, built from the room list at ObjectManager +0x24 (declared as
-//       std::list<int32_t>; the original reads each node's data word as a RoomZone*, layout request);
-//   (3) the map bounds (m_mapBoundsMin, m_mapBoundsMax) from the scene root's children that are inside the rooms,
-//       with each child's visibility set to that result, and the bounds' fix-up;
-//   (4) ClearAllIcons, ShowPlayersIcons, ShowNpcIcons, ShowMapExitsIcons, ShowRoomExitsIcons, ShowObjectivesIcons
-//       and ShowLevelName;
-//   (5) the debug bounding box (switch isDisplayingMiniMapBoundingBox: four icon 0s at the bounds' corners);
-//   (6) CreateMapCamera.
+// The RenderMap callback is registered and MenuBase::Show runs. With a map root node and a local character: the root is made
+// visible, the room zones are split into the visited and unvisited lists, the map bounds are the union of the boxes of the root
+// children whose centre lies in a visited room (each child gets visible = that result), widened by their own size on every side
+// (z cleared), the icons and the level name are rebuilt (plus four debug corner icons under the switch), and the map camera is
+// created.
 void MenuCharMenu_Map::Show() {
     m_menu->RegisterDisplayCallback("RenderMap", &MenuCharMenu_Map::RenderMap, this);  // MenuFX base at this+4
     MenuBase::Show();
-    // PARTIAL: steps (1) to (6) above are not made.
+    glitch::scene::CEmptySceneNode* mapRoot = DeviceSceneManager()->m_nodeMapRoot;
+    if (mapRoot == nullptr) {
+        return;
+    }
+    mapRoot->setVisible(true);  // ISceneNode vtable +0x48
+    if (dword_99F76C->GetLocalPlayer(0, true)->unk_660 == nullptr) {
+        return;
+    }
+    m_visitedRooms.clear();
+    m_unvisitedRooms.clear();
+    for (RoomZone* room : dword_99F764->unk_24) {  // ObjectManager +0x24
+        if (room->HasBeenVisited()) {
+            m_visitedRooms.push_back(room);
+        } else {
+            m_unvisitedRooms.push_back(room);
+        }
+    }
+    const float kFloatMax = std::numeric_limits<float>::max();
+    m_mapBoundsMax.Z = -kFloatMax;
+    m_mapBoundsMin.X = kFloatMax;
+    m_mapBoundsMax.X = -kFloatMax;
+    m_mapBoundsMax.Y = -kFloatMax;
+    m_mapBoundsMin.Y = kFloatMax;
+    m_mapBoundsMin.Z = kFloatMax;
+    const glitch::scene::SChildList& children = mapRoot->getChildren();
+    if (children.empty()) {
+        m_mapBoundsMin.X = 0.0f;
+        m_mapBoundsMax.X = 0.0f;
+    } else {
+        for (glitch::scene::ISceneNode* child : children) {
+            const glitch::core::aabbox3d<float>& box = child->getTransformedBoundingBox();  // vtable +0x34
+            const float minX = box.MinEdge.X;
+            const float minY = box.MinEdge.Y;
+            const float minZ = box.MinEdge.Z;
+            const float maxX = box.MaxEdge.X;
+            const float maxY = box.MaxEdge.Y;
+            const float maxZ = box.MaxEdge.Z;
+            const Point3D<float> center{(minX + maxX) * 0.5f, (minY + maxY) * 0.5f, (minZ + maxZ) * 0.5f};
+            const bool inside = IsInsideRooms(center, true);
+            child->setVisible(inside);  // vtable +0x48
+            if (inside) {
+                m_mapBoundsMin.X = minX < m_mapBoundsMin.X ? minX : m_mapBoundsMin.X;
+                m_mapBoundsMin.Y = minY < m_mapBoundsMin.Y ? minY : m_mapBoundsMin.Y;
+                m_mapBoundsMax.X = maxX > m_mapBoundsMax.X ? maxX : m_mapBoundsMax.X;
+                m_mapBoundsMax.Y = maxY > m_mapBoundsMax.Y ? maxY : m_mapBoundsMax.Y;
+            }
+        }
+        if (m_mapBoundsMax.X < m_mapBoundsMin.X) {
+            m_mapBoundsMin.X = 0.0f;
+            m_mapBoundsMax.X = 0.0f;
+        }
+    }
+    if (m_mapBoundsMin.Y > m_mapBoundsMax.Y) {
+        m_mapBoundsMin.Y = 0.0f;
+        m_mapBoundsMax.Y = 0.0f;
+    }
+    m_mapBoundsMin.Z = 0.0f;
+    m_mapBoundsMax.Z = 0.0f;
+    const float sizeX = m_mapBoundsMax.X - m_mapBoundsMin.X;
+    const float sizeY = m_mapBoundsMax.Y - m_mapBoundsMin.Y;
+    m_mapBoundsMin.X = m_mapBoundsMin.X - sizeX;
+    m_mapBoundsMin.Y = m_mapBoundsMin.Y - sizeY;
+    m_mapBoundsMax.X = m_mapBoundsMax.X + sizeX;
+    m_mapBoundsMax.Y = m_mapBoundsMax.Y + sizeY;
+    ClearAllIcons();
+    ShowPlayersIcons();
+    ShowNpcIcons();
+    ShowMapExitsIcons();
+    ShowRoomExitsIcons();
+    ShowObjectivesIcons();
+    ShowLevelName();
+    DebugSwitches::GetInstance()->load();
+    if (DebugSwitches::GetInstance()->GetSwitch("isDisplayingMiniMapBoundingBox")) {
+        DuplicateIcon(ICON_0, glitch::core::vector3d<float>{m_mapBoundsMin.X, m_mapBoundsMax.Y, 0.0f});
+        DuplicateIcon(ICON_0, glitch::core::vector3d<float>{m_mapBoundsMin.X, m_mapBoundsMin.Y, 0.0f});
+        DuplicateIcon(ICON_0, glitch::core::vector3d<float>{m_mapBoundsMax.X, m_mapBoundsMax.Y, 0.0f});
+        DuplicateIcon(ICON_0, glitch::core::vector3d<float>{m_mapBoundsMax.X, m_mapBoundsMin.Y, 0.0f});
+    }
+    CreateMapCamera();
 }

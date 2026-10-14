@@ -325,8 +325,11 @@ void Level::_LoadProcess() {
                 }
                 if (spawnDefault) {
                     ObjectHandle handle = dword_99F764->Spawn("LevelConfig", "RuntimeDefaultLevelConfig", false, true);
+                    // 0x3f816c: the original casts the ObjectBase* straight to LevelConfig*. LevelConfig and
+                    // GameObject are siblings under ObjectBase, so that is a cross-cast here; the +0xf4 m_goId == 4
+                    // test (0x3f8180, *((_DWORD*)Object + 61) != 4) is what makes it safe.
                     ObjectBase* object = handle.GetObject(false);
-                    LevelConfig* created = static_cast<LevelConfig*>(object);
+                    LevelConfig* created = dynamic_cast<LevelConfig*>(object);
                     if (object == nullptr || object->m_goId != static_cast<ObjectBase::GO_IDS>(4)) {
                         created = nullptr;
                     }
@@ -574,11 +577,14 @@ void Level::_LoadProcess() {
             tweaker->m_fogColor.setComponent(1, static_cast<uint8_t>(static_cast<unsigned int>(config->m_fogColor.Y)));
             tweaker->m_fogStart = static_cast<float>(GetLevelConfig()->m_fogStart);  // +0x110
             tweaker->m_fogEnd = static_cast<float>(GetLevelConfig()->m_fogEnd);      // +0x114
-            const Point3D<float> mask = GetLevelConfig()->m_fogDirectionMask;
-            tweaker->m_fogDirectionMask.X = mask.X;  // +0x11c
-            tweaker->m_fogDirectionMask.Y = mask.Y;
-            tweaker->m_fogDirectionMask.Z = mask.Z;
+            // The tweaker member is a glitch::core::vector3d<float> while the level config's is a Point3D<float>;
+            // the binary copies the three words (0x3f...: X, Y, Z).
+            const Point3D<float>& fogMask = config->m_fogDirectionMask;  // +0x1f8
+            tweaker->m_fogDirectionMask.X = fogMask.X;                   // +0x11c
+            tweaker->m_fogDirectionMask.Y = fogMask.Y;
+            tweaker->m_fogDirectionMask.Z = fogMask.Z;
             SceneManager* sceneManager = DeviceSceneManager();
+            const Point3D<float> mask = GetLevelConfig()->m_fogDirectionMask;
             sceneManager->unk_458 = mask.X;
             sceneManager->unk_45c = mask.Y;
             sceneManager->unk_460 = mask.Z;
@@ -778,7 +784,7 @@ void Level::Update(bool forceUpdate) {
                               config->m_fogColor);
     }
     {
-        LightSetManager& lights = DeviceSceneManager()->m_lightSetManager;
+        LightSetManager& lights = DeviceSceneManager()->m_lightSetManager;  // dh2/LightSetManager.hpp is in the global namespace
         if (ReadDebugSwitch("RENDERING_DisableAllLighting") == lights.m_lightingEnabled) {
             lights.m_lightingEnabled = !DebugSwitches::GetInstance()->GetSwitch("RENDERING_DisableAllLighting");
         }

@@ -21,6 +21,7 @@
 #pragma once
 
 #include <cstddef>
+#include <type_traits>
 #include <utility>
 
 #include "glitch-core-io/core/reference_counted.hpp"
@@ -46,7 +47,11 @@ public:
     intrusive_ptr(const intrusive_ptr& other) : px(other.px) {
         if (px) intrusive_ptr_add_ref(px);
     }
-    template <typename U>
+    // Upcast, adds a use. Constrained like boost's, so an unrelated pointee is not a viable conversion: without
+    // this, `intrusive_ptr<CMesh>` converts to both `intrusive_ptr<IMesh>` and `intrusive_ptr<CMeshBuffer>`
+    // through the same user-defined constructor and every overload set with both (scene::scale,
+    // recalculateNormals, transform) becomes ambiguous.
+    template <typename U, typename = std::enable_if_t<std::is_convertible<U*, T*>::value>>
     intrusive_ptr(const intrusive_ptr<U>& other) : px(other.get()) {  // NOLINT: upcast, adds a use
         if (px) intrusive_ptr_add_ref(px);
     }

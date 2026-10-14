@@ -2,15 +2,16 @@
 // SortModuleByDistance (12 ELF rows). Rebuilt from the Hex-Rays pseudocode of libDungeonHunter2.so and checked against
 // the assembly. Offsets in comments are the original 32-bit ARM offsets; the layouts are in dh2/<Class>.hpp.
 //
-// Blockers (details in the ledger notes):
-//   - SlideEventCharacter::Test reads the touch point, the floats at RenderFX::Event +0x0c and +0x10. RenderFX::Event
-//     declares neither (layout request). Test is partial.
-//   - SortByValueAndClass breaks ties with II_Item_sortbyname (dh2/global/item_sort.hpp). Its definition is queued under
-//     tinyxml-and-c-libs (0x3fd1dc, skipped: blocked), so this file needs that symbol to link.
+// Blocker: SortByValueAndClass breaks ties with II_Item_sortbyname (dh2/global/item_sort.hpp). Its definition is queued under
+// tinyxml-and-c-libs (0x3fd1dc, skipped: blocked), so this file needs that symbol to link.
 
 #include "dh2/MenuHUDConfirm.hpp"
 
 #include <cmath>
+
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/MenuFX.hpp"
+#include "glitch-shared/glitch_core.hpp"
 
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
@@ -80,16 +81,15 @@ MenuHUDConfirm* MenuHUDConfirm::GetInstance() {
 // SlideEventCharacter
 
 // 0x41f6c4 SlideEventCharacter::SlideEventCharacter(gameswf::character*)   (C1). C2 at 0x41f77c has the same body.
-// PARTIAL: the binary does not write m_tracking (+0x08) or m_fired (+0x18). Test reads both, so they are set to false
-// here instead of being left indeterminate. Check this against the allocation site (operator new(44)).
+// The binary does not write m_tracking (+0x08) or m_fired (+0x18); the game allocator returns zeroed memory, so both start false.
 SlideEventCharacter::SlideEventCharacter(gameswf::character* character) : m_character(character) {
     // PixelSlideDist is an int; the original converts it to float and multiplies by the double constant 20.0.
     m_slideDist = static_cast<float>(static_cast<float>(PyDataConstant("SlideEventConfig", "PixelSlideDist")) * 20.0);
     m_timingTolerance = PyDataConstant("SlideEventConfig", "TimingTolerance");
     m_startTime = -1;
     m_angleTolerance = PyDataConstant("SlideEventConfig", "AngleTolerance");
-    m_tracking = false;  // PARTIAL: not written by the binary (see above)
-    m_fired = false;     // PARTIAL: not written by the binary (see above)
+    m_tracking = false;  // not written by the binary (zeroed allocation)
+    m_fired = false;     // not written by the binary (zeroed allocation)
     m_startX = 0.0f;
     m_startY = 0.0f;
     m_lastX = 0.0f;
@@ -99,22 +99,13 @@ SlideEventCharacter::SlideEventCharacter(gameswf::character* character) : m_char
 // 0x41f77c SlideEventCharacter::SlideEventCharacter(gameswf::character*)   (C2). Same body as C1 (0x41f6c4).
 
 // 0x4236c0 SlideEventCharacter::Test(RenderFX::Event&,MenuFX*)
-// PARTIAL. Rebuilt: the target check against m_character (the binary compares the event's first word with the
-// character pointer), the release that clears m_fired (event type 4), and the early return while m_fired is set.
-// Not run: every step from the tracking start on. Those steps read the touch point, the floats at RenderFX::Event
-// +0x0c (x) and +0x10 (y), which RenderFX::Event does not declare yet (layout request in the ledger notes). The steps
-// still missing, in the binary's order:
-//   1. m_tracking (+0x08) clear: set it, m_startTime (+0x10) = time (dword_99F79C, Application::m_lastTickTime),
-//      m_startX/m_startY (+0x1c/+0x20) = touch point, return.
-//   2. m_tracking set and (unsigned)(time - m_startTime) > (unsigned)m_timingTolerance (+0x0c): m_tracking = 0, then 1.
-//   3. m_lastX/m_lastY (+0x24/+0x28) = touch point; dx, dy = touch minus start; length = sqrt(dx*dx + dy*dy).
-//   4. m_slideDist (+0x04) < length: m_fired = 1; angle = glitch::core::vector2d<float>{dx, dy}.getAngle(); the eight
-//      sectors are tested in this order against the tolerance m_angleTolerance (+0x14, read unsigned, as float):
-//      |angle-180| OnSlideLeft, |angle| OnSlideRight, |angle-90| OnSlideUp, |angle-270| OnSlideDown,
-//      |angle-45| OnSlideUpRight, |angle-135| OnSlideUpLeft, |angle-225| OnSlideDownLeft, |angle-315| OnSlideDownRight.
-//      A hit runs DebugSwitches::s_inst.load() and GetSwitch("isTracingTraceSlideAngleTrigger") (result unused), then
-//      menu->InvokeASCallback(m_character, name, nullptr, 0). No hit: m_fired = 0. Last, m_tracking = 0.
-// The binary's return value (r0) is not used: MenuBase::TestSlideEvents discards it (0x423d6c), so the method is void.
+// Only events on this character count. A press (type 4) clears the fired latch; while the latch is set nothing happens. A slide
+// starts at the first sample (time and touch point recorded) or restarts when the timing window (m_timingTolerance, unsigned) has
+// elapsed. Otherwise the latest sample is stored and, once the distance from the start exceeds m_slideDist, the slide angle
+// (vector2d::getAngle) picks one of eight sectors within m_angleTolerance degrees, tested in the order Left (180), Right (0), Up
+// (90), Down (270), UpRight (45), UpLeft (135), DownLeft (225), DownRight (315). A hit runs the trace switch read and the
+// "OnSlide<Direction>" callback on the character; no hit clears the fired latch. The slide then ends. The binary return value
+// (r0) is not used: MenuBase::TestSlideEvents discards it (0x423d6c), so the method is void.
 void SlideEventCharacter::Test(RenderFX::Event& event, MenuFX* menu) {
     if (static_cast<const void*>(m_character) != static_cast<const void*>(event.target)) {
         return;
@@ -124,7 +115,54 @@ void SlideEventCharacter::Test(RenderFX::Event& event, MenuFX* menu) {
     } else if (m_fired) {
         return;
     }
-    static_cast<void>(menu);  // PARTIAL: the callbacks on menu are not run yet (see above)
+    const int now = ApplicationGetInstance().m_lastTickTime;  // dword_99F79C, Application +0x70
+    if (!m_tracking || static_cast<unsigned int>(now - m_startTime) > static_cast<unsigned int>(m_timingTolerance)) {
+        m_tracking = true;
+        m_startTime = now;
+        m_startX = event.x;
+        m_startY = event.y;
+        return;
+    }
+    m_lastX = event.x;
+    m_lastY = event.y;
+    const float dx = event.x - m_startX;
+    const float dy = event.y - m_startY;
+    const float length = std::sqrt(dx * dx + dy * dy);
+    if (!(m_slideDist < length)) {
+        return;
+    }
+    glitch::core::vector2d<float> slide;
+    slide.X = dx;
+    slide.Y = dy;
+    const float angle = slide.getAngle();
+    m_fired = true;
+    const float tolerance = static_cast<float>(static_cast<unsigned int>(m_angleTolerance));
+    auto distance = [angle](float center) {
+        const float diff = angle - center;
+        return diff < 0.0f ? -diff : diff;
+    };
+    struct Sector {
+        float center;
+        const char* callback;
+    };
+    static const Sector sectors[] = {
+        {180.0f, "OnSlideLeft"}, {0.0f, "OnSlideRight"},     {90.0f, "OnSlideUp"},        {270.0f, "OnSlideDown"},
+        {45.0f, "OnSlideUpRight"}, {135.0f, "OnSlideUpLeft"}, {225.0f, "OnSlideDownLeft"}, {315.0f, "OnSlideDownRight"},
+    };
+    bool hit = false;
+    for (const Sector& sector : sectors) {
+        if (tolerance > distance(sector.center)) {
+            DebugSwitches::s_inst.load();
+            (void)DebugSwitches::s_inst.GetSwitch("isTracingTraceSlideAngleTrigger");
+            menu->InvokeASCallback(m_character, sector.callback, nullptr, 0);
+            hit = true;
+            break;
+        }
+    }
+    if (!hit) {
+        m_fired = false;
+    }
+    m_tracking = false;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/collada/CMeshSceneNode.hpp"
 
 namespace glitch {
 namespace collada {

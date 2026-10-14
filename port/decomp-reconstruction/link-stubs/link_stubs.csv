@@ -1,109 +1,122 @@
 symbol,kind,size,category,address,demangled
-FT_Bitmap_Convert,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70c980,
-FT_Bitmap_Done,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70c924,
-FT_Bitmap_Embolden,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70cd64,
-FT_Bitmap_New,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70c8fc,
-FT_Done_Face,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x7077fc,
-FT_Done_FreeType,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70d66c,
-FT_Get_Char_Index,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x7050ec,
-FT_GlyphSlot_Own_Bitmap,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70f8e0,
-FT_Init_FreeType,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70d708,
-FT_Load_Char,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x709660,
-FT_Load_Glyph,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x7091e0,
-FT_New_Face,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70c8cc,
-FT_New_Memory_Face,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70c890,
-FT_Render_Glyph,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70747c,
-FT_Set_Pixel_Sizes,function,0,third-party: FreeType 2.3.7 (statically linked in the binary| a vendored copy is in port/engine-ui/vendor| not in the Track B tree),0x70a7fc,
-_Z10gluNewTessv,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7afabc,gluNewTess()
-_Z12get_fontfilePKcbbPci,function,0,gameswf: FreeType-gated (gameswf_freetype.cpp is compiled out without FreeType) or core-platform skipped row,0x42b38c,get_fontfile(char const*| bool| bool| char*| int)
-_Z13gluDeleteTessP13GLUtesselator,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7afa94,gluDeleteTess(GLUtesselator*)
-_Z13gluTessVertexP13GLUtesselatorPdPv,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7af898,gluTessVertex(GLUtesselator*| double*| void*)
-_Z14setCullingModePN6glitch5scene10ISceneNodeEi,function,0,core-platform: skipped (needs ISceneNode members),0x50f744,setCullingMode(glitch::scene::ISceneNode*| int)
-_Z15gluTessCallbackP13GLUtesselatoriPFvvE,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7aefc4,gluTessCallback(GLUtesselator*| int| void (*)())
-_Z15gluTessPropertyP13GLUtesselatorid,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7aed6c,gluTessProperty(GLUtesselator*| int| double)
-_Z16stb_vorbis_closeP10stb_vorbis,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x87a9bc,stb_vorbis_close(stb_vorbis*)
-_Z17gluTessEndContourP13GLUtesselator,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7af3a4,gluTessEndContour(GLUtesselator*)
-_Z17gluTessEndPolygonP13GLUtesselator,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7af598,gluTessEndPolygon(GLUtesselator*)
-_Z18DbgDrawOwnerDriverv,function,0,seam: glitch::IDevice members (+0x10 driver| +0x34 file system| vtable +0x5c/+0x88) are not modelled,,DbgDrawOwnerDriver()
-_Z18DeviceFeatureFlagsv,function,0,seam: glitch::IDevice members (+0x10 driver| +0x34 file system| vtable +0x5c/+0x88) are not modelled,,DeviceFeatureFlags()
-_Z19gluTessBeginContourP13GLUtesselator,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7af3cc,gluTessBeginContour(GLUtesselator*)
-_Z19gluTessBeginPolygonP13GLUtesselatorPv,function,0,third-party: SGI libtess (gluTess*| statically linked in the binary| no source in the tree),0x7af424,gluTessBeginPolygon(GLUtesselator*| void*)
-_Z19stb_vorbis_get_infoP10stb_vorbis,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x876e2c,stb_vorbis_get_info(stb_vorbis*)
-_Z20stb_vorbis_open_filePN3vox21StreamCursorInterfaceEiPiPK16stb_vorbis_alloc,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),,stb_vorbis_open_file(vox::StreamCursorInterface*| int| int*| stb_vorbis_alloc const*)
-_Z21ApplicationOpenStreamPKc,function,0,seam: glitch::IDevice members (+0x10 driver| +0x34 file system| vtable +0x5c/+0x88) are not modelled,,ApplicationOpenStream(char const*)
-_Z21stb_vorbis_seek_startP10stb_vorbis,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x87debc,stb_vorbis_seek_start(stb_vorbis*)
-_Z22ApplicationCloseStreamP11IStreamBase,function,0,seam: glitch::IDevice members (+0x10 driver| +0x34 file system| vtable +0x5c/+0x88) are not modelled,,ApplicationCloseStream(IStreamBase*)
-_Z25DbgDrawBoxViaDriverSlot28PvPKfj,function,0,seam: glitch::IDevice members (+0x10 driver| +0x34 file system| vtable +0x5c/+0x88) are not modelled,,DbgDrawBoxViaDriverSlot28(void*| float const*| unsigned int)
-_Z35stb_vorbis_stream_length_in_samplesP10stb_vorbis,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x87836c,stb_vorbis_stream_length_in_samples(stb_vorbis*)
-_Z40stb_vorbis_get_samples_float_interleavedP10stb_vorbisiPfi,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x87e358,stb_vorbis_get_samples_float_interleaved(stb_vorbis*| int| float*| int)
-_Z40stb_vorbis_get_samples_short_interleavedP10stb_vorbisiPsi,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x87e578,stb_vorbis_get_samples_short_interleaved(stb_vorbis*| int| short*| int)
-_ZN12TiXmlElement12SetAttributeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_,function,0,third-party: TinyXML 2.5.x (statically linked in the binary| ledgered upstream| but no TinyXML source is vendored in the Track B tree),,TiXmlElement::SetAttribute(std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> > const&| std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> > const&)
-_ZN13AnimatedDecorC1EN10ObjectBase6GO_IDSE,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),,AnimatedDecor::AnimatedDecor(ObjectBase::GO_IDS)
-_ZN13ObjectManagerC1Ev,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),0x34a1e8,ObjectManager::ObjectManager()
-_ZN3sfc4math5graph11GraphSparseI12PFGOuterEdgeE5clearEv,function,0,game-app: sfc::math::graph member not reconstructed (partial row / no Dijkstra instantiation),0x522f70,sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()
-_ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE8findNodeEjRKNS1_5ITestI12PFGInnerEdge12PFGInnerNodeEEjPNSt7__cxx114listIPKS7_SaISF_EEE,function,0,game-app: sfc::math::graph member not reconstructed (partial row / no Dijkstra instantiation),,sfc::math::graph::AlgoAStar<PFGInnerGraph| DijkstraHeuristic>::findNode(unsigned int| sfc::math::graph::ITest<PFGInnerEdge| PFGInnerNode> const&| unsigned int| std::__cxx11::list<PFGInnerEdge const*| std::allocator<PFGInnerEdge const*> >*)
-_ZN3vox10EmitterObj17ProcessNativeDataEf,function,0,vox-audio: skipped (EmitterObj native data path),0x866b30,vox::EmitterObj::ProcessNativeData(float)
-_ZN3vox18DecoderMPC8FactoryEPv,function,0,third-party: stb_vorbis / Musepack decoders (vox-audio| no source in the tree),0x8704dc,vox::DecoderMPC8Factory(void*)
-_ZN5DecorC1EN10ObjectBase6GO_IDSE,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),,Decor::Decor(ObjectBase::GO_IDS)
-_ZN5DecorC2EN10ObjectBase6GO_IDSE,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),,Decor::Decor(ObjectBase::GO_IDS)
-_ZN5DummyC1EN10ObjectBase6GO_IDSE,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),,Dummy::Dummy(ObjectBase::GO_IDS)
-_ZN5FloorC1EN10ObjectBase6GO_IDSE,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),,Floor::Floor(ObjectBase::GO_IDS)
-_ZN6ColBoxC1EN10ObjectBase6GO_IDSE,function,0,game-world/game-app: constructor row not reconstructed (partial/unledgered),,ColBox::ColBox(ObjectBase::GO_IDS)
-_ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEEPKNS3_INS0_19CVertexAttributeMapEEE,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::IVideoDriver::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&| boost::intrusive_ptr<glitch::video::CVertexAttributeMap> const*)
-_ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEERKNS3_IKNS0_27CMaterialVertexAttributeMapEEE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x35eb10,glitch::video::IVideoDriver::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&| boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap const> const&)
-_ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEEhPKNS3_INS0_19CVertexAttributeMapEEE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5ad368,glitch::video::IVideoDriver::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&| unsigned char| boost::intrusive_ptr<glitch::video::CVertexAttributeMap> const*)
-_ZN6glitch5video12IVideoDriver14drawMeshBufferERKN5boost13intrusive_ptrIKNS_5scene11CMeshBufferEEE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x35ebd0,glitch::video::IVideoDriver::drawMeshBuffer(boost::intrusive_ptr<glitch::scene::CMeshBuffer const> const&)
-_ZN6glitch5video12IVideoDriver16getProcessBufferEijRKN5boost13intrusive_ptrINS_5scene11CMeshBufferEEEb,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::IVideoDriver::getProcessBuffer(int| unsigned int| boost::intrusive_ptr<glitch::scene::CMeshBuffer> const&| bool)
-_ZN6glitch5video12IVideoDriver4drawERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_16CPrimitiveStreamEPPNS0_14CDriverBindingE,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::IVideoDriver::draw(boost::intrusive_ptr<glitch::video::CVertexStreams const> const&| glitch::video::CPrimitiveStream const&| glitch::video::CDriverBinding**)
-_ZN6glitch5video12setColorMaskERKN5boost13intrusive_ptrINS0_9CMaterialEEEbbbb,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::setColorMask(boost::intrusive_ptr<glitch::video::CMaterial> const&| bool| bool| bool| bool)
-_ZN6glitch5video14CVertexStreams15setStreamBufferEPNS0_13SVertexStreamERKN5boost13intrusive_ptrINS0_7IBufferEEEb,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CVertexStreams::setStreamBuffer(glitch::video::SVertexStream*| boost::intrusive_ptr<glitch::video::IBuffer> const&| bool)
-_ZN6glitch5video15CTextureManager10addTextureEPKcRKN5boost13intrusive_ptrINS0_6CImageEEEbi,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CTextureManager::addTexture(char const*| boost::intrusive_ptr<glitch::video::CImage> const&| bool| int)
-_ZN6glitch5video15CTextureManager10addTextureERKNS_4core11dimension2dIiEEPKcib,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CTextureManager::addTexture(glitch::core::dimension2d<int> const&| char const*| int| bool)
-_ZN6glitch5video15CTextureManager10getTextureEPKcS3_,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5ed210,glitch::video::CTextureManager::getTexture(char const*| char const*)
-_ZN6glitch5video15CTextureManager10getTextureEPNS_2io9IReadFileEPKcb,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5ed0c4,glitch::video::CTextureManager::getTexture(glitch::io::IReadFile*| char const*| bool)
-_ZN6glitch5video15CTextureManager11createImageEiRKNS_4core11dimension2dIiEE,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CTextureManager::createImage(int| glitch::core::dimension2d<int> const&)
-_ZN6glitch5video15CTextureManager19createImageFromDataEiRKNS_4core11dimension2dIiEEPvbb,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CTextureManager::createImageFromData(int| glitch::core::dimension2d<int> const&| void*| bool| bool)
-_ZN6glitch5video15CTextureManager19createImageFromFileEPKc,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5e9198,glitch::video::CTextureManager::createImageFromFile(char const*)
-_ZN6glitch5video15CTextureManager19createImageFromFileEPNS_2io9IReadFileE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5e913c,glitch::video::CTextureManager::createImageFromFile(glitch::io::IReadFile*)
-_ZN6glitch5video6CImage22copyToScalingBoxFilterERKN5boost13intrusive_ptrIS1_EEi,function,0,glitch-video: not reconstructed (skipped/partial rows),0x601800,glitch::video::CImage::copyToScalingBoxFilter(boost::intrusive_ptr<glitch::video::CImage> const&| int)
-_ZN6glitch5video6CImage4fillERKNS0_6SColorE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5ff9b4,glitch::video::CImage::fill(glitch::video::SColor const&)
-_ZN6glitch5video6CImageC1EiRKN5boost13intrusive_ptrIS1_EE,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CImage::CImage(int| boost::intrusive_ptr<glitch::video::CImage> const&)
-_ZN6glitch5video6CImageC1EiRKNS_4core11dimension2dIiEE,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CImage::CImage(int| glitch::core::dimension2d<int> const&)
-_ZN6glitch5video6detail24IMaterialParametersTypedINS1_21SGlobalParameterOwnerEE12setParameterIN5boost13intrusive_ptrINS0_6CLightEEEEENSt9enable_ifIXsrNS1_36SIsValidSetMaterialParamaterOverloadIT_EE5valueEbE4typeEtjRKSC_,function,0,other,,std::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight> >::value| bool>::type glitch::video::detail::IMaterialParametersTyped<glitch::video::detail::SGlobalParameterOwner>::setParameter<boost::intrusive_ptr<glitch::video::CLight> >(unsigned short| unsigned int| boost::intrusive_ptr<glitch::video::CLight> const&)
-_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x59fbd4,glitch::video::C2DDriver::draw2DImage(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::position2d<int> const&)
-_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKNSA_4rectIiEEPSH_NS0_6SColorEb,function,0,glitch-video: not reconstructed (skipped/partial rows),0x59fa80,glitch::video::C2DDriver::draw2DImage(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::position2d<int> const&| glitch::core::rect<int> const&| glitch::core::rect<int> const*| glitch::video::SColor| bool)
-_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core4rectIiEESE_PSD_PKNS0_6SColorEb,function,0,glitch-video: not reconstructed (skipped/partial rows),0x59f970,glitch::video::C2DDriver::draw2DImage(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::rect<int> const&| glitch::core::rect<int> const&| glitch::core::rect<int> const*| glitch::video::SColor const*| bool)
-_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverENS0_6SColorERKNS_4core4rectIiEEPS8_,function,0,glitch-video: not reconstructed (skipped/partial rows),0x59f87c,glitch::video::C2DDriver::draw2DRectangle(glitch::video::IVideoDriver*| glitch::video::SColor| glitch::core::rect<int> const&| glitch::core::rect<int> const*)
-_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverERKNS_4core4rectIiEENS0_6SColorES9_S9_S9_PS7_,function,0,glitch-video: not reconstructed (skipped/partial rows),0x59f780,glitch::video::C2DDriver::draw2DRectangle(glitch::video::IVideoDriver*| glitch::core::rect<int> const&| glitch::video::SColor| glitch::video::SColor| glitch::video::SColor| glitch::video::SColor| glitch::core::rect<int> const*)
-_ZN6glitch5video9CMaterial8allocateERKN5boost13intrusive_ptrINS0_17CMaterialRendererEEEPKch,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5cc0a0,glitch::video::CMaterial::allocate(boost::intrusive_ptr<glitch::video::CMaterialRenderer> const&| char const*| unsigned char)
-_ZN6glitch7collada14CRootSceneNode14removeMaterialEPKv,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CRootSceneNode::removeMaterial(void const*)
-_ZN6glitch7collada14CRootSceneNode15addMorphingMeshEPv,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CRootSceneNode::addMorphingMesh(void*)
-_ZN6glitch7collada14CRootSceneNode17addParticleSystemEPv,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CRootSceneNode::addParticleSystem(void*)
-_ZN6glitch7collada14CRootSceneNode8addLightEPv,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CRootSceneNode::addLight(void*)
-_ZN6glitch7collada14CRootSceneNode9addCameraEPv,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CRootSceneNode::addCamera(void*)
-_ZN6glitch7collada15CResFileManager3getEPNS0_8CResFileEPKcb,function,0,glitch-video: not reconstructed (skipped/partial rows),0x65ac74,glitch::collada::CResFileManager::get(glitch::collada::CResFile*| char const*| bool)
-_ZN6glitch7collada15CResFileManager4InstE,data,8,glitch-video: not reconstructed (skipped/partial rows),0x9f701c,glitch::collada::CResFileManager::Inst
-_ZN6glitch7collada15CResFileManager4loadEPKcbPFvS3_PKNS0_8SColladaEE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x65ac5c,glitch::collada::CResFileManager::load(char const*| bool| void (*)(char const*| glitch::collada::SCollada const*))
-_ZN6glitch7collada15CResFileManager4loadEPNS_2io9IReadFileEbPFvPKcPKNS0_8SColladaEEb,function,0,glitch-video: not reconstructed (skipped/partial rows),0x65a98c,glitch::collada::CResFileManager::load(glitch::io::IReadFile*| bool| void (*)(char const*| glitch::collada::SCollada const*)| bool)
-_ZN7gameswf12get_fontfileEPKcR9tu_stringbb,function,0,gameswf: FreeType-gated (gameswf_freetype.cpp is compiled out without FreeType) or core-platform skipped row,,gameswf::get_fontfile(char const*| tu_string&| bool| bool)
-_ZN7gameswf16read_filter_listEPNS_6streamERNS_6effectE,function,0,gameswf: DH2 form of read_filter_list (0x758ca8) not reconstructed| r1714 has a different signature,0x758ca8,gameswf::read_filter_list(gameswf::stream*| gameswf::effect&)
-_ZN9TiXmlNode12LinkEndChildEPS_,function,0,third-party: TinyXML 2.5.x (statically linked in the binary| ledgered upstream| but no TinyXML source is vendored in the Track B tree),0x515964,TiXmlNode::LinkEndChild(TiXmlNode*)
-_ZNK6glitch4core8CMatrix4IfEmlERKS2_,function,0,glitch-video: not reconstructed (skipped/partial rows),0x35e998,glitch::core::CMatrix4<float>::operator*(glitch::core::CMatrix4<float> const&) const
-_ZNK6glitch5video15CTextureManager19makeColorKeyTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_6SColorE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5ebf8c,glitch::video::CTextureManager::makeColorKeyTexture(boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::video::SColor) const
-_ZNK6glitch5video15CTextureManager19makeColorKeyTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS_4core10position2dIiEE,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5ebd7c,glitch::video::CTextureManager::makeColorKeyTexture(boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::position2d<int>) const
-_ZNK6glitch5video17CMaterialRenderer14getParameterIDEit,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::video::CMaterialRenderer::getParameterID(int| unsigned short) const
-_ZNK6glitch5video17CMaterialRenderer14getTechniqueIDEPKc,function,0,glitch-video: not reconstructed (skipped/partial rows),0x5d4714,glitch::video::CMaterialRenderer::getTechniqueID(char const*) const
-_ZNK6glitch7collada12CSkinnedMesh11getMaterialERPNS0_11SCountedRefEj,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CSkinnedMesh::getMaterial(glitch::collada::SCountedRef*&| unsigned int) const
-_ZNK6glitch7collada12CSkinnedMesh13getMeshBufferERPNS0_14SMeshBufferRefEj,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CSkinnedMesh::getMeshBuffer(glitch::collada::SMeshBufferRef*&| unsigned int) const
-_ZNK6glitch7collada12CSkinnedMesh29getMaterialVertexAttributeMapERPNS0_11SCountedRefEj,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CSkinnedMesh::getMaterialVertexAttributeMap(glitch::collada::SCountedRef*&| unsigned int) const
-_ZNK6glitch7collada19CModularSkinnedMesh11getMaterialERPNS0_11SCountedRefEj,function,0,glitch-video: not reconstructed (skipped/partial rows),,glitch::collada::CModularSkinnedMesh::getMaterial(glitch::collada::SCountedRef*&| unsigned int) const
-appDestroy,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x530a1c,
-appInit,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x530ba8,
-appKeyPressed,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x52f0f0,
-appKeyReleased,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x5305cc,
-appOnTouch,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x52f11c,
-appPause,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x5309d8,
-appResume,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x530974,
-appTrackBall,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x52f0dc,
-appUpdate,function,0,core-platform: skipped Application glue (the app* entry points of the JNI natives),0x530fc8,
-g_pyDataLoader,data,8,seam: glitch::IDevice members (+0x10 driver| +0x34 file system| vtable +0x5c/+0x88) are not modelled,,
+_Z12get_fontfilePKcbbPci,function,0,see link-missing.csv,0x42b38c,get_fontfile(char const*| bool| bool| char*| int)
+_Z14setCullingModePN6glitch5scene10ISceneNodeEi,function,0,see link-missing.csv,0x50f744,setCullingMode(glitch::scene::ISceneNode*| int)
+_Z15fillLeaderBoardv,function,0,see link-missing.csv,0x441dcc,fillLeaderBoard()
+_Z15gluTessCallbackP13GLUtesselatoriPFvvE,function,0,see link-missing.csv,0x7aefc4,gluTessCallback(GLUtesselator*| int| void (*)())
+_Z15gluTessPropertyP13GLUtesselatorid,function,0,see link-missing.csv,0x7aed6c,gluTessProperty(GLUtesselator*| int| double)
+_Z18DBG_TraceSceneNodePN6glitch5scene10ISceneNodeEiPFbS2_E,function,0,see link-missing.csv,0x50e7c4,DBG_TraceSceneNode(glitch::scene::ISceneNode*| int| bool (*)(glitch::scene::ISceneNode*))
+_Z18DbgDrawOwnerDriverv,function,0,see link-missing.csv,,DbgDrawOwnerDriver()
+_Z18DeviceFeatureFlagsv,function,0,see link-missing.csv,,DeviceFeatureFlags()
+_Z21ApplicationOpenStreamPKc,function,0,see link-missing.csv,,ApplicationOpenStream(char const*)
+_Z22ApplicationCloseStreamP11IStreamBase,function,0,see link-missing.csv,,ApplicationCloseStream(IStreamBase*)
+_Z22DBG_GetLoadingStepNamei,function,0,see link-missing.csv,0x3ef18c,DBG_GetLoadingStepName(int)
+_Z25DbgDrawBoxViaDriverSlot28PvPKfj,function,0,see link-missing.csv,,DbgDrawBoxViaDriverSlot28(void*| float const*| unsigned int)
+_Z27DBG_TraceSceneNodePolyStatsPN6glitch5scene10ISceneNodeEiPFbS2_E,function,0,see link-missing.csv,0x51073c,DBG_TraceSceneNodePolyStats(glitch::scene::ISceneNode*| int| bool (*)(glitch::scene::ISceneNode*))
+_Z36DBG_TraceAllLoadedResfileInformationv,function,0,see link-missing.csv,0x50e228,DBG_TraceAllLoadedResfileInformation()
+_Z36DBG_TraceAllLoadedTextureInformationv,function,0,see link-missing.csv,0x50e2b8,DBG_TraceAllLoadedTextureInformation()
+_Z48TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalissePN6glitch5scene10ISceneNodeE,function,0,see link-missing.csv,0x381a10,TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalisse(glitch::scene::ISceneNode*)
+_ZN13AnimatedDecorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,AnimatedDecor::AnimatedDecor(ObjectBase::GO_IDS)
+_ZN15VoxSoundManager10InitializeEv,function,0,see link-missing.csv,0x36c2e4,VoxSoundManager::Initialize()
+_ZN15VoxSoundManager14CreateInstanceEv,function,0,see link-missing.csv,0x36ca88,VoxSoundManager::CreateInstance()
+_ZN15VoxSoundManager14DeleteInstanceEv,function,0,see link-missing.csv,0x36b048,VoxSoundManager::DeleteInstance()
+_ZN15VoxSoundManager15SetLevelRoutingEi,function,0,see link-missing.csv,0x3695f4,VoxSoundManager::SetLevelRouting(int)
+_ZN15VoxSoundManagerC1Ev,function,0,see link-missing.csv,0x36c7b0,VoxSoundManager::VoxSoundManager()
+_ZN18PlayerLightTweaker10onSetValueERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,function,0,see link-missing.csv,,PlayerLightTweaker::onSetValue(std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> > const&)
+_ZN3sfc4math5graph11GraphSparseI12PFGOuterEdgeE5clearEv,function,0,see link-missing.csv,0x522f70,sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()
+_ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE8findNodeEjRKNS1_5ITestI12PFGInnerEdge12PFGInnerNodeEEjPNSt7__cxx114listIPKS7_SaISF_EEE,function,0,see link-missing.csv,,sfc::math::graph::AlgoAStar<PFGInnerGraph| DijkstraHeuristic>::findNode(unsigned int| sfc::math::graph::ITest<PFGInnerEdge| PFGInnerNode> const&| unsigned int| std::__cxx11::list<PFGInnerEdge const*| std::allocator<PFGInnerEdge const*> >*)
+_ZN3vox10EmitterObj17ProcessNativeDataEf,function,0,see link-missing.csv,0x866b30,vox::EmitterObj::ProcessNativeData(float)
+_ZN3vox18DecoderMPC8FactoryEPv,function,0,see link-missing.csv,0x8704dc,vox::DecoderMPC8Factory(void*)
+_ZN5DecorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Decor::Decor(ObjectBase::GO_IDS)
+_ZN5DecorC2EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Decor::Decor(ObjectBase::GO_IDS)
+_ZN5DummyC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Dummy::Dummy(ObjectBase::GO_IDS)
+_ZN5FloorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Floor::Floor(ObjectBase::GO_IDS)
+_ZN6ColBoxC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,ColBox::ColBox(ObjectBase::GO_IDS)
+_ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEEPKNS3_INS0_19CVertexAttributeMapEEE,function,0,see link-missing.csv,,glitch::video::IVideoDriver::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&| boost::intrusive_ptr<glitch::video::CVertexAttributeMap> const*)
+_ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEERKNS3_IKNS0_27CMaterialVertexAttributeMapEEE,function,0,see link-missing.csv,0x35eb10,glitch::video::IVideoDriver::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&| boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap const> const&)
+_ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEEhPKNS3_INS0_19CVertexAttributeMapEEE,function,0,see link-missing.csv,0x5ad368,glitch::video::IVideoDriver::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&| unsigned char| boost::intrusive_ptr<glitch::video::CVertexAttributeMap> const*)
+_ZN6glitch5video12IVideoDriver14drawMeshBufferERKN5boost13intrusive_ptrIKNS_5scene11CMeshBufferEEE,function,0,see link-missing.csv,0x35ebd0,glitch::video::IVideoDriver::drawMeshBuffer(boost::intrusive_ptr<glitch::scene::CMeshBuffer const> const&)
+_ZN6glitch5video12IVideoDriver16getProcessBufferEijRKN5boost13intrusive_ptrINS_5scene11CMeshBufferEEEb,function,0,see link-missing.csv,,glitch::video::IVideoDriver::getProcessBuffer(int| unsigned int| boost::intrusive_ptr<glitch::scene::CMeshBuffer> const&| bool)
+_ZN6glitch5video12IVideoDriver18drawFullScreenQuadEPKNS0_6SColorE,function,0,see link-missing.csv,0x5ac950,glitch::video::IVideoDriver::drawFullScreenQuad(glitch::video::SColor const*)
+_ZN6glitch5video12IVideoDriver22deleteAllDynamicLightsEv,function,0,see link-missing.csv,0x5aaa84,glitch::video::IVideoDriver::deleteAllDynamicLights()
+_ZN6glitch5video12IVideoDriver4drawERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_16CPrimitiveStreamEPPNS0_14CDriverBindingE,function,0,see link-missing.csv,,glitch::video::IVideoDriver::draw(boost::intrusive_ptr<glitch::video::CVertexStreams const> const&| glitch::video::CPrimitiveStream const&| glitch::video::CDriverBinding**)
+_ZN6glitch5video12setColorMaskERKN5boost13intrusive_ptrINS0_9CMaterialEEEbbbb,function,0,see link-missing.csv,,glitch::video::setColorMask(boost::intrusive_ptr<glitch::video::CMaterial> const&| bool| bool| bool| bool)
+_ZN6glitch5video14CVertexStreams15setStreamBufferEPNS0_13SVertexStreamERKN5boost13intrusive_ptrINS0_7IBufferEEEb,function,0,see link-missing.csv,,glitch::video::CVertexStreams::setStreamBuffer(glitch::video::SVertexStream*| boost::intrusive_ptr<glitch::video::IBuffer> const&| bool)
+_ZN6glitch5video15CTextureManager10addTextureEPKcRKN5boost13intrusive_ptrINS0_6CImageEEEbi,function,0,see link-missing.csv,,glitch::video::CTextureManager::addTexture(char const*| boost::intrusive_ptr<glitch::video::CImage> const&| bool| int)
+_ZN6glitch5video15CTextureManager10addTextureERKNS_4core11dimension2dIiEEPKcib,function,0,see link-missing.csv,,glitch::video::CTextureManager::addTexture(glitch::core::dimension2d<int> const&| char const*| int| bool)
+_ZN6glitch5video15CTextureManager10getTextureEPKcS3_,function,0,see link-missing.csv,0x5ed210,glitch::video::CTextureManager::getTexture(char const*| char const*)
+_ZN6glitch5video15CTextureManager10getTextureEPNS_2io9IReadFileEPKcb,function,0,see link-missing.csv,0x5ed0c4,glitch::video::CTextureManager::getTexture(glitch::io::IReadFile*| char const*| bool)
+_ZN6glitch5video15CTextureManager11createImageEiRKNS_4core11dimension2dIiEE,function,0,see link-missing.csv,,glitch::video::CTextureManager::createImage(int| glitch::core::dimension2d<int> const&)
+_ZN6glitch5video15CTextureManager19createImageFromDataEiRKNS_4core11dimension2dIiEEPvbb,function,0,see link-missing.csv,,glitch::video::CTextureManager::createImageFromData(int| glitch::core::dimension2d<int> const&| void*| bool| bool)
+_ZN6glitch5video15CTextureManager19createImageFromFileEPKc,function,0,see link-missing.csv,0x5e9198,glitch::video::CTextureManager::createImageFromFile(char const*)
+_ZN6glitch5video15CTextureManager19createImageFromFileEPNS_2io9IReadFileE,function,0,see link-missing.csv,0x5e913c,glitch::video::CTextureManager::createImageFromFile(glitch::io::IReadFile*)
+_ZN6glitch5video24CMaterialRendererManager19getMaterialInstanceEtb,function,0,see link-missing.csv,0x5dd0e4,glitch::video::CMaterialRendererManager::getMaterialInstance(unsigned short| bool)
+_ZN6glitch5video24CMaterialRendererManager22createMaterialInstanceENS0_15E_MATERIAL_TYPEE,function,0,see link-missing.csv,0x5d9af0,glitch::video::CMaterialRendererManager::createMaterialInstance(glitch::video::E_MATERIAL_TYPE)
+_ZN6glitch5video24CMaterialRendererManager22createMaterialRendererENS0_15E_MATERIAL_TYPEE,function,0,see link-missing.csv,0x5d8b28,glitch::video::CMaterialRendererManager::createMaterialRenderer(glitch::video::E_MATERIAL_TYPE)
+_ZN6glitch5video27CMaterialVertexAttributeMap8allocateERKN5boost13intrusive_ptrINS0_17CMaterialRendererEEERKNS3_IKNS0_14CVertexStreamsEEE,function,0,see link-missing.csv,0x5df624,glitch::video::CMaterialVertexAttributeMap::allocate(boost::intrusive_ptr<glitch::video::CMaterialRenderer> const&| boost::intrusive_ptr<glitch::video::CVertexStreams const> const&)
+_ZN6glitch5video6CImage22copyToScalingBoxFilterERKN5boost13intrusive_ptrIS1_EEi,function,0,see link-missing.csv,0x601800,glitch::video::CImage::copyToScalingBoxFilter(boost::intrusive_ptr<glitch::video::CImage> const&| int)
+_ZN6glitch5video6CImage4fillERKNS0_6SColorE,function,0,see link-missing.csv,0x5ff9b4,glitch::video::CImage::fill(glitch::video::SColor const&)
+_ZN6glitch5video6CImageC1EiRKN5boost13intrusive_ptrIS1_EE,function,0,see link-missing.csv,,glitch::video::CImage::CImage(int| boost::intrusive_ptr<glitch::video::CImage> const&)
+_ZN6glitch5video6CImageC1EiRKNS_4core11dimension2dIiEE,function,0,see link-missing.csv,,glitch::video::CImage::CImage(int| glitch::core::dimension2d<int> const&)
+_ZN6glitch5video6detail24IMaterialParametersTypedINS1_21SGlobalParameterOwnerEE12setParameterIN5boost13intrusive_ptrINS0_6CLightEEEEENSt9enable_ifIXsrNS1_36SIsValidSetMaterialParamaterOverloadIT_EE5valueEbE4typeEtjRKSC_,function,0,see link-missing.csv,,std::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight> >::value| bool>::type glitch::video::detail::IMaterialParametersTyped<glitch::video::detail::SGlobalParameterOwner>::setParameter<boost::intrusive_ptr<glitch::video::CLight> >(unsigned short| unsigned int| boost::intrusive_ptr<glitch::video::CLight> const&)
+_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEE,function,0,see link-missing.csv,0x59fbd4,glitch::video::C2DDriver::draw2DImage(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::position2d<int> const&)
+_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKNSA_4rectIiEEPSH_NS0_6SColorEb,function,0,see link-missing.csv,0x59fa80,glitch::video::C2DDriver::draw2DImage(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::position2d<int> const&| glitch::core::rect<int> const&| glitch::core::rect<int> const*| glitch::video::SColor| bool)
+_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core4rectIiEESE_PSD_PKNS0_6SColorEb,function,0,see link-missing.csv,0x59f970,glitch::video::C2DDriver::draw2DImage(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::rect<int> const&| glitch::core::rect<int> const&| glitch::core::rect<int> const*| glitch::video::SColor const*| bool)
+_ZN6glitch5video9C2DDriver12freeTexturesEPNS0_12IVideoDriverE,function,0,see link-missing.csv,0x59f38c,glitch::video::C2DDriver::freeTextures(glitch::video::IVideoDriver*)
+_ZN6glitch5video9C2DDriver12set2DTextureEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEEb,function,0,see link-missing.csv,0x59f600,glitch::video::C2DDriver::set2DTexture(glitch::video::IVideoDriver*| boost::intrusive_ptr<glitch::video::ITexture> const&| bool)
+_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverENS0_6SColorERKNS_4core4rectIiEEPS8_,function,0,see link-missing.csv,0x59f87c,glitch::video::C2DDriver::draw2DRectangle(glitch::video::IVideoDriver*| glitch::video::SColor| glitch::core::rect<int> const&| glitch::core::rect<int> const*)
+_ZN6glitch5video9C2DDriver15draw2DRectangleEPNS0_12IVideoDriverERKNS_4core4rectIiEENS0_6SColorES9_S9_S9_PS7_,function,0,see link-missing.csv,0x59f780,glitch::video::C2DDriver::draw2DRectangle(glitch::video::IVideoDriver*| glitch::core::rect<int> const&| glitch::video::SColor| glitch::video::SColor| glitch::video::SColor| glitch::video::SColor| glitch::core::rect<int> const*)
+_ZN6glitch7collada15CResFileManager3getEPKcb,function,0,see link-missing.csv,0x65a9a8,glitch::collada::CResFileManager::get(char const*| bool)
+_ZN6glitch7collada15CResFileManager3getEPNS0_8CResFileEPKcb,function,0,see link-missing.csv,0x65ac74,glitch::collada::CResFileManager::get(glitch::collada::CResFile*| char const*| bool)
+_ZN6glitch7collada15CResFileManager4InstE,data,8,see link-missing.csv,0x9f701c,glitch::collada::CResFileManager::Inst
+_ZN6glitch7collada15CResFileManager4loadEPKcbPFvS3_PKNS0_8SColladaEE,function,0,see link-missing.csv,0x65ac5c,glitch::collada::CResFileManager::load(char const*| bool| void (*)(char const*| glitch::collada::SCollada const*))
+_ZN6glitch7collada15CResFileManager4loadEPNS_2io9IReadFileEbPFvPKcPKNS0_8SColladaEEb,function,0,see link-missing.csv,0x65a98c,glitch::collada::CResFileManager::load(glitch::io::IReadFile*| bool| void (*)(char const*| glitch::collada::SCollada const*)| bool)
+_ZN6glitch7collada20CDynamicAnimationSet19remAnimationLibraryEj,function,0,see link-missing.csv,0x62fb2c,glitch::collada::CDynamicAnimationSet::remAnimationLibrary(unsigned int)
+_ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryERKNS0_16CColladaDatabaseE,function,0,see link-missing.csv,0x62fc90,glitch::collada::CDynamicAnimationSet::setDefaultAnimationLibrary(glitch::collada::CColladaDatabase const&)
+_ZN6glitch7collada20CDynamicAnimationSet27addAnimationLibraryBindingsERKNS0_16CColladaDatabaseE,function,0,see link-missing.csv,0x62ee9c,glitch::collada::CDynamicAnimationSet::addAnimationLibraryBindings(glitch::collada::CColladaDatabase const&)
+_ZN6glitch7collada20CDynamicAnimationSet27remAnimationLibraryBindingsEj,function,0,see link-missing.csv,0x62fa44,glitch::collada::CDynamicAnimationSet::remAnimationLibraryBindings(unsigned int)
+_ZN6glitch7collada20CDynamicAnimationSet33overwriteAnimationLibraryBindingsERKNS0_16CColladaDatabaseEj,function,0,see link-missing.csv,0x62e204,glitch::collada::CDynamicAnimationSet::overwriteAnimationLibraryBindings(glitch::collada::CColladaDatabase const&| unsigned int)
+_ZN6glitch7collada8CResFile22releaseRemovableBufferEh,function,0,see link-missing.csv,0x657d58,glitch::collada::CResFile::releaseRemovableBuffer(unsigned char)
+_ZN7Console11_createListERSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS6_EEPc,function,0,see link-missing.csv,,Console::_createList(std::vector<std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> >| std::allocator<std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> > > >&| char*)
+_ZN7Console12_destroyListEv,function,0,see link-missing.csv,0x32fdc0,Console::_destroyList()
+_ZN7Console13_setMenuMenusEv,function,0,see link-missing.csv,0x331140,Console::_setMenuMenus()
+_ZN7Console13_setMenuStatsEv,function,0,see link-missing.csv,0x33169c,Console::_setMenuStats()
+_ZN7Console14COMMAND_LABELSE,data,60,see link-missing.csv,0x999708,Console::COMMAND_LABELS
+_ZN7Console15_setMenuScriptsEv,function,0,see link-missing.csv,0x330ff8,Console::_setMenuScripts()
+_ZN7Console15_setMenuVFXListEv,function,0,see link-missing.csv,0x330d70,Console::_setMenuVFXList()
+_ZN7Console16_setMenuAnimListEv,function,0,see link-missing.csv,0x330bf0,Console::_setMenuAnimList()
+_ZN7Console16_setMenuWorldMapEv,function,0,see link-missing.csv,0x3313f8,Console::_setMenuWorldMap()
+_ZN7Console17_setLootTableListEv,function,0,see link-missing.csv,0x330e20,Console::_setLootTableList()
+_ZN7Console17_setMenuListenersEv,function,0,see link-missing.csv,0x3312bc,Console::_setMenuListeners()
+_ZN7Console17_setMenuQuestListEv,function,0,see link-missing.csv,0x3320ec,Console::_setMenuQuestList()
+_ZN7Console18_setMenuVFXSetListEv,function,0,see link-missing.csv,0x330cc0,Console::_setMenuVFXSetList()
+_ZN7Console19_setMenuCharModulesEv,function,0,see link-missing.csv,0x330ee0,Console::_setMenuCharModules()
+_ZN7Console20DBG_TryStartingLevelEPKc,function,0,see link-missing.csv,0x33179c,Console::DBG_TryStartingLevel(char const*)
+_ZN7Console20_setMenuDebugModulesEv,function,0,see link-missing.csv,0x334764,Console::_setMenuDebugModules()
+_ZN7Console21_setMenuDebugSwitchesEv,function,0,see link-missing.csv,0x334940,Console::_setMenuDebugSwitches()
+_ZN7Console23_setMenuLevelListPyDataEv,function,0,see link-missing.csv,0x331548,Console::_setMenuLevelListPyData()
+_ZN7Console28_setMenuLoadModuleFolderListEv,function,0,see link-missing.csv,0x330b6c,Console::_setMenuLoadModuleFolderList()
+_ZN7Console6UpdateEd,function,0,see link-missing.csv,0x330270,Console::Update(double)
+_ZN7Console7onEventEPK6IEventPK12EventManager,function,0,see link-missing.csv,0x335b14,Console::onEvent(IEvent const*| EventManager const*)
+_ZN7gameswf12get_fontfileEPKcR9tu_stringbb,function,0,see link-missing.csv,,gameswf::get_fontfile(char const*| tu_string&| bool| bool)
+_ZN7gameswf16read_filter_listEPNS_6streamERNS_6effectE,function,0,see link-missing.csv,0x758ca8,gameswf::read_filter_list(gameswf::stream*| gameswf::effect&)
+_ZN7gameswf7tu_fileC1EPKcS2_,function,0,see link-missing.csv,0x7b68c8,gameswf::tu_file::tu_file(char const*| char const*)
+_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE,function,0,see link-missing.csv,0x33aebc,TouchScreenBase::isRegionPressed(glitch::core::rect<float> const&) const
+_ZNK6glitch4core8CMatrix4IfEmlERKS2_,function,0,see link-missing.csv,0x35e998,glitch::core::CMatrix4<float>::operator*(glitch::core::CMatrix4<float> const&) const
+_ZNK6glitch5video15CTextureManager19makeColorKeyTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_6SColorE,function,0,see link-missing.csv,0x5ebf8c,glitch::video::CTextureManager::makeColorKeyTexture(boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::video::SColor) const
+_ZNK6glitch5video15CTextureManager19makeColorKeyTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS_4core10position2dIiEE,function,0,see link-missing.csv,0x5ebd7c,glitch::video::CTextureManager::makeColorKeyTexture(boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::core::position2d<int>) const
+_ZNK6glitch5video17CMaterialRenderer14getParameterIDEPKct,function,0,see link-missing.csv,0x5d308c,glitch::video::CMaterialRenderer::getParameterID(char const*| unsigned short) const
+_ZNK6glitch5video17CMaterialRenderer14getParameterIDEit,function,0,see link-missing.csv,,glitch::video::CMaterialRenderer::getParameterID(int| unsigned short) const
+_ZNK6glitch5video17CMaterialRenderer14getTechniqueIDEPKc,function,0,see link-missing.csv,0x5d4714,glitch::video::CMaterialRenderer::getTechniqueID(char const*) const
+_ZNK6glitch5video24CMaterialRendererManager19getMaterialRendererEt,function,0,see link-missing.csv,,glitch::video::CMaterialRendererManager::getMaterialRenderer(unsigned short) const
+appDestroy,function,0,see link-missing.csv,0x530a1c,
+appInit,function,0,see link-missing.csv,0x530ba8,
+appKeyPressed,function,0,see link-missing.csv,0x52f0f0,
+appKeyReleased,function,0,see link-missing.csv,0x5305cc,
+appOnTouch,function,0,see link-missing.csv,0x52f11c,
+appPause,function,0,see link-missing.csv,0x5309d8,
+appResume,function,0,see link-missing.csv,0x530974,
+appTrackBall,function,0,see link-missing.csv,0x52f0dc,
+appUpdate,function,0,see link-missing.csv,0x530fc8,
+g_consoleFileLister,data,8,see link-missing.csv,,
+g_eventManager,data,8,see link-missing.csv,,
+g_pyDataLoader,data,8,see link-missing.csv,,

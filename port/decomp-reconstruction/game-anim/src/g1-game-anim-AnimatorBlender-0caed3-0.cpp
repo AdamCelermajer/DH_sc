@@ -4,6 +4,11 @@
 // ledger have a comment at the place where the missing piece goes.
 #include "dh2/AnimatorBlender.hpp"
 
+#include "dh2/global/GetApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -58,11 +63,23 @@ glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorBlender::getType() const {
 }
 
 // 0x366628 AnimatorBlender::_HandleAnimEnding(glitch::scene::ITimelineController*)
-// partial: the current child's timeline (child vtable +0x44, getTimelineCtrl) and the timeline's +0x04, +0x1c and
-// +0x2c members are not reachable from the declared types yet. Missing: if that timeline is the argument, store the
-// carried-over time in m_applicator.unk_10 (+0x98), then set m_applicator.m_callbackPending (+0xb8).
+// When the timeline of the current child is the one that ended, the time left in the clip step is stored in
+// m_applicator.unk_10 (+0x98) and the pending callback flag (+0xb8) is set.
 void AnimatorBlender::_HandleAnimEnding(glitch::scene::ITimelineController* timeline) {
-    (void)timeline;
+    glitch::scene::ITimelineController* current = animators[m_currentIndex]->getTimelineCtrl();
+    if (current == timeline) {
+        if (current != nullptr) {
+            const glitch::collada::CTimelineController* controller = static_cast<const glitch::collada::CTimelineController*>(current);
+            const int stepMs = static_cast<int>(controller->lastStep * 1000.0f);                       // +0x1c
+            const int remainingMs = static_cast<int>(controller->currentSec * 1000.0f) - current->currentTimeMs;   // +0x2c, +0x04
+            bool inside = remainingMs < stepMs;
+            if (remainingMs < 0) {
+                inside = false;
+            }
+            m_applicator.unk_10 = inside ? stepMs - remainingMs : 0;
+        }
+        m_applicator.m_callbackPending = true;
+    }
 }
 
 // 0x3666c8 AnimatorBlender::_CBAnim(glitch::scene::ITimelineController*, void*)
@@ -73,13 +90,14 @@ void AnimatorBlender::_CBAnim(glitch::scene::ITimelineController* timeline, void
 }
 
 // 0x3666d8 AnimatorBlender::SetScale(float)
-// PARTIAL. Original: for each child in animators, timeline = child->getTimelineCtrl() (vptr +0x44) and, when it is
-// non-null, timeline->setScale(scale) (vptr +0x48). ITimelineController::setScale is declared
-// (glitch-scene-collada-gui/scene/ITimelineController.hpp), but animators holds glitch::collada::ISceneNodeAnimator*, and
-// that type (collada_misc.hpp) does not derive from glitch::scene::ISceneNodeAnimator, which declares getTimelineCtrl.
-// Layout request: glitch::collada::ISceneNodeAnimator must derive from glitch::scene::ISceneNodeAnimator.
+// The scale of the timeline of every child (the original returns the last call result).
 void AnimatorBlender::SetScale(float scale) {
-    (void)scale;
+    for (std::size_t i = 0; i != animators.size(); ++i) {
+        glitch::scene::ITimelineController* timeline = animators[i]->getTimelineCtrl();
+        if (timeline != nullptr) {
+            timeline->setScale(scale);
+        }
+    }
 }
 
 // 0x366740 AnimatorBlender::BlendPost()
@@ -118,97 +136,126 @@ void AnimatorBlender::Blend(int duration) {
 }
 
 // 0x366888 AnimatorBlender::BlenderApplicator::AnimateNode(unsigned int)
-// PARTIAL: the weighted sum over the child applicators is missing. Per child it needs GetApplicator(child) (0x369160,
-// declared in dh2/global/GetApplicator.hpp, which takes glitch::scene::ISceneNodeAnimator*), the child's timeline
-// (vptr +0x44, scene::ISceneNodeAnimator::getTimelineCtrl), the child's getAnimationValue (vptr +0x7c, not declared on
-// either animator type) and the child applicator's CalculateDelta (declared). The child type is the blocker, as in
-// SetScale. The reset of the delta at the start is complete.
-void AnimatorBlender::BlenderApplicator::AnimateNode(unsigned int timeMs) {
-    m_delta.X = 0.0f;  // +0x24
-    m_delta.Y = 0.0f;  // +0x28
-    m_delta.Z = 0.0f;  // +0x2c
+// The delta is zeroed. With a reference clip every child samples that clip at its timeline time, its applicator computes its
+// delta for `time`, and the weighted sum of the deltas becomes the blender delta. A child without an applicator trips the assert
+// (AnimatorBlender.cpp:394).
+void AnimatorBlender::BlenderApplicator::AnimateNode(unsigned int time) {
+    m_delta.Z = 0.0f;
+    glitch::core::vector3d<float> pose = {0.0f, 0.0f, 0.0f};
+    m_delta.X = 0.0f;
+    m_delta.Y = 0.0f;
     if (m_refClip != -1) {
-        // partial: the child loop goes here (see above).
+        for (std::size_t i = 0; i < m_blender->animators.size(); ++i) {
+            glitch::collada::ISceneNodeAnimator* child = m_blender->animators[i];
+            glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
+            child->getAnimationValue(m_refClip, timeline->currentTimeMs, &pose);
+            AnimApplicator* applicator = GetApplicator(child);
+            if (applicator == nullptr) {
+                ReportAssert("aa", 394);
+            }
+            applicator->CalculateDelta(time, pose);
+            const float weight = m_blender->weights[i];
+            m_delta.X = m_delta.X + weight * applicator->m_delta.X;
+            m_delta.Y = m_delta.Y + weight * applicator->m_delta.Y;
+            m_delta.Z = m_delta.Z + weight * applicator->m_delta.Z;
+        }
     }
-    (void)timeMs;
 }
 
 // 0x366a68 AnimatorBlender::BlenderApplicator::ResetDelta(unsigned int)
-// PARTIAL: with a reference node set, the original resets this applicator's delta from the current child's clip value:
-// child = animators[m_blender->m_currentIndex], timeline = child->getTimelineCtrl() (vptr +0x44, scene base),
-// GetApplicator(child), child->getAnimationValue(m_refClip, timeline +0x10, out) (vptr +0x7c, not declared), then
-// AnimApplicator::ResetDelta(timeMs, out) on the child applicator. Blocked on the child type, as in SetScale.
-void AnimatorBlender::BlenderApplicator::ResetDelta(unsigned int timeMs) {
+// With a reference node the current child applicator is reset to the pose of the reference clip at the start of its range
+// (zero without a reference clip). A missing applicator trips the assert (AnimatorBlender.cpp:359).
+void AnimatorBlender::BlenderApplicator::ResetDelta(unsigned int time) {
     if (m_refNode != nullptr) {
-        // partial: the child-based reset goes here (see above).
+        glitch::collada::ISceneNodeAnimator* child = m_blender->animators[m_blender->m_currentIndex];
+        glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
+        AnimApplicator* applicator = GetApplicator(child);
+        if (applicator == nullptr) {
+            ReportAssert("aa", 359);
+        }
+        glitch::core::vector3d<float> pose = {0.0f, 0.0f, 0.0f};
+        if (m_refClip != -1) {
+            child->getAnimationValue(m_refClip, timeline->rangeStartMs, &pose);
+        }
+        if (applicator != nullptr) {
+            applicator->ResetDelta(time, pose);
+        }
     }
-    (void)timeMs;
 }
 
 // 0x366b80 AnimatorBlender::BlenderApplicator::SetRefNode(glitch::scene::ISceneNode*)
-// PARTIAL: after the base SetRefNode, the original forwards the node to each child's applicator (GetApplicator, then the
-// applicator's virtual SetRefNode, vptr +0x08), and clears this applicator's reference for a child that has none. The
-// GetApplicator parameter is glitch::scene::ISceneNodeAnimator*, and the child is glitch::collada::ISceneNodeAnimator*
-// (the same layout request as SetScale). The assert at line 304 is complete.
+// A missing blender trips the assert (AnimatorBlender.cpp:304). The base takes the node, then every child applicator gets it
+// too; a child without an applicator makes this applicator drop its own node again.
 void AnimatorBlender::BlenderApplicator::SetRefNode(glitch::scene::ISceneNode* node) {
     if (m_blender == nullptr) {
         ReportAssert("blender", 304);
     }
     AnimApplicator::SetRefNode(node);
-    // partial: the child forwarding loop goes here (see above).
+    for (std::size_t i = 0; i != m_blender->animators.size(); ++i) {
+        AnimApplicator* applicator = GetApplicator(m_blender->animators[i]);
+        if (applicator != nullptr) {
+            applicator->SetRefNode(node);
+        } else {
+            AnimApplicator::SetRefNode(nullptr);
+        }
+    }
 }
 
 // 0x366c8c AnimatorBlender::onUnbind(glitch::scene::ISceneNode*)
-// partial: the base call glitch::collada::ISceneNodeAnimator::onUnbind(this, node) is not declared yet.
+// The applicator forgets its reference node, then the base onUnbind (a tail call in the original).
 void AnimatorBlender::onUnbind(glitch::scene::ISceneNode* node) {
-    m_applicator.BlenderApplicator::SetRefNode(nullptr);
-    (void)node;
+    m_applicator.AnimatorBlender::BlenderApplicator::SetRefNode(nullptr);
+    glitch::collada::ISceneNodeAnimator::onUnbind(node);
 }
 
 // 0x366cb4 AnimatorBlender::animateNode(glitch::scene::ISceneNode*, unsigned int)
-// PARTIAL: the final m_applicator.CheckCallback(animators[m_currentIndex]->getTimelineCtrl()) is missing; the child type
-// does not declare getTimelineCtrl (see SetScale). The cross-fade step, applyAnimationValues (vptr +0x50, declared on
-// the engine base), the applicator's AnimateNode and the m_lastTime store are complete.
-void AnimatorBlender::animateNode(glitch::scene::ISceneNode* node, unsigned int timeMs) {
+// Cross-fade step, applyAnimationValues (vptr+0x50), the applicator, its pending callback check against the timeline of the
+// current child, and the time is remembered. The original returns the CheckCallback result.
+void AnimatorBlender::animateNode(glitch::scene::ISceneNode* node, unsigned int time) {
     (void)node;
-    StepCrossFade(*this, timeMs);
-    applyAnimationValues(timeMs);                         // virtual, vtable +0x50
-    m_applicator.BlenderApplicator::AnimateNode(timeMs);  // partial, see there
-    // partial: m_applicator.CheckCallback(current child's timeline) goes here.
-    m_lastTime = timeMs;
+    StepCrossFade(*this, time);
+    applyAnimationValues(time);
+    m_applicator.AnimatorBlender::BlenderApplicator::AnimateNode(time);
+    m_applicator.CheckCallback(animators[m_currentIndex]->getTimelineCtrl());
+    m_lastTime = time;
 }
 
 // 0x366d90 AnimatorBlender::updateTime(unsigned int)
-// partial: the final CheckCallback with the current child's timeline is missing, because the child type does not
-// declare getTimelineCtrl yet. The rest is complete.
-void AnimatorBlender::updateTime(unsigned int timeMs) {
-    StepCrossFade(*this, timeMs);
-    const std::size_t count = animators.size();
-    for (std::size_t i = 0; i != count; ++i) {
-        if (weights[i] == 0.0f) {  // children with zero weight are not updated
+// Cross-fade step, updateTime (vptr+0x14) on every child whose weight is not zero, normalizeWeights, the applicator callback check
+// against the timeline of the current child, and the time is remembered.
+void AnimatorBlender::updateTime(unsigned int time) {
+    StepCrossFade(*this, time);
+    for (std::size_t i = 0; i != animators.size(); ++i) {
+        if (weights[i] == 0.0f) {
             continue;
         }
-        animators[i]->updateTime(timeMs);
+        animators[i]->updateTime(time);
     }
     normalizeWeights();
-    // partial: m_applicator.CheckCallback(animators[m_currentIndex]->getTimelineCtrl()) goes here.
-    m_lastTime = timeMs;
+    m_applicator.CheckCallback(animators[m_currentIndex]->getTimelineCtrl());
+    m_lastTime = time;
 }
 
-// 0x366eb8 AnimatorBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*,
-//                                        void (*)(glitch::collada::STriggeredEvent const&, void*), void*)
-// PARTIAL: the per-child loop is missing. For each child it writes the child's event fields (collada +0x18 eventsTrack,
-// +0x1c eventCallback, +0x20 eventUserData), the events manager's callback pair (CEventsManager +0x08 and +0x0c, the class
-// is incomplete) and the child timeline's callback pair (scene ITimelineController callback +0x08 and callbackData +0x0c,
-// now declared as void* data, so the earlier width mismatch is gone). Remaining blockers: the child's getTimelineCtrl, the
-// CEventsManager layout, and the child's eventCallback type, void(*)(const SEventCallArgs*, void*) in collada_misc.hpp,
-// against the void(*)(const STriggeredEvent&, void*) that this function receives. The applicator step is complete and
-// runs last, as in the original.
-void AnimatorBlender::SetCallbacks(AnimCallback animCallback, void* animUserData, EventCallback eventCallback,
-                                   void* eventUserData) {
-    (void)eventCallback;
-    (void)eventUserData;
-    m_applicator.SetCallback(animCallback, animUserData);
+// 0x366eb8 AnimatorBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)
+// Every child gets the event pair (also in its events track) and the timeline callback (_CBAnim, this); the applicator gets the
+// animation callback pair last.
+void AnimatorBlender::SetCallbacks(AnimCallback animCallback, void* animUserData,
+                                   EventCallback eventCallback, void* eventUserData) {
+    for (std::size_t i = 0; i != animators.size(); ++i) {
+        glitch::collada::ISceneNodeAnimator* child = animators[i];
+        child->eventCallback = eventCallback;       // +0x1c
+        child->eventUserData = eventUserData;       // +0x20
+        if (child->eventsTrack) {                   // +0x18
+            child->eventsTrack->callbackUserData = eventUserData;
+            child->eventsTrack->callback = eventCallback;
+        }
+        glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
+        if (timeline != nullptr) {
+            timeline->callbackData = this;
+            timeline->callback = &AnimatorBlender::_CBAnim;
+        }
+    }
+    m_applicator.AnimApplicator::SetCallback(animCallback, animUserData);
 }
 
 // 0x367018 AnimatorBlender::AnimatorBlender()  (complete-object constructor, C1)

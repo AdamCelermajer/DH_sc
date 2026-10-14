@@ -4,6 +4,7 @@
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 #include "glitch-scene-collada-gui/collada_misc.hpp"
 #include "glitch-scene-collada-gui/collada_empty_dtors.hpp"
+#include "glitch-scene-collada-gui/collada/CCoronasSceneNode.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -28,7 +29,11 @@ int main() {
     {
         CMesh mesh;
         CHECK(&mesh.getBoundingBox() == &mesh.boundingBox);
-        CCoronasSceneNode corona;
+        // The canonical class has no default constructor (its base ISceneNode takes id, position, rotation and scale), so the
+        // driver constructor (0x6e7164) is used. The box is what the two checks below read; the other arguments are inert.
+        CCoronasSceneNode corona(nullptr, -1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                 boost::intrusive_ptr<glitch::video::CMaterial>(),
+                                 glitch::core::dimension2d<float>{1.0f, 1.0f}, glitch::video::SColor{});
         CHECK(&corona.getBoundingBox() == &corona.boundingBox);
     }
 

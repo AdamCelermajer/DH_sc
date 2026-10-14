@@ -71,6 +71,10 @@ struct GLFunctionTable {
     void (*pixelStorei)(uint32_t pname, int32_t param) = nullptr;
     const uint8_t* (*getString)(uint32_t name) = nullptr;
     uint32_t (*getError)() = nullptr;
+
+    // Buffer objects (CCommonGLDriver::ReloadbufferMap, the CBuffer slots).
+    void (*bindBuffer)(uint32_t target, uint32_t buffer) = nullptr;
+    void (*bufferData)(uint32_t target, int32_t size, const void* data, uint32_t usage) = nullptr;
 };
 
 // Active table. Entries that are still null are skipped by the callers.

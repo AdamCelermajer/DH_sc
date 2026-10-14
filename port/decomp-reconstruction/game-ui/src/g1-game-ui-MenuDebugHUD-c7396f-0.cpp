@@ -20,6 +20,8 @@
 #include "dh2/MenuDebugHUD.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/RenderFX.hpp"
+#include "dh2/global/savefile_fs.hpp"
+#include "gameswf/gameswf_character.h"
 #include "dh2/StreamReader.hpp"
 #include "vendor-gameswf/smart_ptr_proxy.hpp"  // gameswf::smart_ptr_proxy and its weak_proxy (get_proxy, is_alive)
 
@@ -27,6 +29,9 @@
 extern int gAssertLevel;
 
 namespace {
+
+// DEBUGSTATS_SAVEFILENAME[0] (0x8c99d8).
+constexpr const char* kDebugStatsFileName = "DebugStats.savegame";
 
 // The debug-stats file holds the int 22 and then the 22 flags of MenuDebugHUD::m_debugStatFlags.
 constexpr int kDebugStatCount = 22;
@@ -85,24 +90,25 @@ void ReleaseCachedCharacter(DebugCachedCharacter& cache) {
 void MenuDebugHUD::Update() {}
 
 // 0x429cd4 _ZN12MenuDebugHUD12LoadFromFileEv
-// PARTIAL: the original opens DEBUGSTATS_SAVEFILENAME[0] for reading through the file system at dword_99F73C +0x34,
-// reads the flags with ReadDebugStatFlags, then closes the stream through the file system's vtable slot +0x78. The
-// file-system member is not declared (see the note at the top), so no stream is opened here and the flags keep their
-// current values. The original also returns without reading when the count is not 22; ReadDebugStatFlags does that too.
+// Opens DEBUGSTATS_SAVEFILENAME[0] ("DebugStats.savegame") for reading on the savefile file system, reads the flags with
+// ReadDebugStatFlags (the count must be 22) and closes the stream (file system vtable +0x78).
 void MenuDebugHUD::LoadFromFile() {
-    IStreamBase* stream = nullptr;  // the stream the original opens here; it cannot be obtained yet
-    if (stream == nullptr) {
+    FileSystemWin32* fileSystem = SavefileFileSystemPtr();
+    if (fileSystem == nullptr) {
+        return;
+    }
+    FileSystemWin32::_FileHandle* handle = fileSystem->openSavefile(kDebugStatsFileName, false);
+    if (handle == nullptr) {
         return;  // the original returns without reading when the stream does not open
     }
-    ReadDebugStatFlags(stream, m_debugStatFlags);
-    // The original then closes the stream through vtable slot +0x78 (not reproduced).
+    ReadDebugStatFlags(handle, m_debugStatFlags);
+    IFileStream* stream = handle;
+    fileSystem->closeFile(stream);
 }
 
 // 0x429e40 _ZN12MenuDebugHUD7SetTextEPKc
-// PARTIAL: when the menu (State +0x04, m_menu) and the cached character of m_text are both set, the original calls
-// RenderFX::SetText on the menu with the character, the text and the bool 0, then sets the visible flag (+0x9b) of
-// the character to 1 for a text, or 0 for a null text. The flag store is not made (see the note at the top). A null
-// text therefore changes nothing here.
+// When the menu (State +0x04, m_menu) and the cached character of m_text are both set, the text is set with RenderFX::SetText
+// (flag 0) and the character becomes visible; a null text hides the character.
 void MenuDebugHUD::SetText(const char* text) {
     if (m_menu == nullptr) {
         return;
@@ -112,9 +118,10 @@ void MenuDebugHUD::SetText(const char* text) {
     }
     if (text != nullptr) {
         m_menu->RenderFX::SetText(m_text.GetChar(), text, false);
-        // PARTIAL: the store of 1 at +0x9b of the character of m_text is not made.
+        m_text.GetChar()->m_visible = true;
+    } else {
+        m_text.GetChar()->m_visible = false;
     }
-    // PARTIAL: for a null text the original stores 0 at +0x9b of the character of m_text. Not made.
 }
 
 // 0x429f4c _ZN12MenuDebugHUD4InitEv
@@ -135,16 +142,20 @@ void MenuDebugHUD::Init() {
 }
 
 // 0x42a1f8 _ZN12MenuDebugHUD10SaveToFileEv
-// PARTIAL: the original opens DEBUGSTATS_SAVEFILENAME[0] for writing through the file system at dword_99F73C +0x34,
-// writes the count 22 and the 22 flags (WriteDebugStatFlags, including its ASSERT), then closes the stream through
-// vtable slot +0x78. The file-system member is not declared (see the note at the top), so nothing is written.
+// Opens DEBUGSTATS_SAVEFILENAME[0] for writing, writes the count 22 and the 22 flags (WriteDebugStatFlags, including its ASSERT),
+// then closes the stream.
 void MenuDebugHUD::SaveToFile() {
-    IStreamBase* stream = nullptr;  // the stream the original opens here; it cannot be obtained yet
-    if (stream == nullptr) {
+    FileSystemWin32* fileSystem = SavefileFileSystemPtr();
+    if (fileSystem == nullptr) {
+        return;
+    }
+    FileSystemWin32::_FileHandle* handle = fileSystem->openSavefile(kDebugStatsFileName, true);
+    if (handle == nullptr) {
         return;  // the original returns without writing when the stream does not open
     }
-    WriteDebugStatFlags(stream, m_debugStatFlags);
-    // The original then closes the stream through vtable slot +0x78 (not reproduced).
+    WriteDebugStatFlags(handle, m_debugStatFlags);
+    IFileStream* stream = handle;
+    fileSystem->closeFile(stream);
 }
 
 // 0x42a33c _ZN12MenuDebugHUDD1Ev (complete-object destructor)
@@ -176,9 +187,8 @@ MenuDebugHUD* MenuDebugHUD::GetInstance() {
 }
 
 // 0x42a738 _ZN12MenuDebugHUD14HideHugeNumberEv
-// PARTIAL: when the menu and the cached character of m_timesLoadedText are set and the proxy is alive, the original
-// clears the visible flag (+0x9b) of the characters of m_timesLoadedText and m_timesLoaded. Those stores are not made
-// (see the note at the top). When the proxy has died, the original releases it and clears the cached character.
+// When the menu and the cached character of m_timesLoadedText are set and the proxy is alive, the visible flag (+0x9b) of the
+// characters of m_timesLoadedText and m_timesLoaded is cleared. When the proxy has died, it is released and the cache cleared.
 void MenuDebugHUD::HideHugeNumber() {
     if (m_menu == nullptr || m_timesLoadedText.m_character == nullptr) {
         return;
@@ -187,14 +197,14 @@ void MenuDebugHUD::HideHugeNumber() {
         ReleaseCachedCharacter(m_timesLoadedText);
         return;
     }
-    // PARTIAL: the stores of 0 at +0x9b of the characters of m_timesLoadedText and m_timesLoaded are not made.
+    m_timesLoadedText.GetChar()->m_visible = false;
+    m_timesLoaded.GetChar()->m_visible = false;
 }
 
 // 0x42a7b0 _ZN12MenuDebugHUD17DisplayHugeNumberEi
-// PARTIAL: when the menu and the cached character of m_timesLoadedText are set and the proxy is alive, the original
-// formats the number as "%d" into m_timesLoadedText with RenderFX::FormatText on the menu, then sets the visible flag
-// (+0x9b) of m_timesLoadedText and m_timesLoaded to 1. Those two stores are not made (see the note at the top).
-// When the proxy has died, the original releases it and clears the cached character.
+// When the menu and the cached character of m_timesLoadedText are set and the proxy is alive, the number is formatted as "%d"
+// into m_timesLoadedText (RenderFX::FormatText) and the visible flag of m_timesLoadedText and m_timesLoaded is set. When the
+// proxy has died, it is released and the cache cleared.
 void MenuDebugHUD::DisplayHugeNumber(int value) {
     if (m_menu == nullptr || m_timesLoadedText.m_character == nullptr) {
         return;
@@ -204,13 +214,13 @@ void MenuDebugHUD::DisplayHugeNumber(int value) {
         return;
     }
     m_menu->RenderFX::FormatText(m_timesLoadedText.GetChar(), "%d", value);
-    // PARTIAL: the stores of 1 at +0x9b of the characters of m_timesLoadedText and m_timesLoaded are not made.
+    m_timesLoadedText.GetChar()->m_visible = true;
+    m_timesLoaded.GetChar()->m_visible = true;
 }
 
 // 0x42a854 _ZN12MenuDebugHUD29SetDisplaySealOfFreshnessFAILEb
-// PARTIAL: when the menu and the cached character of m_sealOfFreshnessFail are set and the proxy is alive, the original
-// stores the bool argument into the visible flag (+0x9b) of that character. The store is not made (see the note at the
-// top). When the proxy has died, the original releases it and clears the cached character.
+// When the menu and the cached character of m_sealOfFreshnessFail are set and the proxy is alive, the bool argument becomes the
+// visible flag (+0x9b) of that character. When the proxy has died, it is released and the cache cleared.
 void MenuDebugHUD::SetDisplaySealOfFreshnessFAIL(bool shown) {
     if (m_menu == nullptr || m_sealOfFreshnessFail.m_character == nullptr) {
         return;
@@ -219,11 +229,11 @@ void MenuDebugHUD::SetDisplaySealOfFreshnessFAIL(bool shown) {
         ReleaseCachedCharacter(m_sealOfFreshnessFail);
         return;
     }
-    static_cast<void>(shown);  // PARTIAL: the store of this value at +0x9b of the character is not made.
+    m_sealOfFreshnessFail.GetChar()->m_visible = shown;
 }
 
 // 0x42a8c0 _ZN12MenuDebugHUD25SetDisplaySealOfFreshnessEb
-// PARTIAL: the same as SetDisplaySealOfFreshnessFAIL, for the cached character of m_sealOfFreshness.
+// The same as SetDisplaySealOfFreshnessFAIL, for the cached character of m_sealOfFreshness.
 void MenuDebugHUD::SetDisplaySealOfFreshness(bool shown) {
     if (m_menu == nullptr || m_sealOfFreshness.m_character == nullptr) {
         return;
@@ -232,5 +242,5 @@ void MenuDebugHUD::SetDisplaySealOfFreshness(bool shown) {
         ReleaseCachedCharacter(m_sealOfFreshness);
         return;
     }
-    static_cast<void>(shown);  // PARTIAL: the store of this value at +0x9b of the character is not made.
+    m_sealOfFreshness.GetChar()->m_visible = shown;
 }

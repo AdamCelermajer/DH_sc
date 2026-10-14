@@ -12,6 +12,17 @@
 // SetCallbacksOnAll walk that calls it.
 
 #include "dh2/AnimController.hpp"
+#include "dh2/AnimApplicator.hpp"
+#include "dh2/AnimationSet.hpp"
+#include "dh2/AnimSetManager.hpp"
+#include "dh2/Animator.hpp"
+#include "dh2/AnimatorBlender.hpp"
+#include "dh2/AnimatorSet.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/global/GetApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSet.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 #include <cstdint>
 #include <cstdlib>
@@ -29,21 +40,20 @@
 bool AnimController::s_scalingEnabled = true;
 
 // 0x474678 _ZN14AnimController15GetAnimationSetEv
-// partial: the original stores 0 into the hidden return slot, so the result is an empty intrusive_ptr. glitch::collada::
-// CAnimationSet is incomplete in every declared header, and boost::intrusive_ptr<T> needs T complete for its destructor,
-// which every return of the type instantiates. The body therefore aborts, so no caller gets a wrong value silently.
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimController::GetAnimationSet() {
-    std::abort();
+// The base controller has no set: an empty reference.
+boost::intrusive_ptr<AnimationSet> AnimController::GetAnimationSet() {
+    return boost::intrusive_ptr<AnimationSet>();
 }
 
 // 0x474684 _ZN14AnimControllerD2Ev
 // 0x4746c8 _ZN14AnimControllerD1Ev
-// Both bodies are identical. The original resets the vptr (the compiler does this) and then drops m_node through
-// the glitch::IReferenceCounted subobject of the node. That subobject is RootSceneNode's second one: its offset 0x20c
-// is read from the node's vtable at vptr-12, and its count is RootSceneNode::m_secondaryRefCount (+0x210).
-// partial: the drop is not written. Missing: the count decrement and, at zero, the onDelete call and the deleting
-// destructor that IReferenceCounted::drop makes through the subobject's vtable (+0x08, +0x04).
-AnimController::~AnimController() {}
+// Both bodies are identical. The vptr reset is the compiler's; the node reference is dropped through its IReferenceCounted
+// virtual base.
+AnimController::~AnimController() {
+    if (m_node != nullptr) {
+        m_node->drop();
+    }
+}
 
 // 0x47470c _ZN14AnimController17_CBAnim_DoNothingEPN6glitch5scene19ITimelineControllerEPv
 void AnimController::_CBAnim_DoNothing(glitch::scene::ITimelineController*, void*) {}
@@ -235,17 +245,13 @@ bool AnimController::PlayClip(unsigned int clip, bool loop, int unused, unsigned
 }
 
 // 0x474c78 _ZN14AnimController12SetCallbacksEPN6glitch7collada18ISceneNodeAnimatorEPFvPNS0_5scene19ITimelineControllerEPvES7_PFvRKNS1_15STriggeredEventES7_ES7_
-// partial: when the animator is non-null the original calls its own SetCallbacks on the same pointer. That callee's body
-// is not reconstructed here, so the call is not written and the body only checks for null.
+// A non-null animator gets Animator::SetCallbacks directly (the original calls it without a type test, on whatever animator class
+// the node holds; AnimatorSet and AnimatorBlender have the same members at the offsets it uses).
 void AnimController::SetCallbacks(glitch::collada::ISceneNodeAnimator* animator, AnimCallback animCallback,
                                   void* animUserData, EventCallback eventCallback, void* eventUserData) {
-    if (animator == nullptr) {
-        return;
+    if (animator != nullptr) {
+        static_cast<Animator*>(animator)->Animator::SetCallbacks(animCallback, animUserData, eventCallback, eventUserData);
     }
-    (void)animCallback;
-    (void)animUserData;
-    (void)eventCallback;
-    (void)eventUserData;
 }
 
 // 0x474cac _ZN14AnimController17SetCallbacksOnAllEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_

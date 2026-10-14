@@ -19,9 +19,11 @@ struct render_state;
 namespace glitch {
 namespace scene {
 class ICameraSceneNode;
+class ITimelineController;
 }  // namespace scene
 namespace collada {
 class CRootSceneNode;
+class ISceneNodeAnimator;
 }  // namespace collada
 }  // namespace glitch
 
@@ -48,8 +50,8 @@ public:
     // MenuBase occupies +0x00 .. +0xc3.
     glitch::collada::CRootSceneNode* m_sceneRoot;                       // +0xc4 constructScene() result, the root of CLASS_SELECTION.bdae
     glitch::scene::ICameraSceneNode* m_camera;                          // +0xc8 the camera found in m_sceneRoot, made active in Show
-    void* m_animator;                                                   // +0xcc constructAnimator() result (untyped in the engine headers)
-    void* m_animSet;                                                    // +0xd0 the object vtable slot +0x44 of m_animator returns, driven by SetAnim
+    glitch::collada::ISceneNodeAnimator* m_animator;                    // +0xcc constructAnimator() result
+    glitch::scene::ITimelineController* m_animSet;                      // +0xd0 the timeline controller of m_animator (getTimelineCtrl, vtable +0x44), driven by SetAnim
     Character* m_actors[3];                                             // +0xd4 Player_CS_0..2, one per class (Knight, Rogue, Mage)
     float m_animTime;                                                   // +0xe0 current time of the playing animation
     float m_animStart;                                                  // +0xe4 start of the playing animation, set by SetAnim

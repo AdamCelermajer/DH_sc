@@ -15,6 +15,9 @@
 
 #include "dh2/CharAnimator.hpp"
 #include "dh2/AnimController.hpp"
+#include "dh2/AnimationSet.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/VisualObject.hpp"
 #include "pydata-accessors/structs_records.hpp"  // Structs::AnimStep, the step records of an AnimTable record
@@ -67,31 +70,34 @@ void CharAnimator::__Callback(glitch::scene::ITimelineController* /*controller*/
 }
 
 // 0x3c90f8 _ZN12CharAnimator18CalculateExtraTimeEPN6glitch5scene19ITimelineControllerE
-// partial: for a non-null controller the original first stores 0 in m_extraTime (+0x44), then with
-//   limitMs = (int)(controller->float@+0x1c * 1000), nowMs = (int)(controller->float@+0x2c * 1000), startMs = controller->int@+0x04,
-//   delta = nowMs - startMs,
-// it sets m_extraTime = limitMs - delta when 0 <= delta < limitMs. glitch::scene::ITimelineController is not defined in any
-// header, so the three fields cannot be read (layout request). The Hex-Rays int return is r0 reuse of `this`, so void as declared.
+// Same timeline arithmetic as Animator::_HandleAnimEnding: the step time (lastStep, +0x1c) minus the distance of the current
+// time (+0x2c) to the timeline position (+0x04), when that distance lies inside the step; 0 otherwise.
 void CharAnimator::CalculateExtraTime(glitch::scene::ITimelineController* controller) {
     if (controller == nullptr) {
         return;
     }
     m_extraTime = 0;  // +0x44, stored first in the original
-    // Missing: the m_extraTime value from the controller fields described above.
+    const glitch::collada::CTimelineController* timeline = static_cast<const glitch::collada::CTimelineController*>(controller);
+    const int limitMs = static_cast<int>(timeline->lastStep * 1000.0f);
+    const int delta = static_cast<int>(timeline->currentSec * 1000.0f) - controller->currentTimeMs;
+    if (delta >= 0 && delta < limitMs) {
+        m_extraTime = limitMs - delta;
+    }
 }
 
 // 0x3c9168 _ZN12CharAnimator15IncAnimSetUsersEv
-// partial: the original takes m_character->m_visualObject (Character +0x2d8) ->m_animController (VisualObject +0x38),
-// calls its GetAnimationSet() (AnimController vtable +0x08, result as boost::intrusive_ptr<glitch::collada::CAnimationSet>),
-// adds one to the set's users counter at +0x24 and drops the reference. The users counter is not declared on
-// glitch::collada::CAnimationSet (only a stand-in with no members exists), and the set is incomplete here, so the
-// intrusive_ptr release cannot be instantiated. Body left empty until the layout request is applied.
-void CharAnimator::IncAnimSetUsers() {}
+// The users counter (+0x24) of the game AnimationSet of the character's anim controller is raised by one.
+void CharAnimator::IncAnimSetUsers() {
+    boost::intrusive_ptr<AnimationSet> set = m_character->m_visualObject->m_animController->GetAnimationSet();  // Character +0x2d8, VisualObject +0x38
+    ++set->m_users;  // +0x24
+}
 
 // 0x3c91c8 _ZN12CharAnimator15DecAnimSetUsersEv
-// partial: same chain as IncAnimSetUsers, subtracting one from the users counter at +0x24 (glitch::collada::CAnimationSet,
-// layout request). Body left empty until the layout request is applied.
-void CharAnimator::DecAnimSetUsers() {}
+// Same chain as IncAnimSetUsers, lowering the counter.
+void CharAnimator::DecAnimSetUsers() {
+    boost::intrusive_ptr<AnimationSet> set = m_character->m_visualObject->m_animController->GetAnimationSet();
+    --set->m_users;  // +0x24
+}
 
 // 0x3c9228 _ZNK12CharAnimator13ANIM_IsUniqueEv
 // Not stopped and the kind of the current AnimTable record (Structs::AnimTpl::m_w4, listing +0x10) is 0. The record is

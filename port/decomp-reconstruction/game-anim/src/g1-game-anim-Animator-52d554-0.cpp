@@ -9,6 +9,10 @@
 
 #include "dh2/Animator.hpp"
 
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+
 namespace animator_detail {
 
 // 0x366224: the original multiplies the float by 1000.0f in single precision (__aeabi_fmul, constant
@@ -37,13 +41,15 @@ glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE Animator::getType() const {
 }
 
 // 0x366224 _ZN8Animator17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE
-// partial: with a non-null timeline the original reads the timeline's fields (+0x04 int current time in
-// ms, +0x1c float step, +0x2c float position in seconds) and stores
-// animator_detail::ClipTimeLeftMs(...) into m_applicator.unk_10 (+0x68). glitch::scene::ITimelineController
-// has no declared layout, so those reads and the unk_10 store are missing here (see the layout requests).
-// The callback flag is set on every path, as in the original.
+// With a timeline the time left in the clip step (animator_detail::ClipTimeLeftMs of the timeline step in ms and the distance of
+// its position to the current time) is stored in m_applicator.unk_10 (+0x68). The callback flag is set on every path.
 void Animator::_HandleAnimEnding(glitch::scene::ITimelineController* timeline) {
-    (void)timeline;
+    if (timeline != nullptr) {
+        const glitch::collada::CTimelineController* controller = static_cast<const glitch::collada::CTimelineController*>(timeline);
+        const int stepMs = animator_detail::SecondsToMs(controller->lastStep);                              // +0x1c
+        const int remainingMs = animator_detail::SecondsToMs(controller->currentSec) - timeline->currentTimeMs;   // +0x2c, +0x04
+        m_applicator.unk_10 = animator_detail::ClipTimeLeftMs(stepMs, remainingMs);
+    }
     m_applicator.m_callbackPending = true;  // +0x88
 }
 
@@ -55,36 +61,37 @@ void Animator::_CBAnim(glitch::scene::ITimelineController* timeline, void* userD
 }
 
 // 0x3662c8 _ZN8Animator11animateNodeEPN6glitch5scene10ISceneNodeEj
-// partial: the original first calls the base glitch::collada::CSceneNodeAnimator::animateNode(this, node,
-// time), which is not declared in any header and cannot be called without the base. Then it calls
-// AnimApplicator::AnimateNode (done here), fetches the timeline through the virtual getTimelineCtrl
-// (vtable +0x44, from the base) and ends with AnimApplicator::CheckCallback(timeline) (missing).
+// The base animateNode, then the applicator (non-virtual AnimApplicator::AnimateNode) and its pending callback check against the
+// timeline of the animator (vtable +0x44). The original returns the result of CheckCallback; the override is void.
 void Animator::animateNode(glitch::scene::ISceneNode* node, unsigned int time) {
-    (void)node;
+    glitch::collada::CSceneNodeAnimator::animateNode(node, time);
     m_applicator.AnimApplicator::AnimateNode(time);
+    m_applicator.CheckCallback(getTimelineCtrl());
 }
 
 // 0x366308 _ZN8Animator8onUnbindEPN6glitch5scene10ISceneNodeE
-// partial: the original clears the applicator's reference node, then tail-calls the base
-// glitch::collada::ISceneNodeAnimator::onUnbind(this, node) (0x667d9c). The base is not inherited, so that
-// tail call is missing.
+// The applicator forgets its reference node, then the base onUnbind (a tail call in the original).
 void Animator::onUnbind(glitch::scene::ISceneNode* node) {
     m_applicator.AnimApplicator::SetRefNode(nullptr);
-    (void)node;
+    glitch::collada::ISceneNodeAnimator::onUnbind(node);
 }
 
 // 0x366330 _ZN8Animator12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_
-// partial: the original does three things and this stores only the last one.
-//   (1) It stores eventCallback and eventUserData in the engine base at +0x1c and +0x20, and the events
-//       track (base +0x18) gets the same pair in its own callback slots (+0x08 and +0x0c). The base
-//       sub-object is not inherited, so these stores are missing.
-//   (2) It fetches the timeline through the virtual getTimelineCtrl (vtable +0x44) and writes _CBAnim
-//       (+0x08) and this (+0x0c) into it. Missing for the same reason as (1).
-//   (3) It calls AnimApplicator::SetCallback(animCallback, animUserData). Done here.
+// The event pair goes into the animator (+0x1c, +0x20) and the events manager of its track (+0x08, +0x0c); the timeline calls
+// _CBAnim with this; the applicator gets the animation callback pair.
 void Animator::SetCallbacks(AnimCallback animCallback, void* animUserData,
                             EventCallback eventCallback, void* eventUserData) {
-    (void)eventCallback;
-    (void)eventUserData;
+    this->eventCallback = eventCallback;      // +0x1c
+    this->eventUserData = eventUserData;      // +0x20
+    if (eventsTrack) {                        // +0x18
+        eventsTrack->callbackUserData = eventUserData;   // +0x0c
+        eventsTrack->callback = eventCallback;           // +0x08
+    }
+    glitch::scene::ITimelineController* timeline = getTimelineCtrl();
+    if (timeline != nullptr) {
+        timeline->callbackData = this;        // +0x0c
+        timeline->callback = &Animator::_CBAnim;   // +0x08
+    }
     m_applicator.AnimApplicator::SetCallback(animCallback, animUserData);
 }
 

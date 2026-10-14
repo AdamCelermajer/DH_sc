@@ -27,6 +27,9 @@ inline constexpr float kPreviewCharacterRoll = static_cast<float>(3.1416 * -0.12
 extern bool Is_In_Multiplayer_IGM;   // ELF 0x9a5b5a, .bss, 1 byte
 extern bool Is_In_Multiplayer_Mode;  // ELF 0x9a5b59, .bss, 1 byte
 
+// The unnamed byte at ELF 0x99f7d7 (.bss): set to 1 at the end of MenuMainMenu::Show, read by MenuManager::onEvent.
+extern bool byte_99F7D7;
+
 // nativeOpenIGP (0x532ad4): the JNI bridge that opens the in-game page. It is a C symbol (core-platform defines it with C linkage,
 // void: the Java method returns nothing and the r0 left behind has no defined value). Declared with the same linkage and type
 // here; it was a C++ declaration returning int, which asked for _Z13nativeOpenIGPi and linked to nothing (link-1).

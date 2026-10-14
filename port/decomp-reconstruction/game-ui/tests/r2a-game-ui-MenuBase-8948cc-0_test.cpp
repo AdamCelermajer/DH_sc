@@ -95,8 +95,9 @@ int SavegameManager::getLanguage() const {
     g_log.push_back("getLanguage");
     return g_language;
 }
-void SavegameManager::setLanguage(int language) {
+int SavegameManager::setLanguage(int language) {
     g_log.push_back("setLanguage " + std::to_string(language));
+    return 1;  // the original returns StringManager::switchPack's bool; the stubs report success
 }
 void SavegameManager::setOption(const char* name, int value) {
     g_log.push_back(std::string("setOption ") + name + " " + std::to_string(value));

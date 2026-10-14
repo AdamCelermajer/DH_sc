@@ -7,6 +7,14 @@
 
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
+#include "dh2/CharAI.hpp"
+#include "dh2/CharStateMachine.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
 #include "net-session-online/c_online.hpp"
 
 namespace {
@@ -14,6 +22,17 @@ namespace {
 // Block test shared by the gated Cmd_* functions (original: unk_009 || (!s_blocked && !m_blocked)).
 bool CommandsEnabled(const v2Controller& controller) {
     return controller.unk_009 || (!v2Controller::s_blocked && !controller.m_blocked);
+}
+
+// The CMsgControllerAction every online command sends: action code at +0x50, the object or skill id at +0x52 and the sending
+// character's network id (Character +0x108, low byte) at +0x54.
+void SendControllerAction(const Character* sender, std::uint8_t action, std::uint16_t targetId) {
+    CMessaging* messaging = GetMessaging();
+    CMsgControllerAction* message = static_cast<CMsgControllerAction*>(CMessage::CreateMessage("CMsgControllerAction", true));
+    message->senderId_ = static_cast<std::uint8_t>(sender->unk_108);
+    message->action_ = action;
+    message->targetId_ = targetId;
+    messaging->SendMsg(message);
 }
 
 }  // namespace
@@ -49,63 +68,82 @@ void v2Controller::Cmd_DropObject() {
 }
 
 // 0x4057fc _ZN12v2Controller10Cmd_UseOOIEP10GameObject
-// PARTIAL. The gate and the final forward to Ctrl_UseOOI (vtable +0x50) are rebuilt. Not rebuilt: the online
-// branch that runs before the forward. It needs (1) the online-game flag, COnline +0x05 (isOnlineGame_), which
-// c_online.hpp keeps private with no getter (Application::IsOnlineGame, 0x320668, is a stub); (2) the per-controller
-// flag at +0x0a, which is in the header; (3) the target: the argument, or else Character::m_objectOfInterest
-// (+0x14a4, a GameObject*, read as the default target by the asm); (4) the merchant test on the target
-// (GameObject::IsCharacter, vtable +0x24, then Character::IsMerchant) and the GetInteractionType (vtable +0x90)
-// comparisons, whose meaning is not recovered; (5) the CMsgControllerAction payload (action 5) at +0x50/+0x52/+0x54,
-// which c_msg_fixed.hpp keeps opaque, and CMessaging::Get()->SendMsg.
-// Layout requests are listed in the ledger notes.
+// Gated. Online with the per-controller flag (+0x0a) and a character: the target is the argument or else the character's object
+// of interest; unless it is a merchant character or its interaction type with the character is 1 (and not 8), action 5 is sent
+// with the target's network id. Then Ctrl_UseOOI (vtable +0x50).
 void v2Controller::Cmd_UseOOI(GameObject* target) {
     if (!CommandsEnabled(*this)) {
         return;
     }
-    // MISSING: online branch described above.
+    if (GetOnline()->IsOnlineGame() && unk_00a && m_character != nullptr) {
+        GameObject* object = target != nullptr ? target : m_character->m_objectOfInterest;  // Character +0x14a4
+        if (object != nullptr) {
+            const bool merchant = object->IsCharacter() && static_cast<Character*>(object)->IsMerchant();
+            if (!merchant && object->GetInteractionType(m_character) != 1) {
+                if (object->GetInteractionType(m_character) != 8) {
+                    SendControllerAction(m_character, 5, static_cast<std::uint16_t>(object->unk_108));
+                }
+            }
+        }
+    }
     m_controllable->Ctrl_UseOOI(target);
 }
 
 // 0x405954 _ZN12v2Controller12Cmd_EndSkillEj
-// PARTIAL. The gate and the final forward to Ctrl_EndSkill (vtable +0x40) are rebuilt. Not rebuilt: the online
-// branch that runs before the forward. When the online-game flag (COnline +0x05, no getter, see Cmd_UseOOI) and
-// the per-controller flag at +0x0a are set, and m_character is non-null, the original sends a
-// CMsgControllerAction with action code 2, the skill id, and the low byte of Character unk_108 (+0x108),
-// through CMessaging::Get()->SendMsg. The payload fields are not declared in c_msg_fixed.hpp (layout request).
+// Gated. Online with the flag and a character: action 2 with the skill id is sent. Then Ctrl_EndSkill (vtable +0x40).
 void v2Controller::Cmd_EndSkill(unsigned int skill) {
     if (!CommandsEnabled(*this)) {
         return;
     }
-    // MISSING: online branch described above.
+    if (GetOnline()->IsOnlineGame() && unk_00a && m_character != nullptr) {
+        SendControllerAction(m_character, 2, static_cast<std::uint16_t>(skill));
+    }
     m_controllable->Ctrl_EndSkill(skill);
 }
 
 // 0x405a20 _ZN12v2Controller14Cmd_BeginSkillEj
-// PARTIAL. The gate and the final forward to Ctrl_BeginSkill (vtable +0x3c) are rebuilt. Not rebuilt: the online
-// branch. When the online-game flag (COnline +0x05, no getter) and the per-controller flag at +0x0a are set and
-// m_character is non-null, the original asks CharAI::AI_IsSkillUsable(skill) on the character's CharAI block;
-// if that is true it sends a CMsgControllerAction with action code 1, the skill id, and the low byte of
-// Character unk_108, through CMessaging::Get()->SendMsg. The payload fields are not declared (layout request).
+// Gated. Online with the flag and a character, and the skill usable: action 1 with the skill id is sent. Then Ctrl_BeginSkill
+// (vtable +0x3c).
 void v2Controller::Cmd_BeginSkill(unsigned int skill) {
     if (!CommandsEnabled(*this)) {
         return;
     }
-    // MISSING: online branch described above.
+    if (GetOnline()->IsOnlineGame() && unk_00a && m_character != nullptr) {
+        if (m_character->AI_IsSkillUsable(skill)) {
+            SendControllerAction(m_character, 1, static_cast<std::uint16_t>(skill));
+        }
+    }
     m_controllable->Ctrl_BeginSkill(skill);
 }
 
 // 0x405b04 _ZN12v2Controller10Cmd_AttackEP10GameObject
-// PARTIAL. The gate and the final forward to Ctrl_Attack (vtable +0x38) are rebuilt. Not rebuilt: the online
-// branch, which is the whole of the non-forward work. It needs the online-game flag (COnline +0x05, no getter).
-// Inside the branch: the character's current and previous targets (CharAI m_target at +0x40 and m_lastTarget at
-// +0x44 of the CharAI block, Character +0x408 and +0x40c), CharAI::AI_DoMeleeAttack, the attacking flag
-// (CharAI m_attacking, Character +0x440), CharStateMachine::SM_IsAttacking, AI_SetTarget and AI_SyncLastTarget,
-// and a CMsgControllerAction with action code 0 carrying the target's unk_108 low 16 bits. The message payload
-// fields are not declared (layout request). Every path of the original ends in the forward below.
+// Gated. Online with the flag and a character: the melee attack is started on the character's AI (AI_DoMeleeAttack) and the
+// target state is restored (current and last target, attacking flag). When the target and the flag are unchanged and the
+// character is attacking or flagged, the restore runs with the last target synced and no message goes out; otherwise the
+// restore runs and action 0 with the target's network id (0 without target) is sent. Then Ctrl_Attack (vtable +0x38).
 void v2Controller::Cmd_Attack(GameObject* target) {
     if (!CommandsEnabled(*this)) {
         return;
     }
-    // MISSING: online branch described above.
+    if (GetOnline()->IsOnlineGame() && unk_00a && m_character != nullptr) {
+        Character* ch = m_character;
+        GameObject* const oldTarget = ch->m_target;          // CharAI +0x40
+        GameObject* const oldLast = ch->m_lastTarget;        // CharAI +0x44
+        const bool oldAttacking = ch->m_attacking;           // CharAI +0x78
+        ch->AI_DoMeleeAttack(target, true);
+        if (oldTarget == m_character->m_target && m_character->m_attacking == oldAttacking &&
+            (m_character->SM_IsAttacking() || m_character->m_attacking)) {
+            m_character->AI_SetTarget(oldLast, true);
+            m_character->AI_SyncLastTarget();
+            m_character->AI_SetTarget(oldTarget, true);
+            m_character->m_attacking = oldAttacking;
+        } else {
+            m_character->AI_SetTarget(oldLast, true);
+            m_character->AI_SyncLastTarget();
+            m_character->AI_SetTarget(oldTarget, true);
+            m_character->m_attacking = oldAttacking;
+            SendControllerAction(m_character, 0, target != nullptr ? static_cast<std::uint16_t>(target->unk_108) : std::uint16_t(0));
+        }
+    }
     m_controllable->Ctrl_Attack(target);
 }

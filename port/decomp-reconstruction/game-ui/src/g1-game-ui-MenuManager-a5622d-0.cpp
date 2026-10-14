@@ -28,6 +28,8 @@
 #include "dh2/MenuFlash2DCamera.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/Globals.hpp"
+#include "gameswf/gameswf_character.h"
 
 // 0x42ca8c _ZN11MenuManager11GetInstanceEv
 // Returns dword_99F780, the Application::m_menuManager field (Application +0x54). The Application singleton is the
@@ -146,27 +148,38 @@ bool MenuManager::CanHandleEvent(RenderFX::Event& /*e*/) {
 }
 
 // 0x42cf68 _ZN11MenuManager11mySendEventEPcN8RenderFX9EventTypeE
-// PARTIAL: the original scans the four RenderFX slots of the multi-menu manager (multi +0x134..+0x143, m_menuFX[0..3])
-// for the first one where RenderFX::Find(slot, characterPath) returns a target. It then fills a RenderFX::Event
-// (target at +0x00, name pointer at +0x04, the type at +0x08, fields +0x0c..+0x25 zeroed; the name is read from the
-// target's string at +0x44, whose tag byte -1 selects the pointer at +0x0c and otherwise the inline text at +0x01),
-// sends it with RenderFX::SendEvent and returns 1. It returns 0 when no slot finds the target.
-// Not written: dh2/MultiMenuManager.hpp is absent, RenderFX::Find and RenderFX::SendEvent are not declared, and
-// RenderFX::Event has no layout in dh2/RenderFX.hpp. Waits on dh2/MultiMenuManager.hpp and on the RenderFX layout.
-bool MenuManager::mySendEvent(char* /*characterPath*/, RenderFX::EventType /*type*/) {
-    return false;  // PARTIAL: the send path is not written (see above).
+// The first of the four movies of the multi-menu manager where RenderFX::Find(characterPath) finds a character gets an event of
+// the given type for it; true. False when no movie finds the character.
+bool MenuManager::mySendEvent(char* characterPath, RenderFX::EventType type) {
+    for (int i = 0; i != 4; ++i) {
+        MenuFX* movie = m_multiMenuManager->m_menuFX[i];
+        if (movie == nullptr) {
+            continue;
+        }
+        gameswf::as_object* found = movie->Find(characterPath);
+        if (found == nullptr) {
+            continue;
+        }
+        RenderFX::Event event;
+        std::memset(&event, 0, sizeof(event));
+        event.target = static_cast<gameswf::character*>(found);
+        event.type = type;
+        event.name = static_cast<gameswf::character*>(found)->get_name().c_str();
+        movie->SendEvent(event);
+        return true;
+    }
+    return false;
 }
 
 // 0x42d060 _ZN11MenuManager7OnEventERN8RenderFX5EventE
-// PARTIAL: the original does two things. (1) When the event type is 6 and its name contains "btn_MENU_CONTINUE", it
-// sets the global lastOpenMenuID (ELF 0x9f63fc) to 9. (2) It forwards the event to HUDControls::GetInstance() through
-// vtable slot +0x0c (HUDControls::OnEvent), then to the HUD root menu (multi-menu +0x140, m_menuFX[3]) through
-// MenuFX::OnEvent (vtable slot +0x18). Written: the HUDControls forward. Not written: step (1), since RenderFX::Event has
-// no declared layout and lastOpenMenuID is not declared, and the HUD-root forward, which waits on
-// dh2/MultiMenuManager.hpp.
+// A release (type 6) of a btn_MENU_CONTINUE button records menu id 9. The event then goes to the HUD controls and to the HUD root
+// movie (m_menuFX[3]).
 void MenuManager::OnEvent(RenderFX::Event& e) {
+    if (e.type == RenderFX::EVENT_RELEASE && std::strstr(e.name, "btn_MENU_CONTINUE") != nullptr) {
+        lastOpenMenuID = 9;
+    }
     HUDControls::GetInstance()->OnEvent(e);
-    // PARTIAL: btn_MENU_CONTINUE check (step 1) and HUD-root forward (step 2b) are not written; see above.
+    m_multiMenuManager->m_menuFX[3]->OnEvent(e);
 }
 
 // 0x42d0ec _ZNK11MenuManager19DBG_Draw2DDeadZonesEv
@@ -197,9 +210,9 @@ bool MenuManager::HasVisibleMenu() const {
 // 0x42d19c _ZN11MenuManager12GetMenuBelowEPKc
 // Returns the menu directly below the menu called name: the element before the first later element whose name matches.
 // Nothing is returned when the list holds fewer than two menus.
-// PARTIAL: the original's loop runs one step past the last menu. On that last pass it reads the slot after the end of
-// m_menus (uninitialised vector storage) as the name owner, and could return a menu from there. That read is undefined
-// in the original and is not made here, so the last menu is never the match.
+// The original loop runs one step past the last menu: on that last pass it reads the slot after the end of m_menus
+// (uninitialised vector storage) as the name owner and could return a menu from there. That read is undefined and is not made
+// here, so the last menu is never the match.
 MenuBase* MenuManager::GetMenuBelow(const char* name) {
     const std::size_t count = m_menus.size();
     if (count > 1) {

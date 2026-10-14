@@ -1,37 +1,25 @@
-// ModularSkinnedMeshSceneNode: a modular skinned mesh node. It is BaseMeshSceneNode over glitch's
-// CModularSkinnedMeshSceneNode and adds a virtual glitch::IReferenceCounted subobject at +0x184 (its vptr) and its
-// referenceCounter at +0x188, set to 1 by the ctor (C1 0x35af00 stores the IRC vtable address point, then 1). The base's
-// render flag is at +0x17c and its virtual subobject at +0x180.
-// Original 32-bit size not recovered (no operator new site in class-facts).
+// ModularSkinnedMeshSceneNode: a modular skinned mesh node. It is BaseMeshSceneNode over the engine CModularSkinnedMeshSceneNode and,
+// like SkinnedMeshSceneNode, a second base SkinnedMeshSceneNodeEx (vptr at +0x180) whose prepareSkinForRendering the scene manager
+// calls. The engine virtual base IReferenceCounted sits at +0x184 with its refcount at +0x188, set to 1 by the ctor (C1 0x35af00).
+// The base render flag is at +0x17c.
+// Original 32-bit size 0x18c (396), from operator new(396) in ColladaFactory::createModularSkinNode.
 // Reconstructed from libDungeonHunter2.so pseudocode (ctors 0x35af00 / 0x35af88, dtors 0x35ba4c / 0x35baa0 / 0x35babc,
 // methods 0x35a8e8, 0x35a940, 0x35acb4).
 #pragma once
 
 #include <cstdint>
 
-#include "glitch-core-io/boost/intrusive_ptr.hpp"
-#include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
-
 #include "dh2/BaseMeshSceneNode.hpp"
+#include "dh2/SkinnedMeshSceneNodeEx.hpp"
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/collada/CMeshSceneNode.hpp"
 
-namespace glitch {
-namespace collada {
-class IMesh;
-}  // namespace collada
-}  // namespace glitch
-
-class ModularSkinnedMeshSceneNode : public BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode> {
+class ModularSkinnedMeshSceneNode : public BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>, public SkinnedMeshSceneNodeEx {
 public:
     explicit ModularSkinnedMeshSceneNode(const boost::intrusive_ptr<glitch::collada::IMesh>& mesh);  // 0x35af00 (complete), 0x35af88 (base-object form)
     ~ModularSkinnedMeshSceneNode() override;                                                         // 0x35ba4c (complete dtor), 0x35baa0 (deleting), 0x35babc (base-object form with VTT)
 
-    // Virtual methods in vtable slot order, after the destructors. The engine's ISceneNode declares the
-    // first two, but the modular stand-in does not derive from it, so no override keyword.
-    virtual int onRegisterSceneNode();                                 // 0x35a8e8: notifies the skin owner with this+0x180, then CMeshSceneNode::onRegisterSceneNode
-    virtual void updateAbsolutePosition(bool includeChildren);         // 0x35a940: updates the owner pointer at +0x134, then ISceneNode::updateAbsolutePosition
-    virtual void prepareSkinForRendering();                            // 0x35acb4: loops over the owner at +0x134 and calls its material virtuals (partial)
-
-    // BaseMeshSceneNode occupies +0x00 .. +0x17f: render flag at +0x17c, its virtual subobject at +0x180.
-    void* unk_184;                                                     // +0x184 vptr of the virtual glitch::IReferenceCounted subobject (C1 0x35af00)
-    std::int32_t unk_188;                                              // +0x188 that subobject's referenceCounter, set to 1 by the ctor; not read in the recovered code
+    int onRegisterSceneNode() override;                                // 0x35a8e8: registers the +0x180 subobject with the scene manager, then CMeshSceneNode::onRegisterSceneNode
+    void updateAbsolutePosition(bool includeChildren) override;        // 0x35a940: animates the skin (mesh onAnimate(1)), then ISceneNode::updateAbsolutePosition
+    void prepareSkinForRendering() override;                           // 0x35acb4: prepares every buffer of the skin
 };

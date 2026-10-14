@@ -14,9 +14,8 @@
 //    never read by the four-parameter callee, so the port passes four arguments.
 //  - PyDataConstants is pydata-accessors' engine class (Application::m_pyDataConstants, +0x2c). Its header is an
 //    engine header, so this file includes it directly.
-//  - PARTIAL: preloadPackSheet opens the sheet through the file system at Application::m_device +0x34. Neither the device
-//    layout nor the file system's vtable is declared in the tree, so openSheetStream returns no stream and the preload
-//    returns false. PARTIAL: parseEx reads its arguments from VarArgs, which has only a forward declaration. The
+//  - preloadPackSheet opens the sheet through the file system at Application::m_device +0x34 (SavefileFileSystemPtr).
+//    PARTIAL: parseEx reads its arguments from VarArgs, which has only a forward declaration. The
 //    accessors varArgsCount, varArgsFloat and varArgsString read the list as empty.
 
 #include <cctype>
@@ -36,6 +35,7 @@
 #include "dh2/StreamReader.hpp"
 #include "dh2/StringManager.hpp"
 #include "dh2/VarArgs.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "vendor-gameswf/gameswf_utf_text.hpp"
@@ -180,13 +180,20 @@ const char* varArgsString(const VarArgs& args, std::size_t index) {
 }
 
 // The sheet file is opened and closed through the file system at Application::m_device +0x34: open is vtable slot +0x90
-// with the file name, close is slot +0x78 with the stream. The device and the file system have no declared layout in
-// the tree, so these stand in: the open finds no sheet, and preloadPackSheet returns false.
+// (openResource) with the file name, close is slot +0x78 (closeFile) with the stream.
 IStreamBase* openSheetStream(const char* filename) {
-    (void)filename;
-    return nullptr;
+    FileSystemWin32* fileSystem = SavefileFileSystemPtr();
+    if (fileSystem == nullptr) {
+        return nullptr;
+    }
+    return fileSystem->openResource(filename);
 }
 void closeSheetStream(IStreamBase*& stream) {
+    FileSystemWin32* fileSystem = SavefileFileSystemPtr();
+    if (fileSystem != nullptr && stream != nullptr) {
+        IFileStream* file = static_cast<IFileStream*>(stream);
+        fileSystem->closeFile(file);
+    }
     stream = nullptr;
 }
 
@@ -266,7 +273,7 @@ bool StringManager::parseColors(std::string& text, const char* markup) {
 // 0x50851c StringManager::preloadPackSheet(unsigned int, unsigned int, bool)
 // Reads one sheet: a 16-bit count, then per string a 16-bit length and the bytes. A string with ^ or | is run through
 // parseColors and replaced by its result. The list gets a NULL entry after the last string. The sheet is opened through
-// openSheetStream, which is a stand-in (see the notes above), so PARTIAL.
+// openSheetStream (the file system openResource).
 bool StringManager::preloadPackSheet(unsigned int packIdx, unsigned int sheetIdx, bool force) {
     if (isPackSheetLoaded(packIdx, sheetIdx)) {
         if (!force) {

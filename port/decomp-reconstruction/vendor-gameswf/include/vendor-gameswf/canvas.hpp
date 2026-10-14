@@ -12,6 +12,7 @@
 
 #include "vendor-gameswf/ref_counted.hpp"
 
+#ifndef GAMESWF_CANVAS_H  // DH2: when upstream gameswf_canvas.h is already included (via gameswf_sprite.h) its canvas is the class
 namespace gameswf {
 
 struct canvas : public ref_counted {
@@ -24,5 +25,6 @@ struct canvas : public ref_counted {
 };
 
 }  // namespace gameswf
+#endif  // GAMESWF_CANVAS_H
 
 #endif  // VENDOR_GAMESWF_CANVAS_HPP

@@ -1,7 +1,6 @@
 // AnimController constructor, rebuilt from libDungeonHunter2.so (Hex-Rays and the 0x474e44 disassembly).
-// Status: partial. Rebuilt: the m_node store, the null-node assert, the reference-count step on the node's second
-// subobject, and the do-nothing callbacks used when trackEvents is clear. Missing: the trackEvents call (the node's
-// virtual at vptr+0x74, see below), which needs an ISceneNode base on RootSceneNode.
+// The m_node store, the null-node assert, the reference on the node (through its IReferenceCounted virtual base), the node call
+// for trackEvents (virtual at vptr+0x74, ISceneNode::removeAnimators) and the do-nothing callbacks when trackEvents is clear.
 #include "dh2/AnimController.hpp"
 #include "dh2/RootSceneNode.hpp"
 
@@ -31,17 +30,14 @@ AnimController::AnimController(RootSceneNode* node, bool trackEvents) : m_node(n
         std::abort();
     }
 
-    // Reference count: the original adds 1 to the counter of the second subobject of *m_node. Its offset is read from
-    // the node's vtable at vptr-12 (524 = 0x20c in RootSceneNode's vtable), and the counter is at +4 inside it, which
-    // is RootSceneNode::m_secondaryRefCount (+0x210, dh2/RootSceneNode.hpp).
-    ++m_node->m_secondaryRefCount;
+    // The node reference: the count of the IReferenceCounted virtual base of the node (found through the vtable at vptr-12 in the
+    // original) is incremented.
+    ++m_node->referenceCounter;
 
-    if (!trackEvents) {
+    if (trackEvents) {
+        // vptr+0x74 of the node is ISceneNode::removeAnimators (listing +0x80 of RootSceneNode, address point +0x0c).
+        m_node->removeAnimators();
+    } else {
         SetCallbacksOnAll(&AnimController::_CBAnim_DoNothing, this, &AnimController::_CBEvent_DoNothing, this);
     }
-    // partial: when trackEvents is set, the original calls the node's virtual at vptr+0x74 with the node as this.
-    // Hex-Rays gives the call as +116 (0x74). Per the RootSceneNode listing of decomp_vtable.py (+0x80, address point
-    // +0x0c, as getPosition's +0xac / vptr+0xa0 shows) that slot is glitch::scene::ISceneNode::removeAnimators().
-    // Not written: RootSceneNode has no ISceneNode base in glitch-scene-collada-gui/root_scene_node.hpp, so the call
-    // has no declared target. Not verified in IDA.
 }

@@ -12,7 +12,7 @@ public:
     static std::int32_t Seed;   // _ZN6glitch2os10Randomizer4SeedE
 
     static void reset();        // 0x60ae74: Seed = 0x0f0f0f0f
-    static void rand();         // 0x60ae04: advances Seed (the pseudocode returns void)
+    static std::int32_t rand(); // 0x60ae04: advances Seed and returns it (R0 holds the new Seed)
 };
 
 }  // namespace glitch::os

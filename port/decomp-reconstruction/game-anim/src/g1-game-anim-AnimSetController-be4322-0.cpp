@@ -12,6 +12,17 @@
 //   - ISceneNode::addAnimator is the vtable slot at vptr+0x6c (decomp_vtable lists it at +0x78 from the vtable base).
 
 #include "dh2/AnimSetController.hpp"
+#include "dh2/AnimApplicator.hpp"
+#include "dh2/AnimationSet.hpp"
+#include "dh2/AnimSetManager.hpp"
+#include "dh2/Animator.hpp"
+#include "dh2/AnimatorBlender.hpp"
+#include "dh2/AnimatorSet.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/global/GetApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSet.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 #include <cstdlib>
 
@@ -37,62 +48,69 @@ bool AnimSetController::PlayClip(const char* /*clipName*/, bool /*loop*/, int /*
 }
 
 // 0x474f70 _ZN17AnimSetController15GetAnimationSetEv
-// partial: the original calls AnimController::GetAnim(0) (non-const, partial: null in this tree). For a null animator it
-// stores an empty intrusive_ptr in the hidden return slot. For a non-null one it stores the AnimatorSet's animation set
-// (AnimatorSet +0x94, a game AnimationSet) and adds a reference through its IReferenceCounted count (+0x04).
-// The result cannot be produced here: the declared return type is boost::intrusive_ptr<glitch::collada::CAnimationSet>,
-// and CAnimationSet has no reference count in any declared header, while the stored object is the game AnimationSet.
-// The same decision as AnimController::GetAnimationSet (0x474678): the body aborts, so no caller gets a wrong value
-// silently. Waits on the return-type decision in the layout requests.
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimSetController::GetAnimationSet() {
-    std::abort();
+// The animation set of the first animator (an AnimatorSet, +0x94), with a reference taken; empty without animator.
+boost::intrusive_ptr<AnimationSet> AnimSetController::GetAnimationSet() {
+    glitch::collada::ISceneNodeAnimator* animator = GetAnim(0);
+    if (animator != nullptr) {
+        return static_cast<AnimatorSet*>(animator)->m_animationSet;
+    }
+    return boost::intrusive_ptr<AnimationSet>();
 }
 
 // 0x474fb0 _ZN17AnimSetController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_
-// partial: the body is complete (asm checked: a tail call to AnimatorSet::SetCallbacks with the four callback arguments
-// when GetAnim(0) is non-null, nothing otherwise). Its effect waits on AnimController::GetAnim (partial, null in this
-// tree, so the call does nothing yet) and on AnimatorSet::SetCallbacks (partial: only the AnimApplicator callback is set).
+// A tail call to AnimatorSet::SetCallbacks on the first animator, when there is one.
 void AnimSetController::SetCallbacks(AnimCallback animCallback, void* animUserData, EventCallback eventCallback,
                                      void* eventUserData) {
     glitch::collada::ISceneNodeAnimator* animator = GetAnim(0);
     if (animator != nullptr) {
-        reinterpret_cast<AnimatorSet*>(animator)->SetCallbacks(animCallback, animUserData, eventCallback,
-                                                               eventUserData);
+        static_cast<AnimatorSet*>(animator)->AnimatorSet::SetCallbacks(animCallback, animUserData, eventCallback, eventUserData);
     }
 }
 
 // 0x474ff0 _ZN17AnimSetController8PlayClipEjbij
-// partial, body not rebuilt (returns false). The flow, decoded from the asm (0x474ff0 .. 0x4750d8):
-//   1. clip == -1: return 0.
-//   2. animator = GetAnim(animIndex) (non-const). Null: GetApplicator(null), return 0. The original also calls
-//      CSceneNodeAnimatorSet::getCurrentAnimation on the null pointer (a load of +0x50, result discarded); that load is
-//      not reproduced.
-//   3. timeline = animator->getTimelineCtrl() (vptr+0x44). cur = CSceneNodeAnimatorSet::getCurrentAnimation (+0x50).
-//      applicator = GetApplicator(animator). index = AnimatorSet::SetCurrentAnimation(animator, clip). index == -1: return 0.
-//   4. If the timeline word at +0x34 is nonzero (CTimelineController field, not declared; see the layout requests),
-//      animator->setAnimationClip(unk_0c) (vptr+0x30).
-//   5. If cur == index and !timeline->getLoop() (vptr+0x44): offset = applicator ? applicator->unk_10 : 0;
-//      timeline->jumpTo(offset + timeline->rangeStartMs) (vptr+0x0c).
-//   6. timeline->setLoop(loop) (vptr+0x40); timeline->setScale(1.0f) (vptr+0x48).
-//   7. m_node->NewAnim(unk_10); return 1.
-// Waits on: the +0x34 field, AnimController::GetAnim (partial), AnimatorSet::SetCurrentAnimation (a stub that returns 0,
-// partial), and the GetApplicator body (partial).
-bool AnimSetController::PlayClip(unsigned int /*clip*/, bool /*loop*/, int /*unused*/, unsigned int /*animIndex*/) {
-    return false;
+// Plays animation `clip` of the animation set of the animator: the animator selects it (AnimatorSet::SetCurrentAnimation, -1 when
+// the set has none), a timeline with a clip table gets clip unk_0c, a clip played again without looping jumps to the range start
+// plus the remaining time of the applicator, and the timeline loop and scale are set; the node starts its animation (NewAnim with
+// unk_10). Clip -1 plays nothing. The original reads the current animation of a missing animator through a null pointer; it
+// returns false here.
+bool AnimSetController::PlayClip(unsigned int clip, bool loop, int unused, unsigned int animIndex) {
+    (void)unused;
+    if (clip == static_cast<unsigned int>(-1)) {
+        return false;
+    }
+    glitch::collada::ISceneNodeAnimator* animator = GetAnim(animIndex);
+    if (animator == nullptr) {
+        GetApplicator(nullptr);
+        return false;
+    }
+    glitch::scene::ITimelineController* timeline = animator->getTimelineCtrl();
+    glitch::collada::CSceneNodeAnimatorSet* animatorSet = static_cast<glitch::collada::CSceneNodeAnimatorSet*>(animator);
+    const int currentAnimation = animatorSet->getCurrentAnimation();
+    AnimApplicator* applicator = GetApplicator(animator);
+    const int selected = static_cast<AnimatorSet*>(animator)->SetCurrentAnimation(static_cast<int>(clip));
+    if (selected == -1) {
+        return false;
+    }
+    if (static_cast<glitch::collada::CTimelineController*>(timeline)->clipTable != nullptr) {   // timeline +0x34
+        animator->setAnimationClip(unk_0c);
+    }
+    if (currentAnimation == selected && !timeline->getLoop()) {
+        const std::int32_t base = applicator != nullptr ? applicator->unk_10 : 0;
+        timeline->jumpTo(base + timeline->rangeStartMs);
+    }
+    timeline->setLoop(loop);
+    timeline->setScale(1.0f);
+    m_node->NewAnim(unk_10);
+    return true;
 }
 
 // 0x475114 _ZNK17AnimSetController10GetNumClipEj
-// partial: the original calls AnimController::GetAnim(index) (const overload, 0x474770; partial, null in this tree). For a
-// null animator it returns 0. For a non-null one it returns the result of
-// glitch::collada::CSceneNodeAnimatorSet::getAnimationCount() const (_ZNK6glitch7collada21CSceneNodeAnimatorSet17getAnimationCountEv),
-// which collada_scene_accessors.hpp does not declare yet. Until it does, the non-null case returns 0.
+// The animation count of the animator set of the animator `animIndex`, or 0 without animator.
 int AnimSetController::GetNumClip(unsigned int animIndex) const {
     const glitch::collada::ISceneNodeAnimator* animator = GetAnim(animIndex);
-    if (animator == nullptr) {
-        return 0;
+    if (animator != nullptr) {
+        return static_cast<int>(static_cast<const glitch::collada::CSceneNodeAnimatorSet*>(animator)->getAnimationCount());
     }
-    // TODO(declaration): return reinterpret_cast<const glitch::collada::CSceneNodeAnimatorSet*>(animator)
-    //                        ->getAnimationCount();  (not declared yet)
     return 0;
 }
 
@@ -109,14 +127,12 @@ AnimSetController::~AnimSetController() {}
 
 // 0x4751b4 _ZN17AnimSetControllerC1EP13RootSceneNodei
 // 0x475248 _ZN17AnimSetControllerC2EP13RootSceneNodei
-// partial: the base constructor (AnimController(node, true)), the set id and the two fields (unk_0c = 0, unk_10 = true)
-// are rebuilt, in the original's order. The animator is not attached: the original calls
-// AnimSetManager::GetAnimator(animSetId) on Singleton<AnimSetManager>::s_inst, and that instance has no declaration in the
-// repository (layout request). When an animator comes back, the original calls m_node->addAnimator(animator)
-// (ISceneNode vptr+0x6c) and then drops the animator's glitch::IReferenceCounted base. The controller keeps no
-// reference to the animator. The C2 body is the same code as C1.
+// The animator of the set is taken from the AnimSetManager and added to the node (the creation reference is dropped again).
 AnimSetController::AnimSetController(RootSceneNode* node, int animSetId)
     : AnimController(node, true), m_animSetId(animSetId), unk_0c(0), unk_10(true) {
-    // TODO(singleton): animator = Singleton<AnimSetManager>::s_inst.GetAnimator(m_animSetId);
-    //                  if (animator != nullptr) { m_node->addAnimator(animator); animator's IReferenceCounted::drop(); }
+    glitch::collada::ISceneNodeAnimator* animator = AnimSetManager::s_inst.GetAnimator(animSetId);
+    if (animator != nullptr) {
+        m_node->addAnimator(animator);
+        animator->drop();
+    }
 }

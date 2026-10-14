@@ -117,9 +117,10 @@ SavegameManager::SavegameManager() : m_settings(nullptr), m_lastSlot(-1), unk_0c
 
 SavegameManager::~SavegameManager() = default;
 
-void SavegameManager::setLanguage(int language) {
+int SavegameManager::setLanguage(int language) {
     ++g_setLanguageCalls;
     g_lastSetLanguage = language;
+    return 1;  // the original returns StringManager::switchPack's bool; the stubs report success
 }
 
 int SavegameManager::__loadLanguageAndOrientation(IStreamBase* stream, void* user) {

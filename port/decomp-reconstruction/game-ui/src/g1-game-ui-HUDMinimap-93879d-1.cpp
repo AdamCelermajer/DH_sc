@@ -14,6 +14,15 @@
 #include "gameswf/gameswf.h"            // gameswf::rect (complete type; MenuBase.hpp forward-declares it)
 #include "gameswf/gameswf_character.h"  // gameswf::character and as_object (complete types for the icon casts)
 #include "dh2/Application.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/CameraLevel.hpp"
 #include "dh2/CameraTarget.hpp"
 #include "dh2/Character.hpp"  // Character derives from GameObject, which CameraTarget::SetTarget takes
@@ -89,10 +98,10 @@ HUDMinimap* HUDMinimap::GetInstance() {
 }
 
 // 0x41c9e4 _ZN10HUDMinimap4ShowEv
-// PARTIAL: the head of Show is rebuilt. After MenuBase::Show the original takes v9 = scene manager (device +0x1c)
-// ->m_nodeMapRoot (+0x28c). If v9 is set it runs: v9 vtable +0x48 (false), unk_c4 = 1, SetRoomVisibility(v9),
-// SetEnemies, SetObjects, SetObjectives, SetIconFrames(this), then ResetTranslation (+0x98). None of that tail is
-// written, because the device +0x1c field is not declared (layout request).
+// With the minimap enabled: the display callback is registered, the "RenderMap" clip cached, the player count read, the icons
+// hidden, the map camera created and aimed at the local player, and MenuBase::Show runs. With a scene map root node: it is hidden,
+// the shown flag set, the rooms and the node children updated, the enemy, object and objective lists refreshed, the icon
+// frames built and the camera translation reset.
 void HUDMinimap::Show() {
     if (IsMinimapDisabled()) {
         MenuBase::Show();
@@ -109,13 +118,24 @@ void HUDMinimap::Show() {
         m_mapCam->Update();                                                     // CameraLevel::Update, vtable +0x10
     }
     MenuBase::Show();
-    // PARTIAL: the tail that depends on the scene manager's map node (see the comment above) is missing.
+    glitch::scene::CEmptySceneNode* root = DeviceSceneManager()->m_nodeMapRoot;
+    if (root != nullptr) {
+        root->setVisible(false);  // ISceneNode vtable +0x48
+        unk_c4 = true;
+        SetRoomVisibility(root);  // +0x64
+        SetEnemies();             // +0x50
+        SetObjects();             // +0x54
+        SetObjectives();          // +0x58
+        SetIconFrames(this);      // +0x68
+        ResetTranslation();       // +0x98
+    }
 }
 
 // 0x41c7b0 _ZN10HUDMinimap6UpdateEv
-// PARTIAL: the disabled branch is complete. In the enabled branch the original reads v5 = scene manager (device +0x1c)
-// ->m_nodeMapRoot before EnableMapCamera, calls v5 vtable +0x48 (false) when it is set, and after the camera target
-// calls the scene manager's vtable +0x3c (v5) when it is set. Both calls are missing (device +0x1c is not declared).
+// Disabled: MenuBase::Update and the icons are hidden. Enabled with a loaded level (step 38), a map camera and the shown flag:
+// the player count is read, the icons hidden, the map root node hidden, the map camera enabled, the enemy and objective lists
+// refreshed, the camera aimed at the local player, the scene drawn from the map root, the icons placed over the clip bounds, and
+// the game camera restored.
 void HUDMinimap::Update() {
     if (IsMinimapDisabled()) {
         MenuBase::Update();
@@ -129,7 +149,10 @@ void HUDMinimap::Update() {
     }
     unk_c8 = Singleton<Application>::s_inst.m_playerManager->m_numCharacters;  // +0xc8 from +0x6c4
     HideAllIcons();                                                            // +0x6c
-    // PARTIAL: v5 = scene manager (device +0x1c)->m_nodeMapRoot; if (v5) v5 vtable +0x48 (false) is missing.
+    glitch::scene::CEmptySceneNode* root = DeviceSceneManager()->m_nodeMapRoot;
+    if (root != nullptr) {
+        root->setVisible(false);  // ISceneNode vtable +0x48
+    }
     EnableMapCamera();                                                         // +0x8c
     std::array<float, 4> bounds = GameSWFUtils::GetAbsoluteBoundingRect(m_renderMap.GetChar());
     gameswf::rect viewRect;
@@ -144,19 +167,18 @@ void HUDMinimap::Update() {
         m_mapCam->SetTarget(local->unk_660, 0);
         m_mapCam->Update();  // vtable +0x10
     }
-    // PARTIAL: if (v5) the scene manager's vtable +0x3c (v5) is missing here, see above.
+    if (root != nullptr) {
+        DeviceSceneManager()->drawAll(root);  // CSceneManager vtable +0x3c
+    }
     UpdateIconPositions(this, viewRect);  // +0x74
     EnableGameCamera();                   // +0x94
 }
 
 // 0x41c4a0 _ZN10HUDMinimap9RenderMapERN7gameswf12render_stateEPv
-// The display callback registered as "RenderMap"; the user pointer is the HUDMinimap. PARTIAL: the original does the
-// following in order: (1) when the scene manager's map node v7 is set, v7 vtable +0x48 (true); (2) EnableMapCamera
-// (done here); (3) the clip bounds (computed here, the value only feeds step 4); (4) the active camera's viewport is
-// swapped to the minimap rect in device pixels, with the camera taken from device +0x10 and its pointer array at +0xcc,
-// and the scale comes from RenderFX::GetRoot and GameSWFUtils::GetInvPixelScale; (5) SetRoomVisibility(v7) (not
-// done); (6) SetObjectsVisibility(level) (done here); (7) the viewport and the scene manager flags are restored and
-// then EnableGameCamera (done here) runs. Steps 1, 4, 5 and 7 need the device layout, so they are missing.
+// The display callback registered as "RenderMap"; the user pointer is the HUDMinimap. With the minimap enabled, a loaded level
+// (step 38), a map camera that is shown and not in a zoom animation: the map root node is shown, the map camera enabled, the
+// driver viewport set to the clip bounds in pixels, the room and object visibility refreshed, the scene drawn from the map
+// root (when it has an active camera), the viewport restored, the game camera enabled again and the map root hidden.
 void HUDMinimap::RenderMap(gameswf::render_state& /*render*/, void* menu) {
     HUDMinimap* map = static_cast<HUDMinimap*>(menu);
     if (IsMinimapDisabled()) {
@@ -172,12 +194,42 @@ void HUDMinimap::RenderMap(gameswf::render_state& /*render*/, void* menu) {
     if (!map->unk_c4 || map->m_mapCam->m_zoomAnimActive) {
         return;
     }
+    glitch::scene::CEmptySceneNode* root = DeviceSceneManager()->m_nodeMapRoot;
+    if (root != nullptr) {
+        root->setVisible(true);  // ISceneNode vtable +0x48
+    }
     map->EnableMapCamera();                                                  // +0x8c
     gameswf::character* clip = map->m_renderMap.GetChar();                  // DebugCachedCharacter::GetChar (asserts when unset)
-    GameSWFUtils::GetAbsoluteBoundingRect(clip);                            // feeds the viewport step, which is missing
-    // PARTIAL: steps (1), (4), (5) and the restore in (7) are missing (device +0x10 and +0x1c, see above).
-    map->SetObjectsVisibility(level);                                       // +0x60
-    map->EnableGameCamera();                                                // +0x94
+    const std::array<float, 4> bounds = GameSWFUtils::GetAbsoluteBoundingRect(clip);
+    glitch::video::IRenderTarget* target = Singleton<Application>::s_inst.m_device->videoDriver->m_renderTargets.back().get();
+    const glitch::core::rect<int> savedViewport = target->viewport();
+    gameswf::root* swfRoot = map->m_menu->GetRoot();
+    const float invX = GameSWFUtils::GetInvPixelScaleX(swfRoot);
+    const float invY = GameSWFUtils::GetInvPixelScaleY(swfRoot);
+    glitch::core::rect<int> viewport;
+    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invX);
+    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invY);
+    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invX);
+    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invY);
+    target->setViewport(viewport);
+    DeviceSceneManager()->cullingEnabled = false;  // +0x250
+    map->SetRoomVisibility(root);                  // +0x64
+    map->SetObjectsVisibility(level);              // +0x60
+    if (root != nullptr) {
+        SceneManager* scene = DeviceSceneManager();
+        if (scene->activeCamera != nullptr) {
+            scene->drawAll(root);
+            scene = DeviceSceneManager();
+        }
+        scene->cullingEnabled = true;
+        target->setViewport(savedViewport);
+        map->EnableGameCamera();  // +0x94
+        root->setVisible(false);
+    } else {
+        DeviceSceneManager()->cullingEnabled = true;
+        target->setViewport(savedViewport);
+        map->EnableGameCamera();  // +0x94
+    }
 }
 
 // 0x41cff4 _ZN10HUDMinimap13SetIconFramesEPS_
@@ -218,18 +270,21 @@ void HUDMinimap::SetIconFrames(HUDMinimap* menu) {
 }
 
 // 0x41d384 _ZN10HUDMinimap17SetRoomVisibilityEPN6glitch5scene10ISceneNodeE
-// PARTIAL: only the first step is rebuilt, the clear of the visited-room list (+0xe4), which the original runs when the
-// node is set. Missing: (1) the walk over the room list at ObjectManager +0x24 (dword_99F764 + 36). Each room is pushed
-// onto m_visitedRooms when RoomZone::HasBeenVisited() is true, or when the "isUsingMapHack" switch is on. The walk is not
-// written: ObjectManager::unk_24 is declared std::list<std::int32_t>, but the original reads each node's data word (+0x08)
-// as a RoomZone* (layout request). (2) The loop over node->getChildren() that sets each child's visibility to
-// IsInsideVisitedRooms(child->getAbsolutePosition()) through setVisible (ISceneNode vtable K 0x48). The glitch ISceneNode
-// declares all of these, but the loop is left out because it reads the list that (1) builds. With (1) missing it would
-// hide every child.
+// With a node: the visited-room list is rebuilt from the room zones (ObjectManager +0x24): a room that has been visited, or any
+// room under the "isUsingMapHack" switch. Each child of the node is then shown exactly when its absolute position lies in a
+// visited room.
 void HUDMinimap::SetRoomVisibility(glitch::scene::ISceneNode* node) {
     if (!node) {
         return;
     }
     m_visitedRooms.clear();  // +0xe4 list: the original frees every node and resets the sentinel
-    // PARTIAL: the room walk (1) and the child visibility loop (2) are missing, see above.
+    for (RoomZone* room : dword_99F764->unk_24) {  // ObjectManager +0x24
+        if (room->HasBeenVisited() || DebugSwitches::GetInstance()->GetSwitch("isUsingMapHack")) {
+            m_visitedRooms.push_back(room);
+        }
+    }
+    for (glitch::scene::ISceneNode* child : node->getChildren()) {
+        const glitch::core::vector3d<float> position = child->getAbsolutePosition();
+        child->setVisible(IsInsideVisitedRooms(Point3D<float>{position.X, position.Y, position.Z}));  // vtable +0x48
+    }
 }

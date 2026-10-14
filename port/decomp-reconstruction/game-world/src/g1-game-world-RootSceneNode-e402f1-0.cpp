@@ -8,12 +8,26 @@
 
 #include <cstdint>
 
+#include <cstring>
+
 #include "dh2/AnimApplicator.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/aabb.hpp"
+#include "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/RootSceneNode.hpp"
 #include "dh2/global/GetApplicator.hpp"
 #include "dh2/global/scene_nodes.hpp"
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"  // the displacement node is dropped by the destructor
+
+// The camera that UpdateEnlargedViewFrustum fills (static initializer 0x35d9c0: id -1, position (0, 0, 0), target (0, 0, 100), not
+// orthogonal) and the factor on its field of view (.data 0x999748).
+glitch::scene::CCameraSceneNode RootSceneNode::s_enlargedCamera(-1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                                                glitch::core::vector3d<float>{0.0f, 0.0f, 100.0f}, false);
+float RootSceneNode::s_frustumScale = 1.2f;
 
 // Debug counters, bumped by updateAbsolutePosition and onAnimate and cleared by ResetDebugCounters.
 std::uint32_t RootSceneNode::s_dbgNumUpdateAbsolutePosition = 0;
@@ -72,22 +86,42 @@ void RootSceneNode::updateAbsolutePosition(bool recurse) {
 }
 
 // 0x35c51c _ZN13RootSceneNode25UpdateEnlargedViewFrustumEPN6glitch5scene13CSceneManagerE
-// partial: the view is copied from the level camera (the pointer at this+0xe4, ICameraSceneNode*) into s_enlargedCamera.
-// +0xe4 lies inside ISceneNode's transformedBoundingBox (+0xd4 .. +0xec) in the canonical layout, so it is not the camera
-// slot the original reads; that camera member is still to be located. s_enlargedCamera and s_frustumScale have no
-// definition in the tree. The body returns without copying.
+// Static (the manager is in r0). When the manager has an active camera, s_enlargedCamera takes its absolute position, target and
+// up vector; near, far and aspect when they differ; the field of view of the camera times s_frustumScale when it differs; the
+// matrices are then recalculated.
 void RootSceneNode::UpdateEnlargedViewFrustum(glitch::scene::CSceneManager* manager) {
-    (void)manager;
+    glitch::scene::ICameraSceneNode* camera = manager->activeCamera;   // +0xe4
+    if (camera == nullptr) {
+        return;
+    }
+    s_enlargedCamera.setPosition(camera->getAbsolutePosition());
+    s_enlargedCamera.updateAbsolutePosition(false);
+    s_enlargedCamera.setTarget(camera->getTarget());
+    const glitch::core::vector3d<float>& up = s_enlargedCamera.getUpVector();
+    const glitch::core::vector3d<float>& cameraUp = camera->getUpVector();
+    if (up.X != cameraUp.X || up.Y != cameraUp.Y || up.Z != cameraUp.Z) {
+        s_enlargedCamera.setUpVector(camera->getUpVector());
+    }
+    if (s_enlargedCamera.getNearValue() != camera->getNearValue()) {
+        s_enlargedCamera.setNearValue(camera->getNearValue());
+    }
+    if (s_enlargedCamera.getFarValue() != camera->getFarValue()) {
+        s_enlargedCamera.setFarValue(camera->getFarValue());
+    }
+    if (s_enlargedCamera.getAspectRatio() != camera->getAspectRatio()) {
+        s_enlargedCamera.setAspectRatio(camera->getAspectRatio());
+    }
+    if (s_enlargedCamera.getFOV() != camera->getFOV() * s_frustumScale) {
+        s_enlargedCamera.setFOV(camera->getFOV() * s_frustumScale);
+    }
+    s_enlargedCamera.recalculateMatrices();
 }
 
 // 0x35c784 _ZNK13RootSceneNode17IsVisibleFastTestEv
-// partial: the switch read is complete. The culling test is not: when the switch is clear and m_cullBeforeUpdate is set,
-// the original calls ObjectBase::TestCullingBeforeUpdate on m_object with the box at ObjectBase +0x12c, and that box is not
-// declared in dh2/ObjectBase.hpp (layout request). Until then this body returns true for an object with the gate set
-// and false when the gate is set and there is no object.
+// False when the switch Optim_DisableUpdateTimeOnlyForCulledNode is on. Otherwise true when the cull gate is off, or when the game
+// object exists and its world box (+0x12c) passes the culling test before update.
 bool RootSceneNode::IsVisibleFastTest() const {
-    DebugSwitches::s_inst.load();
-    if (DebugSwitches::s_inst.GetSwitch("Optim_DisableUpdateTimeOnlyForCulledNode")) {
+    if (DebugSwitches::GetInstance()->GetSwitch("Optim_DisableUpdateTimeOnlyForCulledNode")) {
         return false;
     }
     if (!m_cullBeforeUpdate) {
@@ -96,14 +130,21 @@ bool RootSceneNode::IsVisibleFastTest() const {
     if (m_object == nullptr) {
         return false;
     }
-    return true;  // the TestCullingBeforeUpdate result is missing (see above)
+    GameObject* object = static_cast<GameObject*>(m_object);
+    return !object->TestCullingBeforeUpdate(*reinterpret_cast<const aabb<float>*>(object->m_absAabb));
 }
 
 // 0x35c854 _ZN13RootSceneNode18RefreshBoundingBoxEv
-// partial: the original calls glitch::collada::CSceneNode::computeBoundingBox, then subtracts the node's position (getPosition,
-// vptr+0xa0) twice from six box words at +0x130 .. +0x144. The base layout puts the transformed box at ISceneNode +0xd4, so
-// the +0x130 .. +0x144 words are not yet mapped to a member. The body is empty.
+// computeBoundingBox, then the node position (getPosition, vptr+0xa0) is subtracted from both corners of the box at +0x130.
 void RootSceneNode::RefreshBoundingBox() {
+    computeBoundingBox();
+    glitch::core::aabbox3d<float>& box = boundingBox;   // +0x130
+    box.MinEdge.X = box.MinEdge.X - getPosition().X;
+    box.MinEdge.Y = box.MinEdge.Y - getPosition().Y;
+    box.MinEdge.Z = box.MinEdge.Z - getPosition().Z;
+    box.MaxEdge.X = box.MaxEdge.X - getPosition().X;
+    box.MaxEdge.Y = box.MaxEdge.Y - getPosition().Y;
+    box.MaxEdge.Z = box.MaxEdge.Z - getPosition().Z;
 }
 
 // 0x35cc0c _ZN13RootSceneNode21ResetPositionFromFileEv
@@ -150,9 +191,7 @@ glitch::scene::ISceneNode* RootSceneNode::GetAnimRoot(bool alternate) {
 }
 
 // 0x35cd5c _ZN13RootSceneNode10_CalcDeltaERN6glitch4core8vector3dIfEE
-// partial: zeroes the delta, then adds the delta of each animator's applicator (m_delta, +0x24 .. +0x2c). A null
-// applicator is skipped here. The original's assert path for that case (print at assert level 1, store to address 0 at
-// level 2, RootSceneNode.cpp line 244) is not written.
+// Zeroes the delta, then adds the delta of each animator applicator. A null applicator trips the assert (RootSceneNode.cpp:244).
 void RootSceneNode::_CalcDelta(glitch::core::vector3d<float>& delta) {
     delta.X = 0.0f;  // +0x00
     delta.Y = 0.0f;  // +0x04
@@ -160,7 +199,8 @@ void RootSceneNode::_CalcDelta(glitch::core::vector3d<float>& delta) {
     for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
         AnimApplicator* applicator = GetApplicator(*it);
         if (applicator == nullptr) {
-            continue;  // assert path not written (see above)
+            // ASSERT(aa) FAILED: RootSceneNode.cpp:244 (printed at assert level 1)
+            continue;
         }
         delta.X += applicator->m_delta.X;
         delta.Y += applicator->m_delta.Y;
@@ -169,48 +209,158 @@ void RootSceneNode::_CalcDelta(glitch::core::vector3d<float>& delta) {
 }
 
 // 0x35ce6c _ZN13RootSceneNode11_ResetDeltaEj
-// partial: for each animator, ResetDelta(time) (AnimApplicator vptr+0x0c) on its applicator. A null applicator is skipped
-// here; the original's assert path (RootSceneNode.cpp line 222 at level 1) is not written.
+// For each animator, ResetDelta(time) (AnimApplicator vptr+0x0c) on its applicator. A null applicator trips the assert
+// (RootSceneNode.cpp:222, printed at assert level 1).
 void RootSceneNode::_ResetDelta(std::uint32_t time) {
     for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
         AnimApplicator* applicator = GetApplicator(*it);
         if (applicator == nullptr) {
-            continue;  // assert path not written (see above)
+            // ASSERT(aa) FAILED: RootSceneNode.cpp:222
+            continue;
         }
         applicator->ResetDelta(time);
     }
 }
 
 // 0x35cf48 _ZN13RootSceneNode19_HandleDisplacementEj
-// partial: the original reads the animation root's position (m_animRoot, vptr+0xa0), takes the delta from _CalcDelta,
-// scales it by this node's scale (ISceneNode +0xc8) and rotates it by this node's rotation (+0xb8). It then moves this
-// node (vptr+0xa4 on this). With a displacement node it moves that node by the negated delta, and without one it moves the
-// animation root and its alternate. The return value is the original's "the node moved" test on the rotated delta.
-// The body returns false.
+// The animation root position is read, the applicators delta is scaled by this node scale (x, y; z is zeroed) and rotated by its
+// rotation, and this node moves by it (setPosition, vptr+0xa4). With a displacement node that node is set to the negated old root
+// position (and updated); otherwise the animation root goes to (0, 0, z) and the alternate root moves by the old offset.
+// Returns whether the rotated delta is non-zero.
 bool RootSceneNode::_HandleDisplacement(std::uint32_t time) {
     (void)time;
-    return false;
+    const glitch::core::vector3d<float> rootPosition = m_animRoot->getPosition();   // vptr+0xa0
+    glitch::core::vector3d<float> delta = {0.0f, 0.0f, 0.0f};
+    _CalcDelta(delta);
+    delta.X = delta.X * scale.X;      // +0xc8
+    delta.Y = delta.Y * scale.Y;
+    delta.Z = 0.0f;
+    delta = rotation * delta;         // +0xb8
+    const glitch::core::vector3d<float> position = getPosition();
+    setPosition(glitch::core::vector3d<float>{position.X + delta.X, position.Y + delta.Y, position.Z + delta.Z});
+    if (m_displacementNode != nullptr) {
+        m_displacementNode->setPosition(glitch::core::vector3d<float>{-rootPosition.X, -rootPosition.Y, -rootPosition.Z});
+        m_displacementNode->updateAbsolutePosition(false);
+    } else {
+        m_animRoot->setPosition(glitch::core::vector3d<float>{0.0f, 0.0f, rootPosition.Z});
+        if (m_animRootAlt != nullptr) {
+            const glitch::core::vector3d<float> altPosition = m_animRootAlt->getPosition();
+            m_animRootAlt->setPosition(glitch::core::vector3d<float>{altPosition.X - rootPosition.X, altPosition.Y - rootPosition.Y,
+                                                                       altPosition.Z - rootPosition.Z});
+        }
+    }
+    return delta.X != 0.0f || delta.Y != 0.0f || delta.Z != 0.0f;
 }
 
 // 0x35d168 _ZN13RootSceneNode9onAnimateEj
-// partial: the visibility step, the cull step (IsVisibleFastTest and SViewFrustum::intersects against s_enlargedCamera),
-// the animator and child loops, the displacement path and the pending update are not written (see the ledger). The one
-// part written is the last time, which the original stores on every path.
+// A pending visible request is applied first (the scene manager is told). Nodes that are not animated (flags 0x200 clear, or
+// visible-only animation while hidden) only record the time. With a game object the world box (grown by the node box when the
+// object has no x and y extent) is tested against s_enlargedCamera frustum unless the object is just made visible or a cut scene
+// runs. A culled node runs only onUpdateTime and the displacement (once, when it was animated last frame); a visible node runs
+// every animator, the displacement, the absolute position update (unless the object has a net owner) and the children.
 void RootSceneNode::onAnimate(std::uint32_t time) {
+    bool justMadeVisible = false;
+    if (m_visibleRequested) {
+        if ((flags & glitch::scene::ESNF_VISIBLE) == 0) {
+            glitch::scene::ISceneNode::setVisible(true);
+            sceneManager->notifyVisibilityChanged();    // +0x110
+            m_visibleRequested = false;
+            justMadeVisible = true;
+        }
+    }
+    if (((flags & glitch::scene::ESNF_ANIMATE_ONLY_VISIBLE) != 0 && (flags & glitch::scene::ESNF_VISIBLE) == 0) ||
+        (flags & glitch::scene::ESNF_ANIMATE) == 0) {
+        m_lastAnimTime = time;
+        return;
+    }
+    bool culled = false;
+    if (m_object != nullptr && !justMadeVisible && !ScriptManager::s_inst.m_inCutScene) {
+        GameObject* object = static_cast<GameObject*>(m_object);
+        glitch::core::aabbox3d<float> box;
+        std::memcpy(&box, object->m_absAabb, sizeof(box));
+        if (object->m_zeroSizeAabb) {
+            box.addInternalBox(getBoundingBox());
+        }
+        if (!s_enlargedCamera.getViewFrustum()->intersects(box) && (flags & glitch::scene::ESNF_ANIMATE_ONLY_VISIBLE) != 0) {
+            culled = true;
+        }
+    }
+    if (culled && !unk_20a) {
+        onUpdateTime(time);
+        bool refresh = false;
+        if (m_displacementEnabled) {
+            for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+                GetApplicator(*it)->AnimateNode(time);
+            }
+            refresh = _HandleDisplacement(time);
+            flags &= ~glitch::scene::ESNF_ABSOLUTE_CHANGED;
+        }
+        if (refresh || unk_208) {
+            updateAbsolutePosition(true);
+            unk_208 = false;
+        }
+        ++s_dbgUpdateTimeNodeCount;
+        unk_20a = false;
+        m_lastAnimTime = time;
+        return;
+    }
+    ++s_dbgAnimatedNodeCount;
+    (void)DebugSwitches::GetInstance()->GetSwitch("isTracingGlitchOnAnimate");
+    for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+        (*it)->animateNode(this, time);
+    }
+    if (m_displacementEnabled) {
+        _HandleDisplacement(time);
+    }
+    if (m_object == nullptr || static_cast<GameObject*>(m_object)->m_netOwnerId == -1) {
+        updateAbsolutePosition(false);
+    }
+    for (auto it = getChildren().begin(); it != getChildren().end(); ++it) {
+        (*it)->onAnimate(time);
+    }
+    unk_20a = !culled;
+    flags &= ~glitch::scene::ESNF_ABSOLUTE_CHANGED;
     m_lastAnimTime = time;
 }
 
 // 0x35d4cc _ZN13RootSceneNode19_EnableDisplacementEb
-// partial: the early path is written. When the request is off, or when an animation root is already set, the original
-// stores the flag at +0x1ec and returns. The creation path is not written: GetAnimRoot(false) and GetAnimRoot(true)
-// (each takes a reference), a CEmptySceneNode with id -1 as the displacement node at +0x1f8, the children moved under it,
-// the node added to this one, and SetRefNode (AnimApplicator vptr+0x08) on each applicator.
+// Off, or an animation root already set: only the flag is stored. Otherwise the
+// two animation roots are found (the alternate one is dropped when it equals the first), a displacement node (CEmptySceneNode, id
+// -1) takes all the children of this node and is added to it, and every applicator gets the animation root as reference node; a
+// missing applicator turns the displacement off again.
 void RootSceneNode::_EnableDisplacement(bool enable) {
     if (!enable || m_animRoot != nullptr) {
         m_displacementEnabled = enable;
         return;
     }
-    // creation path missing (see above)
+    m_animRoot = GetAnimRoot(false);
+    m_animRootAlt = GetAnimRoot(true);
+    if (m_animRoot != nullptr) {
+        if (m_animRootAlt == m_animRoot) {
+            m_animRootAlt = nullptr;
+        } else if (m_animRootAlt != nullptr) {
+            ++m_animRootAlt->referenceCounter;
+        }
+        ++m_animRoot->referenceCounter;
+        m_displacementNode = new glitch::scene::CEmptySceneNode(-1);
+        for (auto it = getChildren().begin(); it != getChildren().end();) {
+            glitch::scene::ISceneNode* child = *it;
+            ++it;
+            m_displacementNode->addChild(child);
+        }
+        addChild(m_displacementNode);
+        for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+            AnimApplicator* applicator = GetApplicator(*it);
+            if (applicator == nullptr) {
+                m_displacementEnabled = false;
+                return;
+            }
+            applicator->SetRefNode(m_animRoot);
+        }
+        m_displacementEnabled = enable;
+    } else {
+        m_animRootAlt = nullptr;
+    }
 }
 
 // 0x35d624 _ZN13RootSceneNode7NewAnimEb

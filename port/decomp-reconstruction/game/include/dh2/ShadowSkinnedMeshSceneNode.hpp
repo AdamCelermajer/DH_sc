@@ -7,13 +7,6 @@
 // Reconstructed from libDungeonHunter2.so pseudocode (ctors 0x361b54 / 0x361f24, dtors 0x360b7c / 0x360c60 /
 // 0x360c7c, methods 0x35dc98, 0x35dcb4, 0x35f780, 0x35ffb8, 0x3607a0, 0x360948).
 //
-// Does not compile yet: BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode> needs that class complete, and the
-// tree has no complete declaration of it (only a no-base stand-in in recon/slice_22.hpp, under another namespace).
-// The override keywords below are checked once the base exists; glitch::scene::ISceneNode (scene/ISceneNode.hpp)
-// already has the virtuals they name, and its slots 0..15 match the binary's vtable.
-//
-// Slot numbers in the comments below are decomp_vtable.py offsets (from the start of the vtable symbol). The vptr
-// stored in an object points at +0x0c, so the code's "vptr + N" is decomp_vtable offset N + 0x0c.
 #pragma once
 
 #include <cstdint>
@@ -24,19 +17,10 @@
 
 #include "dh2/BaseMeshSceneNode.hpp"
 
-namespace glitch {
-namespace collada {
-class CSkinnedMeshSceneNode;
-class IMesh;
-}  // namespace collada
-namespace scene {
-class ISceneNode;
-}  // namespace scene
-namespace video {
-class CMaterial;
-class CMaterialVertexAttributeMap;
-}  // namespace video
-}  // namespace glitch
+#include "glitch-scene-collada-gui/collada/CMeshSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_vertex_attribute_map.hpp"
 
 class ShadowSkinnedMeshSceneNode : public BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode> {
 public:
@@ -60,5 +44,5 @@ public:
     boost::intrusive_ptr<glitch::video::CMaterial> m_shadowMaterial;                      // +0x198 material "SH_SHADOW_SKINNED", created by the ctor, flag byte +8 cleared
     boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap> unk_19c;             // +0x19c vertex map allocated from m_shadowMaterial + 4
     const glitch::scene::ISceneNode* unk_1a0;                                             // +0x1a0 ctor argument: the node this shadow follows
-    uint8_t pad_1a4[8];                                                                   // +0x1a4 virtual base IReferenceCounted: vptr at +0x1a4, refcount at +0x1a8 (1 from the complete ctor)
+                                                                       // +0x1a4 virtual base IReferenceCounted: vptr at +0x1a4, refcount at +0x1a8 (1 from the complete ctor)
 };

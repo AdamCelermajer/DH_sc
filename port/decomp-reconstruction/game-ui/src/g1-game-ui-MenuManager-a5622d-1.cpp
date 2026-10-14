@@ -25,6 +25,24 @@
 #include "dh2/MultiMenuManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
+#include "dh2/GameSWFUtils.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/TouchScreenBase.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/c2d_driver.hpp"
+
+#include <array>
+#include <cstring>
+#include <vector>
+
+void fillLeaderBoard();  // 0x441dcc
 
 // The profiling markers are declared in dh2/global/runtime_support.hpp (0x3136b4, 0x3136b8). The same
 // two prototypes are repeated here because that header pulls in core-platform's glitch_core stand-in,
@@ -173,13 +191,10 @@ void MenuManager::Reset() {
 
 // 0x42dbb4 _ZN11MenuManagerD1Ev
 // 0x42dd38 _ZN11MenuManagerD2Ev (second emitted copy of the same body; one definition covers both)
-// PARTIAL. Rebuilt: the three EventManager detaches (events 5, 4, 7) on dword_99F740, the delete of m_multiMenuManager,
-// the deletion of the menus flagged m_deleteOnUnload, the clear of m_menus, and CharProperties::UnLoadPropNames(). The
-// members are destroyed after this body in the original's order (m_menuFXDeque, m_listeners, m_menus storage, then
-// DebugCachedCharacter), which the C++ member destruction order gives too.
-// Omitted: RenderFX::Finalize, which the original runs before UnLoadPropNames. The original passes the leftover r0 as this
-// and a gameswf::player_context* as r1 (the body of 0x7a97ac uses that argument), and dh2/RenderFX.hpp declares Finalize()
-// as a non-static member with no parameters. The call is not written until that declaration is settled.
+// The three EventManager detaches (events 5, 4, 7), the delete of m_multiMenuManager, the deletion of the menus flagged
+// m_deleteOnUnload, the clear of m_menus, RenderFX::Finalize() and CharProperties::UnLoadPropNames(). The members are destroyed
+// after this body in the original's order (m_menuFXDeque, m_listeners, m_menus storage, then DebugCachedCharacter), which the C++
+// member destruction order gives too.
 MenuManager::~MenuManager() {
     if (dword_99F740 != nullptr) {
         dword_99F740->Detach(5, this);
@@ -193,7 +208,7 @@ MenuManager::~MenuManager() {
         }
     }
     m_menus.clear();
-    // PARTIAL: RenderFX::Finalize(...) omitted, see above.
+    RenderFX::Finalize();
     CharProperties::UnLoadPropNames();
 }
 
@@ -231,19 +246,18 @@ void MenuManager::UnRegisterListener(MenuBase* menu) {
 }
 
 // 0x42e208 _ZN11MenuManager7PopMenuEP8MenuBase
-// PARTIAL: when the menu has a MenuFX (+0x04) and the MultiMenuManager reports its state in a movie stack (vtable +0x40,
-// IsStateInStack; the original passes the menu in r1, which is still the argument on entry), the original calls
-// Application::ResetTouch() on the Application singleton, TouchScreenBase::ProcessEvents() on m_touchScreen (+0x20), and
-// MultiMenuManager vtable +0x38 with false (PopMenu(false)). dh2/TouchScreenBase.hpp is absent, so the ProcessEvents call is
-// omitted and the rest of the touch step is written. The compare with the HUD root and the UnRegisterListener call are as
-// in the original. A null menu is undefined in the original (it reads address 4). This port returns without action.
+// When the menu has a MenuFX (+0x04) and the MultiMenuManager reports its state in a movie stack (vtable +0x40, IsStateInStack;
+// the original passes the menu in r1, which is still the argument on entry), the touch state is reset (Application::ResetTouch,
+// TouchScreenBase::ProcessEvents on m_touchScreen) and the MultiMenuManager pops (vtable +0x38 with false). If the menu movie is
+// the HUD root the menu is unregistered as a listener. A null menu is undefined in the original (it reads address 4); this port
+// returns without action.
 void MenuManager::PopMenu(MenuBase* menu) {
     if (menu == nullptr) {
         return;
     }
     if (menu->m_menu != nullptr && m_multiMenuManager->IsStateInStack(menu)) {
         ApplicationGetInstance().ResetTouch();
-        // PARTIAL: TouchScreenBase::ProcessEvents(m_touchScreen) omitted, see above.
+        ApplicationGetInstance().m_touchScreen->ProcessEvents();
         m_multiMenuManager->PopMenu(false);
     }
     if (menu->m_menu == GetHUDRoot()) {
@@ -259,16 +273,56 @@ void MenuManager::PopMenu(const char* name) {
 }
 
 // 0x42e2d4 _ZNK11MenuManager8DBG_DrawEv
-// PARTIAL: the dead-zone overlay and both switch reads are rebuilt. Omitted: the bounding-box overlay
-// (isDisplayingMenuBoundingBoxes). It draws each visible menu's character bounds through the glitch video
-// driver (dword_99F73C + 0x10: material lookup, setMaterial and the 2D line calls) and walks
-// RenderFX::FindCharacters and RenderFX::GetAlpha. None of these are declared, so that block is not made.
+// The dead-zone overlay (switch isDisplayingDeadZones) and the bounding box overlay (isDisplayingMenuBoundingBoxes): with the
+// plain material of the video driver set, every visible edit text (class id 32) that is visible and not fully transparent below
+// the current context of each visible menu gets its absolute bounding rectangle drawn as four 2D lines (colour 0x3200ffff).
 void MenuManager::DBG_Draw() const {
     if (ReadDebugSwitch("isDisplayingDeadZones")) {
         DBG_Draw2DDeadZones();
     }
     if (ReadDebugSwitch("isDisplayingMenuBoundingBoxes")) {
-        // Bounding-box overlay omitted, see above.
+        glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+        glitch::video::CMaterialRendererManager* materials = driver->m_materialRendererManager;
+        const uint16_t renderer = materials->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+        boost::intrusive_ptr<glitch::video::CMaterial> material = materials->getMaterialInstance(renderer, true);
+        const uint8_t technique = material ? static_cast<uint8_t>(material->getTechnique()) : 255;
+        driver->setMaterial(material, technique, nullptr);
+        const int numMenus = GetNumMenus();
+        for (int i = 0; i < numMenus; ++i) {
+            MenuBase* menu = m_menus[i];
+            if (!menu->IsVisible()) {
+                continue;
+            }
+            gameswf::character* context = menu->GetCurrentMenuContext();
+            if (context == nullptr) {
+                continue;
+            }
+            RenderFX* movie = menu->m_menu;
+            RenderFX::CharacterArray* found = movie->FindCharacters(context, "", 4);
+            std::vector<gameswf::character*> characters(found->data, found->data + found->count);
+            for (gameswf::character* character : characters) {
+                if (!character->is(32)) {
+                    continue;
+                }
+                const int alphaBits = movie->GetAlpha(character);
+                float alpha;
+                std::memcpy(&alpha, &alphaBits, sizeof(alpha));
+                if (!character->get_visible() || alpha == 0.0f) {
+                    continue;
+                }
+                const std::array<float, 4> box = GameSWFUtils::GetAbsoluteBoundingRect(character);
+                const glitch::core::position2d<int32_t> topLeft = {static_cast<int>(box[0]), static_cast<int>(box[2])};
+                const glitch::core::position2d<int32_t> topRight = {static_cast<int>(box[1]), static_cast<int>(box[2])};
+                const glitch::core::position2d<int32_t> bottomRight = {static_cast<int>(box[1]), static_cast<int>(box[3])};
+                const glitch::core::position2d<int32_t> bottomLeft = {static_cast<int>(box[0]), static_cast<int>(box[3])};
+                glitch::video::SColor color;
+                color.color = 0x3200ffffu;
+                driver->draw2DLine(topLeft, topRight, color);
+                driver->draw2DLine(topRight, bottomRight, color);
+                driver->draw2DLine(bottomRight, bottomLeft, color);
+                driver->draw2DLine(bottomLeft, topLeft, color);
+            }
+        }
     }
 }
 
@@ -282,13 +336,11 @@ void MenuManager::OnFSCommand(const char* command, const char* args) {
 }
 
 // 0x42e818 _ZN11MenuManager4DrawEb
-// PARTIAL: the two switch checks are rebuilt. When IsDeactivatingFlashMenus or
-// IsDeactivatingFlashMenusRender is set, the original returns without drawing, and so does this. Omitted:
-// the drawing itself. It needs the video-state snapshot (driver words [30], [31], [32] of dword_99F73C + 0x10
-// into unk_08, unk_0c and unk_10 before the draw, and the same words into unk_14, unk_18 and unk_1c after),
-// and the driver layout is not declared. It also walks m_multiMenuManager->m_menuFX[0..3] and m_cameras,
-// the HUD root, and the FlashAnimManager and HUD draw calls, and dh2/MultiMenuManager.hpp is absent.
-// The argument is never read by the original.
+// Unless a switch deactivates the menus (IsDeactivatingFlashMenus, IsDeactivatingFlashMenusRender), the movies are drawn from the
+// HUD (index 3) down to index 0. The HUD movie only draws while the root movie (index 2) has no state; it then also draws the
+// info HUD, the HUD controls and the flash animations first. Each movie updates its camera and renders when it has a current state
+// (the HUD always). The three per-frame counters of the video driver are noted before (+0x08, +0x0c, +0x10) and after
+// (+0x14, +0x18, +0x1c). The argument is never read by the original.
 void MenuManager::Draw(bool /*hudOnly*/) {
     if (ReadDebugSwitch("IsDeactivatingFlashMenus")) {
         return;
@@ -296,26 +348,48 @@ void MenuManager::Draw(bool /*hudOnly*/) {
     if (ReadDebugSwitch("IsDeactivatingFlashMenusRender")) {
         return;
     }
-    // Drawing omitted, see above.
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    unk_08 = driver->m_frameDrawCalls;       // driver word [31]
+    unk_0c = driver->m_frameDrawCalls2D;     // driver word [32]
+    unk_10 = driver->m_framePrimitives;      // driver word [30]
+    for (int index = 3; index >= 0; --index) {
+        MenuFX* movie = m_multiMenuManager->m_menuFX[index];
+        if (movie == nullptr) {
+            continue;
+        }
+        if (index == 3) {
+            MenuFX* root = m_multiMenuManager->m_menuFX[2];
+            if (root != nullptr && root->m_stack.m_size != 0) {
+                continue;
+            }
+            InfoHUDManager::GetInstance()->Draw();
+            HUDControls::GetInstance()->Draw();
+            FlashAnimManager::GetInstance()->Draw();
+        }
+        MenuFlash2DCamera* camera = m_multiMenuManager->m_cameras[index];
+        if (camera != nullptr) {
+            camera->Update();
+        }
+        if (movie->GetCurrentState() != nullptr || index == 3) {
+            movie->Render();
+        }
+    }
+    unk_14 = driver->m_frameDrawCalls;
+    unk_18 = driver->m_frameDrawCalls2D;
+    unk_1c = driver->m_framePrimitives;
 }
 
 // 0x42ea04 _ZN11MenuManager6UpdateEb
-// PARTIAL. Rebuilt: the profiling scopes, the MenuDebugHUD update in a level, the frame time (Application::GetDt), the
-// IsDeactivatingFlashMenus and IsDeactivatingFlashMenusUpdate early returns, the listener reset (m_resetListeners clears
-// m_listeners), the Update of the MultiMenuManager movies (MenuFX::Update(dt, false); from index 3 when hudOnly, and the loop
-// stops at the HUD movie when the level is not in game view), the InfoHUDManager and HUDControls updates in game view, the
-// FlashAnimManager update, and the Update() of every visible menu. The isDisplayingMenuWireframe switch is still read.
-// Omitted, with the reason:
-//  - if (leader) fillLeaderBoard(): leader is declared (dh2/global/Globals.hpp) but fillLeaderBoard() (_Z15fillLeaderBoardv)
-//    has no declaration in the tree.
-//  - the InteractionType block: the Character at PlayerInfo +0x660 (PlayerManager::GetLocalPlayer(0, true)) maps its
-//    m_ooiInteractionType (+0x14a8) through the CSWTCH_6518 table (not recovered in the tree) into m_actionIconType (+0x108),
-//    and then calls FillActionIcon through RenderFX::InvokeASCallback. The table and the gameswf::as_value argument layout
-//    of that call are not confirmed, so the block is not written. Its profiling scope is kept.
-//  - the two RenderFX::SetWireFrame calls (false first, then true when the switch is set): RenderFX::SetWireFrame (0x7a7c34)
-//    takes its flag in r0 and uses no object, but dh2/RenderFX.hpp declares it as a non-static member, so it is not called.
+// The leader board refresh, the profiling scopes, the MenuDebugHUD update in a level, the action icon of the local player (the
+// interaction type of the player character is mapped through a table into m_actionIconType and sent to the HUD root as
+// FillActionIcon), the wire frame switch, the frame time, the IsDeactivatingFlashMenus and IsDeactivatingFlashMenusUpdate early
+// returns, the listener reset, the Update of the movies (from index 3 when hudOnly; the loop stops at the HUD movie when the
+// level is not in game view), the InfoHUDManager and HUDControls updates in game view, the FlashAnimManager update, and the
+// Update() of every visible menu.
 void MenuManager::Update(bool hudOnly) {
-    // if (leader) fillLeaderBoard(); omitted, see above.
+    if (leader) {
+        fillLeaderBoard();
+    }
     PushProfilingContext("MenuManager::Update");
     if (ApplicationGetInstance().GetCurrentLevel() != nullptr) {
         PushProfilingContext("MenuDebug::Update");
@@ -324,11 +398,25 @@ void MenuManager::Update(bool hudOnly) {
     }
 
     PushProfilingContext("MenuManager::InteractionType");
-    // InteractionType block omitted, see above.
+    Character* player = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;   // PlayerInfo +0x660
+    if (player != nullptr) {
+        static const int kIconTypes[11] = {0, 1, 2, 3, 5, 5, 6, 7, 5, 5, 4};   // CSWTCH.6518
+        const int interaction = player->m_ooiInteractionType;                  // +0x14a8
+        const int iconType = static_cast<unsigned int>(interaction) <= 10 ? kIconTypes[interaction] : 5;
+        if (m_actionIconType != iconType && GetHUDRoot() != nullptr) {
+            m_actionIconType = iconType;
+            MenuFX* hudRoot = GetHUDRoot();
+            gameswf::character* rootMovie = GetHUDRoot()->GetRoot()->get_root_movie();
+            const gameswf::as_value icon(static_cast<double>(m_actionIconType));
+            hudRoot->InvokeASCallback(rootMovie, "FillActionIcon", &icon, 1);
+        }
+    }
     PopProfilingContext("MenuManager::InteractionType");
 
-    // The two SetWireFrame calls are omitted, see above. The switch is still read, so the switch file loads at the same point.
-    (void)ReadDebugSwitch("IsDisplayingMenuWireframe");
+    RenderFX::SetWireFrame(false);
+    if (ReadDebugSwitch("IsDisplayingMenuWireframe")) {
+        RenderFX::SetWireFrame(true);
+    }
 
     if (ReadDebugSwitch("IsDeactivatingFlashMenus")) {
         PopProfilingContext("MenuManager::Update");

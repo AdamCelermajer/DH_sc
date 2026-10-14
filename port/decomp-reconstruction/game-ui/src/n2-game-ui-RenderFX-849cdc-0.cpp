@@ -10,13 +10,14 @@
 
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_sprite.h"
+#include "gameswf/gameswf_log.h"
 #include "vendor-gameswf/gameswf_root.hpp"
 
-// 0x7a7c34 RenderFX::SetWireFrame(bool)
-// PARTIAL, whole body omitted. The original calls the render handler's vtable slot +0x40 (pure in gameswf::render_handler, so
-// the implementing class decides). The derived class's name for that slot is not recovered, and its argument list in the
-// decompilation is not reliable (this is passed where the flag is expected).
-void RenderFX::SetWireFrame(bool /*enabled*/) {}
+// 0x7a7c34 RenderFX::SetWireFrame(bool): render handler slot +0x40 (set_wire_frame).
+void RenderFX::SetWireFrame(bool enabled) {
+    gameswf::s_render_handler->set_wire_frame(enabled);
+}
 
 // 0x7a7c6c RenderFX::SetEventListener(RenderFX::EventListener*)
 void RenderFX::SetEventListener(EventListener* listener) {
@@ -45,14 +46,14 @@ gameswf::character* RenderFX::GetFlashRoot() const {
 
 // 0x7a7cac RenderFX::GetRoot() const: m_root (+0x3c).
 gameswf::root* RenderFX::GetRoot() const {
-    return m_root;
+    return m_root.get_ptr();
 }
 
 // 0x7a7cb4 RenderFX::SetTextBufferingEnabled(bool)
 // Binary: LDR R3,[R0,#0x3C]; STRB R1,[R3,#0x85]. The root byte at +0x85 has no name that matches text buffering in
 // gameswf_root.hpp (m_shift_key_state is the only name there), so the store is written at its offset.
 void RenderFX::SetTextBufferingEnabled(bool enabled) {
-    *(reinterpret_cast<std::uint8_t*>(m_root) + 0x85) = enabled;
+    *(reinterpret_cast<std::uint8_t*>(m_root.get_ptr()) + 0x85) = enabled;
 }
 
 // 0x7a7cc0 RenderFX::SetAutoLoadGlyphsEnabled(bool): stores the byte at root +0x87 (gameswf::root::unk_87, which has no
@@ -61,11 +62,9 @@ void RenderFX::SetAutoLoadGlyphsEnabled(bool enabled) {
     m_root->unk_87 = enabled;
 }
 
-// 0x7a7ccc RenderFX::SetRenderCachingEnabled(bool)
-// Binary: LDR R3,[R0,#0x38]; STRB R1,[R3,#0x98]. The object at +0x38 is not typed in the header (pad_0c covers it).
+// 0x7a7ccc RenderFX::SetRenderCachingEnabled(bool): the player's byte +0x98 (gameswf::player::unk_98).
 void RenderFX::SetRenderCachingEnabled(bool enabled) {
-    std::uint8_t* object = *reinterpret_cast<std::uint8_t**>(pad_0c + 0x2c);  // +0x38
-    object[0x98] = enabled;
+    m_player->unk_98 = enabled;
 }
 
 // 0x7a7cd8 RenderFX::GetAlpha(gameswf::character*)
@@ -168,22 +167,12 @@ void RenderFX::DestroyContext(gameswf::player_context* context) {
 }
 
 // 0x7a850c RenderFX::RenderFX() (C1), 0x7a85f8 (C2): the same body. Every field starts at zero. The four controllers
-// clear their 36 bytes, set their enabled byte to 1 and reset their smart pointers. The +0x54 word is set to 0xffffff
-// with the top byte kept as (old top byte & 0xfe); a new object has no old top byte, so it is set to 0 here.
+// clear their 36 bytes, set their enabled byte to 1 and reset their smart pointers. The name string at +0x44 is empty.
 RenderFX::RenderFX() {
-    m_foundCharacters.data = nullptr;
-    m_foundCharacters.count = 0;
-    std::memset(pad_0c, 0, sizeof(pad_0c));
-    m_root = nullptr;
-    m_context = nullptr;
-    std::memset(pad_44, 0, sizeof(pad_44));
-    pad_44[0] = 1;                                   // +0x44
-    pad_44[0x10] = 0xff;                             // +0x54 word, low three bytes 0xffffff
-    pad_44[0x11] = 0xff;
-    pad_44[0x12] = 0xff;
-    pad_44[0x13] = 0;                                // +0x57: (old top byte & 0xfe), see above
+    m_foundCharacters = CharacterArray{nullptr, 0, 0, false};   // +0x04
+    m_context = nullptr;                                        // +0x40
     for (Controller& controller : m_controllers) {
-        std::memset(controller.pad_00, 0, sizeof(controller.pad_00));
+        controller.m_cursor = Cursor{};
         controller.m_enabled = true;
         controller.Reset();
     }
@@ -192,17 +181,69 @@ RenderFX::RenderFX() {
 }
 
 // 0x7a87fc RenderFX::DepthSearch(int)
-// PARTIAL, whole body omitted. The search walks a gameswf::array<int> stack at RenderFX +0x18 and a per-depth index
-// with its own records (RenderFX::DepthSearchData and SearchIndex, pack0 batch of this wave). Neither record has a
-// layout in dh2/RenderFX.hpp yet, so the walk is not written.
-gameswf::character* RenderFX::DepthSearch(int /*depth*/) {
-    return nullptr;
+// Breadth-first walk of the work list left by DepthSearchData::Init. Each level (m_levels[depth] .. m_levels[depth + 1] or the end
+// of the list) is scanned: an entry whose character name equals the first dotted segment of its path either ends the search (no
+// more segments) or lets the remaining path go down; a movie clip entry queues all its children with the remaining path. The
+// scan stops with null when a level queued nothing.
+gameswf::character* RenderFX::DepthSearch(int depth) {
+    ::array<int>& levels = m_depthSearch.m_levels;
+    ::array<DepthSearchEntry>& entries = m_depthSearch.m_entries;
+    for (;; ++depth) {
+        const int begin = levels[depth];
+        const int end = (depth + 1 < levels.size()) ? levels[depth + 1] : entries.size();
+        levels.push_back<int>(entries.size());
+        if (end > begin) {
+            const char* previousPath = nullptr;
+            const char* segmentEnd = nullptr;
+            int index = begin;
+            while (true) {
+                const char* path = entries[index].path;
+                if (path == nullptr) {
+                    return nullptr;
+                }
+                const char* end_ = nullptr;
+                if (path == previousPath) {
+                    end_ = segmentEnd;
+                } else {
+                    const char* dot = std::strchr(path, '.');
+                    end_ = dot != nullptr ? dot : path + std::strlen(path);
+                    segmentEnd = end_;
+                }
+                gameswf::character* character = entries[index].character;
+                const std::size_t segmentLength = static_cast<std::size_t>(end_ - path);
+                const ::tu_string& name = character->get_name();
+                const char* childPath = path;
+                if (segmentLength == static_cast<std::size_t>(name.length()) && std::strncmp(name.c_str(), path, segmentLength) == 0) {
+                    if (*end_ == '\0') {
+                        return character;
+                    }
+                    childPath = end_ + 1;
+                }
+                if (character->is(2)) {
+                    gameswf::sprite_instance* sprite = static_cast<gameswf::sprite_instance*>(character);
+                    for (int i = 0; i < sprite->m_display_list.size(); ++i) {
+                        DepthSearchEntry entry{sprite->m_display_list.get_character(i), childPath};
+                        entries.push_back<DepthSearchEntry>(entry);
+                    }
+                }
+                if (++index == end) {
+                    break;
+                }
+                previousPath = path;
+            }
+        }
+        if (levels[levels.size() - 1] == entries.size()) {
+            return nullptr;
+        }
+    }
 }
 
 // 0x7a8a84 RenderFX::Find(char const*, gameswf::character*): a search from context for name, at depth 0. Null when the
 // name or the context is null.
-// PARTIAL, whole body omitted: it initializes the DepthSearchData at RenderFX +0x18 and then calls DepthSearch(0), and
-// DepthSearchData is not declared in dh2/RenderFX.hpp.
-gameswf::character* RenderFX::Find(const char* /*name*/, gameswf::character* /*context*/) {
-    return nullptr;
+gameswf::character* RenderFX::Find(const char* name, gameswf::character* context) {
+    if (name == nullptr || context == nullptr) {
+        return nullptr;
+    }
+    m_depthSearch.Init(context, name);
+    return DepthSearch(0);
 }

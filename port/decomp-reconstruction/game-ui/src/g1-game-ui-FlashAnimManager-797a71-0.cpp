@@ -3,10 +3,8 @@
 // Rebuilt from the Hex-Rays pseudocode of libDungeonHunter2.so. Offsets in comments are the original 32-bit
 // ARM offsets; the code never uses them for addressing.
 //
-// PARTIAL, one reason: the byte at +0x9b of gameswf::character is a flag that the original sets and clears around
-// the display call (Draw) and clears on every anim_ template (ScanForAnims). It is not declared in the vendored
-// gameswf::character (its DH2 comments name +0x99 and +0x9a only). Layout request: "gameswf::character +0x9b uint8".
-// Those statements are left out and the two functions are PARTIAL.
+// The byte at +0x9b of gameswf::character is the visible flag (character::m_visible): Draw sets it around the display call and
+// ScanForAnims clears it on every anim_ template.
 
 #include <cstdio>
 #include <cstdlib>
@@ -237,9 +235,7 @@ FlashAnimContext* FlashAnimManager::PlayScrollingCombatValue(int styleId, const 
 }
 
 // 0x414260 FlashAnimManager::Draw()
-// PARTIAL: the original sets the flag byte +0x9b of the clone to 1 around its display call (vtable +0x120) and
-// clears it after. That flag is not declared in gameswf::character (layout request), so the display call runs
-// without it.
+// The visible flag (+0x9b) of the clone is set around its display call (vtable +0x120) and cleared after it.
 void FlashAnimManager::Draw() {
     DebugSwitches::s_inst.load();
     const bool disabled = DebugSwitches::s_inst.GetSwitch(std::string("IsDisablingFlashAnimation"));
@@ -272,7 +268,9 @@ void FlashAnimManager::Draw() {
         if (textField) {
             m_animMenuFxRoot->SetColorTransform(textField, 0xFF000000u, static_cast<unsigned int>(ctx.m_color));
         }
-        clone->display();  // vtable +0x120; PARTIAL: the flag +0x9b is not set here
+        clone->m_visible = true;
+        clone->display();  // vtable +0x120
+        clone->m_visible = false;
         m_animMenuFxRoot->SetPosition(clone, originX, originY);
     }
     m_animMenuFxRoot->SetTextBufferingEnabled(true);
@@ -289,8 +287,7 @@ int FlashAnimManager::GetStyleIdFromName(const char* name) const {
 }
 
 // 0x4151d8 FlashAnimManager::ScanForAnims(MenuFX*)
-// PARTIAL: the original clears the flag byte +0x9b of each anim_ template after its name is entered (layout request);
-// that statement is left out.
+// The visible flag (+0x9b) of each anim_ template is cleared after its name is entered.
 void FlashAnimManager::ScanForAnims(MenuFX* menu) {
     if (!menu) {
         return;
@@ -323,5 +320,6 @@ void FlashAnimManager::ScanForAnims(MenuFX* menu) {
 
         // The style id is the index of the anim_ character; the name is the character's own name.
         m_styleIdByName[anim->get_name().c_str()] = static_cast<int>(i);
+        anim->m_visible = false;
     }
 }

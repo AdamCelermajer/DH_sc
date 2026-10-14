@@ -107,6 +107,7 @@ struct bitmap_glyph_provider {
 // gameswf::default_bitmap_glyph_provider (DH2). No members of its own; the layout is bitmap_glyph_provider's.
 struct default_bitmap_glyph_provider : public bitmap_glyph_provider {
     // 0x7a9664 (D1). The deleting destructor 0x7a99f8 is compiler-generated.
+    default_bitmap_glyph_provider(int texture_width, int texture_height, bool flag) : bitmap_glyph_provider(texture_width, texture_height, flag) {}  // DH2: CreateContext (0x7a9708) builds the base and stores this vtable
     ~default_bitmap_glyph_provider() override;
 
     // 0x7a9634. Allocates and constructs a default_bitmap_font_entity for the name.

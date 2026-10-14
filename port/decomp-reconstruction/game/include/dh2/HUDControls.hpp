@@ -55,8 +55,8 @@ public:
     uint8_t pad_0b;                                                     // +0x0b
     std::int32_t unk_0c;                                                // +0x0c int, 0 at construction
     std::int32_t unk_10;                                                // +0x10 int, 0 at construction
-    std::int32_t unk_14;                                                // +0x14 int, 0 at construction and in Touch
-    float unk_18;                                                       // +0x18 float, 0 at construction and in Touch
+    std::int32_t unk_14;                                                // +0x14 int (stick press start x / 20), 0 at construction and in Touch
+    std::int32_t unk_18;                                                // +0x18 int (stick press start y / 20, read as an int by OnEvent), 0 at construction and in Touch
 
     DebugCachedCharacter m_joystickStick;                               // +0x1c "HUDelements.controls.controls.Joystick.stick"
     DebugCachedCharacter m_joystick;                                    // +0x4c "HUDelements.controls.controls.Joystick"

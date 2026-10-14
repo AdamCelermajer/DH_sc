@@ -37,6 +37,18 @@
 #include "dh2/MenuFX.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/Singleton.hpp"
+#include "dh2/CharAISkillScript.hpp"
+#include "dh2/GameSWFUtils.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/global/scene_nodes.hpp"
+#include "net-session-online/c_online.hpp"
+#include <cstring>
+#include <string>
 #include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C, the PlayerManager instance
 #include "gameswf/gameswf_character.h"       // gameswf::character (m_visible, get_member)
 #include "vendor-gameswf/as_value.hpp"       // gameswf::as_value (DH2 layout)
@@ -46,27 +58,32 @@ void InfoHUDManager::Draw() {
 }
 
 // 0x41d570 _ZN14InfoHUDManager19HideLocalDeathTimerEv
-// PARTIAL: the original (1) looks up "_root.menu_HUD_<HUDStyle>" with RenderFX::Find and, unless byte_9A600C is set,
-// sets its visible byte to 1; (2) calls menu->GotoFrame(death timer, "Hide", true); (3) clears the death timer's visible
-// byte. Step (3) is made here. Step (1) waits on the byte_9A600C declaration (dh2/global/Globals.hpp), and step (2)
-// waits on the RenderFX::GotoFrame declaration, so both are left out.
+// The HUD root "_root.menu_HUD_<HUDStyle>" is shown again unless a cut scene is on (ScriptManager byte 0x9a600c); the death timer
+// plays its "Hide" label and is made invisible.
 void InfoHUDManager::HideLocalDeathTimer() {
+    char hudName[20];
+    std::snprintf(hudName, sizeof hudName, "_root.menu_HUD_%d", Singleton<Application>::s_inst.GetSavedOption("HUDStyle"));
+    gameswf::character* hudRoot = static_cast<gameswf::character*>(m_menu->Find(hudName));
+    if (!ScriptManager::s_inst.m_inCutScene) {
+        hudRoot->m_visible = true;
+    }
+    m_menu->GotoFrame(m_deathTimer.GetChar(), "Hide", true);
     m_deathTimer.GetChar()->m_visible = false;
 }
 
 // 0x41d658 _ZN14InfoHUDManager19ShowLocalDeathTimerEv
-// PARTIAL: menu->GotoFrame(death timer, "Show", true) is left out (RenderFX::GotoFrame is not declared). The root
-// lookup and the two visible bytes are made as in the original.
+// The HUD root is hidden, the death timer is made visible and plays its "Show" label.
 void InfoHUDManager::ShowLocalDeathTimer() {
     char hudName[20];
     std::snprintf(hudName, sizeof hudName, "_root.menu_HUD_%d", Singleton<Application>::s_inst.GetSavedOption("HUDStyle"));
     static_cast<gameswf::character*>(m_menu->Find(hudName))->m_visible = false;
     m_deathTimer.GetChar()->m_visible = true;
+    m_menu->GotoFrame(m_deathTimer.GetChar(), "Show", true);
 }
 
 // 0x41d728 _ZN14InfoHUDManager18applyOneTimeValuesEv
-// PARTIAL: menu->GotoFrame(charMenuHudChar, <class frame>, false) is left out (RenderFX::GotoFrame is not declared). The
-// class frame is computed as in the original: class 290..292 gives 2, 325..327 gives 1, any other class gives 0.
+// The joystick follows the DPad option; with a local character the HUD character image goes to the frame of its class (classes
+// 290..292 give 2, 325..327 give 1, any other class 0). The original returns the local Character; the header declares void.
 void InfoHUDManager::applyOneTimeValues() {
     m_joystick.GetChar()->m_visible = Singleton<Application>::s_inst.GetSavedOption("DPad") != 0;
 
@@ -90,7 +107,7 @@ void InfoHUDManager::applyOneTimeValues() {
             classFrame = 0;
             break;
     }
-    static_cast<void>(classFrame);  // PARTIAL: the frame is not applied (see above)
+    m_menu->GotoFrame(m_charMenuHudChar.GetChar(), classFrame, false);
 }
 
 // 0x41d880 _ZN14InfoHUDManager15initCachedCharsEv
@@ -154,8 +171,8 @@ void InfoHUDManager::initCachedChars() {
 }
 
 // 0x41de54 _ZN14InfoHUDManager10SlowUpdateEv
-// PARTIAL: a list button whose SlotId is below 0 would index the as_value padding in the original. That case is not
-// reproduced: that button's grey flag keeps its value. A SlotId above 2 is read as 0, as in the original.
+// A list button whose SlotId is below 0 would index the as_value padding in the original. That case is not reproduced: that
+// button grey flag keeps its value. A SlotId above 2 is read as 0, as in the original.
 void InfoHUDManager::SlowUpdate() {
     Character* ch = dword_99F76C->GetLocalPlayer(0, false)->unk_660;
     if (ch == nullptr) {
@@ -195,7 +212,7 @@ void InfoHUDManager::SlowUpdate() {
             slot = 0;
         }
         if (slot < 0) {
-            continue;  // PARTIAL: see the comment above the function
+            continue;  // see the comment above the function
         }
         gameswf::character* grey = m_skillGrey[k].GetChar();
         if (grey != nullptr) {
@@ -205,11 +222,9 @@ void InfoHUDManager::SlowUpdate() {
 }
 
 // 0x41e064 _ZN14InfoHUDManager10FastUpdateEv
-// PARTIAL. Made: the early return without a local character, the charMenuLevelUp visibility, the enemy target choice,
-// the enemy bar state (m_lastEnemy, m_enemy visibility, DebugSwitches::load) and the hide path. Left out, each with its
-// reason in place below: the RenderFX frames and texts, the Character fields that dh2/Character.hpp does not declare,
-// the cooldown reads (the skill-script table), the online allies block (COnline's online flag is protected) and the
-// enemy name text.
+// With a local character: the potion text, the HP, MP, XP, distress and hurt frames, the level-up icon, the skill cooldown frames
+// (HUDStyle <= 1 uses the skill buttons, otherwise the list buttons by SlotId), the spell cooldown, the online ally bars (death
+// timer text and up to three AlliesBarDisplay calls) and finally the enemy bar for the AI target or object of interest.
 void InfoHUDManager::FastUpdate() {
     PlayerInfo* local = dword_99F76C->GetLocalPlayer(0, false);
     Character* ch = local->unk_660;
@@ -217,21 +232,135 @@ void InfoHUDManager::FastUpdate() {
         return;
     }
 
-    // PARTIAL: the potion count text (RenderFX::SetText on m_potionCount, "%d" of ItemInventory::GetNumPotions()).
-    // PARTIAL: the frames of m_playerHpBar, m_playerMpBar, m_playerXpBar, m_potionDistressGlow and m_hurtCorners. They
-    //          need Character fields at +0x1088 and +0x1090 (HP current and maximum), +0x109c and +0x10a4 (MP) and
-    //          +0x107c and +0x1080 (XP), none declared in dh2/Character.hpp.
+    char text[32];
+    std::snprintf(text, sizeof text, "%d", ch->GetNumPotions());
+    m_menu->SetText(m_potionCount.GetChar(), text, false);
+
+    // Property sheet words: HP m_w37 / total m_w39, MP m_w42 / total m_w44, XP m_w34 / next m_w35 (Character +0x1088, +0x1090,
+    // +0x109c, +0x10a4, +0x107c, +0x1080).
+    const int hpFrameRaw = 100 * ch->m_props.m_w37 / ch->m_props.m_w39;
+    int hpFrame = hpFrameRaw - 1;
+    hpFrame = hpFrame & ~(hpFrame >> 31);
+    int mpFrame = 100 * ch->m_props.m_w42 / ch->m_props.m_w44 - 1;
+    int xpFrame = 100 * ch->m_props.m_w34 / ch->m_props.m_w35;
+    if (xpFrame >= 99) {
+        xpFrame = 99;
+    }
+    if (hpFrame >= 99) {
+        hpFrame = 99;
+    }
+    m_menu->GotoFrame(m_playerHpBar.GetChar(), hpFrame, false);
+    if (mpFrame >= 99) {
+        mpFrame = 99;
+    }
+    m_menu->GotoFrame(m_playerMpBar.GetChar(), mpFrame, false);
+    m_menu->GotoFrame(m_playerXpBar.GetChar(), xpFrame, false);
+    m_menu->GotoFrame(m_potionDistressGlow.GetChar(), hpFrame, false);
+    m_menu->GotoFrame(m_hurtCorners.GetChar(), hpFrame, false);
 
     m_charMenuLevelUp.GetChar()->m_visible = ch->PROPS_GetInt(148, false) != 0;
 
-    // PARTIAL: the cooldown frames. Each skill slot's cooldown is CharAISkillScript::GetCooldown of the table at Character
-    //          +0x47c (the spell script at +0x488). The table is not declared, and the frames need RenderFX::GotoFrame.
-    //          HUDStyle <= 1 uses m_skillCoolDown[0..2]; otherwise the list buttons' SlotId picks the frame.
+    // Cooldown of the three skill slots as floats (0 for an empty slot or a missing script).
+    float cooldown[3] = {0.0f, 0.0f, 0.0f};
+    for (int slot = 0; slot != 3; ++slot) {
+        const int skill = ch->SG_GetSkillInSlot(slot);
+        if (skill != -1) {
+            CharAISkillScript* script = ch->m_skillScripts[skill];  // CharAI +0xb4
+            if (script != nullptr) {
+                cooldown[slot] = script->GetCooldown();
+            }
+        }
+    }
+    auto cooldownFrame = [](float value) {
+        const int frame = static_cast<int>(value * 100.0) - 1;
+        return frame & ~(frame >> 31);
+    };
+    if (Singleton<Application>::s_inst.GetSavedOption("HUDStyle") <= 1) {
+        for (int i = 0; i != 3; ++i) {
+            m_menu->GotoFrame(m_skillCoolDown[i].GetChar(), cooldownFrame(cooldown[i]), false);
+        }
+    } else {
+        DebugCachedCharacter* listButtons[3] = {&m_listBtn0, &m_listBtnPre0, &m_listBtnPost0};
+        for (int k = 0; k != 3; ++k) {
+            gameswf::as_value slotId;
+            listButtons[k]->GetChar()->get_member("SlotId", &slotId);
+            unsigned int slot = static_cast<unsigned int>(static_cast<int>(slotId.to_number()));
+            if (slot > 2) {
+                slot = 0;
+            }
+            m_menu->GotoFrame(m_skillCoolDown[k].GetChar(), cooldownFrame(cooldown[slot]), false);
+        }
+    }
+    if (!ch->m_skillScripts.empty() && ch->m_skillScripts[0] != nullptr && !ch->m_spellScripts.empty()) {
+        m_menu->GotoFrame(m_spellCoolDown.GetChar(), cooldownFrame(ch->m_spellScripts[0]->GetCooldown()), false);
+    }
 
-    // PARTIAL: the online allies block. It runs only while the online-game flag (COnline +0x05) is set. That flag is
-    //          protected in net-session-online/include/net-session-online/c_online.hpp and has no public getter, so the
-    //          block is left out. It sets the level, potion, XP and name of up to three remote players in the ally slots
-    //          m_ally0..m_ally2, and calls AlliesBarDisplay with six arguments.
+    if (GetOnline()->IsOnlineGame()) {
+        PlayerManager* players = dword_99F76C;
+        PlayerInfo* localPlayer = players->GetLocalPlayer(0, false);
+        if (localPlayer->m_characterDeathTimer.GetValue() >= 0) {
+            std::snprintf(text, sizeof text, "%d", localPlayer->m_characterDeathTimer.GetValue() / 1000);
+            m_menu->SetText(m_deathTimerText.GetChar(), text, false);
+        }
+        DebugCachedCharacter* allies[3] = {&m_ally0, &m_ally1, &m_ally2};
+        int allyIndex = 0;
+        int playerCursor = 0;
+        const int numPlayers = players->GetNumPlayers();
+        while (true) {
+            gameswf::character* allyChar = allies[allyIndex]->GetChar();
+            std::string name;
+            bool present = false;
+            int level = 0;
+            int frame = 0;
+            int seconds = -1;
+            bool skipSlot = false;
+            if (playerCursor < numPlayers) {
+                PlayerInfo* player = players->GetPlayer(playerCursor, false);
+                if (player->IsLocal()) {
+                    ++playerCursor;
+                    skipSlot = true;
+                } else {
+                    Character* allyCharacter = player->unk_660;
+                    if (allyCharacter != nullptr && player->m_ingame.GetValue()) {
+                        level = player->m_characterLevel.GetValue();
+                        name = player->m_characterName.GetValue();
+                        int percent = static_cast<int>(allyCharacter->GetHPPercent() * 100.0) - 1;
+                        if (percent >= 99) {
+                            percent = 99;
+                        }
+                        frame = percent & ~(percent >> 31);
+                        const int deathTimer = player->m_characterDeathTimer.GetValue();
+                        seconds = deathTimer < 0 ? -1 : deathTimer / 1000;
+                        ++playerCursor;
+                        glitch::core::vector3d<float> world{allyCharacter->m_position.X, allyCharacter->m_position.Y,
+                                                            allyCharacter->m_position.Z + 350.0f};
+                        glitch::core::position2d<int> screen{0, 0};
+                        GetScreenPosFromWorldPos(world, screen);
+                        gameswf::root* swfRoot = m_menu->GetRoot();
+                        const float invX = GameSWFUtils::GetInvPixelScaleX(swfRoot);
+                        const float invY = GameSWFUtils::GetInvPixelScaleY(swfRoot);
+                        m_menu->SetPosition(allyChar, static_cast<int>(invX * static_cast<float>(screen.X)),
+                                            static_cast<int>(invY * static_cast<float>(screen.Y)));
+                        present = true;
+                    }
+                }
+            }
+            if (!skipSlot) {
+                gameswf::as_value args[6];
+                args[0].set_bool(present);
+                args[1].set_string(StringManager::formatForMulti(name, true).c_str());
+                args[2].set_double(static_cast<double>(level));
+                args[3].set_double(static_cast<double>(frame));
+                args[4].set_double(static_cast<double>(allyIndex));
+                args[5].set_double(static_cast<double>(seconds));
+                m_menu->InvokeASCallback(m_menu->GetFlashRoot(), "AlliesBarDisplay", args, 6);
+                ++allyIndex;
+            }
+            if (allyIndex > 2) {
+                break;
+            }
+        }
+    }
 
     // Enemy bar.
     bool monsterTarget = false;  // v38 in the original
@@ -254,22 +383,32 @@ void InfoHUDManager::FastUpdate() {
     if (enemy != nullptr) {
         if (enemy != m_lastEnemy) {
             m_lastEnemy = enemy;
+            const char* nameText = ApplicationGetStringManager()->getString(enemy->m_props.m_w19);  // Character +0x1040
+            char levelText[32];
+            if (enemy->IsBoss() || enemy->GetLevel() == -1) {
+                std::strcpy(levelText, "??");
+            } else {
+                std::snprintf(levelText, sizeof levelText, "%d", enemy->GetLevel());
+            }
             m_enemy.GetChar()->m_visible = true;
-            // PARTIAL: menu->GotoFrame(m_enemy, "Show", false) (RenderFX::GotoFrame is not declared).
-            DebugSwitches::s_inst.load();
-            // PARTIAL: the enemy name and level text. The name is StringManager::getString of the enemy's name id
-            //          (Character +0x1040, not declared), or the net id and name when the switch
-            //          "ShowMonstersNamesAndNetID" is set (name at +0x44, net id at +0x108, not declared). The level
-            //          text is "??" for a boss or when GetLevel() is -1, else the decimal level. Both texts go to
-            //          m_enemyName and m_enemyLevel through RenderFX::SetText, which is not declared.
+            m_menu->GotoFrame(m_enemy.GetChar(), "Show", false);
+            DebugSwitches::GetInstance()->load();
+            if (DebugSwitches::GetInstance()->GetSwitch("ShowMonstersNamesAndNetID")) {
+                std::snprintf(levelText, sizeof levelText, "%d", enemy->unk_108);
+                m_menu->SetText(m_enemyName.GetChar(), enemy->m_name.c_str(), false);
+                m_menu->SetText(m_enemyLevel.GetChar(), levelText, false);
+            } else {
+                m_menu->SetText(m_enemyName.GetChar(), nameText, false);
+                m_menu->SetText(m_enemyLevel.GetChar(), levelText, false);
+            }
         }
 
         // The enemy HP frame is the HP percent times 100 (as a float), capped at 100, minus one.
-        int hpFrame = static_cast<int>(static_cast<float>(enemy->GetHPPercent() * 100.0));
-        if (hpFrame >= 100) {
-            hpFrame = 100;
+        int enemyFrame = static_cast<int>(enemy->GetHPPercent() * 100.0);
+        if (enemyFrame >= 100) {
+            enemyFrame = 100;
         }
-        static_cast<void>(hpFrame);  // PARTIAL: menu->GotoFrame(m_enemyHpBar, hpFrame - 1, false) is left out
+        m_menu->GotoFrame(m_enemyHpBar.GetChar(), enemyFrame - 1, false);
         return;
     }
 
@@ -277,7 +416,8 @@ void InfoHUDManager::FastUpdate() {
     if (m_lastEnemy != nullptr) {
         m_lastEnemy = nullptr;
         m_enemy.GetChar()->m_visible = false;
-        // PARTIAL: menu->GotoFrame(m_enemyHpBar, 0, false) and menu->GotoFrame(m_enemy, "Hide", false) are left out.
+        m_menu->GotoFrame(m_enemyHpBar.GetChar(), 0, false);
+        m_menu->GotoFrame(m_enemy.GetChar(), "Hide", false);
     }
 }
 
@@ -323,10 +463,9 @@ InfoHUDManager* InfoHUDManager::GetInstance() {
 }
 
 // 0x41ef78 _ZN14InfoHUDManager5FlushEv
-// PARTIAL: the death-timer branch is left out. When m_deathTimer has a cached character (+0x2c) and its proxy (+0x28) is
-// alive, the original plays menu->GotoFrame(m_deathTimer, "Hide", true) and clears the visible byte. Otherwise it
-// releases the proxy and clears the cache. The GotoFrame waits on the RenderFX declaration, and DebugCachedCharacter
-// has no method for the release.
+// With a loaded level: the three ally bars are cleared (AlliesBarDisplay with false, "", 0, 100, i, -1), the enemy bar hidden, and
+// the death timer: a cached character with a live proxy plays "Hide" and is made invisible, a cached character with a dead proxy
+// releases the proxy and clears the cache.
 void InfoHUDManager::Flush() {
     Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
     if (level == nullptr || !level->m_isLoaded) {
@@ -346,15 +485,22 @@ void InfoHUDManager::Flush() {
     }
 
     m_enemy.GetChar()->m_visible = false;
+    if (m_deathTimer.m_character != nullptr) {  // +0x2c
+        if (m_deathTimer.m_characterProxy.get_proxy()->is_alive()) {
+            m_menu->GotoFrame(m_deathTimer.GetChar(), "Hide", true);
+            m_deathTimer.GetChar()->m_visible = false;
+        } else {
+            m_deathTimer.m_characterProxy = nullptr;
+            m_deathTimer.m_character = nullptr;
+        }
+    }
 }
 
 // 0x41f16c _ZN14InfoHUDManagerD1Ev and 0x41f29c _ZN14InfoHUDManagerD2Ev
-// PARTIAL: the two destructors have identical bodies; this one stands for both. The original calls Flush(this) first,
-// then destroys the 29 DebugCachedCharacter members in reverse offset order (+0x54c .. +0x0c). The implicit member
-// destruction below runs in reverse declaration order, which is that same order. The original also tests this + offset
-// against the constants -12, -684, -540 and -396 before four member groups (the ally trio and the two skill arrays and
-// the list buttons). For a live object those tests always pass, so they are not written. The body is exact, but it
-// inherits the death-timer gap of Flush(), which is partial.
+// The two destructors have identical bodies; this one stands for both. The original calls Flush(this) first, then destroys the 29
+// DebugCachedCharacter members in reverse offset order (+0x54c .. +0x0c). The implicit member destruction below runs in reverse
+// declaration order, which is that same order. The original also tests this + offset against the constants -12, -684, -540 and
+// -396 before four member groups; for a live object those tests always pass, so they are not written.
 InfoHUDManager::~InfoHUDManager() {
     Flush();
 }

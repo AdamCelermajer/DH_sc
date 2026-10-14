@@ -136,6 +136,9 @@ public:  // decision 9: GSInit::Update writes resultFlag_ (+0x0e) directly
     bool achievementFlag_ = false;               // +0x0c
     bool scoreFlag_ = false;                     // +0x0d
     bool resultFlag_ = false;                    // +0x0e (cleared by both reports)
+    bool unk_0a = false;                         // +0x0a set with resultFlag_ by MenuMainMenu::Show for the GoToMainMenu event 7
+    bool unk_13 = false;                         // +0x13 set to 1 by MenuMainMenu::Show
+    bool unk_14 = false;                         // +0x14 cleared by MenuMainMenu::Show
     std::unique_ptr<char[]> hostUid_;            // +0x30
     std::unique_ptr<char[]> userUid_;            // +0x34
     std::string pendingAchievement_;             // +0x38

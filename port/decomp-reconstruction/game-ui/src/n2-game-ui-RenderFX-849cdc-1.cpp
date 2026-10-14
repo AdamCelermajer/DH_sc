@@ -7,49 +7,150 @@
 
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_log.h"
+#include "gameswf/gameswf_text.h"
+#include "gameswf/gameswf_sprite.h"
+#include "gameswf/gameswf_movie_def.h"
+#include "vendor-gameswf/glyph_provider.hpp"
+#include "vendor-gameswf/bitmap_glyph_provider.hpp"
+#include "vendor-gameswf/texture_cache.hpp"
+#include "vendor-gameswf/player_context.hpp"
+#include "vendor-gameswf/render_handler_glitch.hpp"
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
+
+namespace gameswf {
+// Library teardown helpers called by Finalize (gameswf_impl.cpp, gameswf_action.cpp and gameswf_disasm.cpp).
+void clears_tag_loaders();           // upstream gameswf_movie_def.cpp
+void clear_shared_libs();            // upstream gameswf_impl.cpp
+void clear_standard_fnames();        // 0x7bb3e0
+void clear_standard_method_map();
+void clear_standard_property_map();
+void clear_disasm();                 // upstream gameswf_disasm.cpp
+}  // namespace gameswf
+
+namespace {
+char s_stringBuffer[8192];  // 0xa2cb9c, the shared text buffer of the Format* functions
+}  // namespace
+
+gameswf::player_context* RenderFX::s_default_context = nullptr;  // 0xa2eb9c
 
 // 0x7a8acc RenderFX::CollectCharacters(gameswf::character*, char const*, int)
-// PARTIAL, whole body omitted. It walks the child list of a character (the child array at +0xa8 with its count at +0xac),
-// tests the name at +0x44 (a tu_string), the visible byte at +0x9b and a class-id-2 test, and appends to the found array.
-// The found array is a 16-byte gameswf::array in the binary (at RenderFX +0x04) and the header's CharacterArray is 8 bytes.
-int RenderFX::CollectCharacters(gameswf::character* /*character*/, const char* /*name*/, int /*flags*/) {
-    return 0;
+// flags: 1 skip invisible characters, 2 skip disabled movie clips, 4 skip characters with an empty name.
+// The characters whose name contains `name` (every character when null) are appended to m_foundCharacters; the walk recurses
+// into the children of movie clips. Returns the last is(2) result like the original.
+int RenderFX::CollectCharacters(gameswf::character* character, const char* name, int flags) {
+    bool visible = true;
+    if ((flags & 1) != 0) {
+        visible = character->get_visible();                              // +0x9b
+    }
+    int result = character->is(2);
+    if ((!result || (flags & 2) == 0 || static_cast<gameswf::sprite_instance*>(character)->m_enabled) && visible) {  // +0xea
+        if (name == nullptr || std::strstr(character->get_name().c_str(), name) != nullptr) {
+            if ((flags & 4) == 0 || character->get_name().length() != 0) {
+                reinterpret_cast<::array<gameswf::character*>&>(m_foundCharacters).push_back<gameswf::character*>(character);
+            }
+        }
+        result = character->is(2);
+        if (result) {
+            gameswf::sprite_instance* sprite = static_cast<gameswf::sprite_instance*>(character);
+            for (int i = 0; i < sprite->m_display_list.size(); ++i) {
+                result = CollectCharacters(sprite->m_display_list.get_character(i), name, flags);
+            }
+        }
+    }
+    return result;
 }
 
-// 0x7a8c08 RenderFX::FindCharacters(gameswf::character*, char const*, int)
-// PARTIAL, whole body omitted. The original clears the found count (after zeroing any negative count), collects into
-// m_foundCharacters through CollectCharacters, and returns &m_foundCharacters. Waits on the array type (see above).
-RenderFX::CharacterArray* RenderFX::FindCharacters(gameswf::character* /*context*/, const char* /*prefix*/, int /*index*/) {
+// 0x7a8c08 RenderFX::FindCharacters(gameswf::character*, char const*, int): empties the found list, collects below context
+// and returns the list.
+RenderFX::CharacterArray* RenderFX::FindCharacters(gameswf::character* context, const char* prefix, int index) {
+    m_foundCharacters.count = 0;
+    CollectCharacters(context, prefix, index);
     return &m_foundCharacters;
 }
 
-// 0x7a8cdc RenderFX::UnloadTextures(gameswf::player_context*)
-// PARTIAL, whole body omitted. Walks the player contexts of s_default_context (when the argument is null) and calls the
-// virtual at slot +0x0c of each texture of the player's root. The texture object and the player list are not recovered.
-void RenderFX::UnloadTextures(gameswf::player_context* /*context*/) {}
+// 0x7a8cdc RenderFX::UnloadTextures(gameswf::player_context*): static (r0 is the context). Every bitmap of every player of the
+// context (the default context when null) is unlaid (bitmap_info slot +0x0c).
+void RenderFX::UnloadTextures(gameswf::player_context* context) {
+    if (context == nullptr) {
+        context = s_default_context;
+    }
+    for (int i = 0; i < context->m_players.size(); ++i) {
+        gameswf::root* root = context->m_players[i]->get_root();
+        gameswf::movie_def_impl* definition = root->m_def.get_ptr();
+        for (int j = 0; j < definition->m_bitmap_list.size(); ++j) {
+            definition->m_bitmap_list[j]->unlayout();
+        }
+    }
+}
 
-// 0x7a8d74 RenderFX::InitializeGlyphTextureCache(int, int)
-// PARTIAL, whole body omitted. The original only logs that the call is deprecated and points at Initialize with
-// InitializationParameters. The gameswf log call (gameswf::log_msg) takes the two ints as extra arguments with no
-// conversion. The declaration of log_msg is not in the tree's gameswf headers.
-void RenderFX::InitializeGlyphTextureCache(int /*width*/, int /*height*/) {}
+// 0x7a8d74 RenderFX::InitializeGlyphTextureCache(int, int): only logs that the call is deprecated.
+void RenderFX::InitializeGlyphTextureCache(int width, int height) {
+    gameswf::log_msg("RenderFX::InitializeGlyphTextureCache(int width, int height) deprecated. Use RenderFX::Initialize(InitializationParameters& parameters) instead.\n", width, height);
+}
 
 // 0x7a8d84 RenderFX::TraceHierarchy(gameswf::character*, int, int)
-// PARTIAL, whole body omitted. Prints the character tree with the edit, sprite and plain forms (their text, frame and play
-// state). It needs the edit-text text layout (the inline text at +0x139 and the pointer at +0x144) and gameswf's log_msg.
-void RenderFX::TraceHierarchy(gameswf::character* /*character*/, int /*flags*/, int /*depth*/) {}
+// flags: 1 skip invisible characters (and fully transparent ones), 8 skip characters with the +0x9d flag clear
+// (character::m_need_advance). A null character starts at the root movie.
+void RenderFX::TraceHierarchy(gameswf::character* character, int flags, int depth) {
+    if (character == nullptr) {
+        character = m_root->m_movie.get_ptr();
+    }
+    if (depth == 0) {
+        gameswf::log_msg("Hierarchy:\n");
+    }
+    if (((flags & 1) == 0 || (character->get_visible() && character->get_world_cxform()->m_[3][0] != 0.0f)) &&   // +0x9b; cxform +0x18 (alpha multiplier)
+        ((flags & 8) == 0 || character->m_need_advance)) {                                                 // +0x9d
+        char indent[256];
+        std::memset(indent, 0, sizeof(indent));
+        for (int i = 0; i < depth; ++i) {
+            std::strcpy(&indent[std::strlen(indent)], "   ");
+        }
+        if (character->is(32)) {
+            gameswf::edit_text_character* edit = static_cast<gameswf::edit_text_character*>(character);
+            gameswf::log_msg("%s edit: '%s' text='%s' @ 0x%x\n", indent, character->get_name().c_str(), edit->m_text.c_str(), character);
+        } else if (character->is(2)) {
+            gameswf::sprite_instance* sprite = static_cast<gameswf::sprite_instance*>(character);
+            const int frame = sprite->get_current_frame();
+            const char* state = sprite->get_play_state() != 0 ? "STOP" : "PLAY";
+            gameswf::log_msg("%s sprite: '%s' f=%d %s @ 0x%x\n", indent, character->get_name().c_str(), frame, state, character);
+            for (int i = 0; i < sprite->m_display_list.size(); ++i) {
+                TraceHierarchy(sprite->m_display_list.get_character(i), flags, depth + 1);
+            }
+        } else {
+            gameswf::log_msg("%s ch: '%s' @ 0x%x\n", indent, character->get_name().c_str(), character);
+        }
+    }
+}
 
-// 0x7a9008 RenderFX::DBG_TraceContextInformation(gameswf::character*)
-// PARTIAL, whole body omitted. Prints each child's name and whether it is a sprite (class id 2). Waits on FindCharacters.
-void RenderFX::DBG_TraceContextInformation(gameswf::character* /*character*/) {}
+// 0x7a9008 RenderFX::DBG_TraceContextInformation(gameswf::character*): prints the name of every character below the context.
+void RenderFX::DBG_TraceContextInformation(gameswf::character* character) {
+    CharacterArray* found = FindCharacters(character, nullptr, 0);
+    for (int i = 0; i < found->count; ++i) {
+        std::printf("Found child named %s\n", found->data[i]->get_name().c_str());
+        if (found->data[i]->is(2)) {
+            std::puts("child is a sprite ...");
+        }
+    }
+}
 
-// 0x7a9160 RenderFX::Find(char const*): the name is searched in the context, then in the root's character tree, then as a
-// target of the root movie; a target found is returned only when it has class id 1.
-// PARTIAL, whole body omitted. The second search reads the root's field at +0x04 (not recovered), and the root movie
-// lookup uses gameswf::root::get_root_movie and as_object::find_target, which the headers do not declare with these
-// signatures.
-gameswf::as_object* RenderFX::Find(const char* /*name*/) {
-    return nullptr;
+// 0x7a9160 RenderFX::Find(char const*): the named object, searched below the context, then below the root movie, then by
+// ActionScript target path from the root movie (accepted only when it is an as_object, class id 1).
+gameswf::as_object* RenderFX::Find(const char* name) {
+    gameswf::character* found = Find(name, m_context);
+    if (found == nullptr) {
+        found = Find(name, m_root->m_movie.get_ptr());
+        if (found == nullptr) {
+            gameswf::as_object* target = m_root->get_root_movie()->find_target(name);
+            if (target != nullptr) {
+                return target->is(1) ? target : nullptr;
+            }
+        }
+    }
+    return found;
 }
 
 // 0x7a91d8 RenderFX::RegisterDisplayCallback(char const*, void (*)(gameswf::render_state&, void*), void*)
@@ -88,74 +189,138 @@ char* RenderFX::GetText(const char* name) {
     return GetText(static_cast<gameswf::character*>(Find(name)));
 }
 
-// 0x7a929c RenderFX::SetVisible(char const*, bool)
-// PARTIAL, whole body omitted. The original stores the visible flag at +0x9b of the found character, and gameswf::character
-// has no member at that offset in the tree (the same layout request as the other game-ui rows).
-void RenderFX::SetVisible(const char* /*name*/, bool /*visible*/) {}
+// 0x7a929c RenderFX::SetVisible(char const*, bool): the visible byte (+0x9b) of the found object.
+void RenderFX::SetVisible(const char* name, bool visible) {
+    gameswf::as_object* object = Find(name);
+    if (object != nullptr) {
+        static_cast<gameswf::character*>(object)->m_visible = visible;
+    }
+}
 
-// 0x7a92b4 RenderFX::SetCursor(char const*, int)
-// PARTIAL, whole body omitted. The original sets the smart pointer at RenderFX controller record (cursor) index with the found
-// character. The controller record's pointer fields (+0x10 and +0x14) are not typed in RenderFX.hpp.
-void RenderFX::SetCursor(const char* /*name*/, int /*cursor*/) {}
+// 0x7a92b4 RenderFX::SetCursor(char const*, int): the cursor character (slot 2 of the controller record) of the controller.
+void RenderFX::SetCursor(const char* name, int cursor) {
+    gameswf::as_object* object = Find(name);
+    m_controllers[cursor].m_characters[2] = static_cast<gameswf::character*>(object);
+}
 
-// 0x7a92e0 RenderFX::SetText(gameswf::character*, char const*, bool)
-// PARTIAL, whole body omitted. For an edit-text character (class id 32) the original builds a tu_string from the text and calls
-// edit_text_character::set_text_value with the flag, then frees the string if it is on the heap. The edit-text character
-// is not declared in the tree as a complete type with that method.
-void RenderFX::SetText(gameswf::character* /*character*/, const char* /*text*/, bool /*flag*/) {}
+// 0x7a92e0 RenderFX::SetText(gameswf::character*, char const*, bool): an edit text character (class id 32) gets the text.
+void RenderFX::SetText(gameswf::character* character, const char* text, bool html) {
+    if (character != nullptr && character->is(32)) {
+        ::tu_string value(text);
+        static_cast<gameswf::edit_text_character*>(character)->set_text_value(value, html);
+    }
+}
 
 // 0x7a9390 RenderFX::SetText(char const*, char const*, bool): SetText of the named character.
 void RenderFX::SetText(const char* name, const char* text, bool flag) {
     SetText(static_cast<gameswf::character*>(Find(name)), text, flag);
 }
 
-// 0x7a941c RenderFX::FormatText(char const*, char const*, ...)
-// PARTIAL, whole body omitted. Formats into the static s_stringBuffer with vsprintf and sets the named text with flag 0.
-// s_stringBuffer is not declared in the tree (its size is not recovered).
-void RenderFX::FormatText(const char* /*name*/, const char* /*format*/, ...) {}
+// 0x7a941c RenderFX::FormatText(const char*, char const*, ...): vsprintf into the shared text buffer, then the text is set (HTML flag).
+void RenderFX::FormatText(const char* target, const char* format, ...) {
+    va_list arguments;
+    va_start(arguments, format);
+    std::vsprintf(s_stringBuffer, format, arguments);
+    va_end(arguments);
+    SetText(target, s_stringBuffer, 0);
+}
 
-// 0x7a953c RenderFX::ClearGlyphTextureCaches(gameswf::player_context*)
-// PARTIAL, whole body omitted. Resets the glyph texture caches of the context (or s_default_context when null): the cache
-// at context +0x0c (its +0x28 member) and the one at +0x10 (its +0x0c member). The player_context layout is not recovered.
-void RenderFX::ClearGlyphTextureCaches(gameswf::player_context* /*context*/) {}
+// 0x7a953c RenderFX::ClearGlyphTextureCaches(gameswf::player_context*): static; resets both providers' texture caches.
+void RenderFX::ClearGlyphTextureCaches(gameswf::player_context* context) {
+    if (context == nullptr) {
+        context = s_default_context;
+    }
+    if (context->m_glyph_provider != nullptr && context->m_glyph_provider->m_texture_cache != nullptr) {
+        context->m_glyph_provider->m_texture_cache->reset();
+    }
+    if (context->m_bitmap_glyph_provider != nullptr && context->m_bitmap_glyph_provider->m_texture_cache != nullptr) {
+        context->m_bitmap_glyph_provider->m_texture_cache->reset();
+    }
+}
 
-// 0x7a95a8 RenderFX::PreloadGlyphs(gameswf::character*)
-// PARTIAL, whole body omitted. The original runs edit_text_character::preload_glyphs over the edit-text children (class id
-// 32) of the character (the root movie when the argument is null). Waits on FindCharacters.
-int RenderFX::PreloadGlyphs(gameswf::character* /*character*/) {
+// 0x7a95a8 RenderFX::PreloadGlyphs(gameswf::character*): preloads the glyphs of every edit text below the character (the root
+// movie when null). Returns 1.
+int RenderFX::PreloadGlyphs(gameswf::character* character) {
+    if (character == nullptr) {
+        character = m_root->m_movie.get_ptr();
+    }
+    CharacterArray* found = FindCharacters(character, nullptr, 0);
+    for (int i = 0; i < found->count; ++i) {
+        if (found->data[i]->is(32)) {
+            static_cast<gameswf::edit_text_character*>(found->data[i])->preload_glyphs();
+        }
+    }
     return 1;
 }
 
-// 0x7a9708 RenderFX::CreateContext(RenderFX::InitializationParameters&)
-// PARTIAL, whole body omitted. Creates a player_context, a glyph_provider (from parameters +0x0c, +0x10, +0x1c, +0x20) and a
-// bitmap_glyph_provider (from +0x14, +0x18, +0x1c), and stores them at context +0x0c and +0x10, and the first parameter word
-// at context +0x28. The InitializationParameters layout is not recovered (the parameter struct is not in the tree).
-gameswf::player_context* RenderFX::CreateContext(InitializationParameters& /*parameters*/) {
-    return nullptr;
+// 0x7a9708 RenderFX::CreateContext(RenderFX::InitializationParameters&): static. A player context with a glyph provider and a
+// bitmap glyph provider built from the parameters; the video driver is the first parameter word.
+gameswf::player_context* RenderFX::CreateContext(InitializationParameters& parameters) {
+    gameswf::player_context* context = new gameswf::player_context();
+    gameswf::glyph_provider* glyphs = new gameswf::glyph_provider(
+        parameters.glyphTextureWidth, parameters.glyphTextureHeight, parameters.glyphFlag, parameters.glyphScale);
+    context->m_glyph_provider = glyphs;                              // +0x0c
+    gameswf::bitmap_glyph_provider* bitmapGlyphs = new gameswf::default_bitmap_glyph_provider(
+        parameters.bitmapGlyphTextureWidth, parameters.bitmapGlyphTextureHeight, parameters.glyphFlag);
+    context->m_bitmap_glyph_provider = bitmapGlyphs;                 // +0x10
+    context->m_video_driver = parameters.videoDriver;                // +0x28
+    return context;
 }
 
-// 0x7a90bc RenderFX::Unload()
-// PARTIAL, whole body omitted. The original resets the render handler (its vtable slot +0xa4, reset()), resets the four
-// controllers, releases the root and the player (gameswf smart pointers at +0x3c and +0x38), clears the name string at +0x44
-// and the flags word (keeping its top byte), and sets the context to null. The smart-pointer releases and the handler reset
-// are not written: the root and player slots are raw pointers in dh2/RenderFX.hpp.
-void RenderFX::Unload() {}
+// 0x7a90bc RenderFX::Unload(): resets the render handler (slot +0xa4 reset), the four controllers, drops the root and the player,
+// empties the name at +0x44 and sets the context to null.
+void RenderFX::Unload() {
+    if (gameswf::s_render_handler != nullptr) {
+        gameswf::s_render_handler->reset();
+    }
+    for (int i = 0; i != 4; ++i) {
+        m_controllers[i].Reset();
+    }
+    m_root = nullptr;
+    m_player = nullptr;
+    m_name.resize(0);
+    SetContext(nullptr);
+}
 
-// 0x7a93bc RenderFX::FormatHTML(char const*, char const*, ...)
-// PARTIAL, whole body omitted. Formats into the static s_stringBuffer and sets the named text with the flag 1 (HTML). The
-// static buffer is not declared in the tree.
-void RenderFX::FormatHTML(const char* /*name*/, const char* /*format*/, ...) {}
+// 0x7a93bc RenderFX::FormatHTML(const char*, char const*, ...): vsprintf into the shared text buffer, then the text is set (HTML flag).
+void RenderFX::FormatHTML(const char* target, const char* format, ...) {
+    va_list arguments;
+    va_start(arguments, format);
+    std::vsprintf(s_stringBuffer, format, arguments);
+    va_end(arguments);
+    SetText(target, s_stringBuffer, 1);
+}
 
-// 0x7a947c RenderFX::FormatHTML(gameswf::character*, char const*, ...)
-// PARTIAL, whole body omitted (see FormatHTML by name).
-void RenderFX::FormatHTML(gameswf::character* /*character*/, const char* /*format*/, ...) {}
+// 0x7a947c RenderFX::FormatHTML(gameswf::character*, char const*, ...): vsprintf into the shared text buffer, then the text is set (HTML flag 1).
+void RenderFX::FormatHTML(gameswf::character* target, const char* format, ...) {
+    va_list arguments;
+    va_start(arguments, format);
+    std::vsprintf(s_stringBuffer, format, arguments);
+    va_end(arguments);
+    SetText(target, s_stringBuffer, 1);
+}
 
-// 0x7a94dc RenderFX::FormatText(gameswf::character*, char const*, ...)
-// PARTIAL, whole body omitted (see FormatText by name): formats into s_stringBuffer and sets the text with flag 0.
-void RenderFX::FormatText(gameswf::character* /*character*/, const char* /*format*/, ...) {}
+// 0x7a94dc RenderFX::FormatText(gameswf::character*, char const*, ...): vsprintf into the shared text buffer, then the text is set (HTML flag 0).
+void RenderFX::FormatText(gameswf::character* target, const char* format, ...) {
+    va_list arguments;
+    va_start(arguments, format);
+    std::vsprintf(s_stringBuffer, format, arguments);
+    va_end(arguments);
+    SetText(target, s_stringBuffer, 0);
+}
 
-// 0x7a97ac RenderFX::Finalize()
-// PARTIAL, whole body omitted. Destroys the default context, clears the render handler (destruct of the handler, which is not
-// declared in the tree) and calls the gameswf global clears (tag loaders, shared libraries, standard names, method and property
-// maps, and the disassembler). None of those clears is declared with a signature in the tree.
-void RenderFX::Finalize() {}
+// 0x7a97ac RenderFX::Finalize(): destroys the default context and the render handler and clears the gameswf global tables.
+void RenderFX::Finalize() {
+    DestroyContext(s_default_context);
+    s_default_context = nullptr;
+    if (gameswf::s_render_handler != nullptr) {
+        gameswf::destruct<gameswf::render_handler>(gameswf::s_render_handler);
+        gameswf::s_render_handler = nullptr;
+    }
+    gameswf::clears_tag_loaders();
+    gameswf::clear_shared_libs();
+    gameswf::clear_standard_fnames();
+    gameswf::clear_standard_method_map();
+    gameswf::clear_standard_property_map();
+    gameswf::clear_disasm();
+}

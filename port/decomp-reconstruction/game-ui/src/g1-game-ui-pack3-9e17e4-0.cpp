@@ -16,7 +16,13 @@
 #include "dh2/MenuConfirm.hpp"
 #include "dh2/MenuConfirmBase.hpp"
 #include "dh2/MenuFlash2DCamera.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/MenuFX.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/RenderFX.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/global/screen_size.hpp"
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -116,13 +122,10 @@ MenuFlash2DCamera::~MenuFlash2DCamera() {}
 // delete does for this class.
 
 // 0x42cd84 _ZN17MenuFlash2DCamera6UpdateEv
-// PARTIAL. Rebuilt: the easing of m_x and m_y toward m_targetX and m_targetY, and the left and top clamps of the clip.
-// MISSING: the right and bottom clamps, RenderFX::SetViewport(menu, 0, 0, w, h) and
-// RenderFX::SetBounds(menu, x, y, w, h, 0). They need the screen size w (the original's v8) and h (v7). The original reads
-// them from Singleton<Application>::s_inst.m_device (dword_99F73C): the glitch device at +0x10 is the video driver, the
-// driver's +0xcc word ends a pointer array, and the element before that end has the width at +0x0c and the height at
-// +0x10. None of those words is declared in the tree (layout requests on glitch::IDevice, the driver and the element).
-// The original returns the RenderFX::SetBounds result. Every caller ignores it, so the void signature stays.
+// The position m_x and m_y eases toward the targets (each step at least one unit, never past the target). With a limit clip the
+// position is clamped so the clip bounds cover the screen (left and top, then right and bottom, with the screen size read from the
+// last render target of the video driver); then the menu viewport and bounds are set. The original returns the SetBounds result,
+// which every caller ignores, so the void signature stays.
 void MenuFlash2DCamera::Update() {
     // Ease x toward the target: one step is at least one unit and never passes the target.
     if (m_x >= m_targetX) {
@@ -142,6 +145,9 @@ void MenuFlash2DCamera::Update() {
         m_y = m_y + 1 + (m_targetY - m_y) / 10;
     }
 
+    const glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
+    const std::int32_t width = target->m_width;    // element +0x0c
+    const std::int32_t height = target->m_height;  // element +0x10
     if (m_limitClip != nullptr) {
         // Left and top clamps: the eased position may not pass minus the clip's xmin and ymin.
         const auto minX = static_cast<std::int32_t>(m_clipMinX);
@@ -152,9 +158,17 @@ void MenuFlash2DCamera::Update() {
         if (minY + m_y > 0) {
             m_y = -minY;
         }
-        // MISSING (see the comment above): the right clamp "if (w > clipMaxX + m_x) m_x = w - clipMaxX" and the bottom
-        // clamp "if (h > clipMaxY + m_y) m_y = h - clipMaxY", with w and h from the device.
+        const auto maxX = static_cast<std::int32_t>(m_clipMaxX);
+        if (width > maxX + m_x) {
+            m_x = width - maxX;
+        }
+        const auto maxY = static_cast<std::int32_t>(m_clipMaxY);
+        if (height > maxY + m_y) {
+            m_y = height - maxY;
+        }
     }
+    m_menu->SetViewport(0, 0, width, height);
+    m_menu->SetBounds(m_x, m_y, width, height, static_cast<gameswf::scale_mode>(0));
 }
 
 // 0x42cf30 _ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE

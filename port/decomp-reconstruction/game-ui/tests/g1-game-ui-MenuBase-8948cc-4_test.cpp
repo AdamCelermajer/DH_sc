@@ -67,7 +67,9 @@ Character* PlayerManager::GetLocalPlayerCharacter() {
 int SavegameManager::getLanguage() const {
     return 0;
 }
-void SavegameManager::setLanguage(int) {}
+int SavegameManager::setLanguage(int) {
+    return 1;  // the original returns StringManager::switchPack's bool; the stubs report success
+}
 void SavegameManager::saveSettings() {}
 const char* StringManager::getString(int) const {
     return nullptr;

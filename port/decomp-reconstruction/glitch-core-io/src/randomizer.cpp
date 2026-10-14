@@ -14,7 +14,7 @@ void Randomizer::reset() {
 // 40692 * (Seed mod 52774) - 3791 * (Seed div 52774), plus the modulus when the result is
 // negative. The original divides with a sign correction (the shifted sign bit is added to
 // the quotient); that is kept here.
-void Randomizer::rand() {
+std::int32_t Randomizer::rand() {
     const std::int32_t quotient = Seed / 0xce26 + (Seed >> 31);
     // The original sums in 32-bit words (wrapping); the sum is formed in 64 bits here and
     // wrapped to 32 bits, which gives the same value.
@@ -24,6 +24,7 @@ void Randomizer::rand() {
                              static_cast<std::int64_t>(quotient) * -0x7ffff038;
     Seed = static_cast<std::int32_t>(static_cast<std::uint32_t>(sum));
     if (Seed < 0) Seed += 0x7fffff07;
+    return Seed;
 }
 
 }  // namespace glitch::os

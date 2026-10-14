@@ -4,6 +4,7 @@
 namespace glitch {
 namespace scene {
 class ISceneNode;
+class IMesh;
 }
 }  // namespace glitch
 
@@ -16,3 +17,6 @@ int setCullingMode(glitch::scene::ISceneNode* node, int mode);
 
 // 0x52f0e8 getState (unmangled, exported with C linkage)
 extern "C" int getState();
+
+// 0x50fe78 _Z16FlushMeshBuffersPN6glitch5scene5IMeshEbbb (core-platform/src/w7_flush_mesh_buffers.cpp)
+void FlushMeshBuffers(glitch::scene::IMesh* mesh, bool vertices, bool indices, bool force);

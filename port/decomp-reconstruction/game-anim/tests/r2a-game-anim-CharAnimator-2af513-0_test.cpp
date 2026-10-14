@@ -114,8 +114,8 @@ void VisualObject::SetAnimController(AnimController*) {}
 // are defined as well. None of them is called by the tests.
 AnimController::AnimController(RootSceneNode*, bool) {}
 AnimController::~AnimController() {}
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimController::GetAnimationSet() {
-    std::abort();  // never called by the tests; CAnimationSet is incomplete here
+boost::intrusive_ptr<AnimationSet> AnimController::GetAnimationSet() {
+    std::abort();  // never called by the tests
 }
 int AnimController::GetNumAnim() const {
     return 0;
@@ -141,8 +141,8 @@ void AnimController::SetCallbacks(AnimCallback, void*, EventCallback, void*) {}
 
 AnimSetController::AnimSetController(RootSceneNode* node, int animSetId) : AnimController(node, false), m_animSetId(animSetId) {}
 AnimSetController::~AnimSetController() {}
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimSetController::GetAnimationSet() {
-    std::abort();  // never called by the tests; CAnimationSet is incomplete here
+boost::intrusive_ptr<AnimationSet> AnimSetController::GetAnimationSet() {
+    std::abort();  // never called by the tests
 }
 int AnimSetController::GetNumClip(unsigned int) const {
     return 0;
@@ -164,8 +164,8 @@ void AnimSetController::SetCallbacks(AnimCallback, void*, EventCallback, void*) 
 BlendedAnimSetController::BlendedAnimSetController(RootSceneNode* node, int animSetId)
     : AnimController(node, false), m_animSetId(animSetId) {}
 BlendedAnimSetController::~BlendedAnimSetController() {}
-boost::intrusive_ptr<glitch::collada::CAnimationSet> BlendedAnimSetController::GetAnimationSet() {
-    std::abort();  // never called by the tests; CAnimationSet is incomplete here
+boost::intrusive_ptr<AnimationSet> BlendedAnimSetController::GetAnimationSet() {
+    std::abort();  // never called by the tests
 }
 int BlendedAnimSetController::GetNumClip(unsigned int) const {
     return 0;

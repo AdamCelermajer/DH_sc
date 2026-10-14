@@ -14,6 +14,7 @@
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/ShadowModularSkinnedMeshSceneNode.hpp"
+#include "dh2/ShadowSkinnedMeshSceneNode.hpp"
 #include "dh2/XrayModularSkinnedMeshSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 
@@ -91,9 +92,8 @@ int VisualObject::GetModularCategoryCount() const {
 }
 
 // 0x470eb4 _ZN12VisualObject35ApplyShadowProjectionMaterialEffectEN6glitch4core8vector3dIfEEff
-// PARTIAL: the gate, the m_shadowCreated test and the m_shadowModular loop are made. The m_shadowSkinned loop calls
-// SetShadowProjectionMaterialEffects on the material at +0x198 of each ShadowSkinnedMeshSceneNode; that class does not
-// compile in this tree (BaseMeshSceneNode<CSkinnedMeshSceneNode>), so that loop is not made.
+// Does nothing unless one of the three values is above -0.5 and the shadow nodes exist. Every skinned shadow node passes its shadow
+// material (+0x198) and every modular shadow node each of its shadow materials (+0x1b0) to SetShadowProjectionMaterialEffects.
 void VisualObject::ApplyShadowProjectionMaterialEffect(glitch::core::vector3d<float> color, float a, float b) {
     if (!(color.X > -0.5f || a > -0.5f || b > -0.5f)) {
         return;
@@ -101,14 +101,11 @@ void VisualObject::ApplyShadowProjectionMaterialEffect(glitch::core::vector3d<fl
     if (!m_shadowCreated) {
         return;
     }
-    for (ShadowSkinnedMeshSceneNode* node : m_shadowSkinned) {
-        (void)node;  // Not made: SetShadowProjectionMaterialEffects(sm, node->m_shadowMaterial (+0x198), color, a, b).
-    }
     SceneManager* sm = DeviceSceneManager();
+    for (ShadowSkinnedMeshSceneNode* node : m_shadowSkinned) {
+        sm->SetShadowProjectionMaterialEffects(node->m_shadowMaterial, color, a, b);
+    }
     for (ShadowModularSkinnedMeshSceneNode* node : m_shadowModular) {
-        if (sm == nullptr) {
-            break;
-        }
         for (auto& material : node->unk_1b0) {
             sm->SetShadowProjectionMaterialEffects(material, color, a, b);
         }
@@ -285,7 +282,7 @@ void VisualObject::ApplyMaterialEffect(glitch::core::vector3d<float> color, floa
 // 0x471dc4 _ZN12VisualObject23ApplyUnlitColorMaterialEv
 // Collects the 0x73656164 nodes under m_node. For each whose parent's name is not "SP_shadow" (first 9 bytes),
 // ResetCustomTechniqueToDefault(m_node, false, false, 0, true, true, ?). The getType() result is discarded and left out.
-// A node without a parent is skipped; the original's null handling is not recovered.
+// A node without a parent is skipped (the original would fault on it). The seventh flag is false (the asm stores a zero register).
 void VisualObject::ApplyUnlitColorMaterial() {
     if (m_node == nullptr) {
         return;
@@ -302,7 +299,7 @@ void VisualObject::ApplyUnlitColorMaterial() {
             continue;
         }
         if (std::strncmp(parent->getName(), "SP_shadow", 9) != 0) {
-            sm->ResetCustomTechniqueToDefault(m_node, false, false, 0, true, true, false);  // 7th flag: pseudocode passes five; the sixth is not recovered
+            sm->ResetCustomTechniqueToDefault(m_node, false, false, 0, true, true, false);
         }
     }
 }

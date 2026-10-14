@@ -16,6 +16,7 @@
 //   - ASSERT messages keep the original source path. gAssertLevel 2 stops the program, 1 prints and continues, as in the
 //     other batches of this tree.
 #include <array>
+#include <cstring>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -30,6 +31,13 @@
 #include "dh2/GameObject.hpp"
 #include "dh2/GameSWFUtils.hpp"
 #include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/Point2D.hpp"
+#include "dh2/RenderFX.hpp"
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_root.h"
+#include "gameswf/gameswf_sprite.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
 
@@ -60,6 +68,17 @@ void TwipsToPixels(float (&rect)[4]) {
     for (float& value : rect) {
         value = value / 20.0f;
     }
+}
+
+// 0x4122bc FlushCallback(gameswf::render_state&, void*): the display callback that draws the display list of the dragged sprite
+// (the user data; display list at +0xa8).
+void FlushCallback(gameswf::render_state&, void* sprite) {
+    static_cast<gameswf::sprite_instance*>(sprite)->m_display_list.display();
+}
+
+// 0x42d734 FlushTextCallback(gameswf::render_state&, void*): draws the buffered text of the root (the user data).
+void FlushTextCallback(gameswf::render_state&, void* root) {
+    static_cast<gameswf::root*>(root)->flush_buffered_text();
 }
 
 // The common tail of the Update paths (LABEL_35 of the original): the object's position is recorded, and the anchor's
@@ -288,34 +307,29 @@ void AnchorForward::Update() {
 
 // 0x4124c4 Dragable::Dragable(MenuFX*, gameswf::character*, gameswf::character*)  (C1)
 // 0x413240 Dragable::Dragable(MenuFX*, gameswf::character*, gameswf::character*)  (C2, same body)
-// PARTIAL. Reconstructed: the menu and character pointers, the identity matrix, the twips-to-pixels conversion of m_bounds, the
-// dead zone (the zone character's absolute bounds, or the screen times 20 when there is no zone), unk_1c, and the
-// isTracingDragable debug switch read.
-// Missing (the gameswf character layout is not declared in this tree; see the layout requests):
-//   - m_bounds: the character's bounds query, its vtable slot +0x12c (slot 75), writes the rect into &m_bounds before the
-//     conversion. Here m_bounds is zeroed instead, so the conversion divides zeros, not the rect the query writes.
-//   - m_depth: the character's depth word (character +0x94, uint16). Here 0.
-//   - unk_30, unk_34: the (int) truncations of the character's matrix tx and ty (matrix pointer at character +0x4c). Here 0.
-//   - m_savedMatrix: the six floats of the character's matrix, copied over the identity. Here the identity stays.
+// The menu and character are stored, the saved matrix starts as the identity, the character bounds (get_bound, vtable +0x12c) are
+// converted from twips to pixels, the depth (character +0x94) is kept, the dead zone is the zone character absolute bounds (or the
+// screen times 20), unk_30 and unk_34 are the (int) truncations of the character matrix translation, the isTracingDragable
+// switch is read, and the character local matrix is copied into m_savedMatrix.
 Dragable::Dragable(MenuFX* menu, gameswf::character* character, gameswf::character* zone) {
     m_menu = menu;                                          // +0x04
-    m_character = character;                                // +0x08
     m_savedMatrix[0] = 1.0f;                                // +0x3c a
     m_savedMatrix[1] = 0.0f;                                // +0x40 b
     m_savedMatrix[2] = 0.0f;                                // +0x44 tx
     m_savedMatrix[3] = 0.0f;                                // +0x48 c
     m_savedMatrix[4] = 1.0f;                                // +0x4c d
     m_savedMatrix[5] = 0.0f;                                // +0x50 ty
+    m_character = character;                                // +0x08
 
-    // PARTIAL: the bounds query (see above). Until the query is declared, m_bounds is zeroed here, so the conversion
-    // below is deterministic. The original converts the rect that the query wrote into m_bounds instead.
-    for (float& value : m_bounds) {
-        value = 0.0f;
-    }
+    gameswf::rect bound;
+    character->get_bound(&bound);                           // vtable +0x12c
+    m_bounds[0] = bound.m_x_min;
+    m_bounds[1] = bound.m_x_max;
+    m_bounds[2] = bound.m_y_min;
+    m_bounds[3] = bound.m_y_max;
     TwipsToPixels(m_bounds);                                // +0x0c
 
-    // PARTIAL: m_depth is character +0x94 (see above). Zero until the character layout is declared.
-    m_depth = 0;                                            // +0x38
+    m_depth = static_cast<std::uint16_t>(m_character->m_depth);  // +0x38, character +0x94
 
     if (zone != nullptr) {
         const std::array<float, 4> zoneBounds = GameSWFUtils::GetAbsoluteBoundingRect(zone);
@@ -330,11 +344,18 @@ Dragable::Dragable(MenuFX* menu, gameswf::character* character, gameswf::charact
     }
 
     unk_1c = 0;                                             // +0x1c
-    unk_30 = 0;                                             // +0x30 PARTIAL: (int) of the character matrix tx, see above
-    unk_34 = 0;                                             // +0x34 PARTIAL: (int) of the character matrix ty, see above
+    const gameswf::matrix& local = m_character->get_matrix();
+    unk_30 = static_cast<int>(local.m_[0][2]);              // +0x30 (int) of the character matrix tx
+    unk_34 = static_cast<int>(local.m_[1][2]);              // +0x34 (int) of the character matrix ty
 
     DebugSwitches::s_inst.load();
     DebugSwitches::s_inst.GetSwitch(std::string("isTracingDragable"));  // the result is discarded, as in the original
+
+    for (int row = 0; row < 2; ++row) {                     // the character matrix is copied into m_savedMatrix
+        for (int column = 0; column < 3; ++column) {
+            m_savedMatrix[row * 3 + column] = local.m_[row][column];
+        }
+    }
 }
 
 // 0x411e54 Dragable::~Dragable()  (D2)
@@ -350,44 +371,104 @@ int Dragable::SendEvent(int event) {
 }
 
 // 0x412984 Dragable::ResetPosition()
-// PARTIAL. Reconstructed: the display callback is registered for m_character (the second RegisterDisplayCallback of the
-// original, with no callback and no user data).
-// Missing (gameswf character layout and calls not declared in this tree):
-//   - gameswf::character::set_matrix of m_savedMatrix onto the character,
-//   - the first RegisterDisplayCallback, for the character's weak target (character +0x3c proxy, check_proxy, and the
-//     pointer at +0x40),
-//   - the character's vtable slot +0x08 call with the argument 2. A non-zero result continues to the depth step,
-//   - the depth step: when the character depth word (+0x94) differs from m_depth, the display list (the character's root,
-//     +0x40 then +0xa8) moves the character to m_depth by gameswf::display_list::change_character_depth. The original
-//     returns that call's result.
-// This body returns 0 in place of the missing results. The callers (DragAndDrop::ResetPositions, Dragable::OnEvent)
-// ignore the value.
+// The saved matrix goes back onto the character, the display callbacks of the character parent and of the character are cleared,
+// and a sprite character whose depth differs from m_depth is moved back to it (display list change_character_depth, after the
+// isTracingDragable read). The result is the sprite test (the original returns the depth call result for the moved case).
 int Dragable::ResetPosition() {
+    gameswf::matrix saved;
+    for (int row = 0; row < 2; ++row) {
+        for (int column = 0; column < 3; ++column) {
+            saved.m_[row][column] = m_savedMatrix[row * 3 + column];
+        }
+    }
+    m_character->set_matrix(saved);
+    m_menu->RegisterDisplayCallback(m_character->get_parent(), nullptr, nullptr);
     m_menu->RegisterDisplayCallback(m_character, nullptr, nullptr);
-    return 0;
+    const bool isSprite = m_character->is(gameswf::AS_SPRITE);  // vtable +0x08 with 2
+    if (isSprite && m_depth != m_character->m_depth) {
+        gameswf::sprite_instance* parent = static_cast<gameswf::sprite_instance*>(m_character->get_parent());
+        DebugSwitches::s_inst.load();
+        DebugSwitches::s_inst.GetSwitch(std::string("isTracingDragable"));
+        parent->m_display_list.change_character_depth(m_character, m_depth);
+        return 0;
+    }
+    return isSprite ? 1 : 0;
 }
 
 // 0x412b00 Dragable::OnEvent(RenderFX::Event&)
-// PARTIAL. Reconstructed: the event is for this Dragable only when its target is m_character (the original compares the
-// first word of the event with the character pointer, and returns false otherwise). The isTracingDragable switch is read
-// before anything else.
-// Missing, so the event is not handled here (false, nothing moves, nothing is consumed):
-//   - the target's "drag_locked" member: get_member on the target (vtable +0x20) with a gameswf tu_string, then
-//     as_value::to_bool. When it is set the original returns false at once.
-//   - the target's bounds (vtable +0x12c, slot 75, in twips) and the event's pointer position (RenderFX::Event +0x0c and
-//     +0x10 floats),
-//   - for event type 5, the drag itself: the position clamp to m_deadZone (for unk_1c 2, the half-size clamp with
-//     Point2D<float>::normalize), RenderFX::SetPosition of the character at the position divided by 20, and the btn_skill
-//     depth raise (the target's name at +0x44, display_list::get_highest_depth and change_character_depth, with the
-//     FlushTextCallback and FlushCallback display callbacks, which are not declared in this tree),
-//   - event type 7: ResetPosition, then MenuManager::consumeEvent, and the result 0,
-//   - other types other than 6: MenuManager::consumeEvent, and the result 0,
-//   - event type 6: the result 1, and event type 5 without the depth raise: the result 1.
+// Only events on this character count. A "drag_locked" member that is true ends the call (false). A release (type 6) is handled
+// (true). A release outside (type 7) resets the position and consumes the event, as does any type other than 5, 6 and 7 (false).
+// A move (type 5) puts the character at the pointer: the position is the pointer plus the character bounds origin, clamped to
+// the dead zone circle when unk_1c is 2, centred on the character bounds, and set in pixels; a character named "btn_skill..."
+// also gets its display callbacks and is raised to the top depth of its parent (true).
 bool Dragable::OnEvent(RenderFX::Event& e) {
     if (static_cast<const void*>(e.target) != static_cast<const void*>(m_character)) {
         return false;
     }
     DebugSwitches::s_inst.load();
     DebugSwitches::s_inst.GetSwitch(std::string("isTracingDragable"));  // the result is discarded, as in the original
-    return false;
+
+    gameswf::as_value locked;
+    e.target->get_member("drag_locked", &locked);  // vtable +0x20
+    if (locked.to_bool()) {
+        DebugSwitches::s_inst.load();
+        DebugSwitches::s_inst.GetSwitch(std::string("isTracingDragable"));
+        return false;
+    }
+    const int type = static_cast<int>(e.type);
+    if (type != 6) {
+        if (type == 7) {
+            ResetPosition();
+            MenuManager::GetInstance()->consumeEvent();
+            return false;
+        }
+        if (type != 5) {
+            MenuManager::GetInstance()->consumeEvent();
+            return false;
+        }
+        gameswf::rect bound;
+        e.target->get_bound(&bound);  // vtable +0x12c, twips: xmin, xmax, ymin, ymax
+        float x = bound.m_x_min + e.x;
+        float y = bound.m_y_min + e.y;
+        if (unk_1c == 2) {
+            const float width = m_deadZone[1] - m_deadZone[0];
+            const float height = m_deadZone[3] - m_deadZone[2];
+            float diameter = height;
+            if (width <= height) {
+                diameter = width;
+            }
+            const float centerX = m_deadZone[0] + width * 0.5f;
+            const float centerY = m_deadZone[2] + height * 0.5f;
+            const float radius = diameter * 0.5f;
+            Point2D<float> relative;
+            relative.X = x - centerX;
+            relative.Y = y - centerY;
+            if (radius * radius < relative.X * relative.X + relative.Y * relative.Y) {
+                relative.normalize();
+                relative.X = relative.X * radius;
+                relative.Y = relative.Y * radius;
+            }
+            x = centerX + relative.X;
+            y = centerY + relative.Y;
+        }
+        x = (bound.m_x_max - bound.m_x_min) * -0.5f + x;
+        y = (bound.m_y_max - bound.m_y_min) * -0.5f + y;
+        m_menu->SetPosition(e.target, static_cast<int>(x / 20.0f), static_cast<int>(y / 20.0f));
+        if (std::strncmp("btn_skill", e.target->get_name().c_str(), 9) == 0) {
+            m_menu->RegisterDisplayCallback(m_character, &FlushTextCallback, m_menu->GetRoot());
+            m_menu->RegisterDisplayCallback(m_character->get_parent(), &FlushCallback, m_character);
+            const int depth = m_character->m_depth;
+            if (m_character->is(gameswf::AS_SPRITE)) {
+                gameswf::sprite_instance* parent = static_cast<gameswf::sprite_instance*>(m_character->get_parent());
+                const int highest = parent->m_display_list.get_highest_depth();
+                if (highest != depth + 1) {
+                    DebugSwitches::s_inst.load();
+                    DebugSwitches::s_inst.GetSwitch(std::string("isTracingDragable"));
+                    parent->m_display_list.change_character_depth(m_character, highest);
+                    return true;
+                }
+            }
+        }
+    }
+    return true;
 }

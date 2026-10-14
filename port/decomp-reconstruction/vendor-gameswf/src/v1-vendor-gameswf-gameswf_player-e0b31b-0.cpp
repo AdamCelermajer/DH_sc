@@ -72,7 +72,7 @@ void builtin_c_function(as_object* obj, const char* name, void (*func)(const fn_
 player::player(player_context* context) :
 	m_garbage_count(1),	// +0x30
 	m_start_ticks(0),	// +0x40, set by action_init
-	unk_94(0),	// +0x94
+	m_render_fx(nullptr),	// +0x94
 	unk_98(false),	// +0x98
 	m_context(context)	// +0xac
 {

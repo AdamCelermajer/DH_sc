@@ -4,13 +4,23 @@
 // what is not rebuilt; the same gaps are listed in the ledger notes and the layout requests.
 
 #include <cstdio>
+#include <cstring>
 #include <cstdlib>
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/AnimatedFX.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PFObject.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/SceneNodeHelpers.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
 #include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
 #include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
@@ -142,11 +152,10 @@ void AnimatedFX::SetStart() {
 }
 
 // 0x4927a4 _ZN10AnimatedFX14_HandleLoopEndEv
-// PARTIAL. Written: the gate (speed > 0, or a callback set), the loop countdown, the loop-end branch that
-// clears looping and sets the first byte of the set data, and the end-of-loop callback. Not rebuilt: the
-// timeline part that follows the callback in the original (animator slot +0x44, the controller's +0x14 and
-// +0x04 words, SetEnd when they differ, then the animator's slot +0x10 with (m_visual->m_node, the end word)). Those
-// interfaces are not declared in the tree.
+// Gate: speed > 0, or a callback is set. A positive loop count counts down and restarts the clip. At the last loop the looping
+// flag is cleared, the first byte of the set data is set, and the end-of-loop callback runs once (then is cleared); after it the
+// timeline is parked at its range end: when its range end differs from its position the clip jumps to the end, and the animator
+// is animated at that end time on the visual's node.
 void AnimatedFX::_HandleLoopEnd() {
     if (!(m_speed <= 0.0f) || m_endOfLoop != nullptr) {         // speed > 0, or a callback is set
         const int loops = m_loopCount;                          // +0x14
@@ -163,7 +172,13 @@ void AnimatedFX::_HandleLoopEnd() {
             if (m_endOfLoop != nullptr) {
                 m_endOfLoop(this, m_setData);
                 m_endOfLoop = nullptr;
-                // NOT RECONSTRUCTED: the timeline part after the callback, see the comment above.
+                (void)GetAnimator()->getTimelineCtrl();
+                glitch::scene::ISceneNode* node = m_visual->m_node;
+                const std::int32_t end = GetAnimator()->getTimelineCtrl()->rangeEndMs;        // +0x14
+                if (end != GetAnimator()->getTimelineCtrl()->currentTimeMs) {                 // +0x04
+                    SetEnd();
+                }
+                GetAnimator()->animateNode(node, static_cast<unsigned int>(end));
             }
         }
     }
@@ -197,11 +212,8 @@ void AnimatedFX::ForceMaterial(int /*material*/) {
 }
 
 // 0x49296c _ZN10AnimatedFX4LoadEPKcS1_fib
-// PARTIAL. Written: the speed, name, loop count and animation name stores, the VisualObject creation
-// (owner null, model = name, variant = animation name), the SetCallbacks on the controller with _CBLoop
-// and this, and SetScale(speed, 0). Not rebuilt: the self-illuminated branch (selfIlluminated true). It calls
-// SetNodeToSelfIlluminated(ISceneNode*) with the visual's root node, a RootSceneNode*; RootSceneNode has only
-// a forward declaration in the tree, so the conversion cannot be written.
+// Stores speed, names and loop count, builds the visual (owner null), registers _CBLoop, sets the anim speed and, when
+// selfIlluminated, flags the root node.
 void AnimatedFX::Load(const char* name, const char* animName, float speed, int loopCount, bool selfIlluminated) {
     m_speed = speed;                                            // +0x20
     m_name = name;                                              // +0x0c
@@ -212,31 +224,84 @@ void AnimatedFX::Load(const char* name, const char* animName, float speed, int l
         m_visual->m_animController->SetCallbacks(&AnimatedFX::_CBLoop, this, nullptr, nullptr);
         m_visual->m_animController->SetScale(m_speed, 0);
         if (selfIlluminated) {
-            // NOT RECONSTRUCTED: SetNodeToSelfIlluminated(root node). See the note above.
+            SetNodeToSelfIlluminated(m_visual->m_node);
         }
     }
 }
 
 // 0x492aa0 _ZN10AnimatedFX11SyncIrrDataEb
-// PARTIAL. Only the early return without a visual is written. The rest of the original depends on the owner
-// word +0x28, which the header declares as int (layout request: GameObject* at +0x28). Not rebuilt:
-//   - the owner's target position added to the offset words +0x34..+0x3c;
-//   - rotation: from the visual's node (node slot +0x38 gives the absolute transform, read by
-//     glitch::core::CMatrix4::getRotationDegrees, scaled by 0.017453 = bits 0x3C8EFA35) or else from the
-//     owner's rotation (GameObject +0x16c); written to +0x40..+0x48 and passed to VisualObject::SetRotation;
-//   - scale: the owner's scale (+0x120) or GetFXScale(), passed to VisualObject::SetScaling, gated by +0x32;
-//   - the floor normal: PFWorld::GetFloorHeightAt(const Point3D<float>&, float*, Point3D<float>*, PFRoom**,
-//     PFFloor**, bool) through Singleton<PFWorld>::s_inst (dh2/PFWorld.hpp is absent). The normal is only
-//     kept on the stack, so only this query call is at stake;
-//   - the setData walk when push and +0x31 are set: VisualFXManager::AnimFXSetData is not declared
-//     (+0x2c next pointer, +0x04 count; a count above zero on the last entry clears the rotation flag).
-// The position and the explicit rotation (+0x4c) are therefore not written here.
+// Places the visual: position = owner target position + offset (+0x34..+0x3c); the rotation (from the owner's node transform in
+// degrees or the owner's rotation) when rotation sync applies; the scale when +0x32 is set; the explicit rotation (+0x4c) is
+// applied last, otherwise the floor normal is queried (unused afterwards, but the query is made).
 void AnimatedFX::SyncIrrData(bool push) {
     if (m_visual == nullptr) {
         return;
     }
-    // NOT RECONSTRUCTED beyond this point, see the comment above. The push flag is not used yet.
-    (void)push;
+    Point3D<float> pos;
+    std::memcpy(&pos.X, &unk_34, sizeof(float));
+    std::memcpy(&pos.Y, &unk_38, sizeof(float));
+    std::memcpy(&pos.Z, &unk_3c, sizeof(float));
+    Point3D<float> rotation;
+    std::memcpy(&rotation.X, &unk_40, sizeof(float));
+    std::memcpy(&rotation.Y, &unk_44, sizeof(float));
+    std::memcpy(&rotation.Z, &unk_48, sizeof(float));
+    bool syncRotation = unk_30 ? true : (push ? unk_31 : false);
+    if (m_setData != nullptr && push && unk_31) {
+        VisualFXManager::AnimFXSetData* last = static_cast<VisualFXManager::AnimFXSetData*>(m_setData);
+        for (VisualFXManager::AnimFXSetData* next = last->unk_2c; next != nullptr; next = next->unk_2c) {
+            last = next;
+        }
+        if (last->m_stepIndex > 0) {
+            syncRotation = false;
+        }
+    }
+    if (unk_28 != nullptr) {
+        const Point3D<float>& target = unk_28->GetTargetPosition();
+        pos.X += target.X;
+        pos.Y += target.Y;
+        pos.Z += target.Z;
+        if (syncRotation) {
+            VisualObject* ownerVisual = unk_28->m_visualObject;
+            if (ownerVisual != nullptr) {
+                const glitch::core::vector3d<float> degrees = ownerVisual->m_node->getAbsoluteTransformation().getRotationDegrees();
+                rotation.X = degrees.X * 0.017453f;
+                rotation.Y = degrees.Y * 0.017453f;
+                rotation.Z = degrees.Z * 0.017453f;
+            } else {
+                rotation = unk_28->m_rotation;
+            }
+            std::memcpy(&unk_40, &rotation.X, sizeof(float));
+            std::memcpy(&unk_44, &rotation.Y, sizeof(float));
+            std::memcpy(&unk_48, &rotation.Z, sizeof(float));
+            m_visual->SetRotation(rotation);
+        }
+        if (unk_32) {
+            Point3D<float> scale = Vec3f_Origin;
+            if (unk_28->GetFXScaleValue() == -1) {
+                scale = unk_28->m_scale;
+            } else {
+                scale = unk_28->GetFXScale();
+            }
+            m_visual->SetScaling(scale);
+        }
+    }
+    if (unk_4c) {
+        m_visual->SetRotation(rotation);
+    } else if (unk_28 == nullptr || (!syncRotation && !unk_31)) {
+        Point3D<float> normal = {0.0f, 0.0f, 0.0f};
+        if (unk_28 != nullptr) {
+            normal = unk_28->m_pfObject.m_floorNormal;
+            if (normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z == 0.0f) {
+                Singleton<PFWorld>::s_inst.GetFloorHeightAt(pos, nullptr, &normal, nullptr, nullptr, false);
+                if (normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z == 0.0f) {
+                    normal = {0.0f, 0.0f, 1.0f};
+                }
+            }
+        } else {
+            Singleton<PFWorld>::s_inst.GetFloorHeightAt(pos, nullptr, &normal, nullptr, nullptr, false);
+        }
+    }
+    m_visual->SetPosition(pos);
 }
 
 // 0x492e8c _ZN10AnimatedFX9SetAnimFXEbbbfiPN15VisualFXManager13AnimFXSetDataEPFvPS_S2_E

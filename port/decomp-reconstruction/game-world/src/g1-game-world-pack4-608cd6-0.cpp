@@ -24,7 +24,8 @@
 #include "dh2/Level.hpp"                                     // Level::m_camera (+0x128)
 #include "dh2/global/underlay_scene_node.hpp"                // TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalisse
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"  // registerNodeForRendering (vptr+0x24)
-#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"  // near and far values, render
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-video/video_driver.hpp"  // near and far values, render
 
 // Global assert level (libDungeonHunter2.so, the same variable as core-platform/memory.hpp declares).
 extern int gAssertLevel;
@@ -104,7 +105,8 @@ void UnderlaySceneNode::render(void* renderContext) {
     camera->setFarValue(kUnderlayCameraFar);         // vptr+0x134
     camera->render(nullptr);                         // vptr+0x1c with a null context
 
-    // NOT BOUND: sceneManager->driver->setDepthRange(0.8f, 1.0f)   (IVideoDriver vptr+0x11c)
+    glitch::video::IVideoDriver* driver = sceneManager->driver;  // +0x14
+    driver->setDepthRange(0.8f, 1.0f);  // vptr+0x11c
 
     // The count is read on every pass, as the original reads the list bounds again after each call.
     for (std::size_t i = 0; i < m_underlayNodes.size(); ++i) {
@@ -115,7 +117,7 @@ void UnderlaySceneNode::render(void* renderContext) {
     camera->setFarValue(savedFar);                   // vptr+0x134
     camera->render(nullptr);                         // vptr+0x1c with a null context
 
-    // NOT BOUND: sceneManager->driver->setDepthRange(0.0f, 0.8f)   (IVideoDriver vptr+0x11c)
+    driver->setDepthRange(0.0f, 0.8f);  // vptr+0x11c
 }
 
 // 0x381cf0 _ZN17UnderlaySceneNode19onRegisterSceneNodeEv

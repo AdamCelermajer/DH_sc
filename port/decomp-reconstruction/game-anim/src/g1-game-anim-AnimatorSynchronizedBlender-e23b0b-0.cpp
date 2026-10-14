@@ -13,8 +13,34 @@
 // owner header; the engine base ctor writes +0xb4 and +0xb8 and the owner ctor (0x3688f0) overwrites them with its own fields.
 #include "dh2/AnimatorSynchronizedBlender.hpp"
 
+#include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <vector>
+
+#include "dh2/global/GetApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp"
+#include "glitch-scene-collada-gui/collada/SAnimation.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+
+extern int gAssertLevel;
+
+namespace {
+
+// The original ASSERT of AnimatorSynchronizedBlender.cpp. gAssertLevel 2 stops the program (the original stores to address 0),
+// gAssertLevel 1 prints the message to stderr and execution continues.
+void ReportAssert(const char* expression, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression,
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\Irrlicht\\Nodes\\Animators\\AnimatorSynchronizedBlender.cpp", line);
+    }
+}
+
+}  // namespace
 
 // 0x367b64 AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::ResetDelta(unsigned int)
 // The original is a bare return (bx lr, asm checked).
@@ -34,37 +60,52 @@ glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSynchronizedBlender::getType()
     return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(14);
 }
 
-// 0x367b74 AnimatorSynchronizedBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*,
-//                                                    void (*)(glitch::collada::STriggeredEvent const&, void*), void*)
-// partial: the per-segment loop is missing. For each segment (engine base vector +0x30, element record whose +0x04 is the
-// child animator) the original stores eventCallback at the child's +0x1c and eventUserData at +0x20 (both declared on
-// glitch::collada::ISceneNodeAnimator), then stores both on the child's events manager at +0x18 (callback +0x08, user data
-// +0x0c; the events manager layout is not declared), then takes the child's timeline (vtable +0x44, getTimelineCtrl) and
-// sets its callback (+0x08) to _CBAnim and its callback data (+0x0c) to this. Done: the animation callback pair is stored
-// last, as in the original.
+// 0x367b74 AnimatorSynchronizedBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)
+// For every child animator: the event pair goes into the animator (+0x1c, +0x20) and its events manager, and its timeline
+// calls _CBAnim with this. The animation callback pair is stored last.
 void AnimatorSynchronizedBlender::SetCallbacks(AnimCallback animCallback, void* animUserData,
                                                EventCallback eventCallback, void* eventUserData) {
-    (void)eventCallback;
-    (void)eventUserData;
-    // partial: the per-segment loop goes here (see above).
+    for (std::size_t i = 0; i != children.size(); ++i) {
+        glitch::collada::ISceneNodeAnimator* child = children[i]->owner;
+        child->eventCallback = eventCallback;       // +0x1c
+        child->eventUserData = eventUserData;       // +0x20
+        if (child->eventsTrack) {                   // +0x18
+            child->eventsTrack->callbackUserData = eventUserData;
+            child->eventsTrack->callback = eventCallback;
+        }
+        glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
+        if (timeline != nullptr) {
+            timeline->callbackData = this;
+            timeline->callback = &AnimatorSynchronizedBlender::_CBAnim;
+        }
+    }
     m_animCallbackUser = animUserData;  // +0xd4
     m_animCallback = animCallback;      // +0xd0
 }
 
 // 0x367c38 AnimatorSynchronizedBlender::SetScale(float)
-// partial: for each segment, the child's timeline (child vtable +0x44, getTimelineCtrl) gets setScale(scale) through its
-// vtable +0x48 when the timeline exists. The segment vector (engine base +0x30) is not declared.
+// The timeline scale of every child.
 void AnimatorSynchronizedBlender::SetScale(float scale) {
-    (void)scale;
+    for (std::size_t i = 0; i != children.size(); ++i) {
+        glitch::scene::ITimelineController* timeline = children[i]->owner->getTimelineCtrl();
+        if (timeline != nullptr) {
+            timeline->setScale(scale);
+        }
+    }
 }
 
 // 0x367ca4 AnimatorSynchronizedBlender::BlendPost()
-// partial: the current child's timeline is missing. The original takes segment[m_currentIndex] (engine base vector +0x30),
-// its +0x04 child animator, the timeline (vtable +0x44). When the timeline exists: length = getCurrentClipLength() (vtable
-// +0x34); when length <= m_clipWrapOffset (signed compare) the offset becomes offset % length; then
-// timeline->jumpTo(getCurrentClipStart() (vtable +0x2c) + offset) (vtable +0x0c). Done: the offset is cleared at the end.
+// The timeline of the current child jumps to its clip start plus the overshoot (the overshoot is first wrapped by the clip length
+// when it is not shorter), then the overshoot is cleared.
 void AnimatorSynchronizedBlender::BlendPost() {
-    // partial: the timeline jump goes here (see above).
+    glitch::scene::ITimelineController* timeline = children[m_currentIndex]->owner->getTimelineCtrl();
+    if (timeline != nullptr) {
+        const std::int32_t length = static_cast<std::int32_t>(timeline->getCurrentClipLength());   // vptr+0x34
+        if (length <= m_clipWrapOffset && length != 0) {
+            m_clipWrapOffset = m_clipWrapOffset % length;
+        }
+        timeline->jumpTo(static_cast<std::int32_t>(timeline->getCurrentClipStart()) + m_clipWrapOffset);   // vptr+0x2c, +0x0c
+    }
     m_clipWrapOffset = 0;  // +0xcc
 }
 
@@ -75,86 +116,150 @@ void AnimatorSynchronizedBlender::BlendPost() {
 AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::~SynchronizedBlenderApplicator() {}
 
 // 0x367d94 AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::ApplyValues(unsigned int, unsigned int)
-// partial: the body is two checks, and both need engine base sizes. Check 1: the blender's weight count (engine base
-// +0x3c .. +0x40) must equal m_weights.size(), else ASSERT "weights.size() == blender->Weights.size()" at line 225.
-// Check 2: animatorId < segment count (engine base +0x30 .. +0x34), else ASSERT "animatorId < blender->Animators.size()"
-// at line 226. The ASSERT macro: gAssertLevel (core-platform/memory.hpp) 2 aborts (the original stores through address 0),
-// 1 prints "ASSERT(%s) FAILED: %s:%d" to the FILE at _sF + 2 (stderr, as in the gc_singleton.hpp pattern).
-// The timeMs argument is unused. Neither caller reads the return value.
+// Two asserts: the weight count equals the blender weight count (line 225), the animator id is below the child count (line 226).
+// gAssertLevel 2 aborts, 1 prints. The time argument is unused.
 void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::ApplyValues(unsigned int animatorId,
                                                                             unsigned int timeMs) {
-    (void)animatorId;
     (void)timeMs;
-    // partial: the two checks go here (see above).
+    if (m_blender->weights.size() != m_weights.size()) {
+        ReportAssert("weights.size() == blender->Weights.size()", 225);
+    }
+    if (animatorId >= m_blender->children.size()) {
+        ReportAssert("animatorId < blender->Animators.size()", 226);
+    }
 }
 
 // 0x367ec8 AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::AnimateNode(unsigned int)
-// partial. With no reference node (m_refNode == 0) the original returns after calling the engine base
-// glitch::collada::CSceneNodeAnimatorSynchronizedBlender::animateNode(blender, nullptr, time), which is not declared.
-// With a reference node: ASSERT weights count (line 355), then m_delta X, Y and Z (+0x24, +0x28, +0x2c) are cleared, then
-// normalizeWeights (engine base), then for each segment with a positive weight: ApplyValues(segment, time), child applicator
-// = GetApplicator(child animator), its virtual AnimateNode(time) (vtable +0x10), and weight * child delta added into m_delta
-// (a null child applicator is ASSERT "aa" at line 380). Then the per-target loop over the engine base arrays +0x54, +0x60
-// and +0x6c. Last, m_time = time (+0x14). Done: the clear of m_delta and the final store, both on the reference-node path.
-// The per-target loop, for each index i whose +0x60 entry is non-zero, takes its child animator from segment 0 (not from
-// m_currentIndex; asm 0x3680a4: blender +0x30, first element, +0x04), calls the child's vtable +0x58 with (child, i), and
-// then the returned target's vtable +0x18 with (+0x54[i], weights begin, weight count, +0x60[i], +0x6c[i]). Neither slot is
-// declared (the canonical ISceneNodeAnimator header ends at +0x50).
-void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::AnimateNode(unsigned int timeMs) {
-    if (m_refNode != nullptr) {
-        // partial: the weights-count assert (line 355) goes here.
-        m_delta.X = 0.0f;  // +0x24
-        m_delta.Y = 0.0f;  // +0x28
-        m_delta.Z = 0.0f;  // +0x2c
-        // partial: normalizeWeights, the segment loop and the per-target loop go here (see above).
-        m_time = timeMs;   // +0x14, the last store of the original
+// Without a reference node the engine animateNode runs. Otherwise: the weight count assert (line 355), the delta is cleared, the
+// weights are normalised, every child with a positive weight gets ApplyValues and its applicator animates (a missing one trips the
+// assert "aa", line 380), the weighted child deltas add up, then every target gets the blended child values (applyBlendedValue of
+// the track of child 0), and the time is stored.
+void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::AnimateNode(unsigned int time) {
+    if (m_refNode == nullptr) {
+        m_blender->glitch::collada::CSceneNodeAnimatorSynchronizedBlender::animateNode(nullptr, time);
+        return;
     }
-    // partial: the no-reference-node path calls the engine base animateNode (see above).
+    if (m_blender->weights.size() != m_weights.size()) {
+        ReportAssert("weights.size() == blender->Weights.size()", 355);
+    }
+    m_delta.Z = 0.0f;
+    m_delta.X = 0.0f;
+    m_delta.Y = 0.0f;
+    m_blender->normalizeWeights();
+    for (std::size_t i = 0; i < m_blender->children.size(); ++i) {
+        const float weight = m_blender->weights[i];
+        if (weight <= 0.0f) {
+            continue;
+        }
+        ApplyValues(static_cast<unsigned int>(i), time);
+        AnimApplicator* applicator = GetApplicator(m_blender->children[i]->owner);
+        if (applicator == nullptr) {
+            ReportAssert("aa", 380);
+            continue;
+        }
+        applicator->AnimateNode(time);
+        m_delta.X = m_delta.X + weight * applicator->m_delta.X;
+        m_delta.Y = m_delta.Y + weight * applicator->m_delta.Y;
+        m_delta.Z = m_delta.Z + weight * applicator->m_delta.Z;
+    }
+    for (std::size_t target = 0; target < m_blender->targets.size(); ++target) {
+        if (m_blender->targets[target] != nullptr) {
+            glitch::collada::IAnimationTrackEx* track = m_blender->children[0]->owner->getAnimationTrackEx(static_cast<std::int32_t>(target));
+            track->applyBlendedValue(m_blender->outputs[target], m_blender->weights.data(), static_cast<int>(m_blender->weights.size()),
+                                     m_blender->targets[target], m_blender->applicators[target]);
+        }
+    }
+    m_time = time;   // +0x14, the last store of the original
 }
 
 // 0x36820c AnimatorSynchronizedBlender::animateNode(glitch::scene::ISceneNode*, unsigned int)
-// partial. Done: the cross-fade countdown. The original takes the unsigned step (time - m_lastTime), subtracts it from
-// m_blendRemaining when that is not negative, and stores the int result. Missing, in order:
-//  (1) remaining <= 0: weight[previous] = 0 and weight[current] = 1 in the engine base weight vector (+0x3c), and the engine
-//      base dirty flag (+0xb1, 16-bit) is set to 1 and +0xb2 cleared whenever a weight changes;
-//  (2) remaining > 0: weight[previous] = remaining * m_blendScale and weight[current] = 1 - weight[previous], same flag rule;
-//  (3) m_animCallback set and the current child's timeline (segment +0x04 animator, getTimelineCtrl vtable +0x44) exists and
-//      step + timeline->currentTimeMs + m_blendDuration >= timeline->getCurrentClipEnd() (vtable +0x30): m_clipWrapOffset =
-//      that sum minus getCurrentClipEnd(), applicator AnimateNode(time), m_lastTime = time, then
-//      m_animCallback(timeline, m_animCallbackUser) and return;
-//  (4) otherwise applicator AnimateNode(time) (the non-virtual SynchronizedBlenderApplicator call) and m_lastTime = time.
-// (1), (2), (3) and (4) need the engine base segment vector and weight vector, which are not declared.
+// The cross-fade countdown moves the weights of the previous and current child (a change marks the weights dirty and not
+// normalised). When a callback is set and the current child timeline will pass its clip end within this step (step + current time
+// + blend duration), the overshoot is recorded, the applicator animates, the time is stored and the animation callback runs;
+// otherwise the applicator animates and the time is stored. The original returns the callback result; the override is void.
 void AnimatorSynchronizedBlender::animateNode(glitch::scene::ISceneNode* node, unsigned int timeMs) {
     (void)node;
+    const unsigned int step = timeMs - m_lastTime;
     if (m_blendRemaining >= 0) {
-        // Unsigned subtraction, as in the original; the result is stored in the int field.
-        m_blendRemaining = static_cast<int>(static_cast<unsigned int>(m_blendRemaining) - (timeMs - m_lastTime));
-        // partial: (1) and (2) go here, selected by m_blendRemaining <= 0 (see above).
+        m_blendRemaining = static_cast<int>(static_cast<unsigned int>(m_blendRemaining) - step);
+        if (m_blendRemaining <= 0) {
+            if (weights[m_previousIndex] != 0.0f) {
+                weightsDirty = true;
+                weightsNormalized = false;
+            }
+            weights[m_previousIndex] = 0.0f;
+            if (weights[m_currentIndex] != 1.0f) {
+                weightsDirty = true;
+                weightsNormalized = false;
+            }
+            weights[m_currentIndex] = 1.0f;
+        } else {
+            const float previousWeight = static_cast<float>(m_blendRemaining) * m_blendScale;
+            if (previousWeight != weights[m_previousIndex]) {
+                weightsDirty = true;
+                weightsNormalized = false;
+            }
+            weights[m_previousIndex] = previousWeight;
+            const float currentWeight = 1.0f - previousWeight;
+            if (currentWeight != weights[m_currentIndex]) {
+                weightsDirty = true;
+                weightsNormalized = false;
+            }
+            weights[m_currentIndex] = currentWeight;
+        }
     }
-    // partial: (3) and (4) go here (see above).
+    glitch::scene::ITimelineController* timeline = nullptr;
+    int reached = 0;
+    if (m_animCallback != nullptr) {
+        timeline = children[m_currentIndex]->owner->getTimelineCtrl();
+        if (timeline != nullptr) {
+            reached = static_cast<int>(step) + timeline->currentTimeMs + m_blendDuration;
+        }
+    }
+    if (timeline != nullptr && reached >= static_cast<int>(timeline->getCurrentClipEnd())) {
+        m_clipWrapOffset = reached - static_cast<int>(timeline->getCurrentClipEnd());
+        m_applicator.SynchronizedBlenderApplicator::AnimateNode(timeMs);
+        m_lastTime = timeMs;
+        m_animCallback(timeline, m_animCallbackUser);
+    } else {
+        m_applicator.SynchronizedBlenderApplicator::AnimateNode(timeMs);
+        m_lastTime = timeMs;
+    }
 }
 
 // 0x3683bc AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::CustomResetDelta()
-// partial. With m_refNode set, the original takes the current child animator (segment[m_blender->m_currentIndex] +0x04,
-// engine base vector +0x30) and its timeline (vtable +0x44). When the timeline exists it calls jumpTo(getCurrentClipStart())
-// (vtable +0x0c, +0x2c), then ApplyValues(m_blender->m_currentIndex, m_time), then the child applicator (GetApplicator)
-// ResetDelta(m_time) (vtable +0x0c). A child without an applicator is ASSERT "aa" at line 326. The engine base vector is
-// not declared, so the whole body is missing; the return value of the original is not read by any caller.
+// With a reference node the current child timeline jumps to its clip start, the values are applied and the child applicator
+// resets its delta at the last time. A child without applicator trips the assert (line 326).
 void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::CustomResetDelta() {
     if (m_refNode != nullptr) {
-        // partial: the child lookup, the timeline jump, ApplyValues and the child ResetDelta go here (see above).
+        glitch::collada::ISceneNodeAnimator* child = m_blender->children[m_blender->m_currentIndex]->owner;
+        glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
+        AnimApplicator* applicator = GetApplicator(child);
+        if (applicator != nullptr) {
+            if (timeline != nullptr) {
+                timeline->jumpTo(static_cast<std::int32_t>(timeline->getCurrentClipStart()));
+            }
+            ApplyValues(static_cast<unsigned int>(m_blender->m_currentIndex), m_time);
+            applicator->ResetDelta(m_time);
+        } else {
+            ReportAssert("aa", 326);
+        }
     }
 }
 
 // 0x3684d8 AnimatorSynchronizedBlender::Blend(int)
-// partial: the segment count (engine base +0x30 .. +0x34) is missing. The original asserts numAnimators == 2 (line 89),
-// sets currentIndex = (currentIndex + 1) % count (unsigned; a zero count gives 0 on ARM), and runs the applicator's
-// CustomResetDelta. Done: previous = current before the step, the remaining time from the stored duration, the scale
-// 1 / duration when the stored duration is positive, and the stored duration = max(argument, 0). The float return is a
-// register residue that the only caller discards.
+// Asserts two children (line 89), makes the next child current (the previous one fades out) and resets the applicator. The
+// remaining time is the stored duration, the scale 1 / that duration when positive, and the stored duration = max(argument, 0).
+// The float the original returns is a register residue that the only caller discards.
 void AnimatorSynchronizedBlender::Blend(int duration) {
+    const unsigned int count = static_cast<unsigned int>(children.size());
+    if (count != 2) {
+        ReportAssert("numAnimators == 2", 89);
+    }
     m_previousIndex = m_currentIndex;  // +0xb8
-    // partial: the numAnimators == 2 assert (line 89), the index step (+0xb4) and the applicator CustomResetDelta go here.
+    // ARM unsigned/signed divide by zero yields 0, so an empty list keeps index 0.
+    m_currentIndex = count != 0 ? (m_currentIndex + 1) % static_cast<int>(count) : 0;   // +0xb4
+    m_applicator.CustomResetDelta();
     m_blendRemaining = m_blendDuration;  // +0xc0
     if (m_blendDuration > 0) {
         m_blendScale = 1.0f / static_cast<float>(m_blendDuration);  // +0xc4
@@ -163,14 +268,29 @@ void AnimatorSynchronizedBlender::Blend(int duration) {
 }
 
 // 0x3685cc AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::SetRefNode(glitch::scene::ISceneNode*)
-// partial. Done: the base AnimApplicator::SetRefNode(node) call comes first, as in the original. Missing, in order:
-// ASSERT "blender" at line 271 when m_blender is null; for each segment, GetApplicator(child animator) and that
-// applicator's virtual SetRefNode (vtable +0x08) with node, or AnimApplicator::SetRefNode(nullptr) when the child has
-// no applicator; then unk_4c = -1 and, for each entry of the engine base array at +0x60 equal to node, the child state
-// from the engine base virtual at vtable +0x54 (a record whose +0x08 is compared with 1) stores that index in unk_4c.
+// A missing blender trips the assert (line 271). The base takes the node, every child applicator gets it (a child without one makes
+// this applicator drop its node again); unk_4c becomes the index of the target equal to the node when its track type is 1.
 void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::SetRefNode(glitch::scene::ISceneNode* node) {
+    if (m_blender == nullptr) {
+        ReportAssert("blender", 271);
+    }
     AnimApplicator::SetRefNode(node);
-    // partial: the blender check, the segment loop and the unk_4c search go here (see above).
+    for (std::size_t i = 0; i != m_blender->children.size(); ++i) {
+        AnimApplicator* applicator = GetApplicator(m_blender->children[i]->owner);
+        if (applicator != nullptr) {
+            applicator->SetRefNode(node);
+        } else {
+            AnimApplicator::SetRefNode(nullptr);
+        }
+    }
+    unk_4c = -1;
+    for (std::size_t i = 0; i != m_blender->targets.size(); ++i) {
+        if (m_blender->targets[i] == static_cast<void*>(node)) {
+            if (m_blender->getAnimationTrack(static_cast<std::int32_t>(i))->type == 1) {
+                unk_4c = static_cast<std::int32_t>(i);
+            }
+        }
+    }
 }
 
 // No symbol of its own: the original inlines this construction into the blender constructors 0x3688f0 and 0x3689cc.
@@ -201,12 +321,10 @@ AnimatorSynchronizedBlender::AnimatorSynchronizedBlender()
 // skipped: compiler-generated base-object variant. Same body as C1 (0x3688f0), with the primary vptr taken from the VTT.
 
 // 0x368ba4 AnimatorSynchronizedBlender::compile(std::vector<unsigned char, glitch::core::SAllocator<unsigned char, ...>>*)
-// partial: the original calls the engine base compile with the buffer argument unchanged (glitch::collada::
-// CSceneNodeAnimatorSynchronizedBlender::compile, not declared), then resizes the applicator weight vector (this+0x118)
-// to the engine base weight count (+0x3c .. +0x40) filled with 0.0f. Both need the engine base.
+// The engine compile (buffer unchanged), then the applicator weights are sized to the blender weights, all 0.0f.
 void AnimatorSynchronizedBlender::compile(std::vector<std::uint8_t>* buffer) {
-    (void)buffer;
-    // partial: the engine base compile and the m_applicator.m_weights resize go here (see above).
+    glitch::collada::CSceneNodeAnimatorSynchronizedBlender::compile(buffer);
+    m_applicator.m_weights.resize(m_applicator.m_blender->weights.size(), 0.0f);
 }
 
 // 0x368be4 AnimatorSynchronizedBlender::~AnimatorSynchronizedBlender()  (D2, base-object destructor taking the VTT)

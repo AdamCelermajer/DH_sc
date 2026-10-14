@@ -42,7 +42,7 @@ static void checkFreshState(const RootSceneNode& node) {
     CHECK(node.unk_208 == true);                  // +0x208
     CHECK(node.m_visibleRequested == false);      // +0x209
     CHECK(node.unk_20a == false);                 // +0x20a
-    CHECK(node.m_secondaryRefCount == 1);         // +0x210
+    CHECK(node.referenceCounter == 1);         // +0x210
 }
 
 int main() {

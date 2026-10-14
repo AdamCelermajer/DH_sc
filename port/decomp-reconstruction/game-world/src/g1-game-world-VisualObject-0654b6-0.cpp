@@ -17,6 +17,8 @@
 #include "dh2/VisualObject.hpp"
 #include "dh2/XrayModularSkinnedMeshSceneNode.hpp"
 #include "dh2/ShadowModularSkinnedMeshSceneNode.hpp"
+#include "dh2/ShadowSkinnedMeshSceneNode.hpp"
+#include "dh2/aabb.hpp"
 #include "dh2/global/DeviceSceneManager.hpp"
 
 // 0x38ba74 _ZN12VisualObject4SyncEv
@@ -47,12 +49,18 @@ glitch::scene::ISceneNode* VisualObject::GetSpecificNode(const char* name) const
 }
 
 // 0x470a54 _ZN12VisualObject12ApplyMeshBoxEv
-// partial: the original calls m_owner->SetRelativeAABB(m_meshBox, m_hasColBox) (GameObject vptr+0x9c)
-// when the owner is set. GameObject::SetRelativeAABB takes aabb<float>, which no header defines (it is
-// only forward declared), and m_meshBox is glitch::core::aabbox3d<float>. The call is not bound.
+// Hands the mesh box to the owner: m_owner->SetRelativeAABB(box, m_hasColBox) (GameObject vtable +0x9c) when the owner is set. The
+// box is the six floats of m_meshBox (min corner first), which is the layout of aabb<float>.
 void VisualObject::ApplyMeshBox() {
     if (m_owner != nullptr) {
-        // m_owner->SetRelativeAABB(m_meshBox, m_hasColBox): not bound, see above.
+        aabb<float> box;
+        box.MinEdge.X = m_meshBox.MinEdge.X;
+        box.MinEdge.Y = m_meshBox.MinEdge.Y;
+        box.MinEdge.Z = m_meshBox.MinEdge.Z;
+        box.MaxEdge.X = m_meshBox.MaxEdge.X;
+        box.MaxEdge.Y = m_meshBox.MaxEdge.Y;
+        box.MaxEdge.Z = m_meshBox.MaxEdge.Z;
+        m_owner->SetRelativeAABB(box, m_hasColBox);
     }
 }
 
@@ -79,16 +87,13 @@ bool VisualObject::IsVisible() const {
 }
 
 // 0x470ad8 _ZN12VisualObject27SetShadowSkinnedMeshVisibleEb
-// partial: the original passes visible to vptr+0x48 (setVisible(bool) on the node) of every node in
-// m_shadowSkinned (+0x80) and then every node in m_shadowModular (+0x8c). The shadow node classes are not
-// declared, so neither call is bound.
+// Passes visible to setVisible (vtable +0x48) of every node in m_shadowSkinned (+0x80) and then every node in m_shadowModular (+0x8c).
 void VisualObject::SetShadowSkinnedMeshVisible(bool visible) {
-    (void)visible;
     for (ShadowSkinnedMeshSceneNode* node : m_shadowSkinned) {
-        (void)node;  // node->setVisible(visible): not bound
+        node->setVisible(visible);
     }
     for (ShadowModularSkinnedMeshSceneNode* node : m_shadowModular) {
-        (void)node;  // node->setVisible(visible): not bound
+        node->setVisible(visible);
     }
 }
 

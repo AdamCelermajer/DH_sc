@@ -10,6 +10,7 @@
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/mesh_functions.hpp"
+#include "glitch-video/material_vertex_attribute_map.hpp"  // its intrusive_ptr_release, found by ADL only when complete
 #include "glitch-video/null_driver.hpp"
 #include "glitch-video/vertex_streams.hpp"
 

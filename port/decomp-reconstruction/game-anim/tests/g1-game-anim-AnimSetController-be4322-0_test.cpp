@@ -17,7 +17,7 @@
 // AnimController virtual needs a definition. None of the AnimController doubles below is called by the test.
 AnimController::AnimController(RootSceneNode*, bool) {}
 AnimController::~AnimController() {}
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimController::GetAnimationSet() { std::abort(); }
+boost::intrusive_ptr<AnimationSet> AnimController::GetAnimationSet() { std::abort(); }
 glitch::collada::ISceneNodeAnimator* AnimController::GetAnim(unsigned int) { return nullptr; }
 const glitch::collada::ISceneNodeAnimator* AnimController::GetAnim(unsigned int) const { return nullptr; }
 int AnimController::GetNumAnim() const { return 0; }

@@ -3,12 +3,11 @@
 //
 // Offsets in comments are the original 32-bit ARM offsets. The code never uses them for addressing.
 //
-// PARTIAL, one reason: UpdateTableData (0x41fa00) also writes the flag byte +0x9b of a gameswf::character after each
-// RenderFX::SetEnabled call. The vendored gameswf::character declares m_cxform_changed at +0x9a and nothing at +0x9b,
-// so those byte writes are left out (layout request: "gameswf::character +0x9b uint8"). Everything else in
-// UpdateTableData is reconstructed. The other functions in this file are complete.
+// UpdateTableData also writes the visible flag (+0x9b, character::m_visible) of the scroll buttons after each
+// RenderFX::SetEnabled call.
 
 #include "dh2/AbstractTableModel.hpp"
+#include "gameswf/gameswf_character.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -33,9 +32,8 @@ extern int gAssertLevel;
 // (lists with m_wrap) as in the original. Each row is passed to the virtual slot 0 with its row index, its data index
 // and whether the data index is in range. The return value is true when the offset changed.
 //
-// PARTIAL: the original also writes +0x9b (a flag byte of the gameswf::character) after each RenderFX::SetEnabled
-// call. There are five such write sites (wrap: two; non-wrap: the down button, then the up button in the split or the
-// non-split branch), and each call runs two of them. Those statements are left out; see the file comment.
+// After each RenderFX::SetEnabled call the visible flag (+0x9b) of that button is written with the same value (five write
+// sites: wrap: two; non-wrap: the down button, then the up button in the split or the non-split branch).
 bool AbstractTableModel::UpdateTableData(int delta) {
     const int oldOffset = m_scrollOffset;     // +0x08
     const int offset = delta + oldOffset;     // v4 in the original
@@ -112,16 +110,17 @@ bool AbstractTableModel::UpdateTableData(int delta) {
     if (m_wrap && m_count >= m_visibleRows) {
         m_menu->SetEnabled(downButton, true);
         m_menu->SetEnabled(upButton, true);
-        // PARTIAL: the original sets the +0x9b flag of both buttons to 1 here (see the file comment).
+        downButton->m_visible = true;
+        upButton->m_visible = true;
     } else {
         m_menu->SetEnabled(downButton, m_scrollOffset > 0);
-        // PARTIAL: the +0x9b flag of the down button is set to (m_scrollOffset > 0) here.
+        downButton->m_visible = m_scrollOffset > 0;
         if (m_split) {
             m_menu->SetEnabled(upButton, m_scrollOffset < m_count - 1);
-            // PARTIAL: the +0x9b flag of the up button is set to (m_scrollOffset < m_count - 1) here.
+            upButton->m_visible = m_scrollOffset < m_count - 1;
         } else {
             m_menu->SetEnabled(upButton, m_visibleRows + m_scrollOffset < m_count);
-            // PARTIAL: the +0x9b flag of the up button is set to (m_visibleRows + m_scrollOffset < m_count) here.
+            upButton->m_visible = m_visibleRows + m_scrollOffset < m_count;
         }
     }
 

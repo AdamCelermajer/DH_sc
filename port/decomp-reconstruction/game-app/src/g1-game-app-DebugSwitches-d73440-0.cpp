@@ -27,6 +27,7 @@
 
 #include "dh2/IStreamBase.hpp"
 #include "dh2/StreamReader.hpp"
+#include "dh2/global/savefile_fs.hpp"
 
 // Global assert level. core-platform/memory.hpp declares it too; it is not included here, as in the other game-app
 // sources.
@@ -100,7 +101,7 @@ DebugSwitches::~DebugSwitches() {
 }
 
 // 0x337404 DebugSwitches::SetModule(std::string const&, bool)
-// PARTIAL: a changed value is written through save(), which does not write the savegame yet (see save()).
+// A changed value is written through save().
 // A module that is not in the table is stored as enabled whatever `enabled` is. The listing stores 1 there
 // (asm 0x337404: MOV R3, #1 then STRB), and it does not call save() in that case.
 void DebugSwitches::SetModule(const std::string& name, bool enabled) {
@@ -162,10 +163,8 @@ void DebugSwitches::_loadSwitches(IStreamBase* stream) {
 }
 
 // 0x337888 DebugSwitches::load()
-// PARTIAL: the savegame read is not rebuilt. On the first call only, the original opens "DebugSwitches.savegame"
-// on the file system at dword_99F73C+0x34 (glitch::IDevice +0x34, not declared in the tree), passes the stream to
-// _loadSwitches and closes it through vtable +0x78. Without the file system the switches start from their defaults.
-// The lines after the read are the original's and keep its order. The load() calls before each lookup do nothing
+// On the first call only, "DebugSwitches.savegame" is opened on the savefile file system (IDevice +0x34), read by _loadSwitches
+// and closed. Then the forced switch values and the connect-switch reads follow. The load() calls before each lookup do nothing
 // once s_loaded is set, so they are not repeated.
 void DebugSwitches::load() {
     if (s_loaded != 0) {
@@ -173,7 +172,13 @@ void DebugSwitches::load() {
     }
     s_loaded = 1;
 
-    // File read missing (see above).
+    if (FileSystemWin32* fileSystem = SavefileFileSystemPtr()) {
+        if (FileSystemWin32::_FileHandle* handle = fileSystem->openSavefile("DebugSwitches.savegame", false)) {
+            _loadSwitches(handle);
+            IFileStream* stream = handle;
+            fileSystem->closeFile(stream);
+        }
+    }
 
     s_inst.SetSwitch("IsDeactivatingFlashMenus", false);
     s_inst.SetSwitch("IsDeactivatingFlashMenusUpdate", false);
@@ -216,13 +221,19 @@ void DebugSwitches::_saveSwitches(IStreamBase* stream) {
 }
 
 // 0x337d54 DebugSwitches::save()
-// PARTIAL: the savegame write is not rebuilt. The original opens "DebugSwitches.savegame" for writing (vtable +0x94
-// with the write flag set) on the file system at dword_99F73C+0x34, runs _saveSwitches on the stream, and closes it
-// through vtable +0x78. The file system is not declared in the tree, so nothing is written here.
-void DebugSwitches::save() {}
+// Opens "DebugSwitches.savegame" for writing on the savefile file system, writes the switches with _saveSwitches and closes it.
+void DebugSwitches::save() {
+    if (FileSystemWin32* fileSystem = SavefileFileSystemPtr()) {
+        if (FileSystemWin32::_FileHandle* handle = fileSystem->openSavefile("DebugSwitches.savegame", true)) {
+            _saveSwitches(handle);
+            IFileStream* stream = handle;
+            fileSystem->closeFile(stream);
+        }
+    }
+}
 
 // 0x337ddc DebugSwitches::SetSwitch(std::string const&, bool)
-// PARTIAL: a changed value is written through save(), which does not write the savegame yet (see save()).
+// A changed value is written through save().
 // A missing name is preceded by the 'isTracingDebugSwitches' lookup and then stored as false. The listing returns
 // the address of the stored value (char*). No caller uses it, so the header declares void.
 void DebugSwitches::SetSwitch(const std::string& name, bool value) {

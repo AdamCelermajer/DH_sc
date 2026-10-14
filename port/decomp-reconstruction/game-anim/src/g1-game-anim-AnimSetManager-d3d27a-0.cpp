@@ -12,6 +12,11 @@
 #include "dh2/Animation.hpp"
 #include "dh2/AnimationSet.hpp"
 #include "dh2/AnimatorSet.hpp"
+#include "dh2/AnimatorSynchronizedSet.hpp"
+#include "glitch-scene-collada-gui/collada/CAnimationSet.hpp"
+#include "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include <vector>
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/global/AnimationSet_GetAnimation.hpp"
 
@@ -89,65 +94,58 @@ AnimSetManager::~AnimSetManager() {
 }
 
 // 0x4761cc _ZN14AnimSetManager23GetSynchronizedAnimatorEi
-// partial. Reproduced: the existence check, the CalculateCacheSize() step that follows the creation in the
-// original, and the nullptr result for a missing set.
-// Not reproduced:
-//  - The AnimatorSynchronizedSet (0xc8 bytes) is not created. The original calls
-//    AnimatorSynchronizedSet(intrusive_ptr<CAnimationSet>(m_animSet), std::vector<std::string>()). The engine
-//    headers do not derive CDynamicAnimationSet from CAnimationSet, and CAnimationSet is incomplete in
-//    AnimatorSynchronizedSet.hpp, so the intrusive_ptr cannot be built. Until the layout request is applied, this
-//    function returns nullptr for an existing set.
-//  - The counted use on m_animSet (++ at +0x04 before the AnimatorSynchronizedSet is built, and the drop after it),
-//    which goes with the object that is not created.
-//  - The branch that runs m_animSet->compile() (CDynamicAnimationSet vtable slot +0x38) when setCleared (+0x70)
-//    is set. compile() is not declared in collada_scene_accessors.hpp.
-//  - The getTimelineCtrl() call (ISceneNodeAnimator vtable slot +0x44) and setLoop(false) on the returned
-//    controller (vtable slot +0x40). AnimatorSynchronizedSet does not inherit ISceneNodeAnimator in its header.
+// For an existing set: a dirty engine set is compiled first (CAnimationSet vtable +0x38); an AnimatorSynchronizedSet (0xc8 bytes)
+// is built over the engine set with an empty name list (a use is held on the set during the construction); the cache size is
+// recalculated and the timeline of the new animator is set not to loop. Null for a missing set.
 glitch::collada::ISceneNodeAnimator* AnimSetManager::GetSynchronizedAnimator(int setId) {
     if (!Exists(setId)) {
         return nullptr;
     }
     AnimationSet& set = m_sets.lower_bound(setId)->second;
+    if (set.m_animSet->dirty) {
+        set.m_animSet->compile();
+    }
+    std::vector<std::string> names;
+    boost::intrusive_ptr<glitch::collada::CAnimationSet> engineSet(set.m_animSet);
+    AnimatorSynchronizedSet* animator = new AnimatorSynchronizedSet(engineSet, names);
+    engineSet.reset();
+    glitch::scene::ITimelineController* timeline = animator->getTimelineCtrl();
     set.CalculateCacheSize();
-    return nullptr;
+    if (timeline != nullptr) {
+        timeline->setLoop(false);
+    }
+    return animator;
 }
 
 // 0x4762c4 _ZN14AnimSetManager11GetAnimatorEi
-// partial. Reproduced: the existence check, the AnimatorSet (0xa4 bytes) built on the set through a counted
-// intrusive_ptr, and CalculateCacheSize() after the creation.
-// Not reproduced:
-//  - The branch that runs m_animSet->compile() (CDynamicAnimationSet vtable slot +0x38) when setCleared (+0x70)
-//    is set. compile() is not declared in collada_scene_accessors.hpp.
-//  - The getTimelineCtrl() call (ISceneNodeAnimator vtable slot +0x44) and setLoop(false) on the returned
-//    controller (vtable slot +0x40). AnimatorSet does not inherit ISceneNodeAnimator in its header.
-// The return is the object address as glitch::collada::ISceneNodeAnimator*. In the original the engine base is the
-// primary sub-object at +0x00, so the address is the same. The reinterpret_cast stands in for the upcast until the
-// base is declared in AnimatorSet.hpp.
+// For an existing set: a dirty engine set is compiled first (CAnimationSet vtable +0x38); an AnimatorSet (0xa4 bytes) is built on the
+// set (a use is held on it during the construction); the cache size is recalculated and the timeline of the new animator is set not
+// to loop. Null for a missing set.
 glitch::collada::ISceneNodeAnimator* AnimSetManager::GetAnimator(int setId) {
     if (!Exists(setId)) {
         return nullptr;
     }
     AnimationSet& set = m_sets.lower_bound(setId)->second;
+    if (set.m_animSet->dirty) {
+        set.m_animSet->compile();
+    }
     AnimatorSet* animator = nullptr;
     {
-        // The original takes a use on the set (++ at +0x04), builds the AnimatorSet from a local counted pointer that
-        // holds that use, then drops the local pointer. A converting intrusive_ptr would not add the use, so the
-        // add-ref is explicit here.
-        boost::intrusive_ptr_add_ref(&set);
-        boost::intrusive_ptr<AnimationSet> local(&set);
+        ++set.referenceCounter;
+        boost::intrusive_ptr<AnimationSet> local(&set, false);
         animator = new AnimatorSet(local);
     }
+    glitch::scene::ITimelineController* timeline = animator->getTimelineCtrl();
     set.CalculateCacheSize();
-    return reinterpret_cast<glitch::collada::ISceneNodeAnimator*>(animator);
+    if (timeline != nullptr) {
+        timeline->setLoop(false);
+    }
+    return animator;
 }
 
 // 0x476398 _ZN14AnimSetManager15AddTemplateAnimEii
-// partial. Reproduced: creation of a missing set (the id must be non-negative), the CreateAnimSet call, the
-// LG_DEVICES flag, and LoadAnimation(animDict) on the set.
-// Not reproduced: the CColladaDatabase built from the loaded animation's file name (Animation +0x14 m_fileName) with
-// CColladaDatabase::DefaultFactory, the CDynamicAnimationSet::setDefaultAnimationLibrary(database) call on m_animSet
-// (+0x20), and the database destructor. The engine headers declare setDefaultAnimationLibrary, but declare no
-// CColladaDatabase constructor or destructor and no DefaultFactory.
+// A missing set is created (the id must be non-negative; CreateAnimSet, LG_DEVICES flag); the animation is loaded into it and the
+// database of its file becomes the default animation library of the engine set.
 void AnimSetManager::AddTemplateAnim(int setId, int animDict) {
     if (!Exists(setId)) {
         if (setId < 0) {
@@ -160,7 +158,11 @@ void AnimSetManager::AddTemplateAnim(int setId, int animDict) {
         }
     }
     AnimationSet& set = m_sets[setId];
-    set.LoadAnimation(animDict);
+    Animation* animation = set.LoadAnimation(animDict);
+    glitch::collada::CDynamicAnimationSet* engineSet = set.m_animSet;
+    glitch::collada::CColladaDatabase database(animation->m_fileName.c_str(), &glitch::collada::CColladaDatabase::DefaultFactory);
+    engineSet->setDefaultAnimationLibrary(database);
+    glitch::collada::dropDatabase(database);
 }
 
 // 0x476464 _ZN14AnimSetManager6CreateEv

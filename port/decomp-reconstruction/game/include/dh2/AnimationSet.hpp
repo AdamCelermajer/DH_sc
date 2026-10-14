@@ -55,7 +55,7 @@ public:
     std::map<int, Animation> m_animations;                                 // +0x08 .. +0x1b (STLport _Rb_tree, 0x14 bytes at 32-bit)
     uint32_t unk_1c;                                                       // +0x1c
     glitch::collada::CDynamicAnimationSet* m_animSet;                      // +0x20 engine set, reference counted by SetAnimSet and CreateAnimSet
-    uint32_t unk_24;                                                       // +0x24
+    int32_t m_users;                                                       // +0x24 users counter, raised and lowered by CharAnimator::Inc/DecAnimSetUsers
     uint32_t unk_28;                                                       // +0x28
     uint32_t unk_2c;                                                       // +0x2c set to 1 by CreateAnimSet and SetAnimSet
     int32_t m_cacheSize;                                                   // +0x30 computed by CalculateCacheSize, compared with the node count in GetAnimation

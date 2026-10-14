@@ -1,38 +1,30 @@
-// Batch g1-game-world-XrayModularSkinnedMeshSceneNode-7b0f5c-0: the thirteen XrayModularSkinnedMeshSceneNode functions
-// (two bounding-box forwarders, UpdateXray, updateXrayMaterial, renderMesh, render, onRegisterSceneNode,
-// regenerateXrayMaterial, the two constructors and the three destructors). Declarations come from
-// dh2/XrayModularSkinnedMeshSceneNode.hpp.
+// Batch g1-game-world-XrayModularSkinnedMeshSceneNode-7b0f5c-0: the XrayModularSkinnedMeshSceneNode functions (two
+// bounding-box forwards, UpdateXray, updateXrayMaterial, renderMesh, render, onRegisterSceneNode, regenerateXrayMaterial, the
+// constructors and the destructors). Declarations come from dh2/XrayModularSkinnedMeshSceneNode.hpp.
 //
-// Reconstructed: getBoundingBox, getTransformedBoundingBox.
-// Skipped: the deleting destructor (D0 0x36393c), which is the complete destructor followed by CustomFree.
-// Partial: UpdateXray, updateXrayMaterial, renderMesh, render, onRegisterSceneNode, regenerateXrayMaterial, the complete
-// constructor (C1 0x364174) and the complete destructor (D1 0x363848). Each comment names what is missing. The VTT-taking
-// base-object forms (C2 0x364254 and D2 0x362e1c) have no body of their own: the compiler emits them from the complete forms.
-//
-// Engine declarations that these bodies need are not in this tree (layout requests in the ledger notes):
-//   - glitch::IDevice (glitch-core-io/os/device.hpp) declares nothing at +0x10 (the video driver) or +0x1c (the scene
-//     manager). The pseudocode reads both through the global dword_99F73C, which is Singleton<Application>::s_inst.m_device.
-//   - glitch::collada::CModularSkinnedMeshSceneNode is not a scene::ISceneNode in this tree. The object therefore has no
-//     scene manager pointer at +0x110 and no virtual setAbsoluteTransformation (vptr+0x3c) to call on itself.
-//   - glitch::collada::CModularSkinnedMesh (the mesh at +0x134) declares none of the virtuals the pass calls with the binary's
-//     signatures: getMeshBufferCount (vptr+0x10), getMeshBuffer (+0x14), getMaterial (+0x18), getMaterialVertexAttributeMap
-//     (+0x1c), setMaterial (+0x20), vptr+0x24, onPrepareBufferForRendering (+0x38) and releaseProcessBuffer (+0x3c). The
-//     mesh word at +0x14 (the buffer bit mask read by renderMesh) is not declared either.
-//   - The module type of CModularSkinnedMesh::currentModules (ISkinnedMesh) declares no virtuals (setMaterial is vptr+0x20).
-//   - glitch::video::IVideoDriver: the pseudocode calls its setTransform (vptr+0x6c), a state call (vptr+0xd4) and clears a
-//     word at +0xe8. None of these are bound here.
-//   - SceneManager::ChangeCustomXrayTechnique is declared with three bools after the material. The pseudocode calls pass the
-//     material and two flags only, so the declaration needs checking by the integrator.
+// The VTT forms (C2 0x364254, D2 0x362e1c) and the deleting destructor (D0 0x36393c) are compiler-generated from the complete forms.
+// The x-ray copy of a modular skin draws every buffer with an x-ray material (one per distinct material of the mesh buffers). The
+// tables are the same as in ShadowModularSkinnedMeshSceneNode: m_bufferMaterialIndex maps a buffer to its distinct material,
+// m_nodeMaterialIndex maps a module to its distinct material, m_meshMaterials / m_meshVertexAttributeMaps hold the originals and
+// m_xrayMaterials / m_xrayVertexAttributeMaps the x-ray replacements.
 
 #include "dh2/XrayModularSkinnedMeshSceneNode.hpp"
 
-#include "dh2/DebugSwitches.hpp"
-#include "glitch-scene-collada-gui/collada/IMesh.hpp"
-#include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
-#include "glitch-scene-collada-gui/modular_skinned_mesh.hpp"
-#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include <cstring>
+#include <string>
 
-// The base's constructor and destructor are explicit specializations defined in
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CModularSkinnedMesh.hpp"
+#include "glitch-scene-collada-gui/collada/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-video/video_driver.hpp"
+
+// The base constructor and destructor are explicit specializations defined in
 // g1-game-world-BaseMeshSceneNode-fb9ec3-0.cpp. They are declared here so this file refers to them as specializations.
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::BaseMeshSceneNode(
@@ -40,149 +32,254 @@ BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::BaseMeshSceneN
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::~BaseMeshSceneNode();
 
+namespace {
+
+// The debug switch the drawing functions test (a literal Hex-Rays drops; the asm names it).
+bool XrayEnabled() {
+    DebugSwitches::GetInstance();  // DebugSwitches::load on first use
+    return DebugSwitches::GetInstance()->GetSwitch(std::string("RENDERING_EnableXray"));
+}
+
+// SceneManager +0x488: 10 while the scene manager draws the x-ray custom pass.
+constexpr std::uint32_t kXrayCustomPass = 10;
+
+}  // namespace
+
 // 0x362b28 _ZNK31XrayModularSkinnedMeshSceneNode14getBoundingBoxEv
-// Reconstructed. Forwards to m_sourceNode (+0x1c8): the original calls the ISceneNode virtual at vptr+0x30
-// (getBoundingBox, K 0x30 in scene/ISceneNode.hpp) on it and returns the reference it gets back.
+// Forwards to m_sourceNode (its vtable +0x30) and returns the reference it gets back.
 const glitch::core::aabbox3d<float>& XrayModularSkinnedMeshSceneNode::getBoundingBox() const {
     return m_sourceNode->getBoundingBox();
 }
 
 // 0x362b44 _ZNK31XrayModularSkinnedMeshSceneNode25getTransformedBoundingBoxEv
-// Reconstructed as found. The original forwards to m_sourceNode the same way as 0x362b28: it calls vptr+0x30
-// (getBoundingBox), not vptr+0x34 (getTransformedBoundingBox). This body does the same.
+// The original forwards to m_sourceNode the same way as 0x362b28: it calls vtable +0x30 (getBoundingBox), not +0x34.
 const glitch::core::aabbox3d<float>& XrayModularSkinnedMeshSceneNode::getTransformedBoundingBox() const {
     return m_sourceNode->getBoundingBox();
 }
 
 // 0x362bc8 _ZN31XrayModularSkinnedMeshSceneNode10UpdateXrayEv
-// partial, empty body. The original builds an identity matrix (16 floats, 1.0 at words 0, 5, 10 and 15) in a 0x41-byte
-// argument whose byte at +0x40 is 1, and calls this->setAbsoluteTransformation(matrix) (vptr+0x3c, the ISceneNode
-// virtual). This class is not an ISceneNode in this tree, so the call is not bound.
-void XrayModularSkinnedMeshSceneNode::UpdateXray() {}
+// Sets the identity matrix as the absolute transformation of the node (vtable +0x3c).
+void XrayModularSkinnedMeshSceneNode::UpdateXray() {
+    glitch::core::CMatrix4<float> identity;
+    std::memset(identity.M, 0, sizeof(identity.M));
+    identity.M[0] = identity.M[5] = identity.M[10] = identity.M[15] = 1.0f;
+    identity.flag = true;
+    setAbsoluteTransformation(identity);
+}
 
 // 0x362c38 _ZN31XrayModularSkinnedMeshSceneNode18updateXrayMaterialEv
-// partial, empty body. For each entry i of m_meshMaterials (+0x198; the count is its size), the original calls
-// SceneManager::SetMaterialTexture(sm, m_xrayMaterials[i], m_meshMaterials[i]), so the x-ray material is the target and the
-// mesh material the texture. sm is the scene manager at dword_99F73C +0x1c, and that IDevice member is not declared (layout
-// request), so the loop is not bound.
-void XrayModularSkinnedMeshSceneNode::updateXrayMaterial() {}
+// For every distinct material, the x-ray material takes the texture of the mesh material.
+void XrayModularSkinnedMeshSceneNode::updateXrayMaterial() {
+    const std::size_t count = m_meshMaterials.size();
+    for (std::size_t i = 0; i < count; ++i) {
+        DeviceSceneManager()->SetMaterialTexture(m_xrayMaterials[i], m_meshMaterials[i]);
+    }
+}
 
 // 0x362f08 _ZN31XrayModularSkinnedMeshSceneNode10renderMeshEPvb
-// partial, empty body. The pseudocode's second argument (char *a2) is a 1-based mesh buffer index: it draws nothing when the
-// index is null, and the buffer is a2 - 1. The third argument (bool) is never read. The header's parameter names are kept.
-// For index = a2 - 1, when the mesh and the driver are set and getMeshBuffer(index) (mesh vptr+0x14) returns a buffer:
-//   - bit (index & 31) of the mesh word at +0x14 is tested. When it is clear, onPrepareBufferForRendering(1, driver, index)
-//     (mesh vptr+0x38) runs and its result & 4 is kept. Otherwise the kept flag is 0;
-//   - driver setTransform(1, absolute matrix at +0x24) (driver vptr+0x6c);
-//   - driver setMaterial(m_xrayMaterials[m_bufferMaterialIndex[index]], m_xrayVertexAttributeMaps[same index]);
-//   - when the scene manager's custom render pass (SceneManager::m_customRenderPass, +0x488) is 10, driver vptr+0xd4 (0, 0);
-//     the driver word at +0xe8 is cleared;
-//   - driver drawMeshBuffer(buffer);
-//   - releaseProcessBuffer (mesh vptr+0x3c, driver, index) when the flag was set, then driver vptr+0xd4 (1, 1);
-//   - it drops its handles.
-// Missing: the driver (dword_99F73C +0x10), the scene manager (dword_99F73C +0x1c), the scene node's +0x110 scene manager,
-// and the mesh and driver virtuals listed in the file header.
-void XrayModularSkinnedMeshSceneNode::renderMesh(void* renderContext, bool xray) {
-    (void)renderContext;
-    (void)xray;
+// `renderContext` is the 1-based buffer index (null draws nothing); the bool is never read. Draws the buffer with the x-ray
+// material and vertex map of its distinct material under the transformation of this node. While the scene manager runs the x-ray
+// custom pass (10) the colour mask is off for the draw, and it is switched back on afterwards. A buffer the mesh prepared for
+// rendering (step 1, unless it is flagged skinned) is released after the draw. The original returns a leftover register.
+void XrayModularSkinnedMeshSceneNode::renderMesh(void* renderContext, bool /*xray*/) {
+    glitch::video::IVideoDriver* driver = sceneManager->driver;
+    if (!mesh || driver == nullptr || renderContext == nullptr) {
+        return;
+    }
+    const std::uint32_t index = static_cast<std::uint32_t>(reinterpret_cast<std::uintptr_t>(renderContext)) - 1;
+    auto buffer = mesh->getMeshBuffer(index);
+    if (!buffer) {
+        return;
+    }
+    bool release;
+    if ((mesh->bufferFlags & (1u << (index & 0x1f))) != 0) {
+        release = false;
+    } else {
+        release = (mesh->onPrepareBufferForRendering(1, driver, index) & 4) != 0;
+    }
+    boost::intrusive_ptr<glitch::video::CMaterial> material = m_xrayMaterials[m_bufferMaterialIndex[index]];
+    boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap> map = m_xrayVertexAttributeMaps[m_bufferMaterialIndex[index]];
+    driver->setTransform(1, getAbsoluteTransformation());
+    driver->setMaterial(material, map);
+    if (DeviceSceneManager()->m_customRenderPass == kXrayCustomPass) {
+        driver->setColorMask(false, false, false, false);
+    }
+    driver->m_stateE8 = nullptr;
+    driver->drawMeshBuffer(buffer);
+    if (release) {
+        mesh->releaseProcessBuffer(driver, index);
+    }
+    driver->setColorMask(true, true, true, true);
 }
 
 // 0x363138 _ZN31XrayModularSkinnedMeshSceneNode6renderEPv
-// partial. The part reproduced here is the gate: DebugSwitches "RENDERING_EnableXray" is loaded and tested, and the original
-// does nothing unless it is set. When the gate is open the original calls UpdateXray, then:
-//   - sets the x-ray technique on each m_xrayMaterials entry through SceneManager::ChangeCustomXrayTechnique(sm, material, 1, 1)
-//     when the scene manager's custom render pass (+0x488) is 10, and (material, 0, 1) otherwise;
-//   - for each mesh buffer i, mesh vptr+0x20 (setMaterial) with (i, m_xrayMaterials[m_bufferMaterialIndex[i]],
-//     m_xrayVertexAttributeMaps[...], 1);
-//   - for each current module j, module vptr+0x20 with (0, x-ray material and map at m_nodeMaterialIndex[j]);
-//   - renderMesh(this, a2, false), where a2 is render's own second argument, passed through as found;
-//   - restores the mesh and module materials from m_meshMaterials and m_meshVertexAttributeMaps the same way.
-// The two local vectors the original destroys at the end are always empty. Missing: the scene manager (see the file header),
-// the mesh and module virtuals, and the scene manager's custom render pass read.
+// With the x-ray switch on: the transformation is reset, the x-ray materials get their technique for the pass (in the x-ray custom
+// pass (10) flags 1, 1, 1, otherwise 0, 1, 1), every buffer and the first material of every module are switched to the x-ray
+// materials, the buffer is drawn, and the original materials are put back.
 void XrayModularSkinnedMeshSceneNode::render(void* renderContext) {
-    DebugSwitches::s_inst.load();
-    if (!DebugSwitches::s_inst.GetSwitch("RENDERING_EnableXray")) {
+    if (!XrayEnabled()) {
         return;
     }
     UpdateXray();
-    (void)renderContext;
+    SceneManager* manager = DeviceSceneManager();
+    const bool xrayPass = manager->m_customRenderPass == kXrayCustomPass;
+    for (std::size_t i = 0; i < m_xrayMaterials.size(); ++i) {
+        manager = DeviceSceneManager();
+        manager->ChangeCustomXrayTechnique(m_xrayMaterials[i], xrayPass, true, true);
+    }
+    auto* modular = static_cast<glitch::collada::CModularSkinnedMesh*>(mesh.get());
+    const std::uint32_t buffers = mesh->getMeshBufferCount();
+    for (std::uint32_t i = 0; i < buffers; ++i) {
+        mesh->setMaterial(i, m_xrayMaterials[m_bufferMaterialIndex[i]], m_xrayVertexAttributeMaps[m_bufferMaterialIndex[i]]);
+    }
+    const std::size_t modules = modular->modules.size();
+    for (std::size_t m = 0; m < modules; ++m) {
+        boost::intrusive_ptr<glitch::collada::ISkinnedMesh> module = modular->modules[m].mesh;
+        if (module) {
+            module->setMaterial(0, m_xrayMaterials[m_nodeMaterialIndex[m]], m_xrayVertexAttributeMaps[m_nodeMaterialIndex[m]]);
+        }
+    }
+    renderMesh(renderContext, false);
+    const std::uint32_t after = mesh->getMeshBufferCount();
+    for (std::uint32_t i = 0; i < after; ++i) {
+        mesh->setMaterial(i, m_meshMaterials[m_bufferMaterialIndex[i]], m_meshVertexAttributeMaps[m_bufferMaterialIndex[i]]);
+    }
+    for (std::size_t m = 0; m < modules; ++m) {
+        boost::intrusive_ptr<glitch::collada::ISkinnedMesh> module = modular->modules[m].mesh;
+        if (module) {
+            module->setMaterial(0, m_meshMaterials[m_nodeMaterialIndex[m]], m_meshVertexAttributeMaps[m_nodeMaterialIndex[m]]);
+        }
+    }
 }
 
 // 0x363574 _ZN31XrayModularSkinnedMeshSceneNode19onRegisterSceneNodeEv
-// partial. Returns 1 on every path, as the original does. When DebugSwitches "RENDERING_EnableXray" is set, it calls
-// UpdateXray. Then, when the mesh at +0x134 is set and the same switch is set again, the original walks the mesh buffers i.
-// For each i whose getMeshBuffer(i) (mesh vptr+0x14) is non-null, it takes m_xrayMaterials[m_bufferMaterialIndex[i]] (one
-// extra use) and calls onPrepareBufferForRendering(0, driver, i) (mesh vptr+0x38), where driver is the +0x110 scene manager's
-// +0x14 word. A result of 4 or 16 calls the scene manager's vptr+0x8c (SceneManager virtual, slot 140) twice, with pass 9 and
-// then 10. A result of 5 calls mesh vptr+0x24 with no arguments. The walk is not bound: the scene node has no +0x110 scene
-// manager in this tree, and the mesh and scene manager virtuals are not declared.
+// With the x-ray switch on: the transformation is reset and, with a mesh, every buffer the mesh prepares for rendering (step 0)
+// with the results 4 and 16 is registered with the scene manager of the device in the custom passes 9 and 10 (under the 1-based
+// buffer index, with the x-ray material of the buffer); result 5 makes the mesh refresh its box. Returns 1.
 int XrayModularSkinnedMeshSceneNode::onRegisterSceneNode() {
-    DebugSwitches::s_inst.load();
-    if (DebugSwitches::s_inst.GetSwitch("RENDERING_EnableXray")) {
+    if (XrayEnabled()) {
         UpdateXray();
         if (mesh) {
-            DebugSwitches::s_inst.load();
-            if (DebugSwitches::s_inst.GetSwitch("RENDERING_EnableXray")) {
-                // partial: the mesh buffer walk described above is not reproduced.
+            if (XrayEnabled()) {
+                glitch::video::IVideoDriver* driver = sceneManager->driver;
+                if (driver != nullptr) {
+                    const std::uint32_t count = mesh->getMeshBufferCount();
+                    for (std::uint32_t i = 0; i < count; ++i) {
+                        auto buffer = mesh->getMeshBuffer(i);
+                        if (buffer) {
+                            buffer.reset();
+                            boost::intrusive_ptr<glitch::video::CMaterial> material = m_xrayMaterials[m_bufferMaterialIndex[i]];
+                            const std::int32_t result = mesh->onPrepareBufferForRendering(0, driver, i);
+                            if (result == 4 || result == 16) {
+                                void* userData = reinterpret_cast<void*>(static_cast<std::uintptr_t>(i + 1));
+                                DeviceSceneManager()->registerNodeForCustomRendering(this, material, userData, 9, nullptr, 0x7fffffff);
+                                DeviceSceneManager()->registerNodeForCustomRendering(this, material, userData, 10, nullptr, 0x7fffffff);
+                            } else if (result == 5) {
+                                (void)mesh->getBoundingBox();  // mesh vtable +0x24, the refresh CMeshSceneNode::onRegisterSceneNode makes for result 5
+                            }
+                        }
+                    }
+                }
             }
         }
     }
     return 1;
 }
 
-// 0x363848 _ZN31XrayModularSkinnedMeshSceneNodeD1Ev
-// partial, empty body. The members are destroyed in reverse declaration order (+0x1bc, +0x1b0, +0x1a4, +0x198, +0x18c, +0x180),
-// the same order the original uses for its six vectors. Not reproduced: the stores of this class's vptr and of the IRC
-// virtual-base vptr at +0x1cc (unk_1cc), which have no host counterpart, and the explicit call of the
-// CModularSkinnedMeshSceneNode destructor. The raw source node at +0x1c8 is not released, as in the original.
-XrayModularSkinnedMeshSceneNode::~XrayModularSkinnedMeshSceneNode() {}
+// 0x363958 _ZN31XrayModularSkinnedMeshSceneNode21regenerateXrayMaterialEv
+// Empties the four material tables and the buffer index table, then rebuilds them from the mesh exactly as
+// ShadowModularSkinnedMeshSceneNode::regenerateShadowMaterial does, with the effect "GL_Xray-fx" of "gl_xray.bdae" and the material
+// name "XR_XRAY_SKINNED_MODULAR". Each new x-ray material gets the x-ray technique (ChangeCustomXrayTechnique with all flags set) and,
+// when the distinct material has a vertex map, a vertex map over its renderer.
+void XrayModularSkinnedMeshSceneNode::regenerateXrayMaterial() {
+    m_meshMaterials.clear();
+    m_meshVertexAttributeMaps.clear();
+    m_bufferMaterialIndex.clear();
+    m_xrayMaterials.clear();
+    m_xrayVertexAttributeMaps.clear();
 
-// 0x36393c _ZN31XrayModularSkinnedMeshSceneNodeD0Ev
-// skipped: compiler-generated deleting destructor. It is the complete destructor (0x363848) followed by CustomFree(this).
-// A delete expression does the same.
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::collada::CColladaDatabase database("gl_xray.bdae", &glitch::collada::CColladaDatabase::DefaultFactory);
+    boost::intrusive_ptr<glitch::video::CMaterialRenderer> renderer(database.constructEffect(driver, "GL_Xray-fx", nullptr));
 
-// 0x362e1c _ZN31XrayModularSkinnedMeshSceneNodeD2Ev
-// partial, no body of its own. This is the base-object destructor that takes the VTT (a2). The compiler emits it from the
-// complete destructor above. Its VTT-indexed vptr stores and the call to the CModularSkinnedMeshSceneNode base-object destructor
-// with a2+1 are not checked on the host.
+    auto* modular = static_cast<glitch::collada::CModularSkinnedMesh*>(mesh.get());
+    const std::uint32_t bufferCount = mesh->getMeshBufferCount();
+    const std::size_t moduleCount = modular->modules.size();
 
-// 0x363958 _ZN31XrayModularSkinnedMeshSceneNode22regenerateXrayMaterialEv
-// partial, empty body. The original does this:
-//   1. clears m_meshMaterials, m_meshVertexAttributeMaps, m_bufferMaterialIndex, m_xrayMaterials and m_xrayVertexAttributeMaps,
-//      releasing the handles they hold;
-//   2. opens gl_xray.bdae (CColladaDatabase with DefaultFactory) and constructs the effect GL_Xray-fx on the driver (IDevice
-//      +0x10, root 0), keeping its CMaterialRenderer;
-//   3. resizes m_bufferMaterialIndex to the mesh buffer count (mesh vptr+0x10), m_meshMaterials and m_meshVertexAttributeMaps
-//      likewise. For each buffer i it scans the entries k of m_meshMaterials: an empty entry takes getMaterial(i) (mesh vptr+0x18)
-//      and its getMaterialVertexAttributeMap(i) (vptr+0x1c) goes to m_meshVertexAttributeMaps[k]; the first entry equal to
-//      getMaterial(i) gives m_bufferMaterialIndex[i] = k;
-//   4. resizes m_xrayMaterials and m_xrayVertexAttributeMaps to the size of m_meshMaterials, and m_nodeMaterialIndex to the
-//      current module count (CModularSkinnedMesh::currentModules at +0x24, 8-byte records). For each module j it stores in
-//      m_nodeMaterialIndex[j] the entry of m_meshMaterials that equals the module's getMaterial(0) (module vptr+0x18);
-//   5. for each entry i of m_meshMaterials that is set, allocates a CMaterial (CMaterial::allocate with the renderer and the
-//      name XR_XRAY_SKINNED_MODULAR, count 0) into m_xrayMaterials[i], calls SceneManager::ChangeCustomXrayTechnique(sm,
-//      material, 1, 1), and when m_meshVertexAttributeMaps[i] is set allocates a CMaterialVertexAttributeMap into
-//      m_xrayVertexAttributeMaps[i] from the x-ray material's +4 word.
-// Missing: the driver (IDevice +0x10) and scene manager (IDevice +0x1c) layouts; the mesh and module virtuals (CModularSkinnedMesh
-// and ISkinnedMesh declare none with these signatures); CColladaDatabase::constructEffect, which returns a raw pointer in the
-// stand-in where the original writes an intrusive_ptr through its first argument; and the meaning of the +4 argument of
-// CMaterialVertexAttributeMap::allocate, which is not identified.
-void XrayModularSkinnedMeshSceneNode::regenerateXrayMaterial() {}
+    m_meshMaterials.resize(bufferCount);
+    m_meshVertexAttributeMaps.resize(bufferCount);
+    m_bufferMaterialIndex.resize(bufferCount, 0);
+    for (auto& material : m_meshMaterials) {
+        material.reset();
+    }
+    for (auto& map : m_meshVertexAttributeMaps) {
+        map.reset();
+    }
+
+    const std::size_t slots = m_meshMaterials.size();
+    for (std::uint32_t i = 0; i < bufferCount; ++i) {
+        for (std::size_t j = 0; j < slots; ++j) {
+            if (!m_meshMaterials[j]) {
+                m_meshMaterials[j] = mesh->getMaterial(i);
+                m_meshVertexAttributeMaps[j] = mesh->getMaterialVertexAttributeMap(i);
+                m_bufferMaterialIndex[i] = static_cast<int>(j);
+            }
+            if (mesh->getMaterial(i).get() == m_meshMaterials[j].get()) {
+                m_bufferMaterialIndex[i] = static_cast<int>(j);
+                break;
+            }
+        }
+    }
+
+    // Trim to the entries in use: up to the first empty one.
+    if (bufferCount != 0) {
+        std::size_t used = 0;
+        while (used < m_meshMaterials.size() && m_meshMaterials[used]) {
+            ++used;
+        }
+        if (used != m_meshMaterials.size()) {
+            m_meshMaterials.resize(used);
+        }
+    }
+
+    const std::size_t distinct = m_meshMaterials.size();
+    m_xrayMaterials.resize(distinct);
+    m_xrayVertexAttributeMaps.resize(distinct);
+    m_nodeMaterialIndex.resize(moduleCount, 0);
+    for (std::size_t m = 0; m < moduleCount; ++m) {
+        boost::intrusive_ptr<glitch::collada::ISkinnedMesh> module = modular->modules[m].mesh;
+        if (module) {
+            for (std::size_t i = 0; i < distinct; ++i) {
+                if (module->getMaterial(0).get() == m_meshMaterials[i].get()) {
+                    m_nodeMaterialIndex[m] = static_cast<int>(i);
+                }
+            }
+        }
+    }
+
+    for (std::size_t i = 0; i < distinct; ++i) {
+        m_xrayMaterials[i].reset();
+        m_xrayVertexAttributeMaps[i].reset();
+        if (m_meshMaterials[i]) {
+            m_xrayMaterials[i] = glitch::video::CMaterial::allocate(renderer, "XR_XRAY_SKINNED_MODULAR", 0);
+            DeviceSceneManager()->ChangeCustomXrayTechnique(m_xrayMaterials[i], true, true, true);
+            if (m_meshVertexAttributeMaps[i]) {
+                m_xrayVertexAttributeMaps[i] = glitch::video::CMaterialVertexAttributeMap::allocate(m_xrayMaterials[i]->m_renderer);
+            }
+        }
+    }
+}
 
 // 0x364174 _ZN31XrayModularSkinnedMeshSceneNodeC1EN5boost13intrusive_ptrIN6glitch7collada5IMeshEEEPKNS2_5scene10ISceneNodeE
-// partial. The original stores 1 at +0x1d0 (unk_1d0), stores the vptrs of the IRC virtual subobject (+0x1cc) and of this class,
-// calls the BaseMeshSceneNode base-object constructor with the mesh, stores the source node at +0x1c8, zeroes the six vectors and
-// index vectors (the members' own initialisers do that here), and calls regenerateXrayMaterial. Not reproduced: the vptr stores.
-// The base constructor is partial because it drops the mesh (see g1-game-world-BaseMeshSceneNode-fb9ec3-0.cpp), and
-// regenerateXrayMaterial is partial, so the object has no x-ray materials yet.
-XrayModularSkinnedMeshSceneNode::XrayModularSkinnedMeshSceneNode(boost::intrusive_ptr<glitch::collada::IMesh> mesh,
+// 0x364254 (C2, VTT form) is compiler-generated from this one. The source node is stored, the tables start empty and
+// regenerateXrayMaterial fills them.
+XrayModularSkinnedMeshSceneNode::XrayModularSkinnedMeshSceneNode(boost::intrusive_ptr<glitch::collada::IMesh> meshArg,
                                                                  const glitch::scene::ISceneNode* sourceNode)
-    : BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>(mesh), m_sourceNode(sourceNode) {
-    unk_1d0 = 1;
+    : BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>(meshArg), m_sourceNode(sourceNode) {
     regenerateXrayMaterial();
 }
 
-// 0x364254 _ZN31XrayModularSkinnedMeshSceneNodeC2EN5boost13intrusive_ptrIN6glitch7collada5IMeshEEEPKNS2_5scene10ISceneNodeE
-// partial, no body of its own. This is the base-object constructor that takes the VTT (a2), the mesh and the source node. The
-// compiler emits it from the complete constructor above. Its VTT-indexed vptr stores (the IRC virtual base) and the call to the
-// BaseMeshSceneNode base-object constructor with a2+1 are not checked on the host.
+// 0x363848 _ZN31XrayModularSkinnedMeshSceneNodeD1Ev
+// 0x36393c (D0, deleting) and 0x362e1c (D2, VTT form) are compiler-generated from this one. The members drop the six tables; the
+// base destructor follows.
+XrayModularSkinnedMeshSceneNode::~XrayModularSkinnedMeshSceneNode() {}

@@ -7,11 +7,8 @@
 //   - MenuMainMenu adds no instance members to MenuBase (0xc4 bytes). Its members are all static.
 //   - Initial values of the statics, read from the binary: mSavegameSlot is -1, m_isDestroyed is true, and the camera,
 //     the scene root and the preview character start null.
-//   - The glitch device is Singleton<Application>::s_inst.m_device. It holds the 2D video driver at +0x10 (dword_99F73C+16)
-//     and the scene manager at +0x1c (dword_99F73C+28). dh2 and glitch-core-io do not declare those two words, so every
-//     step that goes through the device is MISSING in the bodies below.
-//   - The model root (VisualObject +0x08) is a RootSceneNode, which does not derive from ISceneNode in dh2, so the ISceneNode
-//     calls on it are MISSING too. glitch::collada::CRootSceneNode has no class definition in the tree.
+//   - The glitch device is Singleton<Application>::s_inst.m_device. It holds the video driver at +0x10 and the scene manager at
+//     +0x1c (DeviceSceneManager()).
 //   - The compiler emits the vptr stores and the base destructors of the constructors and destructors, so the bodies carry
 //     only the calls the original makes. The deleting destructor (D0) is not rebuilt: delete emits it.
 //   - Application members are read through Singleton<Application>::s_inst. dword_99F764 (ObjectManager), dword_99F770
@@ -26,6 +23,20 @@
 #include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimSetManager.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/ColladaFactory.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/VisualObject.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "core-platform/gc_singleton.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
+#include "glitch-video/c2d_driver.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "net-session-online/game_center.hpp"
+#include "gameswf/gameswf_root.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharAnimator.hpp"
 #include "dh2/DebugSwitches.hpp"
@@ -54,6 +65,7 @@ glitch::collada::CRootSceneNode* MenuMainMenu::m_characterPlaneSceneNode = nullp
 std::int32_t MenuMainMenu::mSavegameSlot = -1;                                            // slot shown, -1 when none
 Character* MenuMainMenu::mCharacterToRender = nullptr;                                    // the preview character
 bool MenuMainMenu::m_isDestroyed = true;                                                  // set by Hide, cleared by Show
+bool byte_99F7D7 = false;                                                                  // ELF 0x99f7d7
 
 namespace {
 
@@ -123,17 +135,9 @@ void MenuMainMenu::DestroyCharacter() {
 }
 
 // 0x42bd08 _ZN12MenuMainMenu14SetupCharacterEv
-// PARTIAL. Written: the test of the slot and the scene, the slot test SG_Exists (0x464d5c, the uint overload; the original
-// also passes a second register, which the overload does not read), the two CreatePlayer calls ("PlayerCharacter_0"; the
-// exists path passes (false, false) and then SG_Load(4); the other path passes (true, false), as the assembly shows) and the
-// result store.
-// Missing, in the original order (all of them go through the device or through the model root, see the file comment):
-//   1. CSceneManager::setActiveCamera(scene, m_mainmenuPaneCam), scene = device +0x1c.
-//   2. v = mCharacterToRender->m_visualObject->m_node (VisualObject +0x08); scene->rootNode->addChild(v) (scene +0x04,
-//      vtable +0x5c).
-//   3. v->setPosition(0, -200, -20) (ISceneNode vtable +0xa4): kPreviewCharacterPositionY/Z.
-//   4. v->setRotation(quaternion set (0, 0, 3.1416 * -0.125)) (vtable +0x9c): kPreviewCharacterRoll.
-//   5. v->updateAbsolutePosition(true) (vtable +0xb8).
+// With a shown slot and a scene: the preview player "PlayerCharacter_0" is created (from the save when it exists: CreatePlayer with
+// (false, false) then SG_Load(4); otherwise (true, false)), the avatar camera becomes the active camera, and the model root is
+// added to the scene root at (0, -200, -20), rolled by 3.1416 * -0.125 and its absolute position updated.
 void MenuMainMenu::SetupCharacter() {
     if (mSavegameSlot == -1 || !m_characterPlaneSceneNode) {
         return;
@@ -145,35 +149,34 @@ void MenuMainMenu::SetupCharacter() {
     } else {
         mCharacterToRender = Character::CreatePlayer(slot, 0, 0, "PlayerCharacter_0", true, false);
     }
-    // MISSING steps 1 to 5: see the comment above.
+    DeviceSceneManager()->setActiveCamera(m_mainmenuPaneCam);
+    RootSceneNode* node = mCharacterToRender->m_visualObject->m_node;  // VisualObject +0x08
+    DeviceSceneManager()->rootNode->addChild(node);                    // scene +0x04, vtable +0x5c
+    node->setPosition(glitch::core::vector3d<float>{0.0f, kPreviewCharacterPositionY, kPreviewCharacterPositionZ});
+    glitch::core::quaternion rotation;
+    rotation.set(0.0f, 0.0f, kPreviewCharacterRoll);
+    node->setRotation(rotation);
+    node->updateAbsolutePosition(true);
 }
 
 // 0x42bebc _ZN12MenuMainMenu12DestroySceneEv
-// PARTIAL. Written, in the original order: the scene root pointer is cleared, DestroyCharacter, and Application::CleanGlitch.
-// Missing:
-//   1. m_characterPlaneSceneNode->remove() (scene root, vtable +0x68) before the pointer is cleared, and the reference drop.
-//      glitch::collada::CRootSceneNode has no class definition in the tree.
-//   2. The scene manager's vtable +0x68 call (device +0x1c). Its result is passed to DestroyCharacter, which ignores it.
-//   3. glitch::video::C2DDriver::freeTextures on the device's 2D driver (device +0x10, dword_99F73C+16).
+// The scene root (when there is one) is removed from the scene and cleared, the scene manager is cleared, the preview character
+// is destroyed, the 2D driver textures are freed and the glitch objects are cleaned.
 void MenuMainMenu::DestroyScene() {
     if (m_characterPlaneSceneNode) {
-        // MISSING 1: remove() and the drop of the scene root. The pointer is cleared as in the original.
+        m_characterPlaneSceneNode->remove();  // ISceneNode vtable +0x68
         m_characterPlaneSceneNode = nullptr;
     }
-    // MISSING 2: the scene manager call (device +0x1c, vtable +0x68).
+    DeviceSceneManager()->clear();  // scene manager vtable +0x68
     DestroyCharacter();
-    // MISSING 3: C2DDriver::freeTextures (device +0x10).
+    glitch::video::C2DDriver::freeTextures(Singleton<Application>::s_inst.m_device->videoDriver);
     Singleton<Application>::s_inst.CleanGlitch();
 }
 
 // 0x42bf3c _ZN12MenuMainMenu18CreateAvatarCameraEv
-// PARTIAL. Written: the camera (CCameraSceneNode, id -1, position (0, -900, 150), target (0, 0, 225), far-to-infinity false),
-// the up vector (0, 0, 1), the aspect ratio, the FOV, one extra reference, the near plane 10 and the far plane 2000.
-// Missing, in the original order, all through the device or the model root:
-//   1. scene->rootNode->addChild(camera) (scene +0x04, vtable +0x5c).
-//   2. The drop of the creation reference. It follows the addChild and must not be made before it, or the camera would be freed
-//      while the code below still uses it. The extra reference written below takes the count to the same value as the original.
-//   3. CSceneManager::setActiveCamera(scene, camera), scene = device +0x1c.
+// The avatar camera (CCameraSceneNode, id -1, position (0, -900, 150), target (0, 0, 225), far-to-infinity false) is added to the
+// scene root, its creation reference dropped, and it becomes the active camera; then the up vector (0, 0, 1), the aspect ratio,
+// the FOV, one extra reference, the near plane 10 and the far plane 2000 are set.
 void MenuMainMenu::CreateAvatarCamera() {
     if (m_mainmenuPaneCam) {
         return;
@@ -181,7 +184,9 @@ void MenuMainMenu::CreateAvatarCamera() {
     const glitch::core::vector3d<float> position{0.0f, kAvatarCameraPositionY, kAvatarCameraPositionZ};
     const glitch::core::vector3d<float> target{0.0f, 0.0f, kAvatarCameraTargetZ};
     m_mainmenuPaneCam = new glitch::scene::CCameraSceneNode(-1, position, target, false);
-    // MISSING 1 to 3: see the comment above.
+    DeviceSceneManager()->rootNode->addChild(m_mainmenuPaneCam);  // scene +0x04, vtable +0x5c
+    static_cast<glitch::IReferenceCounted*>(m_mainmenuPaneCam)->drop();
+    DeviceSceneManager()->setActiveCamera(m_mainmenuPaneCam);
     m_mainmenuPaneCam->setUpVector(glitch::core::vector3d<float>{0.0f, 0.0f, 1.0f});  // vtable +0x114
     m_mainmenuPaneCam->setAspectRatio(kAvatarCameraAspectRatio);                      // vtable +0x138
     m_mainmenuPaneCam->setFOV(kAvatarCameraFov);                                      // vtable +0x13c
@@ -223,8 +228,8 @@ void MenuMainMenu::Hide() {
 }
 
 // 0x42c1c8 _ZN12MenuMainMenu6UpdateEv
-// PARTIAL. Written: the IsValidMenu test and the animation of the preview character (CharAnimator at +0x49c, which is a base of
-// Character). Missing: the scene manager update, scene->update(0.0f, false) (device +0x1c, vtable +0x60).
+// With a valid menu: the preview character animator is updated (CharAnimator at +0x49c, a base of Character) and the scene is
+// updated with a zero step (scene manager vtable +0x60, update(0.0f, false)).
 void MenuMainMenu::Update() {
     if (!IsValidMenu()) {
         return;
@@ -232,7 +237,7 @@ void MenuMainMenu::Update() {
     if (mCharacterToRender) {
         mCharacterToRender->CharAnimator::Update();
     }
-    // MISSING: scene manager update, vtable +0x60 with (0.0f, false), on the scene manager of device +0x1c.
+    DeviceSceneManager()->update(0.0f, false);
 }
 
 // 0x42c240 _ZN12MenuMainMenuD1Ev (complete-object destructor)
@@ -260,43 +265,37 @@ MenuMainMenu* MenuMainMenu::GetInstance() {
 }
 
 // 0x42c510 _ZN12MenuMainMenu10SetupSceneEv
-// PARTIAL. Written: the test of the scene root, and PhysicalWorld::load(0, 0, 1, 1) on the physical world (dword_99F770,
-// Application +0x44). Missing, in the original order:
-//   1. The collada database over "data/3d/menu/main_menu_charactere_swamp.bdae" with the factory ColladaFactory::s_factory
-//      (ELF 0x9a1ed8, 8 bytes). dh2/ColladaFactory.hpp does not declare the static.
-//   2. constructScene(video driver), where the driver is device +0x10 (dword_99F73C+16). The device words are not declared.
-//   3. scene->rootNode->addChild(the scene root) (scene +0x04, vtable +0x5c), with the scene manager at device +0x1c.
-//   4. The drop of the scene root (the creation reference). glitch::collada::CRootSceneNode is not defined in the tree.
+// Without a scene: the physical world is loaded (0, 0, 1, 1), the collada database of "data/3d/menu/main_menu_charactere_swamp.bdae"
+// (game ColladaFactory::s_factory) builds the scene root, which is added to the scene manager root and its creation reference dropped.
 void MenuMainMenu::SetupScene() {
     if (m_characterPlaneSceneNode) {
         return;
     }
     Singleton<Application>::s_inst.m_physicalWorld->load(0.0f, 0.0f, 1.0f, 1.0f);
-    // MISSING 1 to 4: see the comment above.
+    const std::string path = "data/3d/menu/main_menu_charactere_swamp.bdae";
+    glitch::scene::ISceneNode* sceneRoot = DeviceSceneManager()->rootNode;  // scene +0x04
+    glitch::collada::CColladaDatabase database(path.c_str(), &ColladaFactory::s_factory);
+    m_characterPlaneSceneNode = database.constructScene(Singleton<Application>::s_inst.m_device->videoDriver);
+    sceneRoot->addChild(m_characterPlaneSceneNode);  // vtable +0x5c
+    static_cast<glitch::IReferenceCounted*>(m_characterPlaneSceneNode)->drop();
 }
 
 // 0x42c62c _ZN12MenuMainMenu4ShowEv
-// PARTIAL. Written, in the original order: the IsValidMenu test, the "menu_bg" Show, MenuBase::Show, the debug switch reads,
-// the avatar camera, the scene, the preview character when none is set, m_isDestroyed = false, the "RenderedBG" display
-// callback, and the error event's StrID message.
-// Missing:
-//   1. The GameCenter prelude: GCSingleton<GameCenter> +0x13 = 1, and GameCenter::ResetPlayerList when the bytes at +0x05 and
-//      +0x07 are set. dh2 has no GameCenter header (waits on dh2/GameCenter.hpp).
-//   2. The debug trace when the "MenuMainMenu" switch is set: gameswf::weak_ptr<character>::check_proxy on m_characterProxy
-//      (+0x48), then RenderFX::DBG_TraceContextInformation(m_menu, m_character) (+0x4c). Neither is declared in dh2.
-//   3. RenderFX::SetAlpha(m_menu, "btn_Debug1", 0) and RenderFX::SetAlpha(m_menu, "btn_debug2", 0). Not declared in dh2.
-//   4. The "MainMenuError" callback on the root movie (MenuFX::GetRoot, then RenderFX::GetRoot and gameswf::root::get_root_movie,
-//      then InvokeASCallback with a gameswf::as_value holding the message, count 1). Left out because vendor-gameswf
-//      as_value.hpp does not compile on this host (base/container.h: tu_string has no m_hash_cache or m_length_plus_one).
-//      The call is otherwise exact; MainMenuErrorShowsCallback in dh2/global/menu_main_menu.hpp gives its condition.
-//   5. The common tail, which every path reaches: GameCenter +0x14 = 0 and the unnamed byte at 0x99f7d7 (byte_99F7D7) = 1.
-//      Event 7 also sets two GameCenter bytes (+0x0e and +0x0a) before the tail. Both need the GameCenter header and the byte
-//      declaration.
+// With a valid menu: the Game Center flag (+0x13) is set and its player list reset when it is enabled; the "menu_bg" menu is shown,
+// MenuBase::Show runs, the debug switches are read (the "MenuMainMenu" switch traces the menu context), the debug buttons are made
+// transparent, the avatar camera, scene and preview character are set up, the "RenderedBG" display callback is registered, and
+// the pending GoToMainMenu event picks the "MainMenuError" message shown on the root movie. Every path ends by clearing the Game
+// Center flag (+0x14) and setting the byte at 0x99f7d7; event 7 first marks the Game Center result flags.
 void MenuMainMenu::Show() {
     if (!IsValidMenu()) {
         return;
     }
-    // MISSING 1: the GameCenter prelude. See the comment above.
+    GCSingleton<GameCenter>::GetInstance()->unk_13 = true;  // +0x13
+    if (GCSingleton<GameCenter>::GetInstance()->gateFlag_) {  // +0x05
+        if (GCSingleton<GameCenter>::GetInstance()->featuresEnabled_) {  // +0x07
+            GCSingleton<GameCenter>::GetInstance()->ResetPlayerList();
+        }
+    }
     MenuBase* background = MenuManager::GetInstance()->GetMenuByName("menu_bg");
     background->Show();
     MenuBase::Show();
@@ -305,9 +304,10 @@ void MenuMainMenu::Show() {
     DebugSwitches::s_inst.load();
     const bool tracing = DebugSwitches::s_inst.GetSwitch("MenuMainMenu");
     if (tracing) {
-        // MISSING 2: the debug trace of the menu context. See the comment above.
+        m_menu->DBG_TraceContextInformation(GetCurrentMenuContext());
     }
-    // MISSING 3: RenderFX::SetAlpha of "btn_Debug1" and "btn_debug2" to 0.
+    m_menu->SetAlpha("btn_Debug1", 0.0f);
+    m_menu->SetAlpha("btn_debug2", 0.0f);
     CreateAvatarCamera();
     SetupScene();
     if (!mCharacterToRender) {
@@ -316,13 +316,25 @@ void MenuMainMenu::Show() {
     m_isDestroyed = false;
     m_menu->RegisterDisplayCallback("RenderedBG", RenderCharacterPane, this);
 
-    // GetGoToMainMenuEvent(true) clears the stored event, so it is read even though the callback is missing (MISSING 4).
+    // GetGoToMainMenuEvent(true) clears the stored event.
     const int event = static_cast<int>(Singleton<Application>::s_inst.GetGoToMainMenuEvent(true));
     std::string message;
     if (const char* constant = MainMenuErrorStrId(event)) {
         message = StrIdText(constant);
     }
-    // MISSING 4: the "MainMenuError" callback with `message`, when MainMenuErrorShowsCallback(event). See the comment above.
-    // MISSING 5: the common tail (GameCenter +0x14 = 0, byte_99F7D7 = 1). See the comment above.
-    (void)message;
+    if (event == 7) {
+        GameCenter* gameCenter = GCSingleton<GameCenter>::GetInstance();
+        if (!gameCenter->resultFlag_) {  // +0x0e
+            GCSingleton<GameCenter>::GetInstance()->resultFlag_ = true;
+            GCSingleton<GameCenter>::GetInstance()->unk_0a = true;  // +0x0a
+        }
+    } else if (MainMenuErrorShowsCallback(event)) {
+        gameswf::as_value value;
+        value.set_string(message.c_str());
+        MenuFX* root = MenuManager::GetInstance()->GetRoot();
+        gameswf::character* rootMovie = root->RenderFX::GetRoot()->get_root_movie();
+        root->InvokeASCallback(rootMovie, "MainMenuError", &value, 1);
+    }
+    GCSingleton<GameCenter>::GetInstance()->unk_14 = false;  // +0x14
+    byte_99F7D7 = true;
 }

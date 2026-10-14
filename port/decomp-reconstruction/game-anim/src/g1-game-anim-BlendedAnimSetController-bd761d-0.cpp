@@ -11,6 +11,17 @@
 // declare getTimelineCtrl (vtable +0x44), so every call on a child beyond the animator interface stays partial.
 
 #include "dh2/BlendedAnimSetController.hpp"
+#include "dh2/AnimApplicator.hpp"
+#include "dh2/AnimationSet.hpp"
+#include "dh2/AnimSetManager.hpp"
+#include "dh2/Animator.hpp"
+#include "dh2/AnimatorBlender.hpp"
+#include "dh2/AnimatorSet.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/global/GetApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSet.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 #include <cstddef>
 #include <cstdlib>
@@ -37,15 +48,17 @@ bool BlendedAnimSetController::PlayClip(const char* /*clipName*/, bool /*loop*/,
 }
 
 // 0x476698 _ZN24BlendedAnimSetController15GetAnimationSetEv
-// partial. Every path aborts, as AnimController::GetAnimationSet does. The original returns the current child's animation
-// set when there is a blender and a child (blender +0x28 with index +0x70, then the child's counted pointer at +0x94), and
-// an empty result otherwise. No value can be produced here, and the empty result cannot be built either:
-// boost::intrusive_ptr<glitch::collada::CAnimationSet> instantiates its destructor, which needs the complete type, and
-// CAnimationSet is incomplete in every declared header. The dh2 AnimatorSet field at +0x94 is intrusive_ptr<AnimationSet>,
-// a different class, so the return type needs an owner decision (layout request). Replace the abort with the empty return
-// and the child lookup once CAnimationSet is declared as counted.
-boost::intrusive_ptr<glitch::collada::CAnimationSet> BlendedAnimSetController::GetAnimationSet() {
-    std::abort();
+// The animation set of the current child of the first animator (a blender), with a reference taken; empty without one.
+boost::intrusive_ptr<AnimationSet> BlendedAnimSetController::GetAnimationSet() {
+    glitch::collada::ISceneNodeAnimator* animator = GetAnim(0);
+    if (animator != nullptr) {
+        AnimatorBlender* blender = static_cast<AnimatorBlender*>(animator);
+        glitch::collada::ISceneNodeAnimator* child = blender->animators[blender->m_currentIndex];
+        if (child != nullptr) {
+            return static_cast<AnimatorSet*>(child)->m_animationSet;
+        }
+    }
+    return boost::intrusive_ptr<AnimationSet>();
 }
 
 // 0x4766fc _ZN24BlendedAnimSetController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_
@@ -72,65 +85,73 @@ void BlendedAnimSetController::SetScale(float scale, unsigned int animIndex) {
 }
 
 // 0x476780 _ZN24BlendedAnimSetController8StopClipEbj
-// partial. Reproduced: the blender at GetAnim(animIndex), the current child at animators[m_currentIndex], and SetScale(0)
-// on the blender in the original order. With no child the original stops there (SetScale only).
-// Not reproduced, when a child exists: the timeline is child->getTimelineCtrl() (child vtable +0x44). That slot is not
-// declared on glitch::collada::ISceneNodeAnimator, so the timeline cannot be reached. The original then runs, when rewind
-// is set and the timeline is non-null, timeline->jumpTo(timeline->getCurrentClipEnd()) (vtable +0x0c, then +0x30).
+// The blender scale is zeroed (every child timeline); with rewind the current child timeline jumps to the end of its clip.
 void BlendedAnimSetController::StopClip(bool rewind, unsigned int animIndex) {
     AnimatorBlender* blender = static_cast<AnimatorBlender*>(GetAnim(animIndex));
-    // The original reads the blender without a null test, so a null blender faults there as well.
-    glitch::collada::ISceneNodeAnimator* child =
-        blender->animators[static_cast<std::size_t>(blender->m_currentIndex)];
+    glitch::collada::ISceneNodeAnimator* child = blender->animators[blender->m_currentIndex];
     if (child == nullptr) {
         blender->SetScale(0.0f);
         return;
     }
-    // partial: timeline = child->getTimelineCtrl() (vtable +0x44) is taken here, before SetScale in the original.
+    glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
     blender->SetScale(0.0f);
-    // partial: if (timeline != nullptr && rewind) timeline->jumpTo(timeline->getCurrentClipEnd()); not reproduced.
-    (void)rewind;
+    if (timeline != nullptr && rewind) {
+        timeline->jumpTo(static_cast<std::int32_t>(timeline->getCurrentClipEnd()));
+    }
 }
 
 // 0x47680c _ZN24BlendedAnimSetController8PlayClipEjbij
-// partial. Reproduced: the blender lookup (null returns false), the cross-fade start AnimatorBlender::Blend(unk_14), and
-// the early return when the clip index is -1 (the original tests a2 == -1).
-// Not reproduced, after that test. The original then takes the child at animators[m_currentIndex]. Without a child it
-// calls CSceneNodeAnimatorSet::getCurrentAnimation on the null child, calls GetApplicator(blender) and returns false.
-// With a child it needs the child's timeline (vtable +0x44), the child's getCurrentAnimation (engine CSceneNodeAnimatorSet,
-// 0x65f114), AnimatorSet::SetCurrentAnimation(clip) (dh2, 0x3674ac), the child's setAnimationClip(unk_0c) (vtable +0x30),
-// the timeline flag at +0x34 (not declared), timeline setLoop (+0x40), getLoop (+0x44), setScale(1.0f) (+0x48) and
-// jumpTo(GetApplicator(blender)->unk_10 + timeline->rangeStartMs) (+0x0c). It ends with RootSceneNode::NewAnim(unk_10) and
-// AnimatorBlender::BlendPost. None of that is written, so the body returns false after the parts above.
+// A cross-fade starts (Blend with unk_14), then animation `clip` is selected on the new current child like
+// AnimSetController::PlayClip does (the applicator is the blender one); BlendPost closes it. Clip -1 plays nothing.
 bool BlendedAnimSetController::PlayClip(unsigned int clip, bool loop, int unused, unsigned int animIndex) {
+    (void)unused;
     AnimatorBlender* blender = static_cast<AnimatorBlender*>(GetAnim(animIndex));
     if (blender == nullptr) {
         return false;
     }
     blender->Blend(unk_14);
-    if (clip == 0xffffffffu) {  // the original tests a2 == -1
+    if (clip == static_cast<unsigned int>(-1)) {
         return false;
     }
-    (void)loop;
-    (void)unused;
-    return false;  // partial: see above
+    glitch::collada::CSceneNodeAnimatorSet* child =
+        static_cast<glitch::collada::CSceneNodeAnimatorSet*>(blender->animators[blender->m_currentIndex]);
+    if (child == nullptr) {
+        GetApplicator(blender);
+        return false;
+    }
+    glitch::scene::ITimelineController* timeline = child->getTimelineCtrl();
+    const int currentAnimation = child->getCurrentAnimation();
+    AnimApplicator* applicator = GetApplicator(blender);
+    const int selected = static_cast<AnimatorSet*>(child)->SetCurrentAnimation(static_cast<int>(clip));
+    if (selected == -1) {
+        return false;
+    }
+    if (static_cast<glitch::collada::CTimelineController*>(timeline)->clipTable != nullptr) {   // timeline +0x34
+        child->setAnimationClip(unk_0c);
+    }
+    if (currentAnimation == selected && !timeline->getLoop()) {
+        const std::int32_t base = applicator != nullptr ? applicator->unk_10 : 0;
+        timeline->jumpTo(base + timeline->rangeStartMs);
+    }
+    timeline->setLoop(loop);
+    timeline->setScale(1.0f);
+    m_node->NewAnim(unk_10);
+    blender->BlendPost();
+    return true;
 }
 
 // 0x47695c _ZNK24BlendedAnimSetController10GetNumClipEj
-// partial. Reproduced: the blender lookup, the current child, and the zero results (no blender, or no child).
-// Not reproduced: with a child, the original returns CSceneNodeAnimatorSet::getAnimationCount() const (engine, 0x65f11c)
-// on that child. The child type does not declare it, so the stub returns 0 for a child that exists.
+// The animation count of the current child of the blender `animIndex`, or 0.
 int BlendedAnimSetController::GetNumClip(unsigned int animIndex) const {
-    const AnimatorBlender* blender = static_cast<const AnimatorBlender*>(GetAnim(animIndex));
-    if (blender == nullptr) {
-        return 0;
+    const glitch::collada::ISceneNodeAnimator* animator = GetAnim(animIndex);
+    if (animator != nullptr) {
+        const AnimatorBlender* blender = static_cast<const AnimatorBlender*>(animator);
+        const glitch::collada::CSceneNodeAnimatorSet* child =
+            static_cast<const glitch::collada::CSceneNodeAnimatorSet*>(blender->animators[blender->m_currentIndex]);
+        if (child != nullptr) {
+            return static_cast<int>(child->getAnimationCount());
+        }
     }
-    const glitch::collada::ISceneNodeAnimator* child =
-        blender->animators[static_cast<std::size_t>(blender->m_currentIndex)];
-    if (child == nullptr) {
-        return 0;
-    }
-    // partial: the child's getAnimationCount() (0x65f11c) is not reachable from the child type.
     return 0;
 }
 
@@ -148,26 +169,37 @@ BlendedAnimSetController::~BlendedAnimSetController() {}
 
 // 0x476b4c _ZN24BlendedAnimSetControllerC2EP13RootSceneNodei
 // 0x476ddc _ZN24BlendedAnimSetControllerC1EP13RootSceneNodei
-// partial. The two copies have the same body; this definition serves both. Reproduced: the AnimController base constructor
-// with trackEvents set (the original passes 1), and the field stores in declaration order: m_animSetId (+0x08) = the set id,
-// unk_0c (+0x0c) = 0, unk_10 (+0x10) = 1, unk_14 (+0x14) = 0.
-// Not reproduced (redo pass, re-checked against the headers). Still missing:
-//  - the two AnimSetManager::GetAnimator(set id) calls on AnimSetManager::s_inst (dh2/AnimSetManager.hpp now declares it).
-//    They are reachable; the stub does not make them yet because the children they return (collada ISceneNodeAnimator*)
-//    cannot be counted or dropped (next item);
-//  - the check of the first child's count, CSceneNodeAnimatorSet::getAnimationCount() > 0 (engine, 0x65f11c). The engine
-//    class (collada_scene_accessors.hpp) does not declare getAnimationCount. It asserts at gAssertLevel 2 (a store to
-//    address 0) and 1 (message at line 69 of BlendedAnimSetController.cpp);
-//  - reference counting of the children: the collada ISceneNodeAnimator (collada_misc.hpp) is not an IReferenceCounted, so
-//    the grab before each push_back and the drops are not expressible. Layout request: glitch::collada::ISceneNodeAnimator
-//    must derive from glitch::scene::ISceneNodeAnimator (which holds the virtual IReferenceCounted at +0x0c);
-//  - the blender: operator new(208) and AnimatorBlender's constructor (declared). Before each child is appended to the
-//    blender's animators, the blender's own +0x24 byte is set to 1 (undeclared on the collada base). compile(nullptr)
-//    (vtable +0x88) is declared. weights[0] = 1.0f and weights[1] = 0.0f need a weights vector of two entries, and no
-//    evidence sizes it in the constructor path, so the stores stay out;
-//  - m_node->addAnimator(blender): the ISceneNode declaration (scene/ISceneNode.hpp:157) takes glitch::scene::ISceneNodeAnimator*,
-//    and the blender is a collada animator, so the same derivation request applies;
-//  - the cleanup: each animator gets its drop, the blender gets its drop, and the failure branch drops the animators that exist.
-// Until then no children are attached, so GetAnim returns null for this controller.
+// Two animators of the same set are taken from the AnimSetManager; with both present a blender over the two is built (needs a
+// compile; weights 1 and 0; the first set must have an animation, assert at BlendedAnimSetController.cpp:69), added to the node,
+// and the three creation references are dropped. Otherwise the animators that exist are dropped.
 BlendedAnimSetController::BlendedAnimSetController(RootSceneNode* node, int animSetId)
-    : AnimController(node, true), m_animSetId(animSetId), unk_0c(0), unk_10(true), unk_14(0) {}
+    : AnimController(node, true), m_animSetId(animSetId), unk_0c(0), unk_10(true), unk_14(0) {
+    glitch::collada::ISceneNodeAnimator* first = AnimSetManager::s_inst.GetAnimator(animSetId);
+    glitch::collada::ISceneNodeAnimator* second = AnimSetManager::s_inst.GetAnimator(m_animSetId);
+    if (second != nullptr && first != nullptr) {
+        if (static_cast<int>(static_cast<glitch::collada::CSceneNodeAnimatorSet*>(first)->getAnimationCount()) <= 0) {
+            // ASSERT(set1->getAnimationCount() > 0) FAILED: BlendedAnimSetController.cpp:69
+        }
+        AnimatorBlender* blender = new AnimatorBlender();
+        blender->needsCompile = true;        // +0x24
+        ++first->referenceCounter;
+        blender->animators.push_back(first);
+        blender->needsCompile = true;
+        ++second->referenceCounter;
+        blender->animators.push_back(second);
+        blender->compile(nullptr);
+        blender->weights[0] = 1.0f;
+        blender->weights[1] = 0.0f;
+        m_node->addAnimator(blender);
+        first->drop();
+        second->drop();
+        blender->drop();
+    } else {
+        if (first != nullptr) {
+            first->drop();
+        }
+        if (second != nullptr) {
+            second->drop();
+        }
+    }
+}

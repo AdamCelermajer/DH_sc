@@ -27,6 +27,8 @@
 
 #include "gameswf/gameswf.h"  // gameswf::rect (the complete type; MenuBase.hpp forward-declares it)
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
 #include "gameswf/gameswf_as_classes/as_array.h"
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_root.h"
@@ -87,21 +89,48 @@ void MenuBase::TestSlideEvents(RenderFX::Event& event) const {
 }
 
 // 0x423db8 _ZN8MenuBase20RegisterDragAndDropsEPFiPKN7gameswf9characterEE
-// PARTIAL: the original first frees the previous m_dragAndDrop (+0x5c) with its destructor and CustomFree (delete here
-// is the same destructor and free). Then, when
-// m_character (+0x4c) is set and its proxy (+0x48) is still valid, it creates a DragAndDrop and fills it. It collects the
-// "dragable" children of the menu (RenderFX::FindCharacters, not declared), finds each one's "draglimits" child by name
-// (the gameswf character name at +0x44 is a tu_string, not declared), and calls AddDragable with the filter (when one is
-// given). The "drop" children go to AddDropable. The object is kept only when it has an entry. When the proxy is not
-// valid, the original releases it and clears +0x48 and +0x4c. Only the free of the previous object is made here, so
-// m_dragAndDrop is null after the call.
+// The previous m_dragAndDrop (+0x5c) is deleted. With a live menu context a new DragAndDrop is built: every "dragable" child of the
+// context is added (with its "draglimits" child, found by name, as the zone) when the filter is null or accepts it, and every
+// "drop" child is added as a dropable. The object is kept only when it has an entry. A dead context is released instead.
 void MenuBase::RegisterDragAndDrops(int (*filter)(const gameswf::character*)) {
     ReadMenuBaseTraceSwitch();
     if (m_dragAndDrop != nullptr) {
         delete m_dragAndDrop;
         m_dragAndDrop = nullptr;
     }
-    static_cast<void>(filter);  // PARTIAL: the drag and drop build is not made (see above).
+    if (GetCurrentMenuContext() == nullptr) {
+        return;
+    }
+    m_dragAndDrop = new DragAndDrop();
+    // FindCharacters returns the shared result array (RenderFX::m_foundCharacters), so the dragables are copied out first.
+    RenderFX::CharacterArray* found = m_menu->FindCharacters(GetCurrentMenuContext(), "dragable", 0);
+    std::vector<gameswf::character*> dragables(found->data, found->data + found->count);
+    for (gameswf::character* dragable : dragables) {
+        RenderFX::CharacterArray* children = m_menu->FindCharacters(dragable, nullptr, 0);
+        gameswf::character* limits = nullptr;
+        for (int i = 0; i < children->count; ++i) {
+            gameswf::character* child = children->data[i];
+            if (std::strstr(child->get_name().c_str(), "draglimits") != nullptr) {
+                limits = child;
+                break;
+            }
+        }
+        if (filter == nullptr || filter(dragable)) {
+            m_dragAndDrop->AddDragable(m_menu, dragable, limits);
+        }
+    }
+    RenderFX::CharacterArray* drops = m_menu->FindCharacters(GetCurrentMenuContext(), "drop", 0);
+    for (int i = 0; i < drops->count; ++i) {
+        m_dragAndDrop->AddDropable(m_menu, drops->data[i]);
+    }
+    if (m_dragAndDrop->m_dragables.empty() && m_dragAndDrop->m_dropables.empty()) {
+        ReadMenuBaseTraceSwitch();
+        delete m_dragAndDrop;
+        m_dragAndDrop = nullptr;
+    } else {
+        ReadMenuBaseTraceSwitch();
+        ReadMenuBaseTraceSwitch();
+    }
 }
 
 // 0x424288 _ZN8MenuBase12FS_GotoFrameEPKcS1_Pv
@@ -204,22 +233,19 @@ bool MenuBase::FS_SetText(const char*, const char* args, void* menu) {
 }
 
 // 0x4247c0 _ZN8MenuBase14FS_GetCharPropEPKcS1_Pv
-// args is a property id (atoi). The original reads the trace switch, then the local player's Character (PlayerManager
-// GetLocalPlayer(0, true)->character_660, the same as PlayerManager::GetLocalPlayerCharacter, 0x330794). With no Character it
-// returns false. Otherwise it reads CharProperties::_GetProperty(the Character's CharProperties base, its sheet at +0xff4,
-// id) and publishes the decimal text through RenderFX::SetMember(_root.retval), which is not declared, and returns true.
-// The read and the publish are not made here, but the return is the original's: false without a Character, true with one.
-// The Character and CharProperties headers cannot both be included in this translation unit (see batch 2 notes), so the
-// read is left out.
-// PARTIAL: CharProperties::_GetProperty and the _root.retval publish not made (see above).
-bool MenuBase::FS_GetCharProp(const char*, const char* args, void*) {
+// args is a property id (atoi). After the trace switch read, the local player Character (PlayerManager GetLocalPlayer(0, true)
+// ->character_660) gives CharProperties::_GetProperty(its sheet at +0xff4, id), published as the decimal text _root.retval.
+// Without a Character the result is false.
+bool MenuBase::FS_GetCharProp(const char*, const char* args, void* menu) {
     const int propId = (args != nullptr) ? std::atoi(args) : 0;
     ReadMenuBaseTraceSwitch();
-    auto* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
+    Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
     if (character == nullptr) {
         return false;
     }
-    static_cast<void>(propId);  // PARTIAL: the property read and the publish are not made (see above).
+    char text[8];
+    std::snprintf(text, sizeof text, "%d", character->_GetProperty(character->m_props, propId));
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", text);
     return true;
 }
 
@@ -243,7 +269,7 @@ bool MenuBase::FS_IsMapLocLocked(const char*, const char* args, void* menu) {
 
 // 0x424af4 _ZN8MenuBase4HideEv
 // Runs only when IsValidMenu (vtable +0x3c) is true. It reads the trace switch, resets the drag-and-drop positions, clears
-// MenuManager::unk_60 (+0x60) for menu_CharacterMenu and menu_Merchant, resets the language to 0 and saves the settings when
+// MenuManager::m_savedCamera (+0x60) for menu_CharacterMenu and menu_Merchant, resets the language to 0 and saves the settings when
 // the language is above 7 as an unsigned value (menu_language), clears s_igmOpened for menu_Ingame, menu_playlist and
 // menu_Merchant, clears byte_99F818 for menu_VerificationLoading, then hides the menu and unregisters it from MenuManager.
 // The original then releases the cached character's weak proxy and calls RenderFX::InvokeASCallback(menu, character,
@@ -257,7 +283,7 @@ void MenuBase::Hide() {
         m_dragAndDrop->ResetPositions();
     }
     if (NameIs(m_name, "menu_CharacterMenu") || NameIs(m_name, "menu_Merchant")) {
-        MenuManager::GetInstance()->unk_60 = 0;
+        MenuManager::GetInstance()->m_savedCamera = nullptr;
     }
     if (NameIs(m_name, "menu_language")) {
         SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;

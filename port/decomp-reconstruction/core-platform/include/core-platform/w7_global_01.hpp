@@ -21,6 +21,9 @@ void setOnAnimateEnabled(glitch::scene::ISceneNode* node, bool enable);
 void RecursiveSetBoolOnNode(glitch::scene::ISceneNode* node, bool enable,
                             void (*callback)(glitch::scene::ISceneNode*, bool));
 
+// 0x50f220 _Z14OptimizeStaticPN6glitch5scene10ISceneNodeE (core-platform/src/w7_optimize_static.cpp)
+void OptimizeStatic(glitch::scene::ISceneNode* node);
+
 // 0x50e4d0 _Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE
 void NodeRemoveAllChildren(glitch::scene::ISceneNode* node);
 

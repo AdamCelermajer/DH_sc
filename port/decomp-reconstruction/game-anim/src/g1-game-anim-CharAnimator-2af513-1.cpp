@@ -30,6 +30,9 @@
 #include <cstdlib>
 
 #include "dh2/AnimController.hpp"
+#include "dh2/AnimationSet.hpp"
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "dh2/AnimSetController.hpp"
 #include "dh2/AnimSetManager.hpp"
 #include "dh2/Application.hpp"
@@ -204,13 +207,12 @@ void CharAnimator::ANIM_Stop() {
 }
 
 // 0x3c9984 _ZN12CharAnimator15__CallbackEventERKN6glitch7collada15STriggeredEventEPv
-// partial: the original stores the event's first word in m_lastEventData (+0x58) and raises Character event 40 with the
-// event's second word. glitch::collada::STriggeredEvent has no definition, so neither word can be read here. The stub
-// return is 0 (the original returns the RaiseEvent result).
+// user is the CharAnimator. The event's first word (the time offset) is kept in m_lastEventData (+0x58) and Character event 40
+// is raised with the second word (the event name).
 int CharAnimator::__CallbackEvent(glitch::collada::STriggeredEvent const& ev, void* user) {
-    (void)ev;
-    (void)user;
-    return 0;  // stub, see above
+    CharAnimator* self = static_cast<CharAnimator*>(user);
+    self->m_lastEventData = ev.timeOffset;  // +0x58
+    return self->m_character->RaiseEvent(40, const_cast<char*>(ev.eventName));
 }
 
 // 0x3c99a0 _ZN12CharAnimator25ANIM_AddSetToRenderObjectEv
@@ -257,11 +259,8 @@ void CharAnimator::ANIM_AddAnimDictToSet(int animDict) {
 }
 
 // 0x3c9b7c _ZN12CharAnimator15_CompileAnimSetEv
-// partial: the set id is fetched, the set is marked compiled, and ANIM_AddSetToRenderObject runs, in the original's order.
-// The debug name, "CharAnimTable: (%d) %s || CharacterTable: (%d) %s", is missing: it needs the CharAnimTable name table
-// (Arrays::CharAnimTable::m_memberNames, indexed by the anim table id), the character table id (Character +0x13c8,
-// m_charPropsId) and the 32-bit name pointer at Character +0x13c4, which falls inside m_charPropsName (see the top of
-// this file). AnimSetManager::DBG_SetName is called with that name.
+// Not yet compiled: the set id is fetched, the set is marked compiled (+0x38), ANIM_AddSetToRenderObject runs and the set gets
+// its debug name "CharAnimTable: (id) name || CharacterTable: (id) name" (Character +0x13c4 is the c_str of m_charPropsName).
 void CharAnimator::_CompileAnimSet() {
     if (m_animSetCompiled) {                                       // +0x38
         return;
@@ -271,7 +270,12 @@ void CharAnimator::_CompileAnimSet() {
     }
     m_animSetCompiled = true;                                      // +0x38
     ANIM_AddSetToRenderObject();
-    // Missing: the debug name and AnimSetManager::DBG_SetName (see above).
+    char name[1024];
+    const int tableId = m_character->GetCharAnimTableId();
+    std::sprintf(name, "CharAnimTable: (%d) %s || CharacterTable: (%d) %s", tableId,
+                 Arrays::CharAnimTable::m_memberNames.names[m_character->GetCharAnimTableId()],
+                 static_cast<int>(m_character->m_charPropsId), m_character->m_charPropsName.c_str());
+    AnimSetManager::s_inst.DBG_SetName(m_animSetId, name);
 }
 
 // 0x3c9c7c _ZN12CharAnimator21_AddTemplateAnimTableEiij
@@ -353,7 +357,7 @@ void CharAnimator::SetAnimationSet() {
     const int stanceCount = m_character->IsPlayer() ? constants->getConstant("AnimStances", "COUNT_IPHONE") : 1;
     const int stanceList = constants->getConstant("AnimStancedAnim", "SL__LIST_IPHONE");
     const Structs::CharAnim* table = m_character->GetCharAnimTable();
-    (void)m_character->GetCharSkillList();  // Missing: the skill loop (see above).
+    const auto* skillList = static_cast<const std::int32_t*>(m_character->GetCharSkillList());  // Structs::SkillList, count at +0x04
 
     int templateId = table->m_w36;  // +0x90
     if (templateId == -1) {
@@ -404,24 +408,24 @@ void CharAnimator::SetAnimationSet() {
             for (std::uint32_t i = 0; i < table->m_w33; ++i) {
                 _AddAnimTable(setId, extra[i], stance, 0x400000u, stanceList);
             }
-            // Missing: the CharSkillList loop (count at list +0x04, each skill's anim table id at skill +0x04, mask 0x200000).
+            for (std::int32_t i = 0; i < skillList[1]; ++i) {
+                const auto* skill = static_cast<const std::int32_t*>(m_character->GetCharSkill(i));  // Structs::Skill, anim table at +0x04
+                _AddAnimTable(setId, skill[1], stance, 0x200000u, stanceList);
+            }
             ++stance;
         } while (stance != static_cast<std::uint32_t>(stanceCount));
     }
 }
 
 // 0x3ca52c _ZN12CharAnimator16RequestAnimPurgeEv
-// partial: returns at once when the character has no visual object. Otherwise the original takes the animation set from
-// visual->m_animController->GetAnimationSet() (vtable +0x08) and calls AnimationSet::Purge on it, which is an empty body,
-// and then releases it. The result is boost::intrusive_ptr<glitch::collada::CAnimationSet>, and the release needs the
-// complete CAnimationSet, which is not declared (see IncAnimSetUsers in g1-game-anim-CharAnimator-2af513-0.cpp), so the
-// call is not written.
+// Without a visual object nothing happens; otherwise the animation set of its anim controller is purged.
 void CharAnimator::RequestAnimPurge() {
     VisualObject* visual = m_character->m_visualObject;    // Character +0x2d8
     if (visual == nullptr) {
         return;
     }
-    // Missing: GetAnimationSet() and its release (see above). AnimationSet::Purge has nothing to add.
+    boost::intrusive_ptr<AnimationSet> set = visual->m_animController->GetAnimationSet();
+    set->Purge();
 }
 
 // 0x3ca79c _ZN12CharAnimator12_SetAnimStepEj

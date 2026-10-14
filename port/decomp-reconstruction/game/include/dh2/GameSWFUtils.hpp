@@ -12,6 +12,9 @@ class MenuFX;
 
 namespace glitch {
 class IReferenceCounted;
+namespace video {
+class ITexture;
+}  // namespace video
 }  // namespace glitch
 
 namespace gameswf {
@@ -34,11 +37,16 @@ public:
     // Returned through a hidden pointer in the original: xmin, xmax, ymin, ymax of the absolute bounding rect.
     static std::array<float, 4> GetAbsoluteBoundingRect(gameswf::character* character);         // 0x416a7c
     static int GetLabeledFrame(gameswf::character* character, const char* label);               // 0x416b3c
-    static glitch::IReferenceCounted* SwfTextureLoader(const char* path, int width, int height); // 0x416c14
+    static glitch::video::ITexture* SwfTextureLoader(const char* path, int width, int height); // 0x416c14
     static int gameswf_logger(bool enabled, const char* message);                               // 0x416fc8
     static int PlayAnim(MenuFX* menu, gameswf::character* character, const char* anim);         // 0x416fe0
     static int PlayAnim(MenuFX* menu, const char* target, const char* anim);                    // 0x417108
     static int GetFrameIDFromName(gameswf::character* character, const char* name);             // 0x417148
     static int GotoFrame(gameswf::character* character, const char* label);                     // 0x4171f8
     static int PreloadGlyph(const char* text, gameswf::character* character, MenuFX* menu);     // 0x41724c
+
+    // Character sets that MenuManager::Init preloads into the glyph cache (0x9997a8, 0x9997a4, 0x9997a0).
+    static const char* const CACHE_CHARS_NUMBERS;  // "0123456789 :/%()!.,_-+[]"
+    static const char* const CACHE_CHARS_A_TO_Z;   // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    static const char* const CACHE_CHARS_a_TO_z;   // "abcdefghijklmnopqrstuvwxyz"
 };

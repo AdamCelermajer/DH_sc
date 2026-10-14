@@ -2,9 +2,7 @@
 // The bank of pooled SWFAnim objects, keyed by name. Rebuilt from the Hex-Rays pseudocode of libDungeonHunter2.so.
 // Offsets in comments are the original 32-bit ARM offsets; the code never uses them for addressing.
 //
-// PARTIAL, one reason: ExtendBank clears the flag byte +0x9b of each clone it creates (`*((_BYTE *)v22 + 155) = 0`).
-// That byte is not declared in the vendored gameswf::character (the same field FlashAnimManager is partial on).
-// Layout request: "gameswf::character +0x9b uint8". The store is left out and ExtendBank is PARTIAL.
+// ExtendBank clears the visible flag (+0x9b, character::m_visible) of each clone it creates.
 //
 // The map walk in FlushAll is the in-order traversal of the original tree, which std::map iteration gives directly.
 // FlushBank keeps a bank's storage, as the original does. FlushAll releases each bank's storage when it empties the map,
@@ -109,9 +107,8 @@ SWFAnimManager::~SWFAnimManager() {
 // (D1 above) and then CustomFree(this). No body is written.
 
 // 0x498620 _ZN14SWFAnimManager10ExtendBankEPKcP6MenuFXi SWFAnimManager::ExtendBank(char const*, MenuFX*, int)
-// PARTIAL: the original clears the flag byte +0x9b of each new clone (layout request "gameswf::character +0x9b uint8").
-// Left out. Also PARTIAL: an empty bank (size 0, reachable only through GrabAnim with a count of 0) makes the original
-// read the word before the storage (undefined). The rebuild prints the assert and returns the result so far.
+// An empty bank (size 0, reachable only through GrabAnim with a count of 0) makes the original read the word before the
+// storage (undefined). The rebuild prints the assert and returns the result so far.
 // Otherwise rebuilt: the bank is created from the movie clip named by `name` when it is missing, the first anim of the
 // bank is the new one, and the bank is extended to `count` anims by cloning the last anim's character into the parent
 // sprite, each clone named <name>_<two-digit index>.
@@ -171,7 +168,7 @@ SWFAnim* SWFAnimManager::ExtendBank(const char* name, MenuFX* menu, int count) {
                 std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "bank.size() >= 1",
                              "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\SWFAnim\\SWFAnimManager.cpp", 134);
             }
-            // PARTIAL: the original reads the element in front of the storage here (undefined). Not reproduced.
+            // The original reads the element in front of the storage here (undefined). Not reproduced.
             return result;
         }
 
@@ -202,7 +199,7 @@ SWFAnim* SWFAnimManager::ExtendBank(const char* name, MenuFX* menu, int count) {
                                  "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\SWFAnim\\SWFAnimManager.cpp", 156);
                 }
             }
-            // PARTIAL: the original clears the flag byte +0x9b of the clone here (layout request, see the header note).
+            clone->m_visible = false;  // byte +0x9b
             SWFAnim* anim = new SWFAnim(menu, clone);
             bank.push_back_unique(anim);
             if (!result) {

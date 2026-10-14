@@ -118,7 +118,9 @@ struct Rob {
     friend typename Tag::type get(Tag) { return M; }
 };
 
-struct TagStepReset { using type = void (CharAI::*)(); friend type get(TagStepReset); };
+// StepResetAvailableStep is static in the binary (0x3cb2f0 takes no `this`), so its address is a plain function
+// pointer, not a pointer to member.
+struct TagStepReset { using type = void (*)(); friend type get(TagStepReset); };
 struct TagStepQuery { using type = int (CharAI::*)(int); friend type get(TagStepQuery); };
 struct TagUpdatePointers { using type = void (CharAI::*)(); friend type get(TagUpdatePointers); };
 struct TagLoadStep { using type = int CharAI::*; friend type get(TagLoadStep); };
@@ -156,14 +158,14 @@ void TestStepSharedBudget() {
     CharAI* self = AI();
     const auto reset = get(TagStepReset{});
     const auto query = get(TagStepQuery{});
-    (self->*reset)();
+    reset();  // static: no instance involved
     EXPECT(CharAI::s_stepAvailableStep == 3);
     EXPECT((self->*query)(2) == 2);
     EXPECT(CharAI::s_stepAvailableStep == 1);
     EXPECT((self->*query)(5) == 1);  // capped at what is left
     EXPECT(CharAI::s_stepAvailableStep == 0);
     EXPECT((self->*query)(4) == 0);  // nothing left
-    (self->*reset)();
+    reset();  // static: no instance involved
     EXPECT((self->*query)(3) == 3);
     EXPECT(CharAI::s_stepAvailableStep == 0);
 }

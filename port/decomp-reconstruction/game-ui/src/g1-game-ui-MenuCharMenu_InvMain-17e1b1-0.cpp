@@ -12,11 +12,19 @@
 //   - RootSceneNode (the model root, VisualObject +0x08) is an ISceneNode in the original, but the dh2 class does not
 //     declare that base yet. The ISceneNode calls on it (addChild, getRotation, setRotation, getPosition, setPosition)
 //     are therefore missing, and the bodies that make them are partial (layout request).
-//   - MenuManager +0x60 is MenuManager::unk_60 here: the camera saved by CreateAvatarCamera, restored by
+//   - MenuManager +0x60 is MenuManager::m_savedCamera here: the camera saved by CreateAvatarCamera, restored by
 //     DestroyAvatarCamera.
 //   - PlayerInfo +0x660 is declared as PlayerInfo::unk_660 (Character*); the original name is character_660.
 
+#include <array>
+
 #include "dh2/AnchorBase.hpp"
+#include "dh2/GameSWFUtils.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/CameraLevel.hpp"
 #include "dh2/Character.hpp"
@@ -96,9 +104,8 @@ void MenuCharMenu_InvMain::Hide() {
 }
 
 // 0x452810 _ZN20MenuCharMenu_InvMain19DestroyAvatarCameraEv
-// PARTIAL. Reconstructed: the camera is removed from its scene (ISceneNode::remove, vtable +0x68), dropped, and the
-// static pointer is cleared. Missing: the last step, CSceneManager::setActiveCamera(scene, unk_60) when MenuManager
-// +0x60 (the saved camera) is set. The scene manager is IDevice +0x1c (dword_99F73C + 28), which dh2 does not declare.
+// The camera is removed from its scene (ISceneNode::remove, vtable +0x68), dropped, and the static pointer is cleared; when
+// MenuManager has a saved camera it becomes the scene active camera again.
 void MenuCharMenu_InvMain::DestroyAvatarCamera() {
     if (!m_inventoryPaneCam) {
         return;
@@ -107,46 +114,40 @@ void MenuCharMenu_InvMain::DestroyAvatarCamera() {
     static_cast<glitch::IReferenceCounted*>(m_inventoryPaneCam)->drop();
     m_inventoryPaneCam = nullptr;
     MenuManager* manager = MenuManager::GetInstance();
-    if (manager->unk_60) {                                                          // MenuManager +0x60, the saved camera
-        // PARTIAL: CSceneManager::setActiveCamera(scene, saved camera) is missing (scene is IDevice +0x1c).
+    if (manager->m_savedCamera) {                                                   // MenuManager +0x60, the saved camera
+        DeviceSceneManager()->setActiveCamera(MenuManager::GetInstance()->m_savedCamera);
     }
 }
 
 // 0x4528d0 _ZN20MenuCharMenu_InvMain18CreateAvatarCameraEv
-// PARTIAL. Reconstructed: the camera (CCameraSceneNode, id -1, position (0, -800, 200), target (0, 0, 200), not
-// far-to-infinity), the character lookup, the up vector, aspect ratio, FOV, near and far planes, one extra reference,
-// and the idle state of the character.
-// Missing:
-//   1. MenuManager +0x60 = scene->m_activeCamera (CSceneManager +0xe4), when MenuManager +0x60 is clear
-//      (the scene manager is IDevice +0x1c, see DestroyAvatarCamera);
-//   2. scene->rootNode->addChild(camera) (CSceneManager +0x04, vtable +0x5c), before the character attachment;
-//   3. visual->m_node->addChild(camera) (ISceneNode vtable +0x5c) on the character's model root, see the comment below;
-//   4. scene->setActiveCamera(camera), after the attachments.
-// The creation reference is not dropped here while the attachments (2 and 3) are missing: the drop would free the
-// camera at once. Restore the drop after the two attachments, at the place it has in the original.
+// The scene active camera is saved in MenuManager (when none is saved). The camera (CCameraSceneNode, id -1, position
+// (0, -800, 200), target (0, 0, 200)) is added to the scene root and to the local character model root, its creation
+// reference dropped, and it becomes the active camera; then its up vector, aspect ratio, FOV, near and far planes are set, one
+// extra reference is held, and the local character goes to its idle state.
 void MenuCharMenu_InvMain::CreateAvatarCamera() {
     if (m_inventoryPaneCam) {
         return;
     }
     MenuManager* manager = MenuManager::GetInstance();
-    if (!manager->unk_60) {                                                         // MenuManager +0x60
-        // PARTIAL: unk_60 = scene->m_activeCamera (CSceneManager +0xe4) is missing (step 1).
+    SceneManager* scene = DeviceSceneManager();
+    if (!manager->m_savedCamera) {                                                  // MenuManager +0x60
+        MenuManager::GetInstance()->m_savedCamera = scene->activeCamera;            // CSceneManager +0xe4
     }
     const glitch::core::vector3d<float> position{0.0f, -800.0f, 200.0f};            // v10 in the original
     const glitch::core::vector3d<float> target{0.0f, 0.0f, 200.0f};                 // v9 in the original
     m_inventoryPaneCam = new glitch::scene::CCameraSceneNode(-1, position, target, false);
-    // PARTIAL: scene->rootNode->addChild(m_inventoryPaneCam) is missing (step 2).
+    DeviceSceneManager()->rootNode->addChild(m_inventoryPaneCam);                   // CSceneManager +0x04, vtable +0x5c
 
     PlayerInfo* player = dword_99F76C->GetLocalPlayer(0, true);
     Character* character = player->unk_660;                                         // PlayerInfo +0x660
     if (character) {
         VisualObject* visual = character->m_visualObject;                           // GameObject +0x2d8
-        // PARTIAL: if (visual) visual->m_node->addChild(m_inventoryPaneCam) is missing (step 3). RootSceneNode does not
-        // declare its ISceneNode base yet, so addChild cannot be called on m_node.
-        (void)visual;
+        if (visual) {
+            visual->m_node->addChild(m_inventoryPaneCam);                           // ISceneNode vtable +0x5c
+        }
     }
-    // PARTIAL: the original drops the creation reference here; it is left out while steps 2 and 3 are missing.
-    // PARTIAL: scene->setActiveCamera(m_inventoryPaneCam) is missing (step 4).
+    static_cast<glitch::IReferenceCounted*>(m_inventoryPaneCam)->drop();            // the creation reference
+    DeviceSceneManager()->setActiveCamera(m_inventoryPaneCam);
 
     m_inventoryPaneCam->setUpVector(glitch::core::vector3d<float>{0.0f, 0.0f, 1.0f});  // vtable +0x114
     m_inventoryPaneCam->setAspectRatio(1.66775239f);                                // vtable +0x138, bits 0x3fd578e9
@@ -162,27 +163,31 @@ void MenuCharMenu_InvMain::CreateAvatarCamera() {
         }
     }
 }
-
 // 0x452468 _ZN20MenuCharMenu_InvMain19RenderCharacterPaneERN7gameswf12render_stateEPv
-// PARTIAL. Missing, in the original order:
-//   1. The pane rectangle: RenderFX::Find("avatarpane", context) on the owning menu's MenuFX. The two-argument
-//      overload RenderFX::Find(char const*, gameswf::character*) (0x7a8a84) is not declared in dh2/RenderFX.hpp.
-//      Then GameSWFUtils::GetAbsoluteBoundingRect and the root's inverse pixel scales, truncated to integers.
-//   2. The viewport switch. The video driver is IDevice +0x10 and its +0xcc word points at the viewport owner
-//      minus 4. The owner's rectangle at +0x14 (four words) is saved, the pane rectangle is set through its vtable
-//      +0x0c, the pane camera's aspect ratio (width over height) is set, and the active camera (CSceneManager +0xe4)
-//      is set to the pane camera.
-//   3. The scene update, CSceneManager::update((float)Application::GetDt(), false) (vtable +0x60), and the scene
-//      time (CSceneManager +0x254) that RootSceneNode::PlainOnAnimate takes.
-//   4. CSceneManager::drawAll(root) when the scene has an active camera (CSceneManager +0xe4), then the viewport
-//      restore to the saved rectangle.
-//   5. The ISceneNode calls on the model root (getRotation, Euler angles to radians, quaternion::set(x, y, -0.5),
-//      setRotation, getPosition and setPosition(0, 0, 0)), because RootSceneNode does not declare its ISceneNode base.
-// The scene manager and the driver are IDevice +0x1c and +0x10 (dword_99F73C), which dh2 does not declare.
-// Reconstructed: the character update, updateAbsolutePosition, the attachment and camera steps, and SyncRotation.
-void MenuCharMenu_InvMain::RenderCharacterPane(gameswf::render_state& render, void* menu) {
+// The pane rectangle ("avatarpane" in the current menu context) becomes the driver viewport (the previous one is kept), the pane
+// camera gets the pane aspect ratio and becomes the active camera. With a local character: its animator is updated, the scene is
+// updated, the model root is animated at the scene time, put at the origin and given a z rotation of -0.5 rad (the x/y Euler
+// angles are kept), drawn when the scene has an active camera, and the viewport is restored; the character is re-placed and the
+// level camera is pointed at it again.
+void MenuCharMenu_InvMain::RenderCharacterPane(gameswf::render_state& render, void* user) {
     (void)render;  // a1 is not read by the original
-    (void)menu;    // the owning menu; only the missing steps 1 to 4 read it
+    MenuCharMenu_InvMain* menu = static_cast<MenuCharMenu_InvMain*>(user);
+    gameswf::character* pane = menu->m_menu->Find("avatarpane", menu->GetCurrentMenuContext());
+    const std::array<float, 4> bounds = GameSWFUtils::GetAbsoluteBoundingRect(pane);
+    glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
+    const glitch::core::rect<int> savedViewport = target->viewport();
+    gameswf::root* root = menu->m_menu->GetRoot();
+    const float invX = GameSWFUtils::GetInvPixelScaleX(root);
+    const float invY = GameSWFUtils::GetInvPixelScaleY(root);
+    glitch::core::rect<int> viewport;
+    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invX);
+    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invY);
+    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invX);
+    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invY);
+    target->setViewport(viewport);
+    m_inventoryPaneCam->setAspectRatio(static_cast<float>(viewport.LowerRightCorner.X - viewport.UpperLeftCorner.X) /
+                                       static_cast<float>(viewport.LowerRightCorner.Y - viewport.UpperLeftCorner.Y));  // vtable +0x138
+    DeviceSceneManager()->setActiveCamera(m_inventoryPaneCam);
     Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
     PlayerInfo* player = dword_99F76C->GetLocalPlayer(0, true);
     Character* character = player->unk_660;                                         // PlayerInfo +0x660
@@ -190,14 +195,27 @@ void MenuCharMenu_InvMain::RenderCharacterPane(gameswf::render_state& render, vo
         return;
     }
     character->CharAnimator::Update();                                              // CharAnimator at +0x49c
-    // PARTIAL: scene->update(dt, false) and RootSceneNode::PlainOnAnimate(root, scene time) are missing (step 3).
-    RootSceneNode* root = character->m_visualObject->m_node;                        // VisualObject +0x08
-    // PARTIAL: the ISceneNode steps on root are missing (step 5): getPosition (vtable +0xa0, result discarded), then
-    // setPosition(0, 0, 0) (+0xa4), getRotation (+0x98, twice), the Euler conversion of the rotation in degrees, the
-    // radians scale 0.017453, quaternion::set(x, y, -0.5) and setRotation (+0x9c). The z component of the Euler angles
-    // is converted by the original but never read again.
-    root->updateAbsolutePosition(true);                                             // vtable +0xb8
-    // PARTIAL: if (scene->activeCamera) scene->drawAll(root), then the viewport restore, are missing (step 4).
+    SceneManager* scene = DeviceSceneManager();
+    scene->update(static_cast<float>(static_cast<unsigned int>(ApplicationGetInstance().GetDt())), false);
+    RootSceneNode* modelRoot = character->m_visualObject->m_node;                   // VisualObject +0x08
+    modelRoot->PlainOnAnimate(static_cast<std::uint32_t>(static_cast<int>(scene->time)));  // CSceneManager +0x254
+    (void)modelRoot->getPosition();                                                 // vtable +0xa0, result discarded
+    modelRoot->setPosition(glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f});        // +0xa4
+    (void)modelRoot->getRotation();                                                 // vtable +0x98, result discarded
+    glitch::core::vector3d<float> euler{0.0f, 0.0f, 0.0f};
+    modelRoot->getRotation().toEulerDegree(euler);
+    euler.X = euler.X * 0.017453f;
+    euler.Y = euler.Y * 0.017453f;
+    euler.Z = euler.Z * 0.017453f;
+    glitch::core::quaternion rotation;
+    rotation.set(euler.X, euler.Y, -0.5f);
+    modelRoot->setRotation(rotation);                                               // +0x9c
+    modelRoot->updateAbsolutePosition(true);                                        // vtable +0xb8
+    scene = DeviceSceneManager();
+    if (scene->activeCamera != nullptr) {
+        scene->drawAll(modelRoot);
+    }
+    target->setViewport(savedViewport);
     character->GameObject::SetPosition(character->m_position, true);                // GameObject +0x160
     AnchorBase* anchor = character->m_cameraAnchor;                                 // GameObject +0x2e0
     if (anchor) {
@@ -210,3 +228,4 @@ void MenuCharMenu_InvMain::RenderCharacterPane(gameswf::render_state& render, vo
     camera->Update();                                                               // vtable +0x10
     character->m_visualObject->SyncRotation();                                      // VisualObject::SyncRotation
 }
+

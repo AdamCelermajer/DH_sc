@@ -183,9 +183,9 @@ void AnimSetManager::AddAnim(int, int) {}
 
 AnimController::AnimController(RootSceneNode*, bool) {}
 AnimController::~AnimController() {}
-// GetAnimationSet is never reached by this test. The stubs abort rather than return, so the intrusive_ptr return value
-// (whose destructor needs the complete CAnimationSet) is never built.
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimController::GetAnimationSet() {
+// GetAnimationSet is never reached by this test. The stubs abort rather than return, so the intrusive_ptr return value is
+// never built.
+boost::intrusive_ptr<AnimationSet> AnimController::GetAnimationSet() {
     std::abort();
 }
 int AnimController::GetNumAnim() const { return 0; }
@@ -202,7 +202,7 @@ AnimSetController::AnimSetController(RootSceneNode* node, int animSetId) : AnimC
     m_animSetId = animSetId;
 }
 AnimSetController::~AnimSetController() {}
-boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimSetController::GetAnimationSet() {
+boost::intrusive_ptr<AnimationSet> AnimSetController::GetAnimationSet() {
     std::abort();
 }
 int AnimSetController::GetNumClip(unsigned int) const { return 0; }

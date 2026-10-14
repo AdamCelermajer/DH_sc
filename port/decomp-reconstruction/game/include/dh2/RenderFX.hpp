@@ -6,6 +6,12 @@
 
 #include <cstdint>
 
+#include "base/container.h"  // gameswf::array, hash, tu_string (global in the upstream base)
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_player.h"
+#include "vendor-gameswf/gameswf_root.hpp"
+#include "vendor-gameswf/gameswf_dh2_runtime.hpp"  // gameswf::texture_loader_callback
+
 namespace gameswf {
 class player_context;
 class character;
@@ -33,8 +39,47 @@ class RenderFX {
 public:
     struct Event;
     struct Cursor;
-    class SearchIndex;                                                    // nested, layout not recovered (n2 batch 3)
-    enum EventType : int;
+    enum EventType : int {
+        EVENT_FOCUS_IN = 0,           // SendEvent calls on_focus_in
+        EVENT_FOCUS_OUT = 1,          // on_focus_out
+        EVENT_CLICKED = 2,            // on_clicked
+        EVENT_PRESS = 4,              // onPress
+        EVENT_RELEASE = 6,            // onRelease
+        EVENT_RELEASE_OUTSIDE = 7,    // onReleaseOutside
+        EVENT_ROLL_OVER = 8,          // onRollOver
+        EVENT_ROLL_OUT = 9,           // onRollOut
+        EVENT_DRAG_OVER = 10,         // onDragOver
+        EVENT_DRAG_OUT = 11,          // onDragOut
+        EVENT_UPDATE_INPUT = 3,       // UpdateInput sends it with the direction mask in unk_1c
+    };
+
+    // One DepthSearch work item: a character and the remaining dotted path to match below it (8 bytes at 32-bit).
+    struct DepthSearchEntry {
+        gameswf::character* character;  // +0x00
+        const char* path;               // +0x04
+    };
+
+    // The Find work area at RenderFX +0x18 (0x20 bytes): the start index of each depth level into the entry list.
+    struct DepthSearchData {
+        ::array<int> m_levels;                  // +0x00 start index of each search depth
+        ::array<DepthSearchEntry> m_entries;    // +0x10 the work items
+        void Init(gameswf::character* root, const char* path);  // 0x7a8098
+        ~DepthSearchData();                                      // 0x7a8190
+    };
+
+    // The name index at RenderFX +0x14 (4 bytes at 32-bit): short name -> every character with that name and its full path.
+    class SearchIndex {
+    public:
+        // 0x104 bytes: the character, then its dotted path from the root.
+        struct Entry {
+            gameswf::character* character;  // +0x00
+            char path[256];                 // +0x04
+        };
+        ::hash<::tu_string, ::array<Entry>*, ::string_hash_functor<::tu_string> > m_table;  // +0x00
+        void Clear();                    // 0x7aa6ac
+        gameswf::character* Find(const char* path);  // 0x7aadf8, the character whose path ends in the dotted path, or null
+        void Init(RenderFX& owner);      // 0x7adb14
+    };
 
     // Secondary interface MenuFX and MenuManager implement. Vtable of 3 slots, no virtual dtor.
     class EventListener {
@@ -52,20 +97,34 @@ public:
 
     // A menu event: the record mySendEvent (0x42cf68) fills. Size at least 0x26 at 32-bit.
     struct Event {
-        gameswf::as_object* target;   // +0x00 RenderFX::Find result for the event's character
+        gameswf::character* target;   // +0x00 RenderFX::Find result for the event's character
         const char* name;             // +0x04 event name (OnEvent passes it to strstr; mySendEvent stores it)
         EventType type;               // +0x08 OnEvent tests it against 6
-        float x;                      // +0x0c pointer x of a drag event (MenuCharacterSelect::OnEvent, event type 5)
-        uint8_t pad_10[0x14];         // +0x10 .. +0x23, zeroed by mySendEvent (together with x), not recovered
-        uint8_t unk_24;               // +0x24 zeroed by mySendEvent
-        uint8_t unk_25;               // +0x25 zeroed by mySendEvent, read by GetCharacterPath
+        float x;                      // +0x0c pointer x (local to the character for cursor events; MenuCharacterSelect::OnEvent, type 5)
+        float y;                      // +0x10 pointer y
+        int unk_14;                   // +0x14 zeroed by every writer
+        int cursorState;              // +0x18 the Cursor state word of UpdateCursor (zero elsewhere)
+        int unk_1c;                   // +0x1c zeroed by mySendEvent; UpdateInput stores its direction mask here
+        unsigned int controller;      // +0x20 controller index (SetFocus, UpdateCursor, UpdateInput)
+        uint8_t unk_24;               // +0x24 set to 1 by a listener that consumed the event; SendEvent skips the callbacks then
+        char path[256];               // +0x25 dotted path of the target, built by GetCharacterPath (zero length until then)
         char* GetCharacterPath();     // 0x421e48
+    };
+
+    // One cursor record of UpdateCursor (16 bytes), copied into the controller record's first four words.
+    struct Cursor {
+        float x;                      // +0x00
+        float y;                      // +0x04
+        float angle;                  // +0x08 given to matrix::set_scale_rotation for the cursor character
+        int state;                    // +0x0c pressed state, tested non-zero
     };
 
     // Result array of FindCharacters: a gameswf array, data at +0x00 and count at +0x04.
     struct CharacterArray {
         gameswf::character** data;    // +0x00
         int count;                    // +0x04
+        int capacity;                 // +0x08
+        bool borrowed;                // +0x0c (::array<character*> layout)
     };
 
     // One controller record, 0x28 bytes (GetController(i) = this + 0x58 + 0x28 * i, 0x7a7c74).
@@ -73,7 +132,8 @@ public:
     class Controller {
     public:
         void Reset();                 // 0x7a84c4
-        uint8_t pad_00[0x24];         // +0x00 .. +0x23, the smart pointers at +0x10 and +0x14 not typed here
+        Cursor m_cursor;              // +0x00 the last cursor state UpdateCursor stored (zeroed by the constructor)
+        ::smart_ptr<gameswf::character> m_characters[5];  // +0x10 .. +0x23 cleared by Reset (0x7a84c4): [0] focus, [1] pressed target, [2] cursor sprite, [3] "clicked" holder, [4] drag target
         bool m_enabled;               // +0x24 set by SetControllerEnabled (0x7a7c88), 1 after the ctor
         uint8_t pad_25[3];            // +0x25 .. +0x27
     };
@@ -84,7 +144,7 @@ public:
     void SetInputBehavior(int behavior);                                  // 0x7a7c98
     gameswf::character* GetFlashRoot() const;                             // 0x7a7ca0, root +0x10 (the movie character)
     gameswf::root* GetRoot() const;                                       // 0x7a7cac, m_root
-    void SetWireFrame(bool enabled);                                      // 0x7a7c34
+    static void SetWireFrame(bool enabled);                                      // 0x7a7c34
     void SetTextBufferingEnabled(bool enabled);                           // 0x7a7cb4
     int GetAlpha(gameswf::character* character);                          // 0x7a7cd8
     bool IsAnimOver(gameswf::character* character);                       // 0x7a7dd4
@@ -96,7 +156,7 @@ public:
     void SetContext(gameswf::character* context);                         // 0x7a7ee8, m_context
     gameswf::character* GetContext();                                     // 0x7a7ef0
     void Render();                                                        // 0x7a9a94
-    void Finalize();                                                      // 0x7a97ac
+    static void Finalize();                                                      // 0x7a97ac
     gameswf::as_object* Find(const char* name);                           // 0x7a9160
     CharacterArray* FindCharacters(gameswf::character* context, const char* prefix, int index);  // 0x7a8c08, returns &m_foundCharacters
     void SetMember(const char* target, const char* name, gameswf::as_value& value);  // 0x7ab5d4
@@ -121,7 +181,7 @@ public:
     gameswf::character* Find(const char* name, gameswf::character* context);  // 0x7a8a84, DepthSearch from context for name
     void BeginDisplay();                                                  // 0x7a9afc, root->begin_display
     void EndDisplay();                                                    // 0x7a9ac8, root->end_display
-    void SetPosition(gameswf::character* character, int x, int y);       // 0x7aa3f0
+    static void SetPosition(gameswf::character* character, int x, int y);       // 0x7aa3f0
     void GotoFrame(gameswf::character* character, int frame, bool flag);  // 0x7a7d34
     int SetColorTransform(gameswf::character* character, unsigned int first, unsigned int second);  // 0x7a9dd0
     // Declared for MenuDebugHUD (batch g1-game-ui-MenuDebugHUD-c7396f-0). The symbols carry no return type and the callers
@@ -138,13 +198,26 @@ public:
     int GetFrameCount(gameswf::character* character);                     // 0x7a7d90
     void FSCommand(const char* command, const char* args);                // 0x7a7e5c
     void SetOrientation(gameswf::orientation_mode mode);                  // 0x7a7eb4
-    void DestroyContext(gameswf::player_context* context);                // 0x7a7fe4
+    static void DestroyContext(gameswf::player_context* context);                // 0x7a7fe4
     gameswf::character* DepthSearch(int depth);                           // 0x7a87fc, returns the match or null
 
     // Added by the n2 wave, RenderFX part 2 (batch n2-game-ui-RenderFX-849cdc-1).
-    struct InitializationParameters;                                      // the CreateContext argument (layout not recovered)
+    // The CreateContext / Initialize argument (0x24 bytes). Layout from CreateContext (0x7a9708), Initialize (0x7a9814) and the
+    // deprecated Initialize(IVideoDriver*) (0x7a98f8), which sets +0x00, zeroes +0x04 .. +0x1b, +0x1c = 1 and +0x20 = 1.0f.
+    struct InitializationParameters {
+        glitch::video::IVideoDriver* videoDriver;   // +0x00 stored in player_context +0x28, given to the render handler
+        gameswf::texture_loader_callback textureLoader;  // +0x04 registered when non-null
+        int unk_08;                                 // +0x08
+        int glyphTextureWidth;                      // +0x0c glyph_provider texture width
+        int glyphTextureHeight;                     // +0x10 glyph_provider texture height
+        int bitmapGlyphTextureWidth;                // +0x14 bitmap_glyph_provider texture width
+        int bitmapGlyphTextureHeight;               // +0x18 bitmap_glyph_provider texture height
+        bool glyphFlag;                             // +0x1c passed to both providers
+        float glyphScale;                           // +0x20 glyph_provider scale
+    };
     int CollectCharacters(gameswf::character* character, const char* name, int flags);   // 0x7a8acc
-    void UnloadTextures(gameswf::player_context* context);                // 0x7a8cdc
+    static gameswf::player_context* s_default_context;                  // the context Initialize created (null before)
+    static void UnloadTextures(gameswf::player_context* context);                // 0x7a8cdc
     void InitializeGlyphTextureCache(int width, int height);              // 0x7a8d74, deprecated
     void TraceHierarchy(gameswf::character* character, int flags, int depth);  // 0x7a8d84
     void DBG_TraceContextInformation(gameswf::character* character);      // 0x7a9008
@@ -157,11 +230,11 @@ public:
     void FormatText(const char* name, const char* format, ...);           // 0x7a941c
     void ClearGlyphTextureCaches(gameswf::player_context* context);       // 0x7a953c
     int PreloadGlyphs(gameswf::character* character);                     // 0x7a95a8, returns 1
-    gameswf::player_context* CreateContext(InitializationParameters& parameters);  // 0x7a9708
+    static gameswf::player_context* CreateContext(InitializationParameters& parameters);  // 0x7a9708
 
     // Added by the n2 wave, RenderFX part 3 (batch n2-game-ui-RenderFX-849cdc-2).
-    gameswf::player_context* Initialize(InitializationParameters& parameters);  // 0x7a9814
-    gameswf::player_context* Initialize(glitch::video::IVideoDriver* videoDriver);  // 0x7a98f8, deprecated
+    static gameswf::player_context* Initialize(InitializationParameters& parameters);  // 0x7a9814
+    static gameswf::player_context* Initialize(glitch::video::IVideoDriver* videoDriver);  // 0x7a98f8, deprecated
     void SetBounds(int x, int y, int width, int height, gameswf::scale_mode mode);  // 0x7a9b30
     void SetViewport(int x, int y, int width, int height);                // 0x7a9bac
     void PreRender();                                                     // 0x7a9c1c
@@ -169,7 +242,7 @@ public:
     void SetColorFilter(const char* name, int index, unsigned int color); // 0x7a9da4
     int SetColorTransform(const char* name, unsigned int first, unsigned int second);  // 0x7aa02c
     void SetAlpha(const char* name, float alpha);                         // 0x7aa058
-    int ForceTexturesToVRAM(bool flag, gameswf::player_context* context); // 0x7aa0ec
+    static int ForceTexturesToVRAM(bool flag, gameswf::player_context* context); // 0x7aa0ec
     void SetPosition(const char* name, int x, int y);                     // 0x7aa5e0
     void ClearFonts(gameswf::player_context* context);                    // 0x7aac54
     unsigned int PreloadGlyphs(const unsigned short* text, int length, const char* font, int size,
@@ -191,11 +264,13 @@ public:
     // RenderFX::Controller (4 of them, reset in MenuFX::Unload); +0x68: focus; +0xf8: flags word.
 public:
     // The former pad_04 filler (+0x04 .. +0xff, original size 0x100) is split into the fields below.
-    CharacterArray m_foundCharacters;  // +0x04 FindCharacters result (0x7a8c08 writes data at +0x04, count at +0x08, returns &this+4)
-    uint8_t pad_0c[0x30];              // +0x0c .. +0x3b, not recovered
-    gameswf::root* m_root;             // +0x3c root movie (GetRoot; MenuFX passes root+0x10 to SetContext)
+    CharacterArray m_foundCharacters;  // +0x04 FindCharacters result (a ::array<character*>, 16 bytes; FindCharacters returns &this+4)
+    SearchIndex m_searchIndex;         // +0x14 name -> entries table (GetSearchIndex returns its address)
+    DepthSearchData m_depthSearch;     // +0x18 .. +0x37 the Find work area
+    ::smart_ptr<gameswf::player> m_player;  // +0x38 the player Load creates (SetRenderCachingEnabled writes its byte +0x98; Unload drops it)
+    ::smart_ptr<gameswf::root> m_root;      // +0x3c root movie (GetRoot; MenuFX passes root+0x10 to SetContext; Unload drops it)
     gameswf::character* m_context;     // +0x40 current context character (GetContext)
-    uint8_t pad_44[0x14];              // +0x44 .. +0x57
+    ::tu_string m_name;                // +0x44 .. +0x57 empty by default (byte +0x44 = 1, hash cache 0xffffff)
     Controller m_controllers[4];       // +0x58 .. +0xf7, GetController(i) = &m_controllers[i]
     uint32_t m_flags;                  // +0xf8 flags word: bits 0x01, 0x08, 0x40 tested by MenuFX::SetMenu and PopMenu;
                                        //       SetInputBehavior (0x7a7c98) stores the input behavior here

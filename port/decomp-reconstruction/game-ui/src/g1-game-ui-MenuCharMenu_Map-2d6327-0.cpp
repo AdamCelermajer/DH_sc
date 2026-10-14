@@ -35,6 +35,17 @@
 #include "dh2/RenderFX.hpp"
 #include "dh2/RoomZone.hpp"
 #include "dh2/ZoomHandler.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_character.h"
 #include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
@@ -125,10 +136,8 @@ void MenuCharMenu_Map::ClearAllIcons() {
 }
 
 // 0x45335c MenuCharMenu_Map::ShowLevelName()
-// PARTIAL: the level name is not set. The original reads the level's Arrays::LevelList row (Level +0x3c index; -1
-// means row 0; the row is 72 bytes, and its string id is at +0x24), turns the id into text with StringManager, and calls
-// RenderFX::SetText(menu, m_mapName, text, 0). Neither the typed LevelList field at +0x24 (Structs::LevelDeclaration
-// does not name it) nor RenderFX::SetText (not declared in dh2/RenderFX.hpp) is available. Written: the two early returns.
+// The level Arrays::LevelList row (Level +0x3c index; -1 means row 0) gives a string id (row +0x24) that the StringManager
+// turns into the text of the m_mapName field.
 void MenuCharMenu_Map::ShowLevelName() {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level == nullptr) {
@@ -137,7 +146,9 @@ void MenuCharMenu_Map::ShowLevelName() {
     if (m_mapName == nullptr) {
         return;
     }
-    // PARTIAL: text lookup and RenderFX::SetText(m_menu, m_mapName, text, 0) are left out, see above.
+    const int index = level->m_levelListIndex == -1 ? 0 : level->m_levelListIndex;
+    const Structs::LevelDeclaration& row = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[index];
+    m_menu->SetText(m_mapName, ApplicationGetStringManager()->getString(row.m_w9), false);
 }
 
 // 0x4533ec MenuCharMenu_Map::IsPointInsideRenderZone(int, int)
@@ -150,11 +161,8 @@ bool MenuCharMenu_Map::IsPointInsideRenderZone(int x, int y) {
 }
 
 // 0x453488 MenuCharMenu_Map::DestroyMapCamera()
-// PARTIAL: the scene-camera restore is left out. After the camera is freed the original reads MenuManager +0x60 (the
-// saved camera) and, when that word is zero, calls glitch::scene::CSceneManager::setActiveCamera on the scene manager
-// at IDevice +0x1c with that word. IDevice +0x1c is not declared in glitch-core-io/os/device.hpp, and MenuManager::unk_60
-// is declared as an integer, so the pointer cannot be read here (see layout requests). MenuManager::GetInstance's side
-// effects (its first-use construction) are not reproduced either.
+// The camera is freed (after the zoom handler forgets the map finger); when MenuManager has no saved camera the scene active
+// camera is set to MenuManager saved camera (a null one, as in the original).
 void MenuCharMenu_Map::DestroyMapCamera() {
     if (m_mapCamera == nullptr) {
         return;
@@ -162,31 +170,29 @@ void MenuCharMenu_Map::DestroyMapCamera() {
     ApplicationGetInstance().m_zoomHandler->ResetFingerMap();
     delete m_mapCamera;  // the original calls the deleting destructor through vtable +0x04
     m_mapCamera = nullptr;
-    // PARTIAL: MenuManager +0x60 test and CSceneManager::setActiveCamera(scene, camera), see above.
+    MenuManager* manager = MenuManager::GetInstance();
+    if (manager->m_savedCamera == nullptr) {
+        DeviceSceneManager()->setActiveCamera(MenuManager::GetInstance()->m_savedCamera);
+    }
 }
 
 // 0x45351c MenuCharMenu_Map::CreateMapCamera()
-// PARTIAL. Written: the camera creation, the Load of the minimap rig, the zoom and damping setup, the SetData, the
-// up vector (-1, 1, 0) through ICameraSceneNode::setUpVector (vtable +0x114), SetActive, SetTarget on the local
-// player's character, ZoomHandler::setCamera, the mouse pan flag and the UpdateMapCamera at the end. Left out:
-//   1. Before the camera is made, the original stores the scene's active camera (IDevice +0x1c scene, its +0xe4 word)
-//      in MenuManager +0x60 when that word is zero. Not declarable as an integer; see layout requests.
-//   2. The "Default" row of Arrays::CamAnimSetTable gives camTableIndex. -1 is passed until the lookup is written. The
-//      struct is declared in two pydata-accessors headers (member_names.hpp names m_memberNames, w7_arrays_02.hpp names
-//      members and size), so both cannot be included together.
-//   3. CameraLevel::PlayAnim(clip, 0, false), clip = field +0x10 of the CamAnimSetTable row m_camTableIndex. No typed
-//      row accessor exists for that field.
-//   4. After SetTarget the original calls a virtual on the scene object at +0x28c with the camera node (vtable +0x5c).
-//      That object is not declared on glitch::scene::CSceneManager.
-// The null check after operator new (assert m_mapCam, line 280) is not written: C++ new throws instead of returning null.
+// The scene active camera is saved in MenuManager (when none is saved), the map camera is created and loaded from the minimap
+// rig (anim set row "Default" of CamAnimSetTable), set up and made active, its clip played, the local player targeted, the map
+// root node gets the camera node as child, and the zoom handler takes the camera.
 void MenuCharMenu_Map::CreateMapCamera() {
     if (m_mapCamera != nullptr) {
         return;
     }
-    // PARTIAL step 1 belongs here.
+    MenuManager* manager = MenuManager::GetInstance();
+    SceneManager* scene = DeviceSceneManager();
+    if (manager->m_savedCamera == nullptr) {
+        MenuManager::GetInstance()->m_savedCamera = scene->activeCamera;  // CSceneManager +0xe4
+    }
     CameraLevel* camera = new CameraLevel();
     m_mapCamera = camera;
-    int camTableIndex = -1;  // PARTIAL step 2: index of the "Default" row, not looked up yet
+    const int camTableIndex =
+        pydata::FindMemberName(Arrays::CamAnimSetTable::m_memberNames, static_cast<int>(Arrays::CamAnimSetTable::size), "Default");
     camera->Load("data/3D/camera/minimapcameras.bdae", camTableIndex, "PlayerCamera_Default_minimap");
     camera->m_useObjectPosition = true;  // +0x85: target the object position (map mode)
     camera->m_zoomCurrent = 0.0f;        // +0x88
@@ -199,10 +205,11 @@ void MenuCharMenu_Map::CreateMapCamera() {
     upVector.Z = 0.0f;
     camera->m_camera->setUpVector(upVector);
     camera->SetActive();
-    // PARTIAL step 3 belongs here (CameraLevel::PlayAnim with the clip id of row m_camTableIndex).
+    camera->PlayAnim(reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[camera->m_camTableIndex].m_w4, 0,
+                     false);
     PlayerInfo* localPlayer = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true);
     camera->SetTarget(localPlayer->unk_660, 0);
-    // PARTIAL step 4 belongs here (the call on the scene object at +0x28c).
+    DeviceSceneManager()->m_nodeMapRoot->addChild(camera->m_node);  // CEmptySceneNode vtable +0x5c
     ZoomHandler* zoom = ApplicationGetInstance().m_zoomHandler;
     zoom->setCamera(camera);
     zoom->m_mousePanEnabled = true;
@@ -210,11 +217,9 @@ void MenuCharMenu_Map::CreateMapCamera() {
 }
 
 // 0x4537c0 MenuCharMenu_Map::Hide()
-// PARTIAL: the scene call at the end is left out. Written: the switch of the level camera back to the player (target,
-// SetActive, Update), ZoomHandler::setCamera with the level camera, DestroyMapCamera, and MenuBase::Hide. The original
-// then reads the scene object at +0x28c and, when it is non-null, calls its vtable +0x48 with zero. That object is not
-// declared on CSceneManager (see layout requests). When no level is loaded the original calls through a null camera
-// too; the port keeps that order.
+// The level camera is pointed back at the local player and made active, the zoom handler takes it, the map camera is destroyed,
+// MenuBase::Hide runs, and the map root node (when one exists) is hidden. When no level is loaded the original calls through a
+// null camera too; the port keeps that order.
 void MenuCharMenu_Map::Hide() {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     CameraLevel* levelCamera = nullptr;
@@ -230,7 +235,10 @@ void MenuCharMenu_Map::Hide() {
     ApplicationGetInstance().m_zoomHandler->setCamera(levelCamera);
     DestroyMapCamera();
     MenuBase::Hide();
-    // PARTIAL: scene object +0x28c, vtable +0x48 call with zero, see above.
+    glitch::scene::CEmptySceneNode* root = DeviceSceneManager()->m_nodeMapRoot;
+    if (root != nullptr) {
+        root->setVisible(false);  // ISceneNode vtable +0x48
+    }
 }
 
 // 0x45387c MenuCharMenu_Map::ResetZoom()
@@ -254,13 +262,9 @@ glitch::core::vector2d<float> MenuCharMenu_Map::GetMapScreenCoord(const Point3D<
 }
 
 // 0x453974 MenuCharMenu_Map::RenderIconType(MenuCharMenu_Map::EIconType, gameswf::rect const&, float)
-// PARTIAL: the per-icon matrix and visibility steps are left out. The original takes the scale (base icon scale plus
-// the camera's effective zoom, never below minScale) and the room-exit angle (CSWTCH.6123 by type - 14, times the radian
-// factor) and, for each icon, copies the character's matrix, applies set_scale_rotation(scale, scale, angle), calls
-// set_matrix, and writes the byte at character +0x9b (scale > 0.1). The matrix copy is not written: the binary reads a
-// pointer at character +0x4c, while the upstream gameswf::character has an inline m_matrix, and the 32-bit layout is not
-// confirmed. The visibility byte is not written for the same reason. Written: the scale, the angle, and the screen
-// position of each icon, set through RenderFX::SetPosition when the scale exceeds 0.1.
+// The scale is the base icon scale plus the camera effective zoom (never below minScale); room-exit types (14..17) are rotated
+// by CSWTCH.6123[type - 14] degrees. Each icon is moved to its projected screen position and, when the scale exceeds 0.1, rescaled
+// and rotated through its matrix; its visible byte (+0x9b) follows scale > 0.1.
 void MenuCharMenu_Map::RenderIconType(EIconType type, const gameswf::rect& rect, float minScale) {
     const int index = static_cast<int>(type);
     if (index < 0 || index >= ICON_COUNT) {
@@ -283,17 +287,18 @@ void MenuCharMenu_Map::RenderIconType(EIconType type, const gameswf::rect& rect,
 
     const unsigned angleIndex = static_cast<unsigned>(index - 14);
     const float angle = (angleIndex <= 3u) ? kRoomExitAngles[angleIndex] : 0.0f;
-    const float rotation = angle * kToRadianFactor;  // used by the PARTIAL matrix step
-    (void)rotation;
+    const float rotation = angle * kToRadianFactor;
 
     for (const auto& icon : m_icons[index]) {
         if (scale > 0.1f) {
             Point3D<float> world{icon.second.X, icon.second.Y, icon.second.Z};
             const glitch::core::vector2d<float> screen = GetMapScreenCoord(world, width, height, centerX, centerY);
             m_menu->SetPosition(icon.first, static_cast<int>(screen.X), static_cast<int>(screen.Y));
-            // PARTIAL: matrix (set_scale_rotation with scale, scale and rotation, then set_matrix) and the visibility
-            // byte (scale > 0.1), see above.
+            gameswf::matrix matrix = icon.first->get_matrix();
+            matrix.set_scale_rotation(scale, scale, rotation);
+            icon.first->set_matrix(matrix);
         }
+        icon.first->set_visible(scale > 0.1f);  // byte +0x9b
     }
 }
 
@@ -361,27 +366,42 @@ void MenuCharMenu_Map::RenderAllIcons(const gameswf::rect& rect) {
 }
 
 // 0x454108 MenuCharMenu_Map::RenderMap(gameswf::render_state&, void*)
-// Display callback of the m_renderMap clip. user is the menu. PARTIAL: written are the conversion of the clip bounds to
-// pixel units through the root's inverse pixel scale (xmin, ymin, xmax, ymax, each divided by the scale and truncated)
-// and the UpdateMapCamera call. Left out: the viewport steps on the video driver (device +0x10, its viewport stack
-// top at +0xcc minus 4, vtable +0x0c to set and restore the rect), the scene update (vtable +0x60 with dt and 0, the
-// culling byte at scene +0x250 cleared and set again), and the RenderAllIcons pass taken when the scene has an active
-// camera (scene +0xe4). Those are not declared on glitch-core-io's IDevice or on CSceneManager.
+// Display callback of the m_renderMap clip. user is the menu. The driver viewport is set to the clip bounds in pixels (the
+// previous one is saved), the map camera is updated, the scene is updated and, when it has an active camera, drawn from the map
+// root node together with the icons; the viewport is then restored.
 void MenuCharMenu_Map::RenderMap(gameswf::render_state& /*state*/, void* user) {
     MenuCharMenu_Map* menu = static_cast<MenuCharMenu_Map*>(user);
     const std::array<float, 4> bounds = GameSWFUtils::GetAbsoluteBoundingRect(menu->m_renderMap);
+    glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
+    const glitch::core::rect<int> savedViewport = target->viewport();
     gameswf::root* root = menu->m_menu->GetRoot();
     const float invX = GameSWFUtils::GetInvPixelScaleX(root);
     const float invY = GameSWFUtils::GetInvPixelScaleY(root);
-    const int pixelRect[4] = {
-        static_cast<int>(bounds[0] / invX),  // xmin
-        static_cast<int>(bounds[2] / invY),  // ymin
-        static_cast<int>(bounds[1] / invX),  // xmax
-        static_cast<int>(bounds[3] / invY),  // ymax
-    };
-    (void)pixelRect;  // PARTIAL: set as the driver viewport, see above
+    glitch::core::rect<int> viewport;
+    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invX);   // xmin
+    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invY);   // ymin
+    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invX);  // xmax
+    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invY);  // ymax
+    target->setViewport(viewport);
     menu->UpdateMapCamera();
-    // PARTIAL: scene update, RenderAllIcons pass and viewport restore, see above.
+    SceneManager* scene = DeviceSceneManager();
+    scene->update(static_cast<float>(static_cast<unsigned int>(ApplicationGetInstance().GetDt())), false);
+    scene->cullingEnabled = false;  // +0x250
+    scene = DeviceSceneManager();
+    if (scene->activeCamera != nullptr) {
+        if (scene->m_nodeMapRoot != nullptr) {
+            scene->drawAll(scene->m_nodeMapRoot);
+        }
+        gameswf::rect iconRect;
+        iconRect.m_x_min = bounds[0];
+        iconRect.m_x_max = bounds[1];
+        iconRect.m_y_min = bounds[2];
+        iconRect.m_y_max = bounds[3];
+        menu->RenderAllIcons(iconRect);
+        scene = DeviceSceneManager();
+    }
+    scene->cullingEnabled = true;
+    target->setViewport(savedViewport);
 }
 
 // 0x454368 MenuCharMenu_Map::~MenuCharMenu_Map()  (D1, complete-object destructor)

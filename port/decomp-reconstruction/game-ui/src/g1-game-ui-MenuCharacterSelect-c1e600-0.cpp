@@ -2,19 +2,31 @@
 // Rebuilt from the Hex-Rays pseudocode of libDungeonHunter2.so. Offsets in comments are the original 32-bit
 // ARM offsets. A function marked PARTIAL says in its comment which part is missing and why.
 //
-// Blockers shared by several functions (see the ledger notes and the layout requests):
-//   - m_animator and m_animSet are void* (constructAnimator() and the object its vtable +0x44 returns). Every
-//     call on them goes through an untyped vtable, so UpdateAnim and SetAnim are partial.
-//   - The class-select scene (m_sceneRoot, the scene manager at device +0x1c, the light and camera nodes) is
-//     driven through untyped glitch::scene vtables, so Show, Hide and RenderClassSelectPane are partial.
-//   - gameswf::character has no DH2 declaration in the tree. The upstream gameswf-r1714 header (under
-//     vendor-gameswf/upstream) declares a tu_string m_name, but its offset is not verified against the binary
-//     (+0x44 is the name word the original reads). Reads of that field are therefore missing: the instance-name
-//     reads for RenderFX::SetVisible in Update, and the class_select lookup in Show (RenderFX::Find returns
-//     as_object*, and the original uses the result as a character).
-//   - RenderFX::Event has no name for the float at +0x0c (the drag x). OnEvent's drag part is missing.
+#include <array>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
 
 #include "dh2/Application.hpp"
+#include "dh2/ColladaFactory.hpp"
+#include "dh2/GameSWFUtils.hpp"
+#include "dh2/LightBase.hpp"
+#include "dh2/LightPoint.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CLightSceneNode.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/VisualObject.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "gameswf/gameswf_character.h"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/AnimSetManager.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharAnimator.hpp"
@@ -68,11 +80,10 @@ bool MenuCharacterSelect::IsAnimOver() {
 }
 
 // 0x427ffc MenuCharacterSelect::UpdateAnim()
-// PARTIAL: the original first calls vtable slot +0x10 of m_animator (void*, no typed interface in the tree) with
-// (m_animator, m_sceneRoot, (unsigned)m_animTime). That call is missing here. The time advance and the clamp to
-// the end time are reconstructed, and they run after the call in the original, as they do here.
+// The animator is applied to the scene root at the current animation time (animator vtable +0x10), then the time advances by the
+// frame delta and is clamped to the end time. Returns true once the end is reached.
 bool MenuCharacterSelect::UpdateAnim() {
-    // MISSING: m_animator->vtable[+0x10](m_animator, m_sceneRoot, static_cast<unsigned int>(m_animTime)).
+    m_animator->animateNode(m_sceneRoot, static_cast<unsigned int>(m_animTime));
     const float frameTime = static_cast<float>(static_cast<unsigned int>(ApplicationGetInstance().GetDt()));
     const float time = m_animTime + frameTime;  // +0xe0 + (float)(unsigned)GetDt()
     const float end = m_animEnd;                // +0xe8
@@ -85,18 +96,25 @@ bool MenuCharacterSelect::UpdateAnim() {
 }
 
 // 0x428078 MenuCharacterSelect::SetAnim(char const*)
-// PARTIAL, body not reconstructed. Every effect of this function is an untyped call on m_animSet (void*), and the
-// values it stores (the start and end time, and the seek time) come from those calls. In the original order:
-//   index = set->vtable[+0x18](name)         ; index of the clip called name
-//   if (index < 0) assert "idx >= 0" at MenuCharacterSelect.cpp:495 (level 2 aborts, level 1 prints)
-//   set->vtable[+0x10](index)
-//   set->vtable[+0x40](0)
-//   m_animStart = set->vtable[+0x20](index)  ; start time (stored as float at +0xe4)
-//   m_animEnd   = set->vtable[+0x24](index)  ; end time (stored as float at +0xe8)
-//   m_animTime  = m_animStart                ; +0xe0
-//   return set->vtable[+0x0c]((int)m_animStart)
+// Selects the clip called name on the animation set (timeline controller): the clip index is looked up (assert idx >= 0 at
+// MenuCharacterSelect.cpp:495), the clip is set and looping is turned off, the start and end times are stored as floats, the time
+// goes to the start, and the controller jumps there.
 void MenuCharacterSelect::SetAnim(const char* name) {
-    (void)name;
+    const int index = m_animSet->getClipIndex(name);
+    if (index < 0) {
+        if (gAssertLevel == 2) {
+            std::abort();
+        } else if (gAssertLevel == 1) {
+            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "idx >= 0",
+                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\MenuCharacterSelect.cpp", 495);
+        }
+    }
+    m_animSet->setClip(index);
+    m_animSet->setLoop(false);
+    m_animStart = static_cast<float>(m_animSet->getClipStart(index));
+    m_animEnd = static_cast<float>(m_animSet->getClipEnd(index));
+    m_animTime = m_animStart;
+    m_animSet->jumpTo(static_cast<int>(m_animStart));
 }
 
 namespace {
@@ -157,17 +175,17 @@ void MenuCharacterSelect::OnEvent(RenderFX::Event& e) {
 }
 
 // 0x4283c0 MenuCharacterSelect::Hide()
-// PARTIAL: two teardown calls are missing. (1) m_sceneRoot (CRootSceneNode) vtable +0x68, when m_sceneRoot is not null.
-// (2) vtable +0x68 of the scene manager that the device at dword_99F73C holds at +0x1c. Neither type has a typed
-// interface in the tree. The rest follows the original order: the MenuMainMenu hand-over, the AnimSetManager flush
-// and the ObjectManager flush.
+// The class-select scene root (when there is one) is removed from the scene and the scene manager is cleared, the object and
+// animation set managers are flushed, and the main menu preview is rebuilt (avatar camera, scene, character).
 void MenuCharacterSelect::Hide() {
     if (!IsValidMenu()) {  // vtable +0x3c
         return;
     }
     MenuBase::Hide();
-    // MISSING (1): if (m_sceneRoot != nullptr) m_sceneRoot->vtable[+0x68]().
-    // MISSING (2): device +0x1c scene manager ->vtable[+0x68]().
+    if (m_sceneRoot != nullptr) {
+        m_sceneRoot->remove();  // ISceneNode vtable +0x68
+    }
+    DeviceSceneManager()->clear();  // scene manager vtable +0x68
     dword_99F764->Flush();
     Singleton<AnimSetManager>::s_inst.Flush();
     // The original calls MenuMainMenu::GetInstance() before each static call below. The result is passed on in a
@@ -185,10 +203,9 @@ void MenuCharacterSelect::Hide() {
 }
 
 // 0x428498 MenuCharacterSelect::Update()
-// PARTIAL: each class case has two RenderFX::SetVisible(menu, name, flag) calls, one for the btn_right character and
-// one for the btn_left character. The name is read from gameswf::character +0x44 (a tu_string pointer), and
-// gameswf::character is not defined in the tree. Those calls are missing (marked MISSING below). Everything else
-// in the function is reconstructed, including the animation choice that calls SetAnim, which is partial.
+// A finished idle animation re-arms input; a class change rewrites the title, description, class id and the root CurrentClass,
+// shows or hides the arrows by the instance names of btn_right and btn_left, starts the transition animation, and sets each
+// actor idle animation state (selected: loop on). Then the animation and the actors are updated.
 void MenuCharacterSelect::Update() {
     if (m_shownClassIndex == m_classIndex) {  // +0xf0 == +0xec
         if (IsAnimOver()) {
@@ -212,8 +229,8 @@ void MenuCharacterSelect::Update() {
                 FormatClassText(m_menu, m_classDescription.GetChar(), "MENU_ROGUE_DESC");
                 m_classMemberId = Arrays::GetMemberIDByString<Arrays::CharacterTable>("RoguePlayerBase");  // +0x164
                 SetCurrentClassOnRoot("RoguePlayerBase");
-                // MISSING: RenderFX::SetVisible(m_menu, name of m_btnRight's character, true).
-                // MISSING: RenderFX::SetVisible(m_menu, name of m_btnLeft's character, true).
+                m_menu->SetVisible(m_btnRight.GetChar()->get_name().c_str(), true);
+                m_menu->SetVisible(m_btnLeft.GetChar()->get_name().c_str(), true);
                 SetAnim(m_shownClassIndex != 0 ? "lol_3_to_2" : "lol_1_to_2");
                 break;
             case 2:  // Mage
@@ -221,8 +238,8 @@ void MenuCharacterSelect::Update() {
                 FormatClassText(m_menu, m_classDescription.GetChar(), "MENU_MAGE_DESC");
                 m_classMemberId = Arrays::GetMemberIDByString<Arrays::CharacterTable>("MagePlayerBase");
                 SetCurrentClassOnRoot("MagePlayerBase");
-                // MISSING: RenderFX::SetVisible(m_menu, name of m_btnRight's character, false).
-                // MISSING: RenderFX::SetVisible(m_menu, name of m_btnLeft's character, true).
+                m_menu->SetVisible(m_btnRight.GetChar()->get_name().c_str(), false);
+                m_menu->SetVisible(m_btnLeft.GetChar()->get_name().c_str(), true);
                 SetAnim("lol_2_to_3");
                 break;
             case 0:  // Knight
@@ -230,8 +247,8 @@ void MenuCharacterSelect::Update() {
                 FormatClassText(m_menu, m_classDescription.GetChar(), "MENU_KNIGHT_DESC");
                 m_classMemberId = Arrays::GetMemberIDByString<Arrays::CharacterTable>("KnightPlayerBase");
                 SetCurrentClassOnRoot("KnightPlayerBase");
-                // MISSING: RenderFX::SetVisible(m_menu, name of m_btnRight's character, true).
-                // MISSING: RenderFX::SetVisible(m_menu, name of m_btnLeft's character, false).
+                m_menu->SetVisible(m_btnRight.GetChar()->get_name().c_str(), true);
+                m_menu->SetVisible(m_btnLeft.GetChar()->get_name().c_str(), false);
                 SetAnim("lol_2_to_1");
                 break;
         }
@@ -266,14 +283,26 @@ void MenuCharacterSelect::Update() {
 }
 
 // 0x428b74 MenuCharacterSelect::RenderClassSelectPane(gameswf::render_state &,void *)
-// PARTIAL, body not reconstructed. The original (1) finds the "class_select" character and takes its absolute
-// bounds, (2) converts the bounds to pixels with GameSWFUtils::GetInvPixelScaleX/Y, (3) saves the video driver's
-// viewport, sets the bounds as the viewport, and (4) calls the scene manager's vtable +0x3c with 0, then restores the
-// saved viewport. Step 1 needs the gameswf::character type (RenderFX::Find returns as_object*), and steps 3 and 4
-// need the untyped driver and scene manager interfaces. The user pointer is this (the Hex-Rays *(a2+4) is m_menu).
-void MenuCharacterSelect::RenderClassSelectPane(gameswf::render_state& state, void* user) {
-    (void)state;
-    (void)user;
+// The bounds of the "class_select" character become the driver viewport in pixels (the previous one is saved), the scene is drawn
+// (scene manager vtable +0x3c with no node) and the viewport is restored. The user pointer is the menu (the Hex-Rays *(a2+4) is
+// its MenuFX).
+void MenuCharacterSelect::RenderClassSelectPane(gameswf::render_state& /*state*/, void* user) {
+    MenuCharacterSelect* menu = static_cast<MenuCharacterSelect*>(user);
+    gameswf::character* pane = static_cast<gameswf::character*>(menu->m_menu->Find("class_select"));
+    const std::array<float, 4> bounds = GameSWFUtils::GetAbsoluteBoundingRect(pane);
+    glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
+    const glitch::core::rect<int> savedViewport = target->viewport();
+    gameswf::root* root = menu->m_menu->GetRoot();
+    const float invX = GameSWFUtils::GetInvPixelScaleX(root);
+    const float invY = GameSWFUtils::GetInvPixelScaleY(root);
+    glitch::core::rect<int> viewport;
+    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invX);
+    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invY);
+    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invX);
+    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invY);
+    target->setViewport(viewport);
+    DeviceSceneManager()->drawAll(static_cast<glitch::scene::ISceneNode*>(nullptr));
+    target->setViewport(savedViewport);
 }
 
 // 0x428cc0 MenuCharacterSelect::Init()
@@ -328,16 +357,12 @@ MenuCharacterSelect* MenuCharacterSelect::GetInstance() {
 }
 
 // 0x428f38 MenuCharacterSelect::Show()
-// PARTIAL. Reconstructed: the MenuMainMenu hand-over, the IsValidMenu check, MenuBase::Show, the reset of
-// m_shownClassIndex to -1, and the read of the debug switch. Not reconstructed:
-//   - the class_select lookup (RenderFX::Find returns as_object*, and gameswf::character is not defined in the
-//     tree), the write of gameswf::character +0x9c = 1, RenderFX::SetEnabled, and RegisterDisplayCallback with
-//     RenderClassSelectPane and this;
-//   - the CLASS_SELECTION.bdae database, constructScene, the scene node setup (position, camera, ambient light),
-//     the light point node, and constructAnimator with its animation set (untyped interfaces);
-//   - the spawn of the three dummy game objects with their visual objects, the spawn of the three Player actors
-//     with their CharProperties, equipment and animation sets, and the class-button pass (RefreshCache of btn_right
-//     and btn_left, visibility by SetVisible).
+// The main menu preview is torn down (its slot saved), then, when the menu is valid: the "class_select" pane is enabled and its
+// display callback registered; CLASS_SELECTION.bdae is built as the scene root with its camera (up vector, near 50, far 50000,
+// position (0, 0, -200)) made active, black ambient light, the scene point light bound to a "LightPoint" object, the animator
+// (its timeline controller is kept in m_animSet and driven by SetAnim); every "dummy_gameobject_" node spawns an AnimatedDecor
+// with its transform and a looping animation; the three Player actors are spawned on the Warrior, Rogue and Mage dummy nodes with
+// class-select properties, equipment and idle animation state; the arrows are cached (right shown, left hidden).
 void MenuCharacterSelect::Show() {
     // The original calls GetInstance before each static call here (see Hide for why).
     (void)MenuMainMenu::GetInstance();
@@ -360,5 +385,123 @@ void MenuCharacterSelect::Show() {
     DebugSwitches::s_inst.load();
     (void)DebugSwitches::s_inst.GetSwitch("isTracingMenuCharacterSelect");
 
-    // MISSING from here on: see the comment above the function.
+    gameswf::character* classSelect = static_cast<gameswf::character*>(m_menu->Find("class_select"));
+    classSelect->m_has_mouse_handler = true;  // byte +0x9c
+    m_menu->SetEnabled(classSelect, true);
+    m_menu->RegisterDisplayCallback(classSelect, &MenuCharacterSelect::RenderClassSelectPane, this);
+
+    glitch::collada::CColladaDatabase database("data/3D/OptimizedMaxFiles/CLASS_SELECTION.bdae", &ColladaFactory::s_factory);
+    m_sceneRoot = database.constructScene(ApplicationGetInstance().m_device->videoDriver);
+    DeviceSceneManager()->rootNode->addChild(m_sceneRoot);  // CSceneManager +0x04, vtable +0x5c
+    m_camera = static_cast<glitch::scene::ICameraSceneNode*>(m_sceneRoot->getSceneNodeFromType(glitch::scene::ESNT_DAE_CAMERA));
+    m_camera->setUpVector(glitch::core::vector3d<float>{0.0f, 0.0f, 1.0f});  // vtable +0x114
+    m_camera->setNearValue(50.0f);                                             // vtable +0x130
+    m_camera->setFarValue(50000.0f);                                           // vtable +0x134
+    m_camera->setPosition(glitch::core::vector3d<float>{0.0f, 0.0f, -200.0f});
+    DeviceSceneManager()->setActiveCamera(m_camera);
+    glitch::video::SColorf ambient;
+    ambient.r = 0.0f;
+    ambient.g = 0.0f;
+    ambient.b = 0.0f;
+    ambient.a = 1.0f;
+    DeviceSceneManager()->setAmbientLight(ambient);
+
+    glitch::scene::ISceneNode* lightNode = DeviceSceneManager()->getSceneNodeFromType(glitch::scene::ESNT_LIGHT, nullptr);
+    if (lightNode != nullptr) {
+        ObjectHandle lightHandle = dword_99F764->Spawn("LightPoint", "charselectLight", true, true);
+        ObjectBase* lightObject = lightHandle.GetObject(false);
+        LightBase* light = nullptr;
+        if (lightObject != nullptr && lightObject->m_goId == 19) {
+            light = static_cast<LightBase*>(lightObject);
+        }
+        light->setLightNode(static_cast<glitch::scene::CLightSceneNode*>(lightNode));
+        static_cast<LightPoint*>(light)->AssignTweaker(0, 0);
+        DeviceSceneManager()->m_lightSetManager.unk_190.push_back(light);  // SceneManager +0x424
+        light->SetAttenuation(Point3D<float>{0.375f, 0.511719f, 1.04688f});
+        light->SetAmbientColor(Point3D<float>{1.0f, 1.0f, 1.0f});
+        light->SetDiffuseColor(Point3D<float>{1.0f, 1.0f, 1.0f});
+        light->SetSpecularColor(Point3D<float>{1.0f, 1.0f, 1.0f});
+    }
+
+    m_animator = static_cast<glitch::collada::ISceneNodeAnimator*>(database.constructAnimator());
+    if (m_animator != nullptr) {
+        m_animSet = m_animator->getTimelineCtrl();
+        ++static_cast<glitch::IReferenceCounted*>(m_animSet)->referenceCounter;
+        m_animator->setTimelineCtrl(nullptr);  // vtable +0x3c
+        m_animator->onBind(m_sceneRoot);       // vtable +0x28
+        ++static_cast<glitch::IReferenceCounted*>(m_animator)->referenceCounter;
+    }
+    SetAnim("lol_1_idle");
+    m_inputEnabled = true;  // +0xfc
+    m_classIndex = 0;       // +0xec
+
+    std::vector<glitch::scene::ISceneNode*> nodes;
+    m_sceneRoot->getSceneNodesFromType(glitch::scene::ESNT_DAEN, nodes);
+    for (unsigned int i = 0; i < nodes.size(); ++i) {
+        const char* nodeName = nodes[i]->getName();  // vtable +0x24
+        const char* marker = std::strstr(nodeName, "dummy_gameobject_");
+        if (marker == nullptr) {
+            continue;
+        }
+        const char* tail = marker + 17;
+        const int length = static_cast<int>(std::strcspn(tail, "0")) - 1;
+        char baseName[32];
+        if (length > 30) {
+            if (gAssertLevel == 2) {
+                std::abort();
+            } else if (gAssertLevel == 1) {
+                std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "len + 1 < 32",
+                             "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\MenuCharacterSelect.cpp", 171);
+            }
+        }
+        std::strncpy(baseName, tail, static_cast<std::size_t>(length));
+        baseName[length] = 0;
+        char path[64];
+        char objectName[32];
+        std::snprintf(path, sizeof path, "data/3D/GameObjects/%s.bdae", baseName);
+        std::snprintf(objectName, sizeof objectName, "%s_%02d", baseName, static_cast<int>(i));
+        ObjectHandle decorHandle = dword_99F764->Spawn("AnimatedDecor", objectName, true, true);
+        GameObject* decor = static_cast<GameObject*>(decorHandle);
+        decor->SetVisualObject(path, "", true);
+        glitch::scene::ISceneNode* decorNode = decor->m_visualObject->m_node;
+        decorNode->setPosition(nodes[i]->getPosition());  // vtable +0xa4
+        decorNode->setRotation(nodes[i]->getRotation());  // vtable +0x9c
+        decorNode->setScale(nodes[i]->getScale());        // vtable +0x94
+        glitch::scene::ISceneNodeAnimator* decorAnimator = *decorNode->getAnimators().begin();
+        decorAnimator->getTimelineCtrl()->setLoop(true);
+    }
+
+    for (int i = 0; i != 3; ++i) {
+        char actorName[32];
+        std::snprintf(actorName, sizeof actorName, "%s_%d", "Player_CS", i);
+        ObjectHandle actorHandle = dword_99F764->Spawn("Player", actorName, true, true);
+        Character* actor = static_cast<Character*>(actorHandle);
+        m_actors[i] = actor;
+        actor->SetVisualObject("data/3D/characters/prince/prince_modular.bdae", "", true);
+        VisualObject* visual = actor->m_visualObject;
+        visual->SetVisible(true);
+        glitch::scene::ISceneNode* actorNode = visual->m_node;
+        glitch::scene::ISceneNode* dummy = nullptr;
+        if (i == 1) {
+            actor->LoadPropertiesForClassSelect(Arrays::GetMemberIDByString<Arrays::CharacterTable>("RoguePlayerBase"));
+            dummy = m_sceneRoot->getSceneNodeFromName("dummy_Rogue");
+        } else if (i == 2) {
+            actor->LoadPropertiesForClassSelect(Arrays::GetMemberIDByString<Arrays::CharacterTable>("MagePlayerBase"));
+            dummy = m_sceneRoot->getSceneNodeFromName("dummy_Mage");
+        } else {
+            actor->LoadPropertiesForClassSelect(Arrays::GetMemberIDByString<Arrays::CharacterTable>("KnightPlayerBase"));
+            dummy = m_sceneRoot->getSceneNodeFromName("dummy_Warrior");
+        }
+        actor->_InitEquipment();
+        actor->CharAnimator::SetAnimationSet();
+        static_cast<CharStateMachine*>(actor)->SM_SetAnimState(actor->GetCharAnimTable()->m_w23, false, false);
+        actorNode->setPosition(dummy->getAbsolutePosition());  // vtable +0xa4
+        actorNode->setRotation(dummy->getRotation());          // vtable +0x9c
+        actorNode->setScale(dummy->getScale());                // vtable +0x94
+    }
+
+    m_btnRight.RefreshCache("btn_right", m_menu, GetCurrentMenuContext());
+    m_btnLeft.RefreshCache("btn_left", m_menu, GetCurrentMenuContext());
+    m_menu->SetVisible(m_btnRight.GetChar()->get_name().c_str(), true);
+    m_menu->SetVisible(m_btnLeft.GetChar()->get_name().c_str(), false);
 }

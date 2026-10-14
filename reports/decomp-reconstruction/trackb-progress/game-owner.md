@@ -31,3 +31,42 @@ RenderFX | reconstructed 5 | partial 65 | owner6 ledger started | compiles yes (
 - MenuCharMenu_Map (med1): no change | partial 8. Hide and DestroyMapCamera decompiled (not reconstructed: ZoomHandler/CameraTarget/CameraBase calls need checks). Not compiled.
 - LightBase (med1): no change | partial 8 (TurnOn, TurnOff, Draw, SyncData, dtor, InitPost, SetAttenuation, setLightNode, colour setters). CLight is still forward-declared only, so the CLight writes stay unbound. Not compiled.
 - HUDMinimap (med1): no change | partial 8. Hide and HideAllIcons decompiled (not reconstructed). Not compiled.
+RenderFX | reconstructed 66 | partial 0 | skipped 0 | compiles yes | header gained DepthSearchData, SearchIndex, Controller, Cursor, Event, InitializationParameters, EventType, player/root smart ptrs
+MenuFX | reconstructed 16 | partial 0 | skipped 0 | compiles yes
+GameSWFUtils | reconstructed 15 | partial 0 | skipped 0 | compiles yes
+MenuManager | reconstructed 17 | partial 0 | skipped 0 | compiles yes
+LightBase | reconstructed 11 | partial 0 | skipped 0 | compiles yes | also Draw3DWireFrameBox (core-platform row, written in game-world/src/res1-Draw3DWireFrameBox.cpp)
+AnimApplicator | reconstructed 5 | partial 0 | skipped 0 | compiles yes
+Animator | reconstructed 4 | partial 0 | skipped 0 | compiles yes
+RootSceneNode | reconstructed 11 | partial 0 | skipped 0 | compiles yes | new header dh2/aabb.hpp
+AnimatorBlender | reconstructed 9 | partial 0 | compiles yes
+AnimatorSet | reconstructed 14 | partial 0 | compiles yes
+AnimController | reconstructed 9 | partial 0 | compiles yes
+AnimSetController | reconstructed 6 | partial 0 | compiles yes
+BlendedAnimSetController | reconstructed 6 | partial 0 | compiles yes
+AnimatorSynchronizedBlender | reconstructed 10 | partial 0 | compiles yes
+AnimationSet+Animation+AnimatorSynchronizedSet | reconstructed 10 | partial 0 | compiles yes | Animation layout rewritten (name, CColladaDatabase)
+AnimSetManager | reconstructed 3 | partial 0 | compiles yes
+- CharAnimator: 7 rows reconstructed (CalculateExtraTime, Inc/DecAnimSetUsers, __CallbackEvent, _CompileAnimSet, SetAnimationSet skill loop, RequestAnimPurge); _SetAnim stays partial (undefined r1 synced arg). AnimationSet +0x24 renamed m_users.
+- AnimatedFX: _HandleLoopEnd, Load, SyncIrrData, Update reconstructed; HasCompleted and SetEndPoint stay partial (collada::CParticleSystemSceneNode has no layout).
+- v2Controller/v2NetController: Cmd_UseOOI, Cmd_EndSkill, Cmd_BeginSkill, Cmd_Attack, v2NetController::Update reconstructed (online branches).
+- MenuCharMenu_Map: all 12 partial rows reconstructed (scene root, viewport, DuplicateIcon, Show). MenuManager +0x60 retyped to m_savedCamera.
+- MenuCharMenu_InvMain: 3 partial rows reconstructed.
+- HUDMinimap: 9 partial rows reconstructed (map root, viewport, icons, rooms).
+- InfoHUDManager: 8 partial rows reconstructed (frames, texts, allies block, death timer).
+- MenuBase: 8 partial rows reconstructed (ExitGame, Continue/ReturnToGame, ProcessLocalization, OnEvent, RegisterDragAndDrops, GetCharProp, DBG_Draw2DDeadZones).
+- MenuDebugHUD: 7 rows reconstructed; DebugSwitches load/save/SetModule/SetSwitch (game-app) reconstructed through the savefile file system.
+- MultiMenuManager: 7 partial rows reconstructed.
+- HUDControls: 6 partial rows reconstructed (OnEvent drag/stick, initCachedChars, SaveHUDPos).
+- MenuCharacterSelect: 6 partial rows reconstructed. ColladaFactory::s_factory declared/defined (also unblocks VisualObject/SceneManager rows).
+- MenuMainMenu: 6 partial rows reconstructed (scene, camera, GameCenter flags, error callback).
+- MenuMerchant (3) and MenuMinimap (3) partial rows reconstructed.
+- MenuDebug::SetText, MenuFlash2DCamera::Update, MenuMultiplayerLobbyMulti::Update, StringManager (getNumberOfStrings, preloadPackSheet) reconstructed.
+- FlashAnimManager (2), SWFAnimManager::ExtendBank, AbstractTableModel::UpdateTableData reconstructed (visible flag byte).
+- Dragable (4), Dropable::TestDragable, SlideEventCharacter (3) reconstructed.
+- game-world mesh scene nodes: BaseMeshSceneNode, MeshSceneNode, SkinnedMeshSceneNode, ModularSkinnedMeshSceneNode, ColladaFactory createSkinNode/createBillboard reconstructed against the canonical engine nodes (new SkinnedMeshSceneNodeEx.hpp).
+- ShadowSkinnedMeshSceneNode: 11 rows reconstructed/skipped (header on canonical CSkinnedMeshSceneNode; switch RENDERING_EnableShadowProjection, material SH_SHADOW_SKINNED).
+- ShadowModularSkinnedMeshSceneNode: 12 rows reconstructed/skipped (distinct-material tables, SH_SHADOW_SKINNED_MODULAR, header on canonical modular node).
+- XrayModularSkinnedMeshSceneNode: 11 rows reconstructed (RENDERING_EnableXray, custom passes 9/10, colour mask off in pass 10).
+- SkyBoxMeshSceneNode (6 rows) and UnderlaySceneNode (2 rows) reconstructed; skybox base moved to canonical collada CMeshSceneNode.
+- VisualObject: 13 partial rows reconstructed (ApplyMeshBox, shadow/x-ray creation and visibility, CalcMeshBox, SetParent, ctor, SetWeaponSkin, FlushMeshes); core-platform got OptimizeStatic and FlushMeshBuffers (w7_optimize_static.cpp, w7_flush_mesh_buffers.cpp).

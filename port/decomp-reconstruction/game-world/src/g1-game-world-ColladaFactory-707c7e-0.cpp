@@ -10,11 +10,16 @@
 
 #include "dh2/Animator.hpp"
 #include "dh2/ColladaFactory.hpp"
+#include "glitch-scene-collada-gui/collada/CBillboardSceneNode.hpp"
 #include "dh2/MeshSceneNode.hpp"
 #include "dh2/ModularSkinnedMeshSceneNode.hpp"
+#include "dh2/SkinnedMeshSceneNode.hpp"
 #include "dh2/RootSceneNode.hpp"
 
 // 0x3506ac _ZN14ColladaFactoryD1Ev
+// The shared factory instance (ELF 0x9a1ed8).
+ColladaFactory ColladaFactory::s_factory;
+
 // Complete-object destructor (D1; D2 is the same code). The vptr reset to the ColladaFactory table and the call of
 // glitch::collada::CColladaFactory::~CColladaFactory are made by the compiler from the virtual destructor.
 ColladaFactory::~ColladaFactory() {}
@@ -71,17 +76,9 @@ glitch::collada::CParticleSystemSceneNode* ColladaFactory::createParticleSystem(
 }
 
 // 0x3507bc _ZN14ColladaFactory15createBillboardERKN6glitch7collada16CColladaDatabaseEPNS1_5SNodeE
-// PARTIAL: not rebuilt, returns null. The original allocates 352 bytes (operator new(0x160)) and builds a
-// glitch::collada::CBillboardSceneNode in place. It sets the vptrs of the construction tables, sets the count of the
-// IReferenceCounted subobject at +0x158 to 1 (+0x15c), calls glitch::collada::CSceneNode::CSceneNode(db, node) on the
-// object, and stores the final vptrs (primary at +0x00, secondary at +0x158). A virtual base
-// glitch::io::IAttributeExchangingObject is placed through an offset read from the vtable. This tree has no declaration
-// of glitch::collada::CBillboardSceneNode: the only CBillboardSceneNode header (glitch-scene-collada-gui/scene_nodes.hpp)
-// is glitch::scene::CBillboardSceneNode, a different class. Waits on that layout (layout request below).
+// operator new(352) and the glitch::collada::CBillboardSceneNode built in place with CSceneNode(db, node); the object is returned.
 void* ColladaFactory::createBillboard(const glitch::collada::CColladaDatabase& db, glitch::collada::SNode* node) {
-    (void)db;
-    (void)node;
-    return nullptr;
+    return new glitch::collada::CBillboardSceneNode(db, node);  // operator new(352) in the original
 }
 
 // 0x350854 _ZN14ColladaFactory21createModularSkinNodeERKN6glitch7collada16CColladaDatabaseERKN5boost13intrusive_ptrINS1_5IMeshEEEPv
@@ -96,18 +93,14 @@ void* ColladaFactory::createModularSkinNode(const glitch::collada::CColladaDatab
 }
 
 // 0x35087c _ZN14ColladaFactory14createSkinNodeERKN6glitch7collada16CColladaDatabaseERKN5boost13intrusive_ptrINS1_5IMeshEEEPv
-// PARTIAL: not rebuilt, returns null. The original allocates 396 bytes (operator new(396)) and runs the
-// SkinnedMeshSceneNode constructor on the mesh. dh2/SkinnedMeshSceneNode.hpp does not compile on its own:
-// BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode> needs the complete engine class, which exists only as recon
-// stand-ins (glitch-scene-collada-gui/recon/slice_22.hpp), and the two override slots then have nothing to override.
-// The header is not touched here and not included, so this file compiles. Waits on dh2/SkinnedMeshSceneNode.hpp.
+// operator new(396) and the SkinnedMeshSceneNode constructor on the mesh, then the object is returned. The db and instance
+// arguments are not read by the original.
 void* ColladaFactory::createSkinNode(const glitch::collada::CColladaDatabase& db,
                                      const boost::intrusive_ptr<glitch::collada::IMesh>& mesh,
                                      void* instance) {
     (void)db;
-    (void)mesh;
     (void)instance;
-    return nullptr;
+    return new SkinnedMeshSceneNode(mesh);  // operator new(396) in the original
 }
 
 // 0x3508a4 _ZN14ColladaFactory14createMeshNodeERKN6glitch7collada16CColladaDatabaseERKN5boost13intrusive_ptrINS1_5IMeshEEEPv

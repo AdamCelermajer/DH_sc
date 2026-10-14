@@ -17,6 +17,8 @@
 #include "dh2/MenuDebug.hpp"
 #include "dh2/MenuFX.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/RenderFX.hpp"
+#include "gameswf/gameswf_character.h"
 
 // 0x429eb8 _ZN9MenuDebugD1Ev (complete-object destructor)
 // 0x429f10 _ZN9MenuDebugD2Ev (base-object destructor, the same bytes)
@@ -38,15 +40,8 @@ void MenuDebug::Init() {
 }
 
 // 0x42a08c _ZN9MenuDebug7SetTextEPKc
-// PARTIAL, two effects of the original are not made:
-//   1. The text is not drawn. The original calls RenderFX::SetText(gameswf::character*, char const*, bool) (0x7a92e0,
-//      symbol _ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb) on m_menu with the cached character, the text and false.
-//      dh2/RenderFX.hpp does not declare that method, so the call is left out.
-//   2. The flag byte at +0x9b of the cached gameswf::character is not stored (1 when the text is shown, 0 when it is
-//      cleared). gameswf::character does not declare that byte yet (layout request, the same byte as in the
-//      FlashAnimManager and MenuBase rows).
-// The rest is the original: the menu test, the cached-character test, SetVisible(true) for a text and SetVisible(false)
-// for a null text. The second cached-character lookup of each branch is left out: it returns the same pointer.
+// With the owning MenuFX (m_menu, State +0x04) and the cached "text" character: a text makes the menu visible, is drawn with
+// RenderFX::SetText (flag false) and sets the visible flag (+0x9b) of the character; a null text hides the menu and clears the flag.
 void MenuDebug::SetText(const char* text) {
     if (m_menu == nullptr) {
         return;
@@ -57,10 +52,11 @@ void MenuDebug::SetText(const char* text) {
     }
     if (text != nullptr) {
         SetVisible(true);
-        // PARTIAL: RenderFX::SetText(character, text, false) on m_menu and the store of 1 at +0x9b are not made (see above).
+        m_menu->RenderFX::SetText(m_text.GetChar(), text, false);
+        m_text.GetChar()->m_visible = true;
     } else {
         SetVisible(false);
-        // PARTIAL: the store of 0 at +0x9b is not made (see above).
+        m_text.GetChar()->m_visible = false;
     }
 }
 

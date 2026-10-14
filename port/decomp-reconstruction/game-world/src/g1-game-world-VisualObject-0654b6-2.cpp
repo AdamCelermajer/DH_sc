@@ -19,7 +19,13 @@
 #include <utility>
 #include <vector>
 
+#include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/AssetManager.hpp"
+#include "dh2/BaseMeshSceneNode.hpp"
+#include "core-platform/w7_global_01.hpp"
+#include "core-platform/w7_global_02.hpp"
+#include "dh2/ColladaFactory.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
@@ -27,6 +33,7 @@
 #include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/ShadowModularSkinnedMeshSceneNode.hpp"
+#include "dh2/ShadowSkinnedMeshSceneNode.hpp"
 #include "dh2/XrayModularSkinnedMeshSceneNode.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/DeviceSceneManager.hpp"
@@ -54,9 +61,8 @@ void OrderAxis(float& lo, float& hi) {
 }
 
 // 0x47211c, tail: each axis is ordered (min <= max), and the box is then centred on Vec3f_Origin with its half extents
-// (min = origin - half, max = origin + half). Not called from CalcMeshBox yet, because the node reads that fill the box
-// are not bound (see CalcMeshBox).
-[[maybe_unused]] void CenterMeshBox(glitch::core::aabbox3d<float>& box) {
+// (min = origin - half, max = origin + half).
+void CenterMeshBox(glitch::core::aabbox3d<float>& box) {
     OrderAxis(box.MinEdge.X, box.MaxEdge.X);
     OrderAxis(box.MinEdge.Y, box.MaxEdge.Y);
     OrderAxis(box.MinEdge.Z, box.MaxEdge.Z);
@@ -94,9 +100,8 @@ SceneManager* DeviceSceneManager() {
 }
 
 // 0x471f1c _ZN12VisualObject14SetMeshVisibleEb
-// PARTIAL: the three typed node lists under m_node (tags 1835360612, 1936023908, 1298489700) get setVisible. The
-// shadow-modular and x-ray loops are made. The shadow-skinned loop is not made: ShadowSkinnedMeshSceneNode does not
-// compile in this tree (BaseMeshSceneNode<CSkinnedMeshSceneNode>), so its setVisible is not reachable.
+// The three typed node lists under m_node (tags 1835360612, 1936023908, 1298489700) get setVisible. The
+// shadow nodes and the x-ray nodes get it too once they exist.
 void VisualObject::SetMeshVisible(bool visible) {
     if (m_node == nullptr) {
         return;
@@ -111,7 +116,7 @@ void VisualObject::SetMeshVisible(bool visible) {
     }
     if (m_shadowCreated) {
         for (ShadowSkinnedMeshSceneNode* node : m_shadowSkinned) {
-            (void)node;  // node->setVisible(visible): class does not compile yet
+            node->setVisible(visible);
         }
         for (ShadowModularSkinnedMeshSceneNode* node : m_shadowModular) {
             node->setVisible(visible);
@@ -125,16 +130,24 @@ void VisualObject::SetMeshVisible(bool visible) {
 }
 
 // 0x47211c _ZN12VisualObject11CalcMeshBoxEv
-// partial: the box is filled from node reads that are not bound. With a collision box node (+0x0c), the original takes
-// the node's bounds (getBoundingBox, vptr+0x30, not declared on ISceneNode), scales its min and max corners by the
-// scale of the node's parent (getParent, then getScale, vptr+0x90), applies the node's relative transform (vptr+0x40, a
-// 4x4 matrix whose translation is cleared) with Point3D<float>::transform, and then normalises and centres the box.
-// Without one, it grows the box over the mesh nodes found under m_node (SearchByType tags 1936023908 then 1835360612),
-// and zeroes the box and returns when no node is found. This body keeps the empty-box start (min +FLT_MAX, max
-// -FLT_MAX) and leaves the node loops out. CenterMeshBox is the tail and is not called until those reads are bound.
+// Fills m_meshBox. With a collision box node (+0x0c) the box is the bounds of that node scaled by the scale of its parent. Without
+// one the box grows over the bounds of the mesh nodes under m_node (the nodes of tag 1936023908, or when there are none those of
+// tag 1835360612; each box is scaled by the scale of its parent when it has one), starting from an empty box; when no node is
+// found the box is zeroed and the function returns. Then the corners go through the relative transformation of m_node (its
+// translation cleared), each axis is ordered, and the box is centred on Vec3f_Origin with its half extents (CenterMeshBox).
 void VisualObject::CalcMeshBox() {
     if (m_colBoxNode != nullptr) {
-        // Collision box path: not bound (see the comment above).
+        const glitch::core::aabbox3d<float>& bounds = m_colBoxNode->getBoundingBox();
+        m_meshBox.MinEdge = bounds.MinEdge;
+        m_meshBox.MaxEdge = bounds.MaxEdge;
+        const glitch::core::vector3d<float>& scale = m_colBoxNode->getParent()->getScale();
+        m_meshBox.MinEdge.X = m_meshBox.MinEdge.X * scale.X;
+        m_meshBox.MinEdge.Y = m_meshBox.MinEdge.Y * scale.Y;
+        m_meshBox.MinEdge.Z = m_meshBox.MinEdge.Z * scale.Z;
+        const glitch::core::vector3d<float>& scale2 = m_colBoxNode->getParent()->getScale();
+        m_meshBox.MaxEdge.X = m_meshBox.MaxEdge.X * scale2.X;
+        m_meshBox.MaxEdge.Y = m_meshBox.MaxEdge.Y * scale2.Y;
+        m_meshBox.MaxEdge.Z = m_meshBox.MaxEdge.Z * scale2.Z;
     } else {
         m_meshBox.MinEdge.X = FLT_MAX;
         m_meshBox.MinEdge.Y = FLT_MAX;
@@ -142,8 +155,47 @@ void VisualObject::CalcMeshBox() {
         m_meshBox.MaxEdge.X = -FLT_MAX;
         m_meshBox.MaxEdge.Y = -FLT_MAX;
         m_meshBox.MaxEdge.Z = -FLT_MAX;
-        // Mesh node loop: not bound (see the comment above).
+        SceneManager* sm = DeviceSceneManager();
+        std::vector<glitch::scene::ISceneNode*> nodes;
+        sm->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1936023908u), nodes, m_node);
+        if (nodes.empty()) {
+            sm->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1835360612u), nodes, m_node);
+        }
+        if (nodes.empty()) {
+            m_meshBox.MinEdge.X = m_meshBox.MinEdge.Y = m_meshBox.MinEdge.Z = 0.0f;
+            m_meshBox.MaxEdge.X = m_meshBox.MaxEdge.Y = m_meshBox.MaxEdge.Z = 0.0f;
+            return;
+        }
+        for (glitch::scene::ISceneNode* node : nodes) {
+            const glitch::core::aabbox3d<float>& bounds = node->getBoundingBox();
+            float minX = bounds.MinEdge.X, minY = bounds.MinEdge.Y, minZ = bounds.MinEdge.Z;
+            float maxX = bounds.MaxEdge.X, maxY = bounds.MaxEdge.Y, maxZ = bounds.MaxEdge.Z;
+            if (node->getParent() != nullptr) {
+                const glitch::core::vector3d<float>& scale = node->getParent()->getScale();
+                minX = minX * scale.X;
+                minY = minY * scale.Y;
+                minZ = minZ * scale.Z;
+                const glitch::core::vector3d<float>& scale2 = node->getParent()->getScale();
+                maxX = maxX * scale2.X;
+                maxY = maxY * scale2.Y;
+                maxZ = maxZ * scale2.Z;
+            }
+            if (m_meshBox.MinEdge.X > minX) m_meshBox.MinEdge.X = minX;
+            if (m_meshBox.MinEdge.Y > minY) m_meshBox.MinEdge.Y = minY;
+            if (m_meshBox.MinEdge.Z > minZ) m_meshBox.MinEdge.Z = minZ;
+            if (m_meshBox.MaxEdge.X < maxX) m_meshBox.MaxEdge.X = maxX;
+            if (m_meshBox.MaxEdge.Y < maxY) m_meshBox.MaxEdge.Y = maxY;
+            if (m_meshBox.MaxEdge.Z < maxZ) m_meshBox.MaxEdge.Z = maxZ;
+        }
     }
+    glitch::core::CMatrix4<float> matrix = m_node->getRelativeTransformation();
+    matrix.M[12] = 0.0f;
+    matrix.M[13] = 0.0f;
+    matrix.M[14] = 0.0f;
+    matrix.flag = false;
+    reinterpret_cast<Point3D<float>&>(m_meshBox.MinEdge).transform(matrix);
+    reinterpret_cast<Point3D<float>&>(m_meshBox.MaxEdge).transform(matrix);
+    CenterMeshBox(m_meshBox);
 }
 
 // 0x472708 _ZN12VisualObject10SetScalingEf
@@ -208,11 +260,9 @@ void VisualObject::SyncRotation() {
 }
 
 // 0x47295c _ZN12VisualObject9SetParentEP10GameObject
-// partial: stores the owner. When the owner is not static, or it is static and animated (IsAnimated, vptr+0x80), the
-// original runs Sync and then RecursiveSetBoolOnNode(m_node, true, setOnAnimateEnabled). Otherwise it runs Sync and
-// copies the node position onto itself (getPosition, vptr+0xa0, then setPosition, vptr+0xa4) and returns
-// OptimizeStatic(m_node). The node calls are not bound: m_node is a RootSceneNode*, and the free functions take an
-// ISceneNode*. OptimizeStatic is not declared in any header.
+// Stores the owner. Without an owner nothing else happens. When the owner is not static, or it is static and animated (IsAnimated,
+// vtable +0x80), Sync runs and the whole node tree gets the animate flag (RecursiveSetBoolOnNode with setOnAnimateEnabled). A static
+// owner that is not animated gets Sync, the node position set to itself (getPosition, setPosition) and OptimizeStatic on the node.
 void VisualObject::SetParent(GameObject* owner) {
     m_owner = owner;
     if (owner == nullptr) {
@@ -220,21 +270,22 @@ void VisualObject::SetParent(GameObject* owner) {
     }
     if (!owner->m_static || owner->IsAnimated()) {
         Sync();
-        // RecursiveSetBoolOnNode(m_node, true, setOnAnimateEnabled): not bound.
+        RecursiveSetBoolOnNode(m_node, true, setOnAnimateEnabled);
         return;
     }
     Sync();
-    // m_node->setPosition(m_node->getPosition()) and OptimizeStatic(m_node): not bound.
+    m_node->setPosition(m_node->getPosition());
+    OptimizeStatic(m_node);
 }
 
 // 0x472c5c _ZN12VisualObjectC2EP10GameObjectRKSsS3_
-// partial. 0x472a0c (_ZN12VisualObjectC1EP10GameObjectRKSsS3_) is the complete-object copy of the same constructor.
-// This body sets every field that the original sets. The model load is not bound: AssetManager::loadSceneNode is
-// declared to return int, and the original stores the returned node pointer in m_node. While m_node stays null the rest
-// of the original constructor does not run: SetParent(owner), RootSceneNode::RefreshBoundingBox, _FindModularSkinnedMeshNode,
-// the add to the scene root and ForceRegister, the "_colbox_" lookup (m_colBoxNode, m_hasColBox), CalcMeshBox,
-// ApplyMeshBox, and the AnimController(m_node, false) that SetAnimController takes.
-// The original constructor does not set m_shadowCreated (+0x98) or m_xrayCreated (+0xa8). They are set false here.
+// 0x472a0c (_ZN12VisualObjectC1EP10GameObjectRKSsS3_) is the complete-object copy of the same constructor. The fields are set up, then
+// the model is loaded through the asset manager (model name, variant name or none when it is empty, flag false, option 255). When a
+// node comes back: the owner is attached (SetParent), the bounding box refreshed, the modular skin node looked up, the node added to
+// the scene root and ForceRegister called; a node named "_colbox_" below it becomes the collision box node (kept with an extra use,
+// render flag cleared, setVisible(false)) and sets m_hasColBox; then the mesh box is computed and handed to the owner, and a new
+// AnimController(m_node, false) is installed.
+// The original does not set m_shadowCreated (+0x98) or m_xrayCreated (+0xa8); they are set false here.
 VisualObject::VisualObject(GameObject* owner, const std::string& model, const std::string& variant) {
     m_owner = owner;
     m_node = nullptr;
@@ -267,41 +318,82 @@ VisualObject::VisualObject(GameObject* owner, const std::string& model, const st
     m_xrayCreated = false;
     m_xrayMask = false;
 
-    // Model load: not bound. The original passes model.c_str() and, when variant is empty, a null name. Its flags are
-    // false and 255. See the comment above.
     const char* variantName = variant.empty() ? nullptr : variant.c_str();
-    (void)model;
-    (void)variantName;
+    m_node = static_cast<RootSceneNode*>(AssetManager::GetAssetManager()->loadSceneNode(model.c_str(), variantName, false, 255));
+    if (m_node == nullptr) {
+        return;
+    }
+    SetParent(owner);
+    m_node->RefreshBoundingBox();
+    _FindModularSkinnedMeshNode();
+    SceneManager* sm = DeviceSceneManager();
+    sm->rootNode->addChild(m_node);
+    sm->ForceRegister();
+    glitch::scene::ISceneNode* colBox = sm->SearchByName(m_node, "_colbox_", true);
+    if (colBox != nullptr) {
+        m_hasColBox = true;
+        m_colBoxNode = sm->getSceneNodeFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1835360612u), colBox);
+        if (m_colBoxNode != nullptr) {
+            ++static_cast<glitch::IReferenceCounted*>(m_colBoxNode)->referenceCounter;
+            static_cast<BaseMeshSceneNode<glitch::collada::CMeshSceneNode>*>(m_colBoxNode)->m_renderEnabled = false;
+            m_colBoxNode->setVisible(false);
+        }
+    }
+    CalcMeshBox();
+    ApplyMeshBox();
+    SetAnimController(new AnimController(m_node, false));
 }
 
 // 0x4732ac _ZN12VisualObject16CreateShadowMeshEv
-// partial: the shadow copies are built per skinned node (ShadowSkinnedMeshSceneNode, 428 bytes) and per modular node
-// (ShadowModularSkinnedMeshSceneNode, 472 bytes). Each copy takes its mesh from the node's getter (vptr+0xf8, not
-// named in the headers) and is added to the scene root (addChild on the root, vptr+0x5c). The node lists come from
-// getSceneNodesFromType on m_node, which is not bound. The flag and the final ForceRegister are bound.
+// Without a node nothing happens. Sets the shadow flag, then builds the shadow copies: one ShadowSkinnedMeshSceneNode (428 bytes)
+// per node of tag 1936023908 under m_node and one ShadowModularSkinnedMeshSceneNode (472 bytes) per node of tag 1298489700, each on
+// the mesh of its source node (the node getMesh, vtable +0xf8). Every copy is added to the scene root, and ForceRegister ends it.
 void VisualObject::CreateShadowMesh() {
     if (m_node == nullptr) {
         return;
     }
     m_shadowCreated = true;
-    // Shadow node loops: not bound (see the comment above).
-    if (SceneManager* sm = DeviceSceneManager()) {
-        sm->ForceRegister();
+    SceneManager* sm = DeviceSceneManager();
+    std::vector<glitch::scene::ISceneNode*> nodes;
+    m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1936023908u), nodes);
+    m_shadowSkinned.resize(nodes.size(), nullptr);
+    for (std::size_t i = 0; i < nodes.size(); ++i) {
+        boost::intrusive_ptr<glitch::collada::IMesh> mesh = static_cast<glitch::collada::CMeshSceneNode*>(nodes[i])->mesh;
+        ShadowSkinnedMeshSceneNode* shadow = new ShadowSkinnedMeshSceneNode(mesh, nodes[i]);
+        m_shadowSkinned[i] = shadow;
+        sm->rootNode->addChild(shadow);
     }
+    nodes.clear();
+    m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1298489700u), nodes);
+    m_shadowModular.resize(nodes.size(), nullptr);
+    for (std::size_t i = 0; i < nodes.size(); ++i) {
+        boost::intrusive_ptr<glitch::collada::IMesh> mesh = static_cast<glitch::collada::CMeshSceneNode*>(nodes[i])->mesh;
+        ShadowModularSkinnedMeshSceneNode* shadow = new ShadowModularSkinnedMeshSceneNode(mesh, nodes[i], m_node);
+        m_shadowModular[i] = shadow;
+        sm->rootNode->addChild(shadow);
+    }
+    sm->ForceRegister();
 }
 
 // 0x4736e4 _ZN12VisualObject14CreateXrayMeshEv
-// partial: the same shape as CreateShadowMesh, with XrayModularSkinnedMeshSceneNode (468 bytes) per modular node, and
-// the flag at +0xa8. The node list and the mesh getter are not bound (see CreateShadowMesh).
+// Without a node nothing happens. Sets the x-ray flag (+0xa8) and builds one XrayModularSkinnedMeshSceneNode (468 bytes) per node of
+// tag 1298489700 under m_node, on the mesh of the source node. Every copy is added to the scene root, and ForceRegister ends it.
 void VisualObject::CreateXrayMesh() {
     if (m_node == nullptr) {
         return;
     }
     m_xrayCreated = true;
-    // X-ray node loop: not bound (see CreateShadowMesh).
-    if (SceneManager* sm = DeviceSceneManager()) {
-        sm->ForceRegister();
+    SceneManager* sm = DeviceSceneManager();
+    std::vector<glitch::scene::ISceneNode*> nodes;
+    m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1298489700u), nodes);
+    m_xrayModular.resize(nodes.size(), nullptr);
+    for (std::size_t i = 0; i < nodes.size(); ++i) {
+        boost::intrusive_ptr<glitch::collada::IMesh> mesh = static_cast<glitch::collada::CMeshSceneNode*>(nodes[i])->mesh;
+        XrayModularSkinnedMeshSceneNode* xray = new XrayModularSkinnedMeshSceneNode(mesh, nodes[i]);
+        m_xrayModular[i] = xray;
+        sm->rootNode->addChild(xray);
     }
+    sm->ForceRegister();
 }
 
 // 0x473abc _ZN12VisualObjectD2Ev
@@ -329,31 +421,31 @@ VisualObject::~VisualObject() {
 }
 
 // 0x473cd8 _ZN12VisualObject13SetWeaponSkinEPKcii
-// partial: the weapon scene is loaded from data/3d/characters/prince/weapons/<weapon>.bdae. The load is not bound: the
-// original calls CColladaDatabase::constructScene with the path, flag 1 and ColladaFactory::s_factory, and the engine
-// declares only constructScene(IVideoDriver*). The slot then takes the loaded node: kind 1 is the main hand
-// (m_weaponNodeMain) and any other kind is the off hand (m_weaponNodeOff). The previous node is removed and dropped
-// first (not bound). A null weapon clears the slot, which is bound here. The node named by kSlotMapping[slot] is found
-// under m_node (SearchByName), and the new node is added to it (addChild, vptr+0x5c). Neither the search nor the add
-// is bound, because m_node is a RootSceneNode* and the search takes an ISceneNode*.
+// With a weapon name the scene "data/3d/characters/prince/weapons/<weapon>.bdae" is loaded (flag true, ColladaFactory::s_factory);
+// without one the new node is null. Kind 1 is the main hand (m_weaponNodeMain) and any other kind the off hand
+// (m_weaponNodeOff): the previous node of that slot is removed and dropped, and the slot takes the new node. The node named by
+// s_slotMapping[slot] below m_node (SearchByName, no flag) gets the new node as a child. The mount node is returned; the original
+// returns a leftover register when it exists (no caller reads the result).
 glitch::scene::ISceneNode* VisualObject::SetWeaponSkin(const char* weapon, int kind, int slot) {
+    glitch::scene::ISceneNode* loaded = nullptr;
     if (weapon != nullptr) {
         std::string path = "data/3d/characters/prince/weapons/";
         path += weapon;
         path += ".bdae";
-        (void)path;
-        // Load of path, then the slot store of the loaded node: not bound.
-    } else {
-        if (kind == 1) {
-            m_weaponNodeMain = nullptr;
-        } else {
-            m_weaponNodeOff = nullptr;
-        }
+        glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+        loaded = glitch::collada::CColladaDatabase::constructScene(driver, path.c_str(), true, &ColladaFactory::s_factory);
     }
-    const char* mountName = (slot >= 0 && slot < 3) ? kSlotMapping[slot] : nullptr;
-    (void)mountName;
-    // SearchByName(m_node, mountName, false) and the addChild of the new node: not bound.
-    return nullptr;
+    glitch::scene::ISceneNode*& target = (kind == 1) ? m_weaponNodeMain : m_weaponNodeOff;
+    if (target != nullptr) {
+        target->remove();
+        target->drop();
+    }
+    target = loaded;
+    glitch::scene::ISceneNode* mount = DeviceSceneManager()->SearchByName(m_node, kSlotMapping[slot], false);
+    if (mount != nullptr) {
+        mount->addChild(loaded);
+    }
+    return mount;
 }
 
 // 0x473ea0 _ZN12VisualObject17ApplyXrayMaterialEv
@@ -382,19 +474,21 @@ void VisualObject::ApplyXrayMaterial() {
 }
 
 // 0x474140 _ZN12VisualObject11FlushMeshesEv
-// partial. The original runs SearchByType on the device scene manager for the three mesh tags under m_node, flushes each
-// found node's mesh (the mesh comes from the node's getMesh, vptr+0xf8, and goes to FlushMeshBuffers(mesh, 1, 1, 0)),
-// and returns the model name from m_node's UID holder (uidOwner at RootSceneNode +0x14c, then the word at +0x20). Missing:
-//   - the search root. SearchByType takes a glitch::scene::ISceneNode*, and m_node is a RootSceneNode*. RootSceneNode is not
-//     an ISceneNode in the tree (layout request: CRootSceneNode derives from ISceneNode at offset 0).
-//   - FlushMeshBuffers(glitch::scene::IMesh*, bool, bool, bool), symbol _Z16FlushMeshBuffersPN6glitch5scene5IMeshEbbb, is
-//     declared in no header.
-//   - the device scene manager (IDevice +0x1c, see the destructor): DeviceSceneManager() returns null.
-//   - the model name. The original reads the word at +0x20 of CColladaUIDHolder (uidOwner) as a char*, but
-//     glitch::collada::CColladaUIDHolder declares it as a 32-bit uid (layout request: pointer-width const char* at +0x20).
-// Returns an empty string until those are bound.
+// Collects the nodes of the three mesh tags (1835360612, 1936023908, 1298489700) under m_node, flushes the mesh of each one
+// (FlushMeshBuffers(mesh, vertices, indices, not forced)) and returns the model file name, which is the file name of the database
+// of m_node.
 std::string VisualObject::FlushMeshes() {
-    return std::string();
+    SceneManager* sm = DeviceSceneManager();
+    std::vector<glitch::scene::ISceneNode*> nodes;
+    sm->SearchByType(m_node, nodes, 1835360612u);
+    sm->SearchByType(m_node, nodes, 1936023908u);
+    sm->SearchByType(m_node, nodes, 1298489700u);
+    for (glitch::scene::ISceneNode* node : nodes) {
+        boost::intrusive_ptr<glitch::collada::IMesh> mesh = static_cast<glitch::collada::CMeshSceneNode*>(node)->mesh;
+        FlushMeshBuffers(mesh.get(), true, true, false);
+    }
+    const char* name = m_node->database.fileName();
+    return std::string(name != nullptr ? name : "");
 }
 
 // 0x474318 _ZN12VisualObject22ApplyMaterialBaseParamEv

@@ -77,6 +77,6 @@ public:
     bool m_visibleRequested;                                        // +0x209 set by setVisible; onAnimate applies it and clears it
     bool unk_20a;                                                   // +0x20a set by onAnimate when the animation was skipped
     uint8_t pad_20b[1];                                             // +0x20b
-    void* m_secondaryVptr;                                          // +0x20c vptr of the second subobject (shared with SceneManager +0x48c)
-    std::int32_t m_secondaryRefCount;                               // +0x210 count of the second subobject, set to 1 by the ctor
+    // +0x20c .. +0x213 the glitch::IReferenceCounted virtual base (vptr, count at +0x210): it is the virtual base of ISceneNode, so the
+    // compiler lays it out here and the node is dropped with referenceCounter / drop().
 };

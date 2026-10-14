@@ -15,6 +15,18 @@
 
 #include "dh2/MenuFX.hpp"
 
+namespace {
+using WeakCharacter = ::weak_ptr<gameswf::character>;
+
+WeakCharacter& CharacterOf(MenuFX::State* state) {
+    return *reinterpret_cast<WeakCharacter*>(&state->m_characterProxy);  // +0x48
+}
+
+WeakCharacter& SavedFocusOf(MenuFX::State* state) {
+    return *reinterpret_cast<WeakCharacter*>(&state->m_savedFocusProxy);  // +0x50
+}
+}  // namespace
+
 // 0x41b3a4 MenuFX::State::Update(int)
 // The original calls vtable slot +0x1c, which is Update() with no argument. The int in r1 is dropped.
 void MenuFX::State::Update(int /*dt*/) {
@@ -61,13 +73,11 @@ bool MenuFX::State::CanHandleEvent(RenderFX::Event&) {
 }
 
 // 0x421db4 MenuFX::State::~State()
-// PARTIAL: the two weak_ptr<character> proxies are not released. The original releases the saved-focus
-// proxy (+0x50) first, then the character proxy (+0x48). Each release is: if the proxy is non-null,
-// decrement its m_ref_count (+0) and call gameswf::free_internal(proxy, 0) when the old value was 1
-// (the same count as weak_proxy::drop_ref in vendor-gameswf base/weak_ptr.h). The members are void* in
-// MenuFX.hpp, and neither weak_proxy nor gameswf::free_internal is declared in the game tree, so the
-// releases are omitted here and the proxies leak.
-MenuFX::State::~State() {}
+// Releases the saved-focus weak pointer (+0x50) first, then the character weak pointer (+0x48).
+MenuFX::State::~State() {
+    SavedFocusOf(this) = static_cast<gameswf::character*>(nullptr);
+    CharacterOf(this) = static_cast<gameswf::character*>(nullptr);
+}
 
 // 0x421e2c MenuFX::State::~State() (deleting destructor, vtable slot +0x04)
 // Not written: the compiler emits the deleting destructor from the virtual ~State(). The original calls
@@ -90,12 +100,9 @@ MenuFX::State::State(const char* name) {
 }
 
 // 0x42db28 MenuFX::State::GetCharacter() const
-// PARTIAL: the cached character (+0x4c) is returned. The original first checks the proxy's m_alive flag (proxy +4).
-// When the target is dead it drops the proxy reference (m_ref_count at +0, free_internal at zero), clears
-// +0x48 and +0x4c, and returns null. That branch needs the weak_proxy layout and gameswf::free_internal, which
-// are not declared in the game tree, so it is omitted. Here a dead target comes back as the stale cached pointer.
+// The character of the weak pointer at +0x48: a dead target releases the proxy, clears both words and gives null.
 gameswf::character* MenuFX::State::GetCharacter() const {
-    return m_character;  // +0x4c
+    return CharacterOf(const_cast<State*>(this)).get_ptr();
 }
 
 // 0x7a7f00 MenuFX::OnFSCommand(char const*, char const*)

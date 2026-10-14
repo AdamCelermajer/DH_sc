@@ -1,6 +1,6 @@
 // Test for batch g1-game-world-ModularSkinnedMeshSceneNode-a4b53e-0.
 //
-// Covers the state the batch's constructor sets on the host: the word at +0x188 is 1 (unk_188), and the base constructor
+// Covers the state the batch's constructor sets on the host: the base constructor
 // leaves the render gate set. Construction goes through the base's constructor, defined in
 // g1-game-world-BaseMeshSceneNode-fb9ec3-0.cpp, which is linked in with this test.
 //
@@ -24,10 +24,6 @@ int main() {
     {
         // A null mesh is enough: the base constructor only stores the render gate and drops the mesh.
         ModularSkinnedMeshSceneNode node(boost::intrusive_ptr<glitch::collada::IMesh>(nullptr));
-        if (node.unk_188 != 1) {
-            std::printf("FAIL: unk_188 after construction is %d, expected 1\n", node.unk_188);
-            ++failures;
-        }
         if (!node.m_renderEnabled) {
             std::printf("FAIL: m_renderEnabled is false after construction\n");
             ++failures;

@@ -8,18 +8,14 @@
 //   - m_menuFX[k] (+0x134 + 4k) is movie k and m_cameras[k] (+0x144 + 4k) its 2D camera. Each movie keeps its pages
 //     (MenuFX::State) on its m_stack (+0x114 data, +0x118 count), top = last.
 //   - gameswf::array<T>::remove is MultiMenuManagerArrayRemove (dh2/global/multi_menu_manager.hpp).
-//   - gameswf::weak_ptr<character> (MenuFX::State +0x48 and +0x50) is void* in dh2/MenuFX.hpp. Where the original calls
-//     get_ptr on it, this file calls State::GetCharacter(), as the MenuFX batches do. The liveness check, the proxy
-//     release and the weak_ptr assignment are not made.
-//   - PARTIAL pieces, each marked in place where it is left out:
-//       (a) weak_ptr proxy releases and assignments (the State +0x48 and +0x50 proxies above);
-//       (b) the gameswf::character flag bytes +0x9b and +0xea, which no gameswf::character layout declares;
-//       (c) the flags bit 0x08 blocks (a character vtable +0x08 call with 2, then a flag byte);
-//       (d) the saved-focus restore on flags bit 0x01 (it needs the proxy liveness check of (a));
-//       (e) gameswf::array reserve calls that grow a buffer (the buffers are not wired in this tree);
-//       (f) RenderFX::GetController (+0x10 record) and ALicenseCheck_ValidateLicense, which are not declared.
-//   - The original reads this->m_stack (the MultiMenuManager's own MenuFX::m_stack at +0x114) in the bit 0x08 blocks
-//     of the new-top path where it means the new top movie. That read is not reproduced (it is inside PARTIAL (c)).
+//   - gameswf::weak_ptr<character> (MenuFX::State +0x48 and +0x50) is void* plus a character* in dh2/MenuFX.hpp. It is
+//     reached here as ::weak_ptr<gameswf::character> (the layout MenuFX.cpp uses): get_ptr drops a dead proxy and clears both
+//     words, as the original does inline.
+//   - The character at +0x9b is the visible flag (character::m_visible) and the byte at +0xea of a sprite is its enabled flag
+//     (sprite_instance::m_enabled). The flags bit 0x08 blocks test is(AS_SPRITE) on a character before the enabled flag is
+//     written. In the new-top path of PopMenu the original reads the top state of this->m_stack (the MultiMenuManager own MenuFX
+//     stack) for that test; it is kept, and skipped when that stack is empty.
+//   - gameswf::array reserve calls are never made: a shrink never grows, and the push buffers are managed by the array type.
 
 #include <cstdint>
 #include <cstring>
@@ -33,8 +29,39 @@
 #include "dh2/RenderFX.hpp"
 #include "dh2/global/multi_menu_manager.hpp"
 #include "dh2/global/script_command_globals.hpp"
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_sprite.h"
 
 namespace {
+
+using WeakCharacter = ::weak_ptr<gameswf::character>;
+
+WeakCharacter& CharacterOf(MenuFX::State* state) {
+    return *reinterpret_cast<WeakCharacter*>(&state->m_characterProxy);  // +0x48
+}
+
+WeakCharacter& SavedFocusOf(MenuFX::State* state) {
+    return *reinterpret_cast<WeakCharacter*>(&state->m_savedFocusProxy);  // +0x50
+}
+
+// The test the flags bit 0x08 blocks make on a character before they write the enabled flag: character::is(AS_SPRITE).
+bool IsSprite(gameswf::character* character) {
+    return character != nullptr && character->is(gameswf::AS_SPRITE);
+}
+
+// Byte +0xea of a sprite, the "enabled" property.
+void SetSpriteEnabled(gameswf::character* character, bool enabled) {
+    static_cast<gameswf::sprite_instance*>(character)->m_enabled = enabled;
+}
+
+// The saved-focus restore that follows the show of a state when flags bit 0x01 is set: the focus is reset and moved to the
+// state saved focus character, when there is one.
+void RestoreSavedFocus(MenuFX* movie, MenuFX::State* state) {
+    if (SavedFocusOf(state).get_ptr() != nullptr) {
+        movie->ResetFocus(0);
+        movie->SetFocus(SavedFocusOf(state).get_ptr(), 0);
+    }
+}
 
 // The body that PopMenu(bool) (0x438c14) and PopMenu(const char*, bool) (0x439270, flag set) share: hides the top
 // state of the top movie, shrinks that movie's state stack, shrinks m_menuFXStack, and shows the new top movie's top
@@ -49,8 +76,9 @@ void PopTopState(MultiMenuManager& mm) {
         top->PlayAnim(state->GetCharacter(), "hide", 0);  // the result is not used
     }
     state->m_status = 2;                                 // +0x58, hiding
-    // PARTIAL (c): flags bit 0x08 block on the popped state (weak-proxy release, the character vtable +0x08 with 2,
-    // and the flag byte +0xea of the character).
+    if ((top->m_flags & 0x08) != 0 && IsSprite(state->GetCharacter())) {
+        SetSpriteEnabled(state->GetCharacter(), false);
+    }
     top->SetContext(top->GetFlashRoot());                // root character, root +0x10
     top->m_stack.m_size -= 1;
 
@@ -60,8 +88,13 @@ void PopTopState(MultiMenuManager& mm) {
         MenuFX* below = mm.m_menuFXStack.m_data[count - 2];
         if (below != nullptr && below->m_stack.m_size > 0) {
             MenuFX::State* shown = below->m_stack.m_data[below->m_stack.m_size - 1];
-            // PARTIAL (a) and (b): the weak-proxy release of shown and the flag byte +0x9b of its character.
-            // PARTIAL (c): flags bit 0x08 block of below. The original reads this->m_stack here, not below's.
+            shown->GetCharacter()->m_visible = true;     // byte +0x9b
+            if ((below->m_flags & 0x08) != 0 && mm.m_stack.m_size > 0) {
+                MenuFX::State* own = mm.m_stack.m_data[mm.m_stack.m_size - 1];  // the original reads this->m_stack
+                if (IsSprite(own->GetCharacter())) {
+                    SetSpriteEnabled(shown->GetCharacter(), true);
+                }
+            }
             below->SetContext(shown->GetCharacter());
             if ((below->m_flags & 0x40) == 0) {
                 below->InvokeASCallback(shown->m_name, "OnShow", nullptr, 0);
@@ -69,7 +102,9 @@ void PopTopState(MultiMenuManager& mm) {
                     below->PlayAnim(shown->GetCharacter(), "show", 0);
                 }
             }
-            // PARTIAL (d): saved-focus restore when flags bit 0x01 is set.
+            if ((below->m_flags & 0x01) != 0) {
+                RestoreSavedFocus(below, shown);
+            }
             shown->GotFocus();                           // vtable +0x14
             shown->m_status = 3;                         // +0x58, focus back
         }
@@ -94,13 +129,14 @@ bool MultiMenuManager::IsStateInStack(MenuFX::State* state) {
 }
 
 // 0x43799c _ZN16MultiMenuManager17ResetUpdateCursorEv
-// PARTIAL: RenderFX::Cursor is only forward-declared in dh2/RenderFX.hpp (layout request). The cursor record is the
-// 16-byte stack record of the original, with the words -10000.0f, -10000.0f, 0 and 0 (0xc61c4000 twice, then zero),
-// passed by reference through a reinterpret_cast. The record is set once and shared by all calls, since UpdateCursor
-// may write to it. For each movie in m_menuFX[0..3] that is set, UpdateCursor runs with the index 0..3.
+// The cursor record is the original 16 stack bytes: -10000.0f, -10000.0f, angle 0 and state 0. For each movie in m_menuFX[0..3]
+// that is set, UpdateCursor runs with the index 0..3 (vtable +0x14); the record is shared by all calls.
 void MultiMenuManager::ResetUpdateCursor() {
-    std::uint32_t cursorWords[4] = {0xc61c4000u, 0xc61c4000u, 0u, 0u};
-    RenderFX::Cursor& cursor = reinterpret_cast<RenderFX::Cursor&>(cursorWords);
+    RenderFX::Cursor cursor;
+    cursor.x = -10000.0f;
+    cursor.y = -10000.0f;
+    cursor.angle = 0.0f;
+    cursor.state = 0;
     for (int movie = 0; movie < 4; ++movie) {
         for (int i = 0; i < 4; ++i) {
             if (m_menuFX[movie] != nullptr) {
@@ -111,14 +147,11 @@ void MultiMenuManager::ResetUpdateCursor() {
 }
 
 // 0x437a38 _ZN16MultiMenuManager10ResetFontsEv
-// PARTIAL: for each movie in m_menuFX[0..3] that is set, the original calls RenderFX::ClearFonts (0x7aac54,
-// _ZN8RenderFX10ClearFontsEPN7gameswf14player_contextE) with a null this and the context from register r1 at entry.
-// dh2/RenderFX.hpp does not declare ClearFonts (layout request), and the caller passes no context, so those calls are
-// not made. The loop over the four movie slots is kept.
+// For each movie in m_menuFX[0..3] that is set, RenderFX::ClearFonts runs with a null player context (the default context).
 void MultiMenuManager::ResetFonts() {
     for (int i = 0; i < 4; ++i) {
         if (m_menuFX[i] != nullptr) {
-            // PARTIAL: RenderFX::ClearFonts(nullptr, context) is left out (see above).
+            RenderFX::ClearFonts(nullptr);
         }
     }
 }
@@ -183,11 +216,10 @@ MultiMenuManager::MultiMenuManager() {
 // 0x4380c0 _ZN16MultiMenuManagerD2Ev (base-object destructor, same bytes: this one definition serves both)
 // Each set movie is deleted (vtable +0x04). Its camera is deleted when it is set, and the movie slot is cleared before
 // the camera is deleted, as in the original. The movie stack count is set to 0.
-// PARTIAL: the three gameswf::array<smart_ptr<as_object>> calls on unk_154 (resize, resize, reserve(0)) are left out.
-// The element type and the array implementation are not declared (layout request), so the elements are not released
-// here. Also left out is the reserve(0) that frees the m_menuFXStack buffer, as in the MenuFX batches. The original's
-// loop that zeroes slots below index 0 runs only for a negative count, which the stack never has. The base MenuFX
-// destructor runs implicitly after this body.
+// The three gameswf::array<smart_ptr<as_object>> calls on unk_154 (resize, resize, reserve(0)) only empty an array that holds
+// nothing (the constructor zeroes it and no function appends to it), and the reserve(0) that frees the m_menuFXStack buffer is the
+// array own storage release; neither has an effect here. The original loop that zeroes slots below index 0 runs only for a
+// negative count, which the stack never has. The base MenuFX destructor runs implicitly after this body.
 MultiMenuManager::~MultiMenuManager() {
     for (int i = 0; i < 4; ++i) {
         if (m_menuFX[i] != nullptr) {
@@ -220,7 +252,7 @@ void MultiMenuManager::PushMenu(MenuBase* menu) {
     const char* name = state->m_name;
     _DEBUG_OUT("\n\n Last PushMenu:: %s \n\n", name);
     if (std::strcmp(name, "menu_MultiLogin") == 0) {
-        // PARTIAL (f): if (USE_NATIVE_DRM_GAME) ALicenseCheck_ValidateLicense(0) is left out (not declared).
+        // The original calls ALicenseCheck_ValidateLicense(0) here when USE_NATIVE_DRM_GAME is set; that build flag is off in the port.
         _DEBUG_OUT("\n\n ***************************Last menu_MultiLogin::  \n\n");
         Is_In_Multiplayer_Mode = true;
         Is_In_Multiplayer_IGM = true;
@@ -303,18 +335,18 @@ void MultiMenuManager::PushMenu(MenuBase* menu) {
         // of current's character. Neither is made.
     }
 
-    // PARTIAL (e): if (count + 1 > capacity) gameswf::array<MenuFX*>::reserve is left out (not wired in this tree).
     m_menuFXStack.m_data[count] = movie;
     m_menuFXStack.m_size = count + 1;
 
     const int32_t n = movie->m_stack.m_size;
-    // PARTIAL (e): reserve growth of movie->m_stack (+0x114, capacity +0x11c) is left out.
     movie->m_stack.m_data[n] = nullptr;
     movie->m_stack.m_size = n + 1;
     movie->m_stack.m_data[n] = state;
 
-    // PARTIAL (a) and (b): the weak-proxy release of state and the store of flag byte +0x9b on its character.
-    // PARTIAL (c): flags bit 0x08 block of movie (vtable +0x08 with 2 on the pushed character, flag +0xea = 1).
+    state->GetCharacter()->m_visible = true;             // byte +0x9b
+    if ((movie->m_flags & 0x08) != 0 && IsSprite(state->GetCharacter())) {
+        SetSpriteEnabled(CharacterOf(state).get_ptr(), true);
+    }
     movie->SetContext(state->GetCharacter());
     movie->InvokeASCallback(state->m_name, "OnShow", nullptr, 0);
     if ((movie->m_flags & 0x40) == 0) {
@@ -393,7 +425,9 @@ void MultiMenuManager::PopMenu(const char* name, bool flag) {
                         movie->PlayAnim(state->GetCharacter(), "hide", 0);  // the result is not used
                     }
                     state->m_status = 2;                 // +0x58, hiding
-                    // PARTIAL (c): flags bit 0x08 block of the removed state (see PopTopState).
+                    if ((movie->m_flags & 0x08) != 0 && IsSprite(state->GetCharacter())) {
+                        SetSpriteEnabled(state->GetCharacter(), false);
+                    }
                     movie->SetContext(movie->GetFlashRoot());
                     MultiMenuManagerArrayRemove(movie->m_stack.m_data, movie->m_stack.m_size, stateIndex);
                     MultiMenuManagerArrayRemove(m_menuFXStack.m_data, m_menuFXStack.m_size, movieIndex);
@@ -401,8 +435,11 @@ void MultiMenuManager::PopMenu(const char* name, bool flag) {
                         MenuFX* newTop = m_menuFXStack.m_data[m_menuFXStack.m_size - 1];
                         if (newTop != nullptr && newTop->m_stack.m_size > 0) {
                             MenuFX::State* shown = newTop->m_stack.m_data[newTop->m_stack.m_size - 1];
-                            // PARTIAL (a), (b), (c): the weak release, the flag +0x9b store and the flags bit 0x08 block
-                            // on shown's character. The bit 0x08 block of the original reads this->m_stack here.
+                            shown->GetCharacter()->m_visible = true;  // byte +0x9b
+                            if ((newTop->m_flags & 0x08) != 0 && m_stack.m_size > 0 &&
+                                IsSprite(m_stack.m_data[m_stack.m_size - 1]->GetCharacter())) {  // the original reads this->m_stack
+                                SetSpriteEnabled(shown->GetCharacter(), true);
+                            }
                             newTop->SetContext(shown->GetCharacter());
                             // The show block runs only when the new top's count equals this state index (the original
                             // takes the goto LABEL_68 path otherwise).
@@ -412,7 +449,9 @@ void MultiMenuManager::PopMenu(const char* name, bool flag) {
                                     newTop->PlayAnim(shown->GetCharacter(), "show", 0);
                                 }
                             }
-                            // PARTIAL (d): saved-focus restore when flags bit 0x01 is set.
+                            if ((newTop->m_flags & 0x01) != 0) {
+                                RestoreSavedFocus(newTop, shown);
+                            }
                             shown->GotFocus();           // vtable +0x14
                             shown->m_status = 3;         // +0x58, focus back
                         }

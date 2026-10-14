@@ -287,13 +287,13 @@ int main() {
 
         RenderFX::Event click{};
         click.type = static_cast<RenderFX::EventType>(2);
-        click.target = static_cast<gameswf::as_object*>(g_down);
+        click.target = g_down;   // Event::target is gameswf::character*, the type of the fake buttons
         CHECK(table.ProcessTableEvent(click) == 77);   // _doScrollDown
         CHECK(table.m_scrollOffset == 1);
         CHECK(g_play.size() == 1 && g_play[0].anim == "scroll_down");
         Reset();
 
-        click.target = static_cast<gameswf::as_object*>(g_up);
+        click.target = g_up;
         CHECK(table.ProcessTableEvent(click) == 77);   // _doScrollUp
         CHECK(table.m_scrollOffset == 2);
         CHECK(g_play.size() == 1 && g_play[0].anim == "scroll_up");
@@ -301,13 +301,13 @@ int main() {
 
         RenderFX::Event notClick{};
         notClick.type = static_cast<RenderFX::EventType>(1);
-        notClick.target = static_cast<gameswf::as_object*>(g_down);
+        notClick.target = g_down;
         CHECK(table.ProcessTableEvent(notClick) == 0);
         CHECK(table.m_scrollOffset == 2);
 
         RenderFX::Event otherTarget{};
         otherTarget.type = static_cast<RenderFX::EventType>(2);
-        otherTarget.target = static_cast<gameswf::as_object*>(g_other);
+        otherTarget.target = g_other;
         CHECK(table.ProcessTableEvent(otherTarget) == 0);
         CHECK(table.m_scrollOffset == 2);
         CHECK(g_play.empty());

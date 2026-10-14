@@ -17,6 +17,12 @@
 #include "dh2/MenuFX.hpp"
 #include "dh2/RenderFX.hpp"
 
+namespace glitch {
+namespace scene {
+class ICameraSceneNode;
+}  // namespace scene
+}  // namespace glitch
+
 class EventManager;
 class IEvent;
 class MenuFlash2DCamera;
@@ -90,7 +96,7 @@ public:
     uint32_t unk_54;                                          // +0x54
     uint32_t unk_58;                                          // +0x58
     uint32_t unk_5c;                                          // +0x5c
-    uint32_t unk_60;                                          // +0x60  MenuBase::Hide clears it for menu_CharacterMenu / menu_Merchant
+    glitch::scene::ICameraSceneNode* m_savedCamera;           // +0x60  the scene camera that was active before an avatar or map camera took over; MenuBase::Hide clears it for menu_CharacterMenu / menu_Merchant
     std::vector<MenuBase*> m_menus;                           // +0x64  registered menus (GetNumMenus, GetMenuByID/Name)
     std::map<MenuBase*, bool> m_listeners;                    // +0x70  event listeners (Register/UnRegisterListener)
     bool m_resetListeners;                                    // +0x88  set by Reset, makes Update clear m_listeners

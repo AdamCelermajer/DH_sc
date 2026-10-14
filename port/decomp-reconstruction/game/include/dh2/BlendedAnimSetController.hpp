@@ -13,10 +13,8 @@
 #include "dh2/AnimController.hpp"
 
 class RootSceneNode;
+class AnimationSet;
 namespace glitch {
-namespace collada {
-class CAnimationSet;
-}  // namespace collada
 }  // namespace glitch
 
 class BlendedAnimSetController : public AnimController {
@@ -25,7 +23,7 @@ public:
     ~BlendedAnimSetController() override;                                    // 0x476990 (D1), 0x4769c4 (D0), 0x4769e0 (D2)
 
     // Overrides of AnimController slots, in vtable order. GetNumAnim (slot 0x0c) is inherited unchanged.
-    boost::intrusive_ptr<glitch::collada::CAnimationSet> GetAnimationSet() override;  // slot 0x08: 0x476698, animation set of the current child
+    boost::intrusive_ptr<AnimationSet> GetAnimationSet() override;  // slot 0x08: 0x476698, animation set of the current child
     int GetNumClip(unsigned int animIndex) const override;                   // slot 0x10: 0x47695c, clip count of the current child
     bool HasClip(const char* clipName, unsigned int animIndex) const override;  // slot 0x14: 0x476680 returns false
     int GetClipDuration(unsigned int animIndex) const override;              // slot 0x18: 0x476688 returns -1

@@ -11,17 +11,13 @@
 //   Character +0x378 is the v2Controllable::m_controller base member, +0x149c is m_cursorFX.
 //   AnimatedFX +0x34, +0x38, +0x3c are unk_34, unk_38, unk_3c (float bit patterns of the position offset).
 //
-// Host build note: "gameswf/gameswf_character.h" does not compile on this host (vendor-gameswf base/container.h,
-// tu_string, reports 'init_empty', 'm_hash_cache' and 'm_length_plus_one' undeclared). The gameswf character type is
-// therefore only forward-declared here. The three helpers in the anonymous namespace stand in for the operations
-// that need its complete type (get_world_matrix, the as_object to character downcast). They are stubs, and every
-// function that calls them is partial.
-
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
 
 #include "dh2/HUDControls.hpp"
+
+#include <cmath>
 
 #include "dh2/AnimatedFX.hpp"
 #include "dh2/Application.hpp"
@@ -41,7 +37,13 @@
 #include "dh2/Singleton.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
+#include "dh2/MenuWorldMap.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/StateMachine.hpp"
+#include "dh2/GSFlashMenu.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/v2Controller.hpp"
+#include "gameswf/gameswf_character.h"
 
 namespace {
 
@@ -87,22 +89,24 @@ float BitsToFloat(std::uint32_t bits) {
     return value;
 }
 
-// STUB (see the host build note). The translation of a character's world matrix, the +8 and +20 words in the
-// original (get_world_matrix().m_[0][2] and m_[1][2] once gameswf_character.h compiles). Returns false, so callers
-// store nothing.
-bool WorldTranslation(gameswf::character* /*character*/, float& /*x*/, float& /*y*/) {
-    return false;
+// The translation of a character world matrix, the +8 and +20 words in the original (get_world_matrix().m_[0][2] and
+// m_[1][2]). Returns false for a missing character.
+bool WorldTranslation(gameswf::character* character, float& x, float& y) {
+    if (character == nullptr) {
+        return false;
+    }
+    const gameswf::matrix* world = character->get_world_matrix();
+    x = world->m_[0][2];
+    y = world->m_[1][2];
+    return true;
 }
 
-// STUB (see the host build note). The character a RenderFX::Find(name) result names, as a gameswf::character*. The
-// original downcasts the as_object* (both types are complete there). Returns null until the header compiles.
-gameswf::character* FoundCharacter(MenuFX* /*menu*/, const char* /*name*/) {
-    return nullptr;
+// The character a RenderFX::Find(name) result names: the as_object is the character base.
+gameswf::character* FoundCharacter(MenuFX* menu, const char* name) {
+    return static_cast<gameswf::character*>(menu->Find(name));
 }
 
-// Identity of an as_object* and a character*: both are the address of one gameswf object. gameswf::character derives
-// from as_object as its first base, so the as_object subobject sits at offset 0 and the addresses are equal exactly
-// when the two pointers name the same object. Works without the complete gameswf::character type.
+// Identity of an as_object* and a character*.
 bool SameObject(const gameswf::as_object* object, const gameswf::character* character) {
     return static_cast<const void*>(object) == static_cast<const void*>(character);
 }
@@ -135,12 +139,32 @@ void ResetLayoutTo(HUDControls& h, const std::uint32_t (&words)[2 * kLayoutCount
     h.SetHUDPos(pos, true);
 }
 
-// The custom layout code writes a byte at +155 of gameswf::character (0x9b in the 32-bit build) on the cached
-// buttons. The vendored gameswf header does not declare that byte yet (layout request in the ledger notes), and a
-// raw offset cannot be used on 64-bit, so the write is not made. Every function that calls this is partial.
-void SetCharacterFlag155(gameswf::character* /*character*/, bool /*value*/) {}
+// Byte +155 (0x9b) of gameswf::character: the visible flag.
+void SetCharacterFlag155(gameswf::character* character, bool value) {
+    character->m_visible = value;
+}
+
+// (float)(v / 20.0): the drag step of the custom layout.
+float Div20(float v) {
+    return static_cast<float>(v / 20.0);
+}
+
+// The world-matrix (x, y) of a layout element, read like the original does (matrix words +8 and +20).
+void ElementTranslation(DebugCachedCharacter& element, float& x, float& y) {
+    const gameswf::matrix* world = element.GetChar()->get_world_matrix();
+    x = world->m_[0][2];
+    y = world->m_[1][2];
+}
+
+// The drag step of one custom-layout element: ((event + world) - source) / 20, truncated.
+float DragStep(float eventValue, float worldValue, float source) {
+    return static_cast<float>(static_cast<int>(Div20((eventValue + worldValue) - source)));
+}
 
 }  // namespace
+
+// Global bool set at the top of Update (the original name); nothing reads it.
+bool b_IsInCutScreen = false;
 
 // 0x418238 HUDControls::hasInstance(void)
 bool HUDControls::hasInstance() {
@@ -187,7 +211,6 @@ bool HUDControls::onEvent(const IEvent* event, const EventManager* /*manager*/) 
 }
 
 // 0x41832c HUDControls::BeginCustom(void)
-// PARTIAL: the +155 byte of the reset and save buttons is not written (SetCharacterFlag155, layout request).
 void HUDControls::BeginCustom() {
     m_customizing = true;
     SetCharacterFlag155(m_btnCustomReset.GetChar(), true);
@@ -195,9 +218,7 @@ void HUDControls::BeginCustom() {
 }
 
 // 0x418360 HUDControls::SaveHUDPos(void)
-// PARTIAL: the translations are read through WorldTranslation, which is a stub until gameswf_character.h compiles on
-// the host. Until then no element is stored. The structure is the original's: m_stylePos when HUDStyle is set,
-// otherwise m_classicPos.
+// The world translation of each layout element is stored in m_stylePos when HUDStyle is set, otherwise in m_classicPos.
 void HUDControls::SaveHUDPos() {
     const bool hudStyle = Singleton<Application>::s_inst.GetSavedOption("HUDStyle") != 0;
     for (int i = 0; i < kLayoutCount; ++i) {
@@ -225,7 +246,6 @@ void HUDControls::SetHUDPos(float (*pos)[2], bool save) {
 }
 
 // 0x418b7c HUDControls::RefreshHUD(void)
-// PARTIAL: the +155 bytes of the reset and save buttons are not written (SetCharacterFlag155, layout request).
 void HUDControls::RefreshHUD() {
     if (!m_customizing) {
         return;
@@ -242,7 +262,7 @@ void HUDControls::RefreshHUD() {
 // 0x418bec HUDControls::Touch(void)
 // Clears the touch state, then stops the local player's controller (Cmd_Stop on the Character's v2Controller).
 void HUDControls::Touch() {
-    unk_18 = 0.0f;
+    unk_18 = 0;
     m_cachesReady = false;
     m_attackHeld = false;
     m_moveHeld = false;
@@ -254,25 +274,72 @@ void HUDControls::Touch() {
 }
 
 // 0x418d28 HUDControls::OnEvent(RenderFX::Event &)
-// PARTIAL. Not rebuilt, because RenderFX::Event declares the event position only as pad_0c (the original reads a
-// float x at +0x0c and y at +0x10; layout request):
-//   - the joystick stick press (type 4) and move (type 5): the start point (unk_14, unk_18) and the direction
-//     (m_direction, m_moveScale, atan2f, sqrtf, RenderFX::SetPosition with the computed position, Point3D::rotateXYBy,
-//     m_moveHeld);
-//   - the custom layout drag: the start point (static srcX, srcY) recorded on type 4 and the moves on type 5 of the
-//     cached elements.
-// Also not rebuilt: the menu_Ingame lookup and StateMachine::PushState of the save path (dword_9A247C and dword_99F744
-// are not declared yet); the MenuWorldMap::GetInstance()->IsVisible() term of the final test, because MenuWorldMap.hpp
-// includes core-platform/deps/glitch_core.hpp, which redefines the glitch types that HUDControls.hpp's
-// glitch-core-io include defines (the clash InputManagerEventReceiver.hpp describes). The +155 bytes go through
-// SetCharacterFlag155. The return value is the leftover float register of the original; this returns 0.
+// While customizing: a press (type 4) on a layout element records the drag start (static srcX, srcY); a move (type 5) drags the
+// element (the interact button and the three skill buttons move as a group, the character menu button drags the health bar with
+// it, a stick drag moves the joystick); a release (type 6) on the save button stores the layout and returns to the game menu, on
+// the reset button restores the captured defaults. Outside customizing: the joystick stick press and move set the move direction
+// and scale, its release stops the player; the interact button holds the attack; any other HUD button (or a visible world map)
+// clears the pointer and blocks the touch handler. The return value is the leftover float register of the original; this returns 0.
 float HUDControls::OnEvent(RenderFX::Event& event) {
+    static float srcX = 0.0f;  // OnEvent(RenderFX::Event&)::srcX
+    static float srcY = 0.0f;  // OnEvent(RenderFX::Event&)::srcY
+    Character* player = dword_99F76C->GetLocalPlayer(0, false)->unk_660;
+    MenuWorldMap* worldMap = MenuWorldMap::GetInstance();
     const int eventType = static_cast<int>(event.type);
-    gameswf::as_object* target = event.target;
+    gameswf::character* target = event.target;
 
     if (m_customizing) {
+        if (eventType == 4) {
+            DebugCachedCharacter* const pressable[] = {&m_joystickStick, &m_btnInteract,     &m_posBtnSpell,
+                                                       &m_posBtnSkill1,  &m_posBtnSkill2,    &m_posBtnSkill3,
+                                                       &m_posBtnCharacterMenu, &m_posBtnMainMenu, &m_posBtnPotion,
+                                                       &m_posBtnItunes};
+            for (DebugCachedCharacter* element : pressable) {
+                if (target == element->GetChar()) {
+                    srcX = event.x;
+                    srcY = event.y;
+                    break;
+                }
+            }
+        }
+        if (eventType == 5) {
+            float x = 0.0f;
+            float y = 0.0f;
+            if (target == m_joystickStick.GetChar()) {
+                ElementTranslation(m_joystick, x, y);
+                GameSWFUtils::MoveBtnPos(m_joystick.GetChar(), DragStep(event.x, x, srcX), DragStep(event.y, y, srcY));
+            } else if (target == m_btnInteract.GetChar() || target == m_posBtnSkill1.GetChar() ||
+                       target == m_posBtnSkill2.GetChar() || target == m_posBtnSkill3.GetChar()) {
+                ElementTranslation(m_btnInteract, x, y);
+                const int dy = static_cast<int>(Div20((event.y + y) - srcY));
+                const int dx = static_cast<int>(Div20((event.x + x) - srcX));
+                const std::uint32_t* defaults = Singleton<Application>::s_inst.GetSavedOption("HUDStyle") ? m_defaultWorldB : m_defaultWorldA;
+                auto offset = [&](int element, int axis) {
+                    return static_cast<int>(Div20(BitsToFloat(defaults[2 + axis]) - BitsToFloat(defaults[2 * element + axis])));
+                };
+                GameSWFUtils::MoveBtnPos(m_btnInteract.GetChar(), DragStep(event.x, x, srcX), DragStep(event.y, y, srcY));
+                GameSWFUtils::MoveBtnPos(m_posBtnSkill1.GetChar(), static_cast<float>(dx - offset(3, 0)), static_cast<float>(dy - offset(3, 1)));
+                GameSWFUtils::MoveBtnPos(m_posBtnSkill2.GetChar(), static_cast<float>(dx - offset(4, 0)), static_cast<float>(dy - offset(4, 1)));
+                GameSWFUtils::MoveBtnPos(m_posBtnSkill3.GetChar(), static_cast<float>(dx - offset(5, 0)), static_cast<float>(dy - offset(5, 1)));
+            } else if (target == m_posBtnSpell.GetChar()) {
+                ElementTranslation(m_posBtnSpell, x, y);
+                GameSWFUtils::MoveBtnPos(m_posBtnSpell.GetChar(), DragStep(event.x, x, srcX), DragStep(event.y, y, srcY));
+            } else if (target == m_posBtnCharacterMenu.GetChar()) {
+                ElementTranslation(m_posBtnCharacterMenu, x, y);
+                const int dy = static_cast<int>(Div20((event.y + y) - srcY));
+                const int dx = static_cast<int>(Div20((event.x + x) - srcX));
+                GameSWFUtils::MoveBtnPos(m_posHealthBar.GetChar(), static_cast<float>(dx - 43), static_cast<float>(dy));
+                GameSWFUtils::MoveBtnPos(m_posBtnCharacterMenu.GetChar(), static_cast<float>(dx), static_cast<float>(dy));
+            } else if (target == m_posBtnMainMenu.GetChar()) {
+                ElementTranslation(m_posBtnMainMenu, x, y);
+                GameSWFUtils::MoveBtnPos(m_posBtnMainMenu.GetChar(), DragStep(event.x, x, srcX), DragStep(event.y, y, srcY));
+            } else if (target == m_posBtnPotion.GetChar()) {
+                ElementTranslation(m_posBtnPotion, x, y);
+                GameSWFUtils::MoveBtnPos(m_posBtnPotion.GetChar(), DragStep(event.x, x, srcX), DragStep(event.y, y, srcY));
+            }
+        }
         if (eventType == 6) {
-            if (SameObject(target, m_btnCustomSave.GetChar())) {
+            if (target == m_btnCustomSave.GetChar()) {
                 m_customizing = false;
                 SetCharacterFlag155(m_btnCustomReset.GetChar(), false);
                 SetCharacterFlag155(m_btnCustomSave.GetChar(), false);
@@ -285,9 +352,9 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
                 if (Level* level = Singleton<Application>::s_inst.GetCurrentLevel()) {
                     level->unk_1a8 = false;
                 }
-                // Not rebuilt: dword_9A247C = MenuManager::GetInstance()->GetMenuByName("menu_Ingame") and
-                // StateMachine::PushState(dword_99F744, &GSFlashMenu::s_inst, false). Both globals are undeclared.
-            } else if (SameObject(target, m_btnCustomReset.GetChar())) {
+                GSFlashMenu::s_inst.m_pendingMenu = MenuManager::GetInstance()->GetMenuByName("menu_Ingame");  // dword_9A247C
+                Singleton<Application>::s_inst.m_stateMachine->PushState(&GSFlashMenu::s_inst, false);
+            } else if (target == m_btnCustomReset.GetChar()) {
                 if (Singleton<Application>::s_inst.GetSavedOption("HUDStyle")) {
                     ResetLayoutTo(*this, m_defaultWorldB);
                 } else {
@@ -295,19 +362,45 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
                 }
             }
         }
-        // Types 4 and 5 (drag start and drag) are not rebuilt, see the note above.
         event.unk_24 = 1;
         return 0.0f;
     }
 
-    if (SameObject(target, m_joystickStick.GetChar())) {
-        // Types 4 and 5 are not rebuilt, see the note above.
-        if (eventType == 6 || eventType == 7) {
+    if (target == m_joystickStick.GetChar()) {
+        if (eventType == 4) {
+            unk_14 = static_cast<int>(static_cast<float>(event.x / 20.0));
+            unk_18 = static_cast<int>(static_cast<float>(event.y / 20.0));
+        } else if (eventType == 5) {
+            const gameswf::matrix& local = target->get_matrix();
+            int dx = static_cast<int>(static_cast<float>((event.x + local.m_[0][2]) / 20.0) - static_cast<float>(unk_14));
+            int dy = static_cast<int>(static_cast<float>((event.y + local.m_[1][2]) / 20.0) - static_cast<float>(unk_18));
+            const float angle = atan2f(static_cast<float>(dy), static_cast<float>(dx));
+            int clampedX = dx >= -unk_0c ? (dx >= unk_0c ? unk_0c : dx) : -unk_0c;
+            int clampedY = dy >= -unk_10 ? (dy >= unk_10 ? unk_10 : dy) : -unk_10;
+            const float length = sqrtf(static_cast<float>(clampedX) * static_cast<float>(clampedX) +
+                                       static_cast<float>(clampedY * clampedY));
+            const float radius = static_cast<float>(unk_0c);
+            m_moveScale = length / radius;
+            if (m_moveScale > 1.0f) {
+                clampedY = static_cast<int>(static_cast<float>(unk_10) * sinf(angle));
+                clampedX = static_cast<int>(radius * cosf(angle));
+            }
+            m_menu->SetPosition(m_joystickStick.GetChar(), clampedX, clampedY);
+            if (player != nullptr && player->CTRLIsAllowed()) {
+                m_direction[0] = 1.0f;
+                m_direction[1] = -1.0f;
+                m_direction[2] = 0.0f;
+                reinterpret_cast<Point3D<float>&>(m_direction).normalize();
+                const Point3D<float> origin{0.0f, 0.0f, 0.0f};
+                reinterpret_cast<Point3D<float>&>(m_direction).rotateXYBy(angle * -57.296f + 90.0f, origin);
+                m_moveHeld = true;
+            }
+        } else if (eventType == 6 || eventType == 7) {
             unk_14 = 0;
-            unk_18 = 0.0f;
+            unk_18 = 0;
             m_menu->SetPosition(m_joystickStick.GetChar(), 0, 0);
             m_moveHeld = false;
-            if (Character* player = dword_99F76C->GetLocalPlayer(0, false)->unk_660) {
+            if (player != nullptr) {
                 player->m_controller->Cmd_Stop();
             }
         }
@@ -315,7 +408,7 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
         return 0.0f;
     }
 
-    if (SameObject(target, m_btnInteract.GetChar())) {
+    if (target == m_btnInteract.GetChar()) {
         if (eventType == 4) {
             m_attackHeld = true;
         } else if (eventType == 6 || eventType == 7) {
@@ -327,7 +420,7 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
         return 0.0f;
     }
 
-    // The other cached buttons: a hit clears the pointer and sets unk_84. The visible world map also does (not rebuilt).
+    // The other cached buttons, or a visible world map: the pointer is cleared and unk_84 set.
     DebugCachedCharacter* const buttons[] = {
         &m_btnPotion,
         &m_btnSkill1,
@@ -346,10 +439,13 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
     };
     bool hit = false;
     for (DebugCachedCharacter* button : buttons) {
-        if (SameObject(target, button->GetChar())) {
+        if (target == button->GetChar()) {
             hit = true;
             break;
         }
+    }
+    if (!hit && worldMap != nullptr && worldMap->IsVisible()) {
+        hit = true;
     }
     if (hit) {
         m_pointerY = -1;
@@ -360,14 +456,8 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
 }
 
 // 0x419b4c HUDControls::initCachedChars(void)
-// Looks up the HUD elements under the HUD movie and the custom menu, captures the default layout the first time each
-// style is used, and applies the saved layout. PARTIAL, three parts are not rebuilt:
-//   - the Find results are gameswf::character* through FoundCharacter, a stub until gameswf_character.h compiles, so
-//     the roots are null here;
-//   - the +155 bytes go through SetCharacterFlag155 (layout request);
-//   - the `bg` width (the virtual call at vtable +0x128 on the RenderFX::Find(menu, "bg", joystick) result, halved and
-//     stored in unk_0c and unk_10) is not rebuilt because the virtual slot is not named.
-// The default capture is skipped while WorldTranslation is a stub, so the default words are never marked captured.
+// Looks up the HUD elements under the HUD movie and the custom menu, captures the default layout the first time each style is
+// used, and applies the saved layout. The "bg" width gives the stick reach (half of its width / 20).
 void HUDControls::initCachedChars() {
     MenuFX* menu = m_menu;
     if (!menu) {
@@ -417,7 +507,10 @@ void HUDControls::initCachedChars() {
                                      m_currentRoot.GetChar());
     m_btnFastTravelMenu.RefreshCache("LocationsMenu.btn_FastTravel", menu, nullptr);
 
-    // Not rebuilt: the `bg` width, see the note above.
+    gameswf::character* bg = menu->Find("bg", m_currentRoot.GetChar());
+    const int stickReach = static_cast<int>(static_cast<float>(bg->get_width() / 20.0) * 0.5f);  // vtable +0x128
+    unk_0c = stickReach;
+    unk_10 = stickReach;
     menu->SetPosition(m_joystickStick.GetChar(), 0, 0);
 
     m_currentRoot.RefreshCache(FoundCharacter(menu, "_root.menu_custom"), menu, nullptr);
@@ -462,12 +555,12 @@ void HUDControls::initCachedChars() {
 }
 
 // 0x41a780 HUDControls::Update(void)
-// PARTIAL, one part is not rebuilt:
-//   - b_IsInCutScreen = byte_9A600C != 0 at the top: the global is not declared yet.
+// The cut-scene byte (ScriptManager::m_inCutScene, byte_9A600C) is copied to b_IsInCutScreen at the top.
 // The attack test reads the word at Character +0x14a4 (Hex-Rays *(player + 5284)), which is Character::m_objectOfInterest.
 // When it is null, the attack stores 0 at Character +0x413 (Hex-Rays *(player + 1043)), which is CharAI::m_stickyTarget
 // (CharAI at Character +0x3c8, its m_stickyTarget at CharAI +0x4b), and then calls Cmd_Attack(nullptr).
 void HUDControls::Update() {
+    b_IsInCutScreen = ScriptManager::s_inst.m_inCutScene;
     unk_84 = false;
     Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
     if (level && !level->m_isInGameView) {
@@ -550,7 +643,7 @@ HUDControls::HUDControls() {
     unk_0c = 0;
     unk_10 = 0;
     unk_14 = 0;
-    unk_18 = 0.0f;
+    unk_18 = 0;
     m_pointerX = -1;
     m_pointerY = -1;
     unk_84 = false;

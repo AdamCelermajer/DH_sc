@@ -9,7 +9,11 @@
 #include <cstring>
 
 #include "gameswf/gameswf.h"
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/c2d_driver.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
@@ -65,11 +69,10 @@ bool MenuBase::FS_LaunchTwitter(const char*, const char*, void*) {
 }
 
 // 0x41f40c _ZN8MenuBase11FS_ExitGameEPKcS1_Pv
-// PARTIAL: the original calls vtable slot +0x30 of the object at Singleton<Application>::s_inst + 0x10
-// (the glitch::IDevice* m_device) with the args string, then returns true. The slot is not declared in
-// glitch-core-io/os/device.hpp and the Application singleton is not declared in this tree, so the call is
-// omitted. Waits on the device vtable slot and on a declaration of Singleton<Application>::s_inst.
+// Calls the device virtual at vtable +0x30 (IDevice::closeDevice, which ends the main loop) and returns true. The args pointer
+// the original leaves in r1 is not read by that slot.
 bool MenuBase::FS_ExitGame(const char*, const char*, void*) {
+    ApplicationGetInstance().m_device->closeDevice();
     return true;
 }
 
@@ -157,26 +160,48 @@ bool MenuBase::FS_SetPlayerClass(const char*, const char* args, void* menu) {
 }
 
 // 0x41ff08 _ZNK8MenuBase19DBG_Draw2DDeadZonesEv
-// PARTIAL: not rebuilt. The original draws each m_deadZones rect (+0xb8..+0xbc) as a 2D quad: the rect is
-// converted to ints in the order (x_min, y_min, x_max, y_max), the four vertex colours are the bytes ff 00 00 64
-// repeated, and the call goes through the driver at device +0x10, vtable slot +0x34, with a zero clip rect and a
-// null clip pointer. The material is set up by glitch::video::C2DDriver::set2DTexture and released afterwards.
-// Blocked by: the gameswf::rect definition (see RemoveDeadZone), the device +0x10 type (glitch::IDevice has no
-// such member declared), the vtable slot, and the set2DTexture signature.
-void MenuBase::DBG_Draw2DDeadZones() const {}
+// Each dead zone rect (m_deadZones, +0xb8) is drawn as a translucent blue 2D quad: the rect is truncated to ints in the order
+// (x_min, y_min, x_max, y_max), the four vertex colours are the bytes ff 00 00 64 (b, g, r, a), and the call goes through the video
+// driver (device +0x10, vtable +0x34) with a zero second rect and no clip. The 2D material is set up first with a null texture.
+void MenuBase::DBG_Draw2DDeadZones() const {
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::video::SColor colors[4];
+    const std::uint8_t bytes[4] = {0xff, 0x00, 0x00, 0x64};
+    for (glitch::video::SColor& color : colors) {
+        std::memcpy(&color, bytes, sizeof(bytes));
+    }
+    glitch::core::rect<std::int32_t> clip;
+    clip.UpperLeftCorner.X = 0;
+    clip.UpperLeftCorner.Y = 0;
+    clip.LowerRightCorner.X = 0;
+    clip.LowerRightCorner.Y = 0;
+    boost::intrusive_ptr<glitch::video::ITexture> noTexture;
+    glitch::video::C2DDriver::set2DTexture(driver, noTexture, true);
+    for (const gameswf::rect& zone : m_deadZones) {
+        glitch::core::rect<std::int32_t> position;
+        position.UpperLeftCorner.X = static_cast<std::int32_t>(zone.m_x_min);
+        position.UpperLeftCorner.Y = static_cast<std::int32_t>(zone.m_y_min);
+        position.LowerRightCorner.X = static_cast<std::int32_t>(zone.m_x_max);
+        position.LowerRightCorner.Y = static_cast<std::int32_t>(zone.m_y_max);
+        driver->draw2DRectangle(position, clip, colors, nullptr);
+    }
+}
 
-// Walks the local players for FS_LockCharacter and FS_UnlockCharacter. The original loops i < GetNumLocalPlayers(false)
-// on the PlayerManager global (dword_99F76C), takes GetLocalPlayer(i, false)->unk_660 (the Character*), and for a
-// non-null Character sets the byte at controller +0x08 (v2Controller::m_blocked) to the flag.
-static void SetLocalCharactersBlocked(bool blocked) {
-    const int count = dword_99F76C->GetNumLocalPlayers(false);
-    for (int i = 0; i < count; ++i) {
+namespace {
+
+// Walks the local players for FS_LockCharacter and FS_UnlockCharacter. The original loops i < GetNumLocalPlayers(false) on the
+// PlayerManager global (dword_99F76C), takes GetLocalPlayer(i, false)->unk_660 (the Character*), and for a non-null Character sets
+// the byte at controller +0x08 (v2Controller::m_blocked) to the flag.
+void SetLocalCharactersBlocked(bool blocked) {
+    for (int i = 0; i < dword_99F76C->GetNumLocalPlayers(false); ++i) {
         Character* character = dword_99F76C->GetLocalPlayer(i, false)->unk_660;
-        if (character) {
+        if (character != nullptr) {
             character->m_controller->m_blocked = blocked;
         }
     }
 }
+
+}  // namespace
 
 // 0x4202a8 _ZN8MenuBase18FS_UnlockCharacterEPKcS1_Pv
 // Any name other than "All" clears the block on each local player's character. "All" clears the global

@@ -85,14 +85,14 @@ elf_address,symbol,status,source_file,notes
 0x50cd2c,glitch::scene::CBatchSceneNode::getType() const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:117
 0x50cd38,glitch::scene::CBatchSceneNode::preRegisterSceneNode(),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:140
 0x50cd3c,glitch::scene::CBatchSceneNode::isSegmentVisible(glitch::scene::CBatchMesh::SSegment const&),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:143
-0x50cdb0,_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_23SFrustumBoxIntersector3EEEvjT_,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,culling pass for batch scene node; renderer session owns it
+0x50cdb0,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SFrustumBoxIntersector3>(unsigned int, glitch::scene::SFrustumBoxIntersector3)",skipped,,no body in src (declaration or stand-in only)
 0x50cf00,_ZN6glitch5scene13CBatchMeshExtIP10GameObjectE20loadSegmentExtraDataEPvPNS_2io9IReadFileEb,skipped,,gameplay: CBatchMeshExt instantiated over GameObject
 0x50cf04,_ZNK6glitch5scene13CBatchMeshExtIP10GameObjectE20saveSegmentExtraDataEPKvPNS_2io10IWriteFileENS_2os8E_ENDIANE,reconstructed,glitch-scene-collada-gui/src/recon/slice_00.cpp,empty body
 0x50cf74,_ZN6glitch5scene13CBatchMeshExtIP10GameObjectED1Ev,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,D1 vtable-only destructor chain; batch mesh ext
 0x50d15c,_ZN6glitch5scene13CBatchMeshExtIP10GameObjectED0Ev,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,D0 deleting destructor; compiler thunk
-0x50d198,_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_20SUniverseIntersectorEEEvjT_,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,culling pass for batch scene node; renderer session owns it
-0x50d2c0,_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_15SBoxIntersectorEEEvjT_,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,culling pass for batch scene node; renderer session owns it
-0x50d49c,_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_22SFrustumBoxIntersectorEEEvjT_,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,culling pass for batch scene node; renderer session owns it
+0x50d198,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SUniverseIntersector>(unsigned int, glitch::scene::SUniverseIntersector)",skipped,,no body in src (declaration or stand-in only)
+0x50d2c0,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SBoxIntersector>(unsigned int, glitch::scene::SBoxIntersector)",skipped,,no body in src (declaration or stand-in only)
+0x50d49c,"void glitch::scene::CBatchSceneNode::addVisibleSegments<glitch::scene::SFrustumBoxIntersector>(unsigned int, glitch::scene::SFrustumBoxIntersector)",skipped,,no body in src (declaration or stand-in only)
 0x533e98,_ZN6glitch11CIrrFactoryC2Ev,reconstructed,glitch-scene-collada-gui/src/irr_factory.cpp,
 0x533ecc,_ZN6glitch11CIrrFactoryC1Ev,reconstructed,glitch-scene-collada-gui/src/irr_factory.cpp,
 0x533f00,_ZN6glitch11CIrrFactoryD2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/irr_factory.hpp,empty virtual destructor (D2)

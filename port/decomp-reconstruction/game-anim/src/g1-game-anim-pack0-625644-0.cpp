@@ -3,6 +3,8 @@
 // against the assembly. Class layouts: game/include/dh2/AnimatedDecor.hpp, Animation.hpp and AnimatorSynchronizedSet.hpp.
 #include "dh2/AnimatedDecor.hpp"
 
+#include "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSet.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -124,11 +126,39 @@ void AnimatedDecor::DeclareProperties() {
     AddProperty<std::string>("startanim", m_startAnim);  // PropertyMap at ObjectBase +0x04, m_startAnim at +0x37c
 }
 
+// Animation::Animation(): the state an entry has before the load fills it in (LoadAnimation 0x3659ec): the name "Invalid", the default
+// database, library index -1, use count -1, no stamp, counter 0.
+Animation::Animation()
+    : m_fileName("Invalid"), m_database(), unk_20(-1), m_useCount(-1), m_lastUseTime(0), unk_2c(0) {
+    m_database.factory = &glitch::collada::CColladaDatabase::DefaultFactory;
+}
+
+// Animation::Animation(const Animation&) and operator=: the name is copied and the database record takes one more use, as the
+// tree insert of the original does (it copies the record and factory and increments the use when the record has one).
+Animation::Animation(const Animation& other)
+    : m_fileName(other.m_fileName), m_database(), unk_20(other.unk_20), m_useCount(other.m_useCount),
+      m_lastUseTime(other.m_lastUseTime), unk_2c(other.unk_2c) {
+    glitch::collada::copyDatabase(m_database, other.m_database);
+}
+
+Animation& Animation::operator=(const Animation& other) {
+    if (this != &other) {
+        glitch::collada::dropDatabase(m_database);
+        m_fileName = other.m_fileName;
+        glitch::collada::copyDatabase(m_database, other.m_database);
+        unk_20 = other.unk_20;
+        m_useCount = other.m_useCount;
+        m_lastUseTime = other.m_lastUseTime;
+        unk_2c = other.unk_2c;
+    }
+    return *this;
+}
+
 // 0x364ad4 Animation::~Animation()
-// PARTIAL. The original destroys the engine CColladaDatabase at this + 0x18 (ADD R0, R0, #0x18, then its destructor)
-// and then releases the STL string block at this + 0x00 (std::priv::_String_base::_M_deallocate_block). Neither member
-// is declared in game/include/dh2/Animation.hpp yet (see the layout requests), so this destructor releases neither.
-Animation::~Animation() {}
+// The database is destroyed (its record loses the use), then the name block is released (the std::string member does that).
+Animation::~Animation() {
+    glitch::collada::dropDatabase(m_database);
+}
 
 // 0x368efc AnimatorSynchronizedSet::getType() const
 glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSynchronizedSet::getType() const {
@@ -136,17 +166,15 @@ glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSynchronizedSet::getType() con
 }
 
 // 0x368f24 AnimatorSynchronizedSet::animateNode(glitch::scene::ISceneNode*, unsigned int)
-// PARTIAL. The original first runs glitch::collada::CSceneNodeAnimatorSynchronizedSet::animateNode on the base sub-object,
-// which is not forwarded yet. The applicator step is rebuilt: AnimApplicator::AnimateNode
-// on +0x84. The function returns nothing. Hex-Rays shows float because its last instruction is a tail branch
-// (B AnimApplicator::AnimateNode) that leaves r0 as it found it, and AnimApplicator::AnimateNode is void.
+// The engine set animateNode runs first (CSceneNodeAnimatorSet), then AnimApplicator::AnimateNode on +0x84 (non-virtual). The function
+// returns nothing: Hex-Rays shows float because its last instruction is a tail branch that leaves r0 as it found it.
 void AnimatorSynchronizedSet::animateNode(glitch::scene::ISceneNode* node, unsigned int time) {
-    (void)node;
-    m_applicator.AnimateNode(time);
+    glitch::collada::CSceneNodeAnimatorSet::animateNode(node, time);
+    m_applicator.AnimApplicator::AnimateNode(time);
 }
 
 // 0x368f54 AnimatorSynchronizedSet::~AnimatorSynchronizedSet() (D1)
-// PARTIAL. The original runs ~AnimApplicator on +0x84 and then the CSceneNodeAnimatorSynchronizedSet base destructor
+// The original runs ~AnimApplicator on +0x84 and then the CSceneNodeAnimatorSynchronizedSet base destructor
 // (through the VTT entry). The applicator is a member here, so it is destroyed after this body, as in the original.
 // The base destructor runs after this body, implicitly.
 AnimatorSynchronizedSet::~AnimatorSynchronizedSet() {}
@@ -155,11 +183,11 @@ AnimatorSynchronizedSet::~AnimatorSynchronizedSet() {}
 // skipped: the original is ~AnimatorSynchronizedSet() followed by CustomFree(this). The C++ delete expression produces it.
 
 // 0x368fe8 AnimatorSynchronizedSet::~AnimatorSynchronizedSet() (D2, VTT base-object variant)
-// PARTIAL, no separate C++ form. The VTT variant resets the vptrs of the base sub-object, runs ~AnimApplicator on +0x84
+// No separate C++ form. The VTT variant resets the vptrs of the base sub-object, runs ~AnimApplicator on +0x84
 // and the base destructor. It is covered by the D1 definition above and has the same blockers.
 
 // 0x36904c AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::string> const&) (C1)
-// PARTIAL. The original calls the CSceneNodeAnimatorSynchronizedSet base constructor with the animation set and the names
+// The original calls the CSceneNodeAnimatorSynchronizedSet base constructor with the animation set and the names
 // (through the VTT), then builds the AnimApplicator at +0x84 with this as its animator. The base constructor runs with
 // the arguments forwarded here. The stores of the original's secondary words (+0xc0, +0xc4) are not written, as those
 // words are part of the base. The vptr stores are compiler-generated.
@@ -169,6 +197,6 @@ AnimatorSynchronizedSet::AnimatorSynchronizedSet(
     : glitch::collada::CSceneNodeAnimatorSynchronizedSet(animationSet, names), m_applicator(this) {}
 
 // 0x3690dc AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::string> const&) (C2, VTT base-object variant)
-// PARTIAL, no separate C++ form. The VTT variant passes the VTT entry (+4) and the arguments to the base constructor, then
+// No separate C++ form. The VTT variant passes the VTT entry (+4) and the arguments to the base constructor, then
 // builds the AnimApplicator. It is the same as C1 except that it does not store 1 at +0xc4. The C1 definition above covers
 // it, with the same blockers.

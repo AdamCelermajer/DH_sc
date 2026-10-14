@@ -9,6 +9,9 @@
 
 class ColladaFactory : public glitch::collada::CColladaFactory {
 public:
+    // The shared instance the game passes to CColladaDatabase (ELF 0x9a1ed8, 8 bytes in the original).
+    static ColladaFactory s_factory;
+
     // No constructor symbol: the default constructor only stores the vtable pointer.
     ~ColladaFactory() override;                                         // slot 0/1: 0x3506ac (D1), 0x350a10 (D0)
 

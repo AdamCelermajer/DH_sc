@@ -37,6 +37,8 @@
 #include "dh2/MultiMenuManager.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
+#include "dh2/Random.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/StateMachine.hpp"
 #include "dh2/StringManager.hpp"
@@ -104,13 +106,11 @@ bool MenuBase::FS_GetSaveSlot(const char*, const char*, void* menu) {
 }
 
 // 0x420e64 _ZN8MenuBase14FS_ContinueGameEPKcS1_Pv
-// The original closes the menu stack (MenuFX::PopAll on the menu's MenuFX), then reads the current save slot
-// (SavegameManager::m_lastSlot). With slot -1 it runs the "StartGame" command on the menu (virtual MyFSCommand, vtable
-// +0x38) with the handler's args. Otherwise it constructs the PlayerSavegame of that slot, calls Application::LoadLevel
-// with values read from that save, and destroys the save.
-// PARTIAL: the save-load branch is not made. Its LoadLevel name is the Arrays::LevelList element's +0x20 word
-// (Structs::LevelDeclaration::m_w8, a string buffer), and the raw LevelList table cannot be declared in this file next
-// to pydata-accessors member_names.hpp; the PlayerSavegame argument mapping is not confirmed either. Returns true.
+// The menu stack is closed (MenuFX::PopAll on the menu MenuFX), then the current save slot is read (SavegameManager::m_lastSlot).
+// With slot -1 the "StartGame" command runs on the menu (virtual MyFSCommand, vtable +0x38) with the handler args. Otherwise the
+// slot PlayerSavegame is loaded (mode 1) and Application::LoadLevel starts the level of the current difficulty: the LevelList
+// name of its level id (unk_50[difficulty]), its entry point, the slot, resumed when its seed (m_seeds[difficulty]) is non-zero,
+// the use-spawn argument from the synced random seed, difficulty argument 1.
 bool MenuBase::FS_ContinueGame(const char*, const char* args, void* menu) {
     MenuBase* self = static_cast<MenuBase*>(menu);
     self->m_menu->PopAll();
@@ -119,18 +119,27 @@ bool MenuBase::FS_ContinueGame(const char*, const char* args, void* menu) {
         self->MyFSCommand("StartGame", args);
         return true;
     }
-    return true;  // PARTIAL: the save-load branch is not made (see above).
+    PlayerSavegame save(static_cast<std::uint32_t>(slot), 1, false);
+    const int difficulty = PlayerSavegame::m_difficultyLevel;
+    const auto* levels = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+    const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].m_w8);
+    ApplicationGetInstance().LoadLevel(levelName, save.m_levelEntryPoint[difficulty], save.m_slot, save.m_seeds[difficulty] != 0,
+                                       Random::s_syncedSeed != 0, 1, false, 0, 0);
+    return true;
 }
 
 // 0x420fac _ZN8MenuBase15FS_ReturnToGameEPKcS1_Pv
-// The original reads the current save slot (SavegameManager::m_lastSlot). When it is set (not -1), the original constructs
-// that slot's PlayerSavegame, pops the menu stack (MenuFX::PopAll), calls Application::LoadLevel, and destroys the save.
-// PARTIAL: that branch is not made, for the LevelList name reason given for FS_ContinueGame. For slot -1 the original
-// does nothing else and returns true, which is what this returns.
-bool MenuBase::FS_ReturnToGame(const char*, const char*, void*) {
+// With a current save slot (not -1): that slot PlayerSavegame is loaded, the menu stack is closed (MenuFX::PopAll) and
+// Application::LoadLevel starts the level of the current difficulty (not resumed, spawn point in use). Returns true.
+bool MenuBase::FS_ReturnToGame(const char*, const char*, void* menu) {
     const std::int32_t slot = ApplicationGetInstance().m_savegameManager->m_lastSlot;
     if (slot != -1) {
-        // PARTIAL: the save-load branch (PlayerSavegame, MenuFX::PopAll, Application::LoadLevel) is not made (see above).
+        PlayerSavegame save(static_cast<std::uint32_t>(slot), 1, false);
+        static_cast<MenuBase*>(menu)->m_menu->PopAll();
+        const int difficulty = PlayerSavegame::m_difficultyLevel;
+        const auto* levels = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+        const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].m_w8);
+        ApplicationGetInstance().LoadLevel(levelName, save.m_levelEntryPoint[difficulty], save.m_slot, false, true, 0, false, 0, 0);
     }
     return true;
 }

@@ -41,7 +41,9 @@ void SavegameManager::saveSettings() {}
 int SavegameManager::getLanguage() const {
     return 0;
 }
-void SavegameManager::setLanguage(int) {}
+int SavegameManager::setLanguage(int) {
+    return 1;  // the original returns StringManager::switchPack's bool; the stubs report success
+}
 void SavegameManager::setOption(const char*, int) {}
 void Application::LoadLevel(const char*, int, std::uint32_t, bool, bool, int, bool, std::uint32_t, std::uint32_t) {}
 void Application::LoadWorldMap(int) {}

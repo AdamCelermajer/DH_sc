@@ -24,6 +24,19 @@
 #include "dh2/v2GamepadController.hpp"
 #include "dh2/v2HudController.hpp"
 #include "dh2/v2NetController.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/v2Controllable.hpp"
+#include "core-platform/memory.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "net-session-online/c_online.hpp"
+#include <cstdio>
+#include <cstdlib>
 
 namespace v2gamepad_detail {
 
@@ -309,19 +322,68 @@ v2NetController::v2NetController(v2Controllable* controllable)
 }
 
 // 0x40939c _ZN15v2NetController6UpdateEv
-// partial: not rebuilt, so Update does nothing for now. The original, in order:
-//   1. GetOnline() gates the body on the COnline byte at +0x05. COnline::isOnlineGame_ is private with no accessor in
-//      net-session-online/c_online.hpp (layout request: a public getter), and Application::IsOnlineGame (0x320668) is a
-//      stub, so this gate is blocked.
-//   2. GetMessaging(): IsMessageReceived("CMsgControllerAction") and GetMessageFromQueue. CMsgControllerAction in
-//      net-session-online/c_msg_fixed.hpp keeps its payload opaque, so the action byte at +0x50, the target network id
-//      (uint16) at +0x52 and the sender byte at +0x54 are not declared (layout request). The consumed flag written at
-//      +0x3c is not declared in c_message.hpp either (layout request).
-//   3. The sender byte is compared with Character unk_108 (+0x108, declared on ObjectBase). Otherwise the object is looked
-//      up by network id (ObjectManager::GetObjectHandleByNetworkId, declared), and a Character found there that IsPlayer()
-//      must have a PlayerManager record whose unk_66c (PlayerInfo +0x66c) is 1, otherwise Update returns early.
-//   4. The action switch calls v2Controllable slots: 0 Ctrl_Attack(target), 1 Ctrl_BeginSkill(id), 2 Ctrl_EndSkill(id),
-//      3 Character::SG_SetCurrentFaerie(id, -1) then Ctrl_BeginCast(true), 4 Ctrl_EndCast(true), 5 Ctrl_UseOOI(target,
-//      when the object is found). Any other action runs the ASSERT at v2NetController.cpp:103.
-// The switch is written as code once the online gate and the CMsgControllerAction payload fields are declared.
-void v2NetController::Update() {}
+// Online with a character: a received CMsgControllerAction is taken from the queue. When its sender byte is the controlled
+// character's network id the action is applied to the controllable (0 attack the object, 1 begin skill, 2 end skill, 3 set faerie
+// and begin cast, 4 end cast, 5 use the object); any other action fails the ASSERT at v2NetController.cpp:103. A message from
+// another sender is dropped without being marked, unless its sender is a character that is not an active player record.
+// The message is marked finished afterwards.
+void v2NetController::Update() {
+    if (!GetOnline()->IsOnlineGame() || m_character == nullptr) {
+        return;
+    }
+    CMessaging* messaging = GetMessaging();
+    if (!messaging->IsMessageReceived("CMsgControllerAction")) {
+        return;
+    }
+    CMessage* raw = GetMessaging()->GetMessageFromQueue("CMsgControllerAction");
+    CMsgControllerAction* message = static_cast<CMsgControllerAction*>(raw);
+    const int sender = message->senderId_;
+    if (sender == m_character->unk_108) {
+        switch (message->action_) {
+        case 0: {
+            ObjectHandle handle = dword_99F764->GetObjectHandleByNetworkId(message->targetId_);
+            m_controllable->Ctrl_Attack(static_cast<GameObject*>(handle));
+            break;
+        }
+        case 1:
+            m_controllable->Ctrl_BeginSkill(message->targetId_);
+            break;
+        case 2:
+            m_controllable->Ctrl_EndSkill(message->targetId_);
+            break;
+        case 3:
+            m_character->SG_SetCurrentFaerie(message->targetId_, -1);
+            m_controllable->Ctrl_BeginCast(true);
+            break;
+        case 4:
+            m_controllable->Ctrl_EndCast(true);
+            break;
+        case 5: {
+            ObjectHandle handle = dword_99F764->GetObjectHandleByNetworkId(message->targetId_);
+            GameObject* object = static_cast<GameObject*>(handle);
+            if (object != nullptr) {
+                m_controllable->Ctrl_UseOOI(object);
+            }
+            break;
+        }
+        default:
+            if (gAssertLevel == 2) {
+                std::abort();
+            } else if (gAssertLevel == 1) {
+                std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "0",
+                             "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Controllers\\v2NetController.cpp", 103);
+            }
+            break;
+        }
+    } else {
+        ObjectHandle handle = dword_99F764->GetObjectHandleByNetworkId(sender);
+        Character* other = static_cast<Character*>(handle);
+        if (other != nullptr && other->IsPlayer()) {
+            PlayerInfo* info = dword_99F76C->GetPlayerByCharacter(other, false);
+            if (info->unk_66c != 1) {
+                return;
+            }
+        }
+    }
+    message->SetFinished();  // +0x3c
+}

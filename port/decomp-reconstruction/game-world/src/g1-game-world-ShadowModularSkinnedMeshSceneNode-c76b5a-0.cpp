@@ -1,25 +1,31 @@
-// Batch g1-game-world-ShadowModularSkinnedMeshSceneNode-c76b5a-0: the twelve ShadowModularSkinnedMeshSceneNode functions
-// (two bounding-box forwarders, UpdateShadow, onRegisterSceneNode, renderMesh, render, regenerateShadowMaterial, the two
-// constructors and the three destructors). Declarations come from dh2/ShadowModularSkinnedMeshSceneNode.hpp.
+// Batch g1-game-world-ShadowModularSkinnedMeshSceneNode-c76b5a-0: the ShadowModularSkinnedMeshSceneNode functions (two
+// bounding-box forwards, UpdateShadow, onRegisterSceneNode, renderMesh, render, regenerateShadowMaterial, the constructors and
+// the destructors). Declarations come from dh2/ShadowModularSkinnedMeshSceneNode.hpp.
 //
-// Reconstructed: getBoundingBox, getTransformedBoundingBox.
-// Partial: UpdateShadow, onRegisterSceneNode, renderMesh, render, regenerateShadowMaterial, the complete constructor and
-// the complete destructor. Each comment names what is missing. The VTT-taking base-object forms (C2 0x361ab0 and D2
-// 0x360aa8) have no body of their own: the compiler emits them from the complete forms. Skipped: the deleting destructor
-// (D0 0x3602cc), which is the complete destructor followed by CustomFree.
-//
-// Engine declarations that these bodies need are not in this tree (layout requests in the ledger notes):
-//   - glitch::IDevice has no member at +0x10 (video driver) or +0x1c (scene manager, the SceneManager of dh2/SceneManager.hpp);
-//   - SceneManager's light set (m_lightSetManager, a byte array) has no typed words at +0x400 (light position) and +0x418 (the shadow float);
-//   - glitch::collada::CModularSkinnedMeshSceneNode has no member at +0x110 (the scene manager, ISceneNode's +0x110), is not
-//     a scene::ISceneNode, and its mesh at +0x134 (CModularSkinnedMesh stand-in) declares none of the IMesh virtuals;
-//   - the mesh and module virtuals (getMeshBuffer, getMaterial, onPrepareBufferForRendering, ...) are not declared.
+// The VTT forms (C2 0x361ab0, D2 0x360aa8) and the deleting destructor (D0 0x3602cc) are compiler-generated from the complete forms.
+// The shadow of a modular skin is drawn with one shadow material per distinct material of the mesh buffers: unk_198 / unk_1a4 hold
+// the distinct materials and their vertex maps, unk_180 maps a buffer to its entry, unk_18c maps a module to its entry, and
+// unk_1b0 / unk_1bc hold the shadow replacements.
 
 #include "dh2/ShadowModularSkinnedMeshSceneNode.hpp"
 
-#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include <cstring>
+#include <string>
 
-// The base's constructor and destructor are explicit specializations defined in
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "glitch-core-io/core/matrix4_operators.hpp"
+#include "glitch-core-io/core/matrix_builders.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CModularSkinnedMesh.hpp"
+#include "glitch-scene-collada-gui/collada/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-video/video_driver.hpp"
+
+// The base constructor and destructor are explicit specializations defined in
 // g1-game-world-BaseMeshSceneNode-fb9ec3-0.cpp. They are declared here so this file refers to them as specializations.
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::BaseMeshSceneNode(
@@ -27,131 +33,268 @@ BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::BaseMeshSceneN
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::~BaseMeshSceneNode();
 
+namespace {
+
+// The debug switch the three drawing functions test (a literal Hex-Rays drops; the asm names it).
+bool ShadowProjectionEnabled() {
+    DebugSwitches::GetInstance();  // DebugSwitches::load on first use
+    return DebugSwitches::GetInstance()->GetSwitch(std::string("RENDERING_EnableShadowProjection"));
+}
+
+// SceneManager +0x418 = m_lightSetManager +0x184: the strength of the shadows of the scene, a float in the word after the light vector.
+float ShadowStrength() {
+    SceneManager* manager = DeviceSceneManager();
+    float strength;
+    std::memcpy(&strength, &manager->m_lightSetManager.unk_178[3], sizeof(strength));
+    return strength;
+}
+
+}  // namespace
+
 // 0x35dcd0 _ZNK33ShadowModularSkinnedMeshSceneNode14getBoundingBoxEv
-// Reconstructed. Forwards to node1 (+0x1c8): the original calls the virtual at vptr+0x30 (ISceneNode::getBoundingBox)
-// on it and returns the reference.
+// Forwards to node1 (its vtable +0x30).
 const glitch::core::aabbox3d<float>& ShadowModularSkinnedMeshSceneNode::getBoundingBox() const {
     return unk_1c8->getBoundingBox();
 }
 
 // 0x35dcec _ZNK33ShadowModularSkinnedMeshSceneNode25getTransformedBoundingBoxEv
-// Reconstructed. The original is the same forward as 0x35dcd0: it calls vptr+0x30 on node1 (getBoundingBox), not
-// vptr+0x34 (getTransformedBoundingBox), and returns that result. Reproduced as found.
+// Forwards to node1 (its vtable +0x34).
 const glitch::core::aabbox3d<float>& ShadowModularSkinnedMeshSceneNode::getTransformedBoundingBox() const {
-    return unk_1c8->getBoundingBox();
+    return unk_1c8->getTransformedBoundingBox();
 }
 
 // 0x35f348 _ZN33ShadowModularSkinnedMeshSceneNode12UpdateShadowEv
-// partial, empty body. The original builds the shadow projection and hands it to this node:
-//   light  = scene manager +0x400 (the float[3] at LightSetManager +0x16c)
-//   plane  = (0, 0, 1, -0.0), transformed by an identity CMatrix4 (transformPlane, bound in the engine)
-//   shadow = buildShadowMatrix(light, plane)
-//   pos    = node2->getAbsolutePosition() (node2 at +0x1cc; bound: ISceneNode::getAbsolutePosition is declared)
-//   result = T(pos + (10, -10, 10)) * shadow * I * T(-pos)
-//   this->setAbsoluteTransformation(result)  (ISceneNode vptr+0x3c, virtual, not bound)
-// Missing: the scene manager pointer (glitch::IDevice +0x1c, read from Singleton<Application>::s_inst.m_device, whose
-// member at +0x10 is dword_99F73C); the light position and the shadow float in SceneManager's m_lightSetManager (a byte
-// array); and setAbsoluteTransformation on this (the base is not an ISceneNode in this tree).
-void ShadowModularSkinnedMeshSceneNode::UpdateShadow() {}
+// As ShadowSkinnedMeshSceneNode::UpdateShadow, but it follows node2: the shadow plane is z = 0, S is the projection matrix of the
+// light vector of the scene (SceneManager +0x400) and the transformation of the node becomes T(P + (10, -10, 10)) * S * I * T(-P).
+void ShadowModularSkinnedMeshSceneNode::UpdateShadow() {
+    using glitch::core::CMatrix4;
+    SceneManager* manager = DeviceSceneManager();
+
+    CMatrix4<float> identity(CMatrix4<float>::EM4CONST_IDENTITY);
+    glitch::core::plane3d<float> plane;
+    plane.Normal.X = 0.0f;
+    plane.Normal.Y = 0.0f;
+    plane.Normal.Z = 1.0f;
+    plane.D = -0.0f;
+
+    glitch::core::vector3d<float> light;  // SceneManager +0x400
+    light.X = manager->m_lightSetManager.unk_16c[0];
+    light.Y = manager->m_lightSetManager.unk_16c[1];
+    light.Z = manager->m_lightSetManager.unk_16c[2];
+    CMatrix4<float> shadow = glitch::core::buildShadowMatrix<float>(light, plane, 0.0f);
+
+    const glitch::core::vector3d<float> position = unk_1cc->getAbsolutePosition();
+
+    CMatrix4<float> back;  // T(-P)
+    std::memset(back.M, 0, sizeof(back.M));
+    back.M[0] = back.M[5] = back.M[10] = back.M[15] = 1.0f;
+    back.M[12] = -position.X;
+    back.M[13] = -position.Y;
+    back.M[14] = -position.Z;
+    back.flag = false;
+
+    CMatrix4<float> lift;  // T(P + (10, -10, 10))
+    std::memset(lift.M, 0, sizeof(lift.M));
+    lift.M[0] = lift.M[5] = lift.M[10] = lift.M[15] = 1.0f;
+    lift.M[12] = position.X + 10.0f;
+    lift.M[13] = position.Y + -10.0f;
+    lift.M[14] = position.Z + 10.0f;
+    lift.flag = false;
+
+    CMatrix4<float> first = lift * shadow;
+    CMatrix4<float> second = first * identity;
+    CMatrix4<float> result = second * back;
+    setAbsoluteTransformation(result);
+}
 
 // 0x35f530 _ZN33ShadowModularSkinnedMeshSceneNode19onRegisterSceneNodeEv
-// partial. Calls UpdateShadow and returns 1, which the original does on every path. Not reconstructed: when the mesh at
-// +0x134 is set, DebugSwitches::GetSwitch("RENDERING_EnableShadowProjection") is true, the scene manager float at +0x418 is
-// > 0, and the driver (scene manager +0x14) is non-null, it walks the mesh buffers i. For each i whose getMeshBuffer(i)
-// (mesh vptr+0x14) is non-null, it takes unk_1b0[unk_180[i]] with one extra use and calls mesh vptr+0x38
-// (onPrepareBufferForRendering, step 0, driver, index i). A result of 4 or 16 calls the scene manager's vptr+0x24 with
-// (this, &material, i+1, 6, 0, 0x7fffffff). A result of 5 calls mesh vptr+0x24 with no arguments. Missing: the scene manager
-// and driver (see the file header), the mesh virtuals, the scene manager's vptr+0x24 (not declared on SceneManager), and
-// the material handle type (the stand-in has no intrusive_ptr<CMaterial> return on the mesh).
+// The shadow transformation is refreshed first. With a mesh, the projection switch on and a positive strength, every buffer the mesh
+// prepares for rendering (step 0) with the results 4 and 16 registers this node in the shadow-mesh pass (6) under the 1-based
+// buffer index, with the shadow material of the distinct material of the buffer; result 5 makes the mesh refresh its box. Returns 1.
 int ShadowModularSkinnedMeshSceneNode::onRegisterSceneNode() {
     UpdateShadow();
+    const float strength = ShadowStrength();
+    if (mesh) {
+        if (ShadowProjectionEnabled() && strength > 0.0f) {
+            glitch::video::IVideoDriver* driver = sceneManager->driver;
+            if (driver != nullptr) {
+                const std::uint32_t count = mesh->getMeshBufferCount();
+                for (std::uint32_t i = 0; i < count; ++i) {
+                    auto buffer = mesh->getMeshBuffer(i);
+                    if (buffer) {
+                        buffer.reset();
+                        boost::intrusive_ptr<glitch::video::CMaterial> material = unk_1b0[unk_180[i]];
+                        const std::int32_t result = mesh->onPrepareBufferForRendering(0, driver, i);
+                        if (result == 4 || result == 16) {
+                            sceneManager->registerNodeForRendering(this, material, reinterpret_cast<void*>(static_cast<std::uintptr_t>(i + 1)),
+                                                                   glitch::scene::ESNRP_SHADOW_MESH, nullptr, 0x7fffffff);
+                        } else if (result == 5) {
+                            (void)mesh->getBoundingBox();  // mesh vtable +0x24, the refresh CMeshSceneNode::onRegisterSceneNode makes for result 5
+                        }
+                    }
+                }
+            }
+        }
+    }
     return 1;
 }
 
 // 0x3602e8 _ZN33ShadowModularSkinnedMeshSceneNode10renderMeshEPv
-// partial, empty body. The original takes a 1-based buffer index a2 (the index used is a2-1) and returns a value that
-// render ignores. When the mesh, the driver (scene manager +0x14) and a2 are all set, it takes getMeshBuffer(index) (mesh
-// vptr+0x14) and then: tests bit (index & 31) of the mesh word at +0x14 and, when it is clear, calls mesh vptr+0x38
-// (onPrepareBufferForRendering, step 1, driver, index) and keeps its & 4; calls the driver's setTransform (vptr+0x6c, state 1,
-// the node's absolute matrix at +0x24); sets the material unk_1b0[unk_180[index]] and vertex map unk_1bc[unk_180[index]] on
-// the driver (IVideoDriver::setMaterial); clears the driver word at +0xe8; draws the buffer (IVideoDriver::drawMeshBuffer);
-// calls mesh vptr+0x3c (releaseProcessBuffer, driver, index) when the flag was set; and drops its handles. Missing: the mesh
-// virtuals and the driver (see the file header).
+// `context` is the 1-based buffer index. Draws the buffer with the shadow material and vertex map of its distinct material under
+// the transformation of this node; a buffer the mesh prepared for rendering (step 1, unless it is flagged skinned) is released after.
+// The original returns the buffer pointer left in its first register; nobody reads it.
 void ShadowModularSkinnedMeshSceneNode::renderMesh(void* context) {
-    (void)context;
+    glitch::video::IVideoDriver* driver = sceneManager->driver;
+    if (!mesh || driver == nullptr || context == nullptr) {
+        return;
+    }
+    const std::uint32_t index = static_cast<std::uint32_t>(reinterpret_cast<std::uintptr_t>(context)) - 1;
+    auto buffer = mesh->getMeshBuffer(index);
+    if (!buffer) {
+        return;
+    }
+    bool release;
+    if ((mesh->bufferFlags & (1u << (index & 0x1f))) != 0) {
+        release = false;
+    } else {
+        release = (mesh->onPrepareBufferForRendering(1, driver, index) & 4) != 0;
+    }
+    boost::intrusive_ptr<glitch::video::CMaterial> material = unk_1b0[unk_180[index]];
+    boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap> map = unk_1bc[unk_180[index]];
+    driver->setTransform(1, getAbsoluteTransformation());
+    driver->setMaterial(material, map);
+    driver->m_stateE8 = nullptr;
+    driver->drawMeshBuffer(buffer);
+    if (release) {
+        mesh->releaseProcessBuffer(driver, index);
+    }
 }
 
 // 0x3604a8 _ZN33ShadowModularSkinnedMeshSceneNode6renderEPv
-// partial, empty body. The original runs only when DebugSwitches::GetSwitch("RENDERING_EnableShadowProjection") is set
-// and the scene manager float at +0x418 is >= 0.0001. It then calls UpdateShadow and:
-//   - for each mesh buffer i, mesh vptr+0x20 (setMaterial) with (i, unk_1b0[unk_180[i]], unk_1bc[unk_180[i]]);
-//   - for each current module j (currentModules at mesh +0x24), module vptr+0x20 with (0, unk_1b0[unk_18c[j]], unk_1bc[unk_18c[j]]);
-//   - renderMesh(context), called once;
-//   - for each mesh buffer i, mesh vptr+0x20 with (i, unk_198[unk_180[i]], unk_1a4[unk_180[i]]);
-//   - for each module j, module vptr+0x20 with (0, unk_198[unk_18c[j]], unk_1a4[unk_18c[j]]);
-//   - and it destroys two local vectors that are always empty.
-// Missing: the gate's scene manager (see the file header), the mesh and module virtuals, and the module list type.
+// With the projection switch on and a strength of at least 0.0001: the shadow transformation is refreshed, every buffer of the mesh
+// and the first material of every module get their shadow material, the buffer is drawn, and the original materials are put back.
 void ShadowModularSkinnedMeshSceneNode::render(void* context) {
-    (void)context;
+    if (!ShadowProjectionEnabled()) {
+        return;
+    }
+    if (!(ShadowStrength() >= 0.0001f)) {
+        return;
+    }
+    UpdateShadow();
+    auto* modular = static_cast<glitch::collada::CModularSkinnedMesh*>(mesh.get());
+    const std::uint32_t buffers = mesh->getMeshBufferCount();
+    for (std::uint32_t i = 0; i < buffers; ++i) {
+        mesh->setMaterial(i, unk_1b0[unk_180[i]], unk_1bc[unk_180[i]]);
+    }
+    const std::size_t modules = modular->modules.size();
+    for (std::size_t m = 0; m < modules; ++m) {
+        boost::intrusive_ptr<glitch::collada::ISkinnedMesh> module = modular->modules[m].mesh;
+        if (module) {
+            module->setMaterial(0, unk_1b0[unk_18c[m]], unk_1bc[unk_18c[m]]);
+        }
+    }
+    renderMesh(context);
+    const std::uint32_t after = mesh->getMeshBufferCount();
+    for (std::uint32_t i = 0; i < after; ++i) {
+        mesh->setMaterial(i, unk_198[unk_180[i]], unk_1a4[unk_180[i]]);
+    }
+    for (std::size_t m = 0; m < modules; ++m) {
+        boost::intrusive_ptr<glitch::collada::ISkinnedMesh> module = modular->modules[m].mesh;
+        if (module) {
+            module->setMaterial(0, unk_198[unk_18c[m]], unk_1a4[unk_18c[m]]);
+        }
+    }
 }
 
-// 0x3601fc _ZN33ShadowModularSkinnedMeshSceneNodeD1Ev
-// partial. The compiler destroys the six vectors in reverse declaration order (+0x1bc, +0x1b0, +0x1a4, +0x198, +0x18c,
-// +0x180), the same order as the original, and then the base destructor. Not reproduced: the primary vptr store and the
-// IRC virtual-base vptr store at +0x1d0 (the virtual base is pad_1d0), which have no host counterpart. The original
-// releases each CMaterial and CMaterialVertexAttributeMap handle in those vectors. The material vectors do that through
-// intrusive_ptr. The vertex-map vectors (+0x1a4, +0x1bc) are raw pointers in the header, so their counts are not released.
-ShadowModularSkinnedMeshSceneNode::~ShadowModularSkinnedMeshSceneNode() {}
+// 0x361298 _ZN33ShadowModularSkinnedMeshSceneNode22regenerateShadowMaterialEv
+// Rebuilds the tables from the mesh. unk_198 / unk_1a4 receive the distinct materials of the mesh buffers (and their vertex maps)
+// in buffer order, unk_180[i] names the entry of buffer i, and the list is trimmed to the entries in use. unk_18c[m] names the entry
+// whose material equals the first material of module m. For each entry a shadow material "SH_SHADOW_SKINNED_MODULAR" of the effect
+// "GL_ShadowProjection-fx" (technique 3) is allocated, with a vertex map over its renderer when the entry has a vertex map.
+void ShadowModularSkinnedMeshSceneNode::regenerateShadowMaterial() {
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::collada::CColladaDatabase database("gl_shadowprojection.bdae", &glitch::collada::CColladaDatabase::DefaultFactory);
+    boost::intrusive_ptr<glitch::video::CMaterialRenderer> renderer(database.constructEffect(driver, "GL_ShadowProjection-fx", nullptr));
 
-// 0x3602cc _ZN33ShadowModularSkinnedMeshSceneNodeD0Ev
-// skipped: compiler-generated deleting destructor. It is the complete destructor (0x3601fc) followed by CustomFree(this).
-// A delete expression does the same.
+    auto* modular = static_cast<glitch::collada::CModularSkinnedMesh*>(mesh.get());
+    const std::uint32_t bufferCount = mesh->getMeshBufferCount();
+    const std::size_t moduleCount = modular->modules.size();
 
-// 0x360aa8 _ZN33ShadowModularSkinnedMeshSceneNodeD2Ev
-// partial, no body of its own. This is the base-object destructor that takes the VTT (a2). The compiler emits it from the
-// complete destructor above. Its VTT-indexed stores and the call to BaseMeshSceneNode's base-object destructor with a2+1
-// are not checked on the host.
+    unk_198.resize(bufferCount);
+    unk_1a4.resize(bufferCount);
+    unk_180.resize(bufferCount, 0);
+    for (auto& material : unk_198) {
+        material.reset();
+    }
+    for (auto& map : unk_1a4) {
+        map.reset();
+    }
 
-// 0x361298 _ZN33ShadowModularSkinnedMeshSceneNode24regenerateShadowMaterialEv
-// partial, empty body. The original does this:
-//   1. opens gl_shadowprojection.bdae (CColladaDatabase with CColladaDatabase::DefaultFactory) and constructs the effect
-//      "GL_ShadowProjection-fx" on the driver at IDevice +0x10 with root 0, keeping its CMaterialRenderer;
-//   2. releases the entries of unk_198 and unk_1a4, then resizes unk_198, unk_1a4 and unk_180 to the mesh buffer count
-//      (mesh vptr+0x10);
-//   3. for each buffer i, finds the entry k of unk_198 that holds the mesh's getMaterial(i) (vptr+0x18). When the entry is
-//      empty it stores that material in it, stores getMaterialVertexAttributeMap(i) (vptr+0x1c) in unk_1a4[i], and sets
-//      unk_180[i] = k;
-//   4. resizes unk_1b0 and unk_1bc to the size of unk_198, and unk_18c to the module count (currentModules at mesh +0x24).
-//      For each module it records in unk_18c the entry of unk_198 whose material equals the module's getMaterial(0) (module
-//      vptr+0x18);
-//   5. for each entry of unk_198 it allocates a material (CMaterial::allocate with the renderer, name
-//      "SH_SHADOW_SKINNED_MODULAR", count 0), sets its m_technique (+0x08) to 3, and, when unk_1a4 has the entry, allocates
-//      a CMaterialVertexAttributeMap from it (CMaterialVertexAttributeMap::allocate, argument material+4). The map is kept
-//      as a raw pointer in unk_1bc (see the header).
-// Missing: the driver at IDevice +0x10 (layout request); the mesh virtuals (getMeshBufferCount vptr+0x10, getMaterial vptr+0x18,
-// getMaterialVertexAttributeMap vptr+0x1c) and the module virtuals, since the stand-in CModularSkinnedMesh and ISkinnedMesh
-// declare none; the CColladaDatabase::constructEffect(driver, name, root) signature, which returns a raw pointer here where
-// the original writes an intrusive_ptr through its first argument; and the meaning of the material+4 argument of
-// CMaterialVertexAttributeMap::allocate, which is not identified.
-void ShadowModularSkinnedMeshSceneNode::regenerateShadowMaterial() {}
+    const std::size_t slots = unk_198.size();
+    for (std::uint32_t i = 0; i < bufferCount; ++i) {
+        for (std::size_t j = 0; j < slots; ++j) {
+            if (!unk_198[j]) {
+                unk_198[j] = mesh->getMaterial(i);
+                unk_1a4[j] = mesh->getMaterialVertexAttributeMap(i);
+                unk_180[i] = static_cast<std::uint32_t>(j);
+            }
+            if (mesh->getMaterial(i).get() == unk_198[j].get()) {
+                unk_180[i] = static_cast<std::uint32_t>(j);
+                break;
+            }
+        }
+    }
+
+    // Trim to the entries in use: up to the first empty one.
+    if (bufferCount != 0) {
+        std::size_t used = 0;
+        while (used < unk_198.size() && unk_198[used]) {
+            ++used;
+        }
+        if (used != unk_198.size()) {
+            unk_198.resize(used);
+        }
+    }
+
+    const std::size_t distinct = unk_198.size();
+    unk_1b0.resize(distinct);
+    unk_1bc.resize(distinct);
+    unk_18c.resize(moduleCount, 0);
+    for (std::size_t m = 0; m < moduleCount; ++m) {
+        boost::intrusive_ptr<glitch::collada::ISkinnedMesh> module = modular->modules[m].mesh;
+        if (module) {
+            for (std::size_t i = 0; i < distinct; ++i) {
+                if (module->getMaterial(0).get() == unk_198[i].get()) {
+                    unk_18c[m] = static_cast<std::uint32_t>(i);
+                }
+            }
+        }
+    }
+
+    for (std::size_t i = 0; i < distinct; ++i) {
+        unk_1b0[i].reset();
+        unk_1bc[i].reset();
+        if (unk_198[i]) {
+            unk_1b0[i] = glitch::video::CMaterial::allocate(renderer, "SH_SHADOW_SKINNED_MODULAR", 0);
+            unk_1b0[i]->m_technique = 3;
+            if (unk_1a4[i]) {
+                unk_1bc[i] = glitch::video::CMaterialVertexAttributeMap::allocate(unk_1b0[i]->m_renderer);
+            }
+        }
+    }
+}
 
 // 0x3619c8 _ZN33ShadowModularSkinnedMeshSceneNodeC1EN5boost13intrusive_ptrIN6glitch7collada5IMeshEEEPKNS2_5scene10ISceneNodeES9_
-// partial. Sets node1 at +0x1c8 and node2 at +0x1cc, zeroes the six vectors (the compiler does this for the members), calls
-// the BaseMeshSceneNode constructor with the mesh, and then calls regenerateShadowMaterial. Not reproduced: the IRC
-// virtual-base vptr (off_95B720 at +0x1d0) and its count (1 at +0x1d4), which have no host counterpart (pad_1d0). The
-// base constructor is partial (it drops the mesh, see g1-game-world-BaseMeshSceneNode-fb9ec3-0.cpp), and
-// regenerateShadowMaterial is partial, so the object does no shadow work yet.
-ShadowModularSkinnedMeshSceneNode::ShadowModularSkinnedMeshSceneNode(
-        boost::intrusive_ptr<glitch::collada::IMesh> mesh,
-        const glitch::scene::ISceneNode* node1,
-        const glitch::scene::ISceneNode* node2)
-    : BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>(mesh),
-      unk_1c8(node1),
-      unk_1cc(node2) {
+// 0x361ab0 (C2, VTT form) is compiler-generated from this one. The two nodes are stored, the six tables start empty and
+// regenerateShadowMaterial fills them.
+ShadowModularSkinnedMeshSceneNode::ShadowModularSkinnedMeshSceneNode(boost::intrusive_ptr<glitch::collada::IMesh> meshArg,
+                                                                     const glitch::scene::ISceneNode* node1,
+                                                                     const glitch::scene::ISceneNode* node2)
+    : BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>(meshArg), unk_1c8(node1), unk_1cc(node2) {
     regenerateShadowMaterial();
 }
 
-// 0x361ab0 _ZN33ShadowModularSkinnedMeshSceneNodeC2EN5boost13intrusive_ptrIN6glitch7collada5IMeshEEEPKNS2_5scene10ISceneNodeES9_
-// partial, no body of its own. This is the base-object constructor that takes the VTT (a2). The compiler emits it from the
-// complete constructor above. Its VTT-indexed vptr stores (the IRC virtual base) and the call to BaseMeshSceneNode's
-// base-object constructor with a2+1 are not checked on the host.
+// 0x3601fc _ZN33ShadowModularSkinnedMeshSceneNodeD1Ev
+// 0x3602cc (D0, deleting) and 0x360aa8 (D2, VTT form) are compiler-generated from this one. The members drop the six tables; the base
+// destructor follows.
+ShadowModularSkinnedMeshSceneNode::~ShadowModularSkinnedMeshSceneNode() {}

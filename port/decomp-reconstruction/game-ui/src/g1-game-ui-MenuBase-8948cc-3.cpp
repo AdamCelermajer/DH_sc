@@ -39,6 +39,8 @@
 #include "dh2/GameSWFUtils.hpp"
 #include "dh2/ItemInventory.hpp"
 #include "dh2/SlideEventCharacter.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/item_instance.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuCharacterSelect.hpp"
 #include "dh2/MenuManager.hpp"
@@ -50,6 +52,9 @@
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
+
+// 0x532c48 (core-platform/tb/android_jni_platform.hpp conflicts with the vox-audio declarations, so it is declared here).
+extern "C" void nativeOpenBrowser(const char* url);
 
 namespace {
 
@@ -301,14 +306,50 @@ MenuBase::~MenuBase() {
 // Same omission as 0x422824: the proxy releases in MenuFX::State::~State. Not a separate function in C++.
 
 // 0x422d10 _ZN8MenuBase19ProcessLocalizationEv
-// PARTIAL: not rebuilt. With a context (see GetCurrentMenuContext), the original sets the context on m_menu
-// (RenderFX::SetContext). Then, for the string sheets 19, 20 and 28, it looks up each localized string under the menu's
-// name (m_name, +0x08) in three forms: "<name>.btn_<str>.text", "<name>.<str>.text" and "<name>.<str>". It finds the
-// character with RenderFX::GetSearchIndex and SearchIndex::Find. Each found character whose virtual slot +0x08 returns
-// true for argument 32 gets RenderFX::FormatHTML(m_menu, character, "%s", string, 1). It sets m_isLocalised (+0x75) at
-// the end. RenderFX::SetContext, GetSearchIndex, SearchIndex::Find and FormatHTML are not declared in this tree, and the
-// gameswf::character virtual at +0x08 is not named, so nothing is done here. The return value of the original is ignored.
-void MenuBase::ProcessLocalization() {}
+// With a live menu context: for the string sheets 19, 20 and 28, the context is set on m_menu and each localized string of the
+// symbol pack is looked up under the menu name in three forms: "<name>.btn_<str>.text", "<name>.<str>.text" and "<name>.<str>".
+// Every found character that is a text field (character virtual is(32)) gets RenderFX::FormatHTML(character, "%s", string,
+// true). m_isLocalised (+0x75) is set at the end. A dead context is released instead.
+void MenuBase::ProcessLocalization() {
+    if (GetCurrentMenuContext() == nullptr) {
+        return;
+    }
+    TraceMenuBaseSwitch();
+    StringManager* strings = ApplicationGetStringManager();
+    for (int sheet = 0; sheet != 37; ++sheet) {
+        if (!(sheet == 28 || sheet == 20 || sheet == 19)) {
+            continue;
+        }
+        (void)strings->getStringIdx(sheet, 0, static_cast<unsigned int>(strings->getSymbolPack()));
+        m_menu->SetContext(GetCurrentMenuContext());
+        RenderFX::SearchIndex* index = m_menu->GetSearchIndex();
+        for (int i = 0;; ++i) {
+            const int pack = strings->getSymbolPack();
+            if (i >= strings->getNumberOfStrings(sheet, pack)) {
+                break;
+            }
+            const char* key = strings->getStringIdx(sheet, i, static_cast<unsigned int>(strings->getSymbolPack()));
+            char path[512];
+            std::snprintf(path, sizeof path, "%s.btn_%s.%s", m_name, key, "text");
+            gameswf::character* found = index->Find(path);
+            if (found == nullptr) {
+                std::snprintf(path, sizeof path, "%s.%s.%s", m_name, key, "text");
+                found = index->Find(path);
+            }
+            if (found == nullptr) {
+                std::snprintf(path, sizeof path, "%s.%s", m_name, key);
+                found = index->Find(path);
+            }
+            if (found != nullptr) {
+                if (found->is(32)) {
+                    TraceMenuBaseSwitch();
+                    m_menu->FormatHTML(found, "%s", strings->getStringIdx(sheet, i), 1);
+                }
+            }
+        }
+    }
+    m_isLocalised = true;  // +0x75
+}
 
 // 0x423098 _ZNK8MenuBase14HasHitDeadZoneEii
 // True when the point (x, y) lies inside a dead zone (xmin <= x <= xmax and ymin <= y <= ymax, the rect's float order).
@@ -343,15 +384,22 @@ void MenuBase::PostOnEvent(RenderFX::Event&) {
 }
 
 // 0x423214 _ZN8MenuBase7OnEventERN8RenderFX5EventE
-// The drag-and-drop table gets the event first. Every path of the original then ends with PostOnEvent, which this does.
-// PARTIAL: the original also, when m_isRolloverEventEnabled is set and the event is a rollover of a "btn" character that
-// the event target's virtual slot +0x170 accepts, sets the focus on that character (RenderFX::Event::GetCharacterPath and
-// RenderFX::SetFocus). It also opens the Twitter page with nativeOpenBrowser when the event kind is byte_6 and the event
-// name contains "btn_MENU_TWITTER". The RenderFX::Event fields, the byte_6 and byte_8 kinds, SetFocus and nativeOpenBrowser
-// are not declared in this tree, so those branches are not made.
+// The drag-and-drop table gets the event first. With rollover events enabled, a roll-over of a character whose event name starts
+// with "btn" and that is enabled moves the focus to it (RenderFX::SetFocus by character path). A release event whose name
+// contains "btn_MENU_TWITTER" opens the Twitter page. Every path then ends with PostOnEvent.
 void MenuBase::OnEvent(RenderFX::Event& e) {
     if (m_dragAndDrop != nullptr) {
         m_dragAndDrop->OnEvent(e);
+    }
+    if (m_isRolloverEventEnabled && e.type == RenderFX::EVENT_ROLL_OVER) {
+        if (std::strstr(e.name, "btn") == e.name && e.target->is_enabled()) {  // character vtable +0x170
+            m_menu->SetFocus(e.GetCharacterPath(), 0);
+        }
+    }
+    if (e.type == RenderFX::EVENT_RELEASE) {
+        if (std::strstr(e.name, "btn_MENU_TWITTER") != nullptr) {
+            nativeOpenBrowser("http://ingameads.gameloft.com/redir/?from=D2HP&op=TBFV&game=D2HP&t=twitter");
+        }
     }
     PostOnEvent(e);
 }

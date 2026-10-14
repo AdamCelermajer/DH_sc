@@ -8,6 +8,10 @@
 #include "dh2/AnimatorSet.hpp"
 
 #include "dh2/AnimApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp"
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 #include "dh2/AnimationSet.hpp"
 
 namespace animator_set_detail {
@@ -34,13 +38,11 @@ glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSet::getType() const {
 }
 
 // 0x3672c8 _ZN11AnimatorSet17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE
-// PARTIAL: the remaining-time store (AnimatorSet +0x68 = AnimApplicator::unk_10) needs ITimelineController +0x1c and
-// +0x2c, which glitch-scene-collada-gui/scene_nodes.hpp does not declare. Only the flag store is rebuilt here.
+// With a timeline the time left in the clip step is stored in m_applicator.unk_10 (+0x68); the callback flag is set on every path.
 void AnimatorSet::_HandleAnimEnding(glitch::scene::ITimelineController* timeline) {
     if (timeline != nullptr) {
-        // TODO(layout): startSec = timeline +0x1c (float), endSec = timeline +0x2c (float), then
-        // m_applicator.unk_10 = animator_set_detail::remainingAnimTimeMs(startSec, endSec, timeline->currentFrame).
-        // Written to AnimatorSet +0x68, which is AnimApplicator +0x10.
+        const glitch::collada::CTimelineController* controller = static_cast<const glitch::collada::CTimelineController*>(timeline);
+        m_applicator.unk_10 = animator_set_detail::remainingAnimTimeMs(controller->lastStep, controller->currentSec, timeline->currentTimeMs);
     }
     m_applicator.m_callbackPending = true;  // AnimatorSet +0x88 (AnimApplicator +0x30), set unconditionally
 }
@@ -54,127 +56,112 @@ void AnimatorSet::_CBAnim(glitch::scene::ITimelineController* timeline, void* us
 }
 
 // 0x367368 _ZN11AnimatorSet22computeAnimationValuesEj
-// PARTIAL: the base forward glitch::collada::CSceneNodeAnimatorSet::computeAnimationValues(this, time) is not reachable
-// (base not declared). The store before it is not rebuilt either:
-//   base currentAnimation (+0x50) = m_currentAnimation ? m_currentAnimation->+0x20 : 0
-// Animation +0x20 is not declared in dh2/Animation.hpp.
+// The engine animation index (+0x50) follows the current game animation (Animation +0x20), then the base computes.
 void AnimatorSet::computeAnimationValues(unsigned int time) {
-    // TODO(layout): AnimatorSet +0x50 = m_currentAnimation ? Animation +0x20 : 0.
-    // TODO(base): glitch::collada::CSceneNodeAnimatorSet::computeAnimationValues(this, time).
-    (void)time;
+    currentAnimation = m_currentAnimation != nullptr ? m_currentAnimation->unk_20 : 0;
+    glitch::collada::CSceneNodeAnimatorSet::computeAnimationValues(time);
 }
 
 // 0x36737c _ZN11AnimatorSet20applyAnimationValuesEj
-// PARTIAL: same +0x50 store as computeAnimationValues, then the base forward
-// glitch::collada::CSceneNodeAnimatorSet::applyAnimationValues(this, time). Neither part is reachable yet.
+// As computeAnimationValues, then the base applies.
 void AnimatorSet::applyAnimationValues(unsigned int time) {
-    // TODO(layout): AnimatorSet +0x50 = m_currentAnimation ? Animation +0x20 : 0.
-    // TODO(base): glitch::collada::CSceneNodeAnimatorSet::applyAnimationValues(this, time).
-    (void)time;
+    currentAnimation = m_currentAnimation != nullptr ? m_currentAnimation->unk_20 : 0;
+    glitch::collada::CSceneNodeAnimatorSet::applyAnimationValues(time);
 }
 
 // 0x367390 _ZN11AnimatorSet17getAnimationValueEiiPv
-// PARTIAL: same +0x50 store, then the base call glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(this, track,
-// index, out), which returns void (the canonical signature). The store and the base call are not written yet.
+// As computeAnimationValues, then the base reads the value.
 void AnimatorSet::getAnimationValue(int track, int index, void* out) {
-    // TODO(layout): AnimatorSet +0x50 = m_currentAnimation ? Animation +0x20 : 0.
-    // TODO(base): glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(track, index, out).
-    (void)track;
-    (void)index;
-    (void)out;
+    currentAnimation = m_currentAnimation != nullptr ? m_currentAnimation->unk_20 : 0;
+    glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(track, index, out);
 }
 
 // 0x3673a4 _ZN11AnimatorSet11animateNodeEPN6glitch5scene10ISceneNodeEj
-// PARTIAL: the base animateNode runs first in the original and is not reachable. The applicator step is rebuilt. The
-// callback check needs the timeline from vtable slot +0x44 (ISceneNodeAnimator::getTimelineCtrl), which is not
-// declared on this class yet.
+// The base animateNode, the applicator (non-virtual AnimApplicator::AnimateNode) and its callback check against the timeline of
+// the animator (vtable +0x44). The original returns the CheckCallback result; the override is void.
 void AnimatorSet::animateNode(glitch::scene::ISceneNode* node, unsigned int time) {
-    // TODO(base): glitch::collada::CSceneNodeAnimatorSet::animateNode(this, node, time) runs first.
-    m_applicator.AnimApplicator::AnimateNode(time);  // 0x3645e8, direct call
-    // TODO(timeline): timeline = this->getTimelineCtrl() (vtable +0x44), then m_applicator.CheckCallback(timeline).
-    (void)node;
+    glitch::collada::CSceneNodeAnimatorSet::animateNode(node, time);
+    m_applicator.AnimApplicator::AnimateNode(time);
+    m_applicator.CheckCallback(getTimelineCtrl());
 }
 
 // 0x3673e4 _ZN11AnimatorSet10updateTimeEj
-// PARTIAL: same +0x50 store, the base ISceneNodeAnimator::updateTime forward, and the timeline callback check
-// (vtable +0x44, then AnimApplicator::CheckCallback) are not reachable yet.
+// The engine animation index follows the current game animation, the base updateTime runs (ISceneNodeAnimator::updateTime) and
+// the applicator callback is checked against the timeline.
 void AnimatorSet::updateTime(unsigned int time) {
-    // TODO(layout): AnimatorSet +0x50 = m_currentAnimation ? Animation +0x20 : 0.
-    // TODO(base): glitch::collada::ISceneNodeAnimator::updateTime(this, time).
-    // TODO(timeline): m_applicator.CheckCallback(this->getTimelineCtrl()) (vtable +0x44).
-    (void)time;
+    currentAnimation = m_currentAnimation != nullptr ? m_currentAnimation->unk_20 : 0;
+    glitch::collada::ISceneNodeAnimator::updateTime(time);
+    m_applicator.CheckCallback(getTimelineCtrl());
 }
 
 // 0x367420 _ZN11AnimatorSet19setCurrentAnimationEi
-// PARTIAL: the lookup by set index, the clip check (Animation unk_20 != -1), the use counts (m_useCount +0x24 and
-// unk_2c +0x2c) and the m_currentAnimation swap with the release of the previous clip are rebuilt. Missing: the base
-// forward glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(setIndex). The canonical override returns void,
-// as the original's base result does, so the lookup result is no longer returned.
+// The game animation of the engine set index: when it has a clip, it gets a use (+0x24 and +0x2c), becomes the current animation
+// (the old one loses a use) and the base selects the index.
 void AnimatorSet::setCurrentAnimation(int setIndex) {
-    Animation* result = m_animationSet->GetAnimationBySetIndex(setIndex);
-    if (result->unk_20 != -1) {
-        ++result->m_useCount;   // +0x24
-        result->unk_2c += 1;    // +0x2c
+    Animation* animation = m_animationSet->GetAnimationBySetIndex(setIndex);
+    if (animation->unk_20 != -1) {
+        ++animation->m_useCount;      // +0x24
+        ++animation->unk_2c;          // +0x2c
         Animation* previous = m_currentAnimation;
-        m_currentAnimation = result;  // +0x98
+        m_currentAnimation = animation;
         if (previous != nullptr) {
-            --previous->m_useCount;   // +0x24 of the clip that was current
+            --previous->m_useCount;
         }
-        // TODO(base): glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(setIndex) (engine base).
+        glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(setIndex);
     }
 }
 
 // 0x367484 _ZN11AnimatorSet8onUnbindEPN6glitch5scene10ISceneNodeE
-// PARTIAL: the applicator reference node is cleared (direct call, 0x36473c). The base
-// glitch::collada::ISceneNodeAnimator::onUnbind forward is not reachable.
+// The applicator forgets its reference node, then the base onUnbind (a tail call in the original).
 void AnimatorSet::onUnbind(glitch::scene::ISceneNode* node) {
     m_applicator.AnimApplicator::SetRefNode(nullptr);
-    // TODO(base): glitch::collada::ISceneNodeAnimator::onUnbind(this, node).
-    (void)node;
+    glitch::collada::ISceneNodeAnimator::onUnbind(node);
 }
 
 // 0x3674ac _ZN11AnimatorSet19SetCurrentAnimationEi
-// PARTIAL: the lookup by AnimDict id, the clip read (Animation unk_20), the use counts, the m_currentAnimation swap and
-// the release of the previous clip are rebuilt. The return value is the clip in both branches, as in the original, so
-// only the base side effect is missing: glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, clip), whose
-// result the original discards. This class does not derive from that base (pad_04).
-// The original re-reads Animation +0x20 after the base call; the stub returns the clip read before it.
+// As setCurrentAnimation, by AnimDict id; returns the engine index of the clip (-1 when it has none), and the base selects it.
 int AnimatorSet::SetCurrentAnimation(int animId) {
-    Animation* anim = m_animationSet->GetAnimation(animId);
-    const int clip = anim->unk_20;
-    if (clip != -1) {
-        ++anim->m_useCount;   // +0x24
-        anim->unk_2c += 1;    // +0x2c
+    Animation* animation = m_animationSet->GetAnimation(animId);
+    if (animation->unk_20 != -1) {
+        ++animation->m_useCount;      // +0x24
+        ++animation->unk_2c;          // +0x2c
         Animation* previous = m_currentAnimation;
-        m_currentAnimation = anim;  // +0x98
+        m_currentAnimation = animation;
         if (previous != nullptr) {
-            --previous->m_useCount;  // +0x24 of the clip that was current
+            --previous->m_useCount;
         }
-        // TODO(base): glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, clip) (engine base, result discarded).
+        glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(animation->unk_20);
+        return animation->unk_20;
     }
-    return clip;
+    return animation->unk_20;
 }
 
 // 0x367510 _ZN11AnimatorSet12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_
-// PARTIAL: the event callback fields and the receiver object are base fields that are not declared. The timeline
-// hookup (vtable +0x44) is not reachable either. Only the AnimApplicator callback is set.
+// The event pair goes into the animator (+0x1c, +0x20) and the events manager of its track; the timeline calls _CBAnim with this;
+// the applicator gets the animation callback pair.
 void AnimatorSet::SetCallbacks(AnimCallback animCallback, void* animUserData,
                                EventCallback eventCallback, void* eventUserData) {
-    // TODO(layout): this +0x18 receiver (when non-null: receiver +0x08 = eventCallback, +0x0c = eventUserData),
-    //               this +0x1c = eventCallback, this +0x20 = eventUserData.
-    // TODO(timeline): t = this->getTimelineCtrl() (vtable +0x44); if (t) { t +0x08 = &AnimatorSet::_CBAnim; t +0x0c = this; }
-    (void)eventCallback;
-    (void)eventUserData;
-    m_applicator.SetCallback(animCallback, animUserData);  // 0x364400
+    this->eventCallback = eventCallback;      // +0x1c
+    this->eventUserData = eventUserData;      // +0x20
+    if (eventsTrack) {                        // +0x18
+        eventsTrack->callbackUserData = eventUserData;
+        eventsTrack->callback = eventCallback;
+    }
+    glitch::scene::ITimelineController* timeline = getTimelineCtrl();
+    if (timeline != nullptr) {
+        timeline->callbackData = this;
+        timeline->callback = &AnimatorSet::_CBAnim;
+    }
+    m_applicator.AnimApplicator::SetCallback(animCallback, animUserData);
 }
 
 // 0x367590 _ZN11AnimatorSetD1Ev
-// PARTIAL: the release of the current clip (--Animation +0x24 when m_currentAnimation is set) and the base destructor
-// are not reachable. The member destructors (m_animationSet release, AnimApplicator) run after the body, in the
-// same order as the original.
+// The current animation loses its use; the set reference, the applicator and the engine base are released by the member and base
+// destructors in the original order.
 AnimatorSet::~AnimatorSet() {
-    // TODO(layout): if (m_currentAnimation) --m_currentAnimation +0x24 before the members are destroyed.
-    // The base destructor (~glitch::collada::CSceneNodeAnimatorSet) runs after this body, implicitly.
+    if (m_currentAnimation != nullptr) {
+        --m_currentAnimation->m_useCount;  // +0x24
+    }
 }
 
 // 0x36761c _ZN11AnimatorSetD0Ev
@@ -186,16 +173,13 @@ AnimatorSet::~AnimatorSet() {
 // minus the secondary vptr store at +0x9c. Not rebuilt separately.
 
 // 0x3676b8 _ZN11AnimatorSetC1ERKN5boost13intrusive_ptrI12AnimationSetEE
-// PARTIAL: the base is default constructed. The original base constructor takes the engine set (AnimationSet +0x20,
-// a CDynamicAnimationSet, which is a CAnimationSet) and calls init on it, and init dereferences that set, so the
-// engine set is not bound here yet. AnimApplicator is built with this as its animator, as in the original.
+// The engine base takes the engine set of the animation set (AnimationSet +0x20, with a use held during the call); the applicator
+// is built with this as animator; the set reference is taken; no current animation.
 AnimatorSet::AnimatorSet(const boost::intrusive_ptr<AnimationSet>& animationSet)
-    : glitch::collada::CSceneNodeAnimatorSet(),
+    : glitch::collada::CSceneNodeAnimatorSet(boost::intrusive_ptr<glitch::collada::CAnimationSet>(animationSet->m_animSet)),
       m_applicator(this),
       m_animationSet(animationSet),
       m_currentAnimation(nullptr) {
-    // TODO(base): glitch::collada::CSceneNodeAnimatorSet(engine set) with the addref before and the drop after, as at
-    // 0x3676b8 (asm: BL to the base C2, r1 = VTT + 4). Needs the engine set from AnimationSet +0x20 (m_animSet).
 }
 
 // 0x367790 _ZN11AnimatorSetC2ERKN5boost13intrusive_ptrI12AnimationSetEE
