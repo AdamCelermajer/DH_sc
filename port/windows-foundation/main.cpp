@@ -54,6 +54,7 @@
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/runtime_mage_skill_owner_v1.hpp"
 #include "features/generic_skills/runtime_archer_skill_owner_v1.hpp"
+#include "features/generic_skills/runtime_rogue_skill_owner_v1.hpp" // v21.8 w4-grapple
 #include "features/generic_skills/runtime_archer_passive_owner_v1.hpp"
 #include "features/generic_skills/runtime_necromancer_skill_owner_v1.hpp"
 #include "features/generic_skills/runtime_necromancer_passive_owner_v1.hpp"
@@ -2934,6 +2935,7 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::generic_skills::RuntimeMageSkillOwnerV1> mageSkillOwner; // v21.8 magewire: ChainLightning/Cyclone/StoneEscape external owner
         std::unique_ptr<f::generic_skills::RuntimeNecromancerSkillOwnerV1> necromancerSkillOwner; // v21.8 w2-necromancer: FireSkullRain/Pestilence/Rise
         std::unique_ptr<f::generic_skills::RuntimeArcherSkillOwnerV1> archerSkillOwner; // v21.8 w2-archer: the five Archer actives
+        std::unique_ptr<f::generic_skills::RuntimeRogueSkillOwnerV1> rogueSkillOwner; // v21.8 w4-grapple: GrapplingHook (Rogue external owner)
         // v21.8 es-runtime: the coordinator's single external_owner slot holds this registry; every owner registers here.
         f::generic_skills::RuntimeSkillExternalOwnerRegistryV1 skillOwnerRegistry;
         bool playerSkillCleanupRan=false; // RegisterSkillEx cleanup of the dead caster's skills runs once per death
@@ -8789,6 +8791,46 @@ int main(int argc,char** argv) {
                                 archerServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
                                 archerSkillOwner=std::make_unique<f::generic_skills::RuntimeArcherSkillOwnerV1>(std::move(archerServices));
                                 skillOwnerRegistry.add(archerSkillOwner.get());
+                            }
+                            // v21.8 w4-grapple: Rogue external owner (GrapplingHook delayed body: roll, ES-STATUS stun, Cmd_HeadTo pull).
+                            if(!rogueSkillOwner) {
+                                f::generic_skills::RuntimeRogueSkillServicesV1 rogueServices;
+                                rogueServices.projectiles=[&]()->f::effects::RuntimeSessionProjectileV1* {
+                                    std::string e;
+                                    if(!ensurePlayerProjectiles(e)) {std::cout<<"Rogue skill projectile executor unavailable: "<<e<<'\n';return nullptr;}
+                                    return playerProjectiles.get();
+                                };
+                                rogueServices.projectile_tables=[&]()->std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101> {
+                                    std::string e;
+                                    if(!ensurePlayerProjectiles(e)) {std::cout<<"Rogue skill projectile tables unavailable: "<<e<<'\n';return nullptr;}
+                                    return playerProjectileTables;
+                                };
+                                rogueServices.projectile_launched=[&](std::uint64_t projectileId,bool wantsContacts,std::string& e)->bool {
+                                    return !wantsContacts||registerPlayerProjectileSensor(projectileId,e);
+                                };
+                                rogueServices.play_sound=[&](const std::string& name,std::string& e)->bool {
+                                    if(!runtimeAudio){e="no audio runtime";return false;}
+                                    return runtimeAudio->play_named_plain(name.c_str(),e);
+                                };
+                                // Lua target:SetStunState(duration, true): the ES-STATUS owner through the session (refuses boss/miniboss).
+                                rogueServices.set_stun=[&](f::ActorId target,double ms,bool& applied,std::string& e)->bool {
+                                    if(!combatSession){e="no combat session for the stun";return false;}
+                                    return combatSession->script_status_actor(target,true,ms,applied,e);
+                                };
+                                rogueServices.is_stunned=[statusStates](f::ActorId target)->bool {return statusStates->owner().stunned(target);};
+                                rogueServices.is_boss_or_miniboss=[&](f::ActorId target)->bool {
+                                    if(!combatSession) return false;
+                                    const auto flags=f::status_states::StatusStateSessionV1::boss_flags_for(*combatSession,target);
+                                    return flags.boss||flags.mini_boss;
+                                };
+                                // Cmd_HeadTo steps: the same actor-teleport verb the Cyclone carry uses.
+                                rogueServices.move_actor=[&](f::ActorId actor,const std::array<float,3>& position,std::string& e)->bool {
+                                    if(!hostServices.actor_verbs.teleport) {e="actor teleport verb unavailable";return false;}
+                                    return hostServices.actor_verbs.teleport(actor,position,e);
+                                };
+                                rogueServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
+                                rogueSkillOwner=std::make_unique<f::generic_skills::RuntimeRogueSkillOwnerV1>(std::move(rogueServices));
+                                skillOwnerRegistry.add(rogueSkillOwner.get());
                             }
                             request.knockback_great=&sourceKnockBackSink;
                             request.external_owner=&skillOwnerRegistry;

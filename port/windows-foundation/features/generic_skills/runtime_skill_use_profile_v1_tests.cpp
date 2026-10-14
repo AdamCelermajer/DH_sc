@@ -135,7 +135,10 @@ int main(int argc, char** argv) {
 
         // v21.8 skills-rogue: Assassin-tree rows live in their own table (runtime_skill_use_profile_rogue_v1.hpp).
         const std::size_t rogue_size = sizeof(kRuntimeSkillUseProfilesRogueV1) / sizeof(kRuntimeSkillUseProfilesRogueV1[0]);
-        check(rogue_size == 3, "Rogue-tree use profile row count changed");
+        // v21.8 w4-grapple: + GrapplingHook (external owner row, see the rogue header).
+        check(rogue_size == 4, "Rogue-tree use profile row count changed");
+        check(find_skill_use_profile_rogue_v1("GrapplingHook", "prince_assassin_grapling_hook") != nullptr,
+              "GrapplingHook row missing from the Rogue table");
         // Assassination: admitted with the execution gate (top Character, BOSS_CLASS, kill sound) and the Pre/Use cone.
         const auto* assassination = find_skill_use_profile_rogue_v1("Assassination", "prince_assassin_assassination");
         check(assassination && assassination->execute_below_level && assassination->top_character_only &&
@@ -182,11 +185,9 @@ int main(int argc, char** argv) {
               std::string(poison->buff->fx_set) == "skill_dh2_assassin_poison_sting_persist" &&
               poison->buff->duration_prop_index == 125 && near(poison->buff->fallback_base_ms, 4000.0f),
               "PoisonSting Lua transcription changed");
-        // Not admitted: GrapplingHook and the Archer actives (projectile). Assassination is admitted with its execution gate.
-        check(find_skill_use_profile_rogue_v1("GrapplingHook", "prince_assassin_grapling_hook") == nullptr,
-              "GrapplingHook must stay out until its projectile and pull arms exist");
-        check(find_skill_use_profile_rogue_v1("GrapplingHook", "prince_assassin_grapling_hook") == nullptr,
-              "GrapplingHook is BLOCKED-PROJECTILE");
+        // Not admitted: the Archer actives (projectile). GrapplingHook is admitted (w4-grapple) with its external owner.
+        check(find_skill_use_profile_rogue_v1("GrapplingHook", "prince_assassin_grapling_hook")->external_owner,
+              "GrapplingHook must be an external-owner row (projectile + delayed body)");
         check(find_skill_use_profile_rogue_v1("Volley", "prince_archer_volley") == nullptr,
               "Archer projectile skills are BLOCKED-PROJECTILE");
 

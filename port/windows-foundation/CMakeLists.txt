@@ -280,6 +280,9 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_target_query_v1.cpp
   features/generic_skills/runtime_mage_skill_owner_v1.cpp
   features/generic_skills/runtime_archer_skill_owner_v1.cpp
+  # v21.8 w4-grapple: Rogue external owner (GrapplingHook delayed body) and the general Cmd_HeadTo forced move.
+  features/generic_skills/runtime_rogue_skill_owner_v1.cpp
+  features/generic_skills/forced_head_to_v1.cpp
   features/generic_skills/runtime_archer_passive_owner_v1.cpp
   # v21.8 w2-necromancer: FireSkullRain / Pestilence / Rise external owner (timers, death watch, skill projectile).
   features/generic_skills/runtime_necromancer_skill_owner_v1.cpp
@@ -1215,6 +1218,11 @@ add_executable(mage_skill_owner_v1_tests features/generic_skills/runtime_mage_sk
 target_link_libraries(mage_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
 add_test(NAME mage_skill_owner_v1 COMMAND mage_skill_owner_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
+# v21.8 w4-grapple: GrapplingHook external owner (delayed roll, stun, Cmd_HeadTo pull) on a real session, and ForcedHeadToV1.
+add_executable(runtime_rogue_skill_owner_v1_tests features/generic_skills/runtime_rogue_skill_owner_v1_tests.cpp)
+target_link_libraries(runtime_rogue_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
+add_test(NAME runtime_rogue_skill_owner_v1 COMMAND runtime_rogue_skill_owner_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
 # v21.8 w2-archer: external owner of the five Archer actives (real session + shared projectile executor).
 add_executable(runtime_archer_skill_owner_v1_tests features/generic_skills/runtime_archer_skill_owner_v1_tests.cpp)
 target_link_libraries(runtime_archer_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
