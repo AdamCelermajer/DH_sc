@@ -1,13 +1,12 @@
 #include "asset_catalog.hpp"
+#include "path_case.hpp"
 
 #include <algorithm>
 #include <cctype>
 #include <fstream>
 #include <limits>
 #include <map>
-#include <mutex>
 #include <stdexcept>
-#include <unordered_map>
 
 namespace dh::foundation {
 namespace {
@@ -34,36 +33,6 @@ bool within(const fs::path& root, const fs::path& candidate) {
     return true;
 }
 
-#ifndef _WIN32
-// The authored paths were written for Windows, where file names are case-insensitive ("data/3D/..." vs the shipped
-// "data/3d/..."). On a case-sensitive file system each path component is matched against the directory listing, ignoring case.
-// Listings are cached per directory; the asset tree does not change while the game runs.
-fs::path resolve_ignoring_case(const fs::path& root, const fs::path& relative) {
-    static std::mutex mutex;
-    static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> listings;
-    fs::path current = root;
-    for (const auto& component : relative) {
-        if (component.empty() || component == ".") continue;
-        std::error_code ec;
-        const fs::path exact = current / component;
-        if (fs::exists(exact, ec)) { current = exact; continue; }
-        std::lock_guard<std::mutex> lock(mutex);
-        auto found = listings.find(current.string());
-        if (found == listings.end()) {
-            std::unordered_map<std::string, std::string> names;
-            for (const auto& entry : fs::directory_iterator(current, ec)) {
-                const std::string name = entry.path().filename().string();
-                names.emplace(lower(name), name); // first spelling wins when two names differ only by case
-            }
-            found = listings.emplace(current.string(), std::move(names)).first;
-        }
-        const auto hit = found->second.find(lower(component.string()));
-        if (hit == found->second.end()) return {};
-        current /= hit->second;
-    }
-    return current;
-}
-#endif
 
 bool looks_like_assets(const fs::path& path) {
     std::error_code ec;
@@ -122,12 +91,10 @@ fs::path AssetCatalog::resolve_authored(const fs::path& relative) const {
     }
     std::error_code ec;
     auto path = fs::canonical(root_ / relative, ec);
-#ifndef _WIN32
-    if (ec) {
-        const auto matched = resolve_ignoring_case(root_, relative);
+    if (ec) { // case-sensitive file systems: authored spelling differs from the shipped one (path_case.hpp)
+        const auto matched = find_path_ignoring_case(root_, relative);
         if (!matched.empty()) { ec.clear(); path = fs::canonical(matched, ec); }
     }
-#endif
     if (ec) throw std::runtime_error("Asset not found: " + relative.generic_string());
     if (!within(root_, path)) throw std::invalid_argument("Asset path escapes asset root");
     if (!fs::is_regular_file(path))

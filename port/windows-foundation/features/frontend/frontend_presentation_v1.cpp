@@ -132,6 +132,9 @@ FrontendRuntimeResultV1 run_frontend_v1(
  const bool genericCreationRoute=bool(runtimeServices.generic_creation);
  auto genericCreation=runtimeServices.generic_creation;
  auto profileProjector=runtimeServices.navigation.project_selected_profile;
+ // Copied before runtime.attach() moves runtimeServices: a moved-from std::function is empty under libstdc++ (Linux) but still
+ // callable under libc++/MSVC, which left the saved-profile hero preview silently missing on Linux.
+ const auto borrowSelectedProfileSnapshot=runtimeServices.borrow_selected_profile_snapshot;
  struct ProfileSlotProof {
   int phase{};
   int double_tap_releases{};
@@ -230,12 +233,12 @@ FrontendRuntimeResultV1 run_frontend_v1(
  FrontendSelectedProfileSnapshotV1 selectedProfileSnapshot;int selectedProfileActor=-1;int menuSelectedDifficulty=0; /* P14 schema: menu starts on the profile's own CurrentDifficulty (PDFL); arrows not wired yet */
  std::string selectedProfileRenderKey,profileActorLoggedKey;
  auto projectSavedProfileActor=[&](const flow::SlotFact& fact,const std::string& menu){
-  if(!fact.in_use||!runtimeServices.borrow_selected_profile_snapshot){selectedProfileSnapshot={};selectedProfileActor=-1;selectedProfileRenderKey.clear();menuSelectedDifficulty=0;return;}
+  if(!fact.in_use||!borrowSelectedProfileSnapshot){selectedProfileSnapshot={};selectedProfileActor=-1;selectedProfileRenderKey.clear();menuSelectedDifficulty=0;return;}
   std::ostringstream renderKey;renderKey<<menu<<'|'<<fact.id<<'|'<<fact.save_path.generic_string();
   const auto key=renderKey.str();
   if(key==selectedProfileRenderKey)return;
   selectedProfileSnapshot={};selectedProfileActor=-1;
-  auto snapshot=runtimeServices.borrow_selected_profile_snapshot(fact,error);
+  auto snapshot=borrowSelectedProfileSnapshot(fact,error);
   if(!snapshot||!snapshot->valid_for(fact))throw std::runtime_error(error.empty()?"Selected-profile snapshot does not match the exact occupied slot/path":error);
   loadSavedProfileActors();
   const auto& state=*snapshot->character;menuSelectedDifficulty=state.current_difficulty<0?0:state.current_difficulty>2?2:state.current_difficulty;

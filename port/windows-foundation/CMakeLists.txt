@@ -59,7 +59,7 @@ add_library(foundation_data STATIC character_state.cpp save_store.cpp camera.cpp
   retained_sequence_playback.cpp
   original_actor_camera_anchor.cpp
   modular_defaults.cpp
-  asset_catalog.cpp world.cpp texture_loader.cpp original_scene.cpp original_character.cpp level_manifest.cpp assembled_level.cpp
+  path_case.cpp asset_catalog.cpp world.cpp texture_loader.cpp original_scene.cpp original_character.cpp level_manifest.cpp assembled_level.cpp
   content_paths.cpp collision_scene.cpp actor_definitions.cpp actor_state.cpp actor_movement.cpp gameplay_camera.cpp
   animation_markers.cpp combat_system.cpp targeting.cpp hud_art.cpp hud_geometry.cpp actor_profiles.cpp actor_population.cpp
   original_actor_properties.cpp original_camera_config.cpp equipment_visual.cpp controller_policy.cpp original_combat_properties.cpp target_selection_runtime.cpp actor_combat_runtime.cpp original_melee_bindings.cpp playable_actor_world.cpp original_combat_visual_plan.cpp original_attack_sequence.cpp combat_session.cpp game_save.cpp hud_glyphs.cpp original_actor_labels.cpp
