@@ -35,6 +35,7 @@
 #include "../../character_state.hpp"
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <random>
 #include <string>
@@ -43,7 +44,7 @@
 
 namespace dh::foundation::generic_skills {
 
-enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, killing_streak, survival, holy_weapon, shield, energy_balance, conversion };
+enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, disciples, petrify, mirror, killing_streak, survival, holy_weapon, shield, energy_balance, conversion };
 
 // SkillTable script name -> event passive kind (kept next to the implemented scripts only).
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script);
@@ -63,6 +64,8 @@ public:
     std::uint32_t rank(EventPassiveKindV1 kind) const;
     // The live session the listeners act on; the host binds it before the hits of a frame are dispatched.
     void bind(CombatSession& session);
+    // v21.8 w2-illusionist: SetStunState(duration, true) on the attacker (Mirror). The host binds the ES-STATUS owner.
+    void set_stun_target(std::function<bool(CombatSession&, ActorId, double, std::string&)> stun) { stun_target_ = std::move(stun); }
     // Ages the Killing Frenzy reset timers (wall seconds, same clock as the buff owner).
     bool advance(CombatSession& session, double dt_seconds, std::string& error);
 
@@ -83,6 +86,11 @@ private:
     bool frenzy_set_buff(std::uint32_t strength);
     void carrion_kill();
     void holy_hit(ActorId attacker);
+    void disciples_hit(const CombatResultEventV1& event);
+    void petrify_hit(const CombatResultEventV1& event);
+    void mirror_hit(const CombatResultEventV1& event);
+    // The ClassTable row projected at SnS_Level = level (as CarrionEater does); false with error_ set on failure.
+    bool projected_class_cell(const char* class_name, std::uint32_t level, unsigned cell, float& value);
     void streak_kill();
     void survival_hit();
     void shield_hit(ActorId attacker);
@@ -97,6 +105,8 @@ private:
     ActorId player_;
     CombatSession* session_ = nullptr;
     std::map<EventPassiveKindV1, std::uint32_t> ranks_;
+    std::function<bool(CombatSession&, ActorId, double, std::string&)> stun_target_;
+    std::mt19937 rng_{0x1DC0DEu}; // Disciples GetRand(1,100) and Mirror GetRand(0,100); fixed seed for reproducible runs
     std::uint64_t token_ = 0;
     std::uint32_t frenzy_counter_ = 0;
     bool frenzy_active_ = false;
@@ -109,7 +119,6 @@ private:
     // Guardian Shield stun ticks (StartSkillTimerCB(500): the stun is applied when the tick fires).
     struct ShieldStunV1 { ActorId actor; double left_ms; double duration_ms; };
     std::vector<ShieldStunV1> shield_stuns_;
-    std::mt19937 rng_{1u};  // GetRand(0,100) source (seeded, like the Putrid owner)
     // Energy Balance: CreateBuff(class of the equipped element, 3000, false, rank) on a rank change and every 3000 ms.
     std::int32_t equipped_element_ = -1;  // faery element of the equipped faery (FaeryTypes), -1 = none
     std::uint32_t energy_rank_seen_ = 0;

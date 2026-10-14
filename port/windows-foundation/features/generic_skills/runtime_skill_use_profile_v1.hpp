@@ -45,6 +45,34 @@ struct RuntimeSkillBuffProfileV1 {
     int duration_prop_index = 176;
 };
 
+// v21.8 w2-illusionist: per-target enemy buff arm. The Lua loop over popped Character targets runs
+// target:CreateBuff(BUFF_ID, duration, false, rank, BUFF_FX) + target:ApplyBuff for each target that passes the skip
+// rules (Eclipse, TimeControl, Figments). duration = the projected CharacterProperties cell (ms) when duration_prop_index
+// >= 0, else duration_base_ms + duration_inc_ms * rank; a zero projected value falls back to the same formula (Eclipse
+// `if bufftime == 0`). Capacity is always 1 (the Lua `false`).
+struct RuntimeSkillEnemyBuffProfileV1 {
+    const char* buff_class;       // ClassTable row (Buff_Illusionist_TimeControl, Skill_Illusionist_Eclipse, ...)
+    const char* fx_set;           // AnimatedEffectTable name of BUFF_FX (presentation only)
+    int duration_prop_index;      // CharacterProperties cell read as the duration, or -1 for the formula only
+    float duration_base_ms;
+    float duration_inc_ms;
+    bool skip_boss;               // Lua `not IsBoss(target)`
+    bool skip_miniboss;           // Lua `not IsMiniBoss(target)`
+    // v21.8 w2-illusionist: 0 = every Character of the Use list gets the buff (Eclipse, TimeControl, Figments). N > 0 = the
+    // Terror conversion memory: one target per Use (the first popped Character that holds no live slot), at most N slots
+    // (FIFO: the oldest slot is freed when full), each slot released when the buff's duration has run out.
+    std::uint8_t conversion_slots = 0;
+};
+
+// v21.8 w2-illusionist: per-target SetStunState arm (Lua Figments: `if not IsBoss and not IsMiniBoss then
+// SetStunState(GetRand(MIN, MAX), true)`). The duration is drawn per target, inclusive, from the cast coordinator's
+// generator (the native GetRand bounds are an inference: the Lua constants are treated as inclusive).
+struct RuntimeSkillEnemyStunProfileV1 {
+    float min_ms;
+    float max_ms;
+    bool skip_boss_and_miniboss;
+};
+
 // One step of a volley cycle: the ClassTable row projected for that marker, and whether it rolls every target
 // (top_target_only = false, Lua loop over the list) or only the first one (GetTargetListTop, no pop).
 struct RuntimeSkillVolleyV1 {
@@ -133,6 +161,9 @@ struct RuntimeSkillUseProfileV1 {
     // v21.8 w2-necromancer: the Lua `target:SetKnockBackState(true)` after each Character SkillCombatRoll with dmg > 0
     // (DeathClaw). The great bank is selected (the Lua default great=true). Routed through the request's knockback sink.
     bool knockback_great_on_character_hit = false;
+    // v21.8 w2-illusionist: per-target enemy buff / stun arms (nullptr = the Lua has no such loop). Appended last.
+    const RuntimeSkillEnemyBuffProfileV1* enemy_buff = nullptr;
+    const RuntimeSkillEnemyStunProfileV1* enemy_stun = nullptr;
     // v21.8 w2-paladin: Lua Heal(self, HEAL_AMOUNT) per skill level at OnSkill_ (PurifyingAura: HEAL_AMOUNT 15). 0 = no heal.
     float self_heal_per_rank = 0.0f;
 };

@@ -44,6 +44,11 @@ struct TimedBuffSpecV1 {
     // oldest; the tie-break beyond capacity 1 is an inference); otherwise the new buff is rejected and nothing changes.
     std::uint32_t capacity = 1;
     std::string fx_set_name;      // optional EffectsTables set (AnimatedEffectTable name); presentation only
+    // v21.8 w2-illusionist: the class formulas with source SnS_Level read the RECEIVER's own SnS_Level (IDA
+    // CharProperties::_LinearWithPropPlusBaseValue, a4 = 0 path: RecalcProperty(receiver, 172)). A self-buff (the Lua
+    // SetProp(SnS_Level) on the caster) keeps the default: strength is written into the receiver's SnS_Level. Enemy-target
+    // buffs (Eclipse, TimeControl, Terror) set this, so the caster's rank never reaches the monster's formulas.
+    bool sns_level_from_receiver = false;
     std::string source;           // label for logs
     // Buff-coupled SetIsTargetable(false) (Lua Blindness/Conversion pattern): while an instance with this flag is active
     // the actor is removed from target SELECTION (PlayableActorWorld::set_selection_suppressed); damage is unaffected.
@@ -95,7 +100,16 @@ public:
     virtual bool remove_timed_buff(CombatSession&, ActorId, const std::string& class_name, std::string& error) = 0;
     // Source Lua OnSkill_: CreateBuff + ApplyBuff. Replaces an active buff of the same class.
     virtual bool apply_timed_buff(CombatSession&, ActorId, const TimedBuffSpecV1&, std::string& error) = 0;
+    // Source Lua per-target loop: CreateBuff + ApplyBuff on each target unless the policy skips it (flags read from the
+    // live session by target_buff_flags_v1). Outcomes are reported per target.
+    virtual bool apply_timed_buff_to_targets(CombatSession&, ActorId caster, const std::vector<ActorId>& targets,
+                                             const TimedBuffSpecV1&, const TargetBuffPolicyV1&,
+                                             std::vector<TargetBuffOutcomeV1>& outcomes, std::string& error) = 0;
 };
+
+// Lua IsPlayer / IsBoss / IsMiniBoss of a live target: the Character player flag and the CharAI flag word bits (AiProps.flags:
+// bit 2 = IsBoss 0x3a3158, bit 1 = IsMiniBoss 0x3a3144; same bits as status_states boss_flags_from_ai_word_v1).
+TargetBuffActorFlagsV1 target_buff_flags_v1(const CombatSession& session, ActorId target);
 
 // v21.8 slow (original Character::F_ApplyResult 0x3b10b4, the byte+25 bit 0 branch -> CharProperties::PROPS_DebuffSlow):
 // outcome bit 0x100 on a non-boss defender adds the ClassTable row Debuff_Slow with capacity 1, strength 0 and duration
@@ -156,6 +170,10 @@ public:
 
     bool remove_timed_buff(CombatSession&, ActorId, const std::string& class_name, std::string& error) override;
     bool apply_timed_buff(CombatSession&, ActorId, const TimedBuffSpecV1&, std::string& error) override;
+    // Sink entry: flags from target_buff_flags_v1 (the live session), skip rules from the policy.
+    bool apply_timed_buff_to_targets(CombatSession&, ActorId caster, const std::vector<ActorId>& targets,
+                                     const TimedBuffSpecV1&, const TargetBuffPolicyV1&,
+                                     std::vector<TargetBuffOutcomeV1>& outcomes, std::string& error) override;
 
     // CreateBuff + ApplyBuff returning the Lua handle (0 when the capacity-1 rule rejected a weaker re-cast).
     bool apply_timed_buff_handle(CombatSession&, ActorId, const TimedBuffSpecV1&, std::uint64_t& handle, std::string& error);

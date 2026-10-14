@@ -112,6 +112,14 @@ resolved by table, not by a runtime log, and **nobody has listened to any of the
 
 ## Tests
 
-- Full CTest on the merged tree (windows-foundation merged at 266999f4, before the Shield/EnergyBalance/Conversion changes):
-  214 of 214 passed.
-- CTest after the Shield, EnergyBalance, Conversion and writer changes: see the final line of this section.
+- Final: `windows-foundation` (b83df0bb, Illusionist included) merged into the branch; positional profile rows, the
+  event passive enum and the duplicate RNG member resolved (the Paladin rows now supply the Illusionist fields before
+  `self_heal_per_rank`). Full CTest on the merged tree: **214 of 214 passed** (`C:/dh218/w2-paladin-build/ctest3.out`).
+- Regression re-runs on the merged exe (same seeds, same keys): Shield (stun and knockback rolls passed, stun tick
+  applied=1, lizard hit gap of about 200 frames after the tick), HolyWeapon (62.5 -> 60.5 -> 58.5 -> 56.5 -> 54.5),
+  EnergyBalance (Lightning row, 3000 ms refresh), PurifyingAura (120 -> 135), DivineJudgement (requested 67.125, lizard
+  killed). The Offensive and Guarding aura cases were run on the pre-merge exe only; their cast and buff path is shared
+  with PurifyingAura, which was re-run.
+- Shared passive RNG: the merged build uses the Illusionist seed (0x1DC0DE) for every passive roll, so the Shield and
+  Conversion rolls differ from the pre-merge runs. Shield was re-run on the merged build (see above); Conversion was not
+  re-run and still has no observed proc.

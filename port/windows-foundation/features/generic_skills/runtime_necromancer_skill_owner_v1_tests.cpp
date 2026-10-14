@@ -48,6 +48,10 @@ public:
         applied.push_back({actor, spec.class_name, spec.strength, spec.duration_ms});
         return true;
     }
+    bool apply_timed_buff_to_targets(CombatSession&, ActorId, const std::vector<ActorId>&, const TimedBuffSpecV1&,
+                                     const TargetBuffPolicyV1&, std::vector<TargetBuffOutcomeV1>&, std::string&) override {
+        return true;
+    }
 };
 
 std::size_t count_lines(const std::vector<std::string>& lines, const std::string& needle) {
