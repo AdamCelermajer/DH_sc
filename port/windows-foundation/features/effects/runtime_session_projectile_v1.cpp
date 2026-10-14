@@ -679,7 +679,7 @@ RuntimeSessionProjectileV1::visuals() const {
         if (!p.live) continue;
         result.push_back({p.id, p.owner, p.source.row, p.source.model,
             p.source.model_uri, p.position, p.forward,
-            std::atan2(p.forward[1], p.forward[0])});
+            source_projectile_model_yaw_v1(p.forward)});
     }
     return result;
 }

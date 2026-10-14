@@ -7,6 +7,7 @@
 #include "../../asset_catalog.hpp"
 #include "../../../level-world/character_combat_queries.hpp"
 
+#include <cmath>
 #include <functional>
 #include <map>
 #include <optional>
@@ -47,6 +48,31 @@ struct RuntimeSessionProjectileImpactV1 {
     std::optional<OriginalMeleeResolution> source_calculation;
     bool source_apply_result_flag{};
 };
+
+// Model yaw for a projectile visual. The authored projectile BDAEs (elemental_bolt_fire, arrows, cyclone, chain
+// lightning, water bolt) put their mass on the -Y side of the model origin, so -Y is the flight axis. Actors use the same
+// convention: GameObject look vector (sin h, -cos h) with the visual rotated by h, so local -Y maps onto the look vector.
+// Projectiles copy the owner heading (Projectile::SetInfo -> GameObject::SetRotation(owner+364)); this helper returns the
+// heading that maps local -Y onto `forward`, i.e. atan2(fx, -fy). The earlier atan2(fy, fx) turned the model 90 degrees.
+inline float source_projectile_model_yaw_v1(const std::array<float, 3>& forward) {
+    return std::atan2(forward[0], -forward[1]);
+}
+
+// GameObject::GetTargetPosition 0x3935dc (same selector as runtime_ranged_skill_monster_v1): the cached target-node
+// position only when the node exists and is enabled, otherwise the object position.
+inline std::array<float, 3> source_game_object_target_position_v1(const ActorState& actor) {
+    if (actor.source_target_node180 && *actor.source_target_node180 != 0 && actor.source_target_position184)
+        return *actor.source_target_position184;
+    return actor.transform.position;
+}
+
+// Projectile::HandleImpactFX 0x3e4eec: a Character peer (kind 4 hit) gets the impact FX at its GetTargetPosition. Expiry
+// (no peer) keeps the projectile position. Non-character peers are not produced by the player bolt path.
+inline std::array<float, 3> projectile_impact_fx_position_v1(const RuntimeSessionProjectileImpactV1& impact,
+                                                            const ActorState* peer) {
+    if (!peer || impact.target == invalid_actor_id) return impact.position;
+    return source_game_object_target_position_v1(*peer);
+}
 
 struct RuntimeSessionProjectileContactV1 {
     std::uint64_t projectile_id{};
