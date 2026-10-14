@@ -279,6 +279,7 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_target_query_v1.cpp
   features/generic_skills/runtime_mage_skill_owner_v1.cpp
   features/generic_skills/runtime_archer_skill_owner_v1.cpp
+  features/generic_skills/runtime_archer_passive_owner_v1.cpp
   # v21.8 w2-necromancer: FireSkullRain / Pestilence / Rise external owner (timers, death watch, skill projectile).
   features/generic_skills/runtime_necromancer_skill_owner_v1.cpp
   features/generic_skills/runtime_necromancer_passive_owner_v1.cpp

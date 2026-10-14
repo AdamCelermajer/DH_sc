@@ -54,6 +54,7 @@
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/runtime_mage_skill_owner_v1.hpp"
 #include "features/generic_skills/runtime_archer_skill_owner_v1.hpp"
+#include "features/generic_skills/runtime_archer_passive_owner_v1.hpp"
 #include "features/generic_skills/runtime_necromancer_skill_owner_v1.hpp"
 #include "features/generic_skills/runtime_necromancer_passive_owner_v1.hpp"
 #include "features/generic_skills/combat_result_event_bus_v1.hpp"
@@ -7113,6 +7114,7 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::generic_skills::RuntimePassiveSkillOwnerV1> passiveOwner;
         std::unique_ptr<f::generic_skills::RuntimeEventPassiveOwnerV1> passiveEvents;
         std::unique_ptr<f::generic_skills::RuntimeNecromancerPassiveOwnerV1> necroPassives; // v21.8 w2-necromancer: Wrath, Putrid
+        std::unique_ptr<f::generic_skills::RuntimeArcherPassiveOwnerV1> archerPassives; // v21.8 w2-archer: Precision, SideStep
         std::vector<f::generic_skills::CombatResultEventV1> passivePendingHits;
         const f::CombatSession* passiveSessionSeen=nullptr;
         bool passiveErrorShown=false;
@@ -8714,6 +8716,7 @@ int main(int argc,char** argv) {
                                     return applied;
                                 };
                                 archerServices.knock_back=[&](f::CombatSession& session,const f::generic_skills::RuntimeSkillKnockBackRequestV1& knock,std::string& e)->bool {
+                                    if(!sourceKnockBackSink){e="Source Push consumer is not bound";return false;}
                                     return sourceKnockBackSink(session,knock,e);
                                 };
                                 archerServices.random=[&](std::uint32_t bound,std::uint32_t& value,std::string& e)->bool {
@@ -8964,7 +8967,7 @@ int main(int argc,char** argv) {
                     if(passiveSessionSeen!=combatSession.get()) {
                         passiveSessionSeen=combatSession.get();
                         ensureTimedBuffOwner();
-                        passiveEvents.reset();necroPassives.reset();passiveOwner.reset();passivePendingHits.clear();
+                        passiveEvents.reset();necroPassives.reset();archerPassives.reset();passiveOwner.reset();passivePendingHits.clear();
                         passiveBus=std::make_unique<f::generic_skills::CombatResultEventBusV1>();
                         passiveOwner=std::make_unique<f::generic_skills::RuntimePassiveSkillOwnerV1>(*timedBuffs);
                         passiveEvents=std::make_unique<f::generic_skills::RuntimeEventPassiveOwnerV1>(
@@ -8972,6 +8975,25 @@ int main(int argc,char** argv) {
                         necroPassives=std::make_unique<f::generic_skills::RuntimeNecromancerPassiveOwnerV1>(
                             *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id(),
                             [&](const std::string& sound,std::string& e)->bool{if(!runtimeAudio){e="no audio runtime";return false;}return runtimeAudio->play_named_plain(sound.c_str(),e);});
+                        {
+                            // v21.8 w2-archer: Precision / SideStep (StealAIEvent OnTargetHit) on the same bus; HasBow reads the live main hand.
+                            f::generic_skills::RuntimeArcherPassiveServicesV1 archerPassiveServices;
+                            archerPassiveServices.has_bow=[&]()->bool{
+                                const auto hands=currentLocomotionItems();
+                                return hands.first>=0&&hands.first<int(locomotionItems.rows.size())&&locomotionItems.rows[std::size_t(hands.first)].record.words[22]==4;
+                            };
+                            archerPassiveServices.knock_back=[&](f::CombatSession& session,const f::generic_skills::RuntimeSkillKnockBackRequestV1& knock,std::string& e)->bool{
+                                if(!sourceKnockBackSink){e="Source Push consumer is not bound";return false;}
+                                return sourceKnockBackSink(session,knock,e);
+                            };
+                            archerPassiveServices.random=[&](std::uint32_t bound,std::uint32_t& value,std::string& e)->bool{
+                                if(!combatSession||!combatSession->world()){e="no combat world for the random draw";return false;}
+                                return combatSession->world()->random_uniform(bound,value,e);
+                            };
+                            archerPassiveServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
+                            archerPassives=std::make_unique<f::generic_skills::RuntimeArcherPassiveOwnerV1>(
+                                *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id(),std::move(archerPassiveServices));
+                        }
                         combatSession->set_combat_result_observer([&](f::ActorId attacker,f::ActorId target,std::uint32_t outcomes,bool died){
                             if(attacker==combatSession->player_id()||target==combatSession->player_id())
                                 std::cout<<"Passive hit observed frame="<<drawn<<" attacker="<<attacker<<" target="<<target<<" outcomes="<<outcomes<<" died="<<died<<'\n';
@@ -8980,10 +9002,12 @@ int main(int argc,char** argv) {
                         passiveErrorShown=false;
                     }
                     const auto passiveSkillTables=menuSourceOwner.skill_owner->borrow();
+                    archerPassives->bind(*combatSession); // the Lua OnSkillUpdate_ buff needs the live Session at the first rank sync
                     std::string passiveError;
                     if(!f::generic_skills::sync_stat_passive_ranks_v1(*passiveOwner,*combatSession,combatSession->player_id(),state,passiveSkillTables,passiveError)||
                        !f::generic_skills::sync_event_passive_ranks_v1(*passiveEvents,state,passiveSkillTables,passiveError)||
-                       !f::generic_skills::sync_necromancer_passive_ranks_v1(*necroPassives,state,passiveSkillTables,passiveError))
+                       !f::generic_skills::sync_necromancer_passive_ranks_v1(*necroPassives,state,passiveSkillTables,passiveError)||
+                       !f::generic_skills::sync_archer_passive_ranks_v1(*archerPassives,state,passiveSkillTables,passiveError))
                         std::cerr<<"Passive rank sync frame="<<drawn<<": "<<passiveError<<'\n';
                     // es-passive TEST ONLY (--test-event-passive-rank killing_frenzy=N | carrion_eater=N): the event passive's
                     // rank without a saved row. The saved SkillList of the available saves (Rogue) has no such row.
@@ -9110,6 +9134,7 @@ int main(int argc,char** argv) {
                 if(passiveBus&&passiveEvents&&combatSession) {
                     passiveEvents->bind(*combatSession);
                     necroPassives->bind(*combatSession);
+                    archerPassives->bind(*combatSession);
                     for(const auto& hit:passivePendingHits) passiveBus->dispatch(hit);
                     passivePendingHits.clear();
                     for(const auto& heal:passiveEvents->take_carrion_heals())
@@ -9119,6 +9144,8 @@ int main(int argc,char** argv) {
                         if(!passiveEvents->advance(*combatSession,gameplayDt,frenzyError)) std::cerr<<"Event passive frame="<<drawn<<": "<<frenzyError<<'\n';
                         std::string necroError;
                         if(!necroPassives->advance(*combatSession,gameplayDt*1000.0,necroError)) std::cerr<<"Necromancer passive frame="<<drawn<<": "<<necroError<<'\n';
+                        std::string archerError;
+                        if(!archerPassives->advance(*combatSession,gameplayDt*1000.0,archerError)) std::cerr<<"Archer passive frame="<<drawn<<": "<<archerError<<'\n';
                     }
                     if(!passiveEvents->last_error().empty()&&!passiveErrorShown) {
                         passiveErrorShown=true;std::cerr<<"Event passive frame="<<drawn<<": "<<passiveEvents->last_error()<<'\n';

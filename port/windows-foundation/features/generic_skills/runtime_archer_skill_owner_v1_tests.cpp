@@ -12,6 +12,7 @@
 //   - Volley: rebound chance from TempProp1 through the shared RNG service, rebound arrow spawned ON the first victim toward a
 //     different enemy, and the Lua target swap when it reports the first victim again.
 // Not covered here (real runs only): projectile flight against the native physical world, FX/sound files, animation.
+#include "runtime_archer_passive_owner_v1.hpp"
 #include "runtime_archer_skill_owner_v1.hpp"
 #include "runtime_skill_use_profile_registry_v1.hpp"
 #include "../../combat_session.hpp"
@@ -345,6 +346,94 @@ int main(int argc, char** argv) {
             check(health(3) + health(4) + health(5) < before, "Volley rebound did not damage the new target instead of the first victim");
             check(has_line(rec.trace, "Volley rebound arrow hit"), "Volley rebound hit was not reported");
             std::cout << "Volley: GetRand(0,100) vs TempProp1, no rebound at 90, rebound arrow on the first victim -> new target at 10\n";
+        }
+        // ---- passives: Precision and SideStep on the shared event bus ------------------------------------------------------
+        {
+            struct FakeBuffs final : TimedBuffSinkV1 {
+                std::vector<std::string> calls;
+                bool remove_timed_buff(CombatSession&, ActorId, const std::string& cls, std::string&) override { calls.push_back("remove " + cls); return true; }
+                bool apply_timed_buff(CombatSession&, ActorId, const TimedBuffSpecV1& spec, std::string&) override {
+                    calls.push_back("apply " + spec.class_name + " rank=" + std::to_string(spec.strength) + (spec.permanent ? " permanent" : ""));
+                    return true;
+                }
+            } buffs;
+            CombatResultEventBusV1 bus;
+            bool bow = true;
+            std::vector<std::string> trace;
+            std::uint32_t next_draw = 0;
+            std::vector<ActorId> knocked;
+            RuntimeArcherPassiveServicesV1 services;
+            services.has_bow = [&]() { return bow; };
+            services.knock_back = [&](CombatSession&, const RuntimeSkillKnockBackRequestV1& request, std::string&) {
+                check(request.attacker == 1 && request.great && request.generation != 0, "SideStep knockback request is malformed");
+                knocked.push_back(request.target);
+                return true;
+            };
+            services.random = [&](std::uint32_t bound, std::uint32_t& value, std::string&) { check(bound == 101, "GetRand(0,100) is [0,101)"); value = next_draw; return true; };
+            services.trace = [&](const std::string& line) { trace.push_back(line); };
+            dh2::data::PropertyRules rules;
+            check(dh2::data::load_property_rules(db.characters, rules, error), error);
+            RuntimeArcherPassiveOwnerV1 passives(buffs, db.classes, rules, bus, 1, services);
+            passives.bind(session);
+            std::string e;
+            check(archer_passive_kind_for_script_v1("prince_archer_precision") == ArcherPassiveKindV1::precision &&
+                  archer_passive_kind_for_script_v1("prince_archer_sidestep") == ArcherPassiveKindV1::side_step &&
+                  archer_passive_kind_for_script_v1("prince_archer_bowmastery") == ArcherPassiveKindV1::none,
+                  "Archer passive script mapping");
+            // Precision: OnSkillUpdate_ with a bow applies the permanent buff at the rank and starts the 1000 ms check.
+            check(passives.set_rank(ArcherPassiveKindV1::precision, 3, e) && passives.precision_buff_active(), "Precision did not apply at rank 3 with a bow");
+            check(buffs.calls.size() == 1 && buffs.calls[0] == "apply Skill_Archer_Precision rank=3 permanent", "Precision buff call is wrong: " + (buffs.calls.empty() ? std::string("none") : buffs.calls[0]));
+            check(passives.set_rank(ArcherPassiveKindV1::precision, 3, e) && buffs.calls.size() == 1, "An unchanged rank must not rerun OnSkillUpdate_");
+            // OnTargetHit(attacker == self) with the buff present and a bow: nothing to do.
+            bus.dispatch({1, 2, 0, false});
+            check(buffs.calls.size() == 1, "Precision rebuilt a buff that is already present");
+            // The player drops the bow: the 1000 ms check removes the buff.
+            bow = false;
+            check(passives.advance(session, 999.0, e) && passives.precision_buff_active(), "Precision removed its buff before the 1000 ms check");
+            check(passives.advance(session, 2.0, e) && !passives.precision_buff_active() && buffs.calls.back() == "remove Skill_Archer_Precision", "checkbuff did not remove the buff without a bow");
+            check(passives.active_timers() == 0, "checkbuff must stop its own timer");
+            // A landed hit without a bow does not create the buff; with a bow it does (the Lua OnTargetHit path).
+            bus.dispatch({1, 2, 0, false});
+            check(!passives.precision_buff_active(), "Precision applied without a bow");
+            bow = true;
+            bus.dispatch({1, 2, 0, false});
+            check(passives.precision_buff_active() && buffs.calls.back() == "apply Skill_Archer_Precision rank=3 permanent", "Precision OnTargetHit did not create the buff with a bow");
+            // A miss (outcomes & 3) selects the missed callback: no OnTargetHit work.
+            const auto calls_before = buffs.calls.size();
+            check(passives.set_rank(ArcherPassiveKindV1::precision, 0, e) && !passives.precision_buff_active() && buffs.calls.size() == calls_before + 1, "Rank 0 did not remove Precision");
+            bus.dispatch({1, 2, 1, false});
+            check(!passives.precision_buff_active(), "Precision listened on a miss");
+            std::cout << "Precision: permanent buff at the rank with a bow, 1000 ms checkbuff removal without one, OnTargetHit re-creation, rank 0 removes\n";
+
+            // SideStep: defender == player, attacker in melee reach, GetRand(0,100) < TempProp1 starts a 500 ms check timer.
+            auto* lizard = session.actor(2);
+            check(lizard != nullptr, "SideStep lizard absent");
+            lizard->transform.position = {origin[0] + 20.0f, origin[1], origin[2]};
+            check(passives.set_rank(ArcherPassiveKindV1::side_step, 5, e), e);
+            next_draw = 100;  // the highest GetRand value never beats the chance
+            bus.dispatch({2, 1, 0, false});
+            check(passives.side_step_procs() == 0 && passives.active_timers() == 0, "SideStep proc'd at the highest roll");
+            next_draw = 0;
+            bus.dispatch({2, 1, 1, false});  // a miss: no OnTargetHit
+            check(passives.side_step_procs() == 0, "SideStep listened on a miss");
+            bus.dispatch({2, 1, 0, false});
+            check(passives.side_step_procs() == 1 && passives.active_timers() == 1, "SideStep did not start its check timer at roll 0");
+            check(passives.advance(session, 499.0, e) && passives.side_step_checks() == 0, "SideStep check ran before 500 ms");
+            check(passives.advance(session, 2.0, e) && passives.side_step_checks() == 1 && knocked.size() == 1 && knocked[0] == 2, "SideStep check did not request the attacker's knockback");
+            check(has_line(trace, "SideStep check attacker=2 knockback=requested"), "SideStep check is not traced");
+            // A lizard that is not in Attack after the request ends the loop (StopTimerCB + attacker:Stop()).
+            check(passives.active_timers() == 0, "SideStep timer must stop when the attacker is not in Attack");
+            // Out of reach: no roll at all.
+            lizard->transform.position = {origin[0] + 5000.0f, origin[1], origin[2]};
+            const auto draws_before = passives.side_step_procs();
+            bus.dispatch({2, 1, 0, false});
+            check(passives.side_step_procs() == draws_before && passives.active_timers() == 0, "SideStep proc'd outside the melee reach");
+            // Rank 0 (not learned): nothing.
+            lizard->transform.position = {origin[0] + 20.0f, origin[1], origin[2]};
+            check(passives.set_rank(ArcherPassiveKindV1::side_step, 0, e), e);
+            bus.dispatch({2, 1, 0, false});
+            check(passives.side_step_procs() == draws_before, "SideStep proc'd at rank 0");
+            std::cout << "SideStep: melee-range hit on the player, GetRand vs TempProp1, 500 ms knockback check, loop ends when the attacker leaves Attack\n";
         }
         std::cout << "runtime_archer_skill_owner_v1 passed\n";
         return 0;
