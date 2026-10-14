@@ -50,6 +50,9 @@ struct Result {
     std::uint32_t property23_added = 0;
     std::int32_t property24_status = 0;
     std::uint32_t property24_added = 0;
+    // Non-Player outgoing aggro entries that the source loop would also visit.
+    // They are not dispatched here because their CharAI owners are not bound.
+    std::uint32_t unmodeled_recipients = 0;
 };
 
 enum class Status : std::uint32_t {
@@ -59,8 +62,9 @@ enum class Status : std::uint32_t {
 // One already-reached Character::Kill recipient episode. Call after the
 // initial DropLoot attempt, including a deferred/unsupported loot result.
 // The instance is consumed once the supported source recipient starts event4;
-// retries must not create another episode. The only modeled recipient is the
-// sole Player identity in the victim's outgoing aggro table.
+// retries must not create another episode. The modeled recipient is the single
+// Player identity in the victim's outgoing aggro table; other entries are
+// counted in Result::unmodeled_recipients.
 class Runtime {
     Bindings bindings_;
     bool busy_ = false;

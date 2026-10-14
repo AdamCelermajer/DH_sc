@@ -91,14 +91,26 @@ Status Runtime::after_loot_attempt(std::uintptr_t victim, std::uintptr_t killer,
     }
     if (!valid(bindings_)) return Status::invalid_argument;
 
+    // Character::Kill walks every outgoing aggro entry and credits each one that
+    // resolves to a Player. This kernel owns exactly one Player recipient (its
+    // CharAI/state machine). Other entries (monsters, faery) have their own
+    // CharAI and event4 owners that are not bound here, so they are counted and
+    // reported rather than dispatched. Zero or duplicate Player entries are not
+    // a single credit episode and stay ineligible.
     const auto& aggro = *bindings_.victim_outgoing;
-    if (aggro.count != 1 || aggro.entries[0].character != bindings_.character)
-        return Status::ineligible_aggro;
+    std::uint32_t player_entries = 0;
+    std::uint32_t other_entries = 0;
+    for (std::uint32_t i = 0; i < aggro.count; ++i) {
+        if (aggro.entries[i].character == bindings_.character) ++player_entries;
+        else ++other_entries;
+    }
+    if (player_entries != 1) return Status::ineligible_aggro;
 
     busy_ = true;
     consumed_ = true;
     struct BusyReset { bool& value; ~BusyReset() { value = false; } } reset{busy_};
     *output = {};
+    output->unmodeled_recipients = other_entries;
     error.clear();
 
     try {
