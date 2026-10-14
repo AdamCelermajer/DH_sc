@@ -9230,9 +9230,11 @@ int main(int argc,char** argv) {
                         if(impact.result)std::cout<<" damage="<<impact.result->health_removed<<" requested="<<impact.result->requested_damage<<" applied="<<impact.result->applied<<" died="<<impact.result->target_died;
                         std::cout<<'\n';
                         if(impact.fx>=0&&sourceEffectsFactory) {
-                            std::uintptr_t created=0;const float at[3]={impact.position[0],impact.position[1],impact.position[2]};std::string fxError;
+                            // v21.8 w5-fireball: Projectile::HandleImpactFX gives a Character peer the FX at its GetTargetPosition.
+                            const auto impactAt=f::effects::projectile_impact_fx_position_v1(impact,impact.target!=dh::foundation::invalid_actor_id?combatSession->actor(impact.target):nullptr);
+                            std::uintptr_t created=0;const float at[3]={impactAt[0],impactAt[1],impactAt[2]};std::string fxError;
                             if(!sourceEffectsFactory->manager().play_set(impact.fx,at,nullptr,0,&created,fxError))std::cerr<<"Mage projectile impact FX diagnostic: "<<fxError<<'\n';
-                            else std::cout<<"Mage projectile impact FX set="<<impact.fx<<" created="<<created<<'\n';
+                            else std::cout<<"Mage projectile impact FX set="<<impact.fx<<" created="<<created<<" at="<<at[0]<<','<<at[1]<<','<<at[2]<<'\n';
                         }
                         if(impact.sound>=0&&runtimeAudio) {
                             std::string soundError;
@@ -10044,7 +10046,7 @@ int main(int argc,char** argv) {
                                 if(!rangedProjectileFx.attach(key,projectile.model_uri,bytes,*sourceEffectsFactory,reason)){
                                     std::cout<<"[ranged-skill] projectile model FX not attached "<<projectile.model_uri<<": "<<reason<<'\n';rangedProjectileRefused.insert(projectile.model_uri);continue;}
                             }
-                            const float yaw=std::atan2(projectile.forward[1],projectile.forward[0]);
+                            const float yaw=f::effects::source_projectile_model_yaw_v1(projectile.forward); // v21.8 w5-fireball: model -Y = flight axis
                             std::array<float,16> world=f::identity();
                             world[0]=std::cos(yaw);world[1]=std::sin(yaw);world[4]=-std::sin(yaw);world[5]=std::cos(yaw);
                             world[12]=projectile.position[0];world[13]=projectile.position[1];world[14]=projectile.position[2];

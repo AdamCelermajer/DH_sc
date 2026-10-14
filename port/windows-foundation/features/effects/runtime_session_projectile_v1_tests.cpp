@@ -879,6 +879,19 @@ void run(const std::filesystem::path& root) {
 int main(int argc, char** argv) {
     try {
         check(argc == 2, "Original shared asset root required");
+        {
+            // v21.8 w5-fireball: the projectile model's flight axis is local -Y (actor convention, look (sin h, -cos h)).
+            // For every heading the visual yaw must put local -Y on the projectile forward vector, so a bolt flies along its
+            // flame instead of sideways (the old atan2(fy, fx) rotated the authored flame 90 degrees to the right).
+            for (float heading : {0.0f, 0.7f, -2.0f, 3.0f, 1.5707963f}) {
+                const std::array<float, 3> forward{std::sin(heading), -std::cos(heading), 0.0f};
+                const float yaw = dh::foundation::effects::source_projectile_model_yaw_v1(forward);
+                const std::array<float, 3> model_flight_axis{std::sin(yaw), -std::cos(yaw), 0.0f}; // R(yaw) * (0,-1)
+                check(std::fabs(model_flight_axis[0] - forward[0]) < 1e-5f && std::fabs(model_flight_axis[1] - forward[1]) < 1e-5f,
+                      "Projectile visual yaw does not map the model -Y flight axis onto the forward vector");
+            }
+            std::cout << "PASS projectile visual yaw maps model -Y onto the forward vector for headings 0..pi/2\n";
+        }
         run(argv[1]);
         return 0;
     } catch (const std::exception& e) {
