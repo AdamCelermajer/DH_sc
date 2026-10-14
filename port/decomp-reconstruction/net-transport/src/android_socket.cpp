@@ -223,7 +223,8 @@ bool CAndroidSocket::IsReadyForRW() {
 }
 
 // 0x8408ac _ZN14CAndroidSocket13SendBroadcastEPKcii
-// Partial: XP_DEBUG_OUT logging dropped. Returns the sendto() result.
+// Verified against Hex-Rays: the broadcast sockaddr and sendto(...) with its result returned. Only the
+// XP_DEBUG_OUT traces are dropped.
 int CAndroidSocket::SendBroadcast(const char* data, int length, int port) {
     sockaddr_in addr = MakeInet(INADDR_BROADCAST, port);
     return static_cast<int>(
@@ -303,8 +304,8 @@ void CAndroidSocket::GetHostName(char** out) {
 }
 
 // 0x840cc8 _ZN14CAndroidSocket8RecvFromEPci
-// Partial: XP_DEBUG_OUT logging dropped. The sender address is read and discarded.
-// Returns the recvfrom() result.
+// Verified against Hex-Rays: recvfrom(...) and its result. The sender address is only turned into text for the
+// dropped trace, so discarding it changes nothing observable.
 int CAndroidSocket::RecvFrom(char* buffer, int length) {
     sockaddr_in from{};
     from.sin_family = AF_INET;
@@ -314,8 +315,8 @@ int CAndroidSocket::RecvFrom(char* buffer, int length) {
 }
 
 // 0x840de0 _ZN14CAndroidSocket6SendToEPKciS1_i
-// Partial: XP_DEBUG_OUT logging dropped. A null host sends nothing and returns 0.
-// Returns the sendto() result.
+// Verified against Hex-Rays: a null host returns 0; otherwise the sockaddr is built and sendto(...) runs with
+// its result returned. Only the XP_DEBUG_OUT trace is dropped.
 int CAndroidSocket::SendTo(const char* data, int length, const char* host, int port) {
     if (host == nullptr) {
         return 0;
