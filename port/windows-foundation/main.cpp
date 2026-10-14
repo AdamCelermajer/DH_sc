@@ -8922,7 +8922,7 @@ int main(int argc,char** argv) {
                         }
                         if(impact.sound>=0&&runtimeAudio) {
                             std::string soundError;
-                            if(!runtimeAudio->script_play_plain(impact.sound,0,soundError))std::cerr<<"Mage projectile impact sound diagnostic: "<<soundError<<'\n';
+                            if(!runtimeAudio->play_positional_source_sound(impact.sound,{impact.position[0],impact.position[1],impact.position[2]},soundError))std::cerr<<"Mage projectile impact sound diagnostic: "<<soundError<<'\n';
                             else std::cout<<"Mage projectile impact sound row="<<impact.sound<<" submitted\n";
                         }
                     }

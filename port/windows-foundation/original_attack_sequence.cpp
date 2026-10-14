@@ -26,6 +26,38 @@ bool original_sequence_policies(const OriginalMeleeBindings& bindings,OriginalSe
     }
     require(found&&!next.empty(),"Original redirected sequence type/loop metadata is required");output=std::move(next);error.clear();return true;
 }catch(const std::exception& e){error=e.what();return false;}}
+bool original_resolve_type2_choices(const OriginalCombatVisualPlan& plan,const OriginalSequencePolicies& policies,
+    OriginalAttackSelection& selection,const OriginalType2Draw& draw,std::size_t& drawn,std::string& error){try {
+    const auto* sequence=plan.sequence(selection.state,selection.variant);require(sequence,"Explicit original state/variant does not exist");require(!sequence->phases.empty(),"Original attack state has no phases");
+    std::map<std::vector<std::size_t>,std::size_t> choices;std::size_t draws=0;
+    std::function<void(std::vector<std::size_t>)> visit=[&](std::vector<std::size_t> path) {
+        const OriginalCombatPhase* first=nullptr;std::set<std::size_t> children;
+        for(const auto& phase:sequence->phases)if(prefix(path,phase.sourcePath)) {
+            if(!first)first=&phase;
+            if(phase.sourcePath.size()==path.size())return; // leaf
+            children.insert(phase.sourcePath[path.size()]);
+        }
+        require(first&&!children.empty(),"Original phase hierarchy is incomplete");require(path.size()<3,"Original redirect depth exceeds supported source stack");
+        std::size_t expectedChild=0;for(const auto child:children)require(child==expectedChild++,"Original sequence child hierarchy has missing steps");
+        OriginalSequencePolicy policy{sequence->id,sequence->type,sequence->loop,sequence->name};
+        if(!path.empty()) {
+            require(first->ancestors.size()>=path.size(),"Missing redirected original sequence ancestry");const auto& redirect=first->ancestors[path.size()-1];require(redirect.redirect==1,"Unsupported original redirect mode");
+            const auto found=policies.find(redirect.animationId);require(found!=policies.end(),"Missing redirected sequence Type/Loop for "+std::to_string(redirect.animationId));policy=found->second;
+        }
+        require(policy.type>=0&&policy.type<=2,"Unsupported original sequence type");
+        std::vector<std::size_t> indexes;
+        if(policy.type==1)indexes.assign(children.begin(),children.end());
+        else if(policy.type==2) {
+            std::uint32_t pick=0;
+            if(draw){std::string drawError;require(draw(static_cast<std::uint32_t>(children.size()),pick,drawError),drawError.empty()?"Type2 choice draw failed":drawError);++draws;}
+            require(pick<children.size(),"Type2 draw outside the source steps");
+            choices[path]=pick;indexes.push_back(pick);
+        } else indexes.push_back(0);
+        for(auto index:indexes){auto child=path;child.push_back(index);visit(std::move(child));}
+    };
+    visit(selection.group_path);
+    selection.choices=std::move(choices);drawn=draws;error.clear();return true;
+}catch(const std::exception& e){error=e.what();return false;}}
 bool OriginalAttackSequence::prepare(const OriginalCombatVisualPlan& plan,const OriginalSequencePolicies& policies,
     const OriginalAttackSelection& selection,OriginalAttackSequenceServices services,const std::string& alias,std::string& error){try {
     require(!alias.empty(),"Virtual attack action name is required");require(services.restart_clip&&services.visual.select&&services.visual.range&&services.visual.markers&&services.visual.update,"Complete attack visual/restart services are required");

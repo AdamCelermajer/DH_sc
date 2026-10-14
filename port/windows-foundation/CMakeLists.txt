@@ -418,8 +418,8 @@ target_link_libraries(runtime_session_projectile_render_v1_tests PRIVATE foundat
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_session_projectile)
 add_test(NAME runtime_session_projectile_render_v1 COMMAND runtime_session_projectile_render_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
-# v21.8 magewire: the skill projectile AABBs are checked against the staged package when it exists (argv[2]).
-set(DH_STAGED_MAGEWIRE_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged-magewire/assets")
+# v21.8 magewire: the skill projectile AABBs are checked against the staged package when it exists (argv[2]). v21.8 w2-archer: staged3 holds the magewire skill models and the Archer arrows.
+set(DH_STAGED_MAGEWIRE_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged3/assets")
 if(EXISTS "${DH_STAGED_MAGEWIRE_ASSETS}/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae")
   add_test(NAME runtime_session_projectile_render_v1_skill_models COMMAND runtime_session_projectile_render_v1_tests
     "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets" "${DH_STAGED_MAGEWIRE_ASSETS}")

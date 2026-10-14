@@ -119,6 +119,9 @@ public:
     // v20 SCRIPTSVC: Script_PlaySound plain (VoxSoundManager::Play, a4 = delay ms, loop from the XML emitter) and
     // Script_StopSound plain (VoxSoundManager::Stop, fade ms). ordinal<0 is a source no-op. Uses the same producer.
     bool submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error);
+    // v21.8 w2-archer: Projectile impact/miss sound (ProjectileTable ImpactSFX/ObjectImpactSFX, sdd row, plain OR event row
+    // such as 291 env_weapon_arrow_hit) played at a world position with no target (Play3D, null subject). ordinal<0 is a no-op.
+    bool submit_positional_source_sound(std::int32_t source_ordinal,const std::array<float,3>& position,std::string& error);
     // Named event diagnostics preserve missing-sample/no-output distinctions.
     NamedUiCueResultV1 submit_named_plain_sound(const char* name,std::string& error);
     NamedUiCueResultV1 submit_named_ui_sound(const char* name,std::string& error);

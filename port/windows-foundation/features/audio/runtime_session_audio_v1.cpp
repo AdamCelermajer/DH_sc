@@ -377,6 +377,13 @@ bool RuntimeSessionAudioV1::script_play_plain(std::int32_t ordinal,int delay_ms,
     return false;
 }
 
+bool RuntimeSessionAudioV1::play_positional_source_sound(std::int32_t ordinal,const std::array<float,3>& position,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    if(host_->submit_positional_source_sound(ordinal,position,error)) {error.clear();return true;}
+    if(missing_original_asset_v1(error)) {log_<<"Positional source sound silent: "<<error<<'\n';error.clear();return true;}
+    return false;
+}
+
 bool RuntimeSessionAudioV1::play_named_plain(const char* name,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     const auto ordinal=name?host_->source_ordinal(name):-1;
