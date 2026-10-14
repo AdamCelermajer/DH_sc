@@ -9,6 +9,7 @@
 #include "../../../game-data/ai.hpp"
 
 #include <algorithm>
+#include <iostream> // v21.8 w2-assassin: execution-gate evidence
 #include <cmath>
 #include <limits>
 #include <utility>
@@ -1388,6 +1389,10 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
                 return fail(error, active.receipt.detail.c_str());
             }
             const bool boss = actor_is_boss_v1(session, target);
+            // v21.8 w2-assassin: gate evidence (raw x256 Level values, as the Lua compares them).
+            std::cout << "Execution gate skill=" << active.receipt.skill_name << " target=" << target << " boss=" << boss
+                      << " targetLevelRaw=" << victim->sheets.resolved[19] << " casterLevelRaw=" << caster_props->sheets.resolved[19]
+                      << " killBelowRaw=" << (caster_props->sheets.resolved[19] + 2) << "\n";
             // Raw x256 compare, as the Lua: en_level < level + 2 (both GetProp values, no unit conversion).
             if (!boss && victim->sheets.resolved[19] < caster_props->sheets.resolved[19] + 2) {
                 if (!session.script_kill_actor(target, actor_id, error)) {
