@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
             const ActorId player = 1, monster = 2;
             const float heal = float(class_cells("Skill_Necromancer_CarrionEater", 2)[kTempProp1]) / 256.0f;
             check(heal > 0.0f, "CarrionEater TempProp1 must be positive at rank 2");
-            session.actor(1)->health = session.actor(1)->max_health - 3.0f * heal;
+            { std::string hp_error; check(session.world()->set_current_health(1, session.actor(1)->max_health - 3.0f * heal, hp_error), hp_error); }
             const float before = session.actor(1)->health;
             // A kill by someone else does nothing; a non-kill hit does nothing.
             bus.dispatch({monster, player, 0u, true});
@@ -187,8 +187,23 @@ int main(int argc, char** argv) {
             bus.dispatch({player, monster, 0u, true});
             check(std::fabs(session.actor(1)->health - (before + heal)) < 1e-3f,
                   "A player kill must heal TempProp1 at the rank (" + std::to_string(heal) + ")");
+            check(live(36) == std::int32_t(std::lround(session.actor(1)->health * 256.0f)),
+                  "Heal must go through the saved HP cell (the death-reward vital sync compares HP*256 with the property)");
+            {
+                const auto heals = passives.take_carrion_heals();
+                check(heals.size() == 1 && heals[0].rank == 2 && std::fabs(heals[0].heal - heal) < 1e-3f &&
+                          std::fabs(heals[0].before - before) < 1e-3f && std::fabs(heals[0].after - (before + heal)) < 1e-3f,
+                      "Exactly the player's own kill is recorded as a heal event (before/heal/after)");
+                check(passives.take_carrion_heals().empty(), "take_carrion_heals drains the list");
+            }
+            // Live damage reaches ActorState first (the property sheet lags until the next vital sync): the heal is
+            // computed from the actor HP, not from the stale property cell (real-run bug: hp 104.9 -> 166.8).
+            session.actor(1)->health -= 4.0f;
+            const float lagged = session.actor(1)->health;
+            bus.dispatch({player, monster, 0u, true});
+            check(std::fabs(session.actor(1)->health - (lagged + heal)) < 1e-3f, "Heal must start from the live actor HP");
             // Clamp: a heal larger than the missing HP fills to max.
-            session.actor(1)->health = session.actor(1)->max_health - 0.25f * heal;
+            { std::string hp_error; check(session.world()->set_current_health(1, session.actor(1)->max_health - 0.25f * heal, hp_error), hp_error); }
             bus.dispatch({player, monster, 0u, true});
             check(session.actor(1)->health == session.actor(1)->max_health, "Carrion Eater must clamp HP to max");
             check(live(36) == std::int32_t(session.actor(1)->max_health * 256.0f) || std::abs(live(36) - std::int32_t(session.actor(1)->max_health * 256.0f)) < 256,

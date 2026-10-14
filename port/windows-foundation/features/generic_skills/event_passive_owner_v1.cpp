@@ -120,15 +120,18 @@ void RuntimeEventPassiveOwnerV1::carrion_kill() {
         return;
     }
     const float heal = float(sheet[kTempProp1]) / 256.0f;
-    const float healed = std::min(state->max_health, state->health + heal);
-    // Write HP to the actor and to the property sheet (the source writes HP through SetProp).
-    auto seeded = *live;
-    seeded.sheets.resolved[kHp] = std::int32_t(healed * 256.0f);
-    if (!world->update_combat_properties(player_, seeded, *world->traits(player_), error)) {
+    // HP is a saved-based property: a direct resolved[] write is recomputed away by the next resolve and made the
+    // death-reward vital sync fail ("Live ActorState vital could not be applied"). SetProp(HP) (set_current_health)
+    // moves the saved cell with the resolved cell, as the other source HP writers do.
+    // The live ActorState HP is the session truth (combat damage reaches it first; the property sheet is synchronised
+    // from it by the death-reward path), so the heal is computed from the actor and then published through SetProp.
+    const float before = state->health;
+    const float healed = std::min(state->max_health, before + heal);
+    if (!world->set_current_health(player_, healed, error)) {
         error_ = "Carrion Eater HP write: " + error;
         return;
     }
-    session_->actor(player_)->health = healed;
+    carrion_heals_.push_back({before, heal, healed, level});
 }
 
 bool RuntimeEventPassiveOwnerV1::advance(CombatSession& session, double dt_seconds, std::string& error) {

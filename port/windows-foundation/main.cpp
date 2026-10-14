@@ -8997,6 +8997,8 @@ int main(int argc,char** argv) {
                     passiveEvents->bind(*combatSession);
                     for(const auto& hit:passivePendingHits) passiveBus->dispatch(hit);
                     passivePendingHits.clear();
+                    for(const auto& heal:passiveEvents->take_carrion_heals())
+                        std::cout<<"Carrion Eater heal frame="<<drawn<<" rank="<<heal.rank<<" hp="<<heal.before<<"->"<<heal.after<<" heal="<<heal.heal<<'\n';
                     if(!gameplayPaused) {
                         std::string frenzyError;
                         if(!passiveEvents->advance(*combatSession,gameplayDt,frenzyError)) std::cerr<<"Event passive frame="<<drawn<<": "<<frenzyError<<'\n';
