@@ -36,7 +36,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      SkillUseTargetsV1::requery_at_use, 680.0f, false, native_search_max_angle_v1(135.0f),
      SkillTargetSortV1::frontal_first, false,
      true, true, false, nullptr, nullptr, false, true, 1500.0f,
-     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, false, true},
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, true},
     {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments",
      0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
      true,

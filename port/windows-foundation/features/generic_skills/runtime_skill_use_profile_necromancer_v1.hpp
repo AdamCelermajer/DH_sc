@@ -28,7 +28,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesNecromancerV1[
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
      false, true, false, nullptr, nullptr, true, true, 0.0f,
-     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, false},
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false},
     // Pestilence: OnPre search range = TempProp1 (400 + 20 L), half cone 240 degrees, LookAt(top); no cooldown.
     {"Pestilence", "prince_necromancer_pestilence", "Skill_Necromancer_Pestilence",
      0.0f, native_search_max_angle_v1(240.0f), SkillTargetSortV1::frontal_first, true,
@@ -36,7 +36,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesNecromancerV1[
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::closest_first, false,
      false, true, false, nullptr, nullptr, true, true, 0.0f,
-     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, true},
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, true},
     // Rise: no OnPre target query; no cooldown; the Use is the summon/projectile body (external owner).
     {"Rise", "prince_necromancer_rise", "Skill_Necromancer_Rise",
      0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
@@ -44,7 +44,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesNecromancerV1[
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
      false, true, false, nullptr, nullptr, true, true, 0.0f,
-     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, false},
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false},
 };
 
 // Returns the Necromancer profile whose SkillTable (name, script) pair matches exactly, or nullptr.
