@@ -36,6 +36,10 @@ Application& ApplicationGetInstance() {
 MenuManager* MenuManager::GetInstance() {
     return nullptr;
 }
+// The library's MenuManager::ResetFonts (0x42d72c) forwards to MultiMenuManager::ResetFonts() through
+// m_multiMenuManager, so it dereferences the null singleton above. This test builds no MultiMenuManager, so
+// the forward is stubbed out here instead. On an empty manager the real forward clears no fonts either.
+void MenuManager::ResetFonts() {}
 void SavegameManager::loadSettings(bool) {}
 void SavegameManager::saveSettings() {}
 int SavegameManager::getLanguage() const {

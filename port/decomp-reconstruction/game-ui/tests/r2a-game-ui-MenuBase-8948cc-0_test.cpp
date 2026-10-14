@@ -85,6 +85,15 @@ MenuManager* MenuManager::GetInstance() {
     return nullptr;  // reached only by FS_PopAllMenu, which this test does not call
 }
 
+// The library's MenuManager::ResetFonts (0x42d72c) forwards to MultiMenuManager::ResetFonts() through
+// m_multiMenuManager, so it dereferences the null singleton above. FS_SetLanguage reaches that forward once
+// setLanguage reports success, and this test builds no MultiMenuManager, so the forward is stubbed out here.
+// On an empty manager the real forward clears no fonts, so the call adds nothing to g_log.
+int g_resetFonts = 0;
+void MenuManager::ResetFonts() {
+    ++g_resetFonts;
+}
+
 void SavegameManager::loadSettings(bool languageOnly) {
     g_log.push_back(std::string("loadSettings ") + (languageOnly ? "1" : "0"));
 }
@@ -164,16 +173,19 @@ int main() {
     g_language = 7;
     Check(MenuBase::FS_SaveOptions("", "", nullptr), "FS_SaveOptions returns true");
     Check(LogIs({"saveSettings", "getLanguage", "setLanguage 7"}), "FS_SaveOptions saves, then re-applies the language");
-    Check(!MenuBase::FS_LoadOptions("", "", nullptr), "FS_LoadOptions returns false (result partial)");
+    Check(MenuBase::FS_LoadOptions("", "", nullptr), "FS_LoadOptions returns setLanguage's result (nonzero here)");
     Check(LogIs({"loadSettings 0", "getLanguage", "setLanguage 7"}),
           "FS_LoadOptions loads all settings, then re-applies the language");
 
-    // FS_SetLanguage: null and empty arguments make no call; a value calls setLanguage (the ResetFonts branch is partial).
+    // FS_SetLanguage: null and empty arguments make no call; a value calls setLanguage, then (the original
+    // returns ResetFonts' bool, which is void here) returns true.
     Check(!MenuBase::FS_SetLanguage("", nullptr, nullptr), "FS_SetLanguage(null) returns false");
     Check(!MenuBase::FS_SetLanguage("", "", nullptr), "FS_SetLanguage(empty) returns false");
     Check(LogIs({}), "FS_SetLanguage null and empty make no call");
-    Check(!MenuBase::FS_SetLanguage("", "3", nullptr), "FS_SetLanguage(3) returns false (result partial)");
+    g_resetFonts = 0;
+    Check(MenuBase::FS_SetLanguage("", "3", nullptr), "FS_SetLanguage(3) returns true");
     Check(LogIs({"setLanguage 3"}), "FS_SetLanguage(3) calls setLanguage(3)");
+    Check(g_resetFonts == 1, "FS_SetLanguage(3) resets the fonts once it has a result");
 
     // FS_ResetSaveFile: a nonempty argument is the slot; otherwise the slot is m_lastSlot. Negative slots do nothing.
     Check(MenuBase::FS_ResetSaveFile("", "5", nullptr), "FS_ResetSaveFile(5) returns true");

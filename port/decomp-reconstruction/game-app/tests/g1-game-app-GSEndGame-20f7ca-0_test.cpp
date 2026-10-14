@@ -16,6 +16,7 @@
 #include "dh2/StateMachine.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "net-session-online/c_online.hpp"
+#include "net-session-online/c_online_impl.hpp"
 
 namespace {
 
@@ -153,8 +154,12 @@ bool MenuBase::IsVisible() const {
     return reinterpret_cast<const MenuBase*>(&g_aboutTag) == this && g_aboutVisible;
 }
 
+// A real COnlineImpl with the online flag clear, as the original's GetOnline() returns. It MUST be a real
+// object: the library's GetOnlineGameFlag() (game-app/src/online_flag.cpp) dereferences this pointer through
+// COnline::IsOnlineGame(), so returning null here segfaults GSEndGame::Update instead of taking the offline path.
+static COnlineImpl g_testOnline;
 COnline* COnline::GetInstance() {
-    return nullptr;  // the test never dereferences it
+    return &g_testOnline;
 }
 
 void StateMachine::SwitchState(StateBase* state, bool owned) {

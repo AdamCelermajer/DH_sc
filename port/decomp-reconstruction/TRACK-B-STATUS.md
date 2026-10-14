@@ -38,19 +38,33 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
 
 ## Build state (2026-10-14, `build/tb-int`, native MinGW)
 
-`ninja -k 0`: 817 of 817 targets, exit 0. `ctest`: 776 of 812 pass. `link/library-duplicates` PASSES.
+`ninja -k 0`: 817 of 817 targets, exit 0. `ctest`: 778 of 812 pass. `link/library-duplicates` PASSES.
 
-- 36 tests fail: 26 SEGFAULT, 7 assertion failures, 3 exit `0xc0000409`
-  (`std::abort`, i.e. a link stub was reached). The first crash reproduced under gdb is
-  `scene_mesh_functions_test`'s `testCopy`, which dies on a null call in the
-  `createMeshWith2TCoords` path - a seam, not an assertion.
-  Sampled crash sites, all INSIDE reconstructed bodies rather than at a stub:
-  `GetOnlineGameFlag`, `AnimController::AnimController`, `PlayerManager::GetPlayerByCharacter`,
-  `OnScreenKeyboard::onEvent`, `LiftableObject::Release`, `TiXmlAttribute::Next`,
-  `AnimSetManager::AddTemplateAnim`, `AnimatedFX::_HandleLoopEnd`, `MenuBase::FS_IsSaveSlotValid`,
-  `SkyBoxMeshSceneNode::SkyBoxMeshSceneNode`. So the wave's reconstructions carry real
-  defects (or reach null seams) that need a per-test pass; they are not stub noise.
-  The three `vox-audio` `0xc0000409` ones are explicit:
+- 34 tests fail: 24 SEGFAULT, 7 assertion failures, 3 exit `0xc0000409` (a link stub was reached).
+  The first crash fixed (2026-10-14, third commit) was `GSEndGame-20f7ca-0`: its `COnline::GetInstance()`
+  stub returned null with the comment "the test never dereferences it", but the library's
+  `GetOnlineGameFlag()` (game-app/src/online_flag.cpp) reads `COnline::IsOnlineGame()` through that pointer.
+  The test now supplies a real `COnlineImpl`, as `LevelSavegame-0b011d-1_test` already did.
+  Two more fixed the same way: `MenuManager::ResetFonts` (0x42d72c) forwards through `m_multiMenuManager`,
+  and two MenuBase tests stubbed `MenuManager::GetInstance()` to null, so `FS_SetLanguage` and
+  `FS_IncOption` crashed; the forward is stubbed in the test and `r2a-game-ui-MenuBase-8948cc-0`'s
+  `FS_SetLanguage`/`FS_LoadOptions` assertions were stale (both handlers are reconstructed and return true
+  on a nonzero `setLanguage`).
+- Crash sites for the remaining segfaults, all INSIDE reconstructed bodies (so these are real defects or
+  unreconstructed seams, not stub noise). Grouped by owner:
+  - game-anim: `AnimSetManager::AddTemplateAnim`, `AnimatedFX::_HandleLoopEnd`,
+    `AnimController::AnimController`, `CSceneNodeAnimatorSet::animateNode`, `GamepadTweaker::UpdateButtonMappings`,
+    `v2Controller::Cmd_UseOOI`, `AnimationSet::FreeAll`, `EventManager::Raise`.
+  - game-app: `nativeResumeMusicBG`, `RenderFX::Find`, `VoxSoundManager::Play`.
+  - game-character: `PlayerManager::GetPlayerByCharacter` (2 tests), `Character::AddCharOIDToCache`.
+  - game-ui: `MenuBase::FS_IsSaveSlotValid`, `OnScreenKeyboard::onEvent`, `Dragable::Dragable`,
+    `MenuFlash2DCamera::Update`, `MenuFX::SetMenu`, `MenuManager::GetRoot` (reached through
+    `ApplyLanguageAndShowName`; `GetRoot` is 0x42cb80 = `multi->m_menuFX[2]` and has NO definition in the
+    tree yet, so `MenuBase-8948cc-1` needs that row reconstructed rather than another stub).
+  - game-world: `LiftableObject::Release`, `SkyBoxMeshSceneNode::SkyBoxMeshSceneNode`.
+  - other: `TiXmlAttribute::Next`.
+  - `scene_mesh_functions_test` dies on a null call in the `createMeshWith2TCoords` path.
+- The three `vox-audio` `0xc0000409` ones are explicit:
   `DH2 link stub called (not reconstructed yet): _ZN15VoxSoundManagerC1Ev`.
 - Regenerating `link-stubs/link_stubs.csv` was required after the residue wave:
   180 tests no longer linked without stubs (121 stub symbols).
@@ -100,13 +114,15 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 
 ## Running
 
-- Test triage: the 36 failing tests (see Build state above).
+- Test triage: the 34 failing tests (see the crash-site map in Build state above). The cheapest next
+  wins are the rows whose crash is a missing delegate (`MenuManager::GetRoot`), and the shared
+  `PlayerManager::GetPlayerByCharacter` path (2 tests).
 - armdiff: the ARM32 differential tester (NDK armv7a build plus Unicorn).
 
 ## Next
 
 1. Resolve the six duplicate global definitions so `link/library-duplicates` passes.
-2. Triage the 36 failing tests: separate seam crashes (a stub or a null reconstructed call) from real
+2. Triage the 34 failing tests: separate seam crashes (a stub or a null reconstructed call) from real
    reconstruction defects, and ledger each one.
 3. Continue the partial rows, biggest first: scene 444, video 245, net-session-online 192,
    game-world 176, game-app 118, net-transport 96, glitch-core-io 96.
