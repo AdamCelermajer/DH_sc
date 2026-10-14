@@ -104,6 +104,12 @@ struct RuntimeSkillUseProfileV1 {
     // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
     const RuntimeSkillVolleyV1* volleys = nullptr;
     std::uint8_t volley_count = 0;
+    // v21.8 w2-necromancer: OnPre TargetListSearch(RANGE) with RANGE = CharacterProperties.TempProp1 (Pestilence:
+    // RANGE = FromFixed(TempProp1)). Uses the class projection's TempProp1 like use_range_from_temp_prop1 does for Use.
+    bool pre_range_from_temp_prop1 = false;
+    // v21.8 w2-necromancer: the Lua `target:SetKnockBackState(true)` after each Character SkillCombatRoll with dmg > 0
+    // (DeathClaw). The great bank is selected (the Lua default great=true). Routed through the request's knockback sink.
+    bool knockback_great_on_character_hit = false;
 };
 
 // The volley that a Use selects. `cursor` counts the Uses already delivered for this actor and skill (it persists across

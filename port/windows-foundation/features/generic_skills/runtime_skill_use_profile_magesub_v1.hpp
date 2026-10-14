@@ -9,7 +9,8 @@
 //
 // Fields NOT encoded (documented gaps; the Lua is the reference):
 //   DeathClaw:
-//     - SetKnockBackState(true) on a damaged character (no knockback state in CombatSession).
+//     - (done, w2-necromancer) SetKnockBackState(true) on a damaged Character: knockback_great_on_character_hit routes an
+//       explicit great-bank Push request through the request knockback sink (verified in a real run).
 //     - The Use search is TargetListSearch(RANGE, ANGLE, 0, -40, 0, true): the extra origin arguments are not modelled.
 //       The port searches from the caster position (inference: the -40 origin shift is not reproduced).
 //   Figments:
@@ -34,7 +35,8 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      true,
      SkillUseTargetsV1::requery_at_use, 680.0f, false, native_search_max_angle_v1(135.0f),
      SkillTargetSortV1::frontal_first, false,
-     true, true, false, nullptr, nullptr, false, true, 1500.0f},
+     true, true, false, nullptr, nullptr, false, true, 1500.0f,
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0, false, true},
     {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments",
      0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
      true,

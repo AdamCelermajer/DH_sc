@@ -843,6 +843,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         ? static_cast<float>(projected_range) : profile->use_range;
     active.target_cone_radians = profile->use_cone_radians;
     active.cooldown_ms = profile->sets_cooldown ? cooldown_ms : 0.0;
+    active.pre_range = profile->pre_range_from_temp_prop1 ? static_cast<float>(projected_range) : profile->pre_range;
+    active.knockback_great = request.knockback_great;
     if (request.object_targets) active.object_targets = *request.object_targets;
     // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
     // failed sequence start must not restore Attack with no attack owner.
@@ -882,9 +884,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         target.caster = request.actor;
         target.status = SkillActorTargetQueryStatusV1::no_actor_target;
         // pre_range == 0: the authored OnPre has no target query (GroundSlam).
-        if (profile->pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
+        if (active.pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
                 order, request.target_facts, request.non_character_attackable_objects_absent,
-                profile->pre_range, profile->pre_cone_radians,
+                active.pre_range, profile->pre_cone_radians,
                 profile->pre_sort, target, error, request.object_targets)) return false;
         if(target.status==SkillActorTargetQueryStatusV1::non_character_target_unknown)
             return fail(error,"Source Focus Pre target query lacks its typed AttackableOnly owner");
@@ -1393,6 +1395,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             hit.element = active.element;
             hit.direct_amount = 0;
             hit.attacker_formula_sheet = &active.formula_sheet;
+            // v21.8 w2-necromancer: the pre-hit original state is the admission state of the SetKnockBackState request.
+            const std::int32_t state_before_hit = session.original_actor_state(target);
             DamageEvent result;
             if (!session.apply_source_result(hit, result, error)) {
                 active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
@@ -1406,6 +1410,23 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
                 if (std::find(active.receipt.target_hit_fx_targets.begin(), active.receipt.target_hit_fx_targets.end(),
                               target) == active.receipt.target_hit_fx_targets.end())
                     active.receipt.target_hit_fx_targets.push_back(target);
+            }
+            // v21.8 w2-necromancer: DeathClaw `if(character) and (dmg > 0) then target:SetKnockBackState(true)`. The Lua
+            // return value is not checked, so a sink failure is recorded as a diagnostic and the Use continues.
+            if (profile.knockback_great_on_character_hit && active.knockback_great && *active.knockback_great &&
+                result.requested_damage > 0.0f) {
+                RuntimeSkillKnockBackRequestV1 knockback;
+                knockback.attacker = actor_id;
+                knockback.target = target;
+                knockback.generation = generation;
+                knockback.event_index = hit.event_index;
+                knockback.source_id = active.receipt.skill_name;
+                knockback.target_state_before_hit = state_before_hit;
+                std::string knockback_error;
+                if (!(*active.knockback_great)(session, knockback, knockback_error))
+                    active.receipt.knockback_diagnostics.push_back(knockback_error);
+                else
+                    active.receipt.knockback_targets.push_back(target);
             }
             active.receipt.applied_results.push_back(std::move(result));
         }

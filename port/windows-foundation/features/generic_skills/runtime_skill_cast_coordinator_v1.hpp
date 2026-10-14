@@ -88,6 +88,10 @@ struct RuntimeSkillCastReceiptV1 {
     // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
     std::string target_hit_fx_name;
     std::vector<ActorId> target_hit_fx_targets;
+    // v21.8 w2-necromancer: Characters for which the explicit SetKnockBackState(true) was delivered, and the sink
+    // failures (a failed Lua call is not an error in the source, so the Use still completes).
+    std::vector<ActorId> knockback_targets;
+    std::vector<std::string> knockback_diagnostics;
     // v21.8 ES-API: PlaySound / PlayFX cues in authored order (OnPre cues first, then each Use). Never cleared by a
     // repeated volley, so the host dispatches only the cues appended since its last look at this generation.
     std::vector<SkillPresentationCueV1> presentation_cues;
@@ -104,6 +108,18 @@ struct RuntimeSkillCastReceiptV1 {
 // population. The coordinator deliberately supports only source scripts whose
 // complete Use payload has been recovered; an unsupported script rejects
 // before committing mana or changing the actor/session.
+// v21.8 w2-necromancer: one explicit `target:SetKnockBackState(true)` (great bank) from a skill Use. The pre-hit original
+// state is the admission state (CombatSession::original_actor_state before the roll), as capture_session_push_admission_v1.
+struct RuntimeSkillKnockBackRequestV1 {
+    ActorId attacker = invalid_actor_id;
+    ActorId target = invalid_actor_id;
+    std::uint64_t generation = 0;
+    std::uint32_t event_index = 0;
+    std::string source_id;
+    std::int32_t target_state_before_hit = -1;
+};
+using RuntimeSkillKnockBackSinkV1 = std::function<bool(CombatSession&, const RuntimeSkillKnockBackRequestV1&, std::string&)>;
+
 struct RuntimeSkillCastRequestV1 {
     RuntimeSkillCastDispatchV1 dispatch = RuntimeSkillCastDispatchV1::native_hud_skill;
     ActorId actor = invalid_actor_id;
@@ -138,6 +154,9 @@ struct RuntimeSkillCastRequestV1 {
     // Buff owner for skills whose Use creates a timed buff (profile.buff). Skills with a buff arm are rejected
     // before any mana/animation commit when this is null.
     TimedBuffSinkV1* timed_buffs = nullptr;
+    // v21.8 w2-necromancer: knockback sink for profile.knockback_great_on_character_hit (the Lua SetKnockBackState on a
+    // hit Character). Borrowed; the host binds it to the same same-Session Push consumer the source hits use.
+    const RuntimeSkillKnockBackSinkV1* knockback_great = nullptr;
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
     // v21.8 mage: executes the Pre/Use bodies of profile rows with `external_owner` (borrowed; the host owns it).
     RuntimeSkillExternalOwnerV1* external_owner = nullptr;
@@ -230,6 +249,9 @@ private:
         std::vector<SkillTargetSourceFactsV1> target_facts;
         std::optional<bool> non_character_attackable_objects_absent;
         float target_range = 0.0f, target_cone_radians = 3.1415927410125732421875f;
+        // v21.8 w2-necromancer: OnPre search range (profile.pre_range, or the class TempProp1 when pre_range_from_temp_prop1).
+        float pre_range = 0.0f;
+        const RuntimeSkillKnockBackSinkV1* knockback_great = nullptr;
         SkillTargetSortV1 target_sort = SkillTargetSortV1::frontal_first;
         double cooldown_ms = 0.0;
         bool is_hotty = false;
