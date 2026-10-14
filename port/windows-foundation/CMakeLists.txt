@@ -961,6 +961,8 @@ target_sources(foundation_data PRIVATE features/combat/b035_session_push_effect_
 add_executable(b035_session_push_effect_v1_tests features/combat/b035_session_push_effect_v1_tests.cpp)
 target_link_libraries(b035_session_push_effect_v1_tests PRIVATE foundation_runtime_equipment_menu foundation_data)
 add_test(NAME b035_session_push_effect_v1 COMMAND b035_session_push_effect_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-12/assets")
+# v21.8 w3-pose: CSStunned / CSScared pose through the general Session source-state path (original states 9 / 8).
+target_sources(foundation_data PRIVATE features/combat/session_status_pose_v1.cpp)
 
 target_sources(foundation_data PRIVATE features/combat_text/combat_text.cpp
   features/combat_text/combat_text_design.cpp features/combat_text/combat_text_live.cpp
@@ -1447,6 +1449,10 @@ add_library(foundation_status_states_session STATIC features/status_states/statu
 target_link_libraries(foundation_status_states_session PUBLIC foundation_status_states foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_status_states_session)
 target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_enemy)
+# v21.8 w3-pose: Stunned9/Scared8 pose through the real CombatSession (lizard + player, original tables/clips).
+add_executable(status_states_pose_session_v1_tests features/status_states/status_states_pose_session_v1_tests.cpp)
+target_link_libraries(status_states_pose_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_equipment_menu foundation_data)
+add_test(NAME status_states_pose_session_v1 COMMAND status_states_pose_session_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-12/assets")
 
 # v21.8 w2-archer: test-only bow save writer (not a CTest).
 add_executable(archer_bow_save_v21_8 tests/archer_bow_save_v21_8.cpp)

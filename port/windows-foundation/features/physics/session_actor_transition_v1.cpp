@@ -199,6 +199,15 @@ bool SessionActorTransitionConsumerV1::blur(
             [&session](ActorId id){return session.actor(id);},error))return false;
         return set_body_pinned(session,actor.id,true,error);
     }
+    case 8:
+    case 9:{
+        // w3-pose: CSStunned::OnBlur 0x3c3b4c clears the controller lock byte (*(*(a3+888)+8)) unconditionally and pins the physics object;
+        // CSScared::OnBlur 0x3c4834 clears Cmd_HeadTowards (no heading owner exists in this port) and pins the physics object.
+        if(!config_.source.knockback_controller_lock)
+            return fail(error,"Stunned/Scared Blur requires the actual controller lock owner");
+        if(!config_.source.knockback_controller_lock(actor.id,false,error))return false;
+        return set_body_pinned(session,actor.id,true,error);
+    }
     case 11:
         if(!config_.source.injured_blur_look_at)return fail(error,"Injured Blur requires actual controller/target408 LookAt provider");
         return config_.source.injured_blur_look_at(event,error);
@@ -288,6 +297,12 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
         actor.source_flags520=0x2341u;
         error.clear();return true;
     }
+    case 8:
+        actor.source_flags520=0x2240u; // CSScared::OnFocus 0x3c45c4 writes dword +0x520 = 8768
+        error.clear();return true;
+    case 9:
+        actor.source_flags520=0x2202u; // CSStunned::OnFocus 0x3c3cc0 writes dword +0x520 = 8706
+        error.clear();return true;
     case 11:
         actor.source_flags520=0x2b41u;
         error.clear();return true;
@@ -351,6 +366,17 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
         if(!config_.source.knockback_write_gate528(actor.id,gate,error)||
            !config_.source.knockback_controller_lock(actor.id,true,error)||
            !config_.source.knockback_look_at_cancel_sneaking(event,error))return false;
+        return set_body_pinned(session,actor.id,false,error);
+    }
+    case 8:
+    case 9:{
+        // CSStunned::OnFocus: after ANIM_Set (published by the Session), a Player (vtable +40) sets the controller lock byte, then
+        // CancelSneaking and unpin. CSScared::OnFocus sets no lock: the port locks a Player in Scared as well because CSScared registers
+        // none of the Move/Attack events (only 44, 34, 50008, 50010-50012), so the original state machine ignores those requests.
+        if(!config_.source.knockback_controller_lock||!config_.source.source_is_player)
+            return fail(error,"Stunned/Scared Focus requires the controller lock owner and the source IsPlayer getter");
+        bool player=false;if(!config_.source.source_is_player(actor.id,player,error))return false;
+        if(player&&!config_.source.knockback_controller_lock(actor.id,true,error))return false;
         return set_body_pinned(session,actor.id,false,error);
     }
     case 11:error.clear();return true;

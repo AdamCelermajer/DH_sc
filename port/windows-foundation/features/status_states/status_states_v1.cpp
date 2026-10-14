@@ -127,6 +127,10 @@ bool StatusStateOwnerV1::set_stun(ActorId id, double duration_ms, bool persist, 
         a.stun_left_ms = timer_from_duration(duration_ms);
     }
     if (persist) a.stun_persist = true;
+    if (external_state_) {
+        if (immediate) a.stun_forced = true;
+        return true;
+    }
     if (immediate) enter(a, StatusStateV1::stunned, "SetStunState immediate", id);
     else if (accepts_event_v1(a.state, kEventStunV1)) enter(a, StatusStateV1::stunned, "SetStunState event 50012", id);
     return true;
@@ -141,6 +145,10 @@ bool StatusStateOwnerV1::set_scare(ActorId id, double duration_ms, bool persist,
         a.scare_left_ms = timer_from_duration(duration_ms);
     }
     if (persist) a.scare_persist = true;
+    if (external_state_) {
+        if (immediate) a.scare_forced = true;
+        return true;
+    }
     if (immediate) enter(a, StatusStateV1::scared, "SetScareState immediate", id);
     else if (accepts_event_v1(a.state, kEventScareV1)) enter(a, StatusStateV1::scared, "SetScareState event 50013", id);
     return true;
@@ -171,22 +179,26 @@ void StatusStateOwnerV1::advance(double dt_ms) {
             a.stun_left_ms -= dt_ms;
             if (a.stun_left_ms <= 0.0) {
                 a.stun_bit = false;
+                a.stun_forced = false;
+                a.stun_pose_refused = false;
                 a.stun_left_ms = 0.0;
-                if (a.state == StatusStateV1::stunned) enter(a, StatusStateV1::idle, "stun timer end (INFERENCE)", id);
+                if (!external_state_ && a.state == StatusStateV1::stunned) enter(a, StatusStateV1::idle, "stun timer end (INFERENCE)", id);
             }
         }
         if (a.scare_bit && std::isfinite(a.scare_left_ms)) {
             a.scare_left_ms -= dt_ms;
             if (a.scare_left_ms <= 0.0) {
                 a.scare_bit = false;
+                a.scare_forced = false;
+                a.scare_pose_refused = false;
                 a.scare_left_ms = 0.0;
-                if (a.state == StatusStateV1::scared) enter(a, StatusStateV1::idle, "scare timer end (event 44)", id);
+                if (!external_state_ && a.state == StatusStateV1::scared) enter(a, StatusStateV1::idle, "scare timer end (event 44)", id);
             }
         }
         // CharStateMachine::Update re-raise while the bit is still set and the state left the status state.
-        if (a.stun_bit && a.state != StatusStateV1::stunned && accepts_event_v1(a.state, kEventStunV1))
+        if (!external_state_ && a.stun_bit && a.state != StatusStateV1::stunned && accepts_event_v1(a.state, kEventStunV1))
             enter(a, StatusStateV1::stunned, "Update re-raise of active stun", id);
-        if (a.scare_bit && a.state != StatusStateV1::scared && accepts_event_v1(a.state, kEventScareV1))
+        if (!external_state_ && a.scare_bit && a.state != StatusStateV1::scared && accepts_event_v1(a.state, kEventScareV1))
             enter(a, StatusStateV1::scared, "Update re-raise of active scare", id);
     }
 }
@@ -200,6 +212,45 @@ bool StatusStateOwnerV1::finish_knockback(ActorId id) {
 
 void StatusStateOwnerV1::remove_actor(ActorId id) {
     actors_.erase(id);
+}
+
+void StatusStateOwnerV1::sync_state(ActorId id, StatusStateV1 next) {
+    const auto found = actors_.find(id);
+    if (found != actors_.end()) found->second.state = next;
+}
+
+std::vector<ActorId> StatusStateOwnerV1::tracked_actors() const {
+    std::vector<ActorId> ids;
+    ids.reserve(actors_.size());
+    for (const auto& entry : actors_) ids.push_back(entry.first);
+    return ids;
+}
+
+bool StatusStateOwnerV1::stun_forced(ActorId id) const {
+    const auto found = actors_.find(id);
+    return found != actors_.end() && found->second.stun_forced;
+}
+
+bool StatusStateOwnerV1::scare_forced(ActorId id) const {
+    const auto found = actors_.find(id);
+    return found != actors_.end() && found->second.scare_forced;
+}
+
+void StatusStateOwnerV1::clear_forced(ActorId id, bool stun) {
+    const auto found = actors_.find(id);
+    if (found == actors_.end()) return;
+    (stun ? found->second.stun_forced : found->second.scare_forced) = false;
+}
+
+void StatusStateOwnerV1::refuse_pose(ActorId id, bool stun) {
+    const auto found = actors_.find(id);
+    if (found == actors_.end()) return;
+    (stun ? found->second.stun_pose_refused : found->second.scare_pose_refused) = true;
+}
+
+bool StatusStateOwnerV1::pose_refused(ActorId id, bool stun) const {
+    const auto found = actors_.find(id);
+    return found != actors_.end() && (stun ? found->second.stun_pose_refused : found->second.scare_pose_refused);
 }
 
 bool StatusStateOwnerV1::can_act(ActorId id) const {

@@ -189,6 +189,15 @@ struct CombatSessionSourceSequencePolicy {
     // P16 LIFECYCLE: legacy OriginalActorLifecycle program target (1 Spawn, 3 Idle, 17 PreSpawn).
     // Required when a physical transition handler is bound; -1 otherwise.
     std::int32_t lifecycle_to_state=-1;
+    // w3-pose (Stunned9 / Scared8 only): the source pose is "entry clip, then an infinite nested sequence" (stun: pre_stunned, then the
+    // looping stunned clip; scare: one looping walk leaf). `loop_state` / `loop_variant` / `loop_leaf_path` name that looping leaf in the
+    // supplied plan; its container repeat count comes from the supplied policies. The Session seeds it after the entry selection
+    // completes, or at once with `loop_only` (the entry selection is ignored). The state is left only by an admitted departure.
+    std::string loop_state;
+    std::size_t loop_variant=0;
+    std::vector<std::size_t> loop_leaf_path;
+    bool loop_only=false;
+    bool loop_root_motion=true; // false: pose only, the authored MoveGO of the looping leaf is not applied
 };
 struct CombatSessionObjectAnimationServices {
     // Consumers may select/remove object visuals, but must defer Session
@@ -578,4 +587,6 @@ private:
 namespace dh::foundation::combat {
 // w3-status: true when the original state accepts event 50011 (a non-direct SM_SetKnockBackState). Defined in combat_session.cpp.
 bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept;
+// w3-pose: acceptance of RaiseStateEvent 50012 (stun) / 50013 (scare) by the current original state. Defined in combat_session.cpp.
+bool source_status_event_accepted_v1(std::int32_t original_state,std::int32_t event,std::uint32_t flags520) noexcept;
 }

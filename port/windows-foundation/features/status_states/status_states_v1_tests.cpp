@@ -242,6 +242,39 @@ void test_apply_without_knockback() {
     check(none.can_act(kMonster), "slow alone does not stop the monster here");
 }
 
+// w3-pose: with external state authority the owner keeps the bits, timers and intent flags only; the host mirrors the real state.
+void test_external_state_authority() {
+    StatusStateOwnerV1 owner;
+    owner.set_external_state_authority(true);
+    check(owner.external_state_authority(), "external authority flag is stored");
+    check(owner.set_stun(kMonster, 500.0, true, false, kNormal, true), "stun accepted in external mode");
+    check(owner.stunned(kMonster) && owner.state(kMonster) == StatusStateV1::idle, "external mode never switches the internal state");
+    check(!owner.can_act(kMonster), "the bit alone blocks decisions");
+    check(!owner.stun_forced(kMonster), "an event-path stun is not forced");
+    check(owner.take_log().empty(), "external mode logs no internal state change");
+    check(owner.set_stun(kOther, 500.0, true, true, kNormal, true) && owner.stun_forced(kOther), "an immediate stun records the forced flag");
+    owner.clear_forced(kOther, true);
+    check(!owner.stun_forced(kOther), "the host consumes the forced flag");
+    check(!owner.pose_refused(kMonster, true), "no refusal by default");
+    owner.refuse_pose(kMonster, true);
+    check(owner.pose_refused(kMonster, true) && !owner.pose_refused(kMonster, false), "a refusal is per kind");
+    owner.sync_state(kMonster, StatusStateV1::stunned);
+    check(owner.state(kMonster) == StatusStateV1::stunned, "sync_state mirrors the real state");
+    check(owner.tracked_actors().size() == 2, "both actors are tracked");
+    owner.advance(300.0);
+    check(owner.stunned(kMonster), "still stunned before the duration ends");
+    owner.advance(300.0);
+    check(!owner.stunned(kMonster) && !owner.stun_forced(kOther) && !owner.pose_refused(kMonster, true),
+          "expiry clears the bit, the forced flag and the refusal");
+    check(owner.state(kMonster) == StatusStateV1::stunned, "the host, not the owner, ends the Stunned state (CSStunned::OnUpdate)");
+    owner.sync_state(kMonster, StatusStateV1::idle);
+    check(owner.can_act(kMonster), "actor acts again once the real state is Idle and the bit is clear");
+    owner.set_scare(kMonster, 400.0, true, false, kNormal, true);
+    check(owner.scared(kMonster) && !owner.scare_forced(kMonster), "scare bit without forced flag");
+    owner.remove_actor(kMonster);
+    check(!owner.scared(kMonster), "remove_actor drops the bits");
+}
+
 int main() {
     test_apply_without_knockback();
     test_boss_word();
@@ -255,6 +288,7 @@ int main() {
     test_scare_and_knockback();
     test_apply_outcome_order();
     test_integration_vicious_strike_stun();
+    test_external_state_authority();
     if (failures == 0) std::printf("status_states_v1 tests passed\n");
     return failures == 0 ? 0 : 1;
 }

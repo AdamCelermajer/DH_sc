@@ -26,9 +26,10 @@
 // CSSkill, CSScared, CSStunned, CSInteract, CSReviving, CSLiftingIdle, CSLiftingMove; CSCast/Injured/KnockedBack as noted).
 // State numbers proven in IDA: Idle 3, Move 4, Attack 5, Skill 6, Scared 8, Stunned 9, KnockedBack 10.
 //
-// Not modelled here (kept as explicit gaps): the anim clip playback itself (the caller supplies anim_ok), the
-// KnockedBack state end (the original ends it through the clip, not a timer), and the Stunned->Idle exit when the stun
-// timer fires (no 43 registration was found; INFERENCE: the port returns to Idle when the timer clears).
+// Not modelled in this owner (see status_states_session_v1 / session_status_pose_v1 for the Session side): the anim clip playback
+// itself (the caller supplies anim_ok) and the KnockedBack state end (the original ends it through the clip, not a timer).
+// w3-pose: the Stunned->Idle exit is CSStunned::OnUpdate 0x3c549c (SM_SetIdleState when the sm+44 stun bit is clear), not an event 43
+// registration; with external state authority the host performs that exit from the real Session state.
 #include "../../actor_state.hpp"
 
 #include <cstdint>
@@ -72,6 +73,10 @@ struct StatusActorV1 {
     bool knockback_great = false;   // bank selected by the bool passed to SM_SetKnockBackState
     double stun_left_ms = 0.0;      // +inf when the duration is 0 (CharTimers never fires an interval of 0)
     double scare_left_ms = 0.0;
+    bool stun_forced = false;       // w3-pose: the stun was requested with the immediate _SetState flag (external state authority)
+    bool scare_forced = false;
+    bool stun_pose_refused = false; // w3-pose: the host has no pose for this actor; no further re-raise until the bit clears
+    bool scare_pose_refused = false;
 };
 
 // Outcome tail computed from the F_ApplyResult bits and the attacker's resolved sheet.
@@ -108,6 +113,19 @@ public:
     bool finish_knockback(ActorId actor);
     void remove_actor(ActorId actor);
 
+    // w3-pose: when the host owns the real state machine (CombatSession original state 3/4/5/.../9), the owner only keeps the
+    // sm+44 bits, the timers and the intent flags; it never switches an internal state itself. The host reads the bits, the
+    // actual state and the original event acceptance, plays the pose, and mirrors the real state back through sync_state.
+    void set_external_state_authority(bool external) noexcept { external_state_ = external; }
+    bool external_state_authority() const noexcept { return external_state_; }
+    void sync_state(ActorId actor, StatusStateV1 state);
+    std::vector<ActorId> tracked_actors() const;
+    bool stun_forced(ActorId actor) const;     // immediate _SetState requested and not yet consumed
+    bool scare_forced(ActorId actor) const;
+    void clear_forced(ActorId actor, bool stun);
+    void refuse_pose(ActorId actor, bool stun); // the host has no pose; no re-raise until the bit clears
+    bool pose_refused(ActorId actor, bool stun) const;
+
     bool can_act(ActorId actor) const;
     StatusStateV1 state(ActorId actor) const;
     bool stunned(ActorId actor) const;
@@ -122,6 +140,7 @@ private:
     void enter(StatusActorV1&, StatusStateV1 next, const char* reason, ActorId id);
     std::map<ActorId, StatusActorV1> actors_;
     std::vector<std::string> log_;
+    bool external_state_ = false;
 };
 
 // The F_ApplyResult stun/scare tail for one defender, without knockback (0x80 is the Push consumer's job in this port).

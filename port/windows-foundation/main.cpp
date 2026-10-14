@@ -72,6 +72,7 @@
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "features/combat/b035_session_push_effect_v1.hpp" // B159/B035: incoming Push (SM_SetKnockBackState) consumer
+#include "features/combat/session_status_pose_v1.hpp" // v21.8 w3-pose: Stunned9/Scared8 pose bank + play
 #include "features/test_aids/follow_actor_aid_v1.hpp" // B158 harness: --follow-actor
 #include "features/test_aids/player_heal_aid_v1.hpp" // act1rogue harness: --test-player-heal
 #include "features/test_aids/zone_floor_placement_v1.hpp" // magefix2: --player-to <zone> walkable placement
@@ -466,6 +467,7 @@ struct Options {
     int attackFrames=0, attackStartFrame=0, targetFrame=-1, saveFrame=-1, loadFrame=-1;
     int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     std::vector<std::string> testSkillRanks; // es-passive TEST ONLY: --test-skill-rank NAME=RANK (SkillTable name, rank)
+    std::vector<std::string> testApplyStatus; // w3-pose TEST ONLY: --test-apply-status KIND:TARGET:MS@FRAME (KIND stun|scare|knockback, TARGET player|nearest)
     std::vector<std::string> testEventPassiveRanks; // es-passive TEST ONLY: --test-event-passive-rank killing_frenzy=N|carrion_eater=N
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
@@ -695,6 +697,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--test-skill-points") o.testSkillPoints=std::stoi(value()); // B096 TEST ONLY
         else if(arg=="--test-stat-points") o.testStatPoints=std::stoi(value()); // B103 TEST ONLY
         else if(arg=="--test-skill-rank") o.testSkillRanks.push_back(value()); // es-passive TEST ONLY
+        else if(arg=="--test-apply-status") o.testApplyStatus.push_back(value()); // w3-pose TEST ONLY
         else if(arg=="--test-event-passive-rank") o.testEventPassiveRanks.push_back(value()); // es-passive TEST ONLY
         else if(arg=="--fresh-player") o.freshPlayer=true;
         else if(arg=="--motion-node") o.motionNode=value();
@@ -1510,6 +1513,9 @@ int main(int argc,char** argv) {
         f::combat::SessionPushEffectSinkV1 sourcePushSink;
         f::generic_skills::RuntimeSkillKnockBackSinkV1 sourceKnockBackSink;
         std::map<std::string,f::combat::SessionPushAnimationBankV1> monsterPushBanks; // v21.8 faery2: per monster profile (defender's own CharAnimTable +72/+36 roots)
+        // v21.8 w3-pose: Stunned9/Scared8 pose banks (CharAnimTable +140 / +124): per monster profile, and per player equipment stance.
+        std::map<std::string,f::combat::SessionStatusAnimationBankV1> monsterStatusBanks;
+        std::map<std::int32_t,f::combat::SessionStatusAnimationBankV1> playerStatusBanks;
         if(sourcePlayerStanceEnabled) {
             const auto read=[&](const char* file){return f::read_content(assets,(std::filesystem::path(options.combat.tableRoot)/file).generic_string());};
             const auto records=read("loot_table_pyarray.bin"),names=read("loot_table_pyarraynames.bin"),fields=read("loot_table_pystructnames.bin");
@@ -2363,7 +2369,7 @@ int main(int argc,char** argv) {
             // B159/B035: the player's source Push roots (F_ApplyResult 0x3b10b4 -> SM_SetKnockBackState 0x3c5ea0 reads CharAnimTable +72
             // KnockedBack / +36 GreatKnockedBack, stanced by AnimStancedAnim bits 0x400/0x800). One bank per preloaded equipment
             // stance so a later weapon swap keeps its clips; the clips join the player's Session visual before initialize.
-            sourcePushBanks.clear();sourcePushBoundLease.reset();
+            sourcePushBanks.clear();sourcePushBoundLease.reset();playerStatusBanks.clear();
             if(locomotionLibrary&&!skillAnimationTables.characters.empty()) {
                 const auto pushTable=dh2_character_animation_table_id(actorProperties.sheets.resolved[2],std::int32_t(skillAnimationTables.characters.size()));
                 const auto constantsBytes=f::read_content(assets,"data/animations_pycst.bin");
@@ -2377,6 +2383,17 @@ int main(int argc,char** argv) {
                 auto& pushPolicy=options.combat.profiles.at(options.combat.playerProfileId);
                 if(!constantsOk||pushTable<0)std::cout<<"[push] source Push banks unavailable: "<<(constantsOk?"no CharAnimTable row":pushError)<<'\n';
                 else for(const auto stance:locomotionLibrary->stances()) {
+                    {   // w3-pose: the player's own Stunned/Scared roots (SM_SetStunState reads CharAnimTable +140 / SM_SetScareState +124, stanced by
+                        // AnimStancedAnim bits 0x200 / 0x100); the clips join the player's Session visual like the Push bank.
+                        f::combat::SessionStatusAnimationBankV1 statusBank;std::string statusError;
+                        if(f::combat::build_session_status_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,pushTable,stance,
+                            std::uint32_t(pushConstants.stanced_list_mask),options.character,"player-source-status-"+std::to_string(stance),statusBank,statusError)) {
+                            for(const auto& clip:statusBank.plan.config.clips)
+                                if(std::none_of(pushPolicy.sourceAnimationClips.begin(),pushPolicy.sourceAnimationClips.end(),[&](const auto& item){return item.first==clip.first;}))pushPolicy.sourceAnimationClips.push_back(clip);
+                            std::cout<<"[status-pose] player stance "<<stance<<" bank stun="<<statusBank.stun_sequence<<(statusBank.stun_looping?"(loop)":"")<<" scare="<<statusBank.scare_sequence<<(statusBank.scare_looping?"(loop)":"")<<" stunTree="<<statusBank.stun_description<<" scareTree="<<statusBank.scare_description<<'\n';
+                            playerStatusBanks.emplace(stance,std::move(statusBank));
+                        } else std::cout<<"[status-pose] player stance "<<stance<<" bank unavailable: "<<statusError<<'\n';
+                    }
                     f::combat::SessionPushAnimationBankV1 bank;
                     if(!f::combat::build_session_push_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,pushTable,stance,
                         std::uint32_t(pushConstants.stanced_list_mask),options.character,"player-source-push-"+std::to_string(stance),bank,pushError)) {
@@ -2392,7 +2409,7 @@ int main(int argc,char** argv) {
                 }
                 // v21.8 faery2: the same SM_SetKnockBackState reads the defender's OWN CharAnimTable row (+72 KnockedBack / +36 GreatKnockedBack),
                 // so every combat monster profile gets its bank (stance 0: no equipment stance) and its clips join its Session visual.
-                monsterPushBanks.clear();
+                monsterPushBanks.clear();monsterStatusBanks.clear();
                 if(constantsOk)for(auto& policyEntry:options.combat.profiles) {
                     const auto& monsterProfileId=policyEntry.first;
                     if(monsterProfileId==options.combat.playerProfileId||policyEntry.second.animationOnly)continue;
@@ -2402,6 +2419,16 @@ int main(int argc,char** argv) {
                     try{monsterRow=std::stoi(monsterProfile->animation_table);}catch(...){continue;}
                     if(monsterRow<0||std::size_t(monsterRow)>=skillAnimationTables.characters.size())continue;
                     f::CharacterVisualConfig monsterVisual;monsterVisual.model_path=monsterProfile->model_uri;
+                    {   // w3-pose: the monster's own Stunned/Scared roots (stance 0: monsters carry no equipment stance)
+                        f::combat::SessionStatusAnimationBankV1 statusBank;std::string statusError;
+                        if(f::combat::build_session_status_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,monsterRow,0,std::uint32_t(pushConstants.stanced_list_mask),
+                            monsterVisual,"monster-source-status-"+monsterProfileId,statusBank,statusError)) {
+                            for(const auto& clip:statusBank.plan.config.clips)
+                                if(std::none_of(policyEntry.second.sourceAnimationClips.begin(),policyEntry.second.sourceAnimationClips.end(),[&](const auto& item){return item.first==clip.first;}))policyEntry.second.sourceAnimationClips.push_back(clip);
+                            std::cout<<"[status-pose] monster "<<monsterProfileId<<" CharAnimTable="<<monsterRow<<" bank stun="<<statusBank.stun_sequence<<(statusBank.stun_looping?"(loop)":"")<<" scare="<<statusBank.scare_sequence<<(statusBank.scare_looping?"(loop)":"")<<" stunTree="<<statusBank.stun_description<<" scareTree="<<statusBank.scare_description<<'\n';
+                            monsterStatusBanks.emplace(monsterProfileId,std::move(statusBank));
+                        } else std::cout<<"[status-pose] monster "<<monsterProfileId<<" CharAnimTable="<<monsterRow<<" bank unavailable: "<<statusError<<'\n';
+                    }
                     f::combat::SessionPushAnimationBankV1 monsterBank;std::string monsterPushError;
                     if(!f::combat::build_session_push_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,monsterRow,0,std::uint32_t(pushConstants.stanced_list_mask),
                         monsterVisual,"monster-source-push-"+monsterProfileId,monsterBank,monsterPushError)) {
@@ -3044,6 +3071,8 @@ int main(int argc,char** argv) {
                         case 5:expected=0x2341u;break;
                         case 6:expected=0x6341u;break;
                         case 7:expected=0x6301u;break;
+                        case 8:expected=0x2240u;break;  // w3-pose: CSScared::OnFocus flags (8768)
+                        case 9:expected=0x2202u;break;  // w3-pose: CSStunned::OnFocus flags (8706)
                         case 10:expected=0x2341u;break; // B159: KnockedBack10 Focus flags (play_session_push_animation_v1 policy.state_flags)
                         case 11:expected=0x2b41u;break;
                         case 12:expected=0x241u|(traits->is_player?0x2000u:0u);break;
@@ -6022,6 +6051,31 @@ int main(int argc,char** argv) {
             sourcePushBoundLease=lease;
             std::cout<<"[push] source Push consumer bound banks="<<sourcePushBanks.size()<<'\n';
         };
+        // v21.8 w3-pose: the stun/scare pose provider. The status owner decides WHEN (bits, real Session state, original event acceptance);
+        // this host service picks the actor's own CharAnimTable bank (player: current equipment stance; monster: its profile) and plays it
+        // through CombatSession::play_actor_source_sequence as original state 9 / 8.
+        statusStates->set_pose_service({[&](f::CombatSession& session,f::ActorId id,bool stun,bool forced,std::uint64_t generation,bool& started,std::string& e)->bool{
+            started=false;e.clear();
+            const auto* traits=session.world()->traits(id);
+            const f::combat::SessionStatusAnimationBankV1* bank=nullptr;
+            if(traits&&traits->is_player) {
+                std::int32_t stance=-1;
+                if(locomotionLibrary) {
+                    const auto hands=currentLocomotionItems();
+                    f::equipment_menu::RuntimePlayerLocomotionSelectionV1 selected;std::string selectError;
+                    if(locomotionLibrary->select_exact(hands.first,hands.second,selected,selectError))stance=selected.stance;
+                }
+                const auto found=playerStatusBanks.find(stance);
+                if(found!=playerStatusBanks.end())bank=&found->second;
+            } else {
+                std::string profileId;
+                for(const auto& placed:population.actors())if(placed.definition.stableId==id){profileId=placed.profileId;break;}
+                const auto found=monsterStatusBanks.find(profileId);
+                if(found!=monsterStatusBanks.end())bank=&found->second;
+            }
+            if(!bank)return true; // no CharAnimTable stun/scare bank for this actor: source no-op for the pose
+            return f::combat::play_session_status_pose_v1(session,id,stun,forced,generation,*bank,{},started,e);
+        }});
         auto bindEnemyAI=[&](){
             if(!options.runtimeEnemyAI)return;
             if(!combatSession||!sourceObstacles||!motor)
@@ -9185,11 +9239,47 @@ int main(int argc,char** argv) {
                         passiveErrorShown=true;std::cerr<<"Event passive frame="<<drawn<<": "<<passiveEvents->last_error()<<'\n';
                     }
                 }
+                if(!options.testApplyStatus.empty()&&statusStates&&combatSession) { // w3-pose TEST ONLY: --test-apply-status KIND:TARGET:MS@FRAME
+                    for(const auto& spec:options.testApplyStatus) {
+                        const auto at=spec.rfind('@');
+                        if(at==std::string::npos||std::stoi(spec.substr(at+1))!=drawn)continue;
+                        const auto c1=spec.find(':'),c2=c1==std::string::npos?c1:spec.find(':',c1+1);
+                        if(c1==std::string::npos||c2==std::string::npos||c2>at){std::cerr<<"--test-apply-status expects KIND:TARGET:MS@FRAME: "<<spec<<'\n';continue;}
+                        const std::string kind=spec.substr(0,c1),which=spec.substr(c1+1,c2-c1-1);
+                        const double amount=std::stod(spec.substr(c2+1,at-c2-1));
+                        const auto playerId=combatSession->player_id();
+                        const auto* playerActor=combatSession->actor(playerId);
+                        f::ActorId nearest=f::invalid_actor_id;float nearestD=1e30f;
+                        for(const auto& placed:population.actors()) {
+                            const auto* candidate=combatSession->actor(placed.definition.stableId);
+                            if(!candidate||!candidate->alive()||candidate->id==playerId||!playerActor||!combatSession->world()->eligible_target(*playerActor,*candidate))continue; // hostile (eligible) actors only
+                            const float dx=candidate->transform.position[0]-playerActor->transform.position[0],dy=candidate->transform.position[1]-playerActor->transform.position[1];
+                            if(dx*dx+dy*dy<nearestD){nearestD=dx*dx+dy*dy;nearest=candidate->id;}
+                        }
+                        const f::ActorId target=which=="player"?playerId:nearest;
+                        std::string seamError;
+                        if(target==f::invalid_actor_id||!combatSession->actor(target)){std::cout<<"[test-status] no target for "<<spec<<" frame="<<drawn<<'\n';continue;}
+                        if(kind=="knockback") {
+                            const f::ActorId attacker=target==playerId?nearest:playerId;
+                            if(!sourcePushSink||attacker==f::invalid_actor_id){std::cout<<"[test-status] knockback needs the Push sink and an attacker frame="<<drawn<<'\n';continue;}
+                            f::combat::SessionPushRequestV1 push;
+                            push.attacker=attacker;push.target=target;push.generation=0x7E57000000ull+std::uint64_t(drawn);push.event_index=0;
+                            push.source_id="test-apply-status";push.marker_name="do_skill";push.source_outcomes=0x80u;push.great=amount!=0;
+                            push.source_mask=push.great?0x00100000u:0u;push.direct=false;push.target_state_before_hit=combatSession->original_actor_state(target);
+                            const bool ok=sourcePushSink(*combatSession,push,seamError);
+                            std::cout<<"[test-status] knockback target="<<target<<" great="<<push.great<<" stateBefore="<<push.target_state_before_hit<<" ok="<<ok<<" stateAfter="<<combatSession->original_actor_state(target)<<(ok?"":" error="+seamError)<<" frame="<<drawn<<'\n';
+                        } else {
+                            bool applied=false;
+                            const bool ok=statusStates->script_status(*combatSession,target,kind=="stun",amount,applied,seamError);
+                            std::cout<<"[test-status] "<<kind<<" target="<<target<<" ms="<<amount<<" ok="<<ok<<" applied="<<applied<<(ok?"":" error="+seamError)<<" frame="<<drawn<<'\n';
+                        }
+                    }
+                }
                 if(!gameplayPaused&&statusStates&&combatSession) {
                     // v21.8 es-status: rebind the stun/scare outcome consumer (a restore clears it; no lease = skip this frame),
                     // then the Stunned/Scared clock in milliseconds. Expiry returns the monster to Idle.
                     std::string statusError;
-                    if(statusStates->bind(*combatSession,statusError)) statusStates->advance(gameplayDt*1000.0);
+                    if(statusStates->bind(*combatSession,statusError)) statusStates->advance(*combatSession,gameplayDt*1000.0);
                     for(const auto& line:statusStates->owner().take_log()) std::cout<<"[status] "<<line<<'\n';
                     if(enemyController) { // controller gate counter, logged every 60 blocked monster-ticks
                         static std::size_t lastBlockedLog=0;

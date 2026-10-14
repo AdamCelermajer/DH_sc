@@ -79,6 +79,9 @@ struct CombatSession::Impl {
         std::optional<std::int32_t> presentationInitialState;
         CombatSessionStateAnimationServices stateServices;
         std::optional<CombatSessionSourceSequencePolicy> sourceStatePolicy;
+        // w3-pose: the resolved looping leaf of a Stunned9 / Scared8 pose (seeded after the entry clip, see the policy comment).
+        std::optional<OriginalCombatPhase> stateLoopPhase;
+        std::int32_t stateLoopRepeats=0;
         bool dispatchingDeparture=false;
         std::uint32_t turnPositive=0;
         double rotationFractionMs=0;
@@ -392,7 +395,8 @@ struct CombatSession::Impl {
             // setter. Otherwise Cast has no 50010 registration, and Skill's
             // CSM_Interrupted reads the actual focus flags bit16.
             const bool direct=result.source_mask&&(*result.source_mask&0x18000000u);
-            accepted=direct||(policy.original_state==6&&(policy.state_flags&0x10000u));
+            // w3-pose: CSScared / CSStunned register 50010 with CSM_Injured (returns 1), so a hit leaves them for Injured11.
+            accepted=direct||(policy.original_state==6&&(policy.state_flags&0x10000u))||policy.original_state==8||policy.original_state==9;
             return !accepted||actorTransitionHandler||depart_source_state(id,11,error);
         };
         const auto found=entries.find(id);
@@ -636,6 +640,15 @@ struct CombatSession::Impl {
         services.closed=[this,id](const dh2::timeline::Completion&,std::string&e){
             if(!numeric_animation_event(id,0x22,0,e))return false;
             auto& bound=entries.at(id);if(!bound.stateSequence)return true;
+            // w3-pose: CSStunned::OnInit (IDA 0x3c8730) registers only 50008, 50010 and 50011: NO event 34 (animation end), and CSScared
+            // registers 34 -> Idle only for its own finite clip (the scare clip is an infinite leaf). The Stunned9 pose is entry clip
+            // (pre_stunned) then the source infinite nested stunned sequence: when the entry closes the Session seeds that loop and stays in
+            // the state; it ends only by an admitted departure (stun bit clear, CSStunned::OnUpdate 0x3c549c, hit, knockback, death). A pose
+            // without a looping leaf holds its last frame (INFERENCE: like the non-looping Died clip).
+            if(bound.sourceStatePolicy&&(bound.sourceStatePolicy->original_state==9||bound.sourceStatePolicy->original_state==8)){
+                if(bound.stateLoopPhase){RetainedAnimationFrame seeded;return seed_status_loop(bound,seeded,e);}
+                return true;
+            }
             if(bound.sourceStatePolicy&&actorTransitionHandler){
                 const auto callback=bound.stateServices.finished;
                 CombatRuntimeTransition receipt{id,bound.sourceStatePolicy->original_state,
@@ -680,6 +693,16 @@ struct CombatSession::Impl {
         if(loop&&source->loop==0){error="Infinite seeded playback cannot be invented for a finite source sequence";return false;}
         return owner.seed_sequence(*assets,phase.clipName,phase.resolvedPath,rate,static_cast<std::int32_t>(phase.blendOut),phase.moveGO!=0,
                                   loop?static_cast<std::int32_t>(source->loop):0,frame,error);
+    }
+    // w3-pose: seeds the looping leaf of a Stunned9 / Scared8 pose (CharAnimator::ANIM_Set plays the stun clip as pre_stunned, then the
+    // source's infinite nested stunned sequence; the scare clip is one infinite walk leaf). Repeat count -1 = the source's infinite loop.
+    bool seed_status_loop(Entry& entry,RetainedAnimationFrame& frame,std::string& error){
+        if(!entry.stateLoopPhase||!entry.sourceStatePolicy){error="Status pose has no resolved looping leaf";return false;}
+        const auto& phase=*entry.stateLoopPhase;
+        const bool move=phase.moveGO!=0&&entry.sourceStatePolicy->loop_root_motion;
+        if(!entry.retained->seed_sequence(*assets,phase.clipName,phase.resolvedPath,static_cast<float>(phase.speed),
+            static_cast<std::int32_t>(phase.blendOut),move,entry.stateLoopRepeats,frame,error))return false;
+        entry.sourceSelectedClip=phase.clipName;return true;
     }
     bool prepare_retained(Entry& entry,ActorId id,const OriginalAttackSelection& selection,std::string& error) {
         if(!entry.retainedPhaseClock)return true;
@@ -1767,7 +1790,14 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         const bool lifecycleSequenceOnDead=entry.second.stateManaged&&entry.second.stateSequence&&!entry.second.sourceStatePolicy;
         if(!a->alive()&&!entry.second.animationOnly&&!lifecycleSequenceOnDead)continue;
         if(entry.second.stateManaged){
-            if(entry.second.stateSequence){if(!entry.second.retained->advance(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
+            if(entry.second.stateSequence){
+                // w3-pose: a Stunned9 / Scared8 pose past its entry clip is either the seeded infinite leaf or a held last frame.
+                if(entry.second.sourceStatePolicy&&(entry.second.sourceStatePolicy->original_state==9||entry.second.sourceStatePolicy->original_state==8)&&
+                   !entry.second.retained->active()){
+                    if(entry.second.retained->seeded()&&!entry.second.retained->advance_seeded(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;
+                    continue;
+                }
+                if(!entry.second.retained->advance(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
             else if(entry.second.retained->seeded()){if(!entry.second.retained->advance_seeded(ownedBeforeUpdate.count(entry.first)?0:dt,error))return false;}
             continue;
         }
@@ -2518,9 +2548,9 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     CombatSessionStateAnimationServices services,const CombatSessionSourceSequencePolicy& policy,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Source-sequence actor is unavailable";return false;}
     auto& s=*impl_;auto& entry=s.entries.at(id);
-    const bool generic=policy.original_state==6||policy.original_state==7||policy.original_state==10;
+    const bool generic=policy.original_state==6||policy.original_state==7||policy.original_state==8||policy.original_state==9||policy.original_state==10;
     if(!generic&&(policy.original_state!=-1||policy.state_flags||policy.generation)){
-        error="Source sequence policy must describe Skill6/Cast7/KnockedBack10 or legacy lifecycle playback";return false;
+        error="Source sequence policy must describe Skill6/Cast7/Scared8/Stunned9/KnockedBack10 or legacy lifecycle playback";return false;
     }
     if(generic&&(!policy.generation||!services.departed||!services.checkpoint)){
         error="Generic source sequence needs occurrence, departure and transient checkpoint policies";return false;
@@ -2537,6 +2567,33 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
             error="KnockedBack10 requires its live target/attacker, source flags and admitted current state";return false;
         }
     }
+    std::optional<OriginalCombatPhase> loopPhase;std::int32_t loopRepeats=0;
+    if(policy.original_state==8||policy.original_state==9){
+        // w3-pose: SM_SetScareState 0x3c6144 / SM_SetStunState 0x3c5ffc enter CSScared / CSStunned either by a forced _SetState (direct) or by
+        // RaiseStateEvent(50013 / 50012), which the CURRENT state accepts per its OnInit registration (source_status_event_accepted_v1).
+        // Focus flags are the CSScared::OnFocus 0x3c45c4 / CSStunned::OnFocus 0x3c3cc0 constants (8768 / 8706).
+        const auto* actor=s.world->find_actor(id);const auto* traits=s.world->traits(id);
+        const auto state=s.live_original_state(id);
+        const std::uint32_t expectedFlags=policy.original_state==9?0x2202u:0x2240u;
+        const bool accepted=policy.source_direct_transition||combat::source_status_event_accepted_v1(state,policy.original_state==9?50012:50013,
+            actor&&actor->source_flags520?*actor->source_flags520:0u);
+        if(!actor||!actor->alive()||!traits||policy.state_flags!=expectedFlags||!accepted){
+            error=std::string(policy.original_state==9?"Stunned9":"Scared8")+" requires a live target, its source flags and an admitted current state";return false;
+        }
+        if(!policy.loop_state.empty()){
+            const auto* phase=plan.phase(policy.loop_state,policy.loop_variant,policy.loop_leaf_path);
+            if(!phase||phase->clipName.empty()||phase->resolvedPath.empty()){error="Status pose looping leaf is absent from the supplied source plan";return false;}
+            std::int64_t repeats=0;
+            if(!phase->ancestors.empty()){
+                const auto found=policies.find(phase->ancestors.back().animationId);
+                if(found==policies.end()){error="Status pose looping container policy is missing";return false;}
+                repeats=found->second.loop;
+            }else{const auto* root=plan.sequence(policy.loop_state,policy.loop_variant);repeats=root?root->loop:0;}
+            if(repeats<-1||repeats>INT32_MAX){error="Status pose loop repeat count is outside the seeded-playback range";return false;}
+            loopPhase=*phase;loopRepeats=static_cast<std::int32_t>(repeats);
+        }
+        if(policy.loop_only&&!loopPhase){error="Loop-only status pose requires its looping leaf";return false;}
+    }else if(!policy.loop_state.empty()||policy.loop_only){error="Looping-leaf policy is only defined for Stunned9/Scared8";return false;}
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){
         error="Active generic source sequence requires an accepted departure before replacement";return false;
     }
@@ -2548,7 +2605,7 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     validationServices.visual=combat_visual_binding(*entry.visual);
     validationServices.restart_clip=[](const std::string&,std::string&){return true;};
     const auto alias="actor-"+std::to_string(id)+"/state-sequence";
-    if(!validation.prepare(plan,policies,selection,std::move(validationServices),alias,error))return false;
+    if(!policy.loop_only&&!validation.prepare(plan,policies,selection,std::move(validationServices),alias,error))return false;
     if(s.transitionDelivering||s.restoreTeardown||s.checkingAnimationCheckpoint){error="Source program cannot reenter transition/checkpoint/teardown";return false;}
     CombatRuntimeTransition receipt;
     if(s.actorTransitionHandler){
@@ -2579,13 +2636,17 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
             return false;
         }
     }
-    if(!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
+    if(!policy.loop_only&&!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
     entry.attackProgram=false;entry.stateManaged=true;entry.stateSequence=true;entry.stateFrozen=false;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
     entry.sourceStatePolicy=generic?std::optional<CombatSessionSourceSequencePolicy>{policy}:std::nullopt;
     if(!generic){s.lifecycleRegistered=true;s.lifecycleActivity=true;} // P17 DOORS2: same condition as the registration (generic source programs stay admissible)
     if(policy.original_state==10)reset_actor_action(*s.world->find_actor(id),CharacterAction::knocked_back);
     if(generic&&!s.facts(id,error))return false;
-    if(!entry.retained->begin(error))return false;
+    entry.stateLoopPhase=loopPhase;entry.stateLoopRepeats=loopRepeats;
+    if(policy.loop_only){ // w3-pose: no entry clip; the looping leaf plays at once (seeded playback, repeat count from the source container)
+        RetainedAnimationFrame seeded;
+        if(!s.seed_status_loop(entry,seeded,error))return false;
+    }else if(!entry.retained->begin(error))return false;
     if(s.actorTransitionHandler){receipt.stage=CombatRuntimeTransitionStage::after_change;return s.actor_transition(id,receipt,error);}
     return true;
 }
@@ -2696,6 +2757,20 @@ namespace dh::foundation::combat {
 bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept {
     switch (original_state) {
     case 1: case 3: case 4: case 5: case 6: case 8: case 9: case 11: case 13: case 15: case 18: case 19: return true;
+    default: return false;
+    }
+}
+// w3-pose: RaiseStateEvent(50012 stun / 50013 scare) acceptance by the current state, from the OnInit registrations (IDA 0x3c7d0c .. 0x3c8ee0):
+// 50012 is registered by Spawn1, Idle3, Move4, Attack5, Skill6, Scared8, Interact13, Reviving15, LiftingIdle18, LiftingMove19 (NOT Stunned9,
+// Cast7, KnockedBack10, Injured11, Dead12); 50013 by Idle3, Move4, Attack5, Skill6, Interact13, Reviving15, LiftingIdle18, LiftingMove19 (NOT
+// Spawn1, Scared8, Stunned9). Attack5 and Skill6 register with CSM_Interrupted 0x3ad244: Skill6 reads bit 16 of the Focus flags dword (+0x520),
+// so it is accepted only when that bit is set (the port's Skill flags 0x6341 never set it); Attack5 reads byte +0x441, whose writer is not in the
+// IDA export, so Attack5 is admitted (INFERENCE, as for the knockback table).
+bool source_status_event_accepted_v1(std::int32_t original_state,std::int32_t event,std::uint32_t flags520) noexcept {
+    switch (original_state) {
+    case 3: case 4: case 5: case 13: case 15: case 18: case 19: return event==50012||event==50013;
+    case 6: return (event==50012||event==50013)&&(flags520&0x10000u)!=0;
+    case 1: case 8: return event==50012;
     default: return false;
     }
 }
