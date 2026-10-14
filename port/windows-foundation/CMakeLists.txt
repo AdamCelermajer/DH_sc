@@ -1434,3 +1434,7 @@ add_library(foundation_status_states_session STATIC features/status_states/statu
 target_link_libraries(foundation_status_states_session PUBLIC foundation_status_states foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_status_states_session)
 target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_enemy)
+
+# v21.8 w2-archer: test-only bow save writer (not a CTest).
+add_executable(archer_bow_save_v21_8 tests/archer_bow_save_v21_8.cpp)
+target_link_libraries(archer_bow_save_v21_8 PRIVATE foundation_runtime_skills_menu foundation_data)

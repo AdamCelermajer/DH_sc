@@ -1799,7 +1799,14 @@ int main(int argc,char** argv) {
             // v21.8 mage: MagePlayerBase joins the same source attack-bank path; its staff attack is ranged (no melee markers).
             const auto familyRow=f::playable_base_class_row(state.class_id);
             if((familyRow=="RoguePlayerBase"||familyRow=="MagePlayerBase")&&locomotionLibrary) {
-                const bool rangedStaff=familyRow=="MagePlayerBase";
+                // v21.8 w2-archer: a ranged main hand (ItemTable Type 4 = bow, 5 = staff) makes the attack ranged for the
+                // Rogue family too (Archer bow): the state-5 marker goes to the projectile executor, no melee marker.
+                const auto rangedMainType=[&]() -> int {
+                    const auto mainIndex=dh2::data::item_id(locomotionItems,options.combat.mainItemId);
+                    if(mainIndex<0)return -1;
+                    return std::int32_t(locomotionItems.rows[std::size_t(mainIndex)].record.words[22]);
+                };
+                const bool rangedStaff=familyRow=="MagePlayerBase"||rangedMainType()==4||rangedMainType()==5;
                 const std::string attackClipPrefix="player-source-attack/";
                 options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,attackClipPrefix.size(),attackClipPrefix)==0;}),options.character.clips.end());
                 // v21.8 subclass: the library holds the family base profile. The bank plan and combat session identify the
