@@ -349,7 +349,9 @@ void CStringAttribute::setInt(int value) {
 int CStringAttribute::getInt() const { return std::atoi(narrowText(*this).c_str()); }
 
 // 0x327290 _ZN6glitch2io16CStringAttribute8getFloatEv
-// Parsed with fast_atof_move, which is partial (the scale table is upstream's).
+// The wide branch narrows the wide text in place (as the listing does through STLport's
+// _M_range_initialize over the wide member's begin/end) and parses the copy; the narrow branch
+// parses the member directly. Parsing itself is fast_atof_move, whose own row is still partial.
 float CStringAttribute::getFloat() const {
     const std::string text = narrowText(*this);
     float result = 0.f;
@@ -394,8 +396,9 @@ void CStringAttribute::setBinary(void* data, int size) {
 }
 
 // 0x32d3d4 _ZN6glitch2io16CStringAttribute8setFloatEf
-// Formatted through an output stream on a double, as the original does. Partial: the
-// stream's digit generation is the C++ library's, not the one the original linked.
+// Formatted through an output stream on a double. The listing calls STLport's
+// std::priv::__put_num<char, std::char_traits<char>, double> (0x30f5d8), which disassembles to the
+// ordinary locale num_put path, i.e. the same default double formatting this stream uses.
 void CStringAttribute::setFloat(float value) {
     std::ostringstream stream;
     stream << static_cast<double>(value);
@@ -548,9 +551,10 @@ const wchar_t* CLine2dAttribute::getTypeString() const { return L"line2d"; }
 const wchar_t* CLine3dAttribute::getTypeString() const { return L"line3d"; }
 
 // 0x3276f8 _ZNK6glitch2io18CVector4DAttribute9getMatrixEv
-// PARTIAL: the original reads the first four floats of the float storage (+0x30) without checking
-// the list kind or its length; missing entries read as zero here. The matrix is the identity with
-// the vector in elements 12..15 (row-major) and its flag is clear.
+// The matrix is the identity with the four floats at +0x30 (CNumbersAttribute::floatValues) in
+// elements 12..15 (row-major) and its flag clear, as the listing copies them unchecked. The port
+// substitutes 0.0f for a missing element (a host-necessitated guard for the original's read past a
+// shorter list, which is undefined there).
 glitch::core::CMatrix4<float> CVector4DAttribute::getMatrix() const {
     glitch::core::CMatrix4<float> m{};
     m.M[0] = m.M[5] = m.M[10] = 1.f;

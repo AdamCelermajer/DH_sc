@@ -358,9 +358,17 @@ void useNearestFiltering(const boost::intrusive_ptr<video::ITexture>& texture) {
 }  // namespace
 
 // 0x53f7c0 _ZN6glitch3gui8CGUIFont11loadTextureERKN5boost13intrusive_ptrINS_5video6CImageEEEPKc
-// PARTIAL: the 8-bit and 24-bit formats (5, 8, 10) are converted through the CImage format-conversion constructor (0x601d38), which is
-// declared but not reconstructed in glitch-video. The rest follows the original: the pixel formats 9 and 12 .. 14 are scanned directly, a
-// font without glyphs or with unbalanced markers is reported, and the bitmap becomes a texture without mipmaps and with nearest filtering.
+// Verified against Hex-Rays 0x53f7c0: null image -> false; work = image; switch on the image format - 5 and 8 are converted
+// with CImage(9, image) (0x601d38, reconstructed in glitch-video/src/image.cpp), 10 with CImage(12, image), then
+// readPositions16bit (9 and the converted 5/8) or readPositions32bit (10 and 12/13/14), and wrongCharacter (+0x38 in the
+// original) is getAreaFromCharacter(L' '); an unknown format logs and returns false. The marker/upper-corner check logs the
+// two messages; an empty sprite bank or no lower-right positions sets the result false but still calls setMaxHeight() (the
+// listing runs it in both arms), which the body now does. Otherwise the driver's mipmap option (+0x88 bit 0x10) is turned
+// off, CTextureManager::addTexture(textureManager = driver+0xe0, name, image, 1, 0) is called, the option is restored, the
+// minification (0x7000) and magnification (0x38000) filter bits are cleared with the dirty flags 4 and 8 set, the sprite
+// bank takes the texture (vtable +0x1c) and setMaxHeight() runs. The earlier partial note (CImage conversion ctor declared
+// but not reconstructed) is STALE; that ctor is reconstructed now, and the early-return arm now calls setMaxHeight() as
+// the listing does.
 bool CGUIFont::loadTexture(const boost::intrusive_ptr<video::CImage>& image, const char* name) {
     if (!image) {
         return false;
@@ -404,6 +412,9 @@ bool CGUIFont::loadTexture(const boost::intrusive_ptr<video::CImage>& image, con
                          os::ELL_ERROR);
     }
     if (spriteBank->getSprites().empty() || lowerRightPositions == 0) {
+        // The listing runs setMaxHeight() in both arms of this test (the false arm is v7 = 0 followed by the
+        // call), so it is called here too before returning false.
+        setMaxHeight();
         return false;
     }
     const bool mipmapsWereOn = (driver->m_options & 0x10u) != 0;

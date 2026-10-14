@@ -69,7 +69,7 @@ public:
 
 class CVector4DAttribute : public CNumbersAttribute {
 public:
-    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x3276f8: PARTIAL, see typed_attributes.cpp
+    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x3276f8: identity with floatValues in M[12..15]; a missing element reads as 0 (guard)
     CVector4DAttribute() = default;
     CVector4DAttribute(const char* attrName, const glitch::core::vector4d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}

@@ -3,10 +3,21 @@
 // Declarations come from dh2/CameraBase.hpp. A PARTIAL body names the callee or layout it waits on.
 
 #include <cmath>
+#include <cstdint>
 
+#include "dh2/Application.hpp"                 // ApplicationGetInstance(), the device at Application +0x10
 #include "dh2/CameraBase.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"   // DeviceSceneManager(): the scene manager at device +0x1c
+#include "dh2/global/Vec3f_K.hpp"              // Vec3f_K (0x99f878), the (0, 0, 1) up vector
 #include "dh2/global/Vec3f_Origin.hpp"  // Vec3f_Origin (0x99f854), the zero Point3D<float> global
+#include "glitch-core-io/core/matrix4_base.hpp"  // glitch::core::detail::setbyproduct_nocheck
+#include "glitch-core-io/os/device.hpp"        // glitch::IDevice +0x10 driver, +0x1c scene manager
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneCollisionManager.hpp"
 #include "glitch-scene-collada-gui/scene_nodes.hpp"
+#include "glitch-video/render_target.hpp"      // IRenderTarget m_width / m_height (+0x0c / +0x10)
+#include "glitch-video/video_driver.hpp"
 
 // Static member. ELF symbol _ZN10CameraBase14s_activeCameraE, 4 bytes in .bss.
 CameraBase* CameraBase::s_activeCamera = nullptr;
@@ -89,58 +100,89 @@ void CameraBase::SetData(float fov, float aspect, float nearValue, float farValu
 }
 
 // 0x40f2f0 CameraBase::GetWorldCoord(Point2D<int> const&,Point3D<float>&,float)
-// PARTIAL: the view ray is not made. The original reads the device at dword_99F73C, the scene manager at device +0x1c
-// and its collision manager at scene manager +0x2c. It calls the collision manager's vtable +0x14 with the screen point
-// and a null camera to get a line3d (start and end). It then intersects that line with the plane normal (0, 0, 1) and
-// D = -z through plane3d::getIntersectionWithLimitedLine. The device's +0x1c member is not declared (see SetActive),
-// and no collision manager interface declares the ray-from-screen call, so the function returns false.
+// The screen point becomes the world ray through the scene manager's collision manager and the ray is intersected with
+// the horizontal plane at height z: normal (0, 0, 1), D = -z (the listing stores z + 0.0 with the sign bit set).
+// The collision manager's ray-from-screen call is vtable slot +0x14 with a null camera. Static: the original passes no this.
 bool CameraBase::GetWorldCoord(const Point2D<int>& screen, Point3D<float>& world, float z) {
-    (void)screen;
-    (void)world;
-    (void)z;
-    return false;
+    Application& application = ApplicationGetInstance();
+    if (application.m_device == nullptr || application.m_device->sceneManager == nullptr) {
+        return false;   // host-necessitated guard
+    }
+    glitch::scene::CSceneManager* sceneManager =
+            reinterpret_cast<glitch::scene::CSceneManager*>(application.m_device->sceneManager);
+    glitch::scene::ISceneCollisionManager* collisions = sceneManager->collisionManager;   // +0x2c
+    if (collisions == nullptr) {
+        return false;   // host-necessitated guard
+    }
+    const glitch::core::line3d<float> ray = collisions->getRayFromScreenCoordinates(
+            glitch::core::position2d<std::int32_t>{screen.X, screen.Y}, nullptr);
+    const glitch::core::plane3d<float> plane{glitch::core::vector3d<float>{0.0f, 0.0f, 1.0f}, -z};
+    glitch::core::vector3d<float> hit;
+    if (!plane.getIntersectionWithLimitedLine(ray.start, ray.end, hit)) {
+        return false;
+    }
+    world.X = hit.X;
+    world.Y = hit.Y;
+    world.Z = hit.Z;
+    return true;
 }
 
 // 0x40f394 CameraBase::GetWorldCoord(Point2D<float> const&,Point3D<float>&,float)
-// PARTIAL: needs the viewport size. The original reads the video driver at device +0x10, then the record at
-// *(driver +0xcc) - 4, and takes its width (+0x0c) and height (+0x10) as ints. It maps the screen x and y in -1..1 to
-// pixels as (v + 1) * 0.5 * size, truncated to int, and calls the Point2D<int> overload with z. The driver layout is
-// not declared, so the function returns false.
+// The screen point (each component in -1..1) is mapped to the pixel size of the render target on top of the driver's
+// stack (driver +0xcc is m_renderTargets, so *(driver +0xcc) - 4 is the last target; its width is +0x0c and its height
+// +0x10), truncated toward zero, and the Point2D<int> overload does the ray work. Static: the original passes no this.
 bool CameraBase::GetWorldCoord(const Point2D<float>& screen, Point3D<float>& world, float z) {
-    (void)screen;
-    (void)world;
-    (void)z;
-    return false;
+    Application& application = ApplicationGetInstance();
+    if (application.m_device == nullptr) {
+        return false;   // host-necessitated guard: the original dereferences the device unconditionally
+    }
+    glitch::video::IVideoDriver* driver = application.m_device->videoDriver;   // device +0x10
+    if (driver == nullptr || driver->m_renderTargets.empty()) {
+        return false;   // host-necessitated guard: the original dereferences the last target unconditionally
+    }
+    const glitch::video::IRenderTarget* target = driver->m_renderTargets.back().get();
+    if (target == nullptr) {
+        return false;   // host-necessitated guard
+    }
+    Point2D<int> pixel;
+    pixel.X = static_cast<int>(((screen.X + 1.0f) * 0.5f) * static_cast<float>(target->m_width));    // +0x0c
+    pixel.Y = static_cast<int>(((screen.Y + 1.0f) * 0.5f) * static_cast<float>(target->m_height));   // +0x10
+    return GetWorldCoord(pixel, world, z);
 }
 
 // 0x40f45c CameraBase::SetActive()
-// PARTIAL: the scene manager call is not made. The original makes this the active camera (Deactivated() on the
-// previous one comes first), then calls glitch::scene::CSceneManager::setActiveCamera(scene manager, m_camera). The
-// scene manager is at device +0x1c (device = dword_99F73C). CSceneManager::setActiveCamera is declared
-// (scene/CSceneManager.hpp), but glitch::IDevice (glitch-core-io/os/device.hpp) declares no member at +0x1c.
-// Layout request: "glitch::IDevice +0x1c CSceneManager* scene manager (SetActive 0x40f45c, DBG_DrawCircle 0x524b30)".
+// The previous active camera is deactivated, this becomes s_activeCamera, the scene manager's active camera is set to
+// m_camera and Activated runs on the new one. The scene manager is the one the device holds at +0x1c
+// (dword_99F73C +0x1c); ApplicationGetInstance().m_device is dword_99F73C.
 void CameraBase::SetActive() {
     if (s_activeCamera != this) {
         if (s_activeCamera) {
             s_activeCamera->Deactivated();
         }
         s_activeCamera = this;
-        // Not made: CSceneManager::setActiveCamera(scene manager, m_camera).
+        // The listing passes the scene manager's word at device +0x1c straight to the non-virtual
+        // CSceneManager::setActiveCamera(const ICameraSceneNode*) method.
+        Application& application = ApplicationGetInstance();
+        glitch::scene::CSceneManager* sceneManager =
+                application.m_device != nullptr
+                        ? reinterpret_cast<glitch::scene::CSceneManager*>(application.m_device->sceneManager)
+                        : nullptr;
+        if (sceneManager != nullptr) {
+            sceneManager->setActiveCamera(m_camera);
+        }
         s_activeCamera->Activated();
     }
 }
 
 // 0x40f4dc CameraBase::GetCenterOffset(Point3D<float>&,float) const
-// PARTIAL: the centring correction is not made. Without a camera node the original returns false and leaves the offset
-// alone. Otherwise it writes offset = (m[4], m[5], 0) from the camera's absolute transform. When m[4]^2 + m[5]^2 is at
-// least 0.0001 it scales the offset by a factor built from: the camera's absolute Z minus z (ISceneNode::getAbsolutePosition
-// on the camera); the angle between the view vector (m[4], m[5], m[6]) and -Vec3f_K, where Vec3f_K = (0, 0, 1); and
-// tan() of that angle plus and minus half of the field of view, read twice from the camera's vtable slot +0x128
-// (call offset; listing +0x134, ICameraSceneNode::getFOV). The scaling needs Point3D<float>::angle and
-// Point3D<float>::normalize, which core-platform/deps/game_types.hpp does not declare, and Vec3f_K, which has no
-// declaration. The scaling is left out.
+// False without a camera. Otherwise offset = (m[4], m[5], 0) from the camera's absolute transform, and when
+// m[4]^2 + m[5]^2 is at least 0.0001 the offset is normalised and scaled by the factor the listing builds:
+//   dz = camera absolute Z - z
+//   angle = |(m[4], m[5], m[6]).angle(-K)|,  -K = (0, 0, -1) (the listing negates Vec3f_K with the sign bit)
+//   half = 0.5 * getFOV() (the camera's vtable slot +0x128; the listing reads it twice)
+//   scale = 0.5 * ((dz * (tan(angle + half) - tan(angle))) + (dz * (tan(angle) - tan(angle - half)))) - (dz * (tan(angle) - tan(angle - half)))
+// The angle is taken with the sign bit cleared (fabs), as the listing's `& 0x7FFFFFFF` does.
 bool CameraBase::GetCenterOffset(Point3D<float>& offset, float z) const {
-    (void)z;
     if (!m_camera) {
         return false;
     }
@@ -149,20 +191,45 @@ bool CameraBase::GetCenterOffset(Point3D<float>& offset, float z) const {
     offset.Y = m[5];
     offset.Z = 0.0f;
     if (std::fabs(m[4] * m[4] + m[5] * m[5]) >= 0.0001f) {
-        // PARTIAL: the scaling of the offset is not made (see above).
+        const float dz = m_camera->getAbsolutePosition().Z - z;
+        Point3D<float> view{m[4], m[5], m[6]};
+        const Point3D<float> minusK{-Vec3f_K.X, -Vec3f_K.Y, -Vec3f_K.Z};
+        const float angle = std::fabs(view.angle(minusK));
+        const float halfFov = m_camera->getFOV() * 0.5f;
+        const float tangent = std::tan(angle);
+        const float upper = std::tan(angle + halfFov);
+        const float lower = std::tan(angle - halfFov);
+        const float first = (tangent - lower) * dz;
+        const float scale = ((first + ((upper - tangent) * dz)) * 0.5f) - first;
+        offset.normalize();
+        offset.X = offset.X * scale;
+        offset.Y = offset.Y * scale;
+        offset.Z = offset.Z * scale;
     }
     return true;
 }
 
 // 0x40f714 CameraBase::GetScreenCoord(Point3D<float> const&,Point2D<float>&)
-// PARTIAL: the projection is not made. The original gets the view matrix (video driver getTransform(0)) and the
-// projection matrix (getTransform(2)) from the driver at device +0x10. It multiplies them as projection * view and
-// applies the 4x4 result to (x, y, z, 1). The screen point becomes (x / w, y / w). IVideoDriver::getTransform is
-// declared (glitch-video/video_driver.hpp), but glitch::IDevice declares no member at +0x10.
-// Layout request: "glitch::IDevice +0x10 IVideoDriver* driver (GetScreenCoord 0x40f714, GetWorldCoord 0x40f394, DBG_DrawPath 0x524828)".
+// The world point is projected by the composition the listing builds: setbyproduct_nocheck(out, viewProjectionProd,
+// view) with viewProduct = the driver's state 0 and view = the driver's state 2, i.e. out = state2 * state0 (the
+// camera's view-projection product, as in CCameraSceneNode::setTransformState), then the row (x, y, z, 1) is
+// multiplied by it in place and divided by the resulting w. Static: the original passes no this.
 void CameraBase::GetScreenCoord(const Point3D<float>& world, Point2D<float>& screen) {
-    (void)world;
-    (void)screen;
+    Application& application = ApplicationGetInstance();
+    if (application.m_device == nullptr || application.m_device->videoDriver == nullptr) {
+        screen = Point2D<float>{0.0f, 0.0f};   // host-necessitated guard: the original dereferences the driver
+        return;
+    }
+    glitch::video::IVideoDriver* driver = application.m_device->videoDriver;   // device +0x10
+    const glitch::core::CMatrix4<float>& state0 = driver->getTransform(0);     // vtable +0x70
+    const glitch::core::CMatrix4<float>& state2 = driver->getTransform(2);
+    glitch::core::CMatrix4<float> product;
+    glitch::core::detail::setbyproduct_nocheck(product, state2, state0);
+    float row[4] = {world.X, world.Y, world.Z, 1.0f};
+    const float w = product.multiplyWith1x4Matrix(row);
+    const float inverseW = 1.0f / w;
+    screen.X = inverseW * row[0];
+    screen.Y = inverseW * row[1];
 }
 
 // 0x40f6f8 CameraBase::~CameraBase()   (deleting destructor, D0): not defined here. The compiler emits it for

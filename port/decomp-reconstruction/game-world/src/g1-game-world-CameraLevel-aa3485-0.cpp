@@ -2,11 +2,11 @@
 // Layout and declarations: dh2/CameraLevel.hpp. Member offsets are kept as comments; the layout was checked against
 // the constructor, the destructor and every method body of this batch.
 //
-// Partial bodies: HandleCentering depends on CameraBase::GetWorldCoord, which is still a partial stub (it returns
-// false and writes nothing), so the centring delta is zero until that lands. Update depends on the CameraTarget
-// seams (HandleDamping reads the node position as the origin and HandleTransition does not write the node). Load
-// leaves m_node null (the root-node conversion is missing), so Update returns at its first check for a loaded camera
-// until that is fixed. The notes on each function name the exact gap.
+// Partial bodies: none in this batch. HandleCentering's delta comes from CameraBase::GetWorldCoord (the
+// Point2D<float> overload, now complete: the viewport size from the top render target and the view ray through the
+// scene collision manager). Update uses the CameraTarget virtuals directly (getAbsolutePosition and setPosition);
+// the seams are gone. Load now stores the rig root in m_node, because RootSceneNode derives through
+// glitch::collada::CSceneNode from glitch::scene::ISceneNode.
 
 #include <cmath>
 #include <cstdint>
@@ -140,9 +140,8 @@ bool CameraLevel::CanPlayShakeAnim(Character* requester) const {
 // 0x40fa68 CameraLevel::HandleCentering(Point3D<float>&)
 // Multiplayer centring. The Hex-Rays signature returns the z component as a float (the position's z after the move,
 // or an incidental register value on the other paths); this port keeps the void declaration of dh2/CameraLevel.hpp.
-// PARTIAL: the delta comes from CameraBase::GetWorldCoord (the Point2D<float> overload, 0x40f394, see ApplyScreenDelta),
-// which is still a stub (it returns false), so the position does not move until that function is complete. The flags
-// are the four bytes of Level +0x190 (Level.hpp m_playerHudOpen): the flag of each local player whose HUD menu is open.
+// The delta is ApplyScreenDelta, which uses CameraBase::GetWorldCoord (the Point2D<float> overload, 0x40f394, now
+// complete). The flags are the four bytes of Level +0x190 (Level.hpp m_playerHudOpen).
 void CameraLevel::HandleCentering(Point3D<float>& position) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     const int localPlayers = dword_99F76C->GetNumLocalPlayers(true);
@@ -289,9 +288,8 @@ void CameraLevel::HandleZoom() {
 
 // 0x410390 CameraLevel::Update()
 // Runs only for the active camera with a target, a camera node and a rig node. Otherwise the base Update runs.
-// PARTIAL: HandleDamping reads the node position through the CameraTarget seam (neutral origin), and HandleTransition
-// writes the node through its seam (nothing written), so the damped follow and the transition blend are not active
-// until those seams are replaced. The rest of the update is as the original.
+// HandleDamping (the node's absolute position) and HandleTransition (the node's setPosition) are complete, so the
+// damped follow and the transition blend are active. The rest of the update is as the original.
 void CameraLevel::Update() {
     if (this != CameraBase::s_activeCamera || !m_target || !m_camera || !m_node) {  // +0x0c, +0x08, +0x04
         CameraBase::Update();
@@ -349,9 +347,7 @@ void CameraLevel::Update() {
 // camera as a reference, computes the default target distance, and builds the animation set of the CamAnimSetTable
 // row camTableIndex, with an AnimSetController as the rig's anim controller. The timeline callback is registered last.
 // The original returns the visual or the callback registration result; the void declaration of dh2/CameraLevel.hpp is
-// kept.
-// PARTIAL: the root node (m_node, +0x04) is not stored, because RootSceneNode does not convert to ISceneNode* in the
-// tree (see the SEAM below). Everything else follows the original's order.
+// kept. Every step of the original is made, including the store of the rig root in m_node.
 void CameraLevel::Load(const char* dae, int camTableIndex, const char* cameraNode) {
     m_dae = dae;                       // +0x4c
     m_camTableIndex = camTableIndex;   // +0x80
@@ -377,10 +373,13 @@ void CameraLevel::Load(const char* dae, int camTableIndex, const char* cameraNod
         m_camera = nullptr;
     }
     m_upVector = upVector;  // +0x48
-    // SEAM: m_node (+0x04) takes the rig's root node (VisualObject +0x08, a RootSceneNode*) with one reference. In the
-    // tree, glitch::collada::CRootSceneNode (root_scene_node.hpp) has no base class, so RootSceneNode does not convert to
-    // glitch::scene::ISceneNode* and the store does not compile. m_node stays null, so Update returns at its first
-    // check until the layout request on CRootSceneNode is applied.
+    // m_node (+0x04) takes the rig's root node (VisualObject +0x08) with one reference. RootSceneNode derives from
+    // glitch::collada::CRootSceneNode -> collada::CSceneNode -> scene::CEmptySceneNode -> scene::ISceneNode, so the
+    // store is an ordinary upcast.
+    m_node = m_visual->m_node;
+    if (m_node) {
+        ++static_cast<glitch::IReferenceCounted*>(m_node)->referenceCounter;
+    }
 
     m_animSetId = AnimSetManager::s_inst.Create();  // +0x7c
     const Structs::CamAnimSet& row = CamAnimSetRow(m_camTableIndex);

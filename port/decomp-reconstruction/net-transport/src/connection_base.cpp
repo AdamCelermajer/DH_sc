@@ -48,12 +48,17 @@ Connection::~Connection() {
 }
 
 // 0x84699c _ZN10Connection8sendDataEv
-// Partial: the two debug prints (select error and "PPP not open") are dropped, and a missing socket on a
-// connected link disconnects (the original would dereference it). The head packet's length (vtable
-// +0x60) is stored in the length byte, then its body (+0x64) and length are read again for the copy,
-// as the original calls them. Select(write) failing returns; the send of length + 1 bytes failing
-// disconnects. After a send the head is popped (its next link, then its deleting destructor, +0x6c and
-// +0x04) and sendData recurses (vtable +0x08) while packets remain.
+// Verified against the Hex-Rays body and the ARM listing: the head packet's length (vtable +0x60) is
+// stored in the length byte at +0x1010, then its body (+0x64) and length (+0x60) are read again for
+// the copy to +0x1011, exactly as the original calls them. Select(write, slot +0x40) failing returns;
+// the send of length + 1 bytes (slot +0x44) failing disconnects; the last send time is set; the head
+// is popped by taking its next link (+0x6c) and running its deleting destructor (+0x04); sendData
+// recurses (own slot +0x08, "MOV R0,R4") while packets remain, else the queue tail is cleared.
+// The original's return value is a leftover register (R0 is `this` on several paths and
+// disconnect's void result on others); no caller reads it, so the port returns void.
+// Deviations: the "sendData: select error." and "sendData: PPP not open, disconnect." XP_DEBUG_OUT
+// traces are dropped, a missing socket on a connected link disconnects where the original would
+// dereference it, and the copy is skipped when the length is not positive.
 void Connection::sendData() {
     if (outgoing_.empty()) {
         return;
@@ -470,7 +475,10 @@ int Connection::sendFinishConnectionPackage() {
 }
 
 // 0x8463d0 _ZN10Connection16sendLoginPackageEPc
-// Partial: the debug print of the user name ("sendLoginPackage") is dropped.
+// Verified against Hex-Rays: addByte 103, 114, 105 (slots +0x08), the name through addByteLenString
+// (+0x28) with XP_API_STRLEN, packMessage (+0x5c), saveRetryData, then addOutgoingPacket, whose
+// result is returned as the original returns it.
+// Deviation: the "Connection::sendLoginPackage() user=[%s]" XP_DEBUG_OUT trace is dropped.
 int Connection::sendLoginPackage(char* user) {
     auto packet = NewPacket();
     packet->addByte('g');

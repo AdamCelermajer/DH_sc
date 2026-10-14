@@ -5,6 +5,13 @@
 // Layout of the original object (32-bit; constructors 0x602028 C2 / 0x60209c C1 (format, size, hasMips), 0x6021f8 /
 // 0x602434 (format, size, data, mip data, copy, own), 0x602670 .. 0x602938 and the sub-image / convert forms 0x601b10,
 // 0x601d38; initData 0x601988; size 0x2c):
+//
+// The two trailing bools of the data-taking constructors, read off the listings (0x6026dc/0x602704, 0x60226c/0x60239c,
+// 0x60285c/0x602868): the FIRST one set means "adopt the caller's block" - the constructor stores 0x0badf00d into the
+// data pointer before initData so that initData's "allocate only when the pointer is null" test fails, and then stores
+// the caller's pointer over it - and the SECOND one is stored into m_ownsData, which only decides whether the
+// destructor frees the block. The first bool CLEAR means initData allocates and the caller's bytes are copied in. The
+// parameter names below are the port's; the verified meaning is the one above.
 //   +0x00  vptr (vtable 0x978248: the destructor pair and onDelete, nothing else)
 //   +0x04  reference count; the constructors store 0
 //   +0x08  pixel data (uint8_t*)             +0x0c  null-terminated array of the mip level pointers (levels 1..n)
@@ -29,14 +36,20 @@ public:
 
     // 0x602028 (C2) / 0x60209c (C1), and the other constructors of the queue: 0x602110 / 0x602184 (format, size),
     // 0x6021f8 / 0x602434 (format, size, data, mip data, copy, own), 0x602670 / 0x60272c (format, size, data, copy, own),
-    // 0x6027e8 / 0x602938 (format, size, data, pitch, size, copy, own), 0x601b10 / 0x601c24 (sub-image) and 0x601d38 /
-    // 0x601eb0 (format conversion). Declared only. The destructors (0x601804 D1, 0x6018b8 D2, 0x60196c D0) free the data
-    // and the mip chain when the image owns them; the port's implicit destructor does not.
+    // 0x6027e8 / 0x602938 (format, size, data, size in bytes, mip level count, copy, own), 0x601b10 / 0x601c24
+    // (sub-image) and 0x601d38 / 0x601eb0 (format conversion). Each pair is one body in the original, so each pair is
+    // one definition here. The destructors (0x601804 D1, 0x6018b8 D2, 0x60196c D0) free the data and the mip chain
+    // when the image owns them.
     CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, bool hasMipmaps);
     CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size);
     CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, void* data, void** mipData, bool copy, bool own);
     CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, void* data, bool copy, bool own);
-    CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, void* data, uint32_t pitch, uint32_t dataSize,
+    // The last two unsigned arguments are the byte size of the buffer (stored at +0x1c) and the number of mip levels
+    // below level 0 (stored at +0x24) - not a pitch and a size, which is what the earlier comment claimed. The DDS
+    // loader (0x60486c) passes computeSizeInBytes(...) and the header's mipmapCount - 1; the listing of the
+    // constructor stores them exactly there. The buffer holds every level back to back and +0x0c is filled with
+    // pointers into it.
+    CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, void* data, uint32_t dataSize, uint32_t mipLevels,
            bool copy, bool own);
     CImage(const boost::intrusive_ptr<CImage>& source, const core::position2d<int32_t>& position,
            const core::dimension2d<int32_t>& size);

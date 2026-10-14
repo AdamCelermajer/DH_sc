@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 
+#include "core-platform/gc_singleton.hpp"  // GCSingleton<GameCenter>
 #include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/Application.hpp"
 #include "dh2/CameraLevel.hpp"
@@ -37,6 +38,10 @@
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "net-session-online/c_message.hpp"
 #include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"  // CMsgInitialSetup
+#include "net-session-online/c_online.hpp"  // COnline::IsServer
+#include "net-session-online/c_sign_in.hpp"  // CSignIn::Get, the account name
+#include "net-session-online/game_center.hpp"  // GameCenter::GetGCPlayerAlias
 #include "net-session-online/online_game_state.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
@@ -52,6 +57,8 @@
 #include "dh2/InputManager.hpp"
 #include "dh2/Gamepad.hpp"
 #include "dh2/SavegameManager.hpp"
+#include "dh2/ScriptManager.hpp"  // ScriptManager::s_inst, the level-up script
+#include "dh2/VisualFXManager.hpp"  // PlayAnimFXSet, the level-up effect
 #include "vendor-gameswf/as_value.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"  // PyDataConstants::getConstant
@@ -61,6 +68,7 @@
 #include "dh2/global/net_singletons.hpp"  // GetOnline, GetNetPlayerMgr, GetConnectionMgr, GetMessaging
 #include "net-session-online/c_matching_base.hpp"  // CMatching::Get(), UnknownGate(), LocalMemberId()
 #include "net-transport/connection_manager.hpp"    // CConnectionManager::GetConnectionCount
+#include "net-transport/packet_manager.hpp"        // CPacketManager::ClearLastSendTime (+0x2c)
 #include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager
 
 namespace {
@@ -76,6 +84,23 @@ void ReportAssertFailure(const char* expr, int line) {
     } else if (gAssertLevel == 1) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expr, kPlayerManagerFile, line);
     }
+}
+
+// The four-test online gate the original inlines at every use here: the online-game flag (COnline +0x05), the matching
+// room flag (OnlineGameState +0x24), CMatching::UnknownGate (vtable +0x64) and CNetPlayerManager::IsInitialized. The same
+// helper exists in the 025dba-1 batch, where it is also internal to that translation unit.
+bool OnlineMatchingReady() {
+    if (!GetOnlineGameFlag()) {
+        return false;
+    }
+    if (!OnlineSingleton<OnlineGameState>::GetInstance()->flag24_) {
+        return false;
+    }
+    if (!CMatching::Get()->UnknownGate()) {
+        return false;
+    }
+    (void)GetNetPlayerMgr();
+    return CNetPlayerManager::IsInitialized();
 }
 
 }  // namespace
@@ -837,31 +862,335 @@ unsigned int PlayerManager::_CheckLocalControllers() {
 }
 
 // 0x37280c _ZN13PlayerManager17_ManageCharactersEv PlayerManager::_ManageCharacters()
-// PARTIAL. The original walks the player records, and for each active record synchronises the replicated fields with the
-// owned character (class, level, potions, XP, gold, skills, the ready-to-roll and in-game flags), spawns a character where
-// one is missing, and runs the online loading and ready-to-roll handshake. Only the walk over the active records is written
-// here, with the per-record body partial. The tail after the walk is written for the offline case, where every online
-// branch is skipped: the loading info is cleared and the characters are removed when the record is not loading.
-// The forced-resend timers are function-local statics. Their initial values are -1 (.data, read from the binary).
+// The per-frame synchronisation of the player records with the characters they own. It walks the active records and, for
+// each one: when the record has no character, counts its in-game flag into the two handshake accumulators (and, for a
+// finished record without one while hosting, raises the "done loading" one). Otherwise the record and the character are
+// synchronised in the direction the ownership decides:
+//   - the record is local (+0x66c): its savegame owns the profile, so the replicated class, level, XP, HP, gold, potions
+//     and the two skill arrays follow it (and the character's in-game flag is derived from the level), and, with no save
+//     slot yet, the savegame is created and the record renamed from the Game Center alias or the account name;
+//   - the record is remote and online: the replicated members own the profile, so _PackInventory and the character's
+//     gold, potions, XP, HP, level, class and the two skill arrays follow them;
+//   - offline: _UnpackInventory and the record's fields drive the character (name, class change with property reload,
+//     gold, potions, XP, HP, level from the savegame's average level, the two skill arrays with UpdateAllSkills).
+// Then m_ingame is published to the record's replicated member when it moved (with the HUD completeRefresh in the level
+// that uses it), and the character's own visibility and idle state are brought in line with it.
+// After the walk, the online loading handshake: with the gate open, the host, a finished local character and the local
+// record ready, the local record becomes ready to roll, a pending handshake is forced when a record finished loading, the
+// wait timer runs down, and CMsgInitialSetup is sent with the character's level, class and save date. A server with a
+// client that is in the game while its record is not, and the loading-info timer, force the manager-info and net-struct
+// resends.
+// Finally the loading info is cleared and the characters removed when the loading flag is clear and characters are owned.
+// The two forced-resend timers are function-local statics, -1 in .data (read from the binary); they reset to 2000 ms and
+// 5000 ms.
+// Deviations: the original reads the record's savegame through a virtual call on the character (vtable slot +0x5c), which
+// the port's Character vtable does not model, so m_savegame is read directly (same object). The savegame is created with
+// a new expression instead of the original's operator new(408, 0), and the unused PROPS_GetInt read inside the HP sync is
+// dropped (it has no side effect).
 // The return value is the constant the original leaves in r0 at its final return (16556).
 int PlayerManager::_ManageCharacters() {
     static int forceResendTimer = -1;                 // PlayerManager::_ManageCharacters()::forceResendTimer (.data, -1)
     static int forceResendLoadingInfoTimer = -1;      // PlayerManager::_ManageCharacters()::forceResendLoadingInfoTimer (.data, -1)
-    (void)forceResendTimer;
-    (void)forceResendLoadingInfoTimer;
 
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
     const int numPlayers = GetNumPlayers();
+    // The three accumulators the walk leaves for the loading handshake: at least one record that finished loading
+    // (m_doneLoading changed and set), no active record with m_ingame clear, and at least one with m_ingame set.
+    bool anyDoneLoading = false;
+    bool allIngame = true;
+    bool anyIngame = false;
     for (int index = 0; index < numPlayers; ++index) {
         PlayerInfo* player = GetPlayer(index, false);
         if (!player->IsActive()) {
             continue;
         }
-        // PARTIAL: the per-record synchronisation (see above) is not written.
+        Character* character = static_cast<Character*>(player->unk_660);
+        if (!character) {
+            // No character to synchronise: a finished record while this client hosts raises the done-loading accumulator.
+            if (player->m_doneLoading.IsChanged() && player->m_doneLoading.GetValue() &&
+                IsLocalPlayerHosting()) {
+                anyDoneLoading = true;
+            }
+            player->m_ingame.GetValue() ? (void)(anyIngame = true) : (void)(allIngame = false);
+            continue;
+        }
+
+        if (player->unk_66c) {
+            // A local record: its savegame owns the profile, so the replicated members follow it.
+            PlayerSavegame* savegame = character->m_savegame;
+            if (player->unk_664 == -1) {
+                // No slot on the record yet: give the character its savegame (the original's 408-byte allocation).
+                if (!savegame) {
+                    character->m_savegame = new PlayerSavegame(static_cast<std::uint32_t>(player->unk_664), 1, false);
+                    savegame = character->m_savegame;
+                }
+                // The record's name must match the Game Center alias, the signed-in account name or (with neither) the
+                // savegame's name; when it does not, the record is renamed and the class and level are taken from the
+                // savegame.
+                std::string wantedName;
+                if (GCSingleton<GameCenter>::GetInstance()->startFlag_) {
+                    wantedName = GCSingleton<GameCenter>::GetInstance()->GetGCPlayerAlias();
+                } else if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {
+                    wantedName = CSignIn::Get()->CredentialsName();
+                } else {
+                    wantedName = savegame->m_name;
+                }
+                if (wantedName != std::string(player->m_characterName.GetValue())) {
+                    player->SetCharacterName(wantedName);
+                    if (player->m_characterClass.GetValue() != savegame->m_playerClass) {
+                        player->SetCharacterClass(savegame->m_playerClass);
+                    }
+                    if (player->m_characterLevel.GetValue() != savegame->m_playerLevel) {
+                        player->SetCharacterLevel(savegame->m_playerLevel);
+                    }
+                }
+            }
+
+            // m_ingame (the record's in-the-game flag, +0x4e5): 1 when the level is at its last loading step and its
+            // m_isLoaded flag is set, 0 otherwise. Every change re-arms the force-resend timer.
+            const bool levelIngame = level && level->m_loadStep == 38 && level->m_isLoaded;
+            if (player->m_ingame.GetValue() != levelIngame) {
+                player->m_ingame.SetValue(levelIngame);
+                forceResendTimer = 2000;
+            }
+            // m_inCutscene (+0x525) follows the level step: any step above 35 counts as in-cutscene.
+            const bool inCutscene = level && level->m_loadStep > 35;
+            if (player->m_inCutscene.GetValue() != inCutscene) {
+                player->m_inCutscene.SetValue(inCutscene);
+            }
+            // Online and matching: a record that is not in the game while the hosting player's is marks the pending local
+            // transfer; a record that is in the game but not done loading refreshes its ready-to-roll state.
+            if (OnlineMatchingReady()) {
+                if (!player->m_inCutscene.GetValue() && GetHostingPlayer()->m_ingame.GetValue() && !unk_71a) {
+                    unk_71a = true;
+                }
+            }
+            if (OnlineMatchingReady()) {
+                if (player->m_inCutscene.GetValue() && !player->m_doneLoading.GetValue()) {
+                    player->UpdateReadyToRoll();
+                }
+            }
+        } else if (GetOnlineGameFlag()) {
+            // A remote record: the replicated members own the profile, so the character follows them.
+            _PackInventory(*player);
+            if (player->m_characterGold.GetValue() != character->m_gold) {
+                player->SetCharacterGold(character->m_gold);
+            }
+            if (player->m_characterNumPotions.GetValue() != character->GetNumPotions()) {
+                player->SetCharacterNumPotions(character->GetNumPotions());
+            }
+            if (player->m_characterXP.GetValue() != character->PROPS_GetInt(33, false)) {
+                player->SetCharacterXP(character->PROPS_GetInt(33, false));
+            }
+            if (static_cast<std::int32_t>(player->unk_450.GetValue()) != character->PROPS_GetInt(36, false)) {
+                player->unk_450.SetValue(static_cast<std::uint32_t>(character->PROPS_GetInt(36, false)));
+            }
+            if (player->m_characterLevel.GetValue() != character->PROPS_GetInt(19, false)) {
+                player->SetCharacterLevel(character->PROPS_GetInt(19, false));
+            }
+            if (player->m_characterClass.GetValue() != character->SG_GetPlayerClass()) {
+                player->SetCharacterClass(character->SG_GetPlayerClass());
+            }
+            // The three replicated skill slots, from the character's savegame.
+            std::int8_t skillSlots[3] = {};
+            for (int slot = 0; slot < 3; ++slot) {
+                skillSlots[slot] = static_cast<std::int8_t>(character->SG_GetSkillInSlot(slot));
+            }
+            player->unk_3d8.SetBuffer(skillSlots, 3);
+            // The 30 replicated skill levels, from the savegame's skill table (a row outside it is -1).
+            const int skillCount = character->m_savegame ? character->m_savegame->m_skillsSize : 0;
+            if (skillCount > 30) {
+                ReportAssertFailure("PlayerInfo::NETWORK_SKILL_LIST_SIZE >= c->SG_GetSkillSize()", 750);
+            }
+            std::int8_t skillLevels[30] = {};
+            for (int row = 0; row < 30; ++row) {
+                skillLevels[row] = (row < skillCount) ? static_cast<std::int8_t>(character->SG_GetSkillLevel(row)) : -1;
+            }
+            player->unk_400.SetBuffer(skillLevels, 30);
+        } else {
+            // Offline: the same sync in the other direction, driven by the record.
+            _UnpackInventory(*player);
+            const char* savegameName = character->SG_GetPlayerName();
+            if (!savegameName || std::string(player->m_characterName.GetValue()) != savegameName) {
+                character->SG_SetPlayerName(player->m_characterName.GetValue().c_str());
+            }
+
+            // A class change while the level is loaded loads the new class properties and reloads the skills.
+            bool classReloaded = false;
+            if (character->SG_GetPlayerClass() != player->m_characterClass.GetValue() && level && level->m_isLoaded) {
+                character->LoadPropertiesForClassSelect(player->m_characterClass.GetValue());
+                character->SG_SetPlayerClass(player->m_characterClass.GetValue());
+                character->AI_ReloadSkills();
+                classReloaded = true;
+            }
+
+            // Gold, potions, XP and HP from the record to the character (the HP load revives a dead character first).
+            if (player->m_characterGold.GetValue() != character->m_gold) {
+                character->SetGold(static_cast<int>(player->m_characterGold.GetValue()));
+            }
+            if (player->m_characterNumPotions.GetValue() != character->GetNumPotions()) {
+                character->SetPotionQty(player->m_characterNumPotions.GetValue());
+            }
+            if (character->PROPS_GetInt(33, false) != player->m_characterXP.GetValue()) {
+                character->PROPS_SetInt(33, static_cast<int>(player->m_characterXP.GetValue()));
+            }
+            if (character->PROPS_GetInt(36, false) != static_cast<int>(player->unk_450.GetValue())) {
+                if (character->IsDead()) {
+                    // The original's dead-character path runs a call whose only effect is its side of the state flag.
+                    (void)character->IsDead();
+                }
+                character->PROPS_SetInt(36, static_cast<int>(player->unk_450.GetValue()));
+            }
+            // The character's level is the average of two sheet words of its own property sets, +0x93c (the saved sheet's
+            // word 20) and +0x5b8 (the base sheet's word 20), >> 8. When the record's level moved, the character's level
+            // is set and its sheet level is derived from the record's level and the same base word; a one-step gain on an
+            // in-game character runs the level-up presentation.
+            const std::int32_t savedWord20 = character->m_savedProps.m_w20;  // +0x93c
+            const std::int32_t baseWord20 = character->m_baseProps.m_w20;    // +0x5b8
+            const int derivedLevel = (savedWord20 + baseWord20) >> 8;
+            if (character->SG_GetPlayerLevel() != player->m_characterLevel.GetValue()) {
+                character->SG_SetPlayerLevel(player->m_characterLevel.GetValue());
+            }
+            if (derivedLevel != player->m_characterLevel.GetValue()) {
+                character->PROPS_SetInt(19, ((player->m_characterLevel.GetValue() << 8) - baseWord20) >> 8);
+                if (player->m_characterLevel.GetValue() - derivedLevel == 1 && player->m_ingame.GetValue()) {
+                    const int levelUpScript = ScriptManager::s_inst.GetIDFromName("PlayerLevelUp", true);
+                    if (levelUpScript != -1) {
+                        ScriptManager::s_inst.StartScript(levelUpScript, -1, false);
+                    }
+                    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(135, character, nullptr);
+                }
+            }
+
+            // The three skill slots and the 30 skill levels, from the record to the savegame. A slot below -1 is clamped,
+            // and a level outside the savegame's skill table is skipped. The buffer sizes are the ones the original
+            // passes (the second argument is a stale stack word it never sets, so 0).
+            if (player->unk_3d8.IsChanged()) {
+                std::int8_t slots[3] = {0, 0, 0};
+                player->unk_3d8.GetBuffer(slots, 0);
+                for (int slot = 0; slot < 3; ++slot) {
+                    if (slots[slot] < -1) {
+                        slots[slot] = -1;
+                    }
+                    character->SG_SetSkillInSlot(slot, static_cast<unsigned int>(slots[slot]));
+                }
+            }
+            if (player->unk_400.IsChanged()) {
+                if (character->m_savegame && character->m_savegame->m_skillsSize > 30) {
+                    ReportAssertFailure("PlayerInfo::NETWORK_SKILL_LIST_SIZE >= c->SG_GetSkillSize()", 880);
+                }
+                std::int8_t levels[30] = {};
+                player->unk_400.GetBuffer(levels, 0);
+                bool anyLevelApplied = false;
+                for (int row = 0; row < 30; ++row) {
+                    if (character->m_savegame && row < character->m_savegame->m_skillsSize && levels[row] >= 0) {
+                        character->SG_SetSkillLevel(static_cast<unsigned int>(row), levels[row]);
+                        anyLevelApplied = true;
+                    }
+                }
+                if (anyLevelApplied) {
+                    character->UpdateAllSkills();
+                }
+            }
+        }
+
+        // Publish m_ingame to its replicated member when it moved. In level step 38 the player's number advances by four
+        // (the multiplayer HUD slot of the record, +0x67c, four entries per player) and the HUD is refreshed.
+        if (player->m_ingame.IsChanged()) {
+            character->SetVisible(player->m_ingame.GetValue());
+            if (level && level->m_loadStep == 38) {
+                player->unk_67c += 4;
+                gameswf::as_value number;
+                number.set_double(static_cast<double>(player->unk_67c));
+                MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("menu_HUD_0", "completeRefresh", &number, 1);
+            }
+        }
+        // The character's own visibility and idle state follow m_ingame: a character whose visibility does not match the
+        // flag is corrected, and one that is in limbus (unless dead) is put back to idle.
+        const bool wantVisible = !player->m_ingame.GetValue();
+        if (character->m_visible != wantVisible) {
+            if (!player->m_ingame.GetValue() || !character->SM_IsInLimbus() || character->IsDead()) {
+                character->SM_SetIdleState(false);
+            }
+        }
+        character->SetVisible(wantVisible);
+
+        player->m_ingame.GetValue() ? (void)(anyIngame = true) : (void)(allIngame = false);
     }
 
-    // Tail. The original's online block (the loading handshake and the resend timers, see the PARTIAL note above) only sets
-    // the resend state and falls through to the same final test, so that test is exact for both the online and the
-    // offline case: when the loading flag unk_6c9 is clear and characters are owned, clear the loading info and remove them.
+    // The online loading handshake. With the gate open on the host, a finished local record and the local character's
+    // handshake armed: the local record becomes ready to roll when every client is (which clears the wait timer), a
+    // pending transfer is forced when a record finished loading, the wait timer runs down, and, once the local character
+    // exists and the handshake is due, CMsgInitialSetup carries its level, class and save date to the clients and the
+    // wait is armed for 5000 ms.
+    if (OnlineMatchingReady() && unk_6c9 && IsLocalPlayerHosting() && AllLoadingDone()) {
+        bool readyToRoll = false;
+        if (GetLocalPlayer(0, false)->m_readyToRoll.GetValue()) {
+            readyToRoll = false;
+        } else if (AllClientsReadyToRoll()) {
+            GetLocalPlayer(0, false)->SetReadyToRoll(true);
+            m_readyToRollTimer = -1;
+        } else if (!m_readyToRollWaiting) {
+            readyToRoll = true;
+        }
+        if (anyDoneLoading && !readyToRoll) {
+            m_readyToRollWaiting = false;
+            if (!GetHostingPlayer()->unk_660) {
+                ReportAssertFailure("GetHostingPlayer().GetCharacter()", 998);
+            }
+            (void)GetHostingPlayer();
+            readyToRoll = true;
+        }
+        if (m_readyToRollWaiting && m_readyToRollTimer > 0 && !AllClientsReadyToRoll()) {
+            const int remaining = m_readyToRollTimer - ApplicationGetInstance().GetDt();
+            m_readyToRollTimer = remaining;
+            if (remaining < 0) {
+                readyToRoll = true;
+                m_readyToRollTimer = -1;
+            }
+        }
+        Character* localCharacter = static_cast<Character*>(GetLocalPlayer(0, true)->unk_660);
+        if (localCharacter && readyToRoll) {
+            dword_99F764->ForceFullUpdate();
+            localCharacter->SG_NeedToResendQuestSyncMsg();
+            std::int32_t setup[3];
+            setup[0] = localCharacter->m_savegame->m_playerLevel;
+            setup[1] = localCharacter->m_savegame->m_playerClass;
+            setup[2] = static_cast<std::int32_t>(localCharacter->m_savegame->m_saveDate);
+            CMessage* message = new CMsgInitialSetup(true);
+            std::memcpy(message->GetDataPtr(), setup, sizeof setup);
+            GetMessaging()->SendMsg(message);
+            m_readyToRollWaiting = true;
+            m_readyToRollTimer = 5000;
+        }
+    }
+
+    // A forced resend on the server: a client that is in the game while a record is not (or the other way round) is
+    // forced to resend the manager info and its net struct, and the packet manager's last-send time is cleared. The timer
+    // resets to 2000 ms.
+    bool resend = false;
+    if (GetOnlineGameFlag() && GetOnline()->IsServer() && anyIngame && !allIngame) {
+        forceResendTimer -= ApplicationGetInstance().GetDt();
+        if (forceResendTimer <= 0) {
+            forceResendTimer = 2000;
+            resend = true;
+        }
+    }
+    // The loading-info resend: while online, in a level and with the local record not in the game, the 5000 ms timer runs
+    // down and the same resend is forced when it expires.
+    if (GetOnlineGameFlag() && level && !GetLocalPlayer(0, false)->m_ingame.GetValue()) {
+        forceResendLoadingInfoTimer -= ApplicationGetInstance().GetDt();
+        if (forceResendLoadingInfoTimer <= 0) {
+            forceResendLoadingInfoTimer = 5000;
+            resend = true;
+        }
+    }
+    if (resend) {
+        GetNetPlayerMgr()->ResendManagerInfo();
+        GetLocalPlayer(0, false)->Resend();
+        GetPacketManager()->ClearLastSendTime();  // writes the +0x2c word
+    }
+
     if (!unk_6c9 && m_numCharacters > 0) {
         ClearLoadingInfo();
         RemoveAllCharacters();

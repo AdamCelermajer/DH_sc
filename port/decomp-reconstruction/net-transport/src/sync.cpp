@@ -68,8 +68,9 @@ int CNetMutex::Unlock() {
 }
 
 // 0x317e10 _ZN6ThreadD1Ev (out-of-line destructor body)
-// Partial: Hex-Rays (re-run) shows an empty body; the original never joins a running worker.
-// The port joins it, because a joinable std::thread would terminate the process when destroyed.
+// Verified: the listing is a single `BX LR` (checked with disasm), so the original body is empty.
+// Deviation: the port joins a running worker, because a joinable std::thread would terminate the
+// process when destroyed; the original never joins.
 Thread::~Thread() {
     if (handle_.joinable()) {
         stop_ = true;
@@ -86,8 +87,9 @@ bool Thread::IsCurrentThreadRunning() const {
 }
 
 // 0x8455c0 _ZN6Thread3RunEv
-// Partial: the original prints "PthredSelf" via XP_DEBUG_OUT first; that log is dropped.
-// The loop itself matches the pseudocode: while (!stop) Step().
+// Verified against the Hex-Rays body: the loop runs while the stop flag at +0x08 is zero and calls the
+// virtual step through vtable +0x0c; the port's atomic load is the same read of the same flag.
+// The original's XP_DEBUG_OUT("PthredSelf: %d\n", pthread_self()) trace is dropped (logging only).
 void Thread::Run() {
     while (!stop_.load()) {
         Step();

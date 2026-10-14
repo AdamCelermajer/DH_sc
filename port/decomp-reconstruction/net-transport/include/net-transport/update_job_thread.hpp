@@ -1,6 +1,8 @@
 // updateJob_thread: a job object that runs on its own thread. Reconstructed from
-// libDungeonHunter2.so pseudocode. The worker entry points (threadfun2 / threadfun3) live
-// in another category; the port's worker calls Run(), which is empty as in the original.
+// libDungeonHunter2.so pseudocode. The original worker entry points threadfun2 (0x317fbc) and
+// threadfun3 (0x317f90) live in another category and do real work (Savegame::UpdateJobs,
+// SavegameManager::saveSettings); the port's worker calls Run(), which is empty in the original
+// (0x317e7c) and therefore only a stand-in for those two entry points.
 //
 // Original layout (32-bit offsets):
 //   +0x00 vptr

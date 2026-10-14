@@ -2,26 +2,33 @@
 // Split off because dh2/PlayerManager.hpp (net-transport IStreamBase) and dh2/Character.hpp (pydata IStreamBase) define
 // the same class differently, so one translation unit cannot include both (see the part 0 players file).
 //
-// PARTIAL, both methods: they read the player's Character field, PlayerInfo +0x660 (1632), from the record that
-// PlayerManager::GetPlayer(index, true) returns. dh2/PlayerManager.hpp only forward-declares PlayerInfo, so the field
-// cannot be read yet. The lookup is still called. The methods return null until dh2/PlayerInfo.hpp declares the field.
+// Both methods read the player's Character field, PlayerInfo +0x660, from the record PlayerManager::GetPlayer(index,
+// true) returns. The old note called that field undeclared: it is STALE, PlayerInfo.hpp:97 declares
+// `Character* unk_660`. dh2/PlayerManager.hpp includes dh2/PlayerInfo.hpp, so the field is available here; only the
+// Character class itself stays incomplete, which is enough for GetChar and for the base upcast in Get (Character
+// derives from GameObject).
 
 #include "dh2/ObjectSearcher.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/GameObject.hpp"
 #include "dh2/PlayerManager.hpp"
 
 // 0x38d7bc _ZN14ObjectSearcher10PlayerList7GetCharEv
-// PARTIAL: the original returns *(GetPlayer(m_index, 1) + 0x660) as a Character*.
+// The player's Character at PlayerInfo +0x660. Returns the null pointer when the lookup has no record.
 Character* ObjectSearcher::PlayerList::GetChar() {
-    (void)m_players->GetPlayer(m_index, true);
-    return nullptr;
+    PlayerInfo* player = m_players->GetPlayer(m_index, true);
+    if (player == nullptr) {
+        return nullptr;  // host-necessitated guard: GetPlayer can answer the null record
+    }
+    return player->unk_660;
 }
 
 // 0x38d7d4 _ZN14ObjectSearcher10PlayerList3GetEv
-// PARTIAL: the same field as GetChar (PlayerInfo +0x660, now declared as Character* unk_660 in dh2/PlayerInfo.hpp),
-// returned as its GameObject base. The conversion needs Character complete, and dh2/Character.hpp cannot share a
-// translation unit with dh2/PlayerManager.hpp (CustomFree is redefined in pydata-accessors/deps/stream_reader.hpp; checked
-// with check_tu.sh). The body therefore stays a placeholder that returns null.
+// The same field as GetChar, returned as its GameObject base.
 GameObject* ObjectSearcher::PlayerList::Get() {
-    (void)m_players->GetPlayer(m_index, true);
-    return nullptr;
+    Character* character = GetChar();
+    if (character == nullptr) {
+        return nullptr;
+    }
+    return static_cast<GameObject*>(character);
 }

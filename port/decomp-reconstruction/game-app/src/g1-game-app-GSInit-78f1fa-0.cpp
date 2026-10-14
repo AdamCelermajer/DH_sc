@@ -2,11 +2,11 @@
 // Rebuilt from the Hex-Rays pseudocode. Member offsets are the original 32-bit ones (dh2/GSInit.hpp).
 //
 // Status of each function is in game-app/ledger.d/g1-game-app-GSInit-78f1fa-0.csv. In short:
-//   reconstructed  the constructors, the destructor copies that are not deleting, Dtor and Ctor.
-//   partial        Draw, ClearLoadingScreen, SwitchBackground and Update. They need the video driver
-//                  (the object at IDevice +0x10, whose texture manager is at +0xe0), the device timer
-//                  (IDevice +0x20), or a class header that is not in the tree yet. Each PARTIAL comment
-//                  names the missing piece.
+//   reconstructed  the constructors, the destructor copies that are not deleting, Dtor, Ctor and Draw.
+//   partial        ClearLoadingScreen, SwitchBackground and Update. Draw was partial on the video driver
+//                  (IDevice +0x10), which is now declared; the remaining three still wait on the device timer
+//                  (IDevice +0x20) or a class header that is not in the tree yet. Each PARTIAL comment names
+//                  the missing piece.
 //   skipped        the deleting destructor (D0), which the compiler emits.
 //
 // Globals the original reads. Their definitions belong to the globals batch.
@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 #include "dh2/global/Globals.hpp"
+#include "glitch-video/c2d_driver.hpp"   // C2DDriver::draw2DImage (driver, texture, destination, source, clip, colors, alpha)
+#include "glitch-video/render_target.hpp"  // IRenderTarget::viewport() (+0x14, the splash draw's screen rect)
 #include "glitch-video/texture_manager.hpp"
 #include "glitch-video/video_driver.hpp"
 #include "glitch-core-io/os/device.hpp"
@@ -69,53 +71,77 @@ GSInit::GSInit() {
 void GSInit::Dtor(const StateMachine*) {}
 
 // 0x384a4c GSInit::Draw(StateMachine const*)
-// PARTIAL. The original begins the frame on the video driver, which is the object at IDevice +0x10. IDevice
-// has no declared +0x10 member yet, so every driver call is missing here. The calls the original makes are:
-//   driver->vtbl[+0x0c](driver, machine); driver->vtbl[+0xa8](driver, 1); driver->vtbl[+0x14](driver);
-//   ... driver->vtbl[+0x18](driver); driver->vtbl[+0x10](driver); return driver->vtbl[+0xa4](driver, 0);
-// The spinner's timing and cell positions do not need the driver, so they are written in full.
+// The whole body, checked against the asm (0x384a4c). The driver is Application::m_device (+0x10) -> videoDriver
+// (IDevice +0x10), which IDevice now declares.
+//   frame start (0x384a70..0x384aa0): driver vtable +0x0c beginScene(), +0xa8 clearBuffers(1), +0x14 beginScene2D()
+//   splash (0x384ab0..0x384af4): the current render target is the last entry of the driver's target stack
+//     (LDR R3,[R4,#0xCC]; LDR R2,[R3,#-4]); its viewport rect is at +0x14 (R2+0x14). The source rect is
+//     (0, 0, 1280, 752) and the destination is that viewport; the call is the static
+//     glitch::video::C2DDriver::draw2DImage(driver, texture, destination, source, null clip, null colors, false)
+//   spinner (0x384b04 onwards, only while unk_08 < 0): the timing and the cell arithmetic as before, with the
+//     destination rect (W - cellW, H - cellH, W, H) taken from the viewport's lower-right corner
+//     (v20[7]-v20[5] and v20[8]-v20[6] are rect right-left and bottom-top) and the source rect
+//     (srcLeft, srcTop, srcRight, srcBottom); then the same draw2DImage
+//   frame end (0x384b04..0x384b3c): driver vtable +0x18 endScene2D(), +0x10 endScene(), +0xa4 swapBuffers(0)
+// The original's return is swapBuffers' result; the StateBase Draw slot is void, so it is dropped.
 void GSInit::Draw(const StateMachine*) {
+    glitch::video::IVideoDriver* const driver = ApplicationGetInstance().m_device->videoDriver;
+    driver->beginScene();      // vtable +0x0c
+    driver->clearBuffers(1);   // vtable +0xa8
+    driver->beginScene2D();    // vtable +0x14
+
     if (m_splashTexture) {
-        // PARTIAL: the full-screen splash draw is missing: draw2DImage(driver, &m_splashTexture, screenRect,
-        // {0, 0, 1280, 752}, 0, 0, 0). screenRect is the viewport rect at *(driver +0xc8) + 0x14, not declared.
-        if (unk_08 < 0) {
-            // Function-local statics in the original (GSInit::Draw(...)::accumulatedTime and ::currentProgress).
-            static int accumulatedTime = 0;
-            static int currentProgress = 0;
+        // The original dereferences the target stack unconditionally; the port keeps a guard for an empty stack.
+        if (!driver->m_renderTargets.empty()) {
+            const glitch::core::rect<std::int32_t>& viewport = driver->m_renderTargets.back()->viewport();
+            const glitch::core::rect<std::int32_t> screenRect = viewport;
+            const glitch::core::rect<std::int32_t> splashSource{0, 0, 1280, 752};
+            glitch::video::C2DDriver::draw2DImage(driver, m_splashTexture, screenRect, splashSource, nullptr, nullptr,
+                                                  false);
+            if (unk_08 < 0) {
+                // Function-local statics in the original (GSInit::Draw(...)::accumulatedTime and ::currentProgress).
+                static int accumulatedTime = 0;
+                static int currentProgress = 0;
 
-            accumulatedTime += ApplicationGetInstance().GetDt();
-            if (static_cast<unsigned int>(accumulatedTime) > 0x19u) {
-                accumulatedTime = 0;
-                currentProgress = (currentProgress == 12) ? 0 : currentProgress + 1;
+                accumulatedTime += ApplicationGetInstance().GetDt();
+                if (static_cast<unsigned int>(accumulatedTime) > 0x19u) {
+                    accumulatedTime = 0;
+                    currentProgress = (currentProgress == 12) ? 0 : currentProgress + 1;
+                }
+
+                // The original asks Device::IsIphoneHighRez() four times, in this order. The answers pick the origin
+                // and the size of one spinner cell in the splash texture.
+                const int originX = Device::IsIphoneHighRez() ? 23 : 770;   // first answer
+                const int originY = Device::IsIphoneHighRez() ? 792 : 770;  // second answer
+                const int cellW = Device::IsIphoneHighRez() ? 54 : 64;      // third answer
+                const int cellH = Device::IsIphoneHighRez() ? 56 : 64;      // fourth answer
+
+                // Column is currentProgress % 4; row is the adjusted frame >> 2 (the adjust only matters for negative
+                // progress, which the original never reaches).
+                int frame = currentProgress;
+                if (currentProgress < 0) {
+                    frame = currentProgress + 3;
+                }
+                const int srcLeft = originX + (currentProgress % 4) * cellW;
+                const int srcTop = originY + (frame >> 2) * cellH;
+                const int srcRight = srcLeft + cellW;
+                const int srcBottom = srcTop + cellH;
+                const glitch::core::rect<std::int32_t> spinnerSource{srcLeft, srcTop, srcRight, srcBottom};
+
+                // Destination: the cell-sized box in the viewport's bottom-right corner. The original computes
+                // (int)((float)(right - left) - cellW) and the same for the height, which is the plain subtraction.
+                const int width = viewport.LowerRightCorner.X - viewport.UpperLeftCorner.X;   // v20[7] - v20[5]
+                const int height = viewport.LowerRightCorner.Y - viewport.UpperLeftCorner.Y;  // v20[8] - v20[6]
+                const glitch::core::rect<std::int32_t> spinnerDest{width - cellW, height - cellH, width, height};
+                glitch::video::C2DDriver::draw2DImage(driver, m_splashTexture, spinnerDest, spinnerSource, nullptr,
+                                                      nullptr, false);
             }
-
-            // The original asks Device::IsIphoneHighRez() four times, in this order. The answers pick the origin
-            // and the size of one spinner cell in the splash texture.
-            const int originX = Device::IsIphoneHighRez() ? 23 : 770;   // first answer
-            const int originY = Device::IsIphoneHighRez() ? 792 : 770;  // second answer
-            const int cellW = Device::IsIphoneHighRez() ? 54 : 64;      // third answer
-            const int cellH = Device::IsIphoneHighRez() ? 56 : 64;      // fourth answer
-
-            // Column is currentProgress % 4; row is the adjusted frame >> 2 (the adjust only matters for negative
-            // progress, which the original never reaches).
-            int frame = currentProgress;
-            if (currentProgress < 0) {
-                frame = currentProgress + 3;
-            }
-            const int srcLeft = originX + (currentProgress % 4) * cellW;
-            const int srcTop = originY + (frame >> 2) * cellH;
-            const int srcRight = srcLeft + cellW;
-            const int srcBottom = srcTop + cellH;
-            (void)srcRight;
-            (void)srcBottom;
-
-            // PARTIAL: the spinner draw is missing: draw2DImage(driver, &m_splashTexture, destRect, srcRect, 0, 0, 0).
-            // destRect is the bottom-right corner [W - cellW, H - cellH, W, H] of the viewport rect (driver +0xc8),
-            // and srcRect is {srcLeft, srcTop, srcRight, srcBottom}.
-            (void)srcLeft;
-            (void)srcTop;
         }
     }
+
+    driver->endScene2D();  // vtable +0x18
+    driver->endScene();    // vtable +0x10
+    driver->swapBuffers(0);  // vtable +0xa4
 }
 
 // 0x384db8 GSInit::~GSInit()

@@ -41,6 +41,8 @@
 #include "core-platform/gc_singleton.hpp"
 #include "glitch-core-io/os/device.hpp"
 #include "glitch-video/video_driver.hpp"
+#include "glitch-video/texture_manager.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "net-session-online/game_center.hpp"
 #include "net-session-online/online_game_state.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
@@ -59,7 +61,9 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/EventManager.hpp"
 #include "dh2/GSFlashMenu.hpp"
+#include "dh2/GS_InterruptLoading.hpp"
 #include "dh2/GSLevel.hpp"
+#include "dh2/HUDControls.hpp"
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/Level.hpp"
@@ -78,7 +82,10 @@
 #include "dh2/TrophyManager.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "dh2/global/menu_main_menu.hpp"  // Is_In_Multiplayer_IGM, Is_In_Multiplayer_Mode
 #include "net-session-online/c_online.hpp"
+#include "net-session-online/c_sign_in.hpp"
+#include "net-session-online/c_matching_base.hpp"
 #include "net-transport/update_job_thread.hpp"
 
 // The file-scope job threads #2..#4 (m_updateJobThread1..4) and the first-run flag FirstTime are declared in
@@ -86,6 +93,13 @@
 // FirstTime is a bool: the constructor stores it with a byte store (STRB, asm 0x32d980).
 
 extern "C" void nativeExit();  // 0x532bb8
+
+// The music-player bridge (0x533978 / 0x533980). Declared here instead of including
+// core-platform/tb/android_jni_musicplayer.hpp: that header pulls in android_jni_bridge.hpp, whose big-sound
+// declarations conflict with vox-audio/sound_manager.hpp in this translation unit. The mangled names are the
+// C ones (the definitions in core-platform/src/p1-core-platform-global-f216b6-4.cpp are extern "C").
+extern "C" int nativeGetisplaying();
+extern "C" void nativePauseMusicBG();
 
 namespace {
 
@@ -259,23 +273,50 @@ void Application::Pause() {
 }
 
 // 0x322afc Application::InitPS3(glitch::IDevice*)
-// PARTIAL: the original first stores 1 to address 0 (LOBYTE(dword_0) = 1). The decompiler left the target
-// unnamed and no symbol is known for it, so that store is not written. The menu manager is created as in the
-// original (operator new(0x114), then MenuManager::MenuManager).
+// Verified against the listing: the body is `if (device) ...; m_menuManager = new MenuManager()`. Each instruction is
+// reproduced except the first three (MOV R3,#0; MOV R2,#1; STRB R2,[R3]): the original stores the byte 1 through a
+// null pointer before allocating, which faults on the host, so it is not written (host-necessitated deviation; the
+// target is unnamed in the ELF, IDA names it dword_0). The allocation is `operator new(0x114, MemoryHintState 0)`
+// followed by MenuManager::MenuManager(); the port's plain `new MenuManager()` allocates the same 0x114 bytes with
+// the standard operator new (the hint overload only labels the allocation). The store is `STR R5,[R4,#0x54]`
+// (m_menuManager, +0x54). The device argument is unused.
 void Application::InitPS3(glitch::IDevice* device) {
     (void)device;
     m_menuManager = new MenuManager();
 }
 
 // 0x323ae0 Application::Init(glitch::IDevice*)
-// PARTIAL: the device is stored at +0x10, its reference count is raised and this becomes its event receiver. The
-// rest configures the driver (device +0x10 virtual calls at slots +0xa0 and +0xa8 with flag arguments; the driver
-// render-state slot +0x0c..) and the collada managers (glitch::collada::CResFileManager::Inst flags at +41 and +43,
-// CAnimationStreamingManager::Instance +24 = 512000, then checkMemoryUsage). Those glitch interfaces are not
-// declared in the tree, so the tail is not written.
+// Reconstructed from the listing line by line. The device is stored at +0x10, its reference counter at +0x04 is
+// raised (the original guards that single increment with a null test, then dereferences unconditionally), and this
+// becomes the device's event receiver. The logger at device +0x2c gets log level 4 (ELL_NONE): the listing calls
+// its vtable slot +0x10, which glitch::ILogger declares as setLogLevel(ELOG_LEVEL) (glitch-core-io/os/logging.hpp);
+// device.hpp types that member void*, so the cast below is the port facade for it. Then the driver (device +0x10):
+// setOption(256, true) and setOption(16, false) (byte offset +0xa0, IVideoDriver::setOption); its texture manager
+// (+0xe0) has bit 2 of the word at +0x74 set and bit 0 cleared around two CResFileManager::Inst stores: the byte
+// flags at +0x29 (flag_0x29) and +0x2b (disableZipAfterFirstUse) are both cleared. Finally
+// CAnimationStreamingManager::Instance gains a 512000-byte cache limit (+0x18, cacheLimit) and checkMemoryUsage()
+// runs. Order follows the listing. Storage helpers and the null test are host-width; the offsets are the original
+// 32-bit ones.
 void Application::Init(glitch::IDevice* device) {
     m_device = device;
-    // PARTIAL: reference count raise and setEventReceiver are not written; the IDevice header is not included.
+    if (device != nullptr) {
+        ++device->referenceCounter;  // +0x04
+    }
+    device->setEventReceiver(reinterpret_cast<glitch::IEventReceiver*>(this));
+    if (device->logger != nullptr) {
+        reinterpret_cast<glitch::ILogger*>(device->logger)->setLogLevel(glitch::ELL_NONE);  // vtable +0x10
+    }
+    glitch::video::IVideoDriver* driver = device->videoDriver;  // +0x10
+    driver->setOption(256, true);   // +0xa0
+    driver->setOption(16, false);   // +0xa0
+    glitch::video::CTextureManager* textures = driver->m_textureManager;  // +0xe0
+    textures->unk_74 |= 4u;                                               // +0x74
+    glitch::collada::CResFileManager::Inst->flag_0x29 = false;            // +0x29
+    textures->unk_74 &= ~1u;                                              // +0x74
+    glitch::collada::CResFileManager::Inst->disableZipAfterFirstUse = false;  // +0x2b
+    glitch::collada::CAnimationStreamingManager* streaming = glitch::collada::CAnimationStreamingManager::Instance;
+    streaming->cacheLimit = 512000;  // +0x18
+    streaming->checkMemoryUsage();
 }
 
 // 0x323bc4 Application::Quit()
@@ -372,20 +413,33 @@ void Application::Quit() {
 }
 
 // 0x3241b8 Application::OnInterruptResume()
-// PARTIAL: the original allocates an 8-byte block (CustomAlloc(8)), constructs GS_InterruptLoading in it, and pushes
-// its StateBase subobject (block +4) on the state machine (dword_99F744 = Singleton<Application>::s_inst +0x18 =
-// m_stateMachine). The push is not written: dh2/GS_InterruptLoading.hpp cannot be included in this translation unit,
-// because its glitch-core-io intrusive_ptr header brings a second glitch_core.hpp that conflicts with the one
-// core-platform/touch_screen_base.hpp needs here. The state push belongs in a separate translation unit or after
-// those two glitch headers are unified.
+// Reconstructed from the listing: the trace, then an 8-byte CustomAlloc block holding a GS_InterruptLoading (its
+// primary vptr plus the StateBase secondary vptr need 8 bytes), then StateMachine::PushState(m_stateMachine,
+// state, false) with the StateBase sub-object. In the original the sub-object address is `block + 4` (asm: ADD
+// R1,R5,#4) with a null test on the block; the port asks the compiler for the StateBase sub-object of the same
+// object, which is that same address because IEventReceiver is the primary base (one vptr). The block is
+// delimited by the state machine in the original (PushState takes ownership); the port pushes it unowned, as the
+// listing's third argument (0) says.
 void Application::OnInterruptResume() {
     _DEBUG_OUT("\n\n Application::OnInterruptResume \n\n");
+    void* storage = CustomAlloc(8);
+    GS_InterruptLoading* loading = new (storage) GS_InterruptLoading();
+    StateBase* state = loading != nullptr ? static_cast<StateBase*>(loading) : nullptr;
+    if (m_stateMachine != nullptr) {
+        m_stateMachine->PushState(state, false);
+    }
 }
 
 // 0x324210 Application::OnInterruptPause()
-// PARTIAL: nativeGetisplaying and nativePauseMusicBG are not declared, so the music pause is not written. The
-// original sets Musicplayerpause (extern bool, defined by the GS_InterruptLoading batch) when the music was playing.
+// Reconstructed from the listing: when the music player reports that it is playing (nativeGetisplaying() == 1) the
+// pause latch Musicplayerpause is set and the platform pause call runs, then the trace. Both calls are the JNI
+// bridge of core-platform/tb/android_jni_musicplayer.hpp (0x533978 and 0x533980); Musicplayerpause is the .bss
+// byte at 0x99fa5c (game-app/src/Globals_link1.cpp).
 void Application::OnInterruptPause() {
+    if (nativeGetisplaying() == 1) {
+        Musicplayerpause = true;
+        nativePauseMusicBG();
+    }
     _DEBUG_OUT("\n\n Application::OnInterruptPause \n");
 }
 
@@ -428,23 +482,58 @@ void Application::ResetTouch() {
 }
 
 // 0x328fe0 Application::Resume()
-// PARTIAL: written: the no-device exit, the HUD refresh, the pause flag clear, the state machine wake-up and the
-// touch reset. Not written: the sound resume (VoxSoundManager statics not declared, ResumeAllSounds / ResumeMusic
-// when the in-game menu is open), the online reconnect check (GetOnline and OnlineSingleton not declared; sets
-// m_goToMainMenuPending when the packet clock is past 0x15f90 ms or Wi-Fi is off), the global isDevicePause, and the
-// device timer reads that set m_lastTickTime (+0x70) and the pause-time reset.
+// Reconstructed from the listing. No device returns at once. The HUD is refreshed when HUDControls::hasInstance()
+// (the original passes the Application pointer in r0, a leftover: hasInstance takes no argument). The current device
+// time (v3) and the stored pause time (m_pauseTime, +0xa0, written by Pause) are read before the sound block,
+// because the reconnect test compares them. The sound block runs when there is a sound manager, and the tail block
+// (m_pauseMenuPushed clear plus the online reconnect test) when isDevicePause is clear; the original reaches the tail
+// from the sound block's fall-through and from the null-manager goto, which the single `||` below reproduces.
+// Music resume: ResumeMusic(500) when m_resumeMusic is set and the game is in the in-game-play/GameCenter state or a
+// level is loaded and (m_isInGameView (+0x198) or MenuBase::s_igmOpened or m_pauseMenuPushed); ResumeAllSounds
+// otherwise. Reconnect: with the online byte (Application::IsOnlineGame, GetOnline +0x05) set, a pause longer than
+// 0x15f90 ms or (OnlineGameState::mode_ != 2 and Wi-Fi off) raises m_goToMainMenuPending. Then the pause flag is
+// cleared, the state machine woken, the touch screen reset, m_lastTickTime (+0x70) stamped and ComputeDt run.
+// Deviation: the device timer (IDevice +0x20, virtual getRealTime at slot +0x0c) is the port's header-only static
+// glitch::os::Timer::getRealTime(), the same substitution ComputeDt and _CheckGamepad in this file already use.
 void Application::Resume() {
     if (m_device == nullptr) {
         return;
     }
-    // PARTIAL: HUDControls::hasInstance is called in the original with the Application pointer as its argument; the
-    // declared signature is checked in the compile step.
+    if (HUDControls::hasInstance()) {
+        HUDControls::GetInstance()->RefreshHUD();
+    }
+    const unsigned int now = glitch::os::Timer::getRealTime();  // device +0x20, vtable +0x0c
+    const unsigned int pauseTime = static_cast<unsigned int>(m_pauseTime);  // +0xa0, the value Pause stored
+    Level* level = GetCurrentLevel();
+
+    if (VoxSoundManager::s_instance == nullptr || !isDevicePause) {
+        if (VoxSoundManager::s_instance != nullptr) {
+            if (IsInIGPOrGameCenter() ||
+                (level != nullptr && (level->m_isInGameView || MenuBase::s_igmOpened || m_pauseMenuPushed))) {
+                if (m_resumeMusic) {
+                    VoxSoundManager::s_instance->ResumeMusic(500);
+                }
+            } else {
+                VoxSoundManager::s_instance->ResumeAllSounds();
+            }
+        }
+        if (!isDevicePause) {
+            m_pauseMenuPushed = false;
+            if (IsOnlineGame()) {
+                if (now - pauseTime > 0x15F90u ||
+                    (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 2 && !IsWifiEnabled())) {
+                    m_goToMainMenuPending = true;
+                }
+            }
+        }
+    }
+
     m_paused = false;
     if (m_stateMachine != nullptr) {
         m_stateMachine->WakeUp();
     }
     ResetTouch();
-    // PARTIAL: m_lastTickTime is not written, see above.
+    m_lastTickTime = static_cast<int>(now);  // +0x70
     ComputeDt();
 }
 
@@ -558,38 +647,59 @@ bool Application::onEvent(const glitch::SEvent& event) {
 }
 
 // 0x32ade8 Application::_Draw()
-// PARTIAL: written: the not-initialised branch, which only draws the state machine. Not written: the 3D pass (driver
-// and scene-manager virtual calls, camera selection, glitch bounding-box debug draw), the 2D pass (StateMachine::Draw2D,
-// MenuManager::DBG_Draw, PerfCounters::Draw) and the driver begin and end calls. The glitch video and scene interfaces
-// are not declared. The original's second condition, the InterLoad global, is not declared either, so this branch is
-// taken whenever IsInitFinish is false (IsInitFinish is itself partial).
+// PARTIAL. The early branch is written exactly, including the InterLoad test (declared in dh2/GS_InterruptLoading.hpp,
+// which this translation unit now includes). Not written: the drawing branch. Its interfaces are all in the tree now
+// (v3 = m_device->videoDriver: setClearColor (vtable +0xdc) with the level's packed colour, beginScene (+0x0c),
+// setOption(256, IsUsingBatching) (+0xa0), clearBuffers(3) (+0xa8), beginScene2D (+0x14), endScene2D (+0x18),
+// endScene (+0x10), swapBuffers(0) (+0xa4); then StateMachine::Draw, MenuManager::DBG_Draw, PerfCounters::Draw and
+// StateMachine::Draw2D), so the concrete missing item is elsewhere: the original brackets the 2D pass with two calls
+// on the object at glitch::IDevice +0x18 (`v2 = *(m_device + 0x18)`, asm loads, then `LDR PC,[R3,#0x0c]` with no
+// argument and the int result dropped). glitch-core-io/os/device.hpp declares that member as `void* unk_18` with the
+// comment that its role is not identified, so its vtable type and slot +0x0c cannot be named; the same object and
+// slot block GSConsole::Draw2D (0x3832c4). The 3D pass also needs the camera path (CSceneManager +0x14 driver
+// setDepthRange(0, 0.8f) at +0x11c, activeCamera +0xe4, Level +0x128 -> camera +0x08, CSceneManager vtable +0x3c);
+// it is written nowhere yet.
 void Application::_Draw() {
-    if (!IsInitFinish()) {
+    if (!IsInitFinish() || InterLoad) {
         if (m_stateMachine != nullptr) {
             m_stateMachine->Draw();
         }
         return;
     }
-    // PARTIAL: the drawing branch is not written, see above.
+    // PARTIAL: the drawing branch is not written; see the note above (IDevice +0x18 object, slot +0x0c).
 }
 
 // 0x32bdc8 Application::LoadLevel(...)
-// PARTIAL. Written: the unk_ab (+0xab) reset and the statub bar hide; then the original's two paths.
+// Reconstructed from the listing line by line except the savegame/online seed block. Written: the staging globals
+// (temp_* 0x99fa40..0x99fa58, dh2/global/Globals.hpp), the GameCenter flag (GCSingleton<GameCenter> +0x14, unk_14),
+// the unk_ab (+0xab) reset and the statub bar hide; then the two paths of the original.
 //   A running level (its m_loadStep must be 38, else the function returns): when the level is not in its game view,
 //   MultiMenuManager::PopMenu(true) runs (the m_menuManager +0xf4 object, vtable +0x38). Then m_inTransition (+0x145)
-//   is set, SendGLHiScore runs, m_levelChange (+0xf0) is set, SG_SaveLocalPlayer(true), QuickSave(true) and ResetIsLoaded
-//   run. The switch argument fromSubId is the level's m_levelListSubId (+0x40), read as a full word.
+//   is set, SendGLHiScore runs, m_levelChange (+0xf0) is set, SG_SaveLocalPlayer(true), QuickSave(true) and
+//   ResetIsLoaded run. The switch argument fromSubId is the level's m_levelListSubId (+0x40), read as a full word.
 //   No level: the player manager's unk_71b (+0x71b) is set, and fromSubId is -1.
 // Then the switch: GSLevel::LoadLevel with the arguments, PlayerStatManager::s_inst.Reset(), PlayerManager unk_6c9 = 0
 // and PlayerManager::Update.
-// Not written: (a) the savegame setup, which the original runs before the switch when isRemotelyTriggered is false.
-// It needs the PlayerSavegame difficulty seed, DebugSwitches "DontUsePlayerSeed", the device timer for the seed
-// (IDevice declares no timer) and the online start-game message (CMessaging and CMatching are not declared). The
-// switch below takes the caller's seed and syncedSeed in that case. (b) The GameCenter flag (GCSingleton<GameCenter>
-// +0x14, not declared) and the temp_* staging globals (not declared).
+// Still missing (so the row stays partial): the seed/difficulty block the original runs between the paths and the
+// switch when isRemotelyTriggered is false. It builds a PlayerSavegame on the stack (PlayerSavegame.hpp is in the
+// tree), reads the per-difficulty seed at PlayerSavegame + 92 + 4 * m_difficultyLevel, replaces it with
+// glitch::os::Timer::getRealTime() when it is 0 or the "DontUsePlayerSeed" debug switch is set, writes it back and
+// passes it as the switch's seed and syncedSeed. Its online half needs `Arrays::LevelList` (the py-data level array
+// at +32 per 72-byte record; no declaration exists anywhere in the tree) for the CMsgStartGame level index, and
+// CMessaging::Get() (net-session-online/c_messaging.hpp declares the class, the singleton accessor is not there).
+// Until that block is written the switch takes the caller's seed and syncedSeed.
 void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegameSlot, bool resume, bool useSpawnPoint,
                             int difficulty, bool isRemotelyTriggered, uint32_t seed, uint32_t syncedSeed) {
-    // PARTIAL: the GameCenter flag and the temp_* staging globals are not written, see above.
+    temp_savegameSlot = savegameSlot;
+    temp_entryPointId = entryPointId;
+    temp_isRemotelyTriggered = isRemotelyTriggered;
+    temp_resume = resume;
+    temp_useSpawnPoint = useSpawnPoint;
+    temp_difficulty = difficulty;
+    temp_seed = seed;
+    temp_syncedSeed = syncedSeed;
+
+    GCSingleton<GameCenter>::GetInstance()->unk_14 = true;  // +0x14
     unk_ab = false;
     ShowStatubBar(false);
 
@@ -613,7 +723,7 @@ void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegam
         m_playerManager->unk_71b = true;  // +0x71b
     }
 
-    // PARTIAL: when isRemotelyTriggered is false the original runs the savegame setup here, see above. It is not written.
+    // PARTIAL: the seed/difficulty savegame block is not written, see the note above.
     (void)isRemotelyTriggered;
 
     GSLevel::LoadLevel(name, entryPointId, savegameSlot, seed, syncedSeed, resume, useSpawnPoint, fromSubId, difficulty);
@@ -623,22 +733,31 @@ void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegam
 }
 
 // 0x32c1f4 Application::GoToMainMenu(GoToMainMenuEvent)
-// PARTIAL: written: the level save (the else branch calls MultiMenuManager::PopMenu(true) at vtable +0x38, then
-// m_inTransition (+0x145) is set and the level quick-saved), the menu reset, the switch to the main menu state, the
-// hi-score send, the TrophyManager unlock, the removal of all players, the statub bar, and the event latch (unk_ab,
-// m_goToMainMenuEvent). Not written: the two multiplayer globals (Is_In_Multiplayer_IGM, Is_In_Multiplayer_Mode, not
-// declared, cleared first in the original); the GSFlashMenu field writes (+0x0c menu pointer, +0x29 flag: the menu lookup
-// is made and discarded); and the online sign-out block, gated on the online byte (CSignIn, CMatching and
-// GCSingleton<GameCenter> are not declared; COnline::SetIsOnlineGame and the OnlineSingleton state reset are declared
-// but sit behind that block).
+// Reconstructed from the listing line by line. The two multiplayer mode flags (Is_In_Multiplayer_IGM, ELF 0x9a5b5a,
+// and Is_In_Multiplayer_Mode, 0x9a5b59; declared in dh2/global/menu_main_menu.hpp) are cleared first. A loaded level
+// (m_loadStep 38) is saved: when it is not in its game view the multi-menu is popped (m_menuManager +0xf4, vtable
+// +0x38), then m_inTransition (+0x145) is set, QuickSave(false) and SG_SaveLocalPlayer(false) run. The menu manager is
+// reset, "menu_MainMenu" looked up and stored in GSFlashMenu::s_inst: the load-main-menu flag byte first (+0x29,
+// ELF byte_9A2499), then the pending-menu pointer (+0x0c, ELF dword_9A247C), then SwitchState. Hi-score send,
+// trophy unlock and the full player removal follow. The online sign-out block runs with the online byte
+// (GetOnline +0x05) set: CSignIn::Get()->SignOut() when logged in (+0x11), CMatching::Get()->LeaveRoom() when its
+// +0x64 gate is set, SetMatchingProvider(1), CMatching::Destroy(), COnline::SetIsOnlineGame(false) and the two
+// singleton flag clears (OnlineGameState +0x28 flag28_, GameCenter +0x11 startFlag_). Then the statub bar, the
+// unk_ab latch and the event store. The bare CMatching::Get() calls reproduce the original's discarded accesses.
 void Application::GoToMainMenu(GoToMainMenuEvent event) {
+    Is_In_Multiplayer_IGM = false;
+    Is_In_Multiplayer_Mode = false;
+
     Level* level = GetCurrentLevel();
     if (level != nullptr && level->m_loadStep == 38) {
-        if (!level->m_isInGameView) {
+        if (level->m_isInGameView) {
+            level->m_inTransition = true;  // +0x145
+            level->QuickSave(false);
+        } else {
             m_menuManager->m_multiMenuManager->PopMenu(true);  // +0xf4 MultiMenuManager, vtable +0x38
+            level->m_inTransition = true;                      // +0x145
+            level->QuickSave(false);
         }
-        level->m_inTransition = true;  // +0x145
-        level->QuickSave(false);
         level->SG_SaveLocalPlayer(false);
     }
 
@@ -646,8 +765,8 @@ void Application::GoToMainMenu(GoToMainMenuEvent event) {
     menus->Reset();
     _DEBUG_OUT("*************************GoToMainMenu::1111111");
     MenuBase* mainMenu = menus->GetMenuByName("menu_MainMenu");
-    // PARTIAL: mainMenu belongs in GSFlashMenu::s_inst +0x0c, and the flag at +0x29 is set to 1; not declared.
-    (void)mainMenu;
+    GSFlashMenu::s_inst.m_loadMainMenu = true;   // +0x29, ELF byte_9A2499
+    GSFlashMenu::s_inst.m_pendingMenu = mainMenu;  // +0x0c, ELF dword_9A247C
     m_stateMachine->SwitchState(&GSFlashMenu::s_inst, false);
     _DEBUG_OUT("*************************GoToMainMenu::222222");
     SendGLHiScore();
@@ -656,7 +775,24 @@ void Application::GoToMainMenu(GoToMainMenuEvent event) {
     if (m_playerManager != nullptr) {
         m_playerManager->RemoveAllPlayers();
     }
-    // PARTIAL: the online sign-out block is not written, see above.
+
+    if (IsOnlineGame()) {  // *(GetOnline() + 5)
+        CSignIn* signIn = CSignIn::Get();
+        if (signIn->LoggedIn()) {  // +0x11
+            signIn->SignOut();     // vtable +0x14
+        }
+        CMatching* matching = CMatching::Get();
+        if (matching->UnknownGate()) {  // vtable +0x64 (IsInRoom in the providers)
+            CMatching::Get()->LeaveRoom();  // vtable +0x3c
+        }
+        CMatching::Get();  // the original's discarded access
+        CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(1));  // 1 = CMatchingLocal
+        CMatching::Get()->Destroy();
+        GetOnline()->SetIsOnlineGame(false);
+        OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ = false;  // +0x28
+        GCSingleton<GameCenter>::GetInstance()->startFlag_ = false;        // +0x11
+    }
+
     _DEBUG_OUT("*************************GoToMainMenu::4444444444");
     ShowStatubBar(false);
     unk_ab = true;
@@ -784,13 +920,18 @@ void Application::_Update(int dtMs) {
 }
 
 // 0x32ccc4 Application::Update()
-// PARTIAL: the device-timer steps are not written. The original reads the device timer (IDevice +0x20 object, virtual
-// getRealTime at slot +0x0c). It returns through ComputeDt when more than 2000 ms have passed since m_lastTickTime (+0x70),
-// runs the DataReloaderManager::checkFiles timer (4000 ms, the function static reloadtimer in .bss) and stores the timer
-// into m_lastTickTime. IDevice declares no timer, so that gate, the reload timer and the store are missing, and every
-// frame runs the steps below. Also not written: the online update block (COnlineImpl::Update is not declared, and the
-// byte that gates the block is private in COnline, see IsOnlineGame). The frame pacing calls the device's vtable slot
-// +0x10 with no argument, which IDevice does not declare; those calls are marked below.
+// Reconstructed from the listing except the frame-pacing sleeps. Written: the paused exit, the online packet
+// receive (gated by the online byte, Application::IsOnlineGame, GetOnline +0x05), the unk_7a clear, the frame-time
+// gate (a frame longer than 2000 ms stamps m_lastTickTime and returns through ComputeDt), the DataReloaderManager
+// reload timer (4000 ms against the function static Application::Update()::reloadtimer, ELF 0x99fa00 .bss) with the
+// m_lastTickTime store, the online update block (PushProfilingContext "OnlineUpdate", COnline::Update(m_dt),
+// OnlineGameState::Update, PopProfilingContext), the touch-screen event pump, ComputeDt, the perf counters, _Update,
+// _Draw, the online send and the three-static average pacing. Deviation: the device timer (IDevice +0x20, virtual
+// getRealTime at slot +0x0c) is the port's header-only static glitch::os::Timer::getRealTime(), as in ComputeDt and
+// _CheckGamepad. Concrete missing item, both pacing branches: the original calls the device virtual at vtable +0x10,
+// which the vtable listing names CAndroidOSDevice::sleep(unsigned int, bool) (asm LDR PC,[R3,#0x10] with r1 =
+// avgSleepTime); glitch::IDevice (glitch-core-io/os/device.hpp) declares no sleep slot and no yield slot, so the
+// port has no way to name that call and the two branches return without sleeping.
 void Application::Update() {
     if (m_paused) {
         return;
@@ -799,7 +940,27 @@ void Application::Update() {
         GetOnline()->ReceivePackets();
     }
     unk_7a = false;
-    // PARTIAL: the device-timer steps and the online update block, see above.
+
+    const unsigned int now = glitch::os::Timer::getRealTime();  // device +0x20, vtable +0x0c
+    if (now - static_cast<unsigned int>(m_lastTickTime) > 0x7D0u) {  // 2000 ms
+        m_lastTickTime = static_cast<int>(now);
+        ComputeDt();
+        return;
+    }
+    static unsigned int reloadtimer = 0;  // Application::Update()::reloadtimer, ELF 0x99fa00 .bss
+    if (m_dataReloaderManager != nullptr && now - reloadtimer > 4000u) {
+        reloadtimer = now;
+        m_dataReloaderManager->checkFiles();
+    }
+    m_lastTickTime = static_cast<int>(now);
+
+    if (IsOnlineGame()) {  // *(GetOnline() + 5)
+        PushProfilingContext("OnlineUpdate");
+        GetOnline()->Update(static_cast<float>(m_dt));  // COnline::Update
+        OnlineSingleton<OnlineGameState>::GetInstance()->Update();
+        PopProfilingContext("OnlineUpdate");
+    }
+
     if (m_touchScreen != nullptr) {
         m_touchScreen->ProcessEvents();
     }
@@ -839,10 +1000,13 @@ void Application::Update() {
         avgFrameRate = 0;
         avgFrameCount = 0;
         avgSleepTime = v14 > 4 ? v14 : 5;
-        // PARTIAL: the original calls the device's vtable slot +0x10 here (no argument), not declared in IDevice.
+        // PARTIAL: the original calls the device's sleep(avgSleepTime, ...) here (vtable +0x10), see the note above.
         return;
     }
-    // PARTIAL: when avgSleepTime is above 0 the original calls the same device slot here, not declared in IDevice.
+    if (avgSleepTime > 0) {
+        // PARTIAL: the same sleep call, see the note above.
+        return;
+    }
 }
 
 // 0x32d79c Application::Application()

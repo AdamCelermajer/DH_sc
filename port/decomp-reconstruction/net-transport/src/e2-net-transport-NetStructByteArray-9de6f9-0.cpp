@@ -45,8 +45,9 @@ NetStructByteArray<N>::NetStructByteArray(const ByteArray& initial) {
 // 0x7fee00 _ZN18NetStructByteArrayILj64EE4ReadER12NetBitStream
 // Reads a 16-bit byte count, then that many bytes, then SetValue on a temporary ByteArray holding them.
 // PARTIAL: the original reads the bytes into a fixed stack buffer of N bytes (v7) with no bound on the
-// count. For a count above N it overflows the stack, which is not reproduced. The port reads the full
-// count into a heap buffer instead, so every in-range count behaves the same.
+// count. For a count above N it writes past the buffer (undefined in the original), which is not
+// reproduced. The port reads the full count into a heap buffer instead, so every in-range count
+// behaves the same.
 template <unsigned N>
 void NetStructByteArray<N>::Read(NetBitStream& stream) {
     std::uint32_t count = stream.ReadU32(16u);

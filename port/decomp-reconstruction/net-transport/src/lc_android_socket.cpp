@@ -151,11 +151,12 @@ void ThreadGetHostByNameProcessLC(PROCESSPARAM* request) {
 }  // namespace
 
 // 0x89feec _ZN15LCAndroidSocket7StartupEv
-// Partial: the Winsock initialisation (WSAStartup) is added for _WIN32 builds, not in the
-// pseudocode. Clears the four cache slots without freeing them or resetting l_countLC, then sets
-// SIGPIPE to ignore (sigaction, SIG_IGN), in the binary's order (the slots are stored before the
-// sigaction call). The original leaves the other sigaction fields uninitialised; they are zeroed
-// here. LC_DEBUG_OUT (0x89c304) is an empty stub in the binary, so the dropped debug call is exact.
+// Verified against the ARM listing and the Hex-Rays body: LC_DEBUG_OUT (0x89c304) is dropped
+// exactly (an empty stub in the binary). The four cache slots are cleared, slot 3 first and then
+// 0, 1, 2 (the binary's store order), l_countLC is left alone, then SIGPIPE (13) is set to SIG_IGN
+// with sigaction, after the slot stores as the binary does. Host-necessitated deviations, named:
+// WSAStartup is added for _WIN32 builds (not in the pseudocode), and the sigaction fields the
+// binary leaves uninitialised are zeroed here.
 void LCAndroidSocket::Startup() {
     for (auto& slot : l_hostLC) {
         slot = nullptr;
@@ -171,10 +172,13 @@ void LCAndroidSocket::Startup() {
 }
 
 // 0x89fc78 _ZN15LCAndroidSocket7ClearupEv
-// Partial: null slots are skipped; the original dereferences them and faults. A null slot is
-// reachable: Startup clears the slots without resetting l_countLC, so a later Clearup meets them.
-// Frees every cache entry (name, first address, address list, entry), then sets l_countLC to 0.
-// WSACleanup is added for _WIN32 builds, not in the pseudocode.
+// Verified against the Hex-Rays body: it walks l_countLC entries and frees each host name, the
+// first address, the address list and the entry, then sets l_countLC to 0 (the binary's
+// LC_API_FREE_0, 0x30e2b0, is a tail jump to operator delete(void*), which is what delete and
+// delete[] of these new/new[] blocks do). The debug call is dropped exactly (LC_DEBUG_OUT, an
+// empty stub). Partial: null slots are skipped; the original dereferences them and faults. A
+// null slot is reachable: Startup clears the slots without resetting l_countLC, so a later
+// Clearup meets them. WSACleanup is added for _WIN32 builds, not in the pseudocode.
 void LCAndroidSocket::Clearup() {
     for (int i = 0; i < l_countLC; ++i) {
         hostent* entry = l_hostLC[i];
@@ -626,14 +630,17 @@ hostent* LCAndroidSocket::GetHostIP(const char* server_name) {
 }
 
 // 0x89fb04 _ZN15LCAndroidSocket13GetHostByNameEPc
-// Partial: (1) the worker caches the first address as raw bytes; the original copies it as a C
-// string (STRNEW of the address bytes), which stops at a zero octet, and TransToIp then reads
-// four bytes past that copy. (2) The lookup runs on a std::thread (pthread_create in the
-// original). The previous worker is joined before a new one is assigned, which the original
-// does not do (it overwrites the pthread id). Cache hits (same name) return the cached entry, as
-// the original does. The first call returns null while the lookup runs; a later call returns the
-// cached entry. A thread start failure returns null with the state unchanged. The debug log is
-// an empty stub in the binary, so dropping it is exact.
+// Verified against the Hex-Rays body: the name check (null or longer than 1024), the cache hit by
+// name (a null h_name is skipped, as the body's `v5->h_name && !strcmp`), and the worker start are
+// as the original. The worker flag (m_gethostbynameState, +0x860) gates a start and is set to 1
+// after the thread is created; a failed start returns null with the state unchanged. Partial:
+// (1) the worker caches the first address as h_length raw bytes; the original copies it as a C
+// string (LC_API_STRNEW of the address bytes), which stops at a zero octet, and TransToIp then
+// reads four bytes past that copy. (2) The lookup runs on a std::thread (pthread_create in the
+// original); the previous worker is joined before a new one is assigned, where the original
+// overwrites the pthread id. The debug log is dropped exactly (an empty stub in the binary). The
+// cache and the flag are unguarded, as in the original. The function is not static and reads this
+// at +0x860, matching the listing's use of the object pointer.
 hostent* LCAndroidSocket::GetHostByName(const char* server_name) {
     if (server_name == nullptr || std::strlen(server_name) > kHostNameLimit) {
         return nullptr;
@@ -662,15 +669,16 @@ hostent* LCAndroidSocket::GetHostByName(const char* server_name) {
 }
 
 // 0x89fc1c _ZN15LCAndroidSocket9TransToIpERPc
-// Partial. (1) The release of the old name differs: LC_API_FREE_0 is a tail jump to operator
-// delete(void*) (the scalar form, see its listing), not free. The port uses delete[] because its
-// name strings are new[] copies (NewCopy), so the release form is not the binary's. (2) The first
-// address is read as four raw bytes, as the port's cache holds it (see GetHostIP and
-// GetHostByName). The original's cache holds a C-string copy, so TransToIp reads different bytes
-// when an octet is zero. The debug log is an empty stub in the binary (exact). The listing tests
-// only host for null, not h_addr_list[0], so no null test is added here: a null first address
-// faults, as it does in the binary. Then *name is set to inet_ntoa's static buffer, so the caller
-// must not free it.
+// Verified against the Hex-Rays body and the listing: GetHostIP(*name); when *name is set it is
+// released (the binary's LC_API_FREE_0, 0x30e2b0, a tail jump to operator delete(void*)) and set
+// to null; when the host is non-null, *name is inet_ntoa of the four bytes at host->h_addr_list[0]
+// and points into inet_ntoa's static buffer, so the caller must not free it. The listing tests the
+// host only, not the first address, so neither does this. Partial: (1) the release form is
+// delete[] here, because this port's name strings are new[] copies (NewCopy); the binary's scalar
+// operator delete is the same release for a char array. (2) The first address is read as four raw
+// bytes, as this port's cache holds it (see GetHostIP and GetHostByName), where the original's
+// cache holds a C-string copy, so the bytes differ when an octet is zero. The debug log is dropped
+// exactly (an empty stub in the binary).
 void LCAndroidSocket::TransToIp(char*& name) {
     hostent* host = GetHostIP(name);
     if (name != nullptr) {
@@ -685,19 +693,22 @@ void LCAndroidSocket::TransToIp(char*& name) {
 }
 
 // 0x89fd84 _ZN15LCAndroidSocket10GetLocalIPEPc
-// Partial. The POSIX path reproduces what the binary does, which is a stub result. The original
-// calls LC_API_STRCHR(ifr, ':', 1) to cut the name at a colon, but that function (0x89c2f8) is a
-// bare `BX LR` and returns its first argument. The original's `if (cptr) *cptr = 0` therefore
-// clears the first byte of ifr_name for every AF_INET record. SIOCGIFFLAGS then runs with an empty
-// name and fails (ENODEV) and leaves the record unchanged. The halfword the original tests next is
-// record+16, which still holds sa_family (AF_INET = 2), so bit 0 is clear and szLocalIP is never
-// written. The function returns 1 whenever socket() and SIOCGIFCONF succeed. On the SIOCGIFCONF
-// failure path the original returns without closing the socket, so the port leaks it too
-// (reproduced). The record stride is sizeof(ifreq): 32 bytes in the 32-bit ARM ABI, 40 on 64-bit
-// hosts (kernel layout). The debug log is an empty stub in the binary, so dropping it is exact.
-// Winsock has no SIOCGIFCONF, so that path uses gethostname and gethostbyname (platform
-// substitution). It writes the last non-loopback address, which the binary never does. The
-// ledger row stays partial for that reason.
+// Verified against the Hex-Rays body and the listing: the debug call is dropped exactly
+// (LC_DEBUG_OUT, an empty stub). The POSIX path reproduces the binary's stub result. socket
+// (AF_INET, SOCK_DGRAM, 0) then ioctl(SIOCGIFCONF) with ifc_len 4000 and ifc_buf on the 4000-byte
+// stack buffer; a failing socket() or ioctl returns 0 and, as in the binary, does not close the
+// socket. LC_API_STRCHR (0x89c2f8) is a single `BX LR` (disassembly confirmed), so it returns its
+// first argument and is never null: the original's colon cut clears the first byte of ifr_name for
+// every AF_INET record. SIOCGIFFLAGS then runs with an empty name and fails (ENODEV) and leaves the
+// record unchanged, so the halfword the original tests next (record+16, still sa_family = AF_INET)
+// has bit 0 clear and szLocalIP is never written. The function returns 1 whenever socket() and
+// SIOCGIFCONF succeed. Partial: (1) the walk advances by sizeof(ifreq), the 32-byte 32-bit ARM
+// stride, not the host's kernel stride (40 bytes on this 64-bit host), so the record bounds are
+// only exact for the target ABI. (2) The non-loopback copy is dead code in the binary and would
+// run on _WIN32; Winsock has no SIOCGIFCONF, so the _WIN32 path uses gethostname and
+// gethostbyname (platform substitution) and writes the last non-loopback address, which the
+// binary never does. The port reads the inet_ntoa text before the AF_INET test (the listing calls
+// inet_ntoa first); the result is the same text.
 bool LCAndroidSocket::GetLocalIP(char* szLocalIP) {
 #ifdef _WIN32
     char name[256];
@@ -776,11 +787,13 @@ LCXPlayerSocket* LCAndroidSocket::Accept() {
 
 // 0x8a0020 _ZN15LCAndroidSocketC1EPciP23LCXPlayerSocketObserver
 // 0x8a013c _ZN15LCAndroidSocketC2EPciP23LCXPlayerSocketObserver has the same ARM listing (ledgered on
-// its own row). Runs the LCXPlayerSocket constructor (0x8a0314, reconstructed in net-session-online:
-// port, observer, an owned copy of the server name, socket -1, the connect, lookup, accept and receive
-// members in their default state), sets the vtable (implicit), and calls Startup. The LC_DEBUG_OUT call
-// is an empty stub in the binary (core-platform lc_api.cpp), so dropping it is exact. Partial: the
-// original never writes the base state word (+0x04); the port starts it at kStateNone.
+// its own row). Verified against the Hex-Rays body: the LCXPlayerSocket base constructor (0x8a03bc,
+// the C2 alias of 0x8a0314, reconstructed in net-session-online) runs on this, the vptr is set
+// (off_993DE0, implicit in C++), the debug call is dropped exactly (LC_DEBUG_OUT, an empty stub in
+// core-platform), and Startup (0x89feec) runs last. Host-necessitated deviation: the original never
+// writes the base state word (+0x04) and keeps the allocator's bytes; this port's base member
+// initialiser starts it at kStateNone, so a constructed object reads the same zero the allocator
+// gives both versions, and the store itself is the deviation.
 LCAndroidSocket::LCAndroidSocket(const char* server_name, int server_port, LCXPlayerSocketObserver* observer)
     : LCXPlayerSocket(server_name, server_port, observer) {
     Startup();

@@ -158,15 +158,16 @@ void LightPoint::RefreshAttachment() {
 }
 
 // 0x40bcdc LightPoint::InitPost()
-// Clears the two flags, runs LightBase::InitPost, then calls RefreshAttachment through its virtual slot (+0x58).
-// partial: between the base call and the refresh, the original stores 0 in the 16-bit Type field of m_irrLight's
-// light (CLight +0x58, reached through the node's light at +0x134). That store is not bound, because the node's light
-// member and the CLight type are not declared in a translation unit this file can include (see the file comment).
+// Clears the two flags, runs LightBase::InitPost, stores 0 in the 16-bit Type field of m_irrLight's light
+// (CLight +0x58; the node's light member is at CLightSceneNode +0x134, both declared now) and calls RefreshAttachment
+// through its virtual slot (+0x58).
 void LightPoint::InitPost() {
     m_playerHeadLight = false;  // +0x1b0
     m_addedToLightSet = false;  // +0x1b1
     LightBase::InitPost();
-    // partial: m_irrLight->light->Type = 0 (16-bit store at CLight +0x58), see above.
+    if (m_irrLight != nullptr && m_irrLight->light.get() != nullptr) {
+        m_irrLight->light->m_type = 0;  // CLight +0x58, the 16-bit store of the listing
+    }
     RefreshAttachment();
 }
 

@@ -5,7 +5,11 @@
 namespace glitch::io {
 
 // 0x6b5990 _ZN6glitch2io16SStreamItrWriter15writeAndAdvanceEPNS0_10IWriteFileEb
-// PARTIAL: see the header for the zero-write return value.
+// swapBytes clear, or an element size of 0 or 1, writes count * elementSize bytes from data in one
+// call. Otherwise only sizes 2, 4 and 8 are written, one element at a time through the scratch buffer
+// with the bytes reversed (a size of 2 or 3 written byte by byte in the listing). The value returned
+// is the result of the last write call, as the original returns the call's register; the stride is
+// added to data on every path, and the original adds it after the return value is already set.
 std::size_t SStreamItrWriter::writeAndAdvance(IWriteFile* file, bool swapBytes) {
     std::size_t result = 0;
     const unsigned int size = elementSize;

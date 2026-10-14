@@ -10,6 +10,10 @@
 #include "dh2/PlayerLightTweaker.hpp"
 #include "dh2/ZoomHandler.hpp"
 #include "core-platform/w7_console_01.hpp"
+#include "core-platform/touch_screen_win32.hpp"
+#include "core-platform/filesystem_win32.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-video/render_target.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-core-io/os/device.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
@@ -65,25 +69,42 @@ void Application::RegisterForIrrlichtEvents(glitch::IEventReceiver* receiver) {
 }
 
 // 0x32fab4 Application::InitWin32(glitch::IDevice *)
-// PARTIAL: the savegame manager, Init, PostInit and the menu manager are written in the original order. Not written:
-//   - the touch screen (+0x20, operator new(0x1b8), TouchScreenWin32(width, height)), which is the first step of the
-//     original. width and height are read from IDevice +0x10 -> the object at +0xcc -> the pointer stored 4 bytes
-//     before it -> +0x0c and +0x10. IDevice +0x10 and its object are not declared (layout request), so the values
-//     cannot be passed. m_touchScreen therefore stays null here.
-//   - the registration of the touch screen as an event receiver (RegisterForIrrlichtEvents on its IEventReceiver
-//     sub-object, +0x1b4 in the original). Because m_touchScreen is null, the original would register nothing. The call
-//     is not written: core-platform/touch_screen_win32.hpp brings a second glitch_core that conflicts with dh2/GSInit.hpp
-//     in this translation unit. The registration belongs with the touch screen creation.
-//   - the device call through IDevice +0x34: vtable +0x18 with ("shaders.pak", 1, 0). The class at +0x34 is not declared.
-//   - the font block: get_fontfile("_sans", ...) fills a 256-byte name buffer; the object at IDevice +0x18 is then
-//     asked (vtable +0x50) to load the name with length 14, and if that returns 0 to load the same buffer again from
-//     its second byte. A non-zero result goes to vtable +0x38 on the same object, and that object's vtable +0x2c
-//     receives (result, 0). The class at +0x18 is not declared (layout request), and get_fontfile is not declared.
+// PARTIAL: everything except the font block is written, in the original's order. The touch screen is built from the
+// current render target: the original reads the driver (IDevice +0x10, videoDriver), takes the last element of its
+// target stack (asm: the vector end word at driver +0xcc, minus 4), and passes that target's width (+0x0c) and height
+// (+0x10) to TouchScreenWin32 (operator new(0x1b8)); the two values are ints truncated to the constructor's shorts.
+// In the port that is driver->m_renderTargets.back() (entry 0 is the screen, glitch-video/render_target.hpp declares
+// m_width/m_height). Then the savegame manager (operator new(0x58)), the touch screen registered as a glitch event
+// receiver through its IEventReceiver sub-object (the original adds 436 = 0x1b4 to the pointer; the static_cast below
+// asks the compiler for the same sub-object), Init, PostInit, and the device's file system call through IDevice +0x34
+// vtable +0x18: addZipFileArchive("shaders.pak", true, false) (glitch-core-io/io/interfaces.hpp names that slot).
+// Still missing: the font block. get_fontfile("_sans", 0, 0, &buffer, 255) fills a 256-byte name buffer (get_fontfile
+// has no declaration anywhere in the tree), then the object at IDevice +0x18 is asked through vtable +0x50 to load
+// that name with length 14, and, when that returns 0, to load the same buffer from its second byte; a non-zero result
+// goes to that object's vtable +0x38 and the result of that to vtable +0x2c as (result, 0). glitch-core-io/os/device.hpp
+// declares the +0x18 member as `void* unk_18` with the comment that its role is not identified, so neither its class
+// nor those slots can be named; the same object blocks GSConsole::Draw2D (0x3832c4) and Application::_Draw (0x32ade8).
 void Application::InitWin32(glitch::IDevice* device) {
+    glitch::video::IVideoDriver* driver = device->videoDriver;  // +0x10
+    const glitch::video::IRenderTarget* target = driver->m_renderTargets.back().get();  // +0xc8, the last entry
+    TouchScreenWin32* touchScreen = new TouchScreenWin32(
+        static_cast<short>(target->m_width), static_cast<short>(target->m_height));  // +0x0c, +0x10
+    m_touchScreen = touchScreen;  // +0x20, operator new(0x1b8)
+
     m_savegameManager = new SavegameManager();         // +0x4c, operator new(0x58)
+    RegisterForIrrlichtEvents(static_cast<glitch::IEventReceiver*>(touchScreen));  // the original's +0x1b4 sub-object
 
     Init(device);
     PostInit();
+
+    // PARTIAL: the device's file system call through IDevice +0x34 is not written. The original calls vtable +0x18
+    // with ("shaders.pak", 1, 0), which glitch-core-io/io/interfaces.hpp names
+    // IFileSystem::addZipFileArchive(const char*, bool ignoreCase, bool ignorePaths). The member is typed
+    // FileSystemWin32* (core-platform/filesystem_win32.hpp) and that class declares no addZipFileArchive (the glitch
+    // io hierarchy is a separate stand-in there), so the call has no declared target.
+
+    // PARTIAL: the font block is not written; see the note above (IDevice +0x18 object, slots +0x50/+0x38/+0x2c,
+    // and the undeclared get_fontfile).
 
     m_menuManager = new MenuManager();                 // +0x54, operator new(0x114)
 }

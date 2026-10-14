@@ -199,8 +199,10 @@ std::intptr_t CConnectionManager::GetPacketTransportType(tPACKET_TYPE type) {
 }
 
 // 0x7fc060 _ZN18CConnectionManager16GetTransportTypeE14tPROTOCOL_TYPE
-// partial: the original reads past the three-entry table for an out-of-range protocol;
-// this returns 0 instead.
+// partial: the listing is `ADD R1, R0, R1,LSL#2; LDR R0, [R1,#0x9C]; BX LR`, i.e. the table word at
+// this + 0x9c + 4 * protocol with no range test. An out-of-range protocol therefore reads past the
+// three-entry table (protocol 3 reads the initialized flag at +0xa8, 4 reads the vptr) and returns
+// whatever word is there; the port's bounds check returns 0 instead.
 std::intptr_t CConnectionManager::GetTransportType(tPROTOCOL_TYPE protocol) {
     if (protocol < 0 || protocol >= kTransportSlots) {
         return 0;
@@ -449,9 +451,11 @@ bool CConnectionManager::IsConnected(int member_id) {
 }
 
 // 0x7fc718 _ZN18CConnectionManager10DisconnectEib
-// partial: the three pad bytes after the notify byte of the 8-byte payload are not named by the pseudocode
-// (the original sends uninitialised stack there); the port writes zeros. On the non-server path the local
-// member id (CMatching::LocalMemberId, vtable +0x6c) chooses between DisconnectPeer and DisconnectAll.
+// partial: the assembly writes the member id at stack var_C and the notify byte at var_8 only, then
+// sends 8 bytes from var_C, so the three bytes between them are uninitialised stack in the original
+// and are sent on the wire; the port's zero-initialised payload writes zeros there (the member id and
+// notify byte, the subtype 3, the send-to-all on type 5, the 0x600004 event and the
+// CMatching::IsServer / LocalMemberId choice between DisconnectPeer and DisconnectAll all match).
 int CConnectionManager::Disconnect(int member_id, bool notify) {
     if (CMatching::Get()->IsServer() && IsConnected(member_id)) {
         DisconnectPayload payload{};

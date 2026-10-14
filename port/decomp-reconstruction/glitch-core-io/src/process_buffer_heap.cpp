@@ -6,6 +6,7 @@
 #include <cstdlib>
 
 #include "glitch-core-io/os/logging.hpp"
+#include "core-platform/memory.hpp"  // operator new[](size, E_MEMORY_HINT), the original's overflow allocator
 
 namespace glitch::core {
 
@@ -135,11 +136,12 @@ void processBufferHeapInit(bool atStartup) {
 }
 
 // 0x5345f4 _ZN6glitch4core18allocProcessBufferEi
-// PARTIAL: the overflow path calls operator new[](size, E_MEMORY_HINT 0) (0x5341a8, a thunk to
-// GlitchAlloc 0x310568 and then CustomAlloc 0x310454), which is not reconstructed in this category;
-// malloc stands in for it. The size the heap is first created with is dword_9F65C0, which the
-// static initializer sets to 0 (0x5345a0), so the default is 0 and the heap is only created by an
-// explicit setProcessBufferHeapSize call.
+// The overflow path calls operator new[](size, glitch::memory::E_MEMORY_HINT 0) (0x5341a8, a thunk to
+// GlitchAlloc 0x310568 and then CustomAlloc 0x310454), reproduced through the tagged operator new[] of
+// core-platform/memory.hpp; in this build CustomAlloc is malloc, and releaseProcessBuffer's out-of-heap
+// path calls CustomFree on it, so the pair stays consistent. The size the heap is first created with is
+// dword_9F65C0, which the static initializer sets to 0 (0x5345a0), so the default is 0 and the heap is
+// only created by an explicit setProcessBufferHeapSize call. Block/footer arithmetic matches the listing.
 int* allocProcessBuffer(int size) {
     if (!heap.start) heap.setSize(heap.defaultSize, false);
     const auto words = static_cast<std::ptrdiff_t>(((static_cast<std::uint32_t>(size) + 3u) >> 2) + 2u);
@@ -151,10 +153,12 @@ int* allocProcessBuffer(int size) {
         return block + 1;
     }
     if (!heap.excessEnabled) return nullptr;
-    return static_cast<int*>(std::malloc(static_cast<std::size_t>(size)));
+    return static_cast<int*>(::operator new[](static_cast<std::size_t>(size), glitch::memory::E_MEMORY_HINT(0)));
 }
 
 // 0x5d8ac4 _ZN6glitch4core20SSharedProcessBuffer5resetEi
+// Refcount release of the old block (header is one word below data), then, for a positive size, a new
+// block of size + 4 bytes with the count 1 in the first word and data one word past it.
 void SSharedProcessBuffer::reset(int size) {
     if (data != nullptr) {
         if (--data[-1] == 0) releaseProcessBuffer(data - 1);

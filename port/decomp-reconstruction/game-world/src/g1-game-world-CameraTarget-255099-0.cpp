@@ -2,11 +2,9 @@
 // Layout and declarations: dh2/CameraTarget.hpp. Member offsets are kept as comments; the layout was
 // checked against every constructor and method body of this batch.
 //
-// Two camera-node accesses go through seams (CameraNodeAbsolutePosition and CameraNodeSetPosition below).
-// The original calls ISceneNode virtual slots +0xa0 (absolute position, a float[3] pointer) and +0xa4
-// (set position from a float[3]). glitch's ISceneNode declares no vptr and no named accessor for those
-// slots, so the seams hold a neutral state. HandleDamping, HandleTransition and Update are partial for
-// that reason; everything else follows the pseudocode.
+// The two camera-node accesses are the named ISceneNode virtuals: getAbsolutePosition (vtable slot +0xa0) in
+// HandleDamping and setPosition (vtable slot +0xa4) in HandleTransition and Update. The seams that used to stand in
+// for them (a neutral origin and a no-op write) are gone.
 
 #include "dh2/CameraTarget.hpp"
 
@@ -17,25 +15,7 @@
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/global/Vec3f_Origin.hpp"            // Vec3f_Origin (0x99f854)
 #include "dh2/global/ctrl_camera.hpp"             // Application& ApplicationGetInstance()
-
-namespace {
-
-// SEAM, ISceneNode vtable slot +0xa0: returns a float[3] pointer to the node's absolute position (the original
-// reads it in HandleDamping). Neutral state: the origin. Replace with the named accessor once ISceneNode has one.
-const Point3D<float>& CameraNodeAbsolutePosition(glitch::scene::ISceneNode* node) {
-    static const Point3D<float> kOrigin{0.0f, 0.0f, 0.0f};
-    (void)node;
-    return kOrigin;
-}
-
-// SEAM, ISceneNode vtable slot +0xa4: sets the node position from a float[3] (HandleTransition and Update).
-// Neutral state: the position is not written.
-void CameraNodeSetPosition(glitch::scene::ISceneNode* node, const Point3D<float>& position) {
-    (void)node;
-    (void)position;
-}
-
-}  // namespace
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 // 0x4115d8 CameraTarget::HandleGhostCam(Point3D<float>&)
 bool CameraTarget::HandleGhostCam(Point3D<float>& position) {
@@ -57,8 +37,9 @@ void CameraTarget::SetDampingRatio(float ratio) {
 }
 
 // 0x41165c CameraTarget::HandleDamping(Point3D<float>&)
-// Partial: the node's absolute position comes from the CameraNodeAbsolutePosition seam (slot +0xa0), which
-// returns the origin until ISceneNode names the accessor. The velocity and position arithmetic is complete.
+// The node's absolute position (getAbsolutePosition, vtable slot +0xa0) is read twice, once before the velocity is
+// stored and once after, and the damped position advances by velocity * dt (dt in seconds: the frame time in ms
+// times 0.001f). The velocity and position arithmetic is complete.
 bool CameraTarget::HandleDamping(Point3D<float>& position) {
     if (!m_dampingEnabled) {  // +0x25
         return false;
@@ -70,13 +51,13 @@ bool CameraTarget::HandleDamping(Point3D<float>& position) {
     const float targetX = m_dampingVelocity.X + position.X;
     const float targetY = m_dampingVelocity.Y + position.Y;
     const float targetZ = m_dampingVelocity.Z + position.Z;
-    const Point3D<float>& nodeBefore = CameraNodeAbsolutePosition(m_node);
+    const glitch::core::vector3d<float> nodeBefore = m_node->getAbsolutePosition();   // vtable slot +0xa0
     m_dampingVelocity.X = (targetX - nodeBefore.X) * m_dampingRatio;
     m_dampingVelocity.Y = (targetY - nodeBefore.Y) * m_dampingRatio;
     m_dampingVelocity.Z = (targetZ - nodeBefore.Z) * m_dampingRatio;
     // The original reads the node position a second time, after the velocity is stored, and advances it by
     // velocity * dt (dt in seconds: the frame time in ms times 0.001f).
-    const Point3D<float>& nodeAfter = CameraNodeAbsolutePosition(m_node);
+    const glitch::core::vector3d<float> nodeAfter = m_node->getAbsolutePosition();    // vtable slot +0xa0
     const float dtSeconds = static_cast<float>(static_cast<unsigned int>(ApplicationGetInstance().GetDt())) * 0.001f;
     position.X = dtSeconds * m_dampingVelocity.X + nodeAfter.X;
     position.Y = dtSeconds * m_dampingVelocity.Y + nodeAfter.Y;
@@ -98,26 +79,31 @@ bool CameraTarget::HandleOffset(Point3D<float>& position) {
 }
 
 // 0x411830 CameraTarget::HandleTransition()
-// Partial: the node position write goes through the CameraNodeSetPosition seam (slot +0xa4), which is neutral.
-// The countdown (+0x20, reduced by the frame time), the snap to the anchor and the blend from +0x10 are complete.
+// The countdown (+0x20) is reduced by the frame time; when the result is negative or was exactly the frame time,
+// the node snaps to the target's anchor, otherwise it is set to the blend from +0x10. Both writes are the node's
+// setPosition (vtable slot +0xa4).
 bool CameraTarget::HandleTransition() {
     if (m_transitionRemainingMs < 0 || !m_node || !m_target) {  // +0x20, +0x04, +0x0c
         return false;
     }
-    m_transitionRemainingMs -= ApplicationGetInstance().GetDt();  // +0x20
-    const Point3D<float>& anchor = m_target->GetCameraAnchorPosition();
-    if (m_transitionRemainingMs <= 0) {
+    const std::int32_t dt = ApplicationGetInstance().GetDt();
+    const std::int32_t remaining = m_transitionRemainingMs - dt;
+    const bool spent = m_transitionRemainingMs == dt;
+    m_transitionRemainingMs = remaining;                          // +0x20
+    if (remaining < 0 || spent) {
         // Transition over: the node sits on the target's anchor.
-        CameraNodeSetPosition(m_node, anchor);
+        const Point3D<float>& anchor = m_target->GetCameraAnchorPosition();
+        m_node->setPosition(glitch::core::vector3d<float>{anchor.X, anchor.Y, anchor.Z});   // vtable slot +0xa4
         return true;
     }
     // t runs from 0 at the start to 1 when the countdown is spent.
-    const float t = 1.0f - static_cast<float>(m_transitionRemainingMs) / static_cast<float>(m_transitionTotalMs);
+    const Point3D<float>& anchor = m_target->GetCameraAnchorPosition();
+    const float t = (1.0 - (static_cast<double>(remaining) / static_cast<double>(m_transitionTotalMs)));
     Point3D<float> blended;
     blended.X = m_transitionFrom.X + t * (anchor.X - m_transitionFrom.X);  // +0x10
     blended.Y = m_transitionFrom.Y + t * (anchor.Y - m_transitionFrom.Y);  // +0x14
     blended.Z = m_transitionFrom.Z + t * (anchor.Z - m_transitionFrom.Z);  // +0x18
-    CameraNodeSetPosition(m_node, blended);
+    m_node->setPosition(glitch::core::vector3d<float>{blended.X, blended.Y, blended.Z});  // vtable slot +0xa4
     return true;
 }
 
@@ -147,7 +133,8 @@ const Point3D<float>& CameraTarget::GetTargetPosition() {
 }
 
 // 0x411a7c CameraTarget::Update()
-// Partial: the node write goes through the CameraNodeSetPosition seam (see the file comment).
+// The offset, ghost and damping chain runs, then the node takes the resulting position through its setPosition slot
+// (+0xa4), and the base Update always runs (both when the chain ran and when it did not).
 void CameraTarget::Update() {
     if (m_node && m_target) {
         if (HandleTransition()) {
@@ -159,7 +146,7 @@ void CameraTarget::Update() {
         HandleOffset(position);
         HandleGhostCam(position);
         HandleDamping(position);
-        CameraNodeSetPosition(m_node, position);
+        m_node->setPosition(glitch::core::vector3d<float>{position.X, position.Y, position.Z});  // vtable slot +0xa4
     }
     CameraBase::Update();
 }

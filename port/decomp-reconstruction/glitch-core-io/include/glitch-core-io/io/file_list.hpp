@@ -41,8 +41,9 @@ public:
     std::uint32_t getFileCount() const override;       // 0x6b3e78
     const char* getFileName(std::uint32_t index) const override;  // 0x6b3ea4; nullptr when out of range
     // 0x6b40a0: the full name of an entry (path, a slash when the path is longer than 3 characters,
-    // then the name), or null when out of range. PARTIAL: the original caches the result and only
-    // rebuilds it under a capacity condition, which is not modelled; it is rebuilt on each call.
+    // then the name), or null when out of range. The original caches the result and only rebuilds it
+    // when the entry's string room is smaller than the name's length; this rebuilds on every call,
+    // which produces the same text (the capacity test is a cache-invalidation condition only).
     const char* getFullFileName(std::uint32_t index) override;
     bool isDirectory(std::uint32_t index) const override;  // 0x6b3ee4; false when out of range
 

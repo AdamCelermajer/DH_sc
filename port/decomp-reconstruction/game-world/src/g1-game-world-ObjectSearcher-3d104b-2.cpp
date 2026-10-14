@@ -4,10 +4,11 @@
 //
 // Skipped: the two deleting destructors (0x4a19c4 RoomObjectList, 0x4a1fcc BackupObjectList). The compiler emits
 // them for `delete`; each is the complete-object destructor followed by CustomFree(this).
-// Partial: 0x4a1ab8 _IsCharacterValid (one gate on Character +0x1310 and +0x1314 is not applied), and
-// 0x4a2858 SearchRect and 0x4a2f34 Search, which use the Point3D<float>::normalize and ::angle arithmetic through
-// local copies (NormalizePoint, AngleBetween). dh2/Point3D.hpp declares those members, but it cannot share a TU
-// with core-platform/deps/game_types.hpp, which dh2/ObjectSearcher.hpp includes (both define struct Point3D).
+// Partial: none. 0x4a1ab8 _IsCharacterValid now applies the level gate (refChar CharProperties::m_props.m_w207 =
+// Character +0x1314 against the candidate's m_w208 = +0x1310, both signed), and 0x4a2858 SearchRect and 0x4a2f34
+// Search use the real Point3D<float>::normalize and ::angle members (0x34d0b0 / 0x313058), which dh2/Point3D.hpp
+// declares and g1-game-world-Point3D-3d74ab-0.cpp defines. The old "cannot share a TU with game_types.hpp" note is
+// STALE: the stand-in includes Point3D.hpp now and this translation unit compiles.
 // The two TargetList constructors (C1 0x4a2730, C2 0x4a348c) have identical bodies and share one definition.
 
 #include <cmath>
@@ -138,21 +139,13 @@ float CentreDistance(const Point3D<float>& offset, float interactionRadius, floa
 }
 
 // Local copy of Point3D<float>::normalize (0x34d0b0): divides each component by sqrtf(x*x + y*y + z*z), as
-// operator/= (0x34d04c) does. dh2/Point3D.hpp declares the member; see the header note above.
+// operator/= (0x34d04c) does. Retained only for the vector-family helpers above; the Point3D members themselves are
+// used by Search and SearchRect (the old header conflict is gone: Point3D.hpp and the game_types stand-in agree).
 void NormalizePoint(Point3D<float>& v) {
     const float length = std::sqrt((v.X * v.X + v.Y * v.Y) + v.Z * v.Z);
     v.X = v.X / length;
     v.Y = v.Y / length;
     v.Z = v.Z / length;
-}
-
-// Local copy of Point3D<float>::angle (0x313058): acosf(angleCos), where angleCos (0x312f40) is the dot product
-// divided by the product of the two lengths, with no clamp. dh2/Point3D.hpp declares the member.
-float AngleBetween(const Point3D<float>& a, const Point3D<float>& b) {
-    const float dot = (a.X * b.X + a.Y * b.Y) + a.Z * b.Z;
-    const float lengthA = std::sqrt((a.X * a.X + a.Y * a.Y) + a.Z * a.Z);
-    const float lengthB = std::sqrt((b.X * b.X + b.Y * b.Y) + b.Z * b.Z);
-    return std::acos(dot / (lengthA * lengthB));
 }
 
 // The cone admission of Search (0x4a2f34): a candidate is skipped only when maxAngle is below float pi and also below
@@ -190,18 +183,20 @@ void ObjectSearcher::TargetList::FlushBackupResults() {
 }
 
 // 0x4a1ab8 ObjectSearcher::TargetList::_IsCharacterValid(Character *)
-// PARTIAL: the first gate is not applied. The original returns false when the searching character's signed int32 at
-// +0x1314 is less than the candidate's signed int32 at +0x1310. The branch is BGE (a signed compare): the assembly
-// is LDR R2,[R3,#0x1314]; LDR R3,[R1,#0x1310]; CMP R2,R3; BGE. Hex-Rays prints the operands as _DWORD, but the
-// branch decides the signedness. Neither field is declared in dh2/Character.hpp (layout request), so that gate is
-// skipped here and some candidates the original rejects are accepted. The filter bits below follow the Hex-Rays
-// control flow.
+// The first gate is the searching character's level (the signed int32 at CharProperties +0x31c, i.e. Character
+// +0x1314 = CharProperties +0x560 + m_props +0x33c = m_props.m_w207) against the candidate's (m_props.m_w208,
+// Character +0x1310): the candidate is rejected when the searching character's word is below its own. The fields were
+// called undeclared before; they are the m_props sheet words, reached through the public CharProperties base. The
+// filter bits below follow the Hex-Rays control flow.
 bool ObjectSearcher::TargetList::_IsCharacterValid(Character* character) {
     Character* refChar = m_refCharacter;
     if (!refChar) {
         return true;
     }
-    // Missing gate: signed refChar +0x1314 < signed character +0x1310 returns false (layout request, BGE in 0x4a1ab8).
+    // m_props.m_w207 is Character +0x1314, m_props.m_w208 is +0x1310 (both signed).
+    if (refChar->CharProperties::m_props.m_w207 < character->CharProperties::m_props.m_w208) {
+        return false;
+    }
     const int mask = m_filterMask;
     if (mask == 0x7fffffff) {
         return true;
@@ -306,11 +301,11 @@ void ObjectSearcher::TargetList::SearchRect(const Point3D<float>& position, floa
                     Point3D<float> normal{direction.Y * kVec3fK.Z - direction.Z * kVec3fK.Y,
                                           direction.Z * kVec3fK.X - kVec3fK.Z * direction.X,
                                           kVec3fK.Y * direction.X - direction.Y * kVec3fK.X};
-                    NormalizePoint(normal);
+                    normal.normalize();   // Point3D<float>::normalize (0x34d0b0)
                     const float lateral =
                         std::fabs((normal.X * offset.X + normal.Y * offset.Y) + normal.Z * offset.Z);
                     if (!(lateral > width)) {
-                        const float angle = AngleBetween(offset, direction);
+                        const float angle = offset.angle(direction);   // Point3D<float>::angle (0x313058)
                         TargetInfo info;
                         info.object = object;
                         info.distance = distance;
@@ -362,7 +357,7 @@ void ObjectSearcher::TargetList::Search(const Point3D<float>& position, float ma
             const Point3D<float> offset = OffsetFrom(position, target);
             const float distance = CentreDistance(offset, interactionRadius, meleeRadius);
             if (!(distance > maxRange)) {
-                const float angle = AngleBetween(offset, direction);
+                const float angle = offset.angle(direction);   // Point3D<float>::angle (0x313058)
                 const float absAngle = std::fabs(angle);
                 if (ConeAdmits(maxAngle, absAngle)) {
                     TargetInfo info;

@@ -22,10 +22,11 @@ NetBitStream::NetBitStream(std::uint32_t size) {
 }
 
 // 0x80ef8c _ZN12NetBitStreamC2ERKS_
-// 0x80eef4 _ZN12NetBitStreamC1ERKS_
-// Partial: the original allocates with nothrow new and then memsets the result even
-// when the allocation failed (a crash). Here the copy is skipped on a null buffer
-// and a throwing allocation is not used. Copies buffer, size and both positions.
+// 0x80eef4 _ZN12NetBitStreamC1ERKS_ (complete-object alias; the ARM listing is the same body)
+// Zeroes the whole object, allocates a block of other.size_ with nothrow new (the original's
+// operator new[] hint argument 2), zeroes it, copies the bytes, then the size and both positions.
+// The original memsets the block before testing it for null and faults on a failed allocation;
+// here the memset and the rest are skipped when the allocation returned null (host null guard).
 NetBitStream::NetBitStream(const NetBitStream& other) {
     buffer_ = new (std::nothrow) std::uint8_t[other.size_]();
     if (buffer_ != nullptr) {
@@ -37,8 +38,11 @@ NetBitStream::NetBitStream(const NetBitStream& other) {
 }
 
 // 0x80ee5c _ZN12NetBitStreamaSERKS_
-// Partial: nothrow allocation; the original memsets the buffer even when it is null.
-// Here that memset is skipped. Copies the bytes, then size, read and write position.
+// Self-assignment returns *this. A target smaller than the source frees the old block and clears
+// the pointer, then allocates other.size_ with nothrow new; the block is zeroed, the bytes are
+// copied, then the size and both positions. The original memsets the block before testing it for
+// null and faults on a failed allocation; here the memset and the rest are skipped when the
+// allocation returned null (host null guard).
 NetBitStream& NetBitStream::operator=(const NetBitStream& other) {
     if (this != &other) {
         std::uint32_t n = other.size_;
@@ -210,15 +214,15 @@ std::uint32_t NetBitStream::ReadU32(std::uint32_t bits) {
 }
 
 // 0x80eac8 _ZN12NetBitStream12ShiftMemCopyEPvjPKvji (write direction, a6 = shift >= 0)
-// Partial: one function in the original, split here into CopyBitsIn and CopyBitsOut.
-// Hex-Rays (re-run) argument roles: the write direction (shift >= 0) uses the bit count a5;
-// the read direction (shift < 0) uses a3; shift 0 uses min(a5, a3). The bounds guards below
-// are the port's addition (the original reads and writes one byte past the end).
+// Re-verified from the ARM listing: one function in the original, split here into CopyBitsIn and
+// CopyBitsOut. Argument roles: the write direction (shift >= 0) uses the count a5; the read
+// direction (shift < 0) uses a3; shift 0 uses min(a5, a3). The byte formulas below are the
+// original's. The write direction's final store lands at dst[count] and the read direction reads
+// src[count], one byte past the range; the port's bounds guards skip exactly that one byte. The
+// original always performs it, so that byte is the remaining deviation.
 // dst is the byte holding the next write bit, shift = that bit offset in the byte.
 // shift 0: memcpy of ceil(bits/8) bytes, then the last byte keeps only its top bits.
-// shift > 0: the first byte is OR-ed into the existing data, following bytes are
-// assigned, as in the original. Bounds guards: the original writes one byte past the
-// end when a write ends at the buffer end; that byte is skipped here.
+// shift > 0: the first byte is OR-ed into the existing data, following bytes are assigned.
 void NetBitStream::CopyBitsIn(std::uint8_t* dst, std::uint8_t* dst_end, unsigned shift,
                               const std::uint8_t* src, std::uint32_t bits) {
     std::uint32_t count = BytesFor(bits);
@@ -320,11 +324,17 @@ void NetBitStream::WriteStream(const NetBitStream& other) {
 }
 
 // 0x80edb0 _ZN12NetBitStream11WriteStringESsj
-// Partial: Hex-Rays (re-run) takes the length from the string object's own fields (end minus
-// start, capped by a second field when that is nonzero). The string layout is not recovered
-// here, so the length is text.size(). The third argument is never read by the original body,
-// so no cap is applied to it here (the earlier cap was a misreading). The length is written as
-// one byte, then the bytes.
+// The length is the string's own size, written as one byte, then that many bytes; the result is
+// WriteByteArray's.
+//
+// The third argument's role is NOT settled. Hex-Rays reads the string's own length word first and only then
+// compares that length against a3 (CMP/MOVCS at 0x80ee00), so the clamp sits on the path taken when the
+// string's size word is non-zero - and a zero argument would then yield a zero length. But the existing test
+// exercises exactly that: net_bit_stream_test.cpp:43 writes WriteString("hello", 0) and expects "hello" to
+// round-trip in full. A clamp on a3 contradicts that. Rather than break a passing test on a reading I could
+// not confirm, the argument is ignored as before and this row stays partial with the open question named.
+// Recovering the real rule needs the call sites checked against the callee's string layout, which is a
+// follow-up, not a guess.
 void NetBitStream::WriteString(const std::string& text, std::uint32_t max_len) {
     (void)max_len;
     std::uint32_t length = static_cast<std::uint32_t>(text.size());

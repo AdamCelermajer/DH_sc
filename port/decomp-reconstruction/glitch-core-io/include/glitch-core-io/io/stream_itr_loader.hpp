@@ -19,13 +19,12 @@ struct SStreamItrLoader {
 
     // 0x6b5b74 _ZN6glitch2io16SStreamItrLoader14loadAndAdvanceEPNS0_9IReadFileEb
     // When swapBytes is set, elements of 2, 4 and 8 bytes are read one at a time and stored
-    // from big-endian to host order. When it is clear, or the element size is 0, 1 or another
-    // unlisted size, nothing is read. The destination advances by stride in every case.
-    // PARTIAL (return value only): the original returns int, the object address when nothing is read
-    // and the count of the last read otherwise. The port returns void because IReadFile::read is void.
-    // The two callers in the listing (chunk_041.c) do not use the value. The listing has no read on
-    // the clear path, so nothing else is missing.
-    void loadAndAdvance(IReadFile* file, bool swapBytes);
+    // byte-reversed, big-endian file bytes to a host value. When it is clear, or the element size is
+    // 0, 1 or another unlisted size, or the count is zero, nothing is read. The destination advances
+    // by stride in every case. Returns the last read count (0 when nothing was read); the original
+    // returns the object pointer on the read-nothing path. Covered by
+    // tests/r1-glitch-core-io-pack5-d3217f-0_test.cpp.
+    int loadAndAdvance(IReadFile* file, bool swapBytes);
 };
 
 }  // namespace glitch::io

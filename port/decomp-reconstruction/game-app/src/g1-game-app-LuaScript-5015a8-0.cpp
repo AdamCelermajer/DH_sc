@@ -146,14 +146,17 @@ const char* LuaScript::_GetFuncName(const char* funcName) const {
 // 0x37c390 LuaScript::Call(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)
 // Clears the value vector of ret (ReturnValues +0x24), maps the name with _GetFuncName, runs
 // sfc::script::lua::Instance::pCall(m_instance, name, args, ret) and increments s_numCalls.
-// PARTIAL: the original returns the r0 left by pCall. dh2/sfc/script/lua/Instance.hpp declares pCall as void, so that
-// value is not recovered and 0 is returned here. No other effect is missing.
+// The declared int return is not an interface of the original: the asm (0x37c390) leaves whatever the last call left
+// in r0, and sfc::script::lua::Instance::pCall is void (0x31abe8: lua_getfield then a tail branch to the void
+// pCall(args), 60 bytes), so the original never produces a value at all. Every caller in the binary ignores it
+// (checked with xrefs_to 0x37c390: TriggerTrap::CanTrigger 0x39eb08 and the fourteen CharAISkillScript methods all
+// branch straight on without reading r0). The body is therefore complete and 0 is returned.
 int LuaScript::Call(const char* funcName, const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret) {
     ret.m_valueList->clear();
     const char* const name = _GetFuncName(funcName);
     m_instance.pCall(name, args, ret);
     ++s_numCalls;
-    return 0;  // PARTIAL: the pCall result is not recovered (see above)
+    return 0;
 }
 
 // 0x37c41c LuaScript::Call(char const*, sfc::script::lua::Arguments const&)
@@ -166,14 +169,15 @@ void LuaScript::Call(const char* funcName, const sfc::script::lua::Arguments& ar
 
 // 0x37c494 LuaScript::Call(char const*, sfc::script::lua::ReturnValues&)
 // Clears the value vector of ret, maps the name with _GetFuncName, runs sfc::script::lua::Instance::pCall(m_instance,
-// name, ret) and increments s_numCalls. PARTIAL for the same reason as the three-argument Call: the pCall result is
-// not recovered (dh2/sfc/script/lua/Instance.hpp declares pCall as void), so 0 is returned.
+// name, ret) and increments s_numCalls. Same return-value situation as the three-argument Call (0x37c390): the
+// original's int is the previous call's r0 and pCall is void, and the callers ignore it (xrefs_to 0x37c494:
+// LuaScript::Call(char const*) 0x37c554 and eight CharAISkillScript methods). The body is complete.
 int LuaScript::Call(const char* funcName, sfc::script::lua::ReturnValues& ret) {
     ret.m_valueList->clear();
     const char* const name = _GetFuncName(funcName);
     m_instance.pCall(name, ret);
     ++s_numCalls;
-    return 0;  // PARTIAL: the pCall result is not recovered (see above)
+    return 0;
 }
 
 // 0x37c514 LuaScript::Call(char const*)

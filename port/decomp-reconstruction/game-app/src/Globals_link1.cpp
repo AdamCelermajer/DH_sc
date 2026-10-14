@@ -35,7 +35,18 @@ bool Back_key_Glive = false;              // 0x9a5c09 .bss
 bool isInGameMenu = false;                // 0x9f6400 .bss
 bool isBackKeyPressed = false;            // 0x9f6401 .bss
 bool handle_cheats_inGame = false;        // 0x9f640a .bss
+bool isDevicePause = false;               // 0x9f6402 .bss, the gate of Application::Resume's music/online blocks
 bool videoDone = false;                   // 0x9f6418 .bss, set by the intro movie callback
+
+// ---- Application::LoadLevel staging globals (0x99fa40..0x99fa58, .bss; written by LoadLevel, read by the level switch) ----
+int temp_entryPointId = 0;                // 0x99fa40 .bss
+bool temp_resume = false;                 // 0x99fa44 .bss
+bool temp_useSpawnPoint = false;          // 0x99fa45 .bss
+int temp_difficulty = 0;                  // 0x99fa48 .bss
+std::uint32_t temp_seed = 0;              // 0x99fa4c .bss
+std::uint32_t temp_syncedSeed = 0;        // 0x99fa50 .bss
+bool temp_isRemotelyTriggered = false;    // 0x99fa54 .bss
+std::uint32_t temp_savegameSlot = 0;      // 0x99fa58 .bss
 
 // ---- sound interrupt state (GS_InterruptLoading, Application::Pause, VoxSoundManager) --------------------------------
 bool JAVA_SOUNDS = false;                 // 0x9f6409 .bss

@@ -85,6 +85,11 @@ public:
 
     void PrintStatistics() const;                                 // 0x8153fc _ZN14CPacketManager15PrintStatisticsEv (empty in the original)
 
+    // The +0x2c send-time word. The original writes it inline from two other batches (CMessaging::AddToSendQueue
+    // when flag32 is set, and the forced resend in PlayerManager::_ManageCharacters), where the field is private in
+    // this port. The accessor carries those stores; it is not a separate original function.
+    void ClearLastSendTime() { last_send_time_ = 0; }
+
     static tPacketMgrHeader ReadHeader(NetBitStream& stream);     // 0x815400
     static void WriteHeader(const tPacketMgrHeader& header, NetBitStream& stream);  // 0x815474 _ZN14CPacketManager11WriteHeaderERNS_16tPacketMgrHeaderER12NetBitStream
 

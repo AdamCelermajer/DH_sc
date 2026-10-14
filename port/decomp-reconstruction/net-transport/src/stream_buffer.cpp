@@ -6,10 +6,17 @@
 // 0x316d3c _ZN12StreamBufferC1Ev
 StreamBuffer::StreamBuffer() = default;
 
-// 0x3171b8 _ZN12StreamBufferC2EP11IStreamBase
-// 0x3172d8 _ZN12StreamBufferC1EP11IStreamBase
-// Sizes the buffer from the source and reads the whole source into the first block.
-// Partial: the original's debug ASSERT on the sized flag is not reproduced.
+// 0x3171b8 _ZN12StreamBufferC2EP11IStreamBase (C1 alias 0x3172d8)
+// Allocates one block of source->size() via expand, then reads the whole source into it.
+//
+// The final call is IStreamBase::read, which is the vtable slot at +0x18 (the listing's LDR R7,[R2,#0x18]
+// matches IStreamBase.hpp's note that read is at +0x18). The Hex-Rays call is
+// v5(a2, firstBlock, total, 0) against the signature (IStreamBase*, _DWORD, _DWORD, _DWORD), i.e. the object,
+// the destination, and then `total` and 0 as the LOW and HIGH words of the 64-bit length - `read(void* dst,
+// std::uint64_t n)` takes its count in the r2:r3 pair. So the source IS read into the block, and the port's
+// `source->read(buffer_.FirstBlock(), total)` matches. (An intermediate note in this file claimed the original
+// reads nothing because r3 is 0; that read the high word of the count as the count. It was wrong.)
+// The only gap is the dropped debug ASSERT on the sized flag (StreamBuffer.h:130).
 StreamBuffer::StreamBuffer(IStreamBase* source) {
     std::uint32_t total = source->size();
     expand(total);

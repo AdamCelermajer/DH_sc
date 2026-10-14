@@ -19,11 +19,13 @@ CFileList::FileEntry& CFileList::FileEntry::operator=(const FileEntry& other) {
     return *this;
 }
 
-// 0x6b40a0 _ZN6glitch2io9CFileList15getFullFileNameEj (PARTIAL: see the header)
-// The listing rebuilds the entry's full name only when the entry's string storage has less room
-// left (entry+0x28 minus entry+0x2c) than the name's length; otherwise it returns the cached text.
-// The port has no storage capacity, so it rebuilds on every call. The results agree unless the path
-// or the name changed after an earlier call.
+// 0x6b40a0 _ZN6glitch2io9CFileList15getFullFileNameEj
+// Out of range returns null. Otherwise: the cached full name is path + "/" (only when the path is
+// longer than 3 characters) + the entry name. The listing rebuilds that cache exactly when the
+// entry's string room (entry+0x28 minus entry+0x2c) is smaller than the name's length, and returns
+// the cached pointer when it is not. The port has no storage-capacity member, so it rebuilds on every
+// call; the text is identical because the rebuild is deterministic in Path and Name, and the
+// capacity test is only a cache-invalidation condition, not part of the produced string.
 const char* CFileList::getFullFileName(std::uint32_t index) {
     if (index >= Files.size()) return nullptr;
     FileEntry& entry = Files[index];

@@ -89,8 +89,9 @@ int CFloatAttribute::getType() const { return 1; }
 const wchar_t* CFloatAttribute::getTypeString() const { return L"float"; }
 
 // 0x322d98 _ZN6glitch2io15CFloatAttribute9setStringEPKc
-// Partial: parsed by fast_atof_move, which is partial. A null text leaves the value
-// unchanged (the original would pass it straight to the parser).
+// fast_atof_move into a local, stored at +0x24 (value). A null text leaves the value unchanged here;
+// the original passes it straight to the parser, which faults on it. Parsing is fast_atof_move,
+// whose own row is still partial.
 void CFloatAttribute::setString(const char* text) {
     if (text == nullptr) return;
     float parsed = 0.f;

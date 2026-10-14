@@ -20,16 +20,23 @@ IBillboardSceneNode::~IBillboardSceneNode() = default;
 
 // 0x5818fc _ZN6glitch5scene19CBillboardSceneNodeC1EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEERKNS5_11dimension2dIfEENS2_6SColorESC_
 // 0x581c80 _ZN6glitch5scene19CBillboardSceneNodeC2EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEERKNS5_11dimension2dIfEENS2_6SColorESC_
-// PARTIAL, see the header: the stream table is allocated (one stream, attribute mask 0x60000) and its count word is set to 4. The
-// original then creates a driver buffer over the four vertices (IVideoDriver::createBuffer vtable +0x78: type 0, usage 4, 144 bytes,
-// the vertex array as its data, not owned) and attaches it with CVertexStreams::setupStreams(buffer, mask) (0x5a15c0), which
-// glitch-video does not reconstruct yet; without it the buffer would have no holder, so it is not created.
-CBillboardSceneNode::CBillboardSceneNode(video::IVideoDriver* /*driver*/, int id, const core::vector3d<float>& position,
+// Verified against Hex-Rays 0x5818fc: the size and the default box, then the stream table (allocate(1, 0x60000)), then
+// IVideoDriver::createBuffer (vtable +0x78) with type 0, usage 4, size 144 and the four vertices as the data (the last
+// argument is 0, so the buffer does not own the array), then setupStreams(buffer, -1) (0x5a15c0) and only then the
+// count word +0x08 = 4, then the four colours (corner 0/2 = the second colour, 1/3 = the first, i.e. bottom, top,
+// bottom, top) and the texture coordinates (1,1) (1,0) (0,1) (0,0). The temporary buffer handle is dropped at the end
+// of the body, leaving the stream table as its only holder. The vertices' positions and normals are zeroed by the
+// original's clear loop (+0x158, 144 bytes) and by the members' zero initialisers here; nothing writes them.
+// This replaces the earlier PARTIAL body, which could not attach the buffer because CVertexStreams::setupStreams was
+// not reconstructed yet - it is now (glitch-video/src/vertex_streams.cpp).
+CBillboardSceneNode::CBillboardSceneNode(video::IVideoDriver* driver, int id, const core::vector3d<float>& position,
                                          const core::dimension2d<float>& dimensions, video::SColor top, video::SColor bottom)
     : IBillboardSceneNode(id, position) {
     static_assert(sizeof(SVertex) == 36, "the vertices are 36 bytes in the original, 144 for the four");
     setSize(dimensions);
     vertexStreams = video::CVertexStreams::allocate(static_cast<std::uint8_t>(1), 0x60000u);
+    boost::intrusive_ptr<video::IBuffer> buffer = driver->createBuffer(0, 4, 144, vertices, false);
+    vertexStreams->setupStreams(buffer, 0xffffffffu);
     vertexStreams->m_field08 = 4;
     vertices[0].color = bottom;
     vertices[1].color = top;

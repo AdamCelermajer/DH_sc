@@ -470,7 +470,10 @@ int ConnectionLobby::sendCreateSessionPackage(char* name, char* a3, int a4) {
 }
 
 // 0x848b04 _ZN15ConnectionLobby16sendLoginPackageEPc
-// Partial: the original's debug trace ("sendLoginPackage() user=[%s]") is dropped.
+// Verified against Hex-Rays: addByte 103, 114, 105 (slots +0x08), the name through addShortLenString
+// (+0x3c) with XP_API_STRLEN, packMessage (+0x5c), saveRetryData, then addOutgoingPacket, whose
+// result is returned as the original returns it.
+// Deviation: the "ConnectionLobby::sendLoginPackage() user=[%s]" XP_DEBUG_OUT trace is dropped.
 int ConnectionLobby::sendLoginPackage(char* user) {
     auto* packet = new DataPacketLobby();
     packet->addByte(kCommandG);
@@ -512,10 +515,16 @@ int ConnectionLobby::sendEstablishConnectionPackage() {
 }
 
 // 0x848cd0 _ZN15ConnectionLobby14receiveDataLenEv
-// The message is read in two steps: a 2-byte big-endian length (step 0), then the body (step 1),
-// which is queued as an incoming DataPacketLobby. Partial: the return values of the original
-// (the last recv result, or the disconnect result) are not reproduced, so the function returns
-// void. The debug traces for the error paths are dropped.
+// Verified against Hex-Rays and the ARM listing. Step 0: need length = 2, clear the 0x1001-byte
+// buffer when the filled count is 0, Select(0) then IsReadyForRW (+0x4c), Recv (+0x48) into
+// buffer + filled, a 0 result disconnects, then the two header bytes are read big-endian into need
+// length, a value above 4096 disconnects, and step 1 is entered with filled cleared and byte 2
+// zeroed. Step 1: the same read, then the body is queued as a DataPacketLobby through
+// setMessageBody (+0x68) and addIncomingPacket, 0x80 bytes are cleared and all three counters are
+// reset; a filled count above need disconnects. The original's return value is a leftover register
+// (the Recv result or the void disconnect result); no caller reads it, so the port returns void.
+// Deviation: the four XP_DEBUG_OUT traces on the error paths are dropped, and a missing socket is
+// skipped instead of dereferenced.
 void ConnectionLobby::receiveDataLen() {
     if (recv_step_ != 0) {
         if (recv_step_ != 1) {
@@ -591,13 +600,16 @@ void ConnectionLobby::receiveDataLen() {
 }
 
 // 0x848fac _ZN15ConnectionLobby8sendDataEv
-// Sends the head of the outgoing queue, then moves to the next one. Partial: the return value of
-// the original (a Connection pointer, which is the register left by the calls) is not reproduced,
-// and the debug traces ("select error", "PPP not open") are dropped. A missing socket on a connected
-// link disconnects (the original would dereference it). The head's body (slot +0x64) is read before
-// its length (+0x60) and sent as is (the lobby packet carries its own 2-byte length header); the
-// head is then popped (next link +0x6c, deleting destructor +0x04) and sendData recurses (vtable
-// +0x08) while packets remain.
+// Verified against the Hex-Rays body and the ARM listing: Select(write, slot +0x40) failing returns;
+// the head's body (+0x64) is passed to Send (slot +0x44) with its length (+0x60) as is (the lobby
+// packet carries its own 2-byte length header); a failed send disconnects; the last send time is set;
+// the head is popped by taking its next link (+0x6c) and running its deleting destructor (+0x04);
+// sendData recurses (own slot +0x08, "MOV R0,R4") while packets remain, else the queue tail is
+// cleared. The original's return value is a leftover register (R0 is `this` on several paths and
+// disconnect's void result on others); no caller reads it, so the port returns void.
+// Deviations: the "sendData: select error." and "sendData: PPP not open, disconnect." XP_DEBUG_OUT
+// traces are dropped, and a missing socket on a connected link disconnects where the original would
+// dereference it.
 void ConnectionLobby::sendData() {
     if (outgoing_.empty()) {
         return;

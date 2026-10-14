@@ -57,9 +57,9 @@ public:
     };
 
     // 0x5818fc (C1) and 0x581c80 (C2): IBillboardSceneNode(id, position), the size, a vertex stream table over a driver buffer that
-    // wraps the four vertices, the texture coordinates (1,1) (1,0) (0,1) (0,0) and the colours bottom, top, bottom, top (corner
-    // 0..3). PARTIAL: CVertexStreams::setupStreams(buffer, mask) (0x5a15c0) is not reconstructed in glitch-video, so the driver
-    // buffer over the vertices is not created and the stream entries are not filled; the driver argument is not used.
+    // wraps the four vertices (createBuffer, vtable +0x78: type 0, usage 4, 144 bytes, not owning the array; then
+    // CVertexStreams::setupStreams(buffer, -1)), the texture coordinates (1,1) (1,0) (0,1) (0,0) and the colours bottom, top,
+    // bottom, top (corner 0..3). Verified against the listing; CVertexStreams::setupStreams (0x5a15c0) is reconstructed now.
     CBillboardSceneNode(video::IVideoDriver* driver, int id, const core::vector3d<float>& position,
                         const core::dimension2d<float>& size, video::SColor top, video::SColor bottom);
     // 0x5817dc (D1), 0x5818c0 (D0, skipped): releases the stream table and the material.

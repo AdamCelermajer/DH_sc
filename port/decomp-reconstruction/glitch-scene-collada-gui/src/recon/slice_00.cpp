@@ -3,6 +3,9 @@
 
 #include "glitch-scene-collada-gui/recon/slice_00.hpp"
 
+#include "glitch-core-io/io/attributes.hpp"  // glitch::io::CAttributes (setValue, loadGroup)
+#include "glitch-scene-collada-gui/debugger/CTweakable.hpp"
+
 #include <cstring>
 #include <cwchar>
 
@@ -122,3 +125,85 @@ void Tweakable::loadXML(const char* file, bool flag) {
 void BatchMeshExtExtraData::saveSegmentExtraData(const void*, void*, int) const {}
 
 }  // namespace glitch::collada::recon_00
+
+// 0x329d64 _ZN6glitch8debugger10CTweakable6SGroupD1Ev
+// The canonical CTweakable::SGroup (debugger/CTweakable.hpp) declares its members in the listing's order:
+// std::string (+0x00), std::vector<std::string> (+0x18), std::vector<SGroup> (+0x24), plus the 4-byte member at
+// +0x30 that the destructor never touches (the writeGroup child loop advances 52 bytes). Its defaulted
+// destructor is emitted out of line here so that the original symbol exists; the compiler runs exactly the three
+// calls the listing shows - ~vector<SGroup>, ~vector<std::string>, then the string's _M_deallocate_block.
+namespace glitch::debugger {
+
+CTweakable::SGroup::~SGroup() = default;
+
+// 0x32b3b4 _ZN6glitch8debugger10CTweakable8setValueERNS_2io11CAttributesEi
+// Verified against Hex-Rays 0x32b3b4: getAttributeName(index) names the attribute, the mapping with that name is
+// looked up in the map, and the ten-way switch on the mapping's type writes the attribute's typed value through
+// the mapped pointer (the CAttributes getters at vtable +0x5c int, +0x74 float, +0x8c string, +0xe8 bool, +0x128
+// SColor, +0x140 SColorf, +0x1a0/+0x1b8/+0x1d0 vector2/3/4d). The onSetValue virtual (+0x14) is then called with
+// the mapping's key name, also in the switch's default case; an unmapped name returns without a call.
+// Deviations: a null name returns early (the original passes it to the STLport map lookup, which dereferences it),
+// and the original's return value (the value the find or onSetValue left in R0, read by no caller) is not modelled.
+// The body is out of line so the symbol exists even though nothing in the tree calls it yet (loadXML, its caller,
+// is still partial).
+void CTweakable::setValue(glitch::io::CAttributes& attributes, int index) {
+    const char* name = attributes.getAttributeName(index);
+    if (name == nullptr) return;
+    std::map<std::string, SMapping>::iterator it = mappings.find(name);
+    if (it == mappings.end()) return;
+    SMapping& mapping = it->second;
+    switch (mapping.type) {
+        case 0:  // int
+            *static_cast<int*>(mapping.value) = attributes.getInt(index);
+            break;
+        case 1:  // float
+            *static_cast<float*>(mapping.value) = attributes.getFloat(index);
+            break;
+        case 2:  // std::string (the original assigns the returned string into the mapped one)
+            *static_cast<std::string*>(mapping.value) = attributes.getString(index);
+            break;
+        case 3:  // bool
+            *static_cast<bool*>(mapping.value) = attributes.getBool(index);
+            break;
+        case 5:  // SColor (the original copies the 4-byte result)
+            *static_cast<glitch::video::SColor*>(mapping.value) = attributes.getColor(index);
+            break;
+        case 6:  // SColorf
+            *static_cast<glitch::video::SColorf*>(mapping.value) = attributes.getColorf(index);
+            break;
+        case 7:  // vector2d<float>
+            *static_cast<glitch::core::vector2d<float>*>(mapping.value) = attributes.getVector2d(index);
+            break;
+        case 8:  // vector3d<float>
+            *static_cast<glitch::core::vector3d<float>*>(mapping.value) = attributes.getVector3d(index);
+            break;
+        case 9:  // vector4d<float>
+            *static_cast<glitch::core::vector4d<float>*>(mapping.value) = attributes.getVector4d(index);
+            break;
+        default:
+            break;
+    }
+    onSetValue(it->first);
+}
+
+// 0x32b650 _ZN6glitch8debugger10CTweakable9loadGroupERNS_2io11CAttributesEb.clone.25
+// Verified against Hex-Rays 0x32b650: the group count (slot +0x40) is read once and drives a do/while over the
+// group indices; each index is entered with setGroup(i) (slot +0x44), the recursion runs on the same container,
+// and pop() (slot +0x3c) leaves it. The bool is unused in this clone, and the this pointer is never dereferenced.
+// Deviation: the listing returns the value pop() left in R0, but the port's IAttributes::pop() returns void and
+// every caller of loadGroup discards the result, so this returns 0. The source cannot spell the .clone.25 suffix.
+int CTweakable::loadGroup(glitch::io::CAttributes& attributes, bool flag) {
+    (void)flag;
+    const int count = attributes.getGroupsCount();
+    if (count == 0) return 0;
+    int i = 0;
+    do {
+        attributes.setGroup(static_cast<unsigned int>(i));
+        loadGroup(attributes, flag);
+        attributes.pop();
+        ++i;
+    } while (i != count);
+    return 0;
+}
+
+}  // namespace glitch::debugger

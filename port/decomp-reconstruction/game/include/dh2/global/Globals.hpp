@@ -82,3 +82,25 @@ extern updateJob_thread* m_updateJobThread1;           // 0x99fa2c
 extern updateJob_thread* m_updateJobThread2;           // 0x99fa30
 extern updateJob_thread* m_updateJobThread3;           // 0x99fa34
 extern updateJob_thread* m_updateJobThread4;           // 0x99fa38
+
+// .bss, 1 byte: the device/window pause flag. Application::Resume runs the music resume and the online reconnect
+// check only while it is clear (asm: LDRB gate of both blocks). The object sits between HTC_DEVICES (0x9f6403)
+// and SHARP_DEVICES (0x9f6404). Size, section and binding from the ELF symbol table (STT_OBJECT, .bss, 1).
+extern bool isDevicePause;                             // 0x9f6402
+
+// .bss: the staging globals Application::LoadLevel fills from its arguments (temp_entryPointId 0x99fa40,
+// temp_resume 0x99fa44, temp_useSpawnPoint 0x99fa45, temp_difficulty 0x99fa48, temp_seed 0x99fa4c,
+// temp_syncedSeed 0x99fa50, temp_isRemotelyTriggered 0x99fa54, temp_savegameSlot 0x99fa58; addresses, sizes
+// and sections from the ELF symbol table, STT_OBJECT, .bss).
+extern int temp_entryPointId;                          // 0x99fa40
+extern bool temp_resume;                               // 0x99fa44
+extern bool temp_useSpawnPoint;                        // 0x99fa45
+extern int temp_difficulty;                            // 0x99fa48
+extern std::uint32_t temp_seed;                        // 0x99fa4c
+extern std::uint32_t temp_syncedSeed;                  // 0x99fa50
+extern bool temp_isRemotelyTriggered;                  // 0x99fa54
+extern std::uint32_t temp_savegameSlot;                // 0x99fa58
+
+// .bss, 1 byte: the music pause latch. Application::OnInterruptPause sets it when the platform player was
+// playing; GS_InterruptLoading reads and clears it (0x4179c8). Definition: game-app/src/Globals_link1.cpp.
+extern bool Musicplayerpause;                          // 0x99fa5c

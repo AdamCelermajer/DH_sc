@@ -1,5 +1,6 @@
-// Checks for glitch::video::CImage::fill (0x5ff9b4): the per-format colour packing and the word loop that
-// writes the data block.
+// Checks for glitch::video::CImage: fill (0x5ff9b4) and the construction path - the owning constructors
+// (0x602028 / 0x602110), initData's allocator (0x601988), the data-taking forms 0x602670, 0x6021f8 and
+// 0x6027e8, the sub-image form 0x601b10 and the format-conversion form 0x601d38.
 //
 // The packings were read off the binary's switch and then confirmed by building an image over a caller's buffer
 // and printing the bytes back. Expectations are written BOTH as explicit bytes at offsets 0..3 and as the
@@ -11,6 +12,13 @@
 // 0x5ffa68). m_dataSize is a BYTE count for every format here (format 5 at 8x8 measures 128), so the loop is
 // simply "fill the block in 8-word strides, then the remainder in words". A block smaller than one word (e.g.
 // a 1x1 16-bit image, 2 bytes) therefore writes nothing - that is the binary's shape, not a defect.
+//
+// The data-taking constructors take two bools. The listing (0x6026d8, 0x60226c, 0x60285c) tests the FIRST one and
+// stores the SECOND into m_ownsData (+0x29): the first set means "adopt the block the caller passes" - the
+// constructor writes 0x0badf00d into +0x08 so initData, which allocates only when that pointer is null, does not
+// allocate and then stores the caller's pointer over it - and the first clear means initData allocates and the
+// caller's bytes are copied in. m_ownsData only decides whether the destructor frees the block afterwards. The
+// checks below therefore wrap a caller's buffer with (adopt = true, own = false).
 #include "glitch-video/image.hpp"
 
 #include <cstdint>
@@ -18,10 +26,18 @@
 #include <cstring>
 #include <vector>
 
+#include "glitch-video/pixel_format_convert.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 namespace {
+
+using glitch::video::CImage;
+
+glitch::core::dimension2d<std::int32_t> dims(std::int32_t width, std::int32_t height) {
+    return glitch::core::dimension2d<std::int32_t>{width, height};
+}
 
 // SColor components 0..3 are bytes 0..3 of the word: a=0x12, b=0x34, c=0x56, r(alpha)=0xFF.
 glitch::video::SColor sampleColor() {
@@ -37,7 +53,7 @@ glitch::video::SColor sampleColor() {
 std::vector<std::uint8_t> filled(glitch::video::E_PIXEL_FORMAT format, std::int32_t width, std::int32_t height,
                                  const glitch::video::SColor& color, std::uint32_t extraBytes = 0) {
     std::vector<std::uint8_t> bytes(static_cast<std::size_t>(width) * height * 4 + extraBytes, 0);
-    glitch::video::CImage image(format, glitch::core::dimension2d<std::int32_t>{width, height}, bytes.data(), false, false);
+    CImage image(format, dims(width, height), bytes.data(), true, false);
     image.fill(color);
     return bytes;
 }
@@ -138,6 +154,198 @@ int main() {
         CHECK(owned.m_dataSize == 256);
         owned.fill(color);  // touch it so the block is not optimised away
         CHECK(word(std::vector<std::uint8_t>(owned.m_data, owned.m_data + 4), 0) == 0x563412FFu);
+    }
+
+    // ---- 0x602670 (C2 0x60272c): CImage(format, size, data, copy, own) ----
+    // The listing tests the FIRST bool (CMP R6,#0 with BNE 0x602704 at 0x6026d8): set adopts the caller's block,
+    // clear makes initData allocate and copies pitch * height bytes of the caller's block into it. The second bool
+    // goes to m_ownsData and only decides whether the destructor frees the block.
+    {
+        std::vector<std::uint8_t> bytes(4 * 4 * 4, 0x5A);
+        CImage adopt(12, dims(4, 4), bytes.data(), true, false);
+        CHECK(adopt.m_data == bytes.data());  // adopted, nothing allocated
+        CHECK(adopt.m_ownsData == 0);
+        CHECK(adopt.m_pitch == 16);
+        CHECK(adopt.m_dataSize == 64);
+        CHECK(adopt.m_mipData == nullptr);
+        adopt.fill(color);
+        CHECK(bytes[0] == 0xFF && bytes[1] == 0x12);  // the caller's buffer is the image's buffer
+    }
+    {
+        std::vector<std::uint8_t> bytes(4 * 4 * 4, 0x5A);
+        CImage ownCopy(12, dims(4, 4), bytes.data(), false, true);
+        CHECK(ownCopy.m_data != bytes.data());  // a block of its own
+        CHECK(ownCopy.m_ownsData == 1);
+        CHECK(ownCopy.m_pitch == 16);
+        CHECK(ownCopy.m_dataSize == 64);
+        CHECK(ownCopy.m_mipData == nullptr);
+        CHECK(bytes[0] == 0x5A);  // copied out of the caller's block, not adopted
+        CHECK(ownCopy.m_data[0] == 0x5A && ownCopy.m_data[63] == 0x5A);
+    }
+
+    // ---- 0x6027e8 (C2 0x602938): CImage(format, size, data, size in bytes, mip level count, copy, own) ----
+    // The block holds every level back to back and +0x0c becomes an array of pointers into it, one level past each
+    // preceding one, terminated by null. m_hasMipmaps stays clear: the levels live inside the block, so the
+    // destructor must free the block once and the array once and never the levels individually.
+    {
+        // 4x4 ARGB8888: level 0 is 64 bytes, level 1 (2x2) 16, level 2 (1x1) 4.
+        std::uint8_t* block = new std::uint8_t[84]();
+        block[0] = 0x11;
+        block[64] = 0x22;
+        block[80] = 0x33;
+        CImage img(12, dims(4, 4), block, 64, 2, true, true);  // adopt, own: the image frees the block
+        CHECK(img.m_data == block);
+        CHECK(img.m_pitch == 16);
+        CHECK(img.m_dataSize == 64);  // the fourth argument, not pitch * height
+        CHECK(img.m_mipLevels == 2);
+        CHECK(img.m_hasMipmaps == 0);
+        CHECK(img.m_ownsData == 1);
+        CHECK(img.m_mipData != nullptr);
+        CHECK(img.m_mipData[0] == static_cast<void*>(img.m_data + 64));
+        CHECK(img.m_mipData[1] == static_cast<void*>(img.m_data + 80));
+        CHECK(img.m_mipData[2] == nullptr);
+        CHECK(static_cast<std::uint8_t*>(img.m_mipData[0])[0] == 0x22);
+        CHECK(static_cast<std::uint8_t*>(img.m_mipData[1])[0] == 0x33);
+    }
+    {
+        // The same block with the first bool clear: initData allocates dataSize bytes and copies them, and the
+        // level array is built over that block.
+        std::vector<std::uint8_t> block(84, 0x7E);
+        CImage img(12, dims(4, 4), block.data(), 84, 2, false, true);
+        CHECK(img.m_data != block.data());
+        CHECK(img.m_dataSize == 84);
+        CHECK(img.m_data[0] == 0x7E && img.m_data[83] == 0x7E);
+        CHECK(img.m_mipData[0] == static_cast<void*>(img.m_data + 64));
+        CHECK(img.m_mipData[1] == static_cast<void*>(img.m_data + 80));
+        CHECK(img.m_mipData[2] == nullptr);
+    }
+    {
+        // No levels: the array stays null. Adopted, so the caller's vector is not freed by the image.
+        std::vector<std::uint8_t> block(64, 0x7E);
+        CImage img(12, dims(4, 4), block.data(), 64, 0, true, false);
+        CHECK(img.m_data == block.data());
+        CHECK(img.m_mipLevels == 0);
+        CHECK(img.m_mipData == nullptr);
+    }
+
+    // ---- 0x6021f8 (C2 0x602434): CImage(format, size, data, mip data, copy, own) ----
+    // Adopt: the caller's block and the caller's level array are used as they are; the level count is recovered by
+    // walking that array, and m_hasMipmaps is set only when the walk reaches a null entry with width and height
+    // both 1.
+    {
+        std::vector<std::uint8_t> pixels(64, 0x21);
+        std::vector<std::uint8_t> level1(16, 0x22);
+        std::vector<std::uint8_t> level2(4, 0x23);
+        void* levels[3] = {level1.data(), level2.data(), nullptr};
+        CImage img(12, dims(4, 4), pixels.data(), levels, true, false);
+        CHECK(img.m_data == pixels.data());
+        CHECK(img.m_mipData == levels);
+        CHECK(img.m_mipLevels == 2);
+        CHECK(img.m_hasMipmaps == 1);
+        CHECK(img.m_pitch == 16);
+        CHECK(img.m_dataSize == 64);
+        CHECK(img.m_ownsData == 0);
+    }
+    {
+        // Adopt with no level array: no array, no mip flag, no level count.
+        std::vector<std::uint8_t> pixels(64, 0x21);
+        CImage img(12, dims(4, 4), pixels.data(), nullptr, true, false);
+        CHECK(img.m_data == pixels.data());
+        CHECK(img.m_mipData == nullptr);
+        CHECK(img.m_mipLevels == 0);
+        CHECK(img.m_hasMipmaps == 0);
+    }
+    {
+        // First bool clear, no level array: initData allocates and pitch * height bytes are copied in.
+        std::vector<std::uint8_t> pixels(64, 0x31);
+        CImage img(12, dims(4, 4), pixels.data(), nullptr, false, true);
+        CHECK(img.m_data != pixels.data());
+        CHECK(img.m_ownsData == 1);
+        CHECK(img.m_hasMipmaps == 0);
+        CHECK(img.m_mipData == nullptr);
+        CHECK(img.m_data[0] == 0x31 && img.m_data[63] == 0x31);
+    }
+    {
+        // First bool clear with mip data: the flag is set before initData, so a full chain is allocated as well,
+        // level 0 is copied in and every caller level is copied into the chain slot initData made for it
+        // (4x4 format 12: level 1 is 2 * 4 * 2 = 16 bytes, level 2 is 1 * 4 * 1 = 4).
+        std::vector<std::uint8_t> pixels(64, 0x41);
+        std::vector<std::uint8_t> level1(16, 0x42);
+        std::vector<std::uint8_t> level2(4, 0x43);
+        void* levels[3] = {level1.data(), level2.data(), nullptr};
+        CImage img(12, dims(4, 4), pixels.data(), levels, false, true);
+        CHECK(img.m_data != pixels.data());
+        CHECK(img.m_hasMipmaps == 1);
+        CHECK(img.m_mipLevels == 2);
+        CHECK(img.m_mipData != nullptr && img.m_mipData != levels);
+        CHECK(img.m_mipData[2] == nullptr);
+        CHECK(img.m_data[0] == 0x41);
+        CHECK(static_cast<std::uint8_t*>(img.m_mipData[0])[0] == 0x42);
+        CHECK(static_cast<std::uint8_t*>(img.m_mipData[0])[15] == 0x42);
+        CHECK(static_cast<std::uint8_t*>(img.m_mipData[1])[0] == 0x43);
+        CHECK(static_cast<std::uint8_t*>(img.m_mipData[1])[3] == 0x43);
+    }
+
+    // ---- 0x601b10 (C2 0x601c24): the sub-image constructor ----
+    // Structure only, on purpose: the pixel transfer is pixel_format::convert with the source format equal to the
+    // destination format, and that call takes convert's "copy()" branch, which is not reconstructed (ledger row
+    // 0x5f95ac returns 0 there and writes nothing), so there is no correct pixel expectation to assert yet. The
+    // allocation, the field takeover and the null-source default (format 39) are checked.
+    {
+        boost::intrusive_ptr<CImage> source(new CImage(12, dims(4, 4)), true);
+        source->fill(color);
+        boost::intrusive_ptr<CImage> sub(
+            new CImage(source, glitch::core::position2d<std::int32_t>{1, 1}, dims(2, 2)), true);
+        CHECK(sub->m_format == 12);
+        CHECK(sub->m_width == 2 && sub->m_height == 2);
+        CHECK(sub->m_pitch == 8);  // computePitch(12, 2) = 2 * 32 / 8
+        CHECK(sub->m_dataSize == 16);
+        CHECK(sub->m_ownsData == 1);
+        CHECK(sub->m_hasMipmaps == 0);
+        CHECK(sub->m_mipData == nullptr);
+        CHECK(sub->m_data != nullptr);
+
+        boost::intrusive_ptr<CImage> empty;
+        boost::intrusive_ptr<CImage> none(
+            new CImage(empty, glitch::core::position2d<std::int32_t>{0, 0}, dims(2, 2)), true);
+        CHECK(none->m_format == 39);  // the table's "no row matched" value; m_ownsData stays 1
+        CHECK(none->m_data == nullptr && none->m_mipData == nullptr);
+        CHECK(none->m_width == 0 && none->m_height == 0 && none->m_dataSize == 0);
+        CHECK(none->m_ownsData == 1);
+    }
+
+    // ---- 0x601d38 (C2 0x601eb0): the format-conversion constructor ----
+    {
+        // RGB565 -> ARGB4444 is an arm the port's convert models (pixel_format_convert_test.cpp check 2 uses the
+        // same pair). The destination is compared against a direct convert call with the arguments the listing
+        // passes, so the constructor's wiring (format order, pitches, dimensions) is what is under test.
+        boost::intrusive_ptr<CImage> source(new CImage(5, dims(2, 2)), true);
+        source->fill(color);
+        boost::intrusive_ptr<CImage> converted(new CImage(6, source), true);
+        CHECK(converted->m_format == 6);
+        CHECK(converted->m_width == 2 && converted->m_height == 2);
+        CHECK(converted->m_pitch == 4);  // computePitch(6, 2) = 2 * 16 / 8
+        CHECK(converted->m_dataSize == 8);
+        CHECK(converted->m_ownsData == 1);
+        CHECK(converted->m_mipData == nullptr);
+
+        std::uint8_t expected[8] = {0};
+        CHECK(glitch::video::pixel_format::convert(5, source->m_data, source->m_pitch, 6, expected,
+                                                   converted->m_pitch, converted->m_width, converted->m_height,
+                                                   false) == 1);
+        CHECK(std::memcmp(converted->m_data, expected, sizeof(expected)) == 0);
+    }
+    {
+        // A pair both trees refuse (a compressed destination row) takes the failure path at 0x601dfc: format 39,
+        // the block freed and cleared, and the image left empty with ownsData clear. The source carries a mip
+        // chain, so the level-by-level free in that path runs as well.
+        boost::intrusive_ptr<CImage> mipSource(new CImage(5, dims(4, 4), true), true);
+        boost::intrusive_ptr<CImage> failed(new CImage(17, mipSource), true);
+        CHECK(failed->m_format == 39);
+        CHECK(failed->m_data == nullptr);
+        CHECK(failed->m_dataSize == 0);
+        CHECK(failed->m_ownsData == 0);
+        CHECK(failed->m_width == 0 && failed->m_height == 0);
     }
 
     std::printf("%s\n", failures ? "image_fill: FAILED" : "image_fill: ok");

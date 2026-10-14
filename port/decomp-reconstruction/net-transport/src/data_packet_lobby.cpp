@@ -323,11 +323,13 @@ bool DataPacketLobby::EnsureRoom(std::size_t bytes) {
 }
 
 // 0x849924 _ZN15DataPacketLobby9addPacketEP10DataPacket
-// Partial: the original checks only the body length against the capacity (not the 2-byte
-// header), and on a failed growth it prints "addPacket failed : memory leak" through XP_DEBUG_OUT,
-// which the platform layer does not reproduce (deps/connection_env.hpp), so that line is dropped.
-// The original returns the memcpy destination; this returns nothing. The length (vptr +0x60)
-// and body (+0x64) are read from the source through the DataPacket virtuals, in the original order.
+// Verified against the Hex-Rays body and the ARM listing: the source's length (vptr +0x60) is
+// checked against WillBeFull and one growth step (AllocateMoreMomery) is attempted; the length is
+// then written big-endian at the position, the position advances by 2, the source's body (+0x64)
+// is copied in and the position advances by the length. The original's return value is the memcpy
+// destination (a leftover register); no caller reads it, so the port returns void.
+// Deviations: the "addPacket failed : memory leak" XP_DEBUG_OUT trace on the failed growth is
+// dropped, and the port's WillBeFull takes a size_t where the original passes the int length.
 void DataPacketLobby::addPacket(DataPacket* packet) {
     const std::size_t size = static_cast<std::size_t>(packet->getMessageLen());
     if (WillBeFull(size) && !AllocateMoreMomery()) {

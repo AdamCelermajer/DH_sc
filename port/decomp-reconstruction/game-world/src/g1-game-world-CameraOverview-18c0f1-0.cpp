@@ -1,11 +1,9 @@
 // Batch g1-game-world-CameraOverview-18c0f1-0: CameraOverview (game-world).
 // Declarations come from dh2/CameraOverview.hpp, which is not edited by this batch.
 //
-// PARTIAL rows:
-//   * (onEvent is complete: the key code (+0x0c) and the pressed flag (+0x10) are read from dh2/EvKeyboard.hpp.)
-//   * The two constructors do not create the camera node. The original gets the scene manager from the device
-//     (dword_99F73C +0x1c), and glitch::IDevice declares no member at +0x1c, so the node factory call and the camera
-//     setup that follows it are not made. m_node and m_camera stay null, and Update and Activated skip the camera.
+// PARTIAL rows: none. The two constructors create the camera node through the scene manager's first node factory
+// and run the whole camera setup; the old notes stopped at the missing glitch::IDevice +0x1c member, which the
+// device header declares now (see the constructor below).
 //
 // Everything else follows the Hex-Rays pseudocode. The gamepad stick block of Update uses the declared
 // Gamepad::Channel layout (m_axes[2] and m_axes[3] for the stick, m_buttons[7] for the threshold channel).
@@ -13,6 +11,7 @@
 #include <cmath>
 
 #include "dh2/CameraOverview.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/EvKeyboard.hpp"
 #include "dh2/EventManager.hpp"
@@ -26,6 +25,10 @@
 #include "dh2/global/IsMultiplayerGame.hpp"   // dword_99F76C, the PlayerManager instance
 #include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F740, the EventManager instance
 #include "dh2/global/Vec3f_Origin.hpp"        // Vec3f_Origin (0x99f854), the zero Point3D<float>
+#include "glitch-core-io/core/reference_counted.hpp"  // glitch::IReferenceCounted (the node's own count)
+#include "glitch-core-io/os/device.hpp"               // glitch::IDevice +0x1c scene manager
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"  // sceneNodeFactories (+0xcc)
+#include "glitch-scene-collada-gui/scene/SceneFactories.hpp"  // ISceneNodeFactory::addSceneNode
 #include "glitch-scene-collada-gui/scene_nodes.hpp"  // ISceneNode and ICameraSceneNode (the CameraBase members)
 
 namespace CameraOverview_detail {
@@ -171,18 +174,45 @@ CameraOverview::~CameraOverview() {}
 // CustomFree(this). No body is written, so the row is skipped.
 
 // 0x410ea4 CameraOverview::CameraOverview()    (C2, base-object constructor)
-// 0x41106c CameraOverview::CameraOverview()    (C1, complete-object constructor; the same stores and the same partial)
-// PARTIAL: the camera node is not created, so the setup after the creation is not made either. The original:
-//   1. reads the scene manager from the device (dword_99F73C +0x1c; glitch::IDevice declares no member there), then the
-//      first entry of its node-factory vector (+0xcc and +0xd0 of the scene manager, layout not declared);
-//   2. calls the factory's vtable +0x0c with type 1601003875 and no parent. The node it returns becomes m_node and m_camera,
-//      and the original takes one extra reference on it;
-//   3. calls CameraBase::SetData(0.42963, 1.7778, 15000, 25000, true), setTarget (0, 0, 0), a quaternion from the axis
-//      (0, 1, 0), setRotation on the node (vtable +0x9c) and setPosition (0, 0, 20000).
-// Only the zeroing of unk_10 and unk_1c is made. Until a node exists, the camera methods above are skipped.
+// 0x41106c CameraOverview::CameraOverview()    (C1, complete-object constructor; the same stores)
+// The camera node is created through the scene manager's first node factory: the device (dword_99F73C) holds the
+// scene manager at +0x1c, its factory vector is the pair at +0xcc/+0xd0, the factory is its first entry and its
+// vtable +0x0c (ISceneNodeFactory::addSceneNode(E_SCENE_NODE_TYPE, parent)) is called with the type 1601003875
+// ('caem') and a null parent. The node becomes m_node and m_camera with one extra reference, then:
+//   CameraBase::SetData(0.42963, 1.7778, 15000, 25000, true),
+//   setTarget(0, 0, 0) (vtable +0x104),
+//   setRotation(quaternion::fromAngleAxis(0, (0, 1, 0))) (vtable +0x9c = ISceneNode::setRotation),
+//   setPosition(0, 0, 20000).
+// The old layout request (glitch::IDevice +0x1c) is STALE: the device declares sceneManager there.
 CameraOverview::CameraOverview() : CameraBase() {
     unk_10 = Point3D<float>{0.0f, 0.0f, 0.0f};  // +0x10 .. +0x18
     unk_1c = Point3D<float>{0.0f, 0.0f, 0.0f};  // +0x1c .. +0x24
+
+    Application& application = ApplicationGetInstance();
+    glitch::scene::CSceneManager* sceneManager =
+            application.m_device != nullptr
+                    ? reinterpret_cast<glitch::scene::CSceneManager*>(application.m_device->sceneManager)
+                    : nullptr;
+    if (sceneManager == nullptr || sceneManager->sceneNodeFactories.empty()) {
+        return;   // host-necessitated guard: the original dereferences the first factory unconditionally
+    }
+    glitch::scene::ISceneNodeFactory* factory = sceneManager->sceneNodeFactories.front();
+    if (factory == nullptr) {
+        return;   // host-necessitated guard
+    }
+    glitch::scene::ISceneNode* node =
+            factory->addSceneNode(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1601003875), nullptr);  // vtable +0x0c
+    m_camera = static_cast<glitch::scene::ICameraSceneNode*>(node);   // +0x08
+    m_node = node;                                                    // +0x04
+    if (node != nullptr) {
+        ++static_cast<glitch::IReferenceCounted*>(node)->referenceCounter;   // the object's own count, as the listing does
+        SetData(0.42963f, 1.7778f, 15000.0f, 25000.0f, true);
+        m_camera->setTarget(glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f});
+        const glitch::core::quaternion rotation = glitch::core::quaternion::fromAngleAxis(
+                0.0f, glitch::core::vector3d<float>{0.0f, 1.0f, 0.0f});
+        m_node->setRotation(rotation);
+        m_node->setPosition(0.0f, 0.0f, 20000.0f);
+    }
 }
 
 // 0x411234 CameraOverview::Update(void)

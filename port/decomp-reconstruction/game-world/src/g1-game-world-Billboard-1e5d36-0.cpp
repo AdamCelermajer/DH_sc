@@ -9,9 +9,30 @@
 
 #include <string>
 
+#include "dh2/Application.hpp"                  // ApplicationGetInstance(), the device at Application +0x10
 #include "dh2/Billboard.hpp"
+#include "dh2/GameObject.hpp"                   // GameObject::m_visualObject (+0x2d8)
 #include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/PropertyMap.hpp"
+#include "dh2/RootSceneNode.hpp"                // RootSceneNode (complete) for the VisualObject::m_node upcast
+#include "dh2/SceneManager.hpp"                 // the game SceneManager (complete) for DeviceSceneManager()
+#include "dh2/SimpleTypeProperty.hpp"
+#include "dh2/VisualObject.hpp"                 // VisualObject::m_node (+0x08)
+#include "dh2/global/DeviceSceneManager.hpp"    // DeviceSceneManager(): the scene manager at device +0x1c
+#include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764
+#include "glitch-core-io/core/reference_counted.hpp"
+#include "glitch-core-io/os/device.hpp"         // glitch::IDevice +0x10 driver, +0x1c scene manager
+#include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/texture.hpp"
+#include "glitch-video/texture_manager.hpp"
+#include "glitch-video/video_driver.hpp"
 
 // 0x3876c8 _ZNK9Billboard4DrawEv
 void Billboard::Draw() const {
@@ -29,11 +50,10 @@ bool Billboard::IsUpdatable() const {
 }
 
 // 0x3876dc _ZN9Billboard6UpdateEv
-// PARTIAL: the two guards are reconstructed. The call is not made. The original calls vtable slot +0x5c (ISceneNode::addChild)
-// of the active camera, CSceneManager::activeCamera at +0xe4, with the node's ISceneNode subobject (node + 4) as the argument.
-// Reaching the scene manager needs glitch::IDevice +0x1c, which the device does not declare (layout request, also asked by
-// CameraBase::SetActive). Forming node + 4 as an ISceneNode* needs the CBillboardSceneNode layout, which has no canonical
-// header yet.
+// The node gate, the attach flag gate, then the active camera takes the node's ISceneNode subobject as a child:
+// CSceneManager::activeCamera (+0xe4) of the device's scene manager (+0x1c), and addChild (vtable slot +0x5c) with
+// m_billboardNode + 4, which is the ISceneNode* of a CBillboardSceneNode (its ISceneNode subobject starts at +4).
+// The old layout request (glitch::IDevice +0x1c) and the "no canonical CBillboardSceneNode header" note are STALE.
 void Billboard::Update() {
     if (m_billboardNode == nullptr) {  // +0x178
         return;
@@ -41,37 +61,97 @@ void Billboard::Update() {
     if (!m_attachToActiveCamera) {  // +0x174
         return;
     }
-    // Not made: activeCamera->addChild(the ISceneNode subobject of m_billboardNode).
+    glitch::scene::CSceneManager* sceneManager = DeviceSceneManager();
+    if (sceneManager == nullptr || sceneManager->activeCamera == nullptr) {
+        return;   // host-necessitated guard: the original dereferences the scene manager unconditionally
+    }
+    sceneManager->activeCamera->addChild(m_billboardNode);   // vtable slot +0x5c
 }
 
 // 0x38781c _ZN9Billboard8InitPostEv
-// PARTIAL: not reconstructed. The original runs these steps in order (the pseudocode and the disassembly agree):
-//   1. texture = driver->texture manager->getTexture(m_tga.c_str(), nullptr), where driver is glitch::IDevice +0x10 and the
-//      texture manager is IVideoDriver +0xe0. Return when the texture is null.
-//   2. node = scene manager->addSceneNode("billBoard", scene manager->rootNode), where the scene manager is IDevice +0x1c.
-//      m_billboardNode = node - 4 (the ISceneNode subobject is at +4), and the node's reference count goes up by one.
-//   3. material = material renderer manager->createMaterialInstance(m_isAdditive ? 10 : 11), where the manager is
-//      IVideoDriver +0xdc. If getParameterID(2, 0) is not 0xffff, the material gets the texture at that parameter.
-//   4. m_billboardNode->setMaterial(material); vtable slot +0x08 of the node (setSize) with &m_size; node + 4 gets
-//      setPosition(m_position) (vtable +0xa4) and setVisible(false) (vtable +0x48).
+// The original, in order (every step is now written; the old blocker list is STALE):
+//   1. texture = driver->textureManager->getTexture(m_tga.c_str(), nullptr) (device +0x10, IVideoDriver +0xe0).
+//      Nothing happens when the texture is null.
+//   2. node = sceneManager->addSceneNode("billBoard", sceneManager->rootNode) (device +0x1c, vtable +0x5c of
+//      CSceneManager, rootNode +0x04). m_billboardNode = node, which is the ISceneNode* (the node returned is the
+//      billboard's ISceneNode subobject); the ISceneNode's reference counter goes up by one.
+//   3. material = driver->materialRendererManager->createMaterialInstance(m_isAdditive ? 10 : 11)
+//      (IVideoDriver +0xdc); when the renderer's getParameterID(2, 0) is not 0xffff the texture is stored in it.
+//   4. setMaterial(material), setSize(m_size) (IBillboard vtable +0x08), setPosition(m_position) (ISceneNode +0xa4)
+//      and setVisible(false) (ISceneNode +0x48).
 //   5. m_attachToActiveCamera = (m_attachTo == "ActiveCamera").
-//   6. When m_attachToActiveCamera is false and m_attachTo is not empty, m_attachHandle = ObjectManager::GetObjectByName(
-//      m_attachTo.c_str(), -1, false, nullptr).
-//   7. When m_attachHandle.GetObject(false) is null, scene manager->rootNode->addChild(node + 4) (vtable +0x5c). When it is a
-//      GameObject with m_visualObject (+0x2d8), m_visualObject->m_node (VisualObject +0x08)->addChild(node + 4). Otherwise nothing.
-//   8. The material and the texture references are released.
-// Blocked by: glitch::IDevice +0x10 and +0x1c, the IVideoDriver +0xdc and +0xe0 members, the CMaterialRendererManager
-// createMaterialInstance declaration, the CMaterial parameter setter for an intrusive_ptr<ITexture>, and the
-// CBillboardSceneNode layout (setSize, setMaterial and the reference count).
+//   6. When that is false and m_attachTo is not empty, m_attachHandle = ObjectManager::GetObjectByName(m_attachTo, -1,
+//      false, nullptr).
+//   7. When m_attachHandle.GetObject(false) is a GameObject with a visual object (+0x2d8) whose m_node (+0x08) is set,
+//      the node is added as a child of that node; with no (or a null) handle it is added to the scene manager's root
+//      node. Both are addChild (vtable +0x5c).
+//   8. The material and the texture references are released (the locals' destructors).
 void Billboard::InitPost() {
+    Application& application = ApplicationGetInstance();
+    if (application.m_device == nullptr || application.m_device->videoDriver == nullptr) {
+        return;   // host-necessitated guard: the original dereferences the device unconditionally
+    }
+    glitch::video::IVideoDriver* driver = application.m_device->videoDriver;   // +0x10
+    glitch::scene::CSceneManager* sceneManager = DeviceSceneManager();         // +0x1c
+    if (sceneManager == nullptr || driver->m_textureManager == nullptr ||
+        driver->m_materialRendererManager == nullptr) {
+        return;   // host-necessitated guard
+    }
+
+    boost::intrusive_ptr<glitch::video::ITexture> texture =
+            driver->m_textureManager->getTexture(m_tga.c_str(), nullptr);      // IVideoDriver +0xe0
+    if (texture.get() == nullptr) {
+        return;
+    }
+
+    glitch::scene::ISceneNode* node = sceneManager->addSceneNode("billBoard", sceneManager->rootNode);  // vtable +0x5c
+    m_billboardNode = static_cast<glitch::scene::CBillboardSceneNode*>(node);   // +0x178: the ISceneNode* of the billboard
+    if (node == nullptr) {
+        return;   // host-necessitated guard: the original dereferences the node unconditionally
+    }
+    ++static_cast<glitch::IReferenceCounted*>(node)->referenceCounter;          // one reference for the node
+
+    boost::intrusive_ptr<glitch::video::CMaterial> material =
+            driver->m_materialRendererManager->createMaterialInstance(
+                    static_cast<glitch::video::E_MATERIAL_TYPE>(m_isAdditive ? 10 : 11));   // IVideoDriver +0xdc
+    if (material.get() != nullptr && material->m_renderer.get() != nullptr) {
+        const std::uint16_t parameterId =
+                material->m_renderer->getParameterID(static_cast<glitch::video::E_SHADER_PARAMETER_TYPE>(2), 0);
+        if (parameterId != 0xffff) {
+            material->parameters.setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(parameterId, 0, texture);
+        }
+    }
+    m_billboardNode->setMaterial(material);
+    m_billboardNode->setSize(m_size);                                          // IBillboard vtable +0x08
+    m_billboardNode->setPosition(m_position);                                  // ISceneNode vtable +0xa4
+    m_billboardNode->setVisible(false);                                        // ISceneNode vtable +0x48
+
+    m_attachToActiveCamera = (m_attachTo == "ActiveCamera");                   // +0x174
+    if (!m_attachToActiveCamera && !m_attachTo.empty()) {
+        m_attachHandle = dword_99F764->GetObjectByName(m_attachTo.c_str(), -1, false, nullptr);   // +0x168
+    }
+
+    glitch::scene::ISceneNode* holder = nullptr;
+    GameObject* attached = m_attachHandle.GetObject(false) != nullptr ? static_cast<GameObject*>(m_attachHandle) : nullptr;
+    if (attached != nullptr && attached->m_visualObject != nullptr) {          // GameObject +0x2d8
+        holder = attached->m_visualObject->m_node;                             // VisualObject +0x08, a RootSceneNode (an ISceneNode)
+    }
+    if (holder == nullptr) {
+        holder = sceneManager->rootNode;                                       // CSceneManager +0x04
+    }
+    if (holder != nullptr) {
+        holder->addChild(m_billboardNode);                                     // vtable +0x5c
+    }
 }
 
 // 0x387ba4 _ZN9BillboardD1Ev
-// PARTIAL: the original drops the node first: glitch::IReferenceCounted::drop on the IReferenceCounted virtual base of
-// m_billboardNode. That drop is not made, because CBillboardSceneNode is only forward-declared here. The string members
-// and the ObjectBase base are destroyed by the compiler in the original order.
+// The node is dropped first (glitch::IReferenceCounted::drop through the ISceneNode virtual base of m_billboardNode;
+// CBillboardSceneNode derives from ISceneNode, so the upcast is available), then the two strings and the ObjectBase
+// base are destroyed by the compiler in the original order.
 Billboard::~Billboard() {
-    // Not made: if (m_billboardNode) drop the IReferenceCounted base of m_billboardNode.
+    if (m_billboardNode != nullptr) {
+        m_billboardNode->drop();   // the ISceneNode's IReferenceCounted virtual base
+    }
 }
 
 // 0x387c1c _ZN9BillboardD0Ev
@@ -96,15 +176,29 @@ Billboard::Billboard(ObjectBase::GO_IDS id) : ObjectBase(id) {
 }
 
 // 0x387fc4 _ZN9Billboard17DeclarePropertiesEv
-// PARTIAL: "position" and "size" are not registered. The original builds each one directly as a SimpleTypeProperty:
-//   "position": SimpleTypeProperty<glitch::core::vector3d<float>>, offset 0x154 from the PropertyMap at +4, default (0, 0, 0).
-//   "size":     SimpleTypeProperty<glitch::core::dimension2d<float>>, offset 0x14c from the PropertyMap at +4, default (0, 0).
-// dh2/SimpleTypeProperty.hpp declares the (object, name, field, default) constructor, but no definition exists in the tree
-// for these two types. AddProperty<T> is instantiated only for bool, float, int, Point3D<float> and std::string.
-// The original returns the map slot of the last property. The virtual is void, so the value is dropped here.
+// The base properties are not re-registered here; the original builds every entry of this class directly:
+// "tga" and "AttachTo" (std::string), then two SimpleTypeProperty objects built by hand for the types without a
+// PropertyMap::AddProperty<T> instantiation:
+//   "position": SimpleTypeProperty<glitch::core::vector3d<float>> (operator new 0x2c), field m_position, default (0, 0, 0);
+//   "size":     SimpleTypeProperty<glitch::core::dimension2d<float>> (operator new 0x28), field m_size, default (0, 0);
+//   "isAdditive": SimpleTypeProperty<bool> (operator new 0x24), field m_isAdditive, default false.
+// The field offsets are stored relative to the PropertyMap (Billboard +0x04). The original returns the map slot of the
+// last property; the virtual is void, so the value is dropped.
 void Billboard::DeclareProperties() {
     AddProperty<std::string>("tga", m_tga);
     AddProperty<std::string>("AttachTo", m_attachTo);
-    // Not registered: "position" and "size" (see above).
+    // PropertyMap::AddProperty<T> has no out-of-line instance for these two types (the binary inlines the
+    // SimpleTypeProperty construction at the AddProperty<T> site), so the property object is built here and registered
+    // through the raw-pointer overload. Its object argument is the PropertyMap (this + 4), as the original's offset
+    // computation uses (Billboard +0x04 as the base).
+    PropertyMap* map = this;
+    map->AddProperty("position",
+                     new SimpleTypeProperty<glitch::core::vector3d<float>>(
+                             reinterpret_cast<char*>(this) - 4, "position", &m_position,
+                             glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f}));
+    map->AddProperty("size",
+                     new SimpleTypeProperty<glitch::core::dimension2d<float>>(
+                             reinterpret_cast<char*>(this) - 4, "size", &m_size,
+                             glitch::core::dimension2d<float>{0.0f, 0.0f}));
     AddProperty<bool>("isAdditive", m_isAdditive, false);
 }

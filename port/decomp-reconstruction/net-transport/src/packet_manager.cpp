@@ -72,9 +72,11 @@ bool CPacketManager::IsInitialized() {
 }
 
 // 0x8164e8 _ZN14CPacketManager10InitializeEv
-// partial: the original allocates the object with operator new(0x118, 2) and constructs it before the
-// null check. The second argument (allocator tag) is not recovered. The port uses the default
-// operator new, which throws instead of returning null, so the -1 result is not reachable.
+// partial: the original has no "already created" test: it always runs operator new(0x118, 2), always
+// constructs the object and only then tests the pointer for the -1 result; the port returns 0 early
+// when the singleton exists, so a second call neither allocates nor constructs. The custom allocator
+// tag (the second operator new argument, MemoryHintState 2) is not reproduced, and the port's plain
+// operator new throws instead of returning null, so the -1 branch is unreachable.
 int CPacketManager::Initialize() {
     if (s_packetManager != nullptr) {
         return 0;
@@ -314,9 +316,11 @@ void CPacketManager::PreparePacketData(int member, std::uint32_t sequence, NetBi
 }
 
 // 0x81684c _ZN14CPacketManager18SendWaitingPacketsEv
-// Sends the queued packets in key order and removes each one after it is sent.
-// partial: when the CConnectionManager singleton is missing the queue is left as it is; the
-// original dereferences the singleton. tSendPacket keeps only member, data and bit count.
+// Verified against the Hex-Rays body: the do/while loop sends the first entry of the multimap
+// (key = member << 16 | sequence, data pointer and 16-bit bit count) on type 6 and erases it before
+// the next iteration. Deviation: the port returns early when CConnectionManager::GetInstance() is
+// null; the original calls GetConnectionMgr(), which never returns null in a live process, and
+// dereferences it through its SendTo virtual.
 void CPacketManager::SendWaitingPackets() {
     if (waiting_.empty()) {
         return;
@@ -335,11 +339,13 @@ void CPacketManager::SendWaitingPackets() {
 }
 
 // 0x8168fc _ZN14CPacketManager18ProcessLostPacketsEv
-// A sent packet older than 1000 ms is lost: every used slot's lost callback runs and the entry is
-// removed. An entry whose member is no longer known is removed and the scan stops, as the original does.
-// partial: the clock is steady_clock. The original reads the time through the GetOnline() object's
-// vtable slot 0, which is not recovered. The CConnectionManager::ReportStatistic call after each lost
-// packet goes to an empty hook (0x7fc094 is a bare return), so it is omitted.
+// An entry whose member is no longer known is erased and the scan stops; for a known member the time
+// test is `now - sent_time > 1000` (signed), then every used slot's lost callback runs and the entry
+// is erased.
+// Verified against the Hex-Rays body. Deviations, both host-necessitated: the original takes `now`
+// from GetOnline()->(vtable slot 0) and the port uses steady_clock in ms, and the
+// CConnectionManager::ReportStatistic call after each lost packet targets the empty hook 0x7fc094
+// (a bare BX LR), so it is omitted.
 void CPacketManager::ProcessLostPackets() {
     auto it = sent_times_.begin();
     while (it != sent_times_.end()) {
@@ -423,12 +429,14 @@ int CPacketManager::ReceivePackets() {
 }
 
 // 0x817814 _ZN14CPacketManager10SendPacketEi
-// Sends one packet to a connected member. Returns 1 when the packet was built (even when it is too
-// large to send), 0 when the member is not connected. The sent time is recorded per (member, sequence).
-// partial: the sent time is steady_clock in ms. The original stores the GetOnline() vtable slot 0 time,
-// which is not recovered. A missing CConnectionManager singleton returns 0 here; the original
-// dereferences it. The ReportStatistic call after the sent-time insert goes to an empty hook
-// (0x7fc094 is a bare return), so it is omitted.
+// Verified against the Hex-Rays body: 0 unless CConnectionManager::IsConnected(member); then a 0xff8
+// bit stream, PreparePacketHeader, PreparePacketData, the sent time stored at [member_info_[member]
+// first word] and in sent_times_[sequence + (member << 16)], and the 0x578-byte limit before
+// connections->SendTo(6, member, data, bytes). Returns 1 when the packet was built.
+// Deviations, both host-necessitated: the original stores GetOnline()->(vtable slot 0) as the sent
+// time and the port uses steady_clock in ms; the port also returns 0 when the CConnectionManager
+// singleton is null where the original dereferences it. The CConnectionManager::ReportStatistic call
+// after the insert targets the empty hook 0x7fc094, so it is omitted.
 int CPacketManager::SendPacket(int member) {
     CConnectionManager* connections = CConnectionManager::GetInstance();
     if (connections == nullptr || !connections->IsConnected(member)) {
@@ -451,14 +459,15 @@ int CPacketManager::SendPacket(int member) {
 }
 
 // 0x8179d0 _ZN14CPacketManager11SendPacketsEv
-// Runs the acknowledgement and loss passes, then, when forced or after 50 ms, sends one packet to
-// each member in the list and sweeps the member map for members that were not sent to. The sweep
-// flag toggles on every sweep. Returns -1 when the manager is not initialised, 0 otherwise.
-// The member sweep is the original's: every member that was not sent to is removed, and the flag
-// toggles on every sweep (the original's running flag is always the current generation).
-// partial: the send interval uses the steady clock, while the original reads the COnline time field at
-// +0x1c, which COnline does not model. A missing CConnectionManager singleton sends nothing, where the
-// original dereferences it.
+// Verified against the Hex-Rays body: -1 while not initialised; then ProcessAcknowledgedPackets and
+// ProcessLostPackets; the this+0x30 force flag or a gap over 0x32 selects the send pass, which walks
+// CConnectionManager::GetConnMemberIdList(false), calls SendPacket per member, marks each member's
+// valid byte with the static validFlag and then erases every member_info_ entry whose byte differs
+// from it, after which the static flag is toggled, the force flag is cleared, the send time is stored
+// only when some member was sent to, and SendWaitingPackets and PrintStatistics finish the call.
+// Deviations, both host-necessitated: the interval is measured with steady_clock in ms where the
+// original reads the COnline time word at +0x1c, and the port sends nothing when the
+// CConnectionManager singleton is null where the original dereferences it.
 int CPacketManager::SendPackets() {
     if (!initialized_) {
         return -1;
@@ -499,10 +508,11 @@ int CPacketManager::SendPackets() {
 }
 
 // 0x817d1c _ZN14CPacketManager23sPacketReceiverCallbackEiPci
-// Passes data from a connected member to the packet manager. Returns 0 when the member is not
-// connected.
-// partial: a missing CConnectionManager or CPacketManager singleton returns 0 here; the original
-// dereferences them.
+// Verified against the Hex-Rays body: 0 when CConnectionManager::IsConnected(member) is false, else
+// CPacketManager::PacketReceiverCallback(member, data, size) on the singleton (a call through
+// s_packetManager, which is what the pseudocode's pthread_mutex_t cast is).
+// Deviation: the port's combined null test on the two singletons returns 0 where the original
+// dereferences them; neither singleton is null once the managers are initialized.
 int CPacketManager::sPacketReceiverCallback(int member, char* data, int size) {
     CConnectionManager* connections = CConnectionManager::GetInstance();
     if (connections == nullptr || !connections->IsConnected(member) || s_packetManager == nullptr) {

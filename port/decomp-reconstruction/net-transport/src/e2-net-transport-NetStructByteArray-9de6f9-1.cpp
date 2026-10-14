@@ -109,8 +109,9 @@ void NetStructByteArray<256u>::SetBuffer(const void* src, std::size_t size) {
 // 0x8182e0 _ZN18NetStructByteArrayILj256EE4ReadER12NetBitStream
 // Reads a 16-bit byte count, then that many bytes, then SetValue on a temporary ByteArray holding them.
 // PARTIAL: the original reads the bytes into a fixed 256-byte stack buffer (v7) with no bound on the
-// count. For a count above 256 it overflows the stack, which is not reproduced. The port reads the full
-// count into a heap buffer instead, so every in-range count behaves the same.
+// count. For a count above 256 it writes past the buffer (undefined in the original), which is not
+// reproduced. The port reads the full count into a heap buffer instead, so every in-range count
+// behaves the same.
 template <>
 void NetStructByteArray<256u>::Read(NetBitStream& stream) {
     std::uint32_t count = stream.ReadU32(16u);

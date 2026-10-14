@@ -67,8 +67,9 @@ void Buffer::clear() {
 }
 
 // 0x317014 _ZN6Buffer7setSizeEj
-// Partial: the original asserts the buffer is empty first (debug ASSERT dropped).
-// Otherwise the body matches the Hex-Rays pseudocode: one block of `size`, then a null sentinel.
+// One block of `size`, a null sentinel, then the sized flag, block size and size.
+// The original's leading debug ASSERT (buffer_.size() == 0, StreamBuffer.h:117) is dropped;
+// it does not alter the body, so nothing observable differs.
 void Buffer::setSize(std::uint32_t size) {
     blocks_.reserve(2);
     std::uint8_t* block = new std::uint8_t[size];

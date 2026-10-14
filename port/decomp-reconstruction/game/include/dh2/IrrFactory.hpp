@@ -1,15 +1,20 @@
 // IrrFactory: the game's factory for the glitch engine objects. It derives from the engine singleton
 // glitch::CIrrFactory and overrides the file-system and scene-manager creators. It declares no data of its own.
-// The engine header in the tree declares only the constructor, the virtual destructor and getInstance, so the
-// two creators below are plain virtuals here, not overrides. Add override once the engine header lists them.
+// The engine header now declares the three factory virtuals, so the two creators below are overrides and are
+// marked as such.
+//
+// createSceneManager narrows the base's glitch::scene::CSceneManager* to the game's ::SceneManager*, which is
+// legal covariant return because SceneManager : public glitch::scene::CSceneManager (dh2/SceneManager.hpp).
+// That needs the COMPLETE SceneManager type here, hence the include below rather than the old forward
+// declaration - the compiler cannot prove the inheritance from an incomplete type, and the engine header's own
+// return type is what the override is checked against.
 // Reconstructed from libDungeonHunter2.so pseudocode (dtors 0x350a4c, 0x350c40; createFileSystem 0x350aec;
 // createSceneManager 0x350a80). The IrrFactory constructor is not in the queue, so it is not declared.
 #pragma once
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/irr_factory.hpp"
-
-class SceneManager;
+#include "dh2/SceneManager.hpp"
 
 namespace glitch {
 namespace video {

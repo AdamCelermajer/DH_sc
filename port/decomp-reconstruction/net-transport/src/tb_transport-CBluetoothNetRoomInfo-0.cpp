@@ -7,11 +7,15 @@
 #include "net-transport/tb/bluetooth_net_room_info.hpp"
 
 // 0x800d7c CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()
-// Partial: the original reads the value word at +0x188 before it stores 0 there, and calls
-// NetStructMember::SetChanged on the member when that word was non-zero. Nothing in the original
-// initialises +0x188 before that read, so the branch depends on memory the constructor does not set.
-// The port's member starts at 0 (C++ value-initialisation), so the SetChanged branch is never taken.
-// The member declarations (name_, then value_) and DeclareMember calls follow the original order.
+// Partial: verified in the listing - the constructor loads the value word at +0x188 (LDR R2,[R4,#0x188])
+// before storing the member's zero there, and branches on it: when the loaded word was non-zero it
+// stores 0 at +0x188 and calls NetStructMember::SetChanged on the member at +0x168. Nothing in the
+// listing initialises +0x188 before that load, so in the original the branch (and therefore the
+// SetChanged call) depends on whatever was in memory there. The port's value_ starts at 0
+// (C++ value-initialisation), so the port always stores 0 without SetChanged.
+// The base NetStruct construction, the non-virtual NetStructInt<32u> field stores (+0x16c 32, +0x170
+// zero, +0x178/-0x17c -1, +0x180 0, +0x184 0), the vptr stores and the name_-then-value_ DeclareMember
+// order all match the original.
 CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()
     : NetStruct(), name_(std::string()) {
     if (value_.GetValue() != 0) {

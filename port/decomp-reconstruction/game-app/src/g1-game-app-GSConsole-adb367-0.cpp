@@ -52,10 +52,15 @@ GSConsole::~GSConsole() {}
 // emits it from the virtual destructor, so no body is written here.
 
 // 0x3832c4 GSConsole::Draw2D(StateMachine const*)
-// PARTIAL. The original loads Singleton<Application>::s_inst.m_device (+0x10), then the object at IDevice +0x18,
-// and calls that object's vtable slot +0x0c with (object, machine), returning the callee's int. The IDevice
-// +0x18 object is not modelled (glitch-core-io/os/device.hpp says so), so the call is missing and the return
-// value is dropped. Layout request: glitch::IDevice +0x18 object, its class and slot +0x0c.
+// PARTIAL. Asm 0x3832c4: R3 = Singleton<Application>::s_inst + (dword_99F73C - 0x99F72C) = Application::m_device (+0x10),
+// then R3 = [R3+0x18], then R0 = R3 (the receiver), R3 = [R3] (its vptr), LR = PC, PC = [R3+0xC]. So the object at
+// IDevice +0x18 is called through vtable slot +0x0c with NO other argument (the StateMachine in r1 is not moved into a
+// parameter register), and its int result is returned. The call has exactly one caller in the binary (xrefs_to
+// 0x3832c4: GSConsole::Draw, the Draw2D slot), so the object's type cannot be inferred from another site either; the
+// class of IDevice +0x18 and its slot +0x0c are the concrete missing item (glitch-core-io/os/device.hpp declares the
+// word as void* unk_18 and its comment says the role is not identified). The body is therefore empty; the original's
+// int result is dropped by the void StateBase::Draw2D slot. Adding the receiver type to IDevice is engine-glitch's
+// edit, not this batch's.
 void GSConsole::Draw2D(const StateMachine*) {}
 
 // 0x3832fc GSConsole::Draw(StateMachine const*)

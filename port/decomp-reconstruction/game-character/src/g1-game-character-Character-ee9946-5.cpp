@@ -4,6 +4,7 @@
 // Declarations come from dh2/Character.hpp.
 
 #include <cstdint>
+#include <cwchar>
 #include <map>
 #include <string>
 
@@ -34,11 +35,19 @@
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
+#include "dh2/global/screen_size.hpp"
 #include "dh2/global/net_singletons.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/v2Controller.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/gui/CGUIStaticText.hpp"
+#include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
+#include "glitch-scene-collada-gui/gui/IGUIFont.hpp"
+#include "glitch-scene-collada-gui/gui/gui_types.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "net-transport/update_job_thread.hpp"
 #include "net-session-online/c_message.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
@@ -291,23 +300,118 @@ void Character::InterpretIncomingNetStruct(bool force) {
 }
 
 // 0x3a84f4 Character::Draw() const
-// PARTIAL. The three DebugSwitches are queried in the original order, and each query reloads the switch file first. The
-// debug drawing is not reproduced: the melee radius box, the path (PFObject::DBG_DrawPath on the base at +0x1c8) and
-// the screen text, which is drawn through a renderer reached from dword_99F73C. The static text-object caches the
-// original destroys when a switch is off are not held here.
+// The debug overlay, after GameObject::Draw. Each of the three switches reloads the switch file first, in the original
+// order: isDisplayingMeleeRadius draws the melee radius box of this character, isDisplayingPath draws the path-finding
+// object's path, and isDisplayingPositions draws two screen texts (the target position, and the absolute position of the
+// visual object's scene node) plus the world AABB in a colour that depends on whether this character is a player.
+// The texts use the two function-local caches m_postext and m_postext2; each is created once through the GUI environment
+// (device +0x18: getSkin, getFont, getDimension, addStaticText) and updated with setText afterwards, and both are
+// released when the positions switch is off.
+// The original's text format is the wide string "<" with the three coordinates as arguments.
 void Character::Draw() const {
+    // The two static text caches of this function (m_postext, m_postext2).
+    static glitch::gui::IGUIStaticText* m_postext = nullptr;
+    static glitch::gui::IGUIStaticText* m_postext2 = nullptr;
+
     GameObject::Draw();
+
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch("isDisplayingMeleeRadius")) {
-        // PARTIAL: melee radius box not drawn.
+        const float meleeRadius = AI_GetMeleeRadius();
+        const Point3D<float> position = GetTargetPosition();
+        glitch::core::aabbox3d<float> box;
+        box.MinEdge.X = position.X - meleeRadius;
+        box.MinEdge.Y = position.Y - meleeRadius;
+        box.MinEdge.Z = position.Z - meleeRadius;
+        box.MaxEdge.X = position.X + meleeRadius;
+        box.MaxEdge.Y = position.Y + meleeRadius;
+        box.MaxEdge.Z = position.Z + meleeRadius;
+        glitch::video::SColor color;
+        color.color = 0xFF00FF00;  // green, alpha 255
+        ApplicationGetInstance().m_device->videoDriver->draw3DBox(box, color);  // device +0x10, vtable +0x28
     }
+
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch("isDisplayingPath")) {
-        // PARTIAL: path not drawn.
+        m_pfObject.DBG_DrawPath();  // GameObject +0x1c8
     }
+
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch("isDisplayingPositions")) {
-        // PARTIAL: position text not drawn.
+        if (!IsPlayer()) {
+            glitch::core::aabbox3d<float> box;
+            box.MinEdge.X = m_absAabb[0];
+            box.MinEdge.Y = m_absAabb[1];
+            box.MinEdge.Z = m_absAabb[2];
+            box.MaxEdge.X = m_absAabb[3];
+            box.MaxEdge.Y = m_absAabb[4];
+            box.MaxEdge.Z = m_absAabb[5];
+            // The sleeping-box colour: 100 in the two middle channels, 255 in the other two.
+            const unsigned char shade = 100;
+            glitch::video::SColor color;
+            color.color = 0xFF0000FF | (static_cast<unsigned int>(shade) << 8) | (static_cast<unsigned int>(shade) << 16);
+            ApplicationGetInstance().m_device->videoDriver->draw3DBox(box, color);  // device +0x10, vtable +0x28
+        }
+
+        glitch::gui::IGUIEnvironment* gui = static_cast<glitch::gui::IGUIEnvironment*>(ApplicationGetInstance().m_device->unk_18);
+        wchar_t text[256];
+
+        const Point3D<float> position = GetTargetPosition();
+        std::swprintf(text, 256, L"<", static_cast<double>(position.X), static_cast<double>(position.Y), static_cast<double>(position.Z));
+        if (m_postext != nullptr) {
+            m_postext->setText(text);
+        } else {
+            glitch::gui::IGUISkin* skin = gui->getSkin();       // K 0x38
+            glitch::gui::IGUIFont* font = skin->getFont();      // K 0x28
+            const glitch::core::dimension2d<int> extent = font->getDimension(text);  // K 0x1c
+            glitch::core::rect<int> rectangle;
+            rectangle.UpperLeftCorner.X = 0;
+            rectangle.UpperLeftCorner.Y = Height_Screen - 60;
+            rectangle.LowerRightCorner.X = Width_Screen;
+            rectangle.LowerRightCorner.Y = Height_Screen - 60 + extent.Height;
+            // (text, rectangle, border, wordWrap, parent, id, fillBackground)
+            m_postext = gui->addStaticText(text, rectangle, false, true, nullptr, -1, false);  // K 0xa8
+            m_postext->setTextAlignment(glitch::gui::EGUIA_UPPERLEFT, glitch::gui::EGUIA_CENTER);  // K 0xa0
+            glitch::video::SColor color;
+            color.color = 0xFF00FF00;  // green, alpha 255
+            m_postext->setOverrideColor(color);  // K 0x98
+            m_postext->setDrawBorder(false);     // K 0x9c
+            m_postext->setText(text);            // K 0x44
+        }
+
+        if (m_visualObject != nullptr && m_visualObject->m_node != nullptr) {
+            const glitch::core::vector3d<float> absolute = m_visualObject->m_node->getAbsolutePosition();
+            std::swprintf(text, 256, L"<", static_cast<double>(absolute.X), static_cast<double>(absolute.Y), static_cast<double>(absolute.Z));
+            if (m_postext2 != nullptr) {
+                m_postext2->setText(text);
+            } else {
+                glitch::gui::IGUISkin* skin = gui->getSkin();       // K 0x38
+                glitch::gui::IGUIFont* font = skin->getFont();      // K 0x28
+                const glitch::core::dimension2d<int> extent = font->getDimension(text);  // K 0x1c
+                // The second text sits under the first one: its top is the first text's height, its height the measured
+                // height of the second string.
+                glitch::core::rect<int> rectangle;
+                rectangle.UpperLeftCorner.X = 0;
+                rectangle.UpperLeftCorner.Y = m_postext->getRelativePosition().LowerRightCorner.Y - m_postext->getRelativePosition().UpperLeftCorner.Y;
+                rectangle.LowerRightCorner.X = Width_Screen;
+                rectangle.LowerRightCorner.Y = rectangle.UpperLeftCorner.Y + extent.Height;
+                m_postext2 = gui->addStaticText(text, rectangle, false, true, nullptr, -1, false);  // K 0xa8
+                m_postext2->setTextAlignment(glitch::gui::EGUIA_UPPERLEFT, glitch::gui::EGUIA_CENTER);  // K 0xa0
+                glitch::video::SColor color;
+                color.color = 0xFFFF0000;  // blue, alpha 255
+                m_postext2->setOverrideColor(color);  // K 0x98                m_postext2->setDrawBorder(false);     // K 0x9c
+                m_postext2->setText(text);            // K 0x44
+            }
+        }
+    } else {
+        if (m_postext != nullptr) {
+            m_postext->remove();  // K 0x1c
+            m_postext = nullptr;
+        }
+        if (m_postext2 != nullptr) {
+            m_postext2->remove();
+            m_postext2 = nullptr;
+        }
     }
 }
 
