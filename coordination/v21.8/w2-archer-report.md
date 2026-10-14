@@ -1,88 +1,80 @@
-# v21.8 w2-archer: Archer subclass, phase 2b (branch v21.8-w2-archer)
+# v21.8 w2-archer: Archer subclass, phase 2b (branch v21.8-w2-archer2)
 
-Status: **BLOCKED at the first deliverable.** The Archer bow basic attack did not reach a real attack. The bow stance and bank now resolve, and combat initialization then fails on an engine gap (Type2 attack group choice). No Archer active and no Archer passive was implemented. Stopped per the rule "same reason fails twice": the failure reproduced on two packages, and the next fix is an engine change for the lead to escalate.
+Status: the type-2 attack blocker of the first attempt (`v21.8-w2-archer`) is fixed in the engine, the Archer bow basic attack and the five Archer actives run end to end in real hidden-window runs, BowMastery, Precision and SideStep run live. Open items are listed per skill (sections 2 and 3) and in section 5. Nobody has listened to any sound: every sound below is a resolved wav file name plus an accepted submission, not an audible check. No original gameplay footage of the Archer exists in the repo, so visuals are NOT compared to the original (logic evidence from the Lua and IDA only).
 
-Base: windows-foundation @ 99d4d1c5. Worktree `.claude/worktrees/w2-archer`, subst `A:`, build dir `C:/dh218/w2-archer-build` (Release, llvm-mingw). The build (all targets) is OK. Full CTest was not run on the final tree (see Tests).
+Base: windows-foundation (merged into the branch after the Berserker and Necromancer work, positional profile rows fixed, both sides kept). Worktree `.claude/worktrees/w2-archer2`, subst `A:`, build dir `C:/dh218/w2-archer2-build` (Release, llvm-mingw). Package: `.local-inputs/windows-source-clock-v21.8-staged3` (regenerated bindings XML, Archer arrows staged).
 
-Evidence key: **Lua** = `.local-inputs/assets-extra/android/data/scripts/skills/prince_archer_*.luac` (plain text, re-read this phase). **Code** = file:line on this branch. **Run** = hidden-window run, case folder `C:/dh218/w2-archer/cases/<case>/` (run.log, injector.txt, run.args).
+Evidence key: **Lua** = `.local-inputs/assets-extra/android/data/scripts/skills/prince_archer_*.luac` (plain text). **IDA** = `.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`. **Run** = hidden-window run, case folder `C:/dh218/w2-archer2/cases/<case>/` (`run.log`, `injector.txt`, `run.args`, frame PNGs). Seeds `C:/dh218/seeds/w2-archer-<Skill>/` (Archer level 25, bow in the main hand, the skill at rank 1 on hotbar key 2; written by `subclass_save_writer_v21_8` + `archer_bow_save_v21_8`). Real keys only (Enter, Space, Tab, 2); test aids used: `--player-to -2900,-100,255@700` (lizard zone) and `--test-skill-rank NAME=N` (sets an existing saved row; used for the passives and the rank-10 runs).
 
-## 1. Bow basic attack (deliverable 1)
+## 1. Bow basic attack (the blocker)
 
-| Item | Verdict | Evidence |
-|---|---|---|
-| Bow stance 4 | WORKED (log) | Run `bow4`: `Source player melee bank class=RoguePlayerBase_Archer stance=4 moving=252 static=247 main=94 off=-1`. Matches the phase-1 arithmetic (252 `Human_Attack_05_Bow`, 247 `Human_AttackStatic_05_Bow`). Clip names and frames not yet viewed. |
-| Bow save | WORKED (tool) | `archer_bow_save_v21_8` (new, test-only, `tests/archer_bow_save_v21_8.cpp`) turns the saved Archer dagger save into one with `Bow01` on the main-hand binding (source_slot 1) and the off-hand binding removed. Output: `wrote ... class=RoguePlayerBase_Archer main=Bow01`. The source_slot 1 = main hand mapping is inferred from main.cpp:1148 and is confirmed by the stance=4 / off=-1 line. |
-| Bank selection for a ranged main hand | CODE CHANGED, runtime not reached | `main.cpp` ~1802: `rangedStaff` is now `family == MagePlayerBase || main-hand ItemTable Type (words[22]) in {4,5}`. Before, only the Mage family took the ranged-marker branch (no melee markers, state-5 marker to the projectile executor). Control run `rogue-ctl1` (Rogue dagger seed, same new binary) still loads: stance=2, no error, so daggers are not caught by the new rule. |
-| ProjectileTable row 10 BowProjectile, `Mage projectile launch ... row=10` | DID NOT WORK (not reached) | No attack marker was produced: combat init fails first (below). |
-| Arrow impact / miss sounds 291 / 292, no swoosh | NOT VERIFIED | Data only (phase-1 section 4.2-4.3: Bow01 SwooshSoundFX -1, ImpactSFX 291, ObjectImpactSFX 292). No run reached an impact. |
-| Real run with real keys | DID NOT WORK | Runs `bow2`, `bow3`, `bow4` (case folders above). No frame PNG was captured (combat init aborts before the first capture). |
+Verdict: **WORKED**.
 
-### The failure, exactly
+Root cause (first attempt): the player's `sequenceAction` selection carried an empty `choices` map, the bow sequences contain type-2 groups, and `OriginalAttackSequence::prepare` demands an explicit choice for each (`Foundation error: Combat initialization: Explicit choice required for original type2 group`). Original: `CharAnimator::_SetAnim` draws `Random(stepCount)` every time a type-2 sequence is entered (unless MP_MinimalRandoms).
 
-Run `bow4` (staged2, bindings 228,404 bytes with the subclass actors, `Source actor property row unavailable` is gone):
+Engine fix (general, not bow-specific): `original_resolve_type2_choices` (`original_attack_sequence.cpp/.hpp`) walks the selected hierarchy and draws the child of every type-2 group from the shared Session RNG (`PlayableActorWorld::random_uniform`); `combat_session.cpp` calls it at init (explicit step-0 pin, no RNG consumed) and on every attack request (`select_source_attack_for_request`), and a type-2 selection never reuses a prepared program. Unit coverage in `original_attack_sequence_tests`.
 
-```
-Source player melee bank class=RoguePlayerBase_Archer stance=4 moving=252 static=247 main=94 off=-1 ...
-Foundation error: Combat initialization: Explicit choice required for original type2 group
-```
+Real run evidence (runs `mh1`, `p-base`, `bow5`; all the same fight, two Bogwomps in the lizard zone, Tab then Space):
+- Stance and bank: `Source player melee bank class=RoguePlayerBase_Archer stance=4 moving=252 static=247 main=94 off=-1`.
+- Arrow: `Mage projectile marker frame=3328 name=do_skill`, `Mage projectile launch ... accepted=1 id=1 row=10 model=data/3D/projectiles/projectile_arrow_default.bdae ... target=<lizard>`, `Mage projectile impact id=1 kind=4 ... fx=221 sound=291 damage=17.5312 applied=1`, `Damage frame=3339 attacker=<player> ... marker=do_skill removed=17.5312 outcomes=0x10`. Hits per run 9.4 to 29.9 (crit 24.9 `outcomes=0x18`), misses `outcomes=0x1`.
+- Animation: frame `mh1/f3465.png` (viewed, cropped and enlarged): the Archer with the bow raised, an arrow in flight toward the lizard, "Miss" popup from the lizard's swing, the lizard's health plate. Bow model visible in hand/on the back in `r1-ExplodingArrows/f3045.png`.
+- Sound: `Audio source frame=3326 ... event=sfx_sfx_mc_shoot_arrow ordinal=0 sound=491 status=1` = label `sfx_mc_shoot_arrow` = wav `sfx_mc_shoot_arrow_22.wav` (package also has `sfx_mc_shoot_arrow.wav`). Impact: ProjectileTable ImpactSFX 291 = event `env_weapon_arrow_hit` = random of uid 53/54 = `sfx_impact_arrow_flesh_1_22.wav` / `sfx_impact_arrow_flesh_2_22.wav` (all present in the package), `Mage projectile impact sound row=291 submitted`. Engine change: arrow impact sounds are event rows (positional source ordinals), not script sound ids; `RuntimeAudioHostV1::submit_positional_source_sound` / `RuntimeSessionAudioV1::play_positional_source_sound`, used by the projectile impact sink in `main.cpp`. A missing original wav is a diagnostic, not a veto.
+- Not verified: no swoosh (Bow01 SwooshSoundFX is -1 by data), arrow miss sound 292 `env_weapon_arrow_miss` (data only; no run reached an arrow that missed the world).
 
-Same error on `bow2` (staged, single-file seed), `bow3` (staged, seed folder with the swamp world save) and `bow4` (staged2, seed folder). Run `bow1` (staged2 before the lead patched its bindings file) failed earlier with `Source actor property row unavailable: RoguePlayerBase_Archer`, which is the stale-bindings problem the lead described; that error does not occur in `bow4`.
+## 2. The five Archer actives
 
-Why (code, PROVEN by reading):
-- `main.cpp:1839` sets `policy.sequenceAction = attack.static_selection` (`runtime_player_profile_attack_bank_v1.cpp:141`).
-- `runtime_player_combo_chain_v1.cpp:169-195` builds that selection with `selection.choices` **empty**, and sets `requires_original_rng_start = true` when any sequence policy is type 2. The flag is never consumed (grep: no reader).
-- `original_attack_sequence.cpp:55` requires an explicit choice for every type-2 group, so `prepare()` fails at `combat_session.cpp` ~1498.
-- The Rogue dagger sequence (stance 2) has no type-2 group, which is why the dagger control run passes. The Mage staff path also has none.
-- `features/combo_chain/source_combo_chain.hpp` (comment, ~line 52) says the original Type2 choice consumes the existing AnimationRandom stream through `select_start(...)`. That selection is not called on the player's `sequenceAction` path.
+All five: admitted as DATA rows (`runtime_skill_use_profile_archer_v1.hpp`) on the general coordinator (OnSkillCheck HasBow + HasMana, OnPre TargetListSearch with the Lua RANGE/ANGLE (native half-angle), LookAt, UseMana, SetSkillCooldown where the Lua has it, per-`do_skill` marker Use, Post ClearTarget) and run by one external owner `RuntimeArcherSkillOwnerV1` (`runtime_archer_skill_owner_v1.cpp`, registered in the ES-RUNTIME `RuntimeSkillExternalOwnerRegistryV1`) over the shared projectile executor (`launch_skill`), the shared skill timer service, the shared roll path (`apply_source_result`), the ES-STATUS stun service and the Push sink. No per-skill case in the engine. Sound file names below are the animation-marker sounds of the cast clips plus the Lua PlaySound where it exists.
 
-Not verified: which type-2 group(s) the bow sequences contain, and whether the original draws them per attack (most likely, since the flag name says "rng start"). IDA search for the sequence-type code path was started and not finished.
+| Skill | Cast | Animation | FX | Sound (wav, not listened) | Numbers (real run) | Verdict |
+|---|---|---|---|---|---|---|
+| ExplodingArrows (rank 1; rank 10 run `x-exp10`) | `Source skill key=2 ... skill=ExplodingArrows MP=61.25` (70.25 to 61.25), cooldown ring on the HUD icon (`r1-ExplodingArrows/f3495.png`) | `skill_dh2_prince_rogue_archer_exploding_arrows` plays (lifecycle phase 1..3, frame `f3465`) | ArrowExplode arrow flies; impact FX set 241 (`spell_fire_hurt`); 500 ms later `Archer skill ExplodingArrows explosion FX spell_dh2_prince_rogue_burst_shot`; fire burst on the lizard visible in `f3480.png` | clip marker `sfx_skill_rogue_arc_burst_shot.wav` (sound=542), Lua PlaySound `sfx_impact_burst_shot.wav`; both dispatched without diagnostic | first hit 10.3, explosion `range=210 targets=2` (rank 10: `range=300`, victims 11.5 then 36.1); MAX_COUNT 3 and the target itself first as in the Lua | **WORKED** (explosion burst FX file `spell_dh2_prince_rogue_burst_shot` is requested by name; whether that exact set rendered vs the 241 impact set is not separated in the frames) |
+| MultiHitArrow (run `mh1`) | `skill=MultiHitArrow MP=56.25` | `skill_dh2_prince_rogue_archer_multi_hit`; Use re-enters on three `do_skill` markers | three ArrowDefault arrows (`Archer skill projectile launched ... id=2,3,4`), impact FX 221 each | `sfx_skill_rogue_arc_rain_of_arrows.wav` (sound=545) | arrow n=1 15.3, n=2 miss, n=3 `outcomes=0x2` (dodge) on one lizard; second cast 0 / 24.6 / 0 | **PARTIAL**: three arrows, damage and sound WORKED; the knockbacks the Lua requests (hit 3 great with one target, hits 1-2 standard with two) were requested through the Push sink (`[push] KnockBack monster ... source=MultiHitArrow/arrow great=0`) but refused: `KnockedBack10 requires its live target/attacker, source flags and admitted current state` (see engine gap A), no knockback pose seen |
+| PinShot (runs `r1-PinShot`, `x-pin10`) | `skill=PinShot MP=61.25`, repeat cast 8 s later accepted after the cooldown | `skill_dh2_prince_rogue_archer_pinning_shot` | ArrowPinShot arrow | `sfx_skill_rogue_arc_maim_shot.wav` (sound=543) | rank 1: hit 10.3, `stunMs=3250 stunApplied=1`; `[status] actor ...: Idle -> Stunned (SetStunState event 50012)`, `enemy decisions blocked ticks=60..180` (the lizard made no decision for the window), `Stunned -> Idle`. Rank 10: two arrows (second at +750 ms) hit victim 1 for 15.9 and victim 2 for 19.1, `stunMs=5500` on both | **WORKED** for cast, arrows, numbers and the stun state (monster AI blocked). No stun POSE is shown (ES-STATUS gap, no stun animation), cooldown rejection of a second cast inside the window not shown in a run |
+| PoisonArrows (run `r1-PoisonArrows`) | `skill=PoisonArrows MP=60.25` | `skill_dh2_prince_rogue_archer_poison_arrows` (Skill6 lifecycle phase 1..3, Use at the `do_skill` marker; the clip name is not printed in the log, taken from the SkillTable Anim row and the file list) | ArrowPoison; impact FX set 244 (`spell_poison_hurt`) | `sfx_skill_rogue_arc_venom_shot.wav` (sound=546) | hit 10.3, 11.5 (kill: requested 19.7), miss on the third | **PARTIAL**: arrow, damage, FX, sound WORKED. The DOT is not applied: the Lua applies none either ("DOT does not seem to work", author note) and the port has no native Dot_* tail (gap B) |
+| Volley (runs `r1-Volley`, `x-vol10`) | `skill=Volley MP=62.25`; HasMana rejection with no mana shown at rank 10 (`phase=0 ... HasMana returned false`) | `skill_dh2_prince_rogue_archer_volley` | ArrowDefault arrow, impact FX 221 | `sfx_skill_rogue_arc_pierce_shot.wav` (sound=544) | first arrow 29.97 (kill); `Volley rebound roll=38 chances=7.0 -> no rebound` (rank 10: chances=25: rolls 44 and 54, no rebound); second cast `roll=2 ... no target to attack` (the other lizard was already dead) | **PARTIAL**: arrow, damage, rebound roll WORKED in the run; no rebound arrow was ever drawn in a real run (needs a lucky roll with a second live enemy), the rebound is covered by the unit test (draw 10 < 50 spawns the second arrow ON the first victim toward another enemy, Lua target swap on `oldTarget`) |
 
-### Suggested next step (for the lead / Sonnet)
-Draw the Type2 choice per attack for the player's static/moving selection through `select_start` with the AnimationRandom stream (the existing source_combo_chain path), instead of passing an empty `choices` map. This is a combat-session change in `combat_session.cpp` (sourceCombo/sequenceAction branch) and the planner, not a bow-specific change. Then re-run `bow4`'s case (`run-archer.ps1`, staged2, `archer-bow.save` seed folder `seed-bow1`, `--player-to -2900,-100,255@700`).
+Notes:
+- HasBow: IDA `ItemInventory::HasBow 0x400080` = main hand ItemTable Type (offset 148) == 4. The coordinator rejects before any mana/animation when `RuntimeSkillCastRequestV1::main_hand_is_bow` is false (profile flag `requires_bow`); the host fills it from the equipped main-hand item.
+- The yellow flare near the hero in every frame is a static scenery effect of the Swamp scene (present in `r1-ExplodingArrows/f3045.png` while the tutorial caption is up), not an arrow or skill FX.
+- Frames viewed: `mh1/f3450.png`, `mh1/f3465.png` (+ enlarged crop), `r1-ExplodingArrows/f3045.png`, `f3480.png`, `f3495.png`, `r1-PinShot/f3465.png`, `f3510.png`, `r1-PoisonArrows/f3465.png`, `r1-Volley/f3465.png`, `p4-side/f3400.png`.
+- MultiHitArrow great-knockback case (hit 3 with exactly one potential target) did occur: `[push] KnockBack monster ... source=MultiHitArrow/arrow great=1 ... frame=3960` followed by the same refusal.
 
-## 2. Archer actives (deliverable 2): NOT STARTED
+## 3. Archer passives
 
-Re-read the Lua this phase (confirms phase-1 with these details):
-- **ExplodingArrows** (`prince_archer_exploding_arrows.luac`): Pre TargetListSearch(RANGE 1200, ANGLE 220) + LookAt + UseMana + SetSkillCooldown(cooldown); check = HasBow and not HasSkillCooldown and HasMana. Use: pop the top target (or none) and `SpawnSkillProjectile(ArrowExplode)`. Delayed(target): SetProp(SnS_Level), ApplyPropClass, SkillCombatRoll(target), then `StartSkillTimerCB(500, one-shot, DoExplosion, target)`. DoExplosion: TargetListSearch(RANGE_EXPL = TempProp1, 360, target) sorted ClosestFirst, PlayFX `spell_dh2_prince_rogue_burst_shot` on the target, PlaySound `sfx_impact_burst_shot`, roll up to MAX_COUNT=3 victims (the first is the target itself).
-- **MultiHitArrow** (`prince_archer_multihit.luac`): Use runs on each of three `do_skill` markers (OnSkill_ pops the target, `SpawnSkillProjectile(ArrowDefault)`). Delayed: `hit++`; `hit==3 and pot_targets==1` → SetKnockBackState(true); `hit<3 and pot_targets==2` → SetKnockBackState(false); then SkillCombatRoll. Needs the per-marker re-entry (N11) and KB (N5), neither verified.
-- **PinShot** (`prince_archer_pin_shot.luac`): RANGE 600, no angle. Use: first projectile at top target; if count>1 and level>4, `StartSkillTimerCB(750)` spawns a second projectile at the next target; if count>2 and level>9, a third at 1500 ms. Delayed: dedupe by name; on a hit `target:SetStunState(duration, true)` with duration = SnS_Duration/1000 s (ES-STATUS stun owner needed; not checked this phase).
-- **PoisonArrows** (`prince_archer_poison_arrows.luac`): one ArrowPoison projectile per Use; Delayed = SetProp/ApplyPropClass/SkillCombatRoll. The author note says the DOT does not work (open, phase-1 Q4).
-- **Volley** (`prince_archer_volley.luac`): one ArrowDefault per Use; Delayed rolls the target; `do_rebound`: `GetRand(0,100) < chances` (TempProp1 from class), then TargetListSearch(900, 360, victim, NoSort), pops until a name differs from `oldTarget`, spawns a second ArrowDefault at the victim. The Lua's `SetProjectileTarget` is ignored (it "doesn't seem to work"), and the Lua fakes the target with `newTarget`.
+| Passive | Mechanism | Evidence | Verdict |
+|---|---|---|---|
+| BowMastery (Archer) | stat passive, plain Lua pattern (`CreateBuff(CLASS_ID, 0, false, slvl)` + `ApplyBuff`): already in the generic passive table (`passive_skill_owner_v1.cpp`), no new code; class sheet DestProp 55 `Rating_Attack_Bonus_Range` + 1280/level, 87 `Damage_Bonus_Range` + 512/level. The combat formula reads them by the main-hand damage class (`combat_result.cpp` `51+category`, `combat.cpp` bonus) | Run `p-bowm` (`--test-skill-rank BowMastery=5`) against `p-base` (rank 0), same seed: `Timed buff applied frame=60 ... class=Skill_Archer_BowMastery strength=5 cells=55:0->6400,87:510->3070`. Identical-RNG arrow hits, requested damage before / after: 9.38 / 19.38, 16.57 / 26.57, 12.16 / 22.16, 10.33 / 20.33 (exactly +10.0 = 5 x 2). The Stats page was not opened | **WORKED** (damage before/after) |
+| Precision | StealAIEvent OnTargetHit (attacker = self) + 1000 ms `checkbuff`; HasBow-gated. New `RuntimeArcherPassiveOwnerV1` (`runtime_archer_passive_owner_v1.cpp`) on the shared combat-result bus, timed-buff owner and timer service | Run `p2-prec` (`--test-skill-rank Precision=5`): `Archer passive Precision buff applied rank=5` and `Timed buff applied frame=108 ... class=Skill_Archer_Precision source=Precision strength=5 durationMs=0 cells=145:800->1632,146:0->832000` (Slow_Target_Chance and Slow_Duration). An earlier run `p-prec` (before the equipment-change re-run) applied it at the first player hit (frame 3103) through the OnTargetHit path. Unit test: no bow removes it after the 1000 ms check, bow back re-applies, a miss does not trigger | **PARTIAL**: the buff and its two property cells WORKED. No slow outcome (0x100 bit / slow state on a lizard) was observed on arrow hits in these runs (chance 1632/256 = 6.4 percent per hit; not enough hits), so the "chance to stun/slow" effect itself is not shown |
+| SideStep (Deflection) | StealAIEvent OnTargetHit (defender = self, attacker `TargetInMeleeRange`), `GetRand(0,100) < TempProp1`, then a 500 ms repeating `check` that calls `attacker:SetKnockBackState(true)` and stops when the attacker is not in Attack (then `attacker:Stop()`) or is KnockedBack | Run `p4-side` (`--test-skill-rank SideStep=10`, the hero only fired a first arrow and then let the lizards attack): 57 lizard hits observed, `Archer passive SideStep hit attacker=... roll=6 chance=20.000000`; proc at frame 3338: `[push] KnockBack monster target=... source=SideStep/deflection great=1` then `Archer passive SideStep check ... knockback=refused (KnockedBack10 requires ... admitted current state) stateAfter=5` (the lizard was still in Attack, exactly the Lua retry case), 31 frames later (the next 500 ms check) `knockback=requested stateAfter=10` (KnockedBack). Same pattern at frames 3542, 3688/3719, 3873/3904, 4416/4447. Frame `p4-side/f3400.png`: the lizard stands away from its red target ring after the push | **WORKED** for roll, timer loop, retry and the push request reaching the lizard (state 10); the KnockedBack POSE was not captured in a dense frame series, the displacement is visible in `f3400.png` |
 
-Engine pieces they need and that exist on this base: owner registry (`runtime_skill_external_owner_registry_v1`), skill timers (`runtime_skill_timer_service_v1`), `RuntimeSessionProjectileV1::launch_skill` (rows 3/4/6/7), target query with origin. Missing: an Archer owner class and profile rows (none exist; phase-1 section 1 is still correct), HasBow predicate, stun state (ES-STATUS), KB state (N5).
+Shared Rogue passives in the Archer tree (Acrobat, Ambidextrous, ComboMaster, FindWeakness) belong to the Rogue owner; Acrobat/stat-table rows are unchanged here.
 
-## 3. Archer passives (deliverable 3): NOT STARTED
+## 4. Engine changes (all general)
 
-- **BowMastery**: its Lua is the exact pattern `CreateBuff(CLASS_ID, 0, false, slvl)` + `ApplyBuff` on level change, which `passive_skill_owner_v1` already implements for the stat table. Adding `Skill_Archer_BowMastery` to that table should be data-only. Not done this phase; the effect (props 55, 87) has not been checked against a damage reader.
-- **Precision**: needs `StealAIEvent("OnTargetHit")` (player as attacker), HasBow, and a 1000 ms repeating check. The existing event passive owner (`event_passive_owner_v1`) covers the attacker-side OnTargetHit bus, so Precision could be a third event kind. Not done.
-- **SideStep**: defender-side OnTargetHit, melee-range check, KB state (N5). Not done.
-- Shared Rogue passives (Acrobat, Ambidextrous, ComboMaster, FindWeakness): Acrobat already WORKED in the ES-PASSIVE real run; the others are the Rogue owner's, not started here.
+1. `original_attack_sequence.cpp/.hpp`, `combat_session.cpp/.hpp`: type-2 child draw per attack request (section 1). Tests: `original_attack_sequence_tests`.
+2. `features/audio/runtime_audio_host_v1.*`, `runtime_session_audio_v1.*`, `main.cpp`: positional source-ordinal sound for projectile impact event rows.
+3. `features/effects/runtime_session_projectile_render_v1.*` (+ test): the four Archer arrow models are enrolled in the projectile AABB table.
+4. `main.cpp`: ranged main hand (ItemTable Type 4 or 5) selects the ranged-marker attack bank for the Rogue family; `request.main_hand_is_bow`; the Archer owner and the Archer passive owner are registered/wired next to the Mage and Necromancer ones; `sourceKnockBackSink` now honours `great` (the Archer needs the standard knockback too).
+5. `features/generic_skills/runtime_skill_use_profile_v1.hpp`: `requires_bow` appended after `knockback_great_on_character_hit` (positional rows fixed: Archer rows spelled with every tail field). `runtime_skill_use_profile_registry_v1.hpp`: Archer group added after the Necromancer one.
+6. `runtime_skill_cast_coordinator_v1.cpp/.hpp`: HasBow admission; `RuntimeSkillKnockBackRequestV1::great` (default true, so DeathClaw is unchanged).
+7. New: `runtime_archer_skill_owner_v1.*`, `runtime_archer_passive_owner_v1.*`, `runtime_skill_use_profile_archer_v1.hpp`, tests `runtime_archer_skill_owner_v1_tests.cpp` (CTest `runtime_archer_skill_owner_v1`: profile rows, the five actives, Precision, SideStep), `tests/archer_bow_save_v21_8.cpp` (test-only save writer).
 
-## 4. Engine changes made
+## 5. Gaps and open items
 
-1. `port/windows-foundation/main.cpp` (~line 1802): ranged main-hand rule (Type 4 or 5) joins the Mage family for the ranged-marker bank branch. Small diff (9 lines).
-2. `port/windows-foundation/tests/archer_bow_save_v21_8.cpp` (new, test-only, not a CTest) and its `CMakeLists.txt` target (`archer_bow_save_v21_8`).
-
-No change to the staged packages, bindings files, or saves in the repo.
-
-## 5. Harness notes (for the lead)
-
-- Package: `windows-source-clock-v21.8-staged2` (its `assets/original-melee-bindings.xml` is the 228,404-byte regenerated file, per the lead's note; it was the old file when run `bow1` was made). `windows-source-clock-v21.8-staged` has a 231,638-byte bindings file. Run `bow2`/`bow3` on that package reached the same type2 error, so the type2 blocker does not depend on the package.
-- The runner is `coordination/v21.8/act1rogue-run-rogue2.ps1`, copied to `C:/dh218/w2-archer/run-archer.ps1` with the case root moved to `C:/dh218/w2-archer/cases`.
-- Seeds: `C:/dh218/w2-archer/archer-bow.save` (single file), and `C:/dh218/w2-archer/seed-bow1/` (the bow save plus the swamp world save copied from `C:/dh218/cases/sub-archer-3`). The world save is not required for the type2 error (`bow2`, single file, fails the same way); it was added to match the Rogue runs.
-- Clicks: `C:/dh218/w2-archer/clicks-bow1.txt` (Enter, then Space every 1.5 s, no Tab; the Mage auto-target path needs no Tab).
+- **A. Knockback of a monster in Attack state.** `CombatSession::play_actor_source_sequence` admits KnockedBack10 for a non-direct request only when the target's live state is 3 (Idle) or 11 (Injured) (faery2 rule), while the original event 50011 is also accepted in other states (b035 `source_knockback_event_accepted_v1`: 1,3,4,5,6,8,9,11,...; Attack/Skill with `Character::CSM_Interrupted`, IDA 0x3ad244, reading flag byte +1089 / +1090). Effect: the MultiHitArrow knockbacks and the first SideStep check on an attacking lizard are refused. Not changed here (shared Session admission, other agents depend on it); the Lua SideStep loop absorbs it by retrying.
+- **B. PoisonArrows DOT** has no native Dot tail in the port, and the Lua itself applies none.
+- **C. Stun pose** for a stunned monster is not shown (ES-STATUS gap).
+- **D. Volley rebound** never drew in a real run (unit-tested); **Precision slow outcome** not seen (6.4 percent per hit at rank 5).
+- **E.** The ExplodingArrows burst FX set `spell_dh2_prince_rogue_burst_shot` is dispatched by name; the frames show a fire burst but do not isolate which set drew it.
+- **F.** The Lua PlayAnim of the PinShot second/third arrow (`skill_dh2_prince_rogue_archer_pinning_shot`) is not replayed for the timed arrows (marked in the owner).
+- **G.** The `TargetInMeleeRange` of SideStep uses the sum of both melee reaches in 3D between actor positions (IDA `CharAI::AI_IsInMeleeRange 0x3d6188`); the target-position node offsets (`GetTargetPosition`) are not applied (INFERENCE).
+- **H.** Precision re-running OnSkillUpdate_ when a bow appears in the main hand is an INFERENCE (the saved Archer starts with the bow, so no rank change triggers it).
+- Not run: cooldown rejection of a second ExplodingArrows / PinShot cast inside the window (the coordinator's generic cooldown is covered by the Knight tests), Archer skills on the real Skills page (assign by UI), the Stats page for BowMastery.
 
 ## 6. Tests
 
-- Build: all targets built on the final tree (`C:/dh218/w2-archer-build`, `BUILD_OK`).
-- CTest: **not run on the final tree.** The changes do not touch any unit-test source; `main.cpp` is linked only into `dh-foundation.exe`. The full CTest is still owed before the lead merges.
-- Unit tests for the new owner: none (no owner written).
+Full CTest on the final tree (after merging windows-foundation): **100% passed, 215 of 215** (`C:/dh218/w2-archer2-ctest.out`, 805 s, llvm-mingw `bin` on PATH, no flake this time). New CTest: `runtime_archer_skill_owner_v1` (staged asset root `.local-inputs/runtime-session-projectile-v1/assets`, it needs `data/pydata` for the projectile tables). Build: all targets, Release.
 
-## 7. Cleanup
+## 7. Cleanup and commit
 
-- Junction `.claude/worktrees/w2-archer/.local-inputs` points to the primary `.local-inputs` (one junction instead of 934; removed with `cmd /c rmdir`, not recursively).
-- `subst A:` removed with `subst A: /D`.
-
-## 8. Commit
-
-Branch `v21.8-w2-archer`, see the final git log entry.
+`subst A: /D` after the last run; case folders and seeds stay under `C:/dh218` (outside the repo). The branch is not pushed and not merged.

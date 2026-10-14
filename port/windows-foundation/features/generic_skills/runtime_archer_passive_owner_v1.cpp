@@ -157,13 +157,21 @@ void RuntimeArcherPassiveOwnerV1::side_step_hit(const CombatResultEventV1& event
     const auto* attacker = session_->actor(event.attacker);
     const auto* player = session_->actor(player_);
     if (!attacker || !player || !attacker->alive()) return;
-    // attacker:TargetInMeleeRange(): INFERENCE (native Character::_TargetInMeleeRange 0x3b7020 not read): the attacker's own
-    // target radius is the reach, the same rule the Necromancer Putrid passive uses.
+    // attacker:TargetInMeleeRange() = CharAI::AI_IsInMeleeRange(attacker AI, its current target) (IDA 0x3d6188): the 3D distance
+    // between the two target positions is below the sum of both melee radii. The attacker just hit the player, so the player is
+    // its target; the port's melee reach (PlayableActorWorld::melee_reach) is that radius; positions are the actor positions
+    // (INFERENCE: GetTargetPosition node offsets are not applied).
     const auto* world = session_->world();
-    const float reach = world ? world->target_radius(*attacker) : 0.0f;
+    const float reach = world ? world->melee_reach(attacker->id) + world->melee_reach(player->id) : 0.0f;
     const float dx = attacker->transform.position[0] - player->transform.position[0];
     const float dy = attacker->transform.position[1] - player->transform.position[1];
-    if (std::hypot(dx, dy) > reach) return;
+    const float dz = attacker->transform.position[2] - player->transform.position[2];
+    const float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+    if (!(distance < reach)) {
+        log("Archer passive SideStep hit ignored: attacker " + std::to_string(event.attacker) + " is outside the melee reach (distance=" +
+            std::to_string(distance) + " reach=" + std::to_string(reach) + ")");
+        return;
+    }
     dh2::data::PropertySheet sheet{};
     std::string error;
     if (!class_sheet(level, kSideStepClass, sheet, error)) {
@@ -210,6 +218,14 @@ bool RuntimeArcherPassiveOwnerV1::set_rank(ArcherPassiveKindV1 kind, std::uint32
 bool RuntimeArcherPassiveOwnerV1::advance(CombatSession& session, double dt_ms, std::string& error) {
     error.clear();
     session_ = &session;
+    // INFERENCE: the original re-runs every skill's OnSkillUpdate_ when the character's equipment changes (the saved Archer starts
+    // with the bow already in hand, so there is no rank change to trigger it). A bow appearing in the main hand therefore runs
+    // OnSkillUpdate_ for Precision; losing it is left to the Lua's own 1000 ms checkbuff.
+    const bool bow = services_.has_bow && services_.has_bow();
+    if (bow && !bow_seen_ && rank(ArcherPassiveKindV1::precision) != 0 && !precision_buff_) {
+        if (!precision_create(error)) return false;
+    }
+    bow_seen_ = bow;
     return timers_.advance(dt_ms, error);
 }
 

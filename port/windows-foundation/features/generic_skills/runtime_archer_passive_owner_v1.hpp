@@ -91,6 +91,7 @@ private:
     RuntimeSkillTimerServiceV1 timers_;
     RuntimeSkillTimerIdV1 precision_timer_ = 0;
     bool precision_buff_ = false;
+    bool bow_seen_ = false;
     std::uint32_t side_step_procs_ = 0, side_step_checks_ = 0, side_step_knockbacks_ = 0;
     std::uint64_t next_generation_ = 0;
     std::string error_;

@@ -403,6 +403,14 @@ int main(int argc, char** argv) {
             check(passives.set_rank(ArcherPassiveKindV1::precision, 0, e) && !passives.precision_buff_active() && buffs.calls.size() == calls_before + 1, "Rank 0 did not remove Precision");
             bus.dispatch({1, 2, 1, false});
             check(!passives.precision_buff_active(), "Precision listened on a miss");
+            // A rank learned with no bow applies nothing; the bow showing up in the main hand re-runs OnSkillUpdate_.
+            bow = false;
+            check(passives.advance(session, 1.0, e), e);
+            check(passives.set_rank(ArcherPassiveKindV1::precision, 2, e) && !passives.precision_buff_active(), "Precision applied at a rank learned without a bow");
+            bow = true;
+            check(passives.advance(session, 1.0, e) && passives.precision_buff_active() && buffs.calls.back() == "apply Skill_Archer_Precision rank=2 permanent",
+                  "A bow appearing did not re-run OnSkillUpdate_ for Precision");
+            check(passives.set_rank(ArcherPassiveKindV1::precision, 0, e) && !passives.precision_buff_active(), "Rank 0 did not remove Precision again");
             std::cout << "Precision: permanent buff at the rank with a bow, 1000 ms checkbuff removal without one, OnTargetHit re-creation, rank 0 removes\n";
 
             // SideStep: defender == player, attacker in melee reach, GetRand(0,100) < TempProp1 starts a 500 ms check timer.
