@@ -351,12 +351,13 @@ bool Rig::load_animation(const std::uint8_t* bytes,std::size_t size,std::string&
     // camera_idle does not). Start every clip from the authored scene, not from the
     // pose the previous clip left behind.
     animation::Player candidate;
-    if(!candidate.load(bytes,size,rest_scene_,error))return false;
+    if(!candidate.load(bytes,size,rest_scene_,error,animation::MissingTargets::ignore))return false;
     // The native scene sampler consumes node position/quaternion/scale tracks;
     // camera BDAEs can also contain non-transform channels that this sampler
     // intentionally skips. A nonzero unbound count is different: it means a
     // selected transform names a node absent from this camera scene.
-    if(candidate.track_count()==0||candidate.unbound||candidate.end<=candidate.start){
+    // Unbound tracks are skipped like the original null target binding (applyAnimationValues 0x65d9c4..0x65da08; cs_swampking_intro_camera_scene06 keys "Dummy01-node"); only a clip with no bound track is rejected.
+    if(candidate.track_count()==0||candidate.end<=candidate.start){
         error="Selected camera animation has no bound transform tracks (tracks="+
               std::to_string(candidate.track_count())+", skipped="+
               std::to_string(candidate.skipped)+", unbound="+

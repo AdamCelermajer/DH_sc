@@ -199,6 +199,66 @@
       "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/common/camera_cs_dialogue_out.bdae",
       "bytes": 3048,
       "sha256": "9603b07f3bd5e16e6f3b4bb2e9d4c904d59bcc935b4dc9bd7b3c2f018a2b3fee"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene01.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene01.bdae",
+      "bytes": 5444,
+      "sha256": "205e7b616dc4d87b8d79d16f565ae2c7428c247ddbb6d1f89d15a3a050b2df2a"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene02.bdae",
+      "bytes": 3704,
+      "sha256": "c460546ed2fe458c546b8106e9a71fbfece722c3437c44eeaa61e89a8dd8cc87"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene03.bdae",
+      "bytes": 4816,
+      "sha256": "4b66c0fa381c1ce72748e926507414786c850996fca8e35c80604a9017db6592"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene04.bdae",
+      "bytes": 4852,
+      "sha256": "f03feeb3392c204aabba7c01ecbb8b08339324708beccf2a7f59ef67221188bb"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene05.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene05.bdae",
+      "bytes": 5072,
+      "sha256": "70428421b8b74bb0eed78d622f70b2e4b81b93f56f0b0899bd24f1b609a6c1c4"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene06.bdae",
+      "bytes": 3552,
+      "sha256": "7d168fd08f0ff3dbaa27df9d7a1a5dea665063fca85cf04fa1015627ea760874"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene07.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene07.bdae",
+      "bytes": 6028,
+      "sha256": "eaeb707233c43f3c8ff3cb517ab42365a5f0ae5e1e71c87493fecb85d9bb04b7"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene08.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene08.bdae",
+      "bytes": 4508,
+      "sha256": "9f8ab5653ad52859a67e8f6cb0111dbc5178d2590dc44a1e85525df54b6e40d7"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene09.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene09.bdae",
+      "bytes": 4172,
+      "sha256": "563078ff8059da835d244dfd6ba115c9e33d5c78ea12c6a65a2c9c27b85f0e84"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene10.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_intro/cs_swampking_intro_camera_scene10.bdae",
+      "bytes": 14636,
+      "sha256": "10771db1eade2b89d5f6d46e51498cc1166e0a2f425914f1e55613dcb62f743d"
     }
   ]
 }
