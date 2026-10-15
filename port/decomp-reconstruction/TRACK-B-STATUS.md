@@ -1,44 +1,81 @@
 # Track B status
 
-Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals: `py -3 tools/decomp_progress.py`.
+Updated 2026-10-15 by the integrator. Rules and decisions: `TRACK-B.md`. Totals: `py -3 tools/decomp_progress.py`.
 
 ## Totals (whole binary in scope: 25,218 functions)
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,611 | 69.8% |
+| reconstructed | 18,138 | 71.9% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,523 | 6.0% |
-| skipped | 2,119 | 8.4% |
+| partial | 1,024 | 4.1% |
+| skipped | 2,072 | 8.2% |
 
-Every queued row now has a ledger row (the last G1b rows are in).
+Every queued row has a ledger row, every ledger is a valid 5-field CSV, and `decomp_progress.py`
+reports **0 ignored rows**. A false-positive screen (`tools/trackb/verify_rows.py`, which flags a
+`reconstructed` row whose body is empty/null or whose address appears only under `src/recon/`) reports
+**0 suspect rows across all 18 ledgers**, so the `reconstructed` figure is not inflated.
 
 | category | queued | reconstructed | upstream | partial | skipped |
 |---|---:|---:|---:|---:|---:|
-| game-world | 1,527 | 1,259 | 0 | 176 | 92 |
-| game-app | 1,409 | 1,208 | 2 | 118 | 81 |
-| game-character | 1,143 | 1,095 | 0 | 2 | 46 |
+| game-world | 1,527 | 1,333 | 0 | 102 | 92 |
+| game-app | 1,409 | 1,241 | 2 | 85 | 81 |
+| game-character | 1,143 | 1,097 | 0 | 0 | 46 |
 | game-items-save | 831 | 765 | 0 | 0 | 66 |
 | game-ui | 808 | 775 | 0 | 0 | 33 |
 | game-anim | 365 | 335 | 0 | 0 | 30 |
-| glitch-scene-collada-gui | 4,735 | 3,996 | 3 | 444 | 292 |
-| glitch-video | 1,701 | 758 | 0 | 245 | 698 |
-| glitch-core-io | 1,336 | 1,016 | 17 | 96 | 207 |
-| net-session-online | 1,244 | 906 | 0 | 192 | 146 |
-| net-transport | 1,048 | 854 | 0 | 91 | 103 |
-| pydata-accessors | 2,273 | 2,208 | 0 | 56 | 9 |
-| vox-audio | 1,140 | 943 | 72 | 74 | 51 |
-| core-platform | 653 | 438 | 9 | 51 | 155 |
-| tinyxml-and-c-libs | 1,846 | 26 | 1,791 | 5 | 24 |
+| glitch-scene-collada-gui | 4,735 | 4,097 | 3 | 346 | 289 |
+| glitch-video | 1,701 | 891 | 0 | 139 | 671 |
+| glitch-core-io | 1,336 | 1,049 | 17 | 65 | 205 |
+| net-session-online | 1,244 | 955 | 0 | 144 | 145 |
+| net-transport | 1,048 | 904 | 0 | 41 | 103 |
+| pydata-accessors | 2,273 | 2,270 | 0 | 3 | 0 |
+| vox-audio | 1,140 | 997 | 72 | 23 | 48 |
+| core-platform | 653 | 477 | 9 | 14 | 153 |
+| tinyxml-and-c-libs | 1,846 | 31 | 1,791 | 0 | 24 |
 | vendor-gameswf | 2,370 | 918 | 1,304 | 62 | 86 |
 | vendor-box2d | 318 | 2 | 316 | 0 | 0 |
 | vendor-lua | 471 | 1 | 470 | 0 | 0 |
 
 At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 reconstructed.
 
-## Build state (2026-10-14, `build/tb-int`, native MinGW)
+### Reading a `partial` note
 
-`ninja -k 0`: 877 of 877 targets, exit 0. `ctest`: 779 of 813 pass. `link/library-duplicates` PASSES.
+Partial notes are free text and are **not** a reliable blocker index. Mining them for a blocker name
+gives a strong-looking signal that does not survive reading the rows: `IVideoDriver` appears in 68 of
+them, but most of those mentions are explaining a blocker that was **CLEARED**, not an active one
+("both old blockers CLEARED", "the previous reason was WRONG"). Across all 1,024 partial rows, 291
+mention a cleared/obsolete blocker, 542 state an active missing item, and 451 use other wording. Treat
+every note as a claim to re-test against the listing, and treat a row whose *body* exists but whose
+*note* is stale as a candidate to flip rather than as new work.
+
+## Build state (2026-10-15, `build/tb-int`, native MinGW, GCC 16.2.0)
+
+`ninja -k 0`: **1,540 edges, exit 0, 0 compile errors, 0 undefined symbols, 0 multiple definitions**
+(163 symbols are satisfied by `link-stubs/`, which is expected). `ctest`: **824 of 824 pass** on a
+clean build directory.
+
+Two build-hygiene hazards cost real time this round; both are environmental, not defects:
+
+- **`build/tb-int` cannot be shared by concurrent builds.** Several workers building at once produced
+  `ar: ... file truncated`, `ninja: error: failed recompaction: Permission denied`, and
+  `ld.exe: cannot open output file ...: Permission denied`, and one stub regeneration started
+  mid-build wrote a nonsensical 240-stub CSV. Serialize builds, or give each worker its own directory.
+- **`link/library-duplicates` is reconfigure-sensitive, and its failures are usually NOT defects.**
+  `link-stubs/link_stubs.csv` is a `CMAKE_CONFIGURE_DEPENDS` input and `CMakeLists.txt` numbers the
+  stubs **by CSV row index** (`stub_1..stub_N` via `file(GENERATE)`), so editing the CSV after
+  configure leaves stale `stub_NN.cpp` files defining symbols that real code now implements. Always
+  re-run `cmake` before believing that test. This is also the mechanism behind the intermittent
+  `CMake Generate step failed`.
+- **Incremental green is not proof.** A `100% of 819` run once reported here was stale: it had run
+  against binaries built *before* a header change, while a clean build of the same tree gave 823/824.
+  Take the clean-build number.
+
+### HISTORICAL - the 2026-10-14 crash map (all of these are FIXED; kept for the reasoning only)
+
+The suite is green as of 2026-10-15. Everything below this line is the previous round's failure list
+and is retained because it records *why* each test was broken, which is still the best guide to the
+stub hazards in this tree. Do not treat any of it as an open failure.
 
 - 34 tests fail: 24 SEGFAULT, 7 assertion failures, 3 exit `0xc0000409` (a link stub was reached).
   The first crash fixed (2026-10-14, third commit) was `GSEndGame-20f7ca-0`: its `COnline::GetInstance()`
