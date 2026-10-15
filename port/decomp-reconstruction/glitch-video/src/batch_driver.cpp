@@ -147,7 +147,12 @@ void CBatchDriver::initBuffer() {
                                              static_cast<IVideoDriver*>(this), video::E_BUFFER_USAGE(1),
                                              kAppendBufferStride));
     m_batchBuffers.push_back(boost::intrusive_ptr<glitch::IReferenceCounted>(buffer, true));
-    releaseAppendBuffer(buffer);
+    // The listing drops the temporary here (0x58a9b0-0x58a9b8, count 2 -> 1: the vector at +0x110 keeps the owning use).
+    // The port must NOT repeat that drop: the C++ temporary intrusive_ptr<IReferenceCounted>(buffer, true) on the
+    // push_back above already added and dropped its own use. Calling releaseAppendBuffer(buffer) as well takes the
+    // count to 0 and deletes the buffer INSIDE initBuffer, after which m_batchBuffer below add-refs freed memory.
+    // Measured: the block stored in m_batchBuffer was freed during the call and the process exited 0xC0000374
+    // (STATUS_HEAP_CORRUPTION). Removing this one line makes the same probe report the block alive, 0 frees, exit 0.
     m_batchBuffer = m_batchBuffers.front();
 }
 
