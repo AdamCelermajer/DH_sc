@@ -26,7 +26,7 @@ public:
     ~Path() override;                                               // 0x48d604 / 0x48d770
 
     Rule::Impl* NewImpl(Rule::Impl* parent) const override;         // slot 0x08: 0x48c210
-    void LoadFromXml(TiXmlNode* node) override;                     // slot 0x0c: 0x49130c
+    bool LoadFromXml(TiXmlNode* node) override;                     // slot 0x0c: 0x49130c
 
     // Original layout. Rule occupies +0x00 .. +0x87.
     int32_t unk_88;                                                 // +0x88 set to 4 by the ctor

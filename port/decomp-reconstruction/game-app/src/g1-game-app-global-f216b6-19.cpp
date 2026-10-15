@@ -9,6 +9,9 @@
 #include "dh2/global/GetRewardImplInstance.hpp"
 #include "dh2/global/SceneNodeHelpers.hpp"
 
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/scene_types.hpp"
+
 #include "dh2/Objective_Automatic.hpp"
 #include "dh2/Objective_SavedQty.hpp"
 #include "dh2/Objective_TalkToNPC.hpp"
@@ -173,44 +176,34 @@ void SetLodBiasOnAllTextures(float bias) {
 }
 
 // 0x50e398 SetNodeToSelfIlluminated(glitch::scene::ISceneNode *)
-// PARTIAL: stub returns 0. Original: calls the node's virtual at byte offset 0x88 with the node as the only argument
-// (asm: R0 = node, LDR PC,[R3,#0x88]). That slot is ISceneNode::getMaterialCount() const (tools/decomp_vtable.py
-// prints it at +0x94, 0x0c high for this class, see the layout request). The result stays in the return
-// register: it is the return value when the child list is empty, and each child call overwrites it. Then the child list
-// whose sentinel is at node+0xf4 is walked, and each child (child = element - 4) is passed to this function again.
-// Missing: the virtual needs a vptr and a getMaterialCount() declared virtual in glitch-scene-collada-gui/scene_node.hpp
-// (the header has neither), and the child-list container at +0xf4 is not declared in ISceneNode. Layout requests for both.
+// Calls the node's virtual at vptr+0x88 (ISceneNode::getMaterialCount; the listing prints it at +0x94) once, then recurses on every child of
+// the node's child list. The result is the last value returned: the node's own call, or the last child's recursion.
 int SetNodeToSelfIlluminated(glitch::scene::ISceneNode* node) {
-    (void)node;
-    return 0;
+    int result = static_cast<int>(node->getMaterialCount());
+    for (glitch::scene::ISceneNode* child : node->getChildren()) {
+        result = SetNodeToSelfIlluminated(child);
+    }
+    return result;
 }
 
 // 0x50e41c SetNodeVisibleRecur(glitch::scene::ISceneNode *,bool)
-// PARTIAL: a null node returns 0, as the original does. For a non-null node the original calls the node's virtual at
-// byte offset 0x48 with (node, visible): the bool stays live in R1 across the call (asm: MOV R6,R1, then LDR PC,[R3,#0x48]
-// with R1 never reloaded). That slot is ISceneNode::setVisible(bool) (tools/decomp_vtable.py prints it at +0x54,
-// 0x0c high for this class). Then it recurses on each child of the sentinel-at-+0xf4 list with the same bool.
-// The stub skips both steps. Missing: the child-list container at +0xf4 is not declared in ISceneNode, and the header
-// glitch-scene-collada-gui/scene_node.hpp declares no setVisible (it has no vptr), so the call cannot be written from the
-// current headers. Layout requests for the slot and the child list. The original's int result (the last R0 value) is not
-// reproduced.
+// A null node returns 0. Otherwise the node's setVisible(visible) (vptr+0x48; the listing prints it at +0x54) runs, then the same call on
+// every child of the child list. The original returns whatever r0 held after the last call; nothing reads it, so this returns 0.
 int SetNodeVisibleRecur(glitch::scene::ISceneNode* node, bool visible) {
     if (node == nullptr) {
         return 0;
     }
-    (void)visible;
+    node->setVisible(visible);
+    for (glitch::scene::ISceneNode* child : node->getChildren()) {
+        SetNodeVisibleRecur(child, visible);
+    }
     return 0;
 }
 
 // 0x50e514 IsNodeMesh(glitch::scene::ISceneNode *)
-// PARTIAL: stub returns false. Original: calls the node's virtual at byte offset 0xbc (tools/decomp_vtable.py prints
-// it at +0xc8, 0x0c high for this class) and returns true when it returns 0x6D656164 ('mead').
-// Otherwise it calls the same virtual again and returns true when that result is 0x73656164 ('sead'). That slot is
-// ISceneNode::getType() const. The engine base getType() (0x597298, scene_node.hpp) returns 0x6e6b6e75, so the
-// override is what the comparison needs. Partial: scene_node.hpp declares getType() non-virtual because the class has
-// no vptr, so a plain node->getType() call would bind to the base implementation, not the node's own override. Layout
-// request for the vptr and the virtual slot.
+// True when the node's getType() (vptr+0xbc; the listing prints it at +0xc8) is 'daem' (collada::CMeshSceneNode, 0x6D656164) or
+// 'daes' (collada::CSkinnedMeshSceneNode, 0x73656164).
 bool IsNodeMesh(glitch::scene::ISceneNode* node) {
-    (void)node;
-    return false;
+    return node->getType() == glitch::scene::ESNT_DAE_MESH || node->getType() == glitch::scene::ESNT_DAE_SKINNED_MESH;
 }
+

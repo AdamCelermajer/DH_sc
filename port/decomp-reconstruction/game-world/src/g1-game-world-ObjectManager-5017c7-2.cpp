@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <list>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -24,6 +25,9 @@
 #include "glitch-core-io/os/device.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/Container.hpp"
+#include "dh2/Door.hpp"
+#include "dh2/Trigger.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
@@ -42,7 +46,9 @@
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/online_game_state.hpp"        // OnlineSingleton<OnlineGameState>, mode_ (+0x34)
 #include "net-session-online/tb/online_singleton.hpp"      // OnlineSingleton<T>::GetInstance
+#include "net-session-online/c_online.hpp"
 #include "net-transport/net_bit_stream.hpp"
+#include "net-transport/net_struct.hpp"
 
 namespace {
 
@@ -123,14 +129,20 @@ const ObjectCreationEntry objectCreationMap[33] = {
 }  // namespace
 
 // 0x34735c ObjectManager::LoadGameObjectNetData(int,int,NetBitStream &)
-// PARTIAL. Written: the level check, the stream header with its unk_b0, unk_c8 and unk_e0 bookkeeping, and the
-// packet-validity test. NOT WRITTEN: the per-entry loop (entry count from ReadU32(16)) and the trailing set
-// updates. The loop needs three things that are not recovered: (1) the NetStruct virtual slots +0x14 and +0x1c
-// (Load, Erase in net_struct.hpp; the Hex-Rays calls pass the stream the way a read does, so the names are not
-// trusted) and (2) the object construction ids: the Character and Trigger constructors show no GO_IDS argument in
-// the pseudocode and the Container id is not in object_factory.hpp. The Door case is GetNewInstance<Door>, which
-// matches the pseudocode's Door::Door(obj, 2). Once the loop is written the sets unk_17c and unk_194 and the
-// cleanup run.
+// Reads one member's packet records (the first int is the member id, the second the packet sequence number). After the level index check and the
+// header bookkeeping (unk_b0 / unk_c8 / unk_e0) and the packet-validity test, each of the entry count records is: a delta bit and the id (16 bits when
+// the bit is set, else the previous id + 1), the type byte, and the object with that network id. An object with the right type byte (ObjectBase::unk_f8)
+// takes its incoming net struct (unk_104) loaded from the stream (NetStruct::Load, slot +0x14, with the member id and 0) when the packet is valid, else the
+// record is skipped (Erase, slot +0x1c). On the server (COnline::IsServer) a record for an object owned by another member is dropped when the owner
+// is unset and CanSendUpdate allows it, or when it is not a player character or carries the local player's own network id. An accepted record
+// runs InterpretIncomingNetStruct(headerPresent) (vtable +0x50), sets the owner (m_netOwnerId, +0x110) to the member and clears the timer (+0x114); a load
+// result other than NetStruct::LOAD_COMPLETE (2) keeps the id when unk_17c[member] lists it, and unk_194[member] listing it keeps the id too. A missing or
+// wrongly typed object is built from the type byte (1 Character, 2 Container, 3 Door, 4 Trigger; anything else ASSERTs ObjectManager.cpp:2144 and keeps the object
+// found, if any), its incoming net struct skips the record, a valid packet keeps the id, and the temporary object is deleted (slot +4); an object without
+// an incoming net struct is skipped. After the records: unk_17c[member] becomes the kept ids and unk_194[member] is emptied; a 1 bit gives the member's
+// resend byte (unk_c8) and, with a header, a resend byte that matches the header counter (unk_e0) sets unk_160; a final 1 bit with a valid packet
+// reads a count and that many ids into unk_164[member]. With no records the trailing fields are not read. An entry whose object cannot be used (a type
+// byte outside 1..4 with no object found) is skipped; the original dereferences it.
 void ObjectManager::LoadGameObjectNetData(int objectId, int member, NetBitStream& stream) {
     Level* currentLevel = ApplicationGetInstance().GetCurrentLevel();
     if (currentLevel == nullptr ||
@@ -169,9 +181,110 @@ void ObjectManager::LoadGameObjectNetData(int objectId, int member, NetBitStream
         if (headerPresent) {
             isPacketValid = (unk_b0[objectId] == headerByte);
         }
-        // NOT WRITTEN: the entry loop (see the row note).
+        constexpr int kLoadComplete = 2;  // NetStruct::LOAD_COMPLETE (ELF 0x90c278)
+        const std::int16_t key = static_cast<std::int16_t>(objectId);
+        std::list<std::int16_t> keptIds;  // v90
+        int id = 0;                       // v9
+        for (std::uint32_t entry = 0; entry < entryCount; ++entry) {
+            if (stream.ReadBit() != 0) {
+                id = static_cast<int>(stream.ReadU32(16));
+            } else {
+                ++id;
+            }
+            const std::uint32_t typeByte = stream.ReadByte(8);
+            ObjectHandle handle = GetObjectHandleByNetworkId(id);
+            ObjectBase* object = handle.GetObject(false);
+            bool created = false;
+            if (object == nullptr || object->unk_f8 != typeByte) {
+                created = true;
+                switch (typeByte) {
+                    case 1:
+                        object = new Character(static_cast<ObjectBase::GO_IDS>(0));
+                        break;
+                    case 2:
+                        object = new Container(static_cast<ObjectBase::GO_IDS>(20));
+                        break;
+                    case 3:
+                        object = new Door(static_cast<ObjectBase::GO_IDS>(2));
+                        break;
+                    case 4:
+                        object = new Trigger(static_cast<ObjectBase::GO_IDS>(20), false, true);
+                        break;
+                    default:
+                        ReportAssert("false", 2144);
+                        break;
+                }
+            }
+            if (object == nullptr) {
+                continue;
+            }
+            NetStruct* incoming = object->unk_104;
+            if (incoming == nullptr) {
+                continue;
+            }
+            if (created) {
+                incoming->Erase(stream);
+                if (isPacketValid) {
+                    keptIds.push_back(static_cast<std::int16_t>(id));
+                }
+                delete object;
+                continue;
+            }
+            if (!isPacketValid) {
+                incoming->Erase(stream);
+                continue;
+            }
+            const int loadResult = incoming->Load(stream, objectId, 0);
+            if (GetOnline()->IsServer()) {
+                int ownerId = object->m_netOwnerId;  // +0x110
+                bool checkOwner = true;
+                if (ownerId == -1) {
+                    if (!CanSendUpdate(object)) {
+                        checkOwner = false;
+                    } else {
+                        ownerId = object->m_netOwnerId;
+                    }
+                }
+                if (checkOwner && objectId != ownerId &&
+                    (!object->IsCharacter() || !object->IsPlayer() ||
+                     id == dword_99F76C->GetLocalPlayer(0, true)->unk_660->unk_108)) {
+                    continue;
+                }
+            }
+            object->InterpretIncomingNetStruct(headerPresent);  // vtable +0x50
+            object->m_netOwnerId = objectId;                    // +0x110
+            object->unk_114 = 0.0f;                             // +0x114
+            if (loadResult != kLoadComplete) {
+                if (unk_17c[key].count(static_cast<std::int16_t>(id)) != 0) {
+                    keptIds.push_back(static_cast<std::int16_t>(id));
+                }
+            }
+            if (unk_194[key].count(static_cast<std::int16_t>(id)) != 0) {
+                keptIds.push_back(static_cast<std::int16_t>(id));
+            }
+        }
+
+        unk_17c[key].clear();
+        unk_194[key].clear();
+        for (const std::int16_t keptId : keptIds) {
+            unk_17c[key].insert(keptId);
+        }
+        if (stream.ReadBit() != 0) {
+            unk_c8[objectId] = static_cast<std::int16_t>(stream.ReadByte(8));
+        }
+        if (headerPresent) {
+            if (unk_c8[objectId] >= 0 &&
+                static_cast<std::uint16_t>(unk_e0[objectId]) == static_cast<std::uint16_t>(unk_c8[objectId])) {
+                unk_160 = 1;
+            }
+        }
+        if (stream.ReadBit() != 0 && isPacketValid) {
+            const std::uint32_t resendCount = stream.ReadU32(16);
+            for (std::uint32_t i = 0; i < resendCount; ++i) {
+                unk_164[key].insert(static_cast<std::int16_t>(stream.ReadU32(16)));
+            }
+        }
     }
-    (void)isPacketValid;
 }
 
 // 0x347d90 ObjectManager::sReadPacketData(int,int,NetBitStream &)

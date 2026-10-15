@@ -74,7 +74,7 @@ void SoundEmitter::Update() {
     }
 
     // The Character's position is its GameObject::m_position (+0x160), read as three floats (v13..v15 in the original).
-    const Point3D<float> characterPos = localPlayer->unk_660->m_position;
+    Point3D<float> characterPos = localPlayer->unk_660->m_position;
 
     // Distance between the emitter and the character. The original computes the squared sum in float and takes the
     // square root in double, then rounds the result to float (__aeabi_f2d, sqrt, __aeabi_d2f).
@@ -92,7 +92,7 @@ void SoundEmitter::Update() {
         }
         m_playing = false;
         if (VoxSoundManager::s_instance != nullptr) {
-            VoxSoundManager::s_instance->Stop3D(m_soundId, 250, &characterPos.X, m_distMax);
+            VoxSoundManager::s_instance->Stop3D(m_soundId, 250, &characterPos, m_distMax);
         }
         if (m_playing) {
             // The original returns here when the stop call sets the flag again.

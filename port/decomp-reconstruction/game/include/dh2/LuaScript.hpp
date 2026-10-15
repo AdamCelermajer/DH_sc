@@ -76,6 +76,7 @@ public:
     static void _SetGameType(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* self);
 
     static int s_numCalls;                             // incremented by every Call() that reaches Lua
+    static bool s_dumpCallList;                        // ELF 0x9a2404 (1 byte, .bss): GSLevel::Update clears it and sets it when the Lua_DumpCalls debug switch is on; nothing else reads it
 
     // ---- members (original 32-bit offsets) ----
     // +0x00 vptr

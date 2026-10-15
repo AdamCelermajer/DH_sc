@@ -28,6 +28,7 @@ namespace glitch {
 class IReferenceCounted;
 namespace video {
 class CMaterial;
+class CMaterialRenderer;
 class IVideoDriver;
 }  // namespace video
 namespace io {
@@ -53,7 +54,7 @@ public:
                                                                     //   m_specularEnabled (+0x431: specular suffix) and m_fogEnabled (+0x432: fog on, EnableFog sets it, DisableFog clears it, UpdateFog reads it).
                                                                     // The LightBase* vector at SceneManager +0x424 (begin +0x424, end +0x428, cap +0x42c; appended to by LightBase::InitPost 0x40b0c0 for
                                                                     // automatic lights) is m_lightSetManager.unk_190.
-    glitch::IReferenceCounted* unk_438;                             // +0x438 reference-counted object, dropped and cleared by clear()
+    glitch::scene::ISceneNode* m_skyBox;                            // +0x438 the sky box node (SkyBoxMeshSceneNode) built by AddSkyBoxSceneNode: removed and dropped when replaced, dropped and cleared by clear()
     bool unk_43c;                                                   // +0x43c cleared by the ctor
     int m_registerCounter;                                          // +0x440 incremented by _registerSceneNodes, reset when the nodes are registered
     int m_registerInterval;                                         // +0x444 set to 4 by the ctor; _registerSceneNodes registers when the counter is a multiple of it
@@ -62,8 +63,8 @@ public:
     float unk_458;                                                  // +0x458 cleared by the ctor; Level::_LoadProcess copies LevelConfig fog_direction_mask X here, Level::Update scales the fog distance by it
     float unk_45c;                                                  // +0x45c cleared by the ctor; fog_direction_mask Y
     float unk_460;                                                  // +0x460 set to 1.0f by the ctor
-    uint8_t pad_464[0x0c];                                          // +0x464 vector of CSceneManager::SDefaultNodeEntry (begin, end, cap); destroyed by ~SceneManager, element type in the engine base
-    uint8_t pad_470[0x0c];                                          // +0x470 vector of CSceneManager::SDefaultNodeEntry (begin, end, cap); destroyed by ~SceneManager
+    std::vector<glitch::scene::CSceneManager::SDefaultNodeEntry> m_gameNodes464;   // +0x464 (begin, end, cap) game render list of pass 9 (registerNodeForCustomRendering); destroyed by ~SceneManager
+    std::vector<glitch::scene::CSceneManager::SDefaultNodeEntry> m_gameNodes470;   // +0x470 (begin, end, cap) game render list of pass 10; destroyed by ~SceneManager
     void** m_batchBegin;                                            // +0x47c begin of a GlitchAlloc block of batch node pointers, freed by ~SceneManager
     void** m_batchEnd;                                              // +0x480 end of the batch list, walked by _registerSceneNodes
     void** m_batchCap;                                              // +0x484 end of storage of the batch list
@@ -82,7 +83,7 @@ public:
     virtual void registerSkinnedMesh(SkinnedMeshSceneNodeEx* mesh); // slot 0x94: 0x353afc
     // The base's pure slot (registerSkinnedMesh(void*)) is the same slot 0x94; this overload forwards to the typed one above.
     void registerSkinnedMesh(void* skinnedMeshNode) override;
-    virtual void registerNodeForCustomRendering(glitch::scene::ISceneNode* node,
+    virtual int registerNodeForCustomRendering(glitch::scene::ISceneNode* node,
                                                 const boost::intrusive_ptr<glitch::video::CMaterial>& material,
                                                 void* userData, std::uint32_t pass,
                                                 const glitch::core::vector3d<float>* position, int sortOrder);   // slot 0x98: 0x35a3d8
@@ -167,7 +168,7 @@ public:
     boost::intrusive_ptr<glitch::video::CMaterial> GetMaterial(glitch::scene::ISceneNode* node, const char* name, bool flag);   // 0x359c60: null when the node or the name is null, else the string overload
 
     // Loading. LoadScene returns the loaded root (null when it fails).
-    void LoadFXLib(const char* fileA, const char* fileB);           // 0x3594a4
+    boost::intrusive_ptr<glitch::video::CMaterialRenderer> LoadFXLib(const char* file, const char* effectName);   // 0x3594a4: the effect's renderer, counted
     glitch::scene::ISceneNode* LoadScene(const char* file, const char* nodeName, bool flagA, bool flagB);   // 0x3596f8
     void AddSkyBoxSceneNode(const char* fileA, const char* fileB);  // 0x359a38
     void PreloadScene(const char* fileA, const char* fileB);        // 0x359b68: loads a scene and appends its root to m_loadedScenes

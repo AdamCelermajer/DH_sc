@@ -52,7 +52,12 @@
 #include "dh2/global/ObjectManagerInstance.hpp"    // dword_99F764, the ObjectManager instance
 #include "dh2/global/net_singletons.hpp"           // GetOnlineGameFlag
 #include "core-platform/lc_api.hpp"
+#include "dh2/ScriptManager.hpp"
 #include "net-session-online/c_matching_base.hpp"  // CMatching::Get, LocalMemberId
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "net-transport/connection_manager.hpp"
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_struct.hpp"
 #include "net-transport/packet_manager.hpp"        // CPacketManager::SequenceMoreRecent
@@ -366,13 +371,11 @@ void ObjectManager::RemoveNoRoomObject(GameObject* object) {
 // Serialize into a sub-stream), the count of written records (16 bits), the sub-stream, and the resend set (a 1 bit,
 // the set size and each id, or a 0 bit).
 // Records that do not fit the sub-stream (its flags set) are reverted and kept in unk_108[memberId] for the next packet.
-// PARTIAL. Not written:
-//   - the hosting branch's CMsgScriptCmd messages to the member, one per running script (ScriptManager::s_inst,
-//     IsScriptRunning, GetScriptModule and CMessaging::SendMsgTo). CMessage::CreateMessage is declared with an int type
-//     id and the pseudocode's message fields are not declared, so the sends wait on those declarations.
-//   - the tail when unk_fd is set (the original tests the last connected member id with GetConnMemberIdList and then
-//     calls DoOnlineStateFlush and clears unk_fd). GetConnMemberIdList takes a bool argument that the pseudocode does
-//     not show, so the call waits on that argument.
+// The hosting branch, when no objects are pending, first tells the member about every running script: for each script id whose
+// ScriptManager::IsScriptRunning is true, a CMsgScriptCmd (command 4, the script id, the script's module) is sent to the member
+// (CMessaging::SendMsgTo). When unk_fd is set, the packet's end checks whether this member is the last of the connected member ids
+// (CConnectionManager::GetConnMemberIdList(false)) and then flushes the online state (DoOnlineStateFlush) and clears unk_fd; an empty
+// list (the original reads the element before its begin) does nothing. The early return for a full packet skips that tail.
 void ObjectManager::SerializeGameObjectNetData(int memberId, int packetId, NetBitStream& stream) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     stream.WriteByte(static_cast<std::uint8_t>(level->m_levelListIndex), 8);
@@ -408,8 +411,20 @@ void ObjectManager::SerializeGameObjectNetData(int memberId, int packetId, NetBi
     if (!pending.empty()) {
         source = &pending;  // the objects that were deferred by the last packet go first, unchanged
     } else if (hosting) {
-        // SEAM: the script-command messages to this member are not written (see the header comment).
         const int localMember = CMatching::Get()->LocalMemberId();  // v117: vtable +0x6c
+        const int scriptCount = static_cast<int>(ScriptManager::s_inst.m_cmds.size());
+        for (int scriptId = 0; scriptId < scriptCount; ++scriptId) {
+            if (!ScriptManager::s_inst.IsScriptRunning(scriptId)) {
+                continue;
+            }
+            const int module = ScriptManager::s_inst.GetScriptModule(scriptId);
+            CMessaging* messaging = CMessaging::GetInstance();
+            CMsgScriptCmd* command = static_cast<CMsgScriptCmd*>(CMessage::CreateMessage("CMsgScriptCmd", true));
+            command->scriptId_ = scriptId;  // +0x54
+            command->module_ = module;      // +0x58
+            command->command_ = 4;          // +0x50
+            messaging->SendMsgTo(command, memberId);
+        }
         for (ObjectBase* object : unk_100) {
             if (object == nullptr || object->m_netStruct == nullptr) {
                 continue;
@@ -504,7 +519,13 @@ void ObjectManager::SerializeGameObjectNetData(int memberId, int packetId, NetBi
         stream.WriteBit(0);
     }
 
-    // SEAM: when unk_fd is set, the connected member list tail is not written (see the header comment).
+    if (unk_fd != 0) {
+        const std::vector<int> connectedMembers = GetConnectionMgr()->GetConnMemberIdList(false);
+        if (!connectedMembers.empty() && connectedMembers.back() == memberId) {
+            DoOnlineStateFlush();
+            unk_fd = 0;
+        }
+    }
 }
 
 // 0x347074 ObjectManager::sWritePacketData(int,int,NetBitStream&)

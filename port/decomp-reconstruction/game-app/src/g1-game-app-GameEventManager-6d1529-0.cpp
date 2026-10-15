@@ -7,9 +7,12 @@
 #include "dh2/GameEventManager.hpp"
 
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 
 #include "dh2/GameEvent.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/w7_structs_1.hpp"
 #include "dh2/global/runtime_support.hpp"
 
 // 0x4796f0 GameEventManager::GetEventByID(int) const
@@ -60,22 +63,10 @@ void GameEventManager::DBG_TraceDetailedInformation() const {
 }
 
 // 0x479848 GameEventManager::GetEventByName(char const*) const
-// partial: the original searches the name table Arrays::v2Events::m_memberNames for the first row whose name
-// is equal (strcmp, 0 when equal), bounded by Arrays::v2Events::size, and returns GetEventByID of that row.
-// That table is declared in pydata-accessors/member_names.hpp, and its struct Arrays::v2Events cannot share a
-// translation unit with the w7_arrays_02.hpp declaration of members and size, so the name table is not read
-// here. The search runs over the events instead, comparing GameEvent::m_name (+0x08, copied from the table
-// by GameEventManager::Load). The first event whose name is equal is returned. That gives the same result as
-// the original as long as the events are in table order, which Load makes true. Load is partial, so until it
-// is complete no event has a name and this returns null.
+// Searches the name table Arrays::v2Events::m_memberNames, over the first Arrays::v2Events::size names, for the first one equal to the name (strcmp),
+// and returns GetEventByID of that row; -1 when there is none (GetEventByID answers null for it).
 GameEvent* GameEventManager::GetEventByName(const char* name) const {
-    for (std::size_t i = 0; i < m_events.size(); ++i) {
-        GameEvent* ev = m_events[i];
-        if (ev && ev->m_name && std::strcmp(name, ev->m_name) == 0) {
-            return ev;
-        }
-    }
-    return nullptr;
+    return GetEventByID(pydata::FindMemberName(Arrays::v2Events::m_memberNames, static_cast<int>(Arrays::v2Events::size), name));
 }
 
 // 0x4798c8 GameEventManager::Update()
@@ -138,21 +129,24 @@ GameEventManager::~GameEventManager() {
 GameEventManager::GameEventManager() {}
 
 // 0x479e5c GameEventManager::Load()
-// partial: the early exit is exact. The original builds one GameEvent per row of Arrays::v2Events, and that
-// loop is not written. It needs three things that cannot be read together yet:
-//   - Arrays::v2Events::size and ::members (w7_arrays_02.hpp) and Arrays::v2Events::m_memberNames
-//     (member_names.hpp). Both files define struct Arrays::v2Events, so one translation unit cannot include
-//     both (see the note on GetEventByName).
-//   - the row element. The row stride is not settled: array_strides.hpp gives a listing stride of 24, and
-//     w7_structs_1.hpp describes Structs::v2Event as a class with a vtable and a 44-byte stride. Without a
-//     host element type, the row pointer for AssignPyData cannot be built.
-// Until the loop is written the list stays empty, so GetEventByID returns null. The loop must not run with
-// null entries: LoopOnAllEvents calls each entry without a null check.
+// With events already loaded nothing happens. Otherwise the list is sized to one entry per row of Arrays::v2Events, and for each row a GameEvent is
+// built: index i, the row's name from the member name table, AssignPyData with the row (host-sized Structs::v2Event elements), then ReInit;
+// the event is stored at slot i.
 void GameEventManager::Load() {
     if (!m_events.empty()) {
         return;
     }
-    // PARTIAL: the per-row loop (see above) is not written.
+    const std::uint32_t count = Arrays::v2Events::size;
+    m_events.resize(count);
+    Structs::v2Event* rows = reinterpret_cast<Structs::v2Event*>(Arrays::v2Events::members);
+    for (std::uint32_t i = 0; i < count; ++i) {
+        GameEvent* event = new GameEvent();
+        event->m_index = static_cast<int32_t>(i);
+        event->m_name = Arrays::v2Events::m_memberNames.names[i];
+        event->AssignPyData(&rows[i]);
+        event->ReInit();
+        m_events[i] = event;
+    }
 }
 
 // 0x479f34 GameEventManager::~GameEventManager() (D2, base-object destructor)

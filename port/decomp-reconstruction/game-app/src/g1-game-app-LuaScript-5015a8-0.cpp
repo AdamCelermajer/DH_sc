@@ -25,6 +25,7 @@
 // Number of Call() invocations that reached Lua. Data, not a function; defined here because the Call bodies
 // of this batch increment it.
 int LuaScript::s_numCalls = 0;
+bool LuaScript::s_dumpCallList = false;
 
 // 0x37b568 LuaScript::_IncludePyCst(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // Empty body (asm: BX LR).

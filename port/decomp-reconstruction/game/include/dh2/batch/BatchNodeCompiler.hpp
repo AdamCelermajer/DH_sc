@@ -13,6 +13,8 @@
 #include <map>
 #include <vector>
 
+#include "glitch-video/compile_callbacks.hpp"
+
 class GameObject;
 
 namespace glitch {
@@ -32,14 +34,14 @@ class BatchNodeCompiler {
 public:
     // Segment callback for the batch mesh. It is embedded in BatchNodeCompiler at +0x04. The offsets on the members
     // below are relative to the callback, so the callback's +0x04 is the compiler's +0x08 and its +0x08 is the compiler's +0x0c.
-    class SGameObjectLinkedCallback {
+    class SGameObjectLinkedCallback : public glitch::scene::ISegmentCompileCallback {
     public:
         // Complete dtor (slot 0x00, 0x3ef180) has an empty body. Deleting dtor (slot 0x04, 0x3ef394) stores the vptr and frees the object.
-        virtual ~SGameObjectLinkedCallback();
+        ~SGameObjectLinkedCallback() override;
         // Looks up the current rendered node in the owner's m_nodeObjects and writes the GameObject* (or null)
         // into the segment. Then it sets the visible byte of that object. Slot 0x08: 0x3efe58.
-        virtual void operator()(glitch::scene::CBatchMesh* mesh, void* segmentData,
-                                const glitch::scene::SCompileInfo& info);
+        void operator()(glitch::scene::CBatchMesh* mesh, void* segmentData,
+                        const glitch::scene::SCompileInfo& info) override;
 
         glitch::scene::CSceneManager* m_sceneManager;                   // +0x04 (BatchNodeCompiler +0x08), asked for the current rendered node
         BatchNodeCompiler* m_compiler;                                  // +0x08 (BatchNodeCompiler +0x0c), owner of m_nodeObjects

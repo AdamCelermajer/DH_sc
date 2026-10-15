@@ -26,6 +26,8 @@
 #include "dh2/LuaManager.hpp"
 #include "dh2/LuaScript.hpp"
 #include "dh2/Mouse.hpp"
+#include "dh2/sfc/script/lua/Error.hpp"
+#include "dh2/sfc/script/lua/Instance.hpp"
 #include "core-platform/deps/application.hpp"
 #include "net-transport/stream_buffer.hpp"
 
@@ -190,16 +192,14 @@ LuaManager::~LuaManager() {
 // Skipped: compiler-generated base-object destructor. Same body as the D1 at 0x37a0ac, which covers both.
 
 // 0x37b23c LuaManager::AddFile(LuaScript*, char const*)
-// PARTIAL. Waits on dh2/sfc/script/lua/Instance.hpp and its sfc::script::lua::Error, neither of which exists yet.
-// Reproduced: the null-script and empty-name checks; the buffered name (the script's directory at +0x68 plus the file name,
-// with ".lua" becoming ".luac"); the check against the script's loaded set at +0x80; the lookup in m_bufferedFiles; for a
-// new name, the open through the application file system (ApplicationOpenStream, slot +0x88), the StreamBuffer that
-// copies the stream into the map, and the close (slot +0x78); for an existing buffer, seek(0).
-// Not reproduced: the Lua load. The original calls sfc::script::lua::Instance::loadFile(StreamBuffer&) on the script's
-// Instance at +0x04. On error it returns 0. On success it adds the name to the loaded set and returns 1. This function
-// returns false after buffering, so the name is never recorded and the load step is missing.
-// A null script faults in the original. At gAssertLevel 2 it aborts (the original stores through null). At level 1 it
-// prints the ASSERT line. The function then returns false, which the original never does.
+// A null script fails ASSERT(script) (LuaManager.cpp:35; abort at level 2, the original stores through null) and the call goes on to the
+// script's members, which faults in the original; here it returns false. An empty or null file name returns false. The buffered name is the
+// script's directory plus the file name, with ".lua" becoming ".luac" (a name with ".lua" gets "c" appended unless ".luac" follows; a name
+// without ".lua" gets ".luac"). A name already in the script's loaded set (+0x80) returns true without loading. Otherwise the file's bytes are
+// buffered in m_bufferedFiles (opened through the application file system, copied into a StreamBuffer and closed; an existing buffer is rewound),
+// a file that does not open returns false, a null buffer fails ASSERT(sbuffer) (LuaManager.cpp:97), the buffer is loaded and run on the script's
+// Lua instance (+0x04, Instance::loadFile(StreamBuffer&)), a load error returns false, and on success the name joins the loaded set and
+// true is returned.
 bool LuaManager::AddFile(LuaScript* script, const char* file) {
     if (script == nullptr) {
         if (gAssertLevel == 2) {
@@ -255,9 +255,12 @@ bool LuaManager::AddFile(LuaScript* script, const char* file) {
         return false;
     }
 
-    // Missing: the Lua load and the insert into the loaded set (see the comment above). Returning false keeps the name
-    // out of the set.
-    return false;
+    sfc::script::lua::Error error = script->m_instance.loadFile(*buffer);
+    if (error.m_status != 0) {
+        return false;
+    }
+    script->unk_80.insert(path);
+    return true;
 }
 
 // 0x34c98c Mouse::UpdateFrame(float)

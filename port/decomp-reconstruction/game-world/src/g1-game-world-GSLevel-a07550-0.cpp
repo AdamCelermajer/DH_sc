@@ -150,11 +150,11 @@ void GSLevel::Draw(const StateMachine* /*machine*/) {
     MenuManager::GetInstance()->Draw(m_phase > 3);
 }
 
-// 0x386630 GSLevel::Update(StateMachine *,double)
-// PARTIAL. The load phases (m_phase 1..4), the debug-switch check in phase 4 and the MenuManager::Update(true)
-// gate are reconstructed. Not written: the two stores to LuaScript::s_dumpCallList (1 byte, ELF 0x9a2404).
-// dh2/LuaScript.hpp does not declare that static (layout request). Both stores sit in the phase 4 flow and are
-// marked below.
+// 0x386630 GSLevel::Update(StateMachine*, double)
+// Unless the application's byte at +0xec is set: phase 1 moves to phase 2; phase 2 loads the level and moves to 3; phase 3 updates the
+// level and moves to 4 once the level reaches load step 38; phase 4 clears LuaScript::s_numCalls and s_dumpCallList, sets s_dumpCallList
+// and clears the switch when the Lua_DumpCalls debug switch is on, and updates the level. MenuManager::Update(true) then runs when there
+// is no level, or the level is not in transition and its load step is 1 or lower or above 26.
 //
 // The switch key is "Lua_DumpCalls", the literal at ELF 0x8c1ff8. The asm passes the end pointer (literal + 0x0d)
 // to std::string::_M_range_initialize clone.2_0, which takes only that end pointer: the clone reads the start from
@@ -180,12 +180,12 @@ void GSLevel::Update(StateMachine* /*machine*/, double /*dt*/) {
         break;
     case 4: {
         LuaScript::s_numCalls = 0;
-        // PARTIAL: LuaScript::s_dumpCallList = 0 (layout request).
+        LuaScript::s_dumpCallList = false;
         DebugSwitches::s_inst.load();
         const std::string key("Lua_DumpCalls");  // the literal at ELF 0x8c1ff8, see the note above Update
         const bool dumpCalls = DebugSwitches::s_inst.GetSwitch(key);
         if (dumpCalls) {
-            // PARTIAL: LuaScript::s_dumpCallList = 1 (layout request).
+            LuaScript::s_dumpCallList = true;
             DebugSwitches::s_inst.load();
             DebugSwitches::s_inst.SetSwitch(key, false);
         }

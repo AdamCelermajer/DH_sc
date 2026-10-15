@@ -26,7 +26,7 @@ public:
     ~Tile();                                                        // 0x4914e8 / 0x491500
 
     bool TryPlaceTile(int x, int y);                                // 0x4913d0 (the recovered body returns true)
-    void PlaceTile(int x, int y, float z);                          // 0x4913d8 (stores x, y, z, then Block::PlaceInMap)
+    bool PlaceTile(int x, int y, float z);                          // 0x4913d8 (stores x, y, z, returns Block::PlaceInMap)
     void AddChild(Tile* child);                                     // 0x491428
     void RemoveChild(Tile* child);                                  // 0x491440
     void Print();                                                   // 0x4914ac (visits the children; the release body prints nothing)

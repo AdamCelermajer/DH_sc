@@ -67,7 +67,7 @@ RandomGenerator* Rule::GetApp() const {
 Tile* Tile::NewRoot(RandomGenerator& /*generator*/, Block& /*block*/, ListElem& /*elem*/) {
     return nullptr;
 }
-void Tile::PlaceTile(int /*x*/, int /*y*/, float /*z*/) {}
+bool Tile::PlaceTile(int /*x*/, int /*y*/, float /*z*/) { return true; }
 void Tile::Unspawn() {}
 
 // Rule::Impl and its derived nodes (batches -2 and -4). The key destructors give the vtables their home in this link.

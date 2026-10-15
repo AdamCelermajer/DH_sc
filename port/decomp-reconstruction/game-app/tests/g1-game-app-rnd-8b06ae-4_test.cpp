@@ -36,7 +36,7 @@ Rule::Impl::Impl(const Rule& rule, Impl* parent)
 
 // Rule's destructor is written by batch -5; the derived destructors here call it as a base.
 Rule::~Rule() {}
-void Rule::LoadFromXml(TiXmlNode*) {}
+bool Rule::LoadFromXml(TiXmlNode*) { return true; }
 void Rule::Unload() {}
 RootRule* Rule::GetRootRule() { return nullptr; }
 void Rule::Impl::FilterExits(std::vector<std::pair<const Exit*, ListElem>>&, ListRule*&) {}
@@ -44,13 +44,13 @@ int Rule::Impl::OneStep(Tile*, const Exit*, const Exit*) { return 0; }
 bool Rule::Impl::Step(Tile*, const Exit*) { return false; }
 RootRule* Rule::Impl::GetRootRule() { return nullptr; }
 
-void RootRule::LoadFromXml(TiXmlNode*) {}
+bool RootRule::LoadFromXml(TiXmlNode*) { return true; }
 void RootRule::Unload() {}
 RootRule::Impl::Impl(const RootRule& root) : Rule::Impl(root, nullptr), m_rootRule(&root) {}
 void RootRule::Impl::FilterExits(std::vector<std::pair<const Exit*, ListElem>>&, ListRule*&) {}
 
 Rule::Impl* Path::NewImpl(Rule::Impl*) const { return nullptr; }
-void Path::LoadFromXml(TiXmlNode*) {}
+bool Path::LoadFromXml(TiXmlNode*) { return true; }
 void Path::Impl::FilterExits(std::vector<std::pair<const Exit*, ListElem>>&, ListRule*&) {}
 int Path::Impl::OneStep(Tile*, const Exit*, const Exit*) { return 0; }
 
@@ -58,7 +58,7 @@ Rule::Impl* EndPath::NewImpl(Rule::Impl*) const { return nullptr; }
 int EndPath::Impl::OneStep(Tile*, const Exit*, const Exit*) { return 0; }
 
 Rule::Impl* ForceBlock::NewImpl(Rule::Impl*) const { return nullptr; }
-void ForceBlock::LoadFromXml(TiXmlNode*) {}
+bool ForceBlock::LoadFromXml(TiXmlNode*) { return true; }
 void ForceBlock::Impl::FilterExits(std::vector<std::pair<const Exit*, ListElem>>&, ListRule*&) {}
 
 }  // namespace rnd

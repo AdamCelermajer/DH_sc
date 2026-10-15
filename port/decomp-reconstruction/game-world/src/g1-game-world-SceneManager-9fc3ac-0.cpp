@@ -26,6 +26,23 @@
 
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "core-platform/w7_global_01.hpp"
+#include "dh2/Application.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/texture.hpp"
+#include "glitch-video/texture_manager.hpp"
+#include "glitch-video/global_parameter_manager.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/video_driver.hpp"
+
+namespace {
+// The text of the material's shared-string name (CMaterial +0x1c, text at +4). An unnamed material gives the empty string; the
+// original passes the null pointer on to its string calls here.
+const char* MaterialName(const glitch::video::CMaterial& material) {
+    return material.m_hasName ? material.m_nameText.c_str() : "";
+}
+}  // namespace
 
 // 0x350e5c _ZN12SceneManager12SearchByTypeEPN6glitch5scene10ISceneNodeERSt6vectorIS3_NS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEENS1_17E_SCENE_NODE_TYPEE
 // Appends the nodes of the given type below root to out. The original makes a virtual call through vptr+0x20, which is
@@ -72,95 +89,93 @@ std::uint32_t SceneManager::setSceneNodeCustomRenderPass(std::uint32_t pass) {
 }
 
 // 0x352154 _ZN12SceneManager14DBG_DrawCircleERK7Point2DIfEffRKN6glitch5video6SColorE
-// partial. Sixteen segments of 22.5 degrees at height z, radius in the XY plane. The original keeps (cos, sin) of the
-// previous and the current point. The first previous point is angle 0, and the first current point is 22.5 degrees,
-// stored as the constants 0.92388 and 0.38268. After each segment the next current point is cosf and sinf of the
-// accumulated angle plus one step. The original draws each segment with a virtual draw3DLine call on the driver
-// (IVideoDriver vptr+0x1c, with the start point, the end point and the colour). That call is missing: the stand-in
-// IVideoDriver declares no members.
+// Sixteen segments of 22.5 degrees at height z, radius in the XY plane. The original keeps (cos, sin) of the previous and the
+// current point. The first previous point is angle 0, and the first current point is 22.5 degrees, stored as the constants
+// 0.92388 and 0.38268. After each segment the next current point is cosf and sinf of the accumulated angle plus one step.
+// Each segment is drawn with the driver's draw3DLine (vptr+0x1c) with the colour packed as little-endian bytes.
 void SceneManager::DBG_DrawCircle(const Point2D<float>& center, float z, float radius,
                                   const glitch::video::SColor& color) {
-    float prevCos = 1.0f;
+    glitch::video::IVideoDriver* videoDriver = driver;     // +0x14
     float prevSin = 0.0f;
-    float curCos = 0.92388f;
     float curSin = 0.38268f;
+    float curCos = 0.92388f;
+    float prevCos = 1.0f;
     float angle = 0.0f;
-    for (int i = 0; i < 16; ++i) {
-        const float fromX = center.X + radius * prevCos;
-        const float fromY = center.Y + radius * prevSin;
+    for (int i = 0; i < 16;) {
+        const glitch::core::vector3d<float> from{center.X + radius * prevCos, center.Y + radius * prevSin, z};
         angle = angle + 0.3927f;
-        const float toX = center.X + radius * curCos;
-        const float toY = center.Y + radius * curSin;
-        (void)fromX;
-        (void)fromY;
-        (void)toX;
-        (void)toY;
-        (void)z;
-        (void)color;
-        if (i == 15) {
+        const glitch::core::vector3d<float> to{center.X + radius * curCos, center.Y + radius * curSin, z};
+        ++i;
+        videoDriver->draw3DLine(from, to, color);
+        if (i == 16) {
             break;
         }
-        const float nextCos = std::cos(angle + 0.3927f);
-        const float nextSin = std::sin(angle + 0.3927f);
-        prevCos = curCos;
+        const float nextCos = cosf(angle + 0.3927f);
+        const float nextSin = sinf(angle + 0.3927f);
         prevSin = curSin;
-        curCos = nextCos;
+        prevCos = curCos;
         curSin = nextSin;
+        curCos = nextCos;
     }
 }
 
 // 0x3522f8 _ZN12SceneManager9UpdateFogEffRK7Point3DIfE
-// partial. When the fog flag is set, the original stores {start, end} as a vector2d<float> with the typed setter on the
-// driver's global parameter manager (IVideoDriver +0xe4), under the parameter ID at IVideoDriver +0xfa plus two. The
-// store is missing: the typed setter is not defined, and the driver members are not visible here. The position argument
-// is not read.
+// When the fog flag (+0x432) is set, stores {start, end} as a vector2d<float> at element 0 of the global parameter FogColor0 + 2
+// (the id at IVideoDriver +0xfa plus two) on the driver's global parameter manager (IVideoDriver +0xe4). The position is not read.
 void SceneManager::UpdateFog(float start, float end, const Point3D<float>& position) {
     (void)position;
-    if (!m_lightSetManager.m_fogEnabled) {
-        return;
+    if (m_lightSetManager.m_fogEnabled) {
+        glitch::video::IVideoDriver* videoDriver = driver;   // +0x14
+        const glitch::core::vector2d<float> range{start, end};
+        videoDriver->m_globalParameters->setParameter<glitch::core::vector2d<float>>(
+            static_cast<std::uint16_t>(videoDriver->m_fogColorIds[0] + 2), 0u, range);
     }
-    (void)start;
-    (void)end;
 }
 
 // 0x35233c _ZN12SceneManager9EnableFogEffRK7Point3DIfEPN6glitch5scene10ISceneNodeE
-// partial. Sets the fog flag. The original then stores {start, end} as a vector2d<float> at the parameter ID
-// IVideoDriver +0xfa + 2, and the colour as an SColor at the parameter ID IVideoDriver +0xfa, both through the typed global
-// setter (not defined here). The colour bytes are (uint8)(uint32) of color.X, color.Y, color.Z, and 0. The node argument is
-// not read.
+// Sets the fog flag, stores {start, end} at the global parameter FogColor0 + 2 and the colour at FogColor0 (both element 0,
+// through the typed global setter). The colour bytes are (uint8)(uint32) of color.X, color.Y, color.Z, and 0. The node is not read.
 void SceneManager::EnableFog(float start, float end, const Point3D<float>& color,
                              glitch::scene::ISceneNode* node) {
     (void)node;
-    m_lightSetManager.m_fogEnabled = true;
+    glitch::video::IVideoDriver* videoDriver = driver;   // +0x14
+    const glitch::core::vector2d<float> range{start, end};
+    m_lightSetManager.m_fogEnabled = true;                // +0x432
+    videoDriver->m_globalParameters->setParameter<glitch::core::vector2d<float>>(
+        static_cast<std::uint16_t>(videoDriver->m_fogColorIds[0] + 2), 0u, range);
     const std::uint8_t r = static_cast<std::uint8_t>(static_cast<std::uint32_t>(color.X));
     const std::uint8_t g = static_cast<std::uint8_t>(static_cast<std::uint32_t>(color.Y));
     const std::uint8_t b = static_cast<std::uint8_t>(static_cast<std::uint32_t>(color.Z));
-    (void)start;
-    (void)end;
-    (void)r;
-    (void)g;
-    (void)b;
+    glitch::video::SColor fogColor;
+    fogColor.color = static_cast<std::uint32_t>(r) | (static_cast<std::uint32_t>(g) << 8) | (static_cast<std::uint32_t>(b) << 16);   // alpha byte 0
+    videoDriver->m_globalParameters->setParameter<glitch::video::SColor>(videoDriver->m_fogColorIds[0], 0u, fogColor);
 }
 
 // 0x3523c4 _ZN12SceneManager12SetCustomFogERN5boost13intrusive_ptrIN6glitch5video9CMaterialEEENS2_4core8vector3dIfEES9_S9_
-// partial. The original looks up the parameters fogDirectionMask, fogCameraMask and fogCameraOffset on the material's
-// renderer (CMaterialRenderer::getParameterID) and stores a, b and c into them with setParameter<vector3d<float>>, each when
-// its ID is not 0xFFFF. The lookups and the stores are missing: CMaterial and CMaterialRenderer are stand-ins here.
+// Looks up fogDirectionMask, fogCameraMask and fogCameraOffset on the material's renderer (CMaterialRenderer::getParameterID)
+// and stores a, b and c into them (setParameter<vector3d<float>>, element 0), each when its ID is not 0xFFFF.
 void SceneManager::SetCustomFog(boost::intrusive_ptr<glitch::video::CMaterial>& material,
                                 glitch::core::vector3d<float> a, glitch::core::vector3d<float> b,
                                 glitch::core::vector3d<float> c) {
-    (void)material;
-    (void)a;
-    (void)b;
-    (void)c;
+    const std::uint16_t directionMask = material->m_renderer->getParameterID("fogDirectionMask", 0);   // +0x04 renderer
+    const std::uint16_t cameraMask = material->m_renderer->getParameterID("fogCameraMask", 0);
+    const std::uint16_t cameraOffset = material->m_renderer->getParameterID("fogCameraOffset", 0);
+    if (directionMask != 0xFFFF) {
+        material->parameters.setParameter<glitch::core::vector3d<float>>(directionMask, 0u, a);
+    }
+    if (cameraMask != 0xFFFF) {
+        material->parameters.setParameter<glitch::core::vector3d<float>>(cameraMask, 0u, b);
+    }
+    if (cameraOffset != 0xFFFF) {
+        material->parameters.setParameter<glitch::core::vector3d<float>>(cameraOffset, 0u, c);
+    }
 }
 
 // 0x3524a0 _ZN12SceneManager12AddNodeToMapEPN6glitch5scene10ISceneNodeE
-// partial. On first use it creates the node-map root (CEmptySceneNode(-1)), adds it to the root node, drops the creator's
-// reference, and hides it (setVisible(false), vptr+0x48). The node gains a reference. A node that has a parent is moved to
-// its absolute position (setPosition, vptr+0xa4) and removed from its parent (remove, vptr+0x68). The node is then added to
-// the map root (addChild, vptr+0x5c), and the reference taken above is dropped. Missing: the original calls
-// OptimizeStatic(node) before the add, and OptimizeStatic has no declaration in this tree.
+// On first use it creates the node-map root (CEmptySceneNode(-1)), adds it to the root node, drops the creator's reference, and
+// hides it (setVisible(false), vptr+0x48). The node gains a reference. A node that has a parent is moved to its absolute position
+// (setPosition, vptr+0xa4) and removed from its parent (remove, vptr+0x68). OptimizeStatic(node) runs, then the node is added to
+// the map root (addChild, vptr+0x5c), and the reference taken above is dropped.
 void SceneManager::AddNodeToMap(glitch::scene::ISceneNode* node) {
     if (!m_nodeMapRoot) {
         m_nodeMapRoot = new glitch::scene::CEmptySceneNode(-1);
@@ -173,58 +188,94 @@ void SceneManager::AddNodeToMap(glitch::scene::ISceneNode* node) {
         node->setPosition(node->getAbsolutePosition());
         node->remove();
     }
+    OptimizeStatic(node);
     m_nodeMapRoot->addChild(node);
     node->drop();
 }
 
 // 0x3525b4 _ZN12SceneManager18SetMaterialTextureEN5boost13intrusive_ptrIN6glitch5video9CMaterialEEES5_
-// partial. The original looks up the Diffuse parameter of the target and of the texture material. When both exist (neither
-// is 0xFFFF; the assembly tests both against MOVW #0xFFFF), it reads the texture material's Diffuse texture
-// (getParameter<intrusive_ptr<ITexture>>) and, when it is non-null, stores it into the target's Diffuse
-// (setParameter<intrusive_ptr<ITexture>>). Missing: the lookups and the typed getter and setter. CMaterial and
-// CMaterialRenderer are stand-ins here.
+// Looks up Diffuse on the texture material's renderer and on the target's. When neither is 0xFFFF, reads the texture material's
+// Diffuse texture and, when it is non-null, stores it into the target's Diffuse.
 void SceneManager::SetMaterialTexture(boost::intrusive_ptr<glitch::video::CMaterial> target,
                                       boost::intrusive_ptr<glitch::video::CMaterial> texture) {
-    (void)target;
-    (void)texture;
+    const std::uint16_t textureId = texture->m_renderer->getParameterID("Diffuse", 0);
+    const std::uint16_t targetId = target->m_renderer->getParameterID("Diffuse", 0);
+    if (targetId != 0xFFFF && textureId != 0xFFFF) {
+        boost::intrusive_ptr<glitch::video::ITexture> value;
+        texture->parameters.getParameter<boost::intrusive_ptr<glitch::video::ITexture>>(textureId, 0u, value);
+        if (value) {
+            target->parameters.setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(targetId, 0u, value);
+        }
+    }
 }
 
 // 0x352668 _ZN12SceneManager34SetShadowProjectionMaterialEffectsEN5boost13intrusive_ptrIN6glitch5video9CMaterialEEENS2_4core8vector3dIfEEff
-// partial. Applies only to a material whose renderer name starts with GL_ShadowProjection (renderer +0x08, a plain C string)
-// and whose material name starts with SH_ (the shared-string text, count word first). The original looks up Object_Color,
-// Object_Alpha and Shadow_Alpha, and stores the colour (when its X is above -0.5) into Object_Color, a into Object_Alpha
-// (when above -0.5) and b into Shadow_Alpha (when above -0.5), each only when its ID is not 0xFFFF. Missing: the name tests,
-// the lookups and the typed stores (CMaterial and CMaterialRenderer are stand-ins here).
+// Applies only to a material whose renderer name starts with GL_ShadowProjection (renderer +0x08) and whose material name
+// (shared-string text, +0x1c) starts with SH_. Stores the colour (when X is above -0.5) into Object_Color, a into Object_Alpha
+// (when above -0.5) and b into Shadow_Alpha (when above -0.5), each only when its ID is not 0xFFFF.
 void SceneManager::SetShadowProjectionMaterialEffects(boost::intrusive_ptr<glitch::video::CMaterial> material,
                                                       glitch::core::vector3d<float> color, float a, float b) {
-    (void)material;
-    (void)color;
-    (void)a;
-    (void)b;
+    boost::intrusive_ptr<glitch::video::CMaterialRenderer> renderer = material->m_renderer;
+    if (!std::strncmp(renderer->m_name, "GL_ShadowProjection", 19)) {
+        const char* name = MaterialName(*material);
+        if (!std::strncmp(name, "SH_", 3)) {
+            const std::uint16_t colorId = material->m_renderer->getParameterID("Object_Color", 0);
+            const std::uint16_t alphaId = material->m_renderer->getParameterID("Object_Alpha", 0);
+            const std::uint16_t shadowId = material->m_renderer->getParameterID("Shadow_Alpha", 0);
+            if (colorId != 0xFFFF && color.X > -0.5) {
+                material->parameters.setParameter<glitch::core::vector3d<float>>(colorId, 0u, color);
+            }
+            if (alphaId != 0xFFFF && a > -0.5) {
+                material->parameters.setParameter<float>(alphaId, 0u, a);
+            }
+            if (shadowId != 0xFFFF && b > -0.5) {
+                material->parameters.setParameter<float>(shadowId, 0u, b);
+            }
+        }
+    }
 }
 
 // 0x3527fc _ZN12SceneManager18SetMaterialEffectsEN5boost13intrusive_ptrIN6glitch5video9CMaterialEEENS2_4core8vector3dIfEEff
-// partial. Applies only when the renderer name starts with GL_Diffuse, GL_ColorEffects or GL_Xray, and the material name is
-// longer than two characters and starts with GL_, CE_ or XR_. The original looks up Object_Color, Object_Saturation and
-// Object_Alpha, and stores the colour (when its X is above -0.5) into Object_Color, a into Object_Saturation (when above
-// -0.5) and b into Object_Alpha (when above -0.5), each only when its ID is not 0xFFFF. Missing: the name tests, the lookups
-// and the typed stores (CMaterial and CMaterialRenderer are stand-ins here).
+// Applies when the renderer name starts with GL_Diffuse, GL_ColorEffects or GL_Xray, and the material name is longer than two
+// characters and starts with GL_, CE_ or XR_. Stores the colour (when X is above -0.5) into Object_Color, a into
+// Object_Saturation (when above -0.5) and b into Object_Alpha (when above -0.5), each only when its ID is not 0xFFFF.
 void SceneManager::SetMaterialEffects(boost::intrusive_ptr<glitch::video::CMaterial> material,
                                       glitch::core::vector3d<float> color, float a, float b) {
-    (void)material;
-    (void)color;
-    (void)a;
-    (void)b;
+    boost::intrusive_ptr<glitch::video::CMaterialRenderer> renderer = material->m_renderer;
+    const char* rendererName = renderer->m_name;
+    if (!std::strncmp(rendererName, "GL_Diffuse", 10) || !std::strncmp(rendererName, "GL_ColorEffects", 15) ||
+        !std::strncmp(rendererName, "GL_Xray", 7)) {
+        const char* name = MaterialName(*material);
+        if (std::strlen(name) > 2 &&
+            (!std::strncmp(name, "GL_", 3) || !std::strncmp(name, "CE_", 3) || !std::strncmp(name, "XR_", 3))) {
+            const std::uint16_t colorId = material->m_renderer->getParameterID("Object_Color", 0);
+            const std::uint16_t saturationId = material->m_renderer->getParameterID("Object_Saturation", 0);
+            const std::uint16_t alphaId = material->m_renderer->getParameterID("Object_Alpha", 0);
+            if (colorId != 0xFFFF && color.X > -0.5) {
+                material->parameters.setParameter<glitch::core::vector3d<float>>(colorId, 0u, color);
+            }
+            if (saturationId != 0xFFFF && a > -0.5) {
+                material->parameters.setParameter<float>(saturationId, 0u, a);
+            }
+            if (alphaId != 0xFFFF && b > -0.5) {
+                material->parameters.setParameter<float>(alphaId, 0u, b);
+            }
+        }
+    }
 }
 
 // 0x352a2c _ZN12SceneManager15ChangeTechniqueEN5boost13intrusive_ptrIN6glitch5video9CMaterialEEEPKc
-// partial. The original takes the material's renderer, returns false for a null name or an unknown technique (getTechniqueID
-// returns 255), and returns false when the technique is already the selected one (CMaterial +0x08). Otherwise it stores the
-// new technique ID at CMaterial +0x08 and returns true. Missing: the renderer and technique members of CMaterial and the
-// getTechniqueID call, since CMaterial and CMaterialRenderer are stand-ins here. The body returns false as a stub.
+// Takes the material's renderer. A null name, an unknown technique (getTechniqueID returns 255) or the technique that is already
+// selected (CMaterial +0x08) gives false; otherwise the new ID is stored at CMaterial +0x08 and the result is true.
 bool SceneManager::ChangeTechnique(boost::intrusive_ptr<glitch::video::CMaterial> material, const char* technique) {
-    (void)material;
-    (void)technique;
+    boost::intrusive_ptr<glitch::video::CMaterialRenderer> renderer = material->m_renderer;
+    if (technique) {
+        const int id = renderer->getTechniqueID(technique);
+        if (id != 255 && material->m_technique != id) {
+            material->m_technique = static_cast<std::uint8_t>(id);
+            return true;
+        }
+    }
     return false;
 }
 
@@ -269,9 +320,9 @@ glitch::scene::ISceneNode* SceneManager::SearchByName(glitch::scene::ISceneNode*
 }
 
 // 0x352c3c _ZN12SceneManagerC1EPN6glitch5video12IVideoDriverEN5boost13intrusive_ptrINS0_2io11IFileSystemEEEPNS0_3gui14ICursorControlEPNS9_15IGUIEnvironmentE
-// partial. The base call is reproduced from the disassembly: driver, the file system by reference, the cursor control, a
-// null IMeshCache (the constant 0 is stored as the fourth argument) and the GUI environment. The base class is partial (see
-// CSceneManager.hpp). LightSetManager::LightSetManager (+0x294) builds m_lightSetManager. The vptr stores are emitted by the compiler.
+// The base call is reproduced from the disassembly: driver, the file system by reference, the cursor control, a null IMeshCache
+// (the constant 0 is stored as the fourth argument) and the GUI environment. m_lightSetManager (+0x294) runs
+// LightSetManager::LightSetManager as a member. The vptr stores are emitted by the compiler.
 SceneManager::SceneManager(glitch::video::IVideoDriver* driver, boost::intrusive_ptr<glitch::io::IFileSystem> fileSystem,
                            glitch::gui::ICursorControl* cursor, glitch::gui::IGUIEnvironment* gui)
     : glitch::scene::CSceneManager(driver, fileSystem, cursor, nullptr, gui) {
@@ -280,14 +331,14 @@ SceneManager::SceneManager(glitch::video::IVideoDriver* driver, boost::intrusive
     m_registerInterval = 4;                               // +0x444
     unk_45c = 0;                                          // +0x45c
     unk_460 = 1.0f;                                       // +0x460
-    unk_438 = nullptr;                                    // +0x438
+    m_skyBox = nullptr;                                    // +0x438
     unk_43c = false;                                      // +0x43c
     m_registerCounter = 0;                                // +0x440
     m_forceRegister = false;                              // +0x448
     m_loadedScenes.clear();                               // +0x44c .. +0x457
     unk_458 = 0;                                          // +0x458
-    std::memset(pad_464, 0, sizeof pad_464);              // +0x464 .. +0x46f
-    std::memset(pad_470, 0, sizeof pad_470);              // +0x470 .. +0x47b
+    m_gameNodes464.clear();                               // +0x464 .. +0x46f
+    m_gameNodes470.clear();                               // +0x470 .. +0x47b
     m_batchBegin = nullptr;                               // +0x47c
     m_batchEnd = nullptr;                                 // +0x480
     m_batchCap = nullptr;                                 // +0x484
@@ -295,20 +346,62 @@ SceneManager::SceneManager(glitch::video::IVideoDriver* driver, boost::intrusive
 }
 
 // 0x352d4c _ZN12SceneManagerC2EPN6glitch5video12IVideoDriverEN5boost13intrusive_ptrINS0_2io11IFileSystemEEEPNS0_3gui14ICursorControlEPNS9_15IGUIEnvironmentE
-// partial, no body of its own. This is the base-object form that takes the VTT. The compiler emits it from the complete
-// constructor above (0x352c3c). Its VTT-indexed stores are not checked on the host.
+// Base-object constructor: same body as C1 (0x352c3c). It takes the VTT of the virtual base and stores the vptrs from it, which the compiler
+// emits; one definition serves both.
 
 // 0x352fa8 _ZN12SceneManager17AutoLoadNormalMapEN5boost13intrusive_ptrIN6glitch5video9CMaterialEEE
-// partial. Only a material whose name starts with GL_, or which is longer than five characters and starts with DV, is handled.
+// Only a material whose name starts with GL_, or which is longer than five characters and starts with DV, is handled.
 // It looks up Diffuse and Normal. When both exist, the original returns if the material already has a Normal texture, and
 // returns if it has no Diffuse texture. It then takes the Diffuse texture's name and replaces its suffix. The first of
-// _diffuse.tga, _dif.tga and .tga found becomes _autonm.tga, and an unmatched name throws out_of_range. It looks the new
-// name up in the texture manager (reached through the global at dword_99F73C, which is undeclared). When the texture is
-// found, it writes N into the material name (byte +7 for GL_, byte +4 for DV) and stores the texture at Normal. Missing:
-// every step, since the lookups and the typed texture getter and setter need CMaterial and CMaterialRenderer members that are
-// stand-ins here. The body is empty.
+// _diffuse.tga, _dif.tga and .tga found becomes _autonm.tga (an unmatched name throws out_of_range, as the std::string
+// replace does at npos). It looks the new name up in the device's texture manager (device +0x10 driver, +0xe0). When the
+// texture is found, the material name gets an N (byte +7 for GL_, byte +4 for DV) and the texture is stored at Normal.
 void SceneManager::AutoLoadNormalMap(boost::intrusive_ptr<glitch::video::CMaterial> material) {
-    (void)material;
+    glitch::video::CMaterial& mat = *material;
+    const char* name = MaterialName(mat);                       // shared-string text, +0x1c
+    const bool glName = !std::strncmp(name, "GL_", 3);
+    if (!glName && !(std::strlen(name) > 5 && name[0] == 'D' && name[1] == 'V')) {
+        return;
+    }
+    const std::uint16_t diffuseId = mat.m_renderer->getParameterID("Diffuse", 0);
+    const std::uint16_t normalId = mat.m_renderer->getParameterID("Normal", 0);
+    if (normalId == 0xFFFF || diffuseId == 0xFFFF) {
+        return;
+    }
+    boost::intrusive_ptr<glitch::video::ITexture> normal;
+    mat.parameters.getParameter<boost::intrusive_ptr<glitch::video::ITexture>>(normalId, 0u, normal);
+    if (normal) {
+        return;
+    }
+    boost::intrusive_ptr<glitch::video::ITexture> diffuse;
+    mat.parameters.getParameter<boost::intrusive_ptr<glitch::video::ITexture>>(diffuseId, 0u, diffuse);
+    if (!diffuse) {
+        return;
+    }
+    std::string textureName = diffuse->m_name;                   // ITexture +0x08
+    std::size_t position = textureName.find("_diffuse.tga");
+    std::size_t length = 12;
+    if (position == std::string::npos) {
+        position = textureName.find("_dif.tga");
+        length = 8;
+        if (position == std::string::npos) {
+            position = textureName.find(".tga");
+            length = 4;
+        }
+    }
+    textureName.replace(position, length, "_autonm.tga");         // throws std::out_of_range at npos, as the original does
+    glitch::IDevice* device = ApplicationGetInstance().m_device;
+    normal = device->videoDriver->m_textureManager->getTexture(textureName.c_str(), nullptr);   // IVideoDriver +0xe0
+    if (normal) {
+        if (glName) {
+            if (mat.m_nameText.size() > 7) {
+                mat.m_nameText[7] = 'N';
+            }
+        } else if (std::strlen(name) > 5 && name[0] == 'D' && name[1] == 'V') {
+            mat.m_nameText[4] = 'N';
+        }
+        mat.parameters.setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(normalId, 0u, normal);
+    }
 }
 
 // 0x3535d0 _ZN12SceneManager12SearchByTypeEPN6glitch5scene10ISceneNodeEPFvS3_ENS1_17E_SCENE_NODE_TYPEE

@@ -15,6 +15,11 @@
 #include "dh2/global/object_factory.hpp"
 #include "dh2/global/ToLowerCase.hpp"
 #include "dh2/global/GetApplicator.hpp"
+#include "dh2/Animator.hpp"
+#include "dh2/AnimatorBlender.hpp"
+#include "dh2/AnimatorSet.hpp"
+#include "dh2/AnimatorSynchronizedBlender.hpp"
+#include "dh2/AnimatorSynchronizedSet.hpp"
 #include "dh2/global/CombatFormulas.hpp"
 
 #include "dh2/Character.hpp"
@@ -190,17 +195,27 @@ std::size_t ToLowerCase(char* str, int from, int to) {
 }
 
 // 0x369160 AnimApplicator* GetApplicator(glitch::scene::ISceneNodeAnimator*)
-// PARTIAL. The original reads the animator's type id through its vtable slot at +0x24 (slot 9; asm LDR PC,[R3,#0x24]),
-// then returns the applicator at a type-dependent offset: types 11 and 13 at +0x58, type 12 at +0x88, type 14 at +0xd8,
-// type 15 at +0x84, and null for any other type. A null animator returns null (asm checked). Waits on (1) a declaration
-// of glitch::scene::ISceneNodeAnimator with the type getter at slot 9 (the collada animator in glitch-scene-collada-gui
-// has no getType), and (2) the animator classes that hold these applicators. The offsets are recorded here and are not
-// added to the pointer. Stub: null after the null check.
+// A null animator gives null. Otherwise the animator's getType() (vptr+0x24) selects the game animator class and its embedded
+// AnimApplicator: 11 Animator (+0x58), 12 AnimatorBlender (+0x88), 13 AnimatorSet (+0x58), 14 AnimatorSynchronizedBlender (+0xd8),
+// 15 AnimatorSynchronizedSet (+0x84). Any other type gives null.
 AnimApplicator* GetApplicator(glitch::scene::ISceneNodeAnimator* animator) {
     if (animator == nullptr) {
         return nullptr;
     }
-    return nullptr;
+    switch (static_cast<int>(animator->getType())) {
+        case 11:
+            return &static_cast<Animator*>(animator)->m_applicator;
+        case 12:
+            return &static_cast<AnimatorBlender*>(animator)->m_applicator;
+        case 13:
+            return &static_cast<AnimatorSet*>(animator)->m_applicator;
+        case 14:
+            return &static_cast<AnimatorSynchronizedBlender*>(animator)->m_applicator;
+        case 15:
+            return &static_cast<AnimatorSynchronizedSet*>(animator)->m_applicator;
+        default:
+            return nullptr;
+    }
 }
 
 // Combat formula state. File-static in the original (see dh2/global/CombatFormulas.hpp). This batch defines the five

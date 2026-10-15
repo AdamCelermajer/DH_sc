@@ -5,6 +5,7 @@
 // batch asked for, so the checks cover the binding table, the Call overloads and the arithmetic of the callbacks.
 // Exit status 0 means every check passed.
 #include <cstdint>
+#include <csignal>
 #include <cstdio>
 #include <cstdlib>
 #include <initializer_list>
@@ -369,6 +370,9 @@ void TestMulFixed() {
     }
 }
 
+int g_sigfpeCount = 0;
+void CountSigfpe(int) { ++g_sigfpeCount; }
+
 void TestDivFixed() {
     ResetRecords();
     LuaScript script(true);
@@ -397,12 +401,16 @@ void TestDivFixed() {
     }
     ResetRecords();
     {
-        // Divisor 100 >> 8 is zero: the __aeabi_idiv0 result is not recovered, so nothing is pushed (PARTIAL).
+        // Divisor 100 >> 8 is zero: __aeabi_idiv0 raises SIGFPE and the quotient is the raise() result, 0.
+        g_sigfpeCount = 0;
+        void (*previous)(int) = std::signal(SIGFPE, CountSigfpe);
         sfc::script::lua::Arguments args;
         FillNumbers(args, {1000.0f, 100.0f});
         sfc::script::lua::ReturnValues ret;
         LuaScript::_DivFixed(args, ret, &script);
-        EXPECT(g_pushed.empty());
+        std::signal(SIGFPE, previous);
+        EXPECT(g_sigfpeCount == 1);
+        EXPECT(OnlyIntegerPushed(0));
     }
 }
 

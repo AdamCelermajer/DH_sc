@@ -1,40 +1,40 @@
 // Batch g1-game-app-rnd-8b06ae-1 (owner rnd, part 2 of 8): random-level file lists, rule and block loading,
 // block and exit geometry, and the rnd destructors. Bodies follow the Hex-Rays pseudocode of libDungeonHunter2.so.
 //
-// Status summary (the ledger rows carry the detail):
-//   reconstructed: TryIsZero, Exit::GetBlockUnitPosition, Exit::Exit (C1 and C2 are one definition),
-//                  Block::~Block (C1 and C2 are one definition).
-//   partial:       GetFiles, LoadBlocks, LoadRuleFile, SaveModularLevelToStream, SaveModularLevelXml,
-//                  IsStraight, GetFlag, Block::LinkToOtherBlocks, MgxBlock::~MgxBlock (both addresses),
-//                  Exit::LoadFromXml, MgxBlock::LoadFromXml.
-//   skipped:       the two deleting destructors (Block and MgxBlock, D0 variants).
+// Status: the device file system (ReadFileText), rnd::Direction (five entries, the fifth is none), the block link table
+// (Block::Side::m_links, count in unk_28) and TinyXML (including the DH2 TiXmlDocument::LoadFromBuffer) are all available, so the
+// file lists, the block geometry and the XML loaders of this part are reconstructed.
 //
-// What blocks the rest (not declared in the tree yet):
-//   - The device file system (IDevice +0x34, read through the glitch file interface with the binary's vtable slots)
-//     is needed by GetFiles, LoadRuleFile and SaveModularLevelXml.
-//   - rnd::Direction (sDirections and DIRECTION_OPPOSITES) is needed by IsStraight, GetFlag, LinkToOtherBlocks and
-//     Exit::LoadFromXml. The tree has no Direction header; Block.hpp and Exit.hpp only forward-declare it.
-//   - The block link table is not declared. Block::Side has the Exit fields and the names vector (+0x1c), and its
-//     unk_28 is the link count (+0x28), but the link pointers at +0x2c are only pad_2c bytes in Block.hpp.
-//   - MgxBlock::~MgxBlock must delete m_document (+0x9c4, a TiXmlDocument). The tree has only a forward declaration of
-//     the global TiXmlDocument (the vox-audio copy is in namespace vox::tixml), so that delete is not written yet.
-//   - The TinyXML surface in the tree (TiXmlHandle::Child, ToElement, Attribute) is partial, so the XML loaders stay stubs.
 #include "dh2/rnd/RandomGenerator.hpp"
 
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "core-platform/obj_str.hpp"
+#include "dh2/IFileStream.hpp"
 #include "dh2/Point3D.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/lstr.hpp"
 #include "dh2/rnd/Block.hpp"
+#include "dh2/rnd/Direction.hpp"
 #include "dh2/rnd/Exit.hpp"
+#include "dh2/rnd/FileText.hpp"
+#include "dh2/LevelConfig.hpp"
+#include "dh2/StreamBuffer.hpp"
 #include "dh2/rnd/MgxBlock.hpp"
+#include "dh2/rnd/RoomPool.hpp"
+#include "dh2/rnd/RootRule.hpp"
+#include "dh2/rnd/Tile.hpp"
+#include "tinyxml.h"
 
 #if defined(_WIN32)
 #define DH2_STRCASECMP _stricmp
@@ -42,6 +42,9 @@
 #include <strings.h>
 #define DH2_STRCASECMP strcasecmp
 #endif
+
+// Global assert level (also declared by core-platform/memory.hpp, not included here).
+extern int gAssertLevel;
 
 namespace rnd {
 
@@ -52,16 +55,34 @@ bool IgnoreCaseEquals(const char* lhs, const char* rhs) {
     return DH2_STRCASECMP(lhs, rhs) == 0;
 }
 
-// PARTIAL stub. The original opens `path` on the device file system (IDevice +0x34, not declared in the tree), reads
-// its size and then its bytes, closes it and writes a NUL after the text. Until that file system is declared, the text
-// stays empty and the call reports false.
-bool ReadFileListText(const char* path, std::string& text) {
-    (void)path;
-    text.clear();
-    return false;
+constexpr const char kRndAppCppPath[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndApp.cpp";
+
+// The original's ASSERT(false) in rndApp.cpp. Level 2 stores through null to crash (abort here), level 1 prints the line.
+void ReportRuleFileAssert(int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "false", kRndAppCppPath, line);
+    }
 }
 
 }  // namespace
+
+// Opens `path` on the device file system (openFile, vtable +0x88), reads size() bytes (vtable +0x08 and +0x18), puts a NUL after them and
+// closes the stream (vtable +0x78). The text is the C string in the buffer.
+bool ReadFileText(const char* path, std::string& text) {
+    text.clear();
+    IFileStream* stream = SavefileFileSystem().openFile(path, false, false);
+    if (stream == nullptr) {
+        return false;
+    }
+    const std::uint32_t size = stream->size();
+    std::vector<char> buffer(static_cast<std::size_t>(size) + 1, '\0');
+    stream->read(buffer.data(), size);
+    text = buffer.data();
+    SavefileFileSystem().closeFile(stream);
+    return true;
+}
 
 // Splits a list file into lines at each '\n'. For each newline at index pos, the original takes text[0, pos - 1) as the
 // line, so the character before the newline is dropped as well (list files carry CRLF line ends and the '\r' goes).
@@ -84,41 +105,70 @@ bool TryIsZero(const char* text) {
 }
 
 // 0x488904 rnd::RandomGenerator::GetFiles(char const*, std::vector<std::string, std::allocator<std::string>>&)
-// PARTIAL. The line split is rebuilt (SplitFileListText, tested). The read of the list file is a stub
-// (ReadFileListText), so no names are produced in this build. The original returns a garbage register value,
-// which the header keeps as void.
+// Reads the whole list file through the device file system (openFile, size, read, close) and splits its text at each newline, dropping the
+// character before the newline as well (list files carry CRLF line ends). A missing file crashes the original (it dereferences the null
+// stream); here it gives no names. The original returns a garbage register value, which the header keeps as void.
 void RandomGenerator::GetFiles(const char* directory, std::vector<std::string>& files) {
     std::string text;
-    ReadFileListText(directory, text);
+    ReadFileText(directory, text);
     SplitFileListText(text, files);
 }
 
 // 0x488b84 rnd::RandomGenerator::SaveModularLevelToStream(StreamBuffer&)
-// PARTIAL. Not rebuilt. The original builds a TinyXML document (declaration "1.0" / "utf-8", two comment nodes with the
-// generator banner and the source file name from m_ruleFileName (+0x174), a "Level" element with the level config
-// properties at m_levelConfig +0x04 and the root tile saved through Tile::SaveAsModuleXML(tile, level, 0) when m_rootTile
-// is set), prints it with a TiXmlPrinter whose line break is "\r\n", and writes the printed bytes into the stream. The
-// TiXmlDocument, TiXmlDeclaration and TiXmlComment surface and the StreamBuffer write are not declared in the tree,
-// and Tile::SaveAsModuleXML takes a third argument that Tile.hpp does not declare. Nothing is written here.
+// Builds a TinyXML document: the declaration ("1.0", "utf-8", ""), three comments (the generator banner, the software version and
+// " Source file: <rule file name> "), and a "Level" element that takes the level config's properties (the PropertyMap at LevelConfig +0x04,
+// SavePropertiesToXML with no name) and, when a root tile exists, the module tree (Tile::SaveAsModuleXML (level, 0)). The document is
+// printed by a TiXmlPrinter whose line break is "\r\n" and the text is written to the end of the stream (expand, then write). The original
+// formats the source line into a 128-byte buffer (sprintf); here the line has no limit.
 void RandomGenerator::SaveModularLevelToStream(StreamBuffer& stream) {
-    (void)stream;
+    TiXmlDocument document;
+    document.LinkEndChild(new TiXmlDeclaration("1.0", "utf-8", ""));
+    TiXmlComment* banner = new TiXmlComment(" This file was generated by the Dungeon Hunter random generator ");
+    TiXmlComment* version = new TiXmlComment(" Software version 0.01 ");
+    const std::string sourceLine = " Source file: " + m_ruleFileName + " ";
+    TiXmlComment* source = new TiXmlComment(sourceLine.c_str());
+    document.LinkEndChild(banner);
+    document.LinkEndChild(version);
+    document.LinkEndChild(source);
+    TiXmlElement* level = new TiXmlElement("Level");
+    document.LinkEndChild(level);
+    m_levelConfig->SavePropertiesToXML(level, nullptr);
+    if (m_rootTile != nullptr) {
+        m_rootTile->SaveAsModuleXML(level, 0);
+    }
+    TiXmlPrinter printer;
+    printer.SetLineBreak("\r\n");
+    document.Accept(&printer);
+    stream.expand(static_cast<std::uint64_t>(printer.Size()));
+    stream.write(printer.CStr(), static_cast<std::uint64_t>(printer.Size()));
 }
 
 // 0x488e50 rnd::RandomGenerator::SaveModularLevelXml(void)
-// PARTIAL. Not rebuilt. The original writes the stream from SaveModularLevelToStream to a file named after the rule
-// file: the path m_sceneDir + m_ruleFileName (+0x174) has its ".xml" (found with find) replaced by "_<n>.mlx", where <n>
-// is an unsigned long written by the ostringstream. The value of <n> is not visible in the Hex-Rays listing (the
-// put-number call has no argument shown), so the name cannot be formed. The file is then opened for writing on the
-// device file system (not declared) and the name after the last '/' is returned. Returns an empty name in this build.
+// Writes the level to a file named after the rule file: the text of SaveModularLevelToStream goes into a stream; the path is m_sceneDir +
+// m_ruleFileName, and the first ".xml" in it is replaced (four characters) by "_<seed>.mlx", where <seed> is m_seed as an unsigned
+// number; a path without ".xml" is kept. The file is opened as a writable savefile (openSavefile, vtable +0x94) and, when it opens, the
+// stream's first block (size() bytes) is written to it and the file is closed. The result is the name after the last '/' of the path.
 std::string RandomGenerator::SaveModularLevelXml() {
-    return std::string();
+    StreamBuffer stream;
+    SaveModularLevelToStream(stream);
+    std::string path = m_sceneDir + m_ruleFileName;
+    const std::size_t extension = path.find(".xml");
+    if (extension != std::string::npos) {
+        path.replace(extension, 4, "_" + std::to_string(static_cast<std::uint32_t>(m_seed)) + ".mlx");
+    }
+    FileSystemWin32& fileSystem = SavefileFileSystem();                  // device +0x34
+    IFileStream* file = fileSystem.openSavefile(path.c_str(), true);     // vtable +0x94
+    if (file != nullptr) {
+        file->write(stream.buffer_.FirstBlock(), static_cast<std::uint64_t>(stream.size()));  // vtable +0x1c
+        fileSystem.closeFile(file);                                      // vtable +0x78
+    }
+    return path.substr(path.rfind('/') + 1);
 }
 
 // 0x4892ec rnd::RandomGenerator::LoadBlocks(void)
-// PARTIAL. The block list is read from "<unk_144>/mgx/mgxlist.txt" through GetFiles, whose read is a stub, so no .mgx
-// name is found in this build. The rest is rebuilt: each name that contains ".mgx" is loaded with
+// The block list is read from "<unk_144>/mgx/mgxlist.txt" through GetFiles; each name that contains ".mgx" is loaded with
 // MgxBlock::FromFilename(folder, target, name) and inserted under the block's name (insert_unique, so a name that is
-// already present keeps its first block), then every block links to the others.
+// already present keeps its first block), then every block links to the others. Always true.
 bool RandomGenerator::LoadBlocks() {
     const std::string listPath = unk_144 + "/mgx/mgxlist.txt";
     std::vector<std::string> names;
@@ -139,38 +189,105 @@ bool RandomGenerator::LoadBlocks() {
 }
 
 // 0x489508 rnd::RandomGenerator::LoadRuleFile(char const*)
-// PARTIAL. Not rebuilt past the first step. The original keeps the rule path in m_ruleFileName (+0x174), splits it at
-// the last separator (rfind with a character whose value is not visible in the listing, so the split is not rebuilt
-// here), opens the file through the device file system (not declared), parses it into m_xmlDocument, reads the "rules"
-// element, the "target" and "folder" attributes (unk_12c and unk_144), LoadBlocks, LoadListRules, LoadRoomPools, the
-// RootRule and the room pool sizes, and returns whether all of them succeeded. The stub returns false.
+// The path is kept in m_ruleFileName (+0x174). When it holds a '/' the part up to and including the last one becomes m_sceneDir (+0x15c)
+// and the file name after it becomes m_ruleFileName; otherwise the file is opened as "data/scene/<path>". The file is read whole
+// into a malloc'd buffer (+0x128) and parsed with LoadFromBuffer into a new TiXmlDocument (+0x124). The "rules" element must exist
+// (false otherwise). Its overrides go to the level config's PropertyMap, its "target" and "folder" attributes (empty when absent) are
+// unk_12c and unk_144; then LoadBlocks, LoadListRules, LoadRoomPools, the "RootRule" child and the room pool sizes, and the result is
+// the AND of the four loaders. A pool whose ComputeSizeOfRules is 0 raises ASSERT(false) at rndApp.cpp:166.
 bool RandomGenerator::LoadRuleFile(const char* path) {
-    (void)path;
-    return false;
+    m_ruleFileName = path;
+    FileSystemWin32& fileSystem = SavefileFileSystem();                  // device +0x34
+    const std::size_t separator = m_ruleFileName.rfind('/');
+    char scenePath[512];
+    const char* openPath = path;
+    if (separator == std::string::npos) {
+        std::snprintf(scenePath, sizeof(scenePath), "data/scene/%s", path);
+        openPath = scenePath;
+    } else {
+        m_sceneDir = m_ruleFileName.substr(0, separator + 1);
+        m_ruleFileName = m_ruleFileName.substr(separator + 1);
+    }
+    IFileStream* stream = fileSystem.openFile(openPath, false, false);   // vtable +0x88
+    if (stream == nullptr) {
+        return false;
+    }
+    const int size = static_cast<int>(stream->size());
+    m_xmlBuffer = static_cast<char*>(std::malloc(static_cast<std::size_t>(size)));
+    stream->read(m_xmlBuffer, static_cast<std::uint64_t>(size));
+    fileSystem.closeFile(stream);                                        // vtable +0x78
+    m_xmlDocument = new TiXmlDocument();
+    m_xmlDocument->LoadFromBuffer(m_xmlBuffer, size, TIXML_DEFAULT_ENCODING);
+    TiXmlHandle rules = TiXmlHandle(m_xmlDocument).Child("rules", 0);
+    TiXmlElement* element = rules.ToElement();
+    if (element == nullptr) {
+        return false;
+    }
+    if (m_levelConfig != nullptr) {
+        m_levelConfig->LoadOverridesFromXML(element);                    // PropertyMap at LevelConfig +0x04
+    }
+    const char* target = element->Attribute("target");
+    unk_12c = target != nullptr ? target : "";
+    const char* folder = element->Attribute("folder");
+    unk_144 = folder != nullptr ? folder : "";
+    bool ok = LoadBlocks();
+    ok = (LoadListRules(rules.ToNode()) != 0) && ok;
+    ok = (LoadRoomPools(rules.ToNode()) & 1) != 0 && ok;
+    TiXmlHandle rootRule = rules.Child("RootRule", 0);
+    ok = m_rootRule.LoadFromXml(rootRule.ToNode()) && ok;
+    for (std::size_t i = 0; i < m_roomPools.size(); ++i) {
+        if (!m_roomPools[i]->ComputeSizeOfRules()) {
+            ReportRuleFileAssert(166);
+        }
+    }
+    return ok;
 }
 
 // 0x489988 rnd::Block::IsStraight(void)
-// PARTIAL. Not rebuilt. The original is true when the side count (m_sideCount, +0x5c) is 2 and the direction of side 0
-// equals sDirections[DIRECTION_OPPOSITES[direction of side 1]]. rnd::Direction is not declared in the tree.
+// True when the block has two sides and the direction of side 0 is the opposite of the direction of side 1.
 bool Block::IsStraight() const {
-    return false;
+    return m_sideCount == 2 &&
+           m_sides[0].m_direction->id == Direction::sDirections[DIRECTION_OPPOSITES[m_sides[1].m_direction->id]].id;
 }
 
 // 0x4899e4 rnd::Block::GetFlag(void)
-// PARTIAL. Not rebuilt. The original ORs 1 << (direction id of side i) over the first m_sideCount sides (stride
-// 300 bytes), where the id is the first int of the Direction that each side points to. rnd::Direction is not declared.
+// ORs 1 << (direction id) over the first m_sideCount sides.
 int Block::GetFlag() const {
-    return 0;
+    int flags = 0;
+    for (int i = 0; i < m_sideCount; ++i) {
+        flags |= 1 << m_sides[i].m_direction->id;
+    }
+    return flags;
 }
 
 // 0x489aec rnd::Block::LinkToOtherBlocks(std::map<char const*, rnd::Block*, lstr> const&)
-// PARTIAL. Not rebuilt. For each side of this block and each side of every other block in the map, the original
-// appends the other side's record to this side's link table when the two names vectors (Side::m_names, strings
-// compared by content) match and the direction of the first side equals the opposite direction of the second. That
-// needs rnd::Direction, and the link table: the count at side +0x28 (unk_28) and the pointers at side +0x2c, which are
-// only pad_2c bytes in Block.hpp.
+// For every block of the map, every side of this block and every side of that block, and every pair of names (Side::m_names, strings
+// compared by content; empty names of this side are skipped): when the names match and the direction of this side is the opposite
+// of the direction of the other side, the other side's record is appended to this side's link table (count at +0x28, pointers at
+// +0x2c). A pair of sides can be linked more than once when several name pairs match.
 void Block::LinkToOtherBlocks(const std::map<const char*, Block*, lstr>& blocks) {
-    (void)blocks;
+    for (const auto& entry : blocks) {
+        Block* other = entry.second;
+        for (int i = 0; i < m_sideCount; ++i) {
+            Side& side = m_sides[i];
+            for (int j = 0; j < other->m_sideCount; ++j) {
+                Side& otherSide = other->m_sides[j];
+                for (std::size_t k = 0; k < side.m_names.size(); ++k) {
+                    for (std::size_t l = 0; l < otherSide.m_names.size(); ++l) {
+                        const std::string& name = side.m_names[k];
+                        if (name.empty()) {
+                            continue;
+                        }
+                        if (name.size() == otherSide.m_names[l].size() && std::memcmp(name.data(), otherSide.m_names[l].data(), name.size()) == 0 &&
+                            side.m_direction->id == Direction::sDirections[DIRECTION_OPPOSITES[otherSide.m_direction->id]].id) {
+                            side.m_links[side.unk_28] = &otherSide;
+                            ++side.unk_28;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // 0x489ddc rnd::Exit::GetBlockUnitPosition(Point3D<float>&, rnd::Block*)
@@ -209,22 +326,59 @@ Exit::Exit(const Direction& direction, Block* block, int x, int y, float weight,
       unk_28(0) {}
 
 // 0x48a5d0 rnd::Exit::LoadFromXml(TiXmlHandle, rnd::Block*, int)
-// PARTIAL, not defined in this file. The original reads the "linktype" attribute (spaces removed, split at a
-// separator character whose value is not visible in the listing), skips the exit when the last name is "0" or
-// empty (TryIsZero), finds the "direction" attribute among the four rnd::Direction entries (or the entry after
-// them), parses "position" into two floats and places the exit with GetBlockUnitPosition. The declaration takes
-// TiXmlHandle by value, and the tree has no complete global TiXmlHandle (the copy in vox-audio is in namespace
-// vox::tixml), so the definition cannot be written yet. rnd::Direction and StrToObj are also not declared.
-
-// 0x48a90c rnd::MgxBlock::LoadFromXml(TiXmlHandle&)
-// PARTIAL. Not rebuilt. The original reads "unit_width" and "unit_height" (doubles) into m_unitWidth and m_unitHeight,
-// and "block_width" and "block_height" (ints) into m_blockWidth and m_blockHeight, then walks the children: each child
-// whose "gametype" is "link" (case-insensitive) is loaded into side m_sideCount (a Block::Side, which has the Exit
-// fields, so Exit::LoadFromXml fills it) and m_sideCount grows by one when that load succeeds. Exit::LoadFromXml is
-// partial and the TinyXML attribute reads are not declared, so nothing is read here and the call returns false.
-bool MgxBlock::LoadFromXml(TiXmlHandle& handle) {
-    (void)handle;
-    return false;
+// `this` is a block side record. The "linktype" attribute is the list of names the exit accepts: the string is copied, a space that
+// follows the first space is squeezed out by shifting the characters that follow it left (the length does not change, so the tail repeats),
+// and the text is split at each comma into the names vector (the rest after the last comma is the last name). The exit is skipped when
+// there is no "direction" attribute or when the last name is "0" or empty. Otherwise the direction is the sDirections entry whose name
+// matches the attribute without regard to case (the fifth entry, none, when no name matches), "position" gives a point that
+// GetBlockUnitPosition turns into the cell, and the exit is built in place with the point's third value as its weight and the index as its flags.
+bool Exit::LoadFromXml(TiXmlHandle handle, Block* block, int index) {
+    TiXmlElement* element = handle.ToElement();
+    const char* linkType = element->Attribute("linktype");
+    std::string work;
+    std::vector<std::string> names;
+    if (linkType != nullptr) {
+        work.assign(linkType);
+        char* first = static_cast<char*>(std::memchr(&work[0], ' ', work.size()));
+        if (first != nullptr && first != &work[0] + work.size() && first != &work[0] + work.size() - 1) {
+            char* last = &work[0] + work.size() - 1;
+            char* scan = first;
+            do {
+                const char c = *++scan;
+                if (c != ' ') {
+                    *first++ = c;
+                }
+            } while (scan != last);
+        }
+        std::size_t comma = work.find(',');
+        while (comma != std::string::npos) {
+            names.push_back(work.substr(0, comma));
+            work = work.substr(comma + 1);
+            comma = work.find(',');
+        }
+        names.push_back(work);
+    }
+    const char* directionText = element->Attribute("direction");
+    if (directionText == nullptr || TryIsZero(work.c_str())) {
+        return false;
+    }
+    int directionIndex = 0;
+    while (true) {
+        if (!DH2_STRCASECMP(directionText, Direction::sDirections[directionIndex].name)) {
+            break;
+        }
+        if (++directionIndex == 4) {
+            break;                                                       // the fifth entry, none
+        }
+    }
+    Point3D<float> position{0.0f, 0.0f, 0.0f};
+    const char* positionText = element->Attribute("position");
+    if (positionText != nullptr) {                                       // the original passes the null text on
+        StrToObj(positionText, position);
+    }
+    GetBlockUnitPosition(position, block);
+    new (this) Exit(Direction::sDirections[directionIndex], block, m_x, m_y, position.Z, index, names);
+    return true;
 }
 
 // 0x489f58 / 0x489fd8 rnd::Block::~Block()
@@ -235,13 +389,52 @@ bool MgxBlock::LoadFromXml(TiXmlHandle& handle) {
 // order) do the same work. The deleting variant at 0x489fbc is skipped (see the ledger).
 Block::~Block() = default;
 
-// 0x48a03c / 0x48a0b4 rnd::MgxBlock::~MgxBlock()
-// PARTIAL. The original sets the MgxBlock vtable, deletes the TiXmlDocument at +0x9c4 through its vtable slot +4 when it
-// is non-null, frees the buffer at +0x9c0 with free(), and then runs Block::~Block. The delete of m_document is not
-// written: TiXmlDocument is not a complete type in the tree (see the header comment). The free is written here; the
-// base destruction runs after the body, as in the original. The deleting variant at 0x48a098 is skipped (see the ledger).
+// 0x48a03c rnd::MgxBlock::~MgxBlock()
+// The parsed document (+0x9c4) is deleted when there is one, the file buffer (+0x9c0) is freed, and Block::~Block runs after the body.
+// C1 and C2 (0x48a0b4) are one definition; the deleting variant at 0x48a098 is generated by the compiler.
 MgxBlock::~MgxBlock() {
+    delete m_document;
     std::free(m_fileBuffer);
+}
+
+// 0x48a90c rnd::MgxBlock::LoadFromXml(TiXmlHandle&)
+// Without an element the answer is false. "unit_width" and "unit_height" (doubles) set the unit size, "block_width" and "block_height"
+// the block size when present. Every child element whose "gametype" is "link" (without regard to case) is loaded as the next side
+// record (Exit::LoadFromXml); a side that loads takes the next index and is counted.
+bool MgxBlock::LoadFromXml(TiXmlHandle& handle) {
+    TiXmlElement* element = handle.ToElement();
+    if (element == nullptr) {
+        return false;
+    }
+    double value = 0.0;
+    if (element->QueryDoubleAttribute("unit_width", &value) == TIXML_SUCCESS) {
+        m_unitWidth = static_cast<float>(value);                         // +0x4c
+    }
+    if (element->QueryDoubleAttribute("unit_height", &value) == TIXML_SUCCESS) {
+        m_unitHeight = static_cast<float>(value);                        // +0x50
+    }
+    element->QueryIntAttribute("block_width", &m_blockWidth);            // +0x54
+    element->QueryIntAttribute("block_height", &m_blockHeight);          // +0x58
+    TiXmlHandle child = handle.FirstChild();
+    if (child.ToNode() != nullptr) {
+        int index = 0;
+        while (true) {
+            TiXmlElement* childElement = child.ToElement();
+            const char* gameType = childElement != nullptr ? childElement->Attribute("gametype") : nullptr;
+            if (gameType != nullptr && !DH2_STRCASECMP(gameType, "link") && m_sideCount < 8) {
+                TiXmlHandle linkHandle(child);
+                if (reinterpret_cast<Exit*>(&m_sides[m_sideCount])->LoadFromXml(linkHandle, this, index)) {
+                    ++index;
+                    ++m_sideCount;
+                }
+            }
+            if (child.ToNode()->NextSibling() == nullptr) {
+                break;
+            }
+            child = TiXmlHandle(child.ToNode()->NextSibling());
+        }
+    }
+    return true;
 }
 
 }  // namespace rnd

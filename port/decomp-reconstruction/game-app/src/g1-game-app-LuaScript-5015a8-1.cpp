@@ -11,6 +11,7 @@
 // _AddToVFTable. partial: _PlayMusic, _PlaySound, _StopSound, because VoxSoundManager declares none of the calls
 // they make in this tree. The other bindings in this file belong to other batches and keep their own notes.
 #include <cmath>
+#include <csignal>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -158,17 +159,19 @@ void LuaScript::_Rand(const sfc::script::lua::Arguments& args, sfc::script::lua:
 }
 
 // 0x37e068 LuaScript::_DivFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. With more than one argument: a = (int)args[0], b = (int)args[1] >> 8, then pushes a / b as an integer. The
-// divide is __aeabi_idiv (asm), not an SDIV instruction, so a zero divisor goes to the runtime's __aeabi_idiv0, whose
-// result is not recovered. For b == 0 nothing is pushed here (the missing result). INT_MIN / -1 wraps as on the target.
+// With more than one argument: a = (int)args[0], b = (int)args[1] >> 8, then pushes a / b as an integer. The divide is __aeabi_idiv (asm), not an
+// SDIV instruction. A zero divisor goes to libgcc's __aeabi_idiv0, which raises SIGFPE (default action: the process ends) and returns the
+// raise() result, 0, so the pushed quotient is 0 if the signal is handled. INT_MIN / -1 wraps as on the target.
 void LuaScript::_DivFixed(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void*) {
     if (ArgCount(args) > 1) {
         const int a = ToInt32(args[0].getNumber());
         const int b = ToInt32(args[1].getNumber()) >> 8;
-        if (b != 0) {
-            ret.pushInteger(static_cast<int>(static_cast<std::int64_t>(a) / b));
+        if (b == 0) {
+            std::raise(SIGFPE);  // __aeabi_idiv0
+            ret.pushInteger(0);
+            return;
         }
-        // PARTIAL: for b == 0 the __aeabi_idiv0 result is not pushed (not recovered).
+        ret.pushInteger(static_cast<int>(static_cast<std::int64_t>(a) / b));
     }
 }
 

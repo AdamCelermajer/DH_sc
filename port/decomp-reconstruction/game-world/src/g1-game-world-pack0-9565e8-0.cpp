@@ -12,6 +12,15 @@
 #include "dh2/Character.hpp"
 #include "dh2/CheckpointZone.hpp"
 #include "dh2/ColBox.hpp"
+#include "dh2/POColmap.hpp"
+#include "dh2/PFRoom.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/aabb.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Decor.hpp"
 #include "dh2/GameObject.hpp"
@@ -137,13 +146,10 @@ ColBox::~ColBox() {}
 // 0x388e60 _ZN6ColBoxD0Ev: skipped. This is the compiler-generated deleting destructor (D1, then CustomFree).
 
 // 0x3884fc _ZN6ColBox8InitPostEv
-// PARTIAL. Rebuilt: GameObject::InitPost, the scaling of the dimensions by the scale (+0x374 by +0x120, +0x378 by
-// +0x124, +0x37c by +0x128), the relative box (+0x144 .. +0x158 from the half dimensions, minimum negated), the
-// absolute AABB update, the PhysicalObject with the Application's PhysicalWorld (Application +0x44) and the
-// SetPhysicalObject(body, false) hand-off.
-// Missing: the original stores _ZTV8POColmap+8 (0x964008) into the new object's vptr, so the body is a POColmap. The
-// POColmap constructor is not recovered (it is not in the queue) and POColmap adds no members or virtuals beyond its
-// destructors. The port keeps PhysicalObject's vptr. Pending the POColmap constructor, the body is a PhysicalObject.
+// GameObject::InitPost, the dimensions (+0x374 .. +0x37c) scaled by the object scale (+0x120 .. +0x128), the relative box (+0x144 ..
+// +0x158) from the half dimensions with the minimum negated, the absolute AABB update, and the body: a POColmap (a PhysicalObject on
+// Application::m_physicalWorld (+0x44), static, group 0, category 1, mask 0xffff, unused 1 with the POColmap vptr) given to
+// SetPhysicalObject(body, false).
 void ColBox::InitPost() {
     GameObject::InitPost();
 
@@ -164,32 +170,38 @@ void ColBox::InitPost() {
     GameObject::UpdateAbsoluteAABB();
 
     PhysicalWorld* world = ApplicationGetInstance().m_physicalWorld;  // Application +0x44
-    // Original: operator new(0x28), then PhysicalObject(world, this, isStatic true, isCircle false, isSensor false,
-    // isBullet false, group 0, category 1, mask 0xffff, unused 1), then the POColmap vptr (see the note above).
-    PhysicalObject* body = new PhysicalObject(world, this, true, false, false, false, 0, 1, 0xFFFF, 1);
+    PhysicalObject* body = new POColmap(world, this, true, false, false, false, 0, 1, 0xFFFF, 1);
     GameObject::SetPhysicalObject(body, false);
 }
 
 // 0x3896f0 _ZNK6ColBox4DrawEv
-// PARTIAL. Rebuilt: the DebugSwitches "isDisplayingColBox" test and the box the original passes to the driver. The draw
-// itself is a seam. The original takes the driver from the device (dword_99F73C, the Application +0x10 IDevice, then
-// IDevice +0x10), takes the material renderer manager at driver +0xdc, gets a material instance (creating the renderer
-// when the id at +0x2e is 0xffff), calls IVideoDriver::setMaterial (technique 255 when there is no material), and then
-// calls the driver's vtable slot +0x28 (IVideoDriver::draw3DBox) with the box and colour 0xFF0000FF. IDevice declares no
-// +0x10, IVideoDriver declares no +0xdc and no draw3DBox, so none of it can be called from here.
+// With the "isDisplayingColBox" switch on, the plain material (built-in renderer type 1) of the device's driver (device +0x10, material
+// renderer manager at driver +0xdc) is set with its first technique, and the driver draws (vtable +0x28, draw3DBox) the absolute AABB
+// with both Z corners lifted by 50 in the colour 0xFF0000FF.
 void ColBox::Draw() const {
     DebugSwitches::s_inst.load();
     if (!DebugSwitches::s_inst.GetSwitch("isDisplayingColBox")) {
         return;
     }
 
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;   // device +0x10
+    glitch::video::CMaterialRendererManager* materials = driver->m_materialRendererManager;  // driver +0xdc
+    const std::uint16_t renderer = materials->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+    boost::intrusive_ptr<glitch::video::CMaterial> material = materials->getMaterialInstance(renderer, true);
+    const std::uint8_t technique = material ? static_cast<std::uint8_t>(material->getTechnique()) : 255;
+    driver->setMaterial(material, technique, nullptr);
+
     // The box is the absolute AABB with the Z corners lifted: minimum (x, y, z + 50), maximum (x, y, z + 50).
-    const float box[6] = {
-        m_absAabb[0], m_absAabb[1], m_absAabb[2] + kColBoxDrawLiftZ,
-        m_absAabb[3], m_absAabb[4], m_absAabb[5] + kColBoxDrawLiftZ,
-    };
-    // SEAM: the material setup and the driver draw3DBox(box, 0xFF0000FF), see the note above.
-    (void)box;
+    glitch::core::aabbox3d<float> box;
+    box.MinEdge.X = m_absAabb[0];
+    box.MinEdge.Y = m_absAabb[1];
+    box.MinEdge.Z = m_absAabb[2] + kColBoxDrawLiftZ;
+    box.MaxEdge.X = m_absAabb[3];
+    box.MaxEdge.Y = m_absAabb[4];
+    box.MaxEdge.Z = m_absAabb[5] + kColBoxDrawLiftZ;
+    glitch::video::SColor color;
+    color.color = 0xFF0000FFu;
+    driver->draw3DBox(box, color);
 }
 
 // 0x389938 _ZN6ColBox17DeclarePropertiesEv
@@ -228,18 +240,22 @@ Decor::~Decor() {}
 // 0x388eb0 _ZN5DecorD0Ev: skipped. This is the compiler-generated deleting destructor (D1, then CustomFree).
 
 // 0x388730 _ZN5Decor12LoadFloorMapEv
-// PARTIAL. Rebuilt: the guard (a visual object and the pending flag at +0x375), and the clear of the pending flag once
-// the guard passes. Missing (seams):
-//   1. PFWorld::LoadRoom(node, unk_64, name). The node is the visual's root (VisualObject +0x08) and the flags are
-//      unk_64 (-1 by default). The name is the word at ObjectBase +0x44 (asm LDR R3,[R4,#0x44]), which lies inside
-//      m_name as the header declares it (+0x30 .. +0x47), so the layout does not say what pointer is there.
-//   2. The room's flags (PFRoom +0x24, bit 0 set from Decor::m_isSolid) and PFRoom::ExtendBoundingBox(absolute AABB).
-//      The bounding box argument is an aabb<float>, which no header defines (GameObject::m_absAabb is float[6]).
+// Once, while the visual object exists and the pending flag (+0x375) is set: the visual's scene node is loaded as a room of the path
+// finding world (PFWorld::LoadRoom with the node, the room flags word unk_64 and the object name); a room that comes back gets bit 0
+// of its flags (PFRoom +0x24) from m_isSolid (+0x376) and its bounding box extended by the object's absolute AABB (+0x12c). The
+// pending flag is cleared.
 void Decor::LoadFloorMap() {
     if (m_visualObject == nullptr || !m_floorMapPending) {
         return;
     }
-    // SEAM: the room load and the flag and bounding box updates, see the note above.
+    PFRoom* room = PFWorld::s_inst.LoadRoom(m_visualObject->m_node, static_cast<unsigned int>(unk_64), m_name.c_str());   // VisualObject +0x08, ObjectBase +0x44
+    if (room) {
+        room->m_flags = m_isSolid ? (room->m_flags | 1u) : (room->m_flags & 0xFFFFFFFEu);
+        aabb<float> box;
+        box.MinEdge = Point3D<float>{m_absAabb[0], m_absAabb[1], m_absAabb[2]};
+        box.MaxEdge = Point3D<float>{m_absAabb[3], m_absAabb[4], m_absAabb[5]};
+        room->ExtendBoundingBox(box);
+    }
     m_floorMapPending = false;  // +0x375, cleared on every pass through the guard
 }
 

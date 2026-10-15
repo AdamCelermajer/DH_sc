@@ -2,9 +2,6 @@
 // One Lua state and the load, call and registration helpers the game uses on it. The default constructor creates a
 // state (newstate) that the destructor closes; Instance(lua_State*) wraps a state it does not own.
 //
-// Partial: Instance::_chunkReader's IFileStream branch. The original reads the file through the IStreamBase slots of
-// its vtable (size at +0x08, read at +0x18, tell at +0x24). The IFileStream stand-in in core-platform/deps/io_stream.hpp
-// declares only the destructor, so that branch returns end-of-chunk here. The StreamBuffer branch is complete.
 // The ASSERT of the chunk reader's "Something is wrong" path follows the gAssertLevel convention of the other sfc files.
 #include "dh2/sfc/script/lua/Instance.hpp"
 
@@ -13,6 +10,7 @@
 #include <cstdlib>
 
 #include "core-platform/memory.hpp"
+#include "dh2/IFileStream.hpp"
 #include "dh2/StreamBuffer.hpp"
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/sfc/script/lua/Error.hpp"
@@ -198,16 +196,13 @@ int Instance::includeBase() {
 }
 
 // 0x31b018 sfc::script::lua::Instance::_chunkReader(lua_State*, void*, unsigned int*): the lua_Reader of every load.
-// PARTIAL: the IFileStream branch (ChunkSource::file) is not read. See the file comment.
-// The StreamBuffer branch returns the end of the chunk once the read position reaches the size, and otherwise reads up to
-// the buffer size and returns the buffer with the count in *size.
+// Reads from the file stream when ChunkSource::file is set, else from the StreamBuffer (both through the IStreamBase slots tell +0x24,
+// size +0x08 and read +0x18); with neither set the ASSERT "Something is wrong!!!" (Instance.cpp:94) fires and the chunk ends. The end of
+// the chunk is reached when the read position equals the size; otherwise up to the buffer size is read, the count goes to *size, and the buffer
+// is returned.
 const char* Instance::_chunkReader(lua_State* /*state*/, void* data, std::size_t* size) {
     ChunkSource* source = static_cast<ChunkSource*>(data);
-    if (source->file != nullptr) {
-        // Partial (see the file comment): the stand-in IFileStream has no size, read or tell.
-        return nullptr;
-    }
-    StreamBuffer* stream = source->stream;
+    IStreamBase* stream = source->file != nullptr ? static_cast<IStreamBase*>(source->file) : static_cast<IStreamBase*>(source->stream);
     if (stream == nullptr) {
         ReportAssert("!\"Something is wrong!!!\"", 94);
         return nullptr;

@@ -16,5 +16,5 @@ int InterpolateColours(const int* a1, const int* a2, const int* a3, const int* a
 std::uint32_t TwiddleUV(std::uint32_t a1, std::uint32_t a2, std::uint32_t a3, std::uint32_t a4);
 
 // 0x69f768 PVRTCDecompress(void const*, int, int, int, unsigned char*)
-// Partial: see the definition for what is rebuilt.
+
 int PVRTCDecompress(const void* compressed, int do2bitMode, int xDim, int yDim, std::uint8_t* result);

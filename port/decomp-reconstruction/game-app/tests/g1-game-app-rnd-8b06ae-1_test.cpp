@@ -3,15 +3,28 @@
 // so a test Block can be made and the MgxBlock vtable can link). Returns non-zero on failure.
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <map>
+#include <utility>
 #include <string>
 #include <vector>
 
 #include "dh2/Point3D.hpp"
 #include "dh2/lstr.hpp"
+#include "core-platform/obj_str.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/rnd/Block.hpp"
+#include "dh2/rnd/Direction.hpp"
 #include "dh2/rnd/Exit.hpp"
 #include "dh2/rnd/MgxBlock.hpp"
+#include "dh2/PropertyMap.hpp"
+#include "dh2/StreamBuffer.hpp"
+#include "dh2/rnd/RandomGenerator.hpp"
+#include "dh2/rnd/RoomPool.hpp"
+#include "dh2/rnd/RootRule.hpp"
+#include "dh2/rnd/Tile.hpp"
+#include "tinyxml.h"
 
 // Declared in the batch source (not in a header yet). TryIsZero is declared in dh2/rnd/Exit.hpp.
 namespace rnd {
@@ -20,6 +33,22 @@ void SplitFileListText(std::string text, std::vector<std::string>& files);
 
 // Symbols outside this batch that the batch source's vtables and constructors refer to.
 bool lstr::operator()(const char* lhs, const char* rhs) const { return std::strcmp(lhs, rhs) < 0; }
+
+// Collaborators of other batches or of the engine that this link does not build. None of them is reached by the tests below.
+int gAssertLevel = 0;
+FileSystemWin32& SavefileFileSystem() { std::abort(); }
+void StrToObj(const char* text, Point3D<float>& value) {
+    std::sscanf(text, "%f,%f,%f", &value.X, &value.Y, &value.Z);
+}
+void PropertyMap::LoadOverridesFromXML(TiXmlElement*) {}
+void PropertyMap::SavePropertiesToXML(TiXmlElement*, const char*) {}
+namespace rnd {
+int RandomGenerator::LoadListRules(TiXmlNode*) { return 1; }
+int RandomGenerator::LoadRoomPools(TiXmlNode*) { return 1; }
+int RoomPool::ComputeSizeOfRules() { return 1; }
+bool RootRule::LoadFromXml(TiXmlNode*) { return true; }
+int Tile::SaveAsModuleXML(TiXmlElement*, int index) { return index; }
+}  // namespace rnd
 
 namespace rnd {
 Block::Block() {}
@@ -159,6 +188,108 @@ void TestExitConstructor() {
     EXPECT(exit.m_blockName != nullptr && std::strcmp(exit.m_blockName, "blk") == 0);
 }
 
+void TestExitLoadFromXml() {
+    TestBlock block;
+    block.m_name = "blk";
+    block.m_unitWidth = 10.0f;
+    block.m_unitHeight = 10.0f;
+    block.m_blockWidth = 1;
+    block.m_blockHeight = 1;
+
+    // The link names lose the spaces after the first one by shifting the tail left (the length stays, so the last character repeats),
+    // and are split at the commas. The direction name is matched without regard to case. The position's third value is the weight and the
+    // index becomes the flags.
+    {
+        TiXmlDocument document;
+        const char* text = "<Link linktype=\"a, b,c\" direction=\"East\" position=\"5,10,3\"/>";
+        document.LoadFromBuffer(text, static_cast<int>(std::strlen(text)), TIXML_DEFAULT_ENCODING);
+        rnd::Block::Side side = {};
+        rnd::Exit* exit = reinterpret_cast<rnd::Exit*>(&side);
+        EXPECT(exit->LoadFromXml(TiXmlHandle(document.FirstChild("Link")), &block, 3));
+        EXPECT(side.m_direction == &rnd::Direction::sDirections[1]);
+        EXPECT(side.m_names.size() == 3);
+        EXPECT(side.m_names.size() == 3 && side.m_names[0] == "a" && side.m_names[1] == "b" && side.m_names[2] == "cc");
+        EXPECT(side.m_weight == 3.0f);
+        EXPECT(side.m_flags == 3);
+        EXPECT(side.m_block == &block);
+    }
+    // A direction name that matches none of the four gives the fifth entry (none).
+    {
+        TiXmlDocument document;
+        const char* text = "<Link linktype=\"a\" direction=\"up\" position=\"0,0,0\"/>";
+        document.LoadFromBuffer(text, static_cast<int>(std::strlen(text)), TIXML_DEFAULT_ENCODING);
+        rnd::Block::Side side = {};
+        rnd::Exit* exit = reinterpret_cast<rnd::Exit*>(&side);
+        EXPECT(exit->LoadFromXml(TiXmlHandle(document.FirstChild("Link")), &block, 0));
+        EXPECT(side.m_direction == &rnd::Direction::sDirections[4]);
+    }
+    // No direction, or a last link name of "0", skips the exit.
+    {
+        TiXmlDocument document;
+        const char* text = "<Link linktype=\"a\" position=\"0,0,0\"/>";
+        document.LoadFromBuffer(text, static_cast<int>(std::strlen(text)), TIXML_DEFAULT_ENCODING);
+        rnd::Block::Side side = {};
+        EXPECT(!reinterpret_cast<rnd::Exit*>(&side)->LoadFromXml(TiXmlHandle(document.FirstChild("Link")), &block, 0));
+        TiXmlDocument second;
+        const char* zero = "<Link linktype=\"a,0\" direction=\"north\" position=\"0,0,0\"/>";
+        second.LoadFromBuffer(zero, static_cast<int>(std::strlen(zero)), TIXML_DEFAULT_ENCODING);
+        EXPECT(!reinterpret_cast<rnd::Exit*>(&side)->LoadFromXml(TiXmlHandle(second.FirstChild("Link")), &block, 0));
+    }
+}
+
+void TestBlockSideQueries() {
+    // IsStraight: two sides facing opposite ways. GetFlag: one bit per side direction.
+    TestBlock straight;
+    straight.m_sideCount = 2;
+    straight.m_sides[0].m_direction = &rnd::Direction::sDirections[0];  // north
+    straight.m_sides[1].m_direction = &rnd::Direction::sDirections[2];  // south
+    EXPECT(straight.IsStraight());
+    EXPECT(straight.GetFlag() == ((1 << 0) | (1 << 2)));
+    straight.m_sides[1].m_direction = &rnd::Direction::sDirections[1];  // east
+    EXPECT(!straight.IsStraight());
+    straight.m_sideCount = 3;
+    straight.m_sides[2].m_direction = &rnd::Direction::sDirections[3];
+    EXPECT(!straight.IsStraight());
+    EXPECT(straight.GetFlag() == ((1 << 0) | (1 << 1) | (1 << 3)));
+}
+
+void TestLinkToOtherBlocks() {
+    // A link needs a shared name (strings compared by content) and opposite directions.
+    TestBlock a;
+    TestBlock b;
+    a.m_sideCount = 1;
+    b.m_sideCount = 1;
+    a.m_sides[0].unk_28 = 0;
+    b.m_sides[0].unk_28 = 0;
+    a.m_sides[0].m_direction = &rnd::Direction::sDirections[1];  // east
+    b.m_sides[0].m_direction = &rnd::Direction::sDirections[3];  // west
+    a.m_sides[0].m_names = {"door", "wide"};
+    b.m_sides[0].m_names = {"narrow", "door"};
+    std::map<const char*, rnd::Block*, lstr> blocks;
+    blocks.insert(std::make_pair("b", static_cast<rnd::Block*>(&b)));
+    a.LinkToOtherBlocks(blocks);
+    EXPECT(a.m_sides[0].unk_28 == 1);
+    EXPECT(a.m_sides[0].unk_28 == 1 && a.m_sides[0].m_links[0] == &b.m_sides[0]);
+
+    // The same direction does not link.
+    TestBlock c;
+    c.m_sideCount = 1;
+    c.m_sides[0].unk_28 = 0;
+    c.m_sides[0].m_direction = &rnd::Direction::sDirections[3];  // west, like b
+    c.m_sides[0].m_names = {"door"};
+    c.LinkToOtherBlocks(blocks);
+    EXPECT(c.m_sides[0].unk_28 == 0);
+    // An empty name never links.
+    TestBlock d;
+    d.m_sideCount = 1;
+    d.m_sides[0].unk_28 = 0;
+    d.m_sides[0].m_direction = &rnd::Direction::sDirections[1];
+    d.m_sides[0].m_names = {""};
+    b.m_sides[0].m_names = {""};
+    d.LinkToOtherBlocks(blocks);
+    EXPECT(d.m_sides[0].unk_28 == 0);
+}
+
 }  // namespace
 
 int main() {
@@ -166,6 +297,9 @@ int main() {
     TestSplitFileListText();
     TestGetBlockUnitPosition();
     TestExitConstructor();
+    TestExitLoadFromXml();
+    TestBlockSideQueries();
+    TestLinkToOtherBlocks();
     if (g_failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", g_failures);
         return 1;

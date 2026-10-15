@@ -4,9 +4,12 @@
 // and their owner batches are not part of this link. Returns non-zero on failure.
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "core-platform/array2d.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/rnd/MgxBlock.hpp"
+#include "tinyxml.h"
 #include "dh2/rnd/RPElem.hpp"
 #include "dh2/rnd/RoomPool.hpp"
 
@@ -18,7 +21,12 @@ namespace rnd {
 Block::~Block() = default;
 MgxBlock::~MgxBlock() = default;
 RoomPool::~RoomPool() = default;
+// MgxBlock::LoadFromXml belongs to batch -1; LoadFromXmlStream and FromFilename are not exercised here.
+bool MgxBlock::LoadFromXml(TiXmlHandle&) { return false; }
 }  // namespace rnd
+
+// The device file system is not built in this link; FromFilename is not called.
+FileSystemWin32& SavefileFileSystem() { std::abort(); }
 
 namespace {
 

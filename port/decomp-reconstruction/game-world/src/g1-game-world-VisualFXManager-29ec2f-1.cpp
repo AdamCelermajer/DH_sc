@@ -16,6 +16,11 @@
 #include <vector>
 
 #include "dh2/AnimatedFX.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/VisualObject.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/Singleton.hpp"
@@ -368,11 +373,10 @@ void VisualFXManager::RegisterFXToLoad(int effectDictId) {
 }
 
 // 0x496594 VisualFXManager::Update()
-// PARTIAL: the animator step of each active instance is not reproduced. The original calls three slots of the
-// instance's glitch::collada::ISceneNodeAnimator (vtable +0x44, +0x10, +0x44), reads two words of the controller
-// that +0x44 returns (+0x14 and +0x04) and one word of the instance's VisualObject (m_visual +0x08). The glitch
-// headers in this tree do not declare those slots or words, so that step is missing here and must be added once they
-// are. The pool advance, the walk of the active list and the drop of finished instances are reconstructed.
+// Nothing happens unless the AnimatedFX debug module is on. Every pooled instance updates; every active instance then steps its
+// animator: the timeline controller's range end (+0x14) is read, SetEnd runs when it differs from the controller's current time (+0x04),
+// and the animator animates the instance's visual node (VisualObject +0x08) at that time (vtable +0x10, animateNode). An instance whose
+// visibility flag (+0x24) is clear leaves the active list and is dropped.
 void VisualFXManager::Update() {
     if (!AnimatedFXModuleEnabled()) {
         return;
@@ -388,7 +392,13 @@ void VisualFXManager::Update() {
     for (auto it = m_activeFX.begin(); it != m_activeFX.end();) {
         AnimatedFX* instance = *it;
         const auto next = std::next(it);
-        // PARTIAL: the animator step belongs here (see the comment above).
+        instance->GetAnimator()->getTimelineCtrl();                       // vtable +0x44, the answer is dropped
+        glitch::scene::ISceneNode* node = instance->m_visual->m_node;     // VisualObject +0x08
+        const std::int32_t rangeEnd = instance->GetAnimator()->getTimelineCtrl()->rangeEndMs;     // controller +0x14
+        if (rangeEnd != instance->GetAnimator()->getTimelineCtrl()->currentTimeMs) {              // controller +0x04
+            instance->SetEnd();
+        }
+        instance->GetAnimator()->animateNode(node, static_cast<std::uint32_t>(rangeEnd));
         if (!instance->unk_24) {
             m_activeFX.erase(it);
             DropAnimatedFX(instance);

@@ -54,7 +54,7 @@ PFRoom* MakeRoom(PFWorld* world, float minX, float minY, float minZ, float maxX,
 // ---- Stubs for the symbols the batch source references in other classes ----
 
 PFRoom::PFRoom(const char* name, std::uint32_t value, PFWorld* world, PFGOuterGraph* oGraph, PFGInnerGraph* iGraph)
-    : m_name(name), unk_1c(value), m_world(world), unk_24(0), m_oGraph(oGraph), m_iGraph(iGraph),
+    : m_name(name), unk_1c(value), m_world(world), m_flags(0), m_oGraph(oGraph), m_iGraph(iGraph),
       m_boundsMin{0.0f, 0.0f, 0.0f}, m_boundsMax{0.0f, 0.0f, 0.0f} {}
 PFRoom::~PFRoom() { ++g_roomsDeleted; }
 void PFRoom::_DBG_Draw() { g_drawn.push_back(this); }

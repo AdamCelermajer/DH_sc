@@ -8,6 +8,13 @@
 #include <Box2D.h>
 
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/PhysicalWorld.hpp"
@@ -221,8 +228,11 @@ void PhysicalObject::getLookAt(Point2D<float>& out) {
 }
 
 // 0x46f754 PhysicalObject::Draw() const
-// PARTIAL. Rebuilt: the debug-switch gate, the owner visibility test, the centre, the half extent and the
-// body colours. Not rebuilt: the material setup and every drawing call (see the comment before the end).
+// With the isDisplayingPhysicalBodies switch on, a shape (or sensor shape) and a visible owner: the plain material (built-in renderer
+// type 1) of the device's driver is set; a circle body is drawn with SceneManager::DBG_DrawCircle at the owner's height plus 10 and
+// the fill colour; a box body draws four edges around the centre (half extent = radius * 100) in the edge colour and the two diagonals
+// in the fill colour through the driver's draw3DLine (vtable +0x1c). Static bodies are white, moving ones yellow and sleeping ones dark
+// yellow.
 void PhysicalObject::Draw() const {
     DebugSwitches* switches = DebugSwitches::GetInstance();
     switches->load();
@@ -235,33 +245,45 @@ void PhysicalObject::Draw() const {
     }
 
     const Point2D<float> center = getPosition();
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;   // device +0x10
     const float halfExtent = ToWorldUnits(m_radius);    // v5 = m_radius * 100.0f (single precision)
     const float z = m_owner->m_position.Z + 10.0f;      // owner +0x168 (m_position.Z), plus 10
 
+    glitch::video::CMaterialRendererManager* materials = driver->m_materialRendererManager;  // driver +0xdc
+    const std::uint16_t renderer = materials->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+    boost::intrusive_ptr<glitch::video::CMaterial> material = materials->getMaterialInstance(renderer, true);
+    const std::uint8_t technique = material ? static_cast<std::uint8_t>(material->getTechnique()) : 255;
+    driver->setMaterial(material, technique, nullptr);
+
     // Colours as ARGB. A body that is not static is drawn in yellow, dark yellow when asleep. A static
     // body is drawn white. The second value is the one the original uses for the circle and the diagonals.
-    std::uint32_t edgeColor = 0xffffffffu;              // v17 = -1
-    std::uint32_t fillColor = 0x7fffffffu;              // v18 = 0x7fffffff
+    glitch::video::SColor edgeColor;
+    glitch::video::SColor fillColor;
+    edgeColor.color = 0xffffffffu;                      // v17 = -1
+    fillColor.color = 0x7fffffffu;                      // v18 = 0x7fffffff
     if (!m_body->IsStatic()) {
         if (m_body->IsSleeping()) {
-            edgeColor = 0xff7f7f00u;                    // -8421632
-            fillColor = 0x7f7f7f00u;                    // 2139062016
+            edgeColor.color = 0xff7f7f00u;              // -8421632
+            fillColor.color = 0x7f7f7f00u;              // 2139062016
         } else {
-            edgeColor = 0xffffff00u;                    // -256
-            fillColor = 0x7fffff00u;                    // 2147483392
+            edgeColor.color = 0xffffff00u;              // -256
+            fillColor.color = 0x7fffff00u;              // 2147483392
         }
     }
 
-    // Not rebuilt (partial). The original takes the video driver from dword_99F73C +0x10 (the Application
-    // singleton; dh2/Application.hpp types +0x10 as glitch::IDevice*), picks a material instance through
-    // CMaterialRendererManager (driver +0xdc) and calls IVideoDriver::setMaterial. Then, for m_isCircle,
-    // it calls SceneManager::DBG_DrawCircle(center, z, halfExtent, fillColor) with the scene at
-    // dword_99F73C +0x1c. For a box it draws four edges around (center.X +/- halfExtent,
-    // center.Y +/- halfExtent) at depth z in edgeColor, then two diagonals in fillColor, through the
-    // driver's draw3DLine slot (vtable byte offset +0x1c). IVideoDriver is not declared in the tree yet.
-    (void)center;
-    (void)halfExtent;
-    (void)z;
-    (void)edgeColor;
-    (void)fillColor;
+    if (m_isCircle) {
+        DeviceSceneManager()->DBG_DrawCircle(center, z, halfExtent, fillColor);
+    } else {
+        const glitch::core::vector3d<float> lowLow{center.X - halfExtent, center.Y - halfExtent, z};
+        const glitch::core::vector3d<float> lowHigh{center.X - halfExtent, halfExtent + center.Y, z};
+        const glitch::core::vector3d<float> highHigh{halfExtent + center.X, halfExtent + center.Y, z};
+        const glitch::core::vector3d<float> highLow{halfExtent + center.X, center.Y - halfExtent, z};
+        driver->draw3DLine(lowLow, lowHigh, edgeColor);
+        driver->draw3DLine(lowHigh, highHigh, edgeColor);
+        driver->draw3DLine(highHigh, highLow, edgeColor);
+        driver->draw3DLine(highLow, lowLow, edgeColor);
+        driver->draw3DLine(lowLow, highHigh, fillColor);
+        driver->draw3DLine(lowHigh, highLow, fillColor);
+    }
 }
+

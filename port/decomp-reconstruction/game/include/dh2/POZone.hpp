@@ -13,10 +13,17 @@
 #include "dh2/PhysicalObject.hpp"
 
 class PhysicalBaseObject;
+class PhysicalWorld;
+class GameObject;
 template <typename T> struct Point2D;
 
 class POZone : public PhysicalObject {
 public:
+    // No constructor symbol exists: Zone::InitWithBoundingBox (0x397594) and Zone::InitPost (0x39771c) build a PhysicalObject and store the
+    // POZone vtable pointer over it. This constructor is that PhysicalObject constructor with the same arguments.
+    POZone(PhysicalWorld* world, GameObject* owner, bool isStatic, bool isCircle, bool isSensor, bool isBullet, short group,
+           unsigned short category, unsigned short mask, int unused)
+        : PhysicalObject(world, owner, isStatic, isCircle, isSensor, isBullet, group, category, mask, unused) {}
     ~POZone() override;                                             // +0x00/+0x04 0x470728 (D1), 0x4709a0 (D0)
 
     // Vtable slots +0x08 .. +0x14 are POZone's own. +0x18 .. +0x24 are PhysicalObject's.

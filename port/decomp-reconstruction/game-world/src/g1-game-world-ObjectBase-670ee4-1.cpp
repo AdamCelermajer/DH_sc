@@ -25,6 +25,11 @@
 #include "dh2/Application.hpp"
 #include "dh2/ConditionData.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
@@ -62,14 +67,18 @@ void ReportAssert(const char* expression, int line) {
 }  // namespace
 
 // 0x33e6d4 ObjectBase::TestEnableCondition(bool)
-// PARTIAL: the gate is not reproduced. The original reads the local player's character (PlayerManager::GetLocalPlayer
-// (0, true) at +0x660, the same read as GetLocalPlayerCharacter at 0x330794), then Character::m_savegame (+0x14e8) and
-// that savegame's m_questSynced (+0x14). When the gate is closed it returns m_enabled without changing anything.
-// Character.hpp and PlayerManager.hpp cannot be included with Level.hpp (see the include note), so the body assumes
-// the gate is open, as ObjectBase::TestDisableCondition does in part 1, and runs the rest of the original:
-// a level that is present enables the object only when its difficulty index reaches the level's difficulty, the
-// object then needs !is_demo_only and a true enable condition, and any failed test calls SetEnable(false).
+// The same gate as TestDisableCondition (a character whose savegame is missing or not quest synced returns m_enabled untouched). Then:
+// a level that is present enables the object only when its difficulty index (+0xec, -1 counts as 0) does not exceed the level's
+// difficulty; the object then needs !is_demo_only (+0xf1) and a true enable condition (+0x8c), and any failed test calls SetEnable(false).
+// A passing object is enabled and, when asked, its enable condition is marked tested.
 bool ObjectBase::TestEnableCondition(bool markTested) {
+    Character* localPlayer = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (localPlayer != nullptr) {
+        PlayerSavegame* savegame = localPlayer->m_savegame;
+        if (savegame == nullptr || !savegame->m_questSynced) {
+            return m_enabled != 0;  // +0x8a
+        }
+    }
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     bool passes = false;
     int minDifficulty = m_minDifficultyIdx;  // +0xec; -1 counts as 0

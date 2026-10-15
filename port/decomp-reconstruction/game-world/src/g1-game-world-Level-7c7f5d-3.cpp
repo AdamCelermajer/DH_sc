@@ -28,6 +28,10 @@
 #include "dh2/GameEventManager.hpp"
 #include "dh2/InfoHUDManager.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/Point2D.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include <cstring>
 #include "vendor-gameswf/smart_ptr_proxy.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
@@ -890,24 +894,60 @@ Level::~Level() {
 }
 
 // 0x3f94f4 Level::CanMoveTowards(Point3D<float> const&, Point3D<float> const&)
-// PARTIAL. The original answers yes at once for a single player character, for an online game, and for a zero-length
-// direction. Otherwise it measures the angle between the direction and the vector from the camera node's position to the
-// point, and checks each local player's screen position against the co-op limits. Reconstructed here: the single-character
-// test and the zero-length test. The online test is COnline::isOnlineGame_ (protected, no accessor), and it comes first, so
-// nothing after it can be decided. The angle test needs the camera node's position getter (CameraBase::m_node, vtable +0xa0,
-// not named). The limits are Structs::DesignSettings m_w6 (bottom, +0x18), m_w7 (sides, +0x1c) and m_w8 (top, +0x20). The
-// result returned for that path is a placeholder true.
+// Yes at once for a single player character (PlayerManager +0x6c4), for an online game, for a zero-length direction and when the camera has
+// no node. Otherwise the angle between the direction and the vector from the point to the camera node's position (getPosition,
+// vtable +0xa0) must be at least a quarter turn (1.5708) to go on; then every local player's character that is not dead has its
+// screen position tested against the co-op limits of the first DesignSettings record (sides +0x1c, top +0x20, bottom +0x18, each
+// asserted non-negative): a position outside any limit answers no, and when all four players pass the answer is yes.
 bool Level::CanMoveTowards(const Point3D<float>& from, const Point3D<float>& direction) {
-    (void)from;
-    if (dword_99F76C->m_numCharacters == 1) {
+    PlayerManager* playerManager = dword_99F76C;
+    if (playerManager->m_numCharacters == 1) {
+        return true;
+    }
+    if (GetOnlineGameFlag()) {
         return true;
     }
     const float lengthSquared = direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z;
     if (std::fabs(lengthSquared) < 0.0001) {
         return true;
     }
-    // SEAM: GetOnline()->isOnlineGame_ (online: true) and the angle test against the camera target, and the co-op screen-limit
-    // test. Placeholder: true.
+    glitch::scene::ISceneNode* cameraNode = m_camera->m_node;     // CameraBase +0x04
+    if (!cameraNode) {
+        return true;
+    }
+    const glitch::core::vector3d<float>& cameraPosition = cameraNode->getPosition();
+    Point3D<float> toCamera;
+    toCamera.X = cameraPosition.X - from.X;
+    toCamera.Y = cameraPosition.Y - from.Y;
+    toCamera.Z = cameraPosition.Z - from.Z;
+    if (std::fabs(direction.angle(toCamera)) < 1.5708f) {
+        return true;
+    }
+    const Structs::DesignSettings& settings = *reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+    auto assertNonNegative = [](float value, const char* expression, int line) {
+        if (value < 0.0f) {
+            if (gAssertLevel == 2) {
+                std::abort();
+            } else if (gAssertLevel == 1) {
+                std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression,
+                             "..\..\project_vs2005\Game/..\..\sources\Game\Level\Level_Players.cpp", line);
+            }
+        }
+    };
+    assertNonNegative(settings.m_w7, "settings.CoopCamLimits_Sides >= 0.0f", 96);
+    assertNonNegative(settings.m_w8, "settings.CoopCamLimits_Top >= 0.0f", 97);
+    assertNonNegative(settings.m_w6, "settings.CoopCamLimits_Bottom >= 0.0f", 98);
+    for (int index = 0; index < 4; ++index) {
+        Character* character = playerManager->GetPlayer(index, false)->unk_660;      // PlayerInfo +0x660
+        if (character && !character->IsDead()) {
+            Point2D<float> screen{};
+            CameraBase::GetScreenCoord(character->m_position, screen);                // Character +0x160
+            if (-settings.m_w7 >= screen.X || settings.m_w7 <= screen.X || -settings.m_w6 >= screen.Y ||
+                screen.Y >= settings.m_w8) {
+                return false;
+            }
+        }
+    }
     return true;
 }
 

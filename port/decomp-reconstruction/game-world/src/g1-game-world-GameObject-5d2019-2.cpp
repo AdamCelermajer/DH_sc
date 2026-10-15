@@ -11,6 +11,11 @@
 
 #include "dh2/GameObject.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/Application.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ObjectHandle.hpp"
@@ -426,11 +431,11 @@ void GameObject::EnableZoning() {
     UpdateZoningVisibility(*this);
 }
 
-// 0x38c968 GameObject::Draw(void) const
-// Partial: the bounding-box branch is not reconstructed. The original sets up a material through the
-// video driver (CMaterialRendererManager::getMaterialInstance, IVideoDriver::setMaterial) and draws the
-// world AABB through the debug-draw owner dword_99F73C (+0x10 driver, vtable +0x28). That driver pointer
-// has no declaration in the tree, so the box is not drawn. The other debug draws are reconstructed.
+// 0x38c968 _ZNK10GameObject4DrawEv
+// The visual and physical objects draw themselves; with the isDisplayingObstacles switch the path finding object draws its obstacle,
+// with isDisplayingObstacleForces (and IsAvoidingObstacles) its forces; with isDisplayingBoundingBox the plain material (built-in
+// renderer type 1) of the device's driver is set with its first technique and the driver draws (vtable +0x28, draw3DBox) the absolute
+// AABB (+0x12c) in the colour 0xFFFF0000.
 void GameObject::Draw() const {
     if (m_visualObject != nullptr) {
         m_visualObject->Draw();
@@ -454,6 +459,22 @@ void GameObject::Draw() const {
 
     switches->load();
     if (switches->GetSwitch("isDisplayingBoundingBox")) {
-        // Not reconstructed: the material setup and the bounding-box draw (see the note above).
+        glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;   // device +0x10
+        glitch::video::CMaterialRendererManager* materials = driver->m_materialRendererManager;  // driver +0xdc
+        const std::uint16_t renderer = materials->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+        boost::intrusive_ptr<glitch::video::CMaterial> material = materials->getMaterialInstance(renderer, true);
+        const std::uint8_t technique = material ? static_cast<std::uint8_t>(material->getTechnique()) : 255;
+        driver->setMaterial(material, technique, nullptr);
+        glitch::core::aabbox3d<float> box;
+        box.MinEdge.X = m_absAabb[0];
+        box.MinEdge.Y = m_absAabb[1];
+        box.MinEdge.Z = m_absAabb[2];
+        box.MaxEdge.X = m_absAabb[3];
+        box.MaxEdge.Y = m_absAabb[4];
+        box.MaxEdge.Z = m_absAabb[5];
+        glitch::video::SColor color;
+        color.color = 0xFFFF0000u;
+        driver->draw3DBox(box, color);
     }
 }
+

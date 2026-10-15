@@ -14,6 +14,14 @@
 #include "dh2/CameraLevel.hpp"
 #include "dh2/CameraOverview.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/IFileStream.hpp"
+#include "dh2/global/savefile_fs.hpp"
+#include "tinyxml.h"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "dh2/global/ToLowerCase.hpp"
+#include "glitch-video/batch_driver.hpp"
 #include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
 #include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
@@ -435,19 +443,12 @@ void Level::Draw() const {
 }
 
 // 0x3f2ae4 _ZN5Level13_LoadBatchingEv
-// PARTIAL. The gate, clearRenderLists on DeviceSceneManager() (device +0x1c), the unk_43c flag at +0x43c, the BUFFER SIZE
-// print of each branch (LevelConfig, high-performance +0x2a0..+0x2a8, otherwise +0x2ac..+0x2b4), BatchNodeCompiler::Compile
-// with the branch's quantize flag, and the two tail calls are reconstructed. Each branch writes the two batch buffer sizes
-// into the scene manager's batch driver (CSceneManager +0x1c) as (unsigned)((double)size * 1.02): the vertex size at +0x22c
-// and the index size at +0x230 (asm 0x3f2c0c and 0x3f2cd4). glitch::video::CBatchDriver now exists in the tree
-// (glitch-video/include/glitch-video/batch_driver.hpp, object 0x264 bytes, constructor 0x5a2e20, destructor 0x5a3d50) and
-// names those two words defaultVertexBufferCapacityBytes (+0x22C) and defaultIndexBufferCapacityBytes (+0x230), so the two
-// stores can be typed here as soon as this file includes that header and CSceneManager.hpp; they are still left out (SEAM).
-// The tail: when the compiler's m_compiled (+0x00) is set, the scene manager's
-// root node (CSceneManager +0x04) takes the batch node through addChild (its vtable +0x5c = ISceneNode::addChild, listing
-// slot 0x48 + 0x0c), and then the batch node itself takes setVisible(true) (its vtable +0x48 = ISceneNode::setVisible).
-// Deviation: the setVisible call is guarded for null because Compile is still partial in this tree (its GAP A and GAP D
-// leave m_compiled clear and m_batchNode null), where the original's Compile has always created the node by then.
+// Unless the IsDisablingCompiledBatching switch is on: clearRenderLists on the device's scene manager (+0x1c), the clear flag unk_43c
+// (+0x43c) raised, and the LevelConfig batch sizes of the device class (high performance: +0x2a0 vertex, +0x2a4 index, +0x2a8 quantize;
+// otherwise +0x2ac, +0x2b0, +0x2b4) printed ("*** BUFFER SIZE"), stored in the scene manager's batch driver (CSceneManager +0x1c) as
+// (unsigned)((double)size * 1.02) at +0x22c (vertex) and +0x230 (index), and BatchNodeCompiler::Compile run with the quantize flag. The
+// flag is then cleared; when the compiler set m_compiled the batch node joins the scene root (vtable +0x5c); the batch node is made visible
+// (vtable +0x48).
 void Level::_LoadBatching() {
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
@@ -457,15 +458,18 @@ void Level::_LoadBatching() {
     sceneManager->clearRenderLists();
     sceneManager->unk_43c = true;  // +0x43c
     LevelConfig* config = GetLevelConfig();  // the original reads this+0x38 directly; a null config faults there too
+    glitch::video::CBatchDriver* batchDriver = sceneManager->batchDriver;   // +0x1c
     if (Device::IsHighPerformance()) {
         std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_progVertexBufferSize, config->m_progIndexBufferSize,
                     static_cast<int>(config->m_progQuantize));
-        // SEAM: sceneManager->batchDriver (+0x1c) +0x22c / +0x230, see above.
+        batchDriver->defaultIndexBufferCapacityBytes = static_cast<std::uint32_t>(static_cast<double>(config->m_progIndexBufferSize) * 1.02);
+        batchDriver->defaultVertexBufferCapacityBytes = static_cast<std::uint32_t>(static_cast<double>(config->m_progVertexBufferSize) * 1.02);
         m_batchNodeCompiler->Compile(config->m_progQuantize);
     } else {
         std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_fixVertexBufferSize, config->m_fixIndexBufferSize,
                     static_cast<int>(config->m_fixQuantize));
-        // SEAM: the batch sizes, see above.
+        batchDriver->defaultIndexBufferCapacityBytes = static_cast<std::uint32_t>(static_cast<double>(config->m_fixIndexBufferSize) * 1.02);
+        batchDriver->defaultVertexBufferCapacityBytes = static_cast<std::uint32_t>(static_cast<double>(config->m_fixVertexBufferSize) * 1.02);
         m_batchNodeCompiler->Compile(config->m_fixQuantize);
     }
     sceneManager->unk_43c = false;
@@ -473,12 +477,7 @@ void Level::_LoadBatching() {
     if (compiler->m_compiled) {                                // +0x00
         sceneManager->rootNode->addChild(compiler->m_batchNode);
     }
-    // Host-necessitated guard: the original reaches m_batchNode (+0x34) without a test, which Compile has always created
-    // by this point. BatchNodeCompiler::Compile is still partial in this tree (g1-game-world-batch-7f01fe-0.cpp, its GAP A
-    // and GAP D), so m_compiled stays clear and m_batchNode stays null here, and the unguarded call would dereference null.
-    if (compiler->m_batchNode != nullptr) {
-        compiler->m_batchNode->setVisible(true);  // +0x34, vtable +0x48
-    }
+    compiler->m_batchNode->setVisible(true);  // +0x34, vtable +0x48
 }
 
 // 0x3f2d38 _ZN5Level14_LoadBatchListEv
@@ -523,17 +522,10 @@ void Level::_LoadBatchList() {
 
 // 0x3f3128 _ZN5LevelC1EPKcijjjbbii
 // 0x3f34c0 _ZN5LevelC2EPKcijjjbbii
-// The two addresses are the C1 and C2 copies of one body. The pseudocode differs only in how the decompiler types the
-// savegame slot word (this+0x114), so one definition serves both.
-// PARTIAL, two seams:
-//   1. The online block is skipped. It needs GetOnline()->isOnlineGame_ (+0x05), which COnline keeps protected with no getter
-//      (net-session-online/c_online.hpp), and OnlineSingleton<OnlineGameState>, CMatching and CMatchingGLLive, which are not
-//      declared in the tree. So m_resume is not cleared for a joining non-host player when the game is online.
-//   2. The Arrays::LevelList scan is skipped. Its rows need w7_arrays_00.hpp, which cannot share a translation unit with
-//      member_names.hpp. So m_levelListIndex, m_levelListSubId and m_isRandomLevel keep their defaults, and the savegame
-//      creation below does not run for a level that is in the list.
-// Everything else is rebuilt: the field defaults, the LuaScript data directory and its two loads, Module::s_moduleId, and the
-// savegame flags that depend on the list index.
+// The two addresses are the C1 and C2 copies of one body. The pseudocode differs only in how the decompiler types the savegame slot
+// word (this+0x114), so one definition serves both. Field defaults, the LuaScript data directory and its two loads, Module::s_moduleId,
+// the Arrays::LevelList scan (the first row whose lowercased name is a substring of the level name gives the list index, sub id and
+// random flag), the online block (a client, or any player after a host change, does not resume) and the savegame creation.
 Level::Level(const char* name, int entryPointId, uint32_t savegameSlot, uint32_t seed, uint32_t syncedSeed,
              bool resume, bool useSpawnPoint, int fromSubId, int difficulty)
     : EventManager(), m_script(false), m_levelName(name) {
@@ -592,10 +584,33 @@ Level::Level(const char* name, int entryPointId, uint32_t savegameSlot, uint32_t
 
     Module::s_moduleId = 0;
 
-    // SEAM: the Arrays::LevelList scan (sets m_levelListIndex, m_levelListSubId and m_isRandomLevel from the row whose lowercased
-    // name is a substring of m_levelName; rows are Structs::LevelDeclaration with the name at m_w8, subId at m_w4, isRandom at
-    // m_w5). It needs Arrays::LevelList::members and size from pydata-accessors/w7_arrays_00.hpp, which conflicts with
-    // pydata-accessors/member_names.hpp (included for SetLevelConfig's Arrays::GetMemberIDByString) in one translation unit.
+    // The level list scan: the first row whose lowercased name (Structs::LevelDeclaration m_w8, +0x20) is a substring of the level
+    // name sets the list index, the random-level flag (m_w5, +0x14) and the sub id (m_w4, +0x10).
+    if (Arrays::LevelList::size) {
+        const auto* rows = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
+        for (std::uint32_t row = 0; row < Arrays::LevelList::size; ++row) {
+            char lowered[1024];
+            std::strcpy(lowered, static_cast<const char*>(rows[row].m_w8));
+            ToLowerCase(lowered, 0, -1);
+            if (std::strstr(m_levelName.c_str(), lowered)) {
+                m_levelListIndex = static_cast<int>(row);          // +0x3c
+                m_isRandomLevel = rows[row].m_w5;                  // +0xe8
+                m_levelListSubId = rows[row].m_w4;                 // +0x40
+                break;
+            }
+        }
+    }
+
+    // Online: a client (not hosting, and not the host of a mode 3 or 4 room), or any player after a host change, does not resume.
+    if (GetOnlineGameFlag()) {                                    // COnline +0x05
+        PlayerManager* playerManager = Singleton<Application>::s_inst.m_playerManager;
+        if ((!playerManager->IsLocalPlayerHosting() &&
+             (static_cast<unsigned>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_ - 3) > 1 ||
+              !static_cast<CMatchingGLLive*>(CMatching::Get())->IsHost())) ||
+            playerManager->m_hostChanged) {                       // PlayerManager +0x719
+            m_resume = false;                                     // +0xf1
+        }
+    }
 
     if (m_levelListIndex != -1) {
         if (fromSubId != -1) {
@@ -656,23 +671,117 @@ void Level::_LoadScripts() {
 }
 
 // 0x3f3b40 _ZN5Level8LoadFileERKSsS1_
-// PARTIAL: the original is an incremental TinyXML reader. Each call either advances the open file's element cursor
-// (m_loadFileData, walked by _LoadFromXML and NextSiblingElement) or opens the next candidate: the four folder prefixes and
-// four fragments to remove (their strings are not recovered), an uncompiled-data check through
-// Application::IsUsingUncompiledData, and a LoadFileData (80 bytes) that wraps a StreamBuffer. None of that is reconstructed.
-// The function returns 1 ("finished") so that the callers' do-while loops do not repeat. No module file is loaded.
+// Reads one level or module file incrementally; every call does one step and returns 0 until the file is finished (1; also 1 when
+// the file cannot be found or parsed).
+//  - With a file in progress (m_loadFileData) and a current element, that element is loaded (_LoadFromXML) and the cursor moves to its
+//    next sibling.
+//  - Without a current element but with a module, the cursor moves to the next child of the document; when that child's name equals
+//    tag, the current element becomes the first child element of it.
+//  - Without a module the document and the load data are freed and the answer is 1.
+//  - A load data without a document parses its buffer (the stream must be sized; "Can't parse the level file" otherwise).
+//  - With no load data the file is opened: for each folder of potentialFolders ("", data/, data/scene/, data/3d/modules/) the folder
+//    and the file name are joined; when the application uses uncompiled data the joined name is tried first; then the first of
+//    "old/", "debug/", "ps3/" and "iphone/" that the name contains is removed and the result is tried; the first name that opens
+//    becomes the file (a StreamBuffer copy of it in a new load data) and the file is closed.
 int Level::LoadFile(const std::string& file, const std::string& tag) {
-    (void)file;
-    (void)tag;
-    return 1;
+    static const char* const potentialFolders[4] = {"", "data/", "data/scene/", "data/3d/modules/"};
+    static const char* const hackToRemove[4] = {"old/", "debug/", "ps3/", "iphone/"};
+    constexpr const char* kLevelSource = "..\..\project_vs2005\Game/..\..\sources\Game\Level\Level.cpp";
+
+    LoadFileData* data = m_loadFileData;           // +0x140
+    if (data == nullptr) {
+        glitch::IDevice* device = ApplicationGetInstance().m_device;
+        FileSystemWin32& fileSystem = SavefileFileSystem();   // device +0x34
+        (void)device;
+        std::string tried;                         // the names tried, one per line (the original builds it and never prints it)
+        for (int folder = 0; folder < 4; ++folder) {
+            std::string path(potentialFolders[folder]);
+            path.append(file);
+            if (ApplicationGetInstance().IsUsingUncompiledData(path.c_str())) {
+                tried.append("\n\t");
+                tried.append(path);
+                IFileStream* stream = fileSystem.openFile(path.c_str(), false, false);   // vtable +0x88
+                if (stream != nullptr) {
+                    m_loadFileData = new LoadFileData(stream);
+                    fileSystem.closeFile(stream);                                         // vtable +0x78
+                    return 0;
+                }
+            }
+            for (const char* hack : hackToRemove) {            // only the first match is removed
+                const std::size_t length = std::strlen(hack);
+                if (length > path.size()) {
+                    continue;
+                }
+                const std::size_t position = path.find(hack);
+                if (position == std::string::npos) {
+                    continue;
+                }
+                path.erase(position, length);
+                break;
+            }
+            tried.append("\n\t");
+            tried.append(path);
+            IFileStream* stream = fileSystem.openFile(path.c_str(), false, false);
+            if (stream != nullptr) {
+                m_loadFileData = new LoadFileData(stream);
+                fileSystem.closeFile(stream);
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    TiXmlNode* previousModule = nullptr;
+    if (data->m_document != nullptr) {
+        if (data->m_currentElement != nullptr) {
+            _LoadFromXML(data->m_currentElement);
+            data = m_loadFileData;
+            data->m_currentElement = data->m_currentElement->NextSiblingElement();
+            return 0;
+        }
+        previousModule = data->m_currentModule;
+        if (previousModule == nullptr) {
+            delete data->m_document;
+            delete m_loadFileData;
+            m_loadFileData = nullptr;
+            return 1;
+        }
+    } else {
+        data->m_document = new TiXmlDocument();
+        if (!data->m_stream.buffer_.sized() && gAssertLevel == 1) {
+            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "static_",
+                         "..\..\project_vs2005\Game/..\..\sources/Utils/StreamBuffer.h", 130);
+        } else if (!data->m_stream.buffer_.sized() && gAssertLevel == 2) {
+            std::abort();
+        }
+        if (!data->m_document->LoadFromBuffer(data->m_stream.buffer_.FirstBlock(),
+                                              static_cast<int>(data->m_stream.buffer_.size()), TIXML_DEFAULT_ENCODING)) {
+            if (gAssertLevel == 2) {
+                std::abort();
+            }
+            if (gAssertLevel == 1) {
+                std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "!\"Can't parse the level file\"", kLevelSource, 2224);
+            }
+            return 1;
+        }
+        data->m_root = data->m_document;
+    }
+    // The next child of the document is the current module; it is the one to load when its name is the requested tag.
+    data->m_currentModule = data->m_root->IterateChildren(previousModule);
+    TiXmlNode* module = m_loadFileData->m_currentModule;
+    if (module != nullptr && module->ValueStr() == tag) {
+        TiXmlElement* element = module->ToElement();
+        m_loadFileData->m_currentElement = element != nullptr ? element->FirstChildElement() : nullptr;
+    }
+    return 0;
 }
 
 // 0x3f4154 _ZN5Level8LoadTileEPN3rnd4TileEi
-// PARTIAL. The original starts with an unconditional ASSERT(false) at Level.cpp line 3269. That is reproduced: level 2
-// stops with a null store (here std::abort), and level 1 prints the assert text. Reconstructed: the grid position (the tile's
-// m_x, m_y and m_z, scaled by the block's unit and block sizes; the y term is negated), the module id, the mvx and mgx paths
-// (gameplay/visual folder plus block name), the two module loads, the zeroed module offset, and the recursion over the
-// children. Skipped: the mgp and mvp module loads (see the SEAM comment below).
+// The original starts with an unconditional ASSERT(false) at Level.cpp line 3269. That is reproduced: level 2 stops with a null
+// store (here std::abort), and level 1 prints the assert text. Then: the grid position (the tile's m_x, m_y and m_z, scaled by the
+// block's unit and block sizes; the y term is negated), the module id, the mvx, mgx, mgp and mvp paths (the block's gameplay folder,
+// the block name for mvx and mgx, the tile's own gameplay and visual names for mgp and mvp), the module loads in that order (mgp and mvp
+// only when the tile has that name), the zeroed module offset, and the recursion over the children.
 int Level::LoadTile(rnd::Tile* tile, int moduleId) {
     if (gAssertLevel == 2) {
         std::abort();
@@ -690,9 +799,10 @@ int Level::LoadTile(rnd::Tile* tile, int moduleId) {
 
     std::string mvxPath = block->m_gameplay + "/mvx/" + block->m_name + ".mvx";
     std::string mgxPath = block->m_gameplay + "/mgx/" + block->m_name + ".mgx";
-    // SEAM: the mgp and mvp loads (original: gameplay + "/mgp/" + range at Tile +0x60..+0x64, and gameplay + "/mvp/" + range at
-    // +0x78..+0x7c). Those words lie inside the ListElem copy's m_gameplay (ListElem +0x1c) and m_visual (+0x34) string
-    // objects, so they are string internals that the host std::string does not expose. Not reconstructed.
+    // The tile's own gameplay and visual names (the ListElem copy at Tile +0x34: m_gameplay at +0x50, m_visual at +0x68) select the
+    // mgp and mvp files of the block's gameplay folder.
+    std::string mgpPath = block->m_gameplay + "/mgp/" + tile->m_listElem.m_gameplay;
+    std::string mvpPath = block->m_gameplay + "/mvp/" + tile->m_listElem.m_visual;
 
     int loaded = 0;
     do {
@@ -702,6 +812,18 @@ int Level::LoadTile(rnd::Tile* tile, int moduleId) {
     do {
         loaded = LoadFile(mgxPath, std::string("Module"));
     } while (!loaded);
+    if (!tile->m_listElem.m_gameplay.empty()) {
+        loaded = 0;
+        do {
+            loaded = LoadFile(mgpPath, std::string("Module"));
+        } while (!loaded);
+    }
+    if (!tile->m_listElem.m_visual.empty()) {
+        loaded = 0;
+        do {
+            loaded = LoadFile(mvpPath, std::string("Module"));
+        } while (!loaded);
+    }
 
     unk_16c = false;                 // +0x16c
     m_moduleOffset.X = 0.0f;         // +0x160

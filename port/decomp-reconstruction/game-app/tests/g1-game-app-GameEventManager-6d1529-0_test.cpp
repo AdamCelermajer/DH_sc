@@ -12,6 +12,8 @@
 #include "dh2/GameEvent.hpp"
 #include "dh2/GameEventManager.hpp"
 #include "dh2/global/runtime_support.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/w7_structs_1.hpp"
 
 namespace {
 
@@ -68,6 +70,10 @@ GameEvent::~GameEvent() { ++g_destroyed; }
 void GameEvent::Update() { Log("U", this); }
 void GameEvent::Compile() { Log("C", this); }
 void GameEvent::ReInit() { Log("R", this); }
+void GameEvent::AssignPyData(Structs::v2Event* data) {
+    m_pyData = data;
+    Log("P", this);
+}
 void GameEvent::DBG_TraceDetailedInformation() const { Log("D", this); }
 
 // Recording doubles for the runtime helpers.
@@ -105,17 +111,58 @@ void TestGetEventByID() {
     mgr.Unload();
 }
 
+// The event table the manager reads: three names and three (unconstructed) rows. The real Arrays::v2Events statics are used.
+char g_names[3][8] = {"alpha", "beta", "gamma"};
+char* g_namePointers[3] = {g_names[0], g_names[1], g_names[2]};
+alignas(Structs::v2Event) unsigned char g_rows[3 * sizeof(Structs::v2Event)];
+
+void SetUpEventTable() {
+    Arrays::v2Events::m_memberNames.names = g_namePointers;
+    Arrays::v2Events::m_memberNames.size = 3;
+    Arrays::v2Events::size = 3;
+    Arrays::v2Events::members = g_rows;
+}
+
 void TestGetEventByName() {
+    SetUpEventTable();
     GameEventManager mgr;
     GameEvent* a = MakeEvent(0, "alpha");
     GameEvent* b = MakeEvent(1, "beta");
     mgr.m_events.push_back(a);
     mgr.m_events.push_back(b);
 
+    // The name is looked up in the member name table, and the row index goes to GetEventByID.
     EXPECT(mgr.GetEventByName("alpha") == a);
     EXPECT(mgr.GetEventByName("beta") == b);
+    EXPECT(mgr.GetEventByName("gamma") == nullptr);  // a row without a loaded event
     EXPECT(mgr.GetEventByName("delta") == nullptr);
     EXPECT(mgr.GetEventByName("alph") == nullptr);
+    mgr.Unload();
+}
+
+void TestLoad() {
+    ResetRecords();
+    SetUpEventTable();
+    GameEventManager mgr;
+    mgr.Load();
+    EXPECT(mgr.m_events.size() == 3);
+    for (std::size_t i = 0; i < mgr.m_events.size(); ++i) {
+        GameEvent* ev = mgr.m_events[i];
+        EXPECT(ev != nullptr);
+        if (ev == nullptr) {
+            continue;
+        }
+        EXPECT(ev->m_index == static_cast<int>(i));
+        EXPECT(ev->m_name == g_namePointers[i]);
+        EXPECT(ev->m_pyData == reinterpret_cast<Structs::v2Event*>(g_rows) + i);
+    }
+    EXPECT(g_log == "P0 R0 P1 R1 P2 R2 ");  // AssignPyData then ReInit, per row in order
+    // A second Load with events present does nothing.
+    ResetRecords();
+    mgr.Load();
+    EXPECT(g_log.empty());
+    EXPECT(mgr.m_events.size() == 3);
+    EXPECT(mgr.GetEventByName("gamma") == mgr.m_events[2]);
     mgr.Unload();
 }
 
@@ -219,6 +266,7 @@ void TestDestructorUnloads() {
 int main() {
     TestGetEventByID();
     TestGetEventByName();
+    TestLoad();
     TestUpdateRunsEventsInOrderInProfileContext();
     TestUpdateEmptyStillProfiles();
     TestCompileRunsEachEvent();

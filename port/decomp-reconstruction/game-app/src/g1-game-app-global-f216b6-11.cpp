@@ -7,9 +7,7 @@
 //     which is the same sequence as the Hex-Rays load(&s_inst) followed by GetSwitch(&s_inst, name).
 //   - MerchantTradePrice (header) is the arithmetic shared by the sell and buy natives. It is tested in
 //     game-app/tests/g1-game-app-global-f216b6-11_test.cpp.
-//   - Every native whose body is written reads its arguments with call.arg(i) (argument 0 is the top of the
-//     call's stack) and writes call.result. Three natives stay PARTIAL on declarations of other categories: see
-//     NativeConnectToServer, NativeHasPushNotification and NativeGLXPlayerSignin.
+//   - Every native reads its arguments with call.arg(i) (argument 0 is the top of the call's stack) and writes call.result.
 //
 // Shared facts used by the comments:
 //   - Argument layout. The arguments are read from the top of the call's stack. "top" is the last argument and
@@ -20,11 +18,15 @@
 //     range. It is not declared in the tree yet, so every native that calls it is PARTIAL.
 //   - Application singleton: Singleton<Application>::s_inst, the object ApplicationGetInstance() returns
 //     (dh2/global/ctrl_camera.hpp). Application::GetCurrentLevel() is the current Level or null.
-//   - OnlineSingleton<OnlineGameState>::GetInstance() is the online game state. Its fields at +0x27, +0x30, +0x34
-//     and +0x50 are not declared in net-session-online/online_game_state.hpp.
+//   - OnlineSingleton<OnlineGameState>::GetInstance() is the online game state (net-session-online/online_game_state.hpp: flag27_ at +0x27,
+//     menuName30_ at +0x30, mode_ at +0x34, RoomInfos() at +0x50).
 
+#include <cstdint>
+#include <cstdlib>
 #include <cstring>
+#include <new>
 #include <string>
+#include <vector>
 
 #include "core-platform/device.hpp"
 #include "gameswf/gameswf_environment.h"
@@ -50,7 +52,16 @@
 #include "dh2/global/app_helpers.hpp"
 #include "dh2/global/native_player_actions.hpp"
 #include "dh2/global/native_stats_inventory_merchant.hpp"
+#include "core-platform/gc_singleton.hpp"
+#include "dh2/global/gc_invite_flags.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/global/save_remember.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/c_sign_in.hpp"
+#include "net-session-online/game_center.hpp"
 #include "net-session-online/online_game_state.hpp"
+#include "net-session-online/t_room_info.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
 #include "pydata-accessors/member_names.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
@@ -256,14 +267,27 @@ void NativeGetLoadingProgress(const gameswf::fn_call& call) {
 }
 
 // 0x43fdbc NativeConnectToServer(gameswf::fn_call const&)
-// PARTIAL. One argument, the room index (a number). The rooms are a std::vector<tRoomInfo> (968 bytes each): when the online state
-// (OnlineSingleton<OnlineGameState>::GetInstance()) has mode_ 2 they come from CMatching::Get() through its virtual at vtable +0x90
-// (CMatchingGLLive::GetRoomList), otherwise they are the state's own vector (+0x50). An index in [0, count) is stored at the state's
-// +0x30 and the state machine state (+0x14) becomes 103 (OnlineGameState::SetState). The result is true. Blocked on
-// net-session-online: GetRoomList (0x82051c) is a skipped row there, the state's room vector (roomInfos_) has no accessor and
-// +0x30 has no field.
+// One argument, the room index (a number). The rooms are a std::vector<tRoomInfo> (968 bytes each): when the online state's mode (+0x34) is 2 they
+// are the matching object's lobby list (CMatching::Get()->GetRoomList(), vtable +0x90), otherwise the state's own list (+0x50). An index in
+// [0, count) is stored in the state's word at +0x30 (menuName30_, which joinRoom reads back as the room index) and the state machine state (+0x14)
+// becomes 103. The result is true whatever the index.
 void NativeConnectToServer(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 1) {
+        return;
+    }
+    const int index = static_cast<int>(call.arg(0).to_number());
+    std::vector<tRoomInfo> rooms;
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    if (state->mode_ == 2) {
+        rooms = CMatching::Get()->GetRoomList();
+    } else {
+        rooms = OnlineSingleton<OnlineGameState>::GetInstance()->RoomInfos();
+    }
+    if (index >= 0 && static_cast<std::size_t>(index) < rooms.size()) {
+        OnlineSingleton<OnlineGameState>::GetInstance()->menuName30_ = reinterpret_cast<const char*>(static_cast<std::uintptr_t>(index));  // +0x30
+        OnlineSingleton<OnlineGameState>::GetInstance()->SetState(103);                                                                  // +0x14
+    }
+    call.result->set_bool(true);
 }
 
 // 0x43fec4 NativeGetNextStatusMessage(gameswf::fn_call const&)
@@ -440,29 +464,55 @@ void NativeMerchantBuyItem(const gameswf::fn_call& call) {
 }
 
 // 0x440c84 NativeHasPushNotification(gameswf::fn_call const&)
-// PARTIAL. No arguments. The result is false when the device gate (PushNotificationGate: Device::IsHighPerformance,
-// Is_In_Multiplayer_Mode, SHARP_DEVICES, HTC_DEVICES) is closed; otherwise it is true when byte_99F83A or byte_99F81A (the GameCenter
-// invite flags, dh2/global/gc_invite_flags.hpp) is set or the byte at +0x15 of GCSingleton<GameCenter>::GetInstance() (the start
-// gate) is set. Blocked on the GameCenter duplicate: GCSingleton<GameCenter> (core-platform/gc_singleton.hpp) instantiates
-// core-platform/deps/game_center.hpp, a stand-in class, and net-session-online's real GameCenter has the gate (startGate_) private.
+// No arguments. The result is false when the device gate (PushNotificationGate: Device::IsHighPerformance, Is_In_Multiplayer_Mode, SHARP_DEVICES,
+// HTC_DEVICES) is closed; otherwise it is true when byte_99F83A or byte_99F81A (the GameCenter invite flags, dh2/global/gc_invite_flags.hpp) is set
+// or the start gate of the GameCenter singleton (byte +0x15) is set.
 void NativeHasPushNotification(const gameswf::fn_call& call) {
-    (void)call;
+    bool result = false;
+    if (PushNotificationGate()) {
+        result = byte_99F83A != 0 || byte_99F81A != 0;
+        if (GCSingleton<GameCenter>::GetInstance()->startGate_) {
+            result = true;
+        }
+    }
+    call.result->set_bool(result);
 }
 
 // The start gate of NativeHasPushNotification. The original passes Device::IsHighPerformance() (the call takes the
 // fn_call pointer in the pseudocode, but the function is static with no argument) and tests the three globals.
+// The login-remember flag of the sign-in screen (ELF 0x9a5c08, one .bss byte, dh2/global/save_remember.hpp).
+bool save_remember = false;
+
 bool PushNotificationGate() {
     return Device::IsHighPerformance() || Is_In_Multiplayer_Mode || SHARP_DEVICES || HTC_DEVICES;
 }
 
 // 0x440d3c NativeGLXPlayerSignin(gameswf::fn_call const&)
-// PARTIAL. Returns at once unless this is an online game (GetOnlineGameFlag) with three arguments: the login name, the password
-// (both tu_strings) and the remember flag (a boolean), and the online state's byte at +0x27 (OnlineGameState::flag27_) is set. Then
-// the flag is stored in the global save_remember, the name and the password are strdup'ed, the flag is stored in the
-// CMatching::Get() byte at +27633, a CSignInCredentials (12 bytes from CustomAlloc: name, password, GameCenter +0x18 pointer) is built,
-// and CSignIn::Get()'s virtual at vtable +0x10 is called with it (its result is the native's Hex-Rays return, not a result value).
-// Blocked on net-session-online: CSignInCredentials, the CSignIn virtual, the save_remember global, the login-remember byte of
-// CMatching and the GameCenter singleton (see NativeHasPushNotification) are not declared.
+// Returns at once unless this is an online game (the COnline flag at +5) with three arguments, and the online state's byte at +0x27 (flag27_) is
+// set. Arguments: the login name, the password and the remember flag. The flag is stored in the global save_remember (0x9a5c08), the name and the
+// password are strdup'ed, the flag is also stored in the matching object's remember byte (CMatchingGLLive +0x6bf1), a CSignInCredentials
+// (12 bytes from CustomAlloc: name, password, the GameCenter singleton's +0x18 pointer, null here) is built, and CSignIn::Get()'s sign-in with credentials
+// (vtable +0x10) is called with it. The credentials and the copied strings stay with the sign-in.
 void NativeGLXPlayerSignin(const gameswf::fn_call& call) {
-    (void)call;
+    if (!GetOnlineGameFlag()) {
+        return;
+    }
+    if (call.nargs != 3) {
+        return;
+    }
+    const char* name = call.arg(0).to_string();
+    const char* password = call.arg(1).to_string();
+    const bool remember = call.arg(2).to_bool();
+    if (!OnlineSingleton<OnlineGameState>::GetInstance()->flag27_) {
+        return;
+    }
+    save_remember = remember;
+    char* nameCopy = strdup(name);
+    char* passwordCopy = strdup(password);
+    static_cast<CMatchingGLLive*>(CMatching::Get())->profileFlag_ = remember ? 1 : 0;  // +0x6bf1
+    void* context = nullptr;  // the original passes the pointer at GameCenter +0x18, which the Android build never sets (no member of the class reaches it)
+    void* memory = CustomAlloc(static_cast<unsigned int>(sizeof(CSignInCredentials)));
+    CSignInCredentials* credentials = new (memory) CSignInCredentials(nameCopy, passwordCopy, context);
+    CSignIn::Get()->SignIn(*credentials);
 }
+

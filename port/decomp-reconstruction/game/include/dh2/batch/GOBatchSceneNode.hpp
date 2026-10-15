@@ -15,6 +15,10 @@ namespace batch {
 
 class GOBatchSceneNode : public glitch::scene::CBatchSceneNode {
 public:
+    // The constructor has no symbol of its own: BatchNodeCompiler::Compile (0x50dc84) allocates the node (operator new(360)), sets the
+    // reference count to 1, runs CBatchSceneNode(int, intrusive_ptr<CBatchMesh> const&) with id -1 and stores the vptrs.
+    GOBatchSceneNode(int id, const boost::intrusive_ptr<glitch::scene::CBatchMesh>& batchMesh) : CBatchSceneNode(id, batchMesh) {}
+
     // Complete dtor (vtable slot 0x14, 0x50cf08) and deleting dtor (slot 0x18, 0x50dabc, which also frees the object).
     ~GOBatchSceneNode() override;
 

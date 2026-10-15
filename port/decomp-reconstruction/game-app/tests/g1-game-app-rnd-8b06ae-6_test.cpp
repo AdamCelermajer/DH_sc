@@ -12,6 +12,7 @@
 
 #include "core-platform/lc_api.hpp"
 #include "dh2/rnd/Block.hpp"
+#include "dh2/rnd/Direction.hpp"
 #include "dh2/rnd/BlockSearch.hpp"
 #include "dh2/rnd/ListElem.hpp"
 #include "dh2/rnd/ListRule.hpp"
@@ -21,6 +22,8 @@
 #include "dh2/rnd/RoomPool.hpp"
 #include "dh2/rnd/RootRule.hpp"
 #include "dh2/rnd/Rule.hpp"
+#include "dh2/rnd/Tile.hpp"
+#include "tinyxml.h"
 #include "vendor-lua/dh2_rand48.hpp"
 
 // ---- link-only stubs ----
@@ -98,6 +101,43 @@ bool Block::IsStraight() const { return false; }
 
 // RootRule::Impl::PlaceRootTile (batch -3) is only reached through Generate, which the test does not call.
 Tile* RootRule::Impl::PlaceRootTile(Block*, ListElem) { return nullptr; }
+
+// The loaders' collaborators. ListElem::LoadFromXml (batch -3) copies the "name" attribute; ValidBlock / ValidList (batch -0) record the
+// names and answer gValidAnswer; GetList returns gListSentinel; RPElem::FillSizes (batch -2) does nothing; Tile members (batch -7) do
+// nothing and TrySpawn finds no cell.
+void ListElem::LoadFromXml(TiXmlNode* node) {
+    const char* name = node->ToElement()->Attribute("name");
+    m_name = name != nullptr ? name : "";
+}
+std::vector<std::string> gValidBlockCalls;
+std::vector<std::string> gValidListCalls;
+bool gValidAnswer = true;
+ListRule gListSentinel;
+bool RandomGenerator::ValidBlock(const char* name) {
+    gValidBlockCalls.push_back(name);
+    return gValidAnswer;
+}
+bool RandomGenerator::ValidList(const char* name) {
+    gValidListCalls.push_back(name);
+    return gValidAnswer;
+}
+ListRule* RandomGenerator::GetList(const char* name) const {
+    gValidListCalls.push_back(std::string("get:") + name);
+    return &gListSentinel;
+}
+void RPElem::FillSizes(int, int) {}
+void Tile::RemoveNeighbors() {}
+void Tile::Unspawn() {}
+Tile* Tile::TrySpawn(const Exit*, const Exit*, const Exit*, ListElem&) { return nullptr; }
+
+// Rule: the constructor and the key virtuals (batches -4 and -5) are given here so that the abstract rule can be derived from.
+Rule::Rule(RootRule& root, Rule* parent) : m_root(&root), m_parent(parent), m_childCount(0), m_id(0), unk_80(1), unk_84(1) {
+    m_list = nullptr;
+    m_listIndex = -1;
+}
+Rule::~Rule() {}
+void Rule::Unload() {}
+RootRule* Rule::GetRootRule() { return m_root; }
 
 // RoomPool members: the destructor (batch -2) and the lookup by hash (batch -3).
 RoomPool::~RoomPool() {}
@@ -293,6 +333,123 @@ void TestComputeSizeOfRulesInvariant() {
     EXPECT(full.m_elems[1].unk_14 == 3);
 }
 
+class TestRule : public rnd::Rule {
+public:
+    TestRule(rnd::RootRule& root, rnd::Rule* parent) : rnd::Rule(root, parent) {}
+    rnd::Rule::Impl* NewImpl(rnd::Rule::Impl*) const override { return nullptr; }
+};
+
+}  // namespace
+
+namespace rnd {
+// Rule::NewRule (batch -5) builds a TestRule child, which loads through the real Rule::LoadFromXml.
+Rule* Rule::NewRule(TiXmlNode*) { return new TestRule(*m_root, this); }
+}  // namespace rnd
+
+namespace {
+
+// rnd::gDistributions (0x8ce5c8): 6 x 6 blocks of 121 rows of 6 signed bytes, indexed 4356 * candidate count + 726 * child count. A row whose first byte is -1
+// ends the run. One candidate and one child have the single row {0}; two candidates and two children have {0, 1} and {1, 0}; no candidates have none.
+void TestDistributionTable() {
+    EXPECT(sizeof(rnd::gDistributions) == 26136);
+    EXPECT(rnd::gDistributions[0] < 0);
+    const std::int8_t* one = &rnd::gDistributions[4356 * 1 + 726 * 1];
+    EXPECT(one[0] == 0 && one[6] < 0);
+    const std::int8_t* two = &rnd::gDistributions[4356 * 2 + 726 * 2];
+    EXPECT(two[0] == 0 && two[1] == 1);
+    EXPECT(two[6] == 1 && two[7] == 0);
+    EXPECT(two[12] < 0);
+}
+
+TiXmlNode* ParseRoot(TiXmlDocument& document, const char* text, const char* rootName) {
+    document.LoadFromBuffer(text, static_cast<int>(std::strlen(text)), TIXML_DEFAULT_ENCODING);
+    return document.FirstChild(rootName);
+}
+
+void TestListRuleLoadFromXml() {
+    rnd::gValidBlockCalls.clear();
+    rnd::gValidAnswer = true;
+    TiXmlDocument document;
+    TiXmlNode* node = ParseRoot(document, "<list name=\"CaVe\" replacement=\"false\"><elem name=\"a\"/><x/><elem name=\"b\"/></list>", "list");
+    rnd::ListRule rule;
+    rule.m_generator = reinterpret_cast<rnd::RandomGenerator*>(gGeneratorStorage);
+    rule.LoadFromXml(node);
+    EXPECT(rule.m_name == "cave");  // lowercased
+    EXPECT(!rule.m_replacement);    // only "true" keeps it
+    EXPECT(rule.m_elems.size() == 2);
+    EXPECT(rule.m_elems.size() == 2 && rule.m_elems[0].m_name == "a" && rule.m_elems[1].m_name == "b");
+    EXPECT(rule.m_elems.size() == 2 && rule.m_elems[0].m_owner == &rule);
+    EXPECT(rnd::gValidBlockCalls.size() == 2 && rnd::gValidBlockCalls[0] == "a" && rnd::gValidBlockCalls[1] == "b");
+
+    TiXmlDocument second;
+    TiXmlNode* plain = ParseRoot(second, "<list name=\"x\"/>", "list");
+    rnd::ListRule other;
+    other.m_generator = rule.m_generator;
+    other.m_replacement = false;
+    other.LoadFromXml(plain);
+    EXPECT(other.m_replacement);  // an absent attribute means true
+    EXPECT(other.m_elems.empty());
+}
+
+void TestRuleLoadFromXml() {
+    alignas(rnd::RootRule) static unsigned char rootStorage[sizeof(rnd::RootRule)];
+    rnd::RootRule* root = reinterpret_cast<rnd::RootRule*>(rootStorage);
+    root->m_generator = reinterpret_cast<rnd::RandomGenerator*>(gGeneratorStorage);
+    rnd::gValidBlockCalls.clear();
+    rnd::gValidListCalls.clear();
+    rnd::gValidAnswer = true;
+
+    // Comma separated block names: each one before a comma, then the rest; "exit" and "id" are read.
+    {
+        TiXmlDocument document;
+        TiXmlNode* node = ParseRoot(document, "<rule name=\"a,b,c\" exit=\"north\" id=\"pool\"/>", "rule");
+        TestRule rule(*root, nullptr);
+        EXPECT(rule.LoadFromXml(node));
+        EXPECT(rule.m_blockNames.size() == 3);
+        EXPECT(rule.m_blockNames.size() == 3 && rule.m_blockNames[0] == "a" && rule.m_blockNames[1] == "b" && rule.m_blockNames[2] == "c");
+        EXPECT(rnd::gValidBlockCalls.size() == 3);
+        EXPECT(rule.m_exit == "north");
+        EXPECT(rule.m_id == 1004u);  // the stub hash: length + 1000
+    }
+    // A list name, with and without an index.
+    {
+        TiXmlDocument document;
+        TiXmlNode* node = ParseRoot(document, "<rule name=\"#Cave[2]\"/>", "rule");
+        TestRule rule(*root, nullptr);
+        EXPECT(rule.LoadFromXml(node));
+        EXPECT(rule.m_list == &rnd::gListSentinel);
+        EXPECT(rule.m_listIndex == 2);
+        EXPECT(rnd::gValidListCalls.size() == 2 && rnd::gValidListCalls[0] == "Cave");
+    }
+    {
+        TiXmlDocument document;
+        TiXmlNode* node = ParseRoot(document, "<rule name=\"#cave\"/>", "rule");
+        TestRule rule(*root, nullptr);
+        EXPECT(rule.LoadFromXml(node));
+        EXPECT(rule.m_list == &rnd::gListSentinel);
+        EXPECT(rule.m_listIndex == -1);
+    }
+    // No name, or no node: the load fails. A child without a name fails the parent, but the other children still load.
+    {
+        TiXmlDocument document;
+        TiXmlNode* node = ParseRoot(document, "<rule/>", "rule");
+        TestRule rule(*root, nullptr);
+        EXPECT(!rule.LoadFromXml(node));
+        EXPECT(!rule.LoadFromXml(nullptr));
+    }
+    {
+        TiXmlDocument document;
+        TiXmlNode* node = ParseRoot(document, "<rule name=\"a\"><child/><child name=\"b\"/></rule>", "rule");
+        TestRule rule(*root, nullptr);
+        EXPECT(!rule.LoadFromXml(node));
+        EXPECT(rule.m_childCount == 2);
+        EXPECT(rule.m_childCount == 2 && rule.m_children[1]->m_blockNames.size() == 1);
+        for (int i = 0; i < rule.m_childCount; ++i) {
+            delete rule.m_children[i];
+        }
+    }
+}
+
 }  // namespace
 
 int main() {
@@ -304,6 +461,9 @@ int main() {
     TestComputeSizeOfRulesRange();
     TestComputeSizeOfRulesSingleGrowth();
     TestComputeSizeOfRulesInvariant();
+    TestDistributionTable();
+    TestListRuleLoadFromXml();
+    TestRuleLoadFromXml();
     if (g_failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", g_failures);
         return 1;

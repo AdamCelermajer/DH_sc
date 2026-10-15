@@ -20,6 +20,11 @@
 // Original ASSERT: "m_effectOnePlayerFX == 0" at TriggerZone.cpp line 298 (ShowMarker). Level 2 aborts, level 1 prints.
 
 #include "dh2/TriggerZone.hpp"
+#include <cstdint>
+#include "glitch-video/video_driver.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-core-io/os/device.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -255,18 +260,30 @@ TriggerZone::TriggerZone(ObjectBase::GO_IDS id) : Trigger(id, false, true) {
     m_doorObject = nullptr;           // +0x7b8
 }
 
-// 0x39bd70 TriggerZone::Draw() const
-// PARTIAL. The debug box of the zone is drawn when the isDisplayingBoundingBox switch is set, the zone has no activations
-// yet (m_numActivations, +0x3b4) and MeetCondition holds. The switch, the activation test and MeetCondition are bound. The
-// draw itself is not: it takes the video driver from the device (*(Application m_device + 16) in the original), gets the
-// bounding-box material from the driver's CMaterialRendererManager (driver +0xdc, u16 type id at +0x2e), sets it, and calls
-// the driver's draw3DBox (vtable +0x28) with the six floats of m_absAabb and the colour 0xFFFFFF00. Those members and
-// functions are not declared in the tree (layout requests), so the box is not drawn.
+// 0x39bd70 _ZNK11TriggerZone4DrawEv
+// With the isDisplayingBoundingBox switch on, no activation yet (m_numActivations, +0x3b4) and the condition met, the plain material
+// (built-in renderer type 1) of the device's driver is set with its first technique and the driver draws (vtable +0x28, draw3DBox)
+// the absolute AABB (+0x12c) in the colour 0xFFFFFF00.
 void TriggerZone::Draw() const {
     DebugSwitches::s_inst.load();
     const bool displayBox = DebugSwitches::s_inst.GetSwitch(std::string("isDisplayingBoundingBox"));
     if (displayBox && m_numActivations == 0 && MeetCondition()) {
-        // PARTIAL: the bounding-box draw is not rebuilt (see above).
+        glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;   // device +0x10
+        glitch::video::CMaterialRendererManager* materials = driver->m_materialRendererManager;  // driver +0xdc
+        const std::uint16_t renderer = materials->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+        boost::intrusive_ptr<glitch::video::CMaterial> material = materials->getMaterialInstance(renderer, true);
+        const std::uint8_t technique = material ? static_cast<std::uint8_t>(material->getTechnique()) : 255;
+        driver->setMaterial(material, technique, nullptr);
+        glitch::core::aabbox3d<float> box;
+        box.MinEdge.X = m_absAabb[0];
+        box.MinEdge.Y = m_absAabb[1];
+        box.MinEdge.Z = m_absAabb[2];
+        box.MaxEdge.X = m_absAabb[3];
+        box.MaxEdge.Y = m_absAabb[4];
+        box.MaxEdge.Z = m_absAabb[5];
+        glitch::video::SColor color;
+        color.color = 0xFFFFFF00u;
+        driver->draw3DBox(box, color);
     }
 }
 

@@ -91,9 +91,8 @@ void GameEvent::DBG_TraceDetailedInformation() const {
 }
 
 // 0x479568 GameEvent::AssignPyData(Structs::v2Event*)
-// PARTIAL: the stub block is v2Event +0x14 (m_w5, a uint8_t* in pydata-accessors/w7_structs_1.hpp) and the count is
-// +0x10 (m_w4). v2Event::read does not create the element objects yet, so the block is passed through the original's
-// v2QuestObjectiveStub* type with a reinterpret_cast. Waits on the element decoding of the v2Event table (decision 3).
+// Keeps the row (m_pyData, +0x1c) and gives the objective list the row's element block (v2Event +0x14, m_w5) and its count (+0x10, m_w4). The
+// block is passed through the original's v2QuestObjectiveStub* type, which is how ObjectiveList::AssignPyData takes it.
 void GameEvent::AssignPyData(Structs::v2Event* data) {
     m_pyData = data;
     m_objectives.AssignPyData(reinterpret_cast<Structs::v2QuestObjectiveStub*>(data->m_w5),

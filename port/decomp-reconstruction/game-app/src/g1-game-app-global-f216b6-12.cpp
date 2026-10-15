@@ -33,9 +33,8 @@
 //     the object. Its Invoke(functionName, queue) and SkipEnqueuedMessage(queue, flag) take a queue index, and the
 //     pseudocode passes none of them. The Hex-Rays deque globals (dword_99FBB8 and the others) are not tied to a
 //     singleton instance address in the tree, and Singleton<T>::s_inst is not declared.
-//   - OnlineSingleton<OnlineGameState>::GetInstance() is the online game state. Its state word +0x14 is the state
-//     machine (stateMachine_). Its mode word +0x34 and its room list +0x50 are not declared in
-//     net-session-online/online_game_state.hpp.
+//   - OnlineSingleton<OnlineGameState>::GetInstance() is the online game state (net-session-online/online_game_state.hpp). Its state word
+//     +0x14 is the state machine (GetState / SetState), mode_ is +0x34 and RoomInfos() is the room list at +0x50.
 //   - CMatching::Get() takes no argument. The assembly of NativeLoginInfos (0x444ae0) calls it with none, so the
 //     argument that Hex-Rays prints on some of its calls is a decompiler artifact.
 //   - Global instance pointers without an accessor in the tree: the StringManager global at 0x99f760, the
@@ -51,8 +50,10 @@
 
 #include "dh2/global/native_gameswf_menus.hpp"
 
+#include <cstdio>
 #include <cstring>
 #include <string>
+#include <vector>
 
 #include "core-platform/w7_global_rem.hpp"
 #include "dh2/AchievementMsg.hpp"
@@ -95,7 +96,16 @@
 #include "dh2/MultiMenuManager.hpp"
 #include "core-platform/stlport_sort.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
+#include "dh2/global/save_remember.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
 #include "net-session-online/c_message.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/t_member_info.hpp"
+#include "net-session-online/t_room_info.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "net-transport/tb/c_net_player_manager.hpp"
+#include "net-transport/tb/cnet_player_info.hpp"
 #include "net-session-online/c_messaging.hpp"
 #include "net-session-online/c_msg_fixed.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
@@ -118,20 +128,30 @@ void NativeGetNextOnlineStatusMessage(const gameswf::fn_call& call) {
 }
 
 // 0x441b60 NativeKickPlayerOut(gameswf::fn_call const&)
-// PARTIAL. The player id is to_number of the top argument. Online branch: when the online state's mode word (+0x34) is 3
-// (GLLive), CMatchingGLLive::GetMemberByMemberId(id) finds the member record. When the member's first word is not -1,
-// the original calls CMatching::Get() and then the virtual at vtable +0x40 with the id. That is the kick. Other modes:
-// the original walks CNetPlayerManager::GetPlayerIdList() from the first id to the end of the list. For each id it
-// copies CNetPlayerManager::GetPlayer(id, false) into a local CNetPlayerInfo, calls GetPlayer(id, false) again, and
-// compares the word at +0x1a0 of that second result with the id. On a match it calls the same virtual at +0x40 on
-// CMatching::Get() with the id. The local copy is destroyed on both paths. The loop does not stop after a kick: it
-// advances by one id (ADD R7,R7,#4) and repeats until the end of the list (CMP R7, end; BNE back to the loop head), with
-// no break. So every listed player whose +0x1a0 word equals the argument is kicked. The native writes no result.
-// Missing: to_number, OnlineGameState +0x34 (not declared), the name of the CMatching virtual at +0x40 (not in the vtable
-// listing used here), and CNetPlayerInfo +0x1a0 (no dh2 header declares it; net-transport/tb/cnet_player_info.hpp documents
-// that word as conn_index_). CMatching::Get() takes no argument (see the layout facts).
+// The player id is to_number of the top argument. With the online state's mode word (+0x34) at 3 (GLLive): CMatchingGLLive::GetMemberByMemberId(id)
+// finds the member record (the original copies it into a local, so it reads a stable record), and a member whose first word (the member id) is
+// not -1 is kicked: CMatching::Get() and its virtual at vtable +0x40 (KickMember) with the id. In the other modes the original walks a copy of
+// CNetPlayerManager::GetPlayerIdList(); for each id it copies GetPlayer(id, false) into a local CNetPlayerInfo (the copy has no effect and is not
+// made here) and compares the matching member id of that player (NetStruct value at +0x1a0) with the argument; on a match it kicks the same
+// way. The loop does not stop after a kick: every listed player whose word equals the argument is kicked (the call repeats). A player the
+// manager does not give out (GetPlayer null) is skipped; the original dereferences it. The native writes no result.
 void NativeKickPlayerOut(const gameswf::fn_call& call) {
-    (void)call;
+    const int id = static_cast<int>(call.arg(0).to_number());
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+        CMatchingGLLive* matching = static_cast<CMatchingGLLive*>(CMatching::Get());
+        tMemberInfo* member = matching->GetMemberByMemberId(id);
+        if (member != nullptr && member->memberId_ != -1) {
+            CMatching::Get()->KickMember(id);
+        }
+    } else {
+        const std::vector<int> playerIds = GetNetPlayerMgr()->GetPlayerIdList();
+        for (const int playerId : playerIds) {
+            const CNetPlayerInfo* player = GetNetPlayerMgr()->GetPlayer(playerId, false);
+            if (player != nullptr && player->matching_member_id_.GetValue() == id) {
+                CMatching::Get()->KickMember(id);
+            }
+        }
+    }
 }
 
 // 0x442198 NativeSwapEquipment(gameswf::fn_call const&)
@@ -561,14 +581,17 @@ void NativeBackToHud(const gameswf::fn_call& /*call*/) {
 }
 
 // 0x444ae0 NativeLoginInfos(gameswf::fn_call const&)
-// PARTIAL. The output object is the top argument when it has tag 5 (cast_to<as_object>). The assembly calls CMatching::Get()
-// with no argument, twice. The first result gives the username (C string at +0x6be1, that is +27617), and the second gives the
-// password (C string at +0x6bf2, that is +27634). The native sets the object's Username and Password properties (vtable slot
-// +28, index 7), then sets the result to the global save_remember (a boolean). Missing: the argument accessors, tu_string,
-// the value setters, drop_refs, set_bool, the login fields at +0x6be1 and +0x6bf2 (not declared in
-// net-session-online/c_matching_gl_live.hpp), and the global save_remember (not declared in the tree).
+// The output object is the top argument when it is an object. Its "Username" property is set to the GLLive user name (CMatchingGLLive +0x6be1,
+// a C string) and its "Password" property to the password (+0x6bf2); the result is the global save_remember (a boolean). The original calls
+// through the object without a null test; a non-object argument leaves the object untouched here.
 void NativeLoginInfos(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* object = call.arg(0).is_object() ? call.arg(0).to_object() : nullptr;
+    CMatchingGLLive* matching = static_cast<CMatchingGLLive*>(CMatching::Get());
+    if (object != nullptr) {
+        nativeobj::SetString(object, "Username", matching->userName_);
+        nativeobj::SetString(object, "Password", matching->password_);
+    }
+    call.result->set_bool(save_remember);
 }
 
 // 0x444c68 NativeGetMapIcons(gameswf::fn_call const&)
@@ -636,25 +659,59 @@ void NativeGetStringFromID(const gameswf::fn_call& call) {
 }
 
 // 0x4451ac NativeGetMultiplayerGameRooms(gameswf::fn_call const&)
-// PARTIAL. Runs only with exactly one argument, and only when the online state word (+0x14) is not 300. The state is set
-// to 102, the same write as NativeSendRoomSearchRequest. With a top argument of tag 5 (cast_to<as_array>), the room list
-// comes from the CMatching virtual at vtable +0x90 (slot 36, name not identified) into a std::vector<tRoomInfo> of 968-byte
-// records. When the online mode word (+0x34) is not 2, the list is also stored at the online state's +0x50. For each room
-// the original creates an object with:
-//   name: when the mode is 3 or 4, sprintf of the room's +28 text as the format. Otherwise CRoomAttributes attribute 3 in
-//     32 bytes. Then StringManager::formatForMulti.
-//   level: CRoomAttributes::GetAttributeInt(room+40, 3).
-//   act: the "StrID"/"MENU_ACT" format parsed with attribute 5, then a space and the title of the v2Quest for attribute 6
-//     (index 50 when that attribute is negative).
-//   friendCount: 0.
-//   playerCount: the room's word at +0x20.
-//   maxPlayercount: 4.
-// The objects are pushed onto the array, and the result is set to true. Missing: the argument accessors and the
-// value setters, the gameswf player object, the online state's +0x34 and +0x50 (not declared in online_game_state.hpp),
-// the CMatching virtual at +0x90, tRoomInfo (not reviewed here), and the call used for the name. Hex-Rays passes a
-// 12-byte argument record, which does not match StringManager::formatForMulti(text, multiline) in dh2/StringManager.hpp.
+// Runs only with exactly one argument and only when the online state is not 300 (starting a game). The state becomes 102, the same write as
+// NativeSendRoomSearchRequest. With an array as the argument the room list comes from CMatching::Get()'s virtual at +0x90 (GetRoomList) as
+// tRoomInfo records; when the online mode is not 2 the list is also stored in the state's room list (+0x50). Each room becomes an object pushed
+// onto the array:
+//   name: with mode 3 or 4 the room's name used as a sprintf format into 32 bytes, else room attribute bin 3 in 32 bytes; then
+//     StringManager::formatForMulti(text, false).
+//   level: room attribute int 3.
+//   act: the "StrID"/"MENU_ACT" text parsed with attribute int 5, then a space and the v2Quest title (text id +0x04) of the row named by attribute
+//     int 6 (row 50 when that attribute is negative, as the original's 284 * row computation gives).
+//   friendCount: 0.   playerCount: the room's word at +0x20.   maxPlayercount: 4.
+// The result is true.
 void NativeGetMultiplayerGameRooms(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 1) {
+        return;
+    }
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    if (state->GetState() == 300) {
+        return;
+    }
+    state->SetState(102);
+    gameswf::as_array* array = call.arg(0).is_object() ? gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object()) : nullptr;
+    if (array != nullptr) {
+        std::vector<tRoomInfo> rooms = CMatching::Get()->GetRoomList();
+        if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 2) {
+            const_cast<std::vector<tRoomInfo>&>(OnlineSingleton<OnlineGameState>::GetInstance()->RoomInfos()) = rooms;  // +0x50
+        }
+        for (tRoomInfo& room : rooms) {
+            gameswf::as_object* object = nativeobj::NewObject(call);
+            const int act = room.attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(5));
+            const int questRow = room.attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(6));
+            const Structs::v2Quest* quest = reinterpret_cast<const Structs::v2Quest*>(Arrays::v2Quests::members) + (questRow < 0 ? 50 : questRow);
+            StringManager* strings = ApplicationGetStringManager();
+            std::string actText;
+            strings->parse(actText, strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "MENU_ACT")), act);
+            actText += std::string(" ") + strings->getString(quest->m_w1);
+            char roomName[32] = {};
+            const unsigned int mode = static_cast<unsigned int>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_) - 3u;
+            if (mode <= 1u) {
+                std::snprintf(roomName, sizeof(roomName), "%s", room.name.c_str());  // the original passes the name as the format string
+            } else {
+                room.attributes.GetAttributeBin(static_cast<tROOM_ATTRIBUTES_BIN>(3), roomName, sizeof(roomName));
+            }
+            nativeobj::SetString(object, "name", StringManager::formatForMulti(std::string(roomName), false).c_str());
+            nativeobj::SetNumber(object, "level", static_cast<double>(room.attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(3))));
+            nativeobj::SetString(object, "act", actText.c_str());
+            nativeobj::SetNumber(object, "friendCount", 0.0);
+            nativeobj::SetNumber(object, "playerCount", static_cast<double>(room.unk_20));
+            nativeobj::SetNumber(object, "maxPlayercount", 4.0);
+            nativeobj::PushObject(array, object);
+        }
+        call.result->set_bool(true);
+    }
+    call.result->set_bool(true);
 }
 
 // 0x445a10 NativeGetSkillDetails(gameswf::fn_call const&)

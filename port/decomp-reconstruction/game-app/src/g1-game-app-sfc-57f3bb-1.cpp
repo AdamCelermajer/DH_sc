@@ -282,6 +282,10 @@ template bool DijkstraAStar::_markNode(std::map<unsigned int, DijkstraAStar::_In
                                        DijkstraAStar::_InEdge& candidate);
 template bool DiabloAStar::findNode(unsigned int startId, const ITest<PFGInnerEdge, PFGInnerNode>& goal,
                                     unsigned int maxExpansions, std::list<const PFGInnerEdge*>* path);
+// The Dijkstra instance has no out-of-line findNode in the binary: PFWorld::_SearchGraph(ITest) 0x52cb90 inlines the same loop (f = g + 0.0,
+// the same _markNode, the same heap and path rebuild; it leaves the diagnostic counters at +0x18..+0x24 untouched). The port shares the body.
+template bool DijkstraAStar::findNode(unsigned int startId, const ITest<PFGInnerEdge, PFGInnerNode>& goal,
+                                      unsigned int maxExpansions, std::list<const PFGInnerEdge*>* path);
 
 }  // namespace graph
 }  // namespace math

@@ -82,11 +82,15 @@ public:
     };
 
     // Secondary interface MenuFX and MenuManager implement. Vtable of 3 slots, no virtual dtor.
+    // _ZTVN8RenderFX13EventListenerE (9863344, 20 bytes, weak): slots +0x00 and +0x04 both hold 0xa36490 (the
+    // __cxa_pure_virtual import), slot +0x08 is the weak _ZN8RenderFX13EventListener14CanHandleEventERNS_5EventE (0x42ca80).
+    // So OnEvent and OnFSCommand are pure and CanHandleEvent is defined inline: the class has no key function, and every
+    // unit that needs the vtable or typeinfo emits it (the toolchain-specific clang gap in android-link-missing.csv).
     class EventListener {
     public:
-        virtual void OnEvent(Event& e);                                // slot +0x00
-        virtual void OnFSCommand(const char* command, const char* args);  // slot +0x04
-        virtual bool CanHandleEvent(Event& e);                         // slot +0x08 (0x42ca80 returns true)
+        virtual void OnEvent(Event& e) = 0;                                   // slot +0x00
+        virtual void OnFSCommand(const char* command, const char* args) = 0;  // slot +0x04
+        virtual bool CanHandleEvent(Event& e) { return true; }                // slot +0x08 (0x42ca80 returns true)
     };
 
     virtual ~RenderFX();                                                // +0x00, +0x04

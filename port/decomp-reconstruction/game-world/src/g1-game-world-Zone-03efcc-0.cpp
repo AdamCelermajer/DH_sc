@@ -1,16 +1,28 @@
-// Batch g1-game-world-Zone-03efcc-0: the Zone bodies of Zone.cpp in the VS2005 project. Declarations come from
-// dh2/Zone.hpp. A PARTIAL body names what it waits on.
-//
-// The physics body of a Zone (a POZone) is a PhysicalObject with the POZone vtable stored in it. dh2/POZone.hpp
-// declares no constructor, so the physics branches of InitWithBoundingBox and InitPost are not written. The colzone
-// branches (the "_colzone" mesh node) need the device's scene manager and its collision manager, which no header
-// declares (see IsInside).
+// Batch g1-game-world-Zone-03efcc-0: the Zone bodies of Zone.cpp in the VS2005 project. Declarations come from dh2/Zone.hpp. The physics body of a Zone is a POZone (a
+// PhysicalObject with the POZone vtable; dh2/POZone.hpp has the constructor), and the "_colzone" branches use the device's scene manager
+// and its collision manager.
 
 #include <cstdio>
 #include <cstdlib>
+#include <string>
+#include <vector>
 
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/POZone.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/PhysicalWorld.hpp"
+#include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/Zone.hpp"
+#include "dh2/aabb.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/SceneNodeHelpers.hpp"
+#include "dh2/global/Vec3f_K.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CTriangleSelector.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneCollisionManager.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"  // glitch::scene::ISceneNode, complete for drop()
 
 // Engine-wide assert level (core-platform/memory.hpp). That header is not included here: its glitch_core.hpp
@@ -60,15 +72,11 @@ void Zone::OnCollisionBegins(GameObject* other) {
 }
 
 // 0x3970c8 Zone::IsInside(GameObject*)
-// PARTIAL: the box test (no colzone node) is rebuilt. The colzone branch is not. The original sweeps a segment through
-// the colzone's triangle selector: the segment runs from the other object's position, offset by +/-100 along Vec3f_K
-// (global/Vec3f_K.hpp, now declared), and the selector comes from the node's virtual getTriangleSelector (vtable +0xb0,
-// ISceneNode.hpp). The hit test is the collision manager's getCollisionPoint (vtable +0x0c). That manager is the word at
-// SceneManager +0x2c, and the scene manager is the word at IDevice +0x1c (dword_99F73C, Singleton<Application>::s_inst.
-// m_device). Neither the device layout nor the SceneManager collision member is declared, so the branch is blocked
-// (layout requests: glitch::IDevice +0x1c SceneManager*, CSceneManager +0x2c collision manager). The DisplayColZoneWhenColliding
-// debug switch then toggles the visibility of the colzone's mesh (not made). The colzone branch returns false here, so a
-// colzone zone never reports an object inside.
+// The other object needs a physical body (+0x2dc). A plain zone tests the other object's position against its world AABB (+0x12c). A
+// zone with a "_colzone" mesh sweeps a segment through the mesh's triangle selector (vtable +0xb0): the segment runs from the other
+// object's position relative to the zone, 100 units along Vec3f_K one way to 100 the other, and the scene manager's collision manager
+// (SceneManager +0x2c, vtable +0x0c getCollisionPoint) says whether it hits. With the DisplayColZoneWhenColliding switch on, a hit shows
+// the colzone mesh and its parents (hiding the rest of the zone's visual) and a miss does the reverse.
 bool Zone::IsInside(GameObject* other) {
     if (!other) {
         ZoneAssertFailed("go", 152);
@@ -78,26 +86,61 @@ bool Zone::IsInside(GameObject* other) {
     if (!other->m_physicalObject) {  // +0x2dc
         return false;
     }
-    if (m_colZoneNode) {  // +0x384
-        return false;     // PARTIAL: see above.
+    if (!m_colZoneNode) {  // +0x384
+        // The original also builds a direction from this to other, scales it by PhysicalObject::getRadius() and never reads
+        // the result. That work has no effect, so it is left out.
+        const float* box = m_absAabb;          // +0x12c: the world AABB, min xyz then max xyz
+        const float x = other->m_position.X;   // +0x160
+        const float y = other->m_position.Y;   // +0x164
+        const float z = other->m_position.Z;   // +0x168
+        return box[0] <= x && x <= box[3] && box[1] <= y && y <= box[4] && box[2] <= z && z <= box[5];
     }
-    // The original also builds a direction from this to other, scales it by PhysicalObject::getRadius() and never reads
-    // the result. That work has no effect, so it is left out.
-    const float* box = m_absAabb;          // +0x12c: the world AABB, min xyz then max xyz
-    const float x = other->m_position.X;   // +0x160
-    const float y = other->m_position.Y;   // +0x164
-    const float z = other->m_position.Z;   // +0x168
-    return box[0] <= x && x <= box[3] && box[1] <= y && y <= box[4] && box[2] <= z && z <= box[5];
+
+    glitch::core::vector3d<float> hit{};
+    glitch::core::triangle3d<float> triangle{};
+    const float relativeX = other->m_position.X - m_position.X;
+    const float relativeY = other->m_position.Y - m_position.Y;
+    const float relativeZ = other->m_position.Z - m_position.Z;
+    glitch::core::line3d<float> segment;
+    segment.start.X = relativeX + Vec3f_K.X * 100.0f;
+    segment.start.Y = relativeY + Vec3f_K.Y * 100.0f;
+    segment.start.Z = relativeZ + Vec3f_K.Z * 100.0f;
+    segment.end.X = relativeX + Vec3f_K.X * -100.0f;
+    segment.end.Y = relativeY + Vec3f_K.Y * -100.0f;
+    segment.end.Z = relativeZ + Vec3f_K.Z * -100.0f;
+    glitch::scene::ISceneCollisionManager* collisionManager = DeviceSceneManager()->collisionManager;   // scene manager +0x2c
+    const bool inside = collisionManager->getCollisionPoint(segment, m_colZoneNode->getTriangleSelector(), hit, triangle);
+
+    DebugSwitches::s_inst.load();
+    if (!DebugSwitches::s_inst.GetSwitch(std::string("DisplayColZoneWhenColliding"))) {
+        return inside;
+    }
+    VisualObject* visual = m_visualObject;                                // +0x2d8
+    std::vector<glitch::scene::ISceneNode*> meshes;
+    DeviceSceneManager()->SearchByType(m_colZoneNode, meshes, 0x6d656164u);
+    if (meshes.size() == 1) {
+        if (inside) {
+            SetNodeVisibleRecur(visual->m_node, false);
+            glitch::scene::ISceneNode* parent = meshes[0];
+            while (parent) {
+                parent->setVisible(true);
+                if (parent == visual->m_node) {
+                    break;
+                }
+                parent = parent->getParent();
+            }
+        } else {
+            SetNodeVisibleRecur(visual->m_node, true);
+            meshes[0]->setVisible(false);
+        }
+    }
+    return inside;
 }
 
 // 0x397594 Zone::InitWithBoundingBox(glitch::core::aabbox3d<float> const&)
-// PARTIAL: the box size, the local AABB and the centre are rebuilt. The physics body is not. For a Zone with physics
-// (m_hasPhysics, +0x380) the original builds a POZone: a PhysicalObject of 40 bytes on Application::m_physicalWorld
-// (+0x44) with owner this, static, sensor, not a circle, not a bullet, group -5, category 0x800 and mask 4 for a
-// playerOnly zone or 1310 otherwise. Its vptr is then set to the POZone vtable (0x969018) and the body is passed to
-// GameObject::SetPhysicalObject(body, false). POZone.hpp declares no constructor, so the body cannot be built.
-// LAYOUT REQUEST (dh2/POZone.hpp): constructor POZone(PhysicalWorld*, GameObject*, bool, bool, bool, bool, short,
-// unsigned short, unsigned short, int) that runs the PhysicalObject constructor and leaves the POZone vptr.
+// The size of the box (+0x374), the local AABB (+0x144) and the centre (SetPosition, destination too) are set. A zone with physics
+// (m_hasPhysics, +0x380) builds its POZone: a static sensor box body on Application::m_physicalWorld (+0x44) with group -5, category
+// 0x800 and mask 4 for a player-only zone or 1310 otherwise, given to SetPhysicalObject(body, false).
 void Zone::InitWithBoundingBox(const glitch::core::aabbox3d<float>& box) {
     // +0x374 .. +0x37c: the size of the box.
     m_dimensions.X = box.MaxEdge.X - box.MinEdge.X;
@@ -116,17 +159,19 @@ void Zone::InitWithBoundingBox(const glitch::core::aabbox3d<float>& box) {
                                 (box.MinEdge.Z + box.MaxEdge.Z) * 0.5f};
     GameObject::SetPosition(centre, true);
     if (m_hasPhysics) {
-        // PARTIAL: the POZone body, see above.
+        PhysicalWorld* world = ApplicationGetInstance().m_physicalWorld;              // dword_99F770
+        const unsigned short mask = m_playerOnly ? 4 : 1310;                          // +0x381
+        POZone* body = new POZone(world, this, true, false, true, false, -5, 0x800, mask, 0);
+        SetPhysicalObject(body, false);
     }
 }
 
 // 0x39771c Zone::InitPost()
-// PARTIAL: the scaling, the local AABB and the SetRelativeAABB call are rebuilt, and the colzone node is looked up. Not
-// rebuilt: (1) the POZone body of m_hasPhysics, see InitWithBoundingBox; (2) the rest of the colzone setup. The
-// original raises the node's reference count (glitch::IReferenceCounted, not complete in the tree), searches the scene
-// manager for the one mesh of the node (the scene manager is read from IDevice +0x1c, which is not declared), builds a
-// CTriangleSelector from that mesh's triangle selector, and sets it on the node. It asserts the mesh count is 1 (Zone.cpp
-// line 96) before that search. Without the search the node has no triangle selector.
+// With the spawn roll passed: GameObject::InitPost, the dimensions take the object scale (+0x120 .. +0x128), the local AABB is
+// centred on the origin and set through the virtual SetRelativeAABB (vtable +0x9c, update off), and a zone with physics builds its
+// POZone body (see InitWithBoundingBox). Without a colzone node, the visual object's "_colzone" node is looked up and kept (one use
+// taken); it must hold exactly one mesh (assert at Zone.cpp line 96). The mesh's box moved to the zone's position goes to
+// InitWithBoundingBox, the mesh is hidden, and a CTriangleSelector over its mesh becomes the colzone node's triangle selector.
 void Zone::InitPost() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {  // +0x274
         GameObject::InitPost();
@@ -144,16 +189,50 @@ void Zone::InitPost() {
         m_relAabb[3] = halfX;
         m_relAabb[4] = halfY;
         m_relAabb[5] = halfZ;
-        // Virtual SetRelativeAABB(box, false) at vtable +0x9c. aabb<T> is not defined in the tree, so the box is passed
-        // as the six floats in memory. GameObject::SetRelativeAABB reads them that way.
-        SetRelativeAABB(*reinterpret_cast<const aabb<float>*>(m_relAabb), false);
+        // Virtual SetRelativeAABB(box, false) at vtable +0x9c.
+        aabb<float> relative;
+        relative.MinEdge = Point3D<float>{m_relAabb[0], m_relAabb[1], m_relAabb[2]};
+        relative.MaxEdge = Point3D<float>{m_relAabb[3], m_relAabb[4], m_relAabb[5]};
+        SetRelativeAABB(relative, false);
         if (m_hasPhysics) {
-            // PARTIAL: the POZone body, see InitWithBoundingBox.
+            PhysicalWorld* world = ApplicationGetInstance().m_physicalWorld;          // dword_99F770
+            const unsigned short mask = m_playerOnly ? 4 : 1310;                      // +0x381
+            POZone* body = new POZone(world, this, true, false, true, false, -5, 0x800, mask, 0);
+            SetPhysicalObject(body, false);
         }
         if (!m_colZoneNode && m_visualObject) {  // +0x384, +0x2d8
             m_colZoneNode = m_visualObject->GetSpecificNode("_colzone");
             if (m_colZoneNode) {
-                // PARTIAL: the reference count, the mesh search and the triangle selector, see above.
+                ++m_colZoneNode->referenceCounter;                                        // a use for the zone
+                std::vector<glitch::scene::ISceneNode*> meshes;
+                DeviceSceneManager()->SearchByType(m_colZoneNode, meshes, 0x6d656164u);   // 'daem'
+                if (meshes.size() != 1) {
+                    ZoneAssertFailed("meshes.size() == 1", 96);
+                    if (gAssertLevel == 2) {
+                        std::abort();
+                    }
+                    if (meshes.size() != 1) {
+                        return;
+                    }
+                }
+                glitch::scene::ISceneNode* meshNode = meshes[0];
+                if (meshNode) {
+                    const glitch::core::aabbox3d<float>& meshBox = meshNode->getBoundingBox();   // vtable +0x30
+                    glitch::core::aabbox3d<float> moved;
+                    moved.MinEdge.X = m_position.X + meshBox.MinEdge.X;
+                    moved.MinEdge.Y = m_position.Y + meshBox.MinEdge.Y;
+                    moved.MinEdge.Z = m_position.Z + meshBox.MinEdge.Z;
+                    moved.MaxEdge.X = m_position.X + meshBox.MaxEdge.X;
+                    moved.MaxEdge.Y = m_position.Y + meshBox.MaxEdge.Y;
+                    moved.MaxEdge.Z = m_position.Z + meshBox.MaxEdge.Z;
+                    InitWithBoundingBox(moved);
+                    meshNode->setVisible(false);                                         // vtable +0x48
+                    boost::intrusive_ptr<glitch::scene::IMesh> mesh = static_cast<glitch::scene::IMeshSceneNode*>(meshNode)->getMesh();   // vtable +0xf8
+                    glitch::scene::CTriangleSelector* selector =
+                        new glitch::scene::CTriangleSelector(boost::intrusive_ptr<const glitch::scene::IMesh>(mesh), nullptr, true);
+                    m_colZoneNode->setTriangleSelector(selector);                        // vtable +0xb4
+                    selector->drop();
+                }
             }
         }
     }

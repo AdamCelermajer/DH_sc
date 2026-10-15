@@ -291,7 +291,7 @@ void Projectile::Update() {
     } else {
         PFRoom* room = Singleton<PFWorld>::s_inst.GetRoomAt(GameObject::m_position);
         if (room != nullptr) {
-            if ((room->unk_24 & 1u) == 0) {
+            if ((room->m_flags & 1u) == 0) {
                 return;
             }
             OnExpire(IMPACT_GROUND);

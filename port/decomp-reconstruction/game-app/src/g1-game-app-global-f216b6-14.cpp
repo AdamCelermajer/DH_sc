@@ -7,12 +7,10 @@
 //   - gameswf calls each native as void(const fn_call&). From the pseudocode, fn_call +0x00 is the result
 //     (as_value*), +0x0c the argument stack (12-byte as_value entries), +0x10 the argument count and +0x14 the
 //     index of the first argument.
-//   - Every native reads its arguments or writes its result through gameswf::as_value, as_object, as_array,
-//     tu_string, root and player. These are vendored in port/engine-ui/vendor/gameswf1714/gameswf, which is not on
-//     the Track B include path, so no native here can read or write a value. Each native is PARTIAL with an empty
-//     body, as in game-app/src/g1-game-app-global-f216b6-6.cpp.
-//   - The dialog and quest queue is MenuMessageManager<DialogMsg,1>. dh2/MenuMessageManager.hpp does not exist yet.
-//
+//   - Every native reads its arguments with call.arg(i) and writes call.result through the vendored gameswf API (vendor-gameswf/as_value.hpp,
+//     dh2/global/native_object_helpers.hpp for objects and arrays).
+//   - The dialog and quest queue is MenuMessageManager<DialogMsg,1> (dh2/MenuMessageManager.hpp).
+
 // Facts shared by the factories:
 //   - Each allocates 0x10 bytes (operator new(0x10u, 0) in the pseudocode). The 64 in the queue is the function body
 //     size, not the allocation. The host allocates sizeof(T) and ignores the hint.
@@ -22,6 +20,7 @@
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
 #include "dh2/global/native_get.hpp"
 
+#include <cstdint>
 #include <cstdio>
 #include <ctime>
 #include <string>
@@ -33,7 +32,10 @@
 #include "dh2/CharProperties.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DialogMsg.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/MenuMessageManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/RenderFX.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
@@ -49,7 +51,16 @@
 #include "dh2/global/native_player_info_options.hpp"
 #include "dh2/CRoomAttributes.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "gameswf/gameswf_environment.h"
 #include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/t_member_info.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "net-transport/tb/c_net_player_manager.hpp"
+#include "net-transport/tb/cnet_player_info.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "net-session-online/c_message.hpp"
 #include "net-session-online/c_messaging.hpp"
 #include "net-session-online/c_msg_fixed.hpp"
@@ -71,16 +82,34 @@
 #include "dh2/Script_SkipTutorialMessage.hpp"
 
 // 0x44e270 NativeGetCursorState(gameswf::fn_call const&)
-// PARTIAL: with one argument, the original takes the controller index as to_number(argument 0), gets the controller
-// from RenderFX::GetController(MenuManager::GetHUDRoot(), index), converts its (x, y) floats with
-// root::screen_to_logical, and sets "x", "y" and "state" (the controller int at +0x0c) on the cursor object at that
-// index. The 4-entry cursor array (at +0x154 of the object at MenuManager +0xf4) gets four 56-byte as_objects on first
-// use. Any other argument count leaves the result null.
-// Missing: the gameswf value, object, array, root and fn_call API; RenderFX::GetController (not declared in
-// dh2/RenderFX.hpp); MenuManager::GetHUDRoot returns MenuFX* in dh2/MenuManager.hpp while the original casts it to
-// RenderFX*; the MenuManager global dword_99F780 is not declared.
+// With exactly one argument (the controller index, to_number): the controller record is RenderFX::GetController(index) of the HUD root
+// (MenuManager::GetHUDRoot()); its cursor position (x, y) is converted with root::screen_to_logical and its pressed state (controller int at +0x0c) is
+// kept. The four cursor objects (the gameswf array at +0x154 of the MenuManager's MultiMenuManager) are created, four plain objects, on first use
+// (when the array is empty). The object of that index gets "x", "y" and "state" (numbers) and is the result. Any other argument count leaves the result
+// null (set_as_object with null).
 void NativeGetCursorState(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* cursor = nullptr;
+    if (call.nargs == 1) {
+        const int index = static_cast<int>(call.arg(0).to_number());
+        MenuManager* menus = MenuManager::GetInstance();
+        const RenderFX::Cursor controllerCursor = menus->GetHUDRoot()->GetController(index)->m_cursor;
+        auto& cursors = reinterpret_cast<::array<::smart_ptr<gameswf::as_object>>&>(menus->m_multiMenuManager->unk_154);
+        if (cursors.size() == 0) {
+            for (int i = 0; i < 4; ++i) {
+                gameswf::as_object* created = nativeobj::NewObject(call);
+                cursors.push_back(::smart_ptr<gameswf::as_object>(created));
+            }
+        }
+        gameswf::point position;
+        position.m_x = controllerCursor.x;
+        position.m_y = controllerCursor.y;
+        MenuManager::GetInstance()->GetHUDRoot()->GetRoot()->screen_to_logical(position);
+        cursor = cursors[index].get_ptr();
+        nativeobj::SetNumber(cursor, "x", static_cast<double>(position.m_x));
+        nativeobj::SetNumber(cursor, "y", static_cast<double>(position.m_y));
+        nativeobj::SetNumber(cursor, "state", static_cast<double>(controllerCursor.state));
+    }
+    call.result->set_as_object(cursor);
 }
 
 // 0x44e5cc NativeGetPlayerHUDInfos(gameswf::fn_call const&)
@@ -315,16 +344,146 @@ void NativeGetMultiplayerQuestInfo(const gameswf::fn_call& call) {
 }
 
 // 0x450b78 NativeGetMultiplayerRoomInfo(gameswf::fn_call const&)
-// PARTIAL: the largest native (44 KB of pseudocode, not transcribed). The original builds the room object and its player slot
-// array from the net player list (CNetPlayerManager: GetPlayerCount, GetPlayerIdList, GetPlayer, GetLocalPlayer, IsInitialized;
-// CNetPlayerInfo::IsHost), the matching state (CMatching::Get; CMatchingGLLive: IsHost, IsMyFriend, GetGLLiveMemberIdList,
-// GetMemberByMemberId), OnlineSingleton<OnlineGameState>::GetInstance(), PlayerManager::GetLocalPlayer and
-// GetPlayerByInternalID, and StringManager (getString, formatForMulti). It parses "%d %d" with sscanf. It sets "name",
-// "level", "PlayerId", "Class", "playerReady", "Kick", "Slot", "SlotStr" and the invitation states "None", "Friend",
-// "Idle" and "Invitation", and appends the slots with gameswf::as_array::push.
-// Missing: the gameswf API; the slot and invitation rules (branch conditions); the field formulas.
+// The room's player list for the lobby menu. Runs only in an online game (the COnline flag) with exactly one argument; the result is true. With an
+// array as the argument, one object per player is pushed onto it (the result is set to false first and to true at the end).
+// GLLive (the online state's mode +0x34 is 3): for each member id of CMatchingGLLive::GetGLLiveMemberIdList(), the member record
+// (GetMemberByMemberId; a record whose id is -1 is skipped) gives the object: "name" (the record's name), "level" (the second number of the value text
+// "%d %d", 1 when absent) and "Class" (the CharacterTable text of the first number, 0 when absent), "Invitation" from CMatchingGLLive::IsMyFriend(name)
+// ("None" for -1 and 0, "Friend" for 1, "Idle" for 2 and anything else), "PlayerId" (the member id), "SlotStr" (empty), and:
+//   the local member (CMatching::LocalMemberId(), vtable +0x6c): playerReady true, Kick false, Slot false;
+//   another member: playerReady false; when the local member is the host (IsHost) Kick is true, else false; Slot false.
+// Other modes: for each player id of a copy of CNetPlayerManager::GetPlayerIdList(), the record GetPlayer(id, false) gives the player's matching member id
+// (+0x1a0) and its own id (+0x178), and PlayerManager::GetPlayerByInternalID(its own id) the PlayerInfo; a PlayerInfo whose stat player id (+0x670) is -1 is
+// skipped. The object has "name" (the character name, formatForMulti), "level" (the character level) and, depending on the local player being the host
+// (CNetPlayerInfo::IsHost) and on the local matching member id (taken from GetLocalPlayer(0) when the online state's byte +0x24 is set and the player
+// manager is initialised, else -1):
+//   local host: playerReady true when the player shares the local member id; for the host player itself (its own id equals the manager's host member id,
+//     +0x170) playerReady true, Invitation "None", Kick false, Slot false; for other players playerReady false, Invitation "None", Kick false in the
+//     online mode 2 and true otherwise, Slot false;
+//   local client: playerReady true when the player shares the local member id; Invitation "None", Kick false, Slot false;
+//   and always SlotStr "", "PlayerId" (the matching member id), "Class" (the CharacterTable text of the character class, empty for -1).
+// The host player's object is pushed at once, the others after the loop, in order. A class number outside the character table gives an empty class text
+// here; the original indexes the table unchecked.
 void NativeGetMultiplayerRoomInfo(const gameswf::fn_call& call) {
-    (void)call;
+    if (!GetOnlineGameFlag() || call.nargs != 1) {
+        return;
+    }
+    GetNetPlayerMgr()->GetPlayerCount();
+    const std::vector<int> playerIds = GetNetPlayerMgr()->GetPlayerIdList();
+    call.result->set_bool(false);
+    gameswf::as_array* array = call.arg(0).is_object() ? gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object()) : nullptr;
+    if (array != nullptr) {
+        StringManager* strings = ApplicationGetStringManager();
+        auto classText = [strings](int classIndex) -> const char* {
+            if (classIndex < 0 || static_cast<std::uint32_t>(classIndex) >= Arrays::CharacterTable::size) {
+                return "";
+            }
+            const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
+            return strings->getString(rows[classIndex].m_w6);
+        };
+        if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+            CMatchingGLLive* matching = static_cast<CMatchingGLLive*>(CMatching::Get());
+            const std::vector<std::int32_t> memberIds = matching->GetGLLiveMemberIdList();
+            const int localMemberId = CMatching::Get()->LocalMemberId();
+            for (const std::int32_t memberId : memberIds) {
+                tMemberInfo* member = static_cast<CMatchingGLLive*>(CMatching::Get())->GetMemberByMemberId(memberId);
+                if (member == nullptr || member->memberId_ == -1) {
+                    continue;
+                }
+                int classIndex = 0;
+                int level = 1;
+                std::sscanf(member->value_.c_str(), "%d %d", &classIndex, &level);
+                gameswf::as_object* object = nativeobj::NewObject(call);
+                nativeobj::SetString(object, "name", member->name_);
+                nativeobj::SetNumber(object, "level", static_cast<double>(level));
+                switch (static_cast<CMatchingGLLive*>(CMatching::Get())->IsMyFriend(member->name_)) {
+                    case 1:
+                        nativeobj::SetString(object, "Invitation", "Friend");
+                        break;
+                    case -1:
+                    case 0:
+                        nativeobj::SetString(object, "Invitation", "None");
+                        break;
+                    default:  // 2 and anything else
+                        nativeobj::SetString(object, "Invitation", "Idle");
+                        break;
+                }
+                if (localMemberId == member->memberId_) {
+                    nativeobj::SetBool(object, "playerReady", true);
+                    nativeobj::SetBool(object, "Kick", false);
+                    nativeobj::SetBool(object, "Slot", false);
+                } else {
+                    nativeobj::SetBool(object, "playerReady", false);
+                    nativeobj::SetBool(object, "Kick", static_cast<CMatchingGLLive*>(CMatching::Get())->IsHost());
+                    nativeobj::SetBool(object, "Slot", false);
+                }
+                nativeobj::SetString(object, "SlotStr", "");
+                nativeobj::SetNumber(object, "PlayerId", static_cast<double>(member->memberId_));
+                nativeobj::SetString(object, "Class", classText(classIndex));
+                nativeobj::PushObject(array, object);
+            }
+        } else {
+            int hostMemberId = -1;
+            int localMatchingId = -1;
+            if (OnlineSingleton<OnlineGameState>::GetInstance()->flag24_ && CNetPlayerManager::IsInitialized()) {
+                hostMemberId = GetNetPlayerMgr()->net_struct_.host_member_id_.GetValue();  // manager +0x170
+                const CNetPlayerInfo* local = GetNetPlayerMgr()->GetLocalPlayer(0);
+                localMatchingId = local != nullptr ? local->matching_member_id_.GetValue() : -1;
+            }
+            std::vector<gameswf::as_object*> deferred;
+            for (const int playerId : playerIds) {
+                const CNetPlayerInfo* netPlayer = GetNetPlayerMgr()->GetPlayer(playerId, false);
+                if (netPlayer == nullptr) {
+                    continue;
+                }
+                const int matchingId = netPlayer->matching_member_id_.GetValue();  // +0x1a0
+                const int ownId = netPlayer->member_id_.GetValue();                // +0x178
+                PlayerInfo* info = Singleton<Application>::s_inst.m_playerManager->GetPlayerByInternalID(ownId, false);
+                if (info->unk_670 == -1) {
+                    continue;
+                }
+                gameswf::as_object* object = nativeobj::NewObject(call);
+                nativeobj::SetString(object, "name", StringManager::formatForMulti(info->m_characterName.GetValue(), false).c_str());
+                nativeobj::SetNumber(object, "level", static_cast<double>(info->m_characterLevel.GetValue()));
+                if (Singleton<Application>::s_inst.m_playerManager->GetLocalPlayer(0, false)->IsHost()) {
+                    if (localMatchingId == matchingId) {
+                        nativeobj::SetBool(object, "playerReady", true);
+                    }
+                    if (hostMemberId == ownId) {
+                        nativeobj::SetBool(object, "playerReady", true);
+                        nativeobj::SetString(object, "Invitation", "None");
+                        nativeobj::SetBool(object, "Kick", false);
+                        nativeobj::SetBool(object, "Slot", false);
+                        nativeobj::SetString(object, "SlotStr", "");
+                    } else {
+                        nativeobj::SetBool(object, "playerReady", false);
+                        nativeobj::SetString(object, "Invitation", "None");
+                        nativeobj::SetBool(object, "Kick", OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 2);
+                        nativeobj::SetBool(object, "Slot", false);
+                        nativeobj::SetString(object, "SlotStr", "");
+                    }
+                } else {
+                    nativeobj::SetBool(object, "playerReady", localMatchingId == matchingId);
+                    nativeobj::SetString(object, "Invitation", "None");
+                    nativeobj::SetBool(object, "Kick", false);
+                    nativeobj::SetBool(object, "Slot", false);
+                    nativeobj::SetString(object, "SlotStr", "");
+                }
+                nativeobj::SetNumber(object, "PlayerId", static_cast<double>(matchingId));
+                const int classIndex = info->m_characterClass.GetValue();
+                nativeobj::SetString(object, "Class", classIndex == -1 ? "" : classText(classIndex));
+                if (hostMemberId == ownId) {
+                    nativeobj::PushObject(array, object);
+                } else {
+                    deferred.push_back(object);
+                }
+            }
+            for (gameswf::as_object* object : deferred) {
+                nativeobj::PushObject(array, object);
+            }
+        }
+    }
+    call.result->set_bool(true);
 }
 
 namespace {

@@ -33,8 +33,8 @@ public:
         const Direction* m_direction;                               // +0x14 ctor stores &unk_956B24, a default Direction
         int32_t m_flags;                                            // +0x18 Exit::m_flags
         std::vector<std::string> m_names;                           // +0x1c .. +0x27 zeroed by the ctor (Exit::m_names)
-        int32_t unk_28;                                             // +0x28 Exit::unk_28
-        uint8_t pad_2c[0x100];                                      // +0x2c .. +0x12b
+        int32_t unk_28;                                             // +0x28 Exit::unk_28; in a block side the number of links in m_links
+        const Side* m_links[64];                                    // +0x2c .. +0x12b the other blocks' side records this side links to (count in unk_28; 4-byte pointers in the original)
     };
 
     Block();                                                        // 0x48ab34 / 0x48ac24

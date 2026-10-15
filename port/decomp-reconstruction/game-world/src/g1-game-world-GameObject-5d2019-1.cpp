@@ -175,8 +175,8 @@ void GameObject::UpdateIdleSound() {
     bool start = !m_idleSoundPlaying;
     if (!start && range <= distance && range > 0.0f) {
         m_idleSoundPlaying = 0;
-        const float stopPosition[3] = {listener.X, listener.Y, listener.Z};
-        sound->Stop3D(m_idleSoundId, 1000, stopPosition, range);
+        Point3D<float> stopPosition = listener;
+        sound->Stop3D(m_idleSoundId, 1000, &stopPosition, range);
         start = !m_idleSoundPlaying;
     }
     if (start && range > distance && range > 0.0f) {

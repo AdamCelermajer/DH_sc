@@ -12,6 +12,7 @@
 #include "dh2/LightSetManager.hpp"
 
 #include <cstdint>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -21,6 +22,7 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "glitch-video/light.hpp"
+#include "glitch-scene-collada-gui/scene/CLightSceneNode.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_renderer.hpp"
 
@@ -153,28 +155,36 @@ void LightSetManager::AddActiveLight(ObjectHandle object, glitch::scene::CLightS
 }
 
 // 0x40c6b0 LightSetManager::GetClosestStaticLight(Point3D<float>)
-// partial: the no-light path is bound: the assert "HasStaticLight()" (line 68) and the return of the address
-// &m_staticLights[-1] (a1 + 212) that the original gives when no static light is in use. The search over the static
-// lights is not bound. It compares the squared-root distance from `position` to each static light's node position,
-// which is ISceneNode::getPosition (vtable +0xa0). glitch::scene::CLightSceneNode in the tree has no getPosition, so
-// the search returns null here. Layout reference: the search reads m_node at StaticLight +0x04.
+// With no static light in use the assert "HasStaticLight()" (line 68) is reported and the address of the element before the first
+// static light is returned (index -1). Otherwise the static lights are measured from `position` to their node's position
+// (ISceneNode::getPosition, vtable +0xa0), the first with a distance below 1e9 and then every strictly smaller one wins, and the address
+// of the nearest is returned (the element before the first when none is below 1e9).
 LightSetManager::StaticLight* LightSetManager::GetClosestStaticLight(Point3D<float> position) {
     if (m_countStaticLight <= 0) {
         ReportAssert("HasStaticLight()", 68);
-        return m_staticLights - 1;
+        if (m_countStaticLight <= 0) {
+            return m_staticLights - 1;
+        }
     }
-    (void)position;
-    // partial: the closest-node search, see the comment above.
-    return nullptr;
+    float nearest = 1000000000.0f;
+    int index = -1;
+    for (int i = 0; i < m_countStaticLight; ++i) {
+        const glitch::core::vector3d<float>& at = m_staticLights[i].m_node->getPosition();
+        const float distance = std::sqrt((at.X - position.X) * (at.X - position.X) + (at.Y - position.Y) * (at.Y - position.Y) +
+                                         (at.Z - position.Z) * (at.Z - position.Z));
+        if (nearest > distance) {
+            index = i;
+            nearest = distance;
+        }
+    }
+    return m_staticLights + index;
 }
 
 // 0x40c9a8 LightSetManager::ApplySettings(int, boost::intrusive_ptr<glitch::video::CMaterial>&, std::vector<bool>&)
-// partial: the count and the names are bound. For each light slot the original names the material parameter "light<n>"
-// with n the number of parameters bound so far, looks it up with CMaterialRenderer::getParameterID, and binds the light
-// when the parameter exists and the light is set. The slots not in the filter are bound to the dummy light off. The
-// binding itself (IMaterialParameters::setParameter<boost::intrusive_ptr<CLight>>, index 0) is not bound: the typed index
-// form is not declared on CMaterial in the tree (the parameter mixin is not integrated). The count is kept, so later
-// names are right, but the material receives no light values.
+// The material's parameters are named light0, light1, ... in the order they are bound. First the four slots of the filter that are set:
+// the light of the light set (GetLight) goes to the parameter "light<n>" when the material has it and the light exists. Then the four
+// slots that are not in the filter: the dummy "off" light of the slot goes to the parameter "light<n>" when the material has it.
+// Every bound light takes the next number.
 void LightSetManager::ApplySettings(int lightSetId, boost::intrusive_ptr<glitch::video::CMaterial>& material,
                                     std::vector<bool>& filter) {
     int bound = 0;
@@ -189,7 +199,7 @@ void LightSetManager::ApplySettings(int lightSetId, boost::intrusive_ptr<glitch:
         if (parameterId == 0xFFFF || !*light) {
             continue;
         }
-        // partial: setParameter<boost::intrusive_ptr<CLight>>(material, parameterId, 0, *light). See above.
+        material->parameters.setParameter<boost::intrusive_ptr<glitch::video::CLight>>(parameterId, 0u, *light);
         ++bound;
     }
     for (int i = 0; i < 4; ++i) {
@@ -202,7 +212,7 @@ void LightSetManager::ApplySettings(int lightSetId, boost::intrusive_ptr<glitch:
         if (parameterId == 0xFFFF) {
             continue;
         }
-        // partial: setParameter<boost::intrusive_ptr<CLight>>(material, parameterId, 0, m_dummyLightOff[i]). See above.
+        material->parameters.setParameter<boost::intrusive_ptr<glitch::video::CLight>>(parameterId, 0u, m_dummyLightOff[i]);
         ++bound;
     }
 }
@@ -263,13 +273,10 @@ void LightSetManager::SetDummyLightOff(int index, const boost::intrusive_ptr<gli
     m_dummyLightOff[index] = light;
 }
 
-// 0x40d5a0 LightSetManager::Update(void)
-// partial: the gates are bound. Nothing happens unless there is at least one static light and one active light. The
-// debug switch "EnablePlayerHeadLight" is read (the original reads it after DebugSwitches::load and treats a switch that
-// is off as the enabling case). For each active light the object is resolved, its position is read (GameObject
-// +0x160), and GetClosestStaticLight is called with it. The original then moves the active light's node to the closest
-// static light's node position plus 20 on each axis (vtable +0xa0 getPosition, +0xa4 setPosition). Neither is declared
-// on glitch::scene::CLightSceneNode in the tree, so the move is not bound.
+// 0x40d5a0 LightSetManager::Update()
+// Nothing happens unless there is at least one static light and one active light, or when the "EnablePlayerHeadLight" debug switch is on.
+// Each active light whose object still exists is moved (ISceneNode::setPosition, vtable +0xa4) to the node position of the static
+// light closest to the object plus 20 on each axis.
 void LightSetManager::Update() {
     if (m_countStaticLight <= 0 || m_countActiveLight <= 0) {
         return;
@@ -287,8 +294,12 @@ void LightSetManager::Update() {
             continue;
         }
         StaticLight* closest = GetClosestStaticLight(object->m_position);
-        (void)closest;
-        // partial: the node move (ISceneNode getPosition and setPosition on the nodes, see above).
+        const glitch::core::vector3d<float>& at = closest->m_node->getPosition();
+        glitch::core::vector3d<float> moved;
+        moved.X = at.X + 20.0f;
+        moved.Y = at.Y + 20.0f;
+        moved.Z = at.Z + 20.0f;
+        m_activeLights[i].m_node->setPosition(moved);
     }
 }
 

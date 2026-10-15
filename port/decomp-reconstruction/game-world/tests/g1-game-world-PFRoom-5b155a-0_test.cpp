@@ -86,7 +86,7 @@ void TestConstructor() {
     Check(room.m_world == &world, "ctor stores the world at +0x20");
     Check(room.m_oGraph == reinterpret_cast<PFGOuterGraph*>(&g_outerTag), "ctor stores the outer graph at +0x28");
     Check(room.m_iGraph == reinterpret_cast<PFGInnerGraph*>(&g_innerTag), "ctor stores the inner graph at +0x2c");
-    Check(room.unk_24 == 0u, "ctor zeroes +0x24");
+    Check(room.m_flags == 0u, "ctor zeroes +0x24");
     Check(room.m_floors.empty(), "ctor starts with no floors");
     Check(Same(room.m_boundsMin, 0.0f, 0.0f, 0.0f) && Same(room.m_boundsMax, 0.0f, 0.0f, 0.0f),
           "ctor zeroes the room box");

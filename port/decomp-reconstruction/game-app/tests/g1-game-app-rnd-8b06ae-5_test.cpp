@@ -64,7 +64,7 @@ namespace rnd {
 
 // Rule functions of batch -2 (Rule::Unload and the accessors). The Rule vtable, emitted by the Rule destructor in the
 // batch source, refers to them.
-void Rule::LoadFromXml(TiXmlNode*) {}
+bool Rule::LoadFromXml(TiXmlNode*) { return true; }
 void Rule::Unload() {}
 RootRule* Rule::GetRootRule() { return m_root; }
 
@@ -72,18 +72,18 @@ RootRule* Rule::GetRootRule() { return m_root; }
 // vtables and the calls that the batch source makes.
 Path::~Path() {}
 Rule::Impl* Path::NewImpl(Rule::Impl*) const { return nullptr; }
-void Path::LoadFromXml(TiXmlNode*) {}
+bool Path::LoadFromXml(TiXmlNode*) { return true; }
 
 EndPath::~EndPath() {}
 Rule::Impl* EndPath::NewImpl(Rule::Impl*) const { return nullptr; }
 
 ForceBlock::~ForceBlock() {}
 Rule::Impl* ForceBlock::NewImpl(Rule::Impl*) const { return nullptr; }
-void ForceBlock::LoadFromXml(TiXmlNode*) {}
+bool ForceBlock::LoadFromXml(TiXmlNode*) { return true; }
 
 RootRule::~RootRule() {}
 Rule::Impl* RootRule::NewImpl(Rule::Impl*) const { return nullptr; }
-void RootRule::LoadFromXml(TiXmlNode*) {}
+bool RootRule::LoadFromXml(TiXmlNode*) { return true; }
 void RootRule::Unload() {}
 
 // Batch -0 functions the tests construct and destroy objects with.

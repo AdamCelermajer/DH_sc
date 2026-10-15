@@ -24,6 +24,10 @@
 // change flag are set by its own SetValue, which is reproduced.
 
 #include "dh2/CRoomAttributes.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-transport/tb/c_net_player_manager.hpp"
+#include "net-transport/tb/cnet_player_info.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -126,13 +130,19 @@ void CRoomAttributes::ProcessLostPacket(int memberId, int packetId) {
 }
 
 // 0x817fec CRoomAttributes::Unserialize(int,NetBitStream &)
-// PARTIAL: the `conditional` flag is a placeholder (false). The pseudocode takes the matching object's manager
-// from CMatching::Get() (virtual slot +0x6c, unnamed in the tree), reads the host member id from the player
-// manager (CNetPlayerManager +0x170, private, no accessor), looks up the host player and compares its
-// connection index (CNetPlayerInfo conn_index_, value at +0x1a0) with the manager from the matching object, and
-// checks a second lookup for -1. The member id argument goes to NetStruct::ConditionalLoad unchanged.
+// The attributes are loaded conditionally: the condition holds when this device's member id (CMatching::Get(), vtable +0x6c) is not the
+// matching member id of the host player (the player manager's host member id at +0x170 looked up with GetPlayer(id, false)) and the host
+// player has a matching member id (not -1). The member id argument goes to NetStruct::ConditionalLoad unchanged.
 int CRoomAttributes::Unserialize(int memberId, NetBitStream& stream) {
-    const bool conditional = false;  // PARTIAL placeholder, see the note above.
+    CMatching* matching = CMatching::Get();
+    const int localMemberId = matching->LocalMemberId();       // vtable +0x6c
+    CNetPlayerManager* players = GetNetPlayerMgr();
+    bool conditional = false;
+    if (localMemberId != players->GetPlayer(players->net_struct_.host_member_id_.GetValue(), false)->matching_member_id_.GetValue()) {
+        if (players->GetPlayer(players->net_struct_.host_member_id_.GetValue(), false)->matching_member_id_.GetValue() != -1) {
+            conditional = true;
+        }
+    }
     return m_netRoomAttributes.NetStruct::ConditionalLoad(conditional, stream, memberId, 0u);
 }
 

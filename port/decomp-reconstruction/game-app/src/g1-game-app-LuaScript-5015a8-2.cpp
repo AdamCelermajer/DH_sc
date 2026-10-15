@@ -302,12 +302,10 @@ void LuaScript::_BitNot(const sfc::script::lua::Arguments& args, sfc::script::lu
 }
 
 // 0x37f878 LuaScript::_SetGameType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL (redo). Written: with a number args[0], gt = FloatToUInt32(args[0]). When gt is a valid game type (0..3) and
-// the current level exists, the original stores gt at Level +0x150. The original's second read of args[0] yields the same
-// value, so its gAssertLevel branches (the ASSERT print and the null write at gAssertLevel 2) cannot run; they are not
-// written. Missing: the store itself. Level::unk_150 is declared void* in dh2/Level.hpp (retyping it to int needs
-// Level-7c7f5d-2.cpp changed first), so there is no int member at +0x150 to write (layout request: Level +0x150 int game
-// type, asm STR R4,[R5,#0x150]).
+// With a number args[0]: gt = FloatToUInt32(args[0]). When gt is a valid game type (0..3) and the current level exists, gt is stored at Level
+// +0x150 (the word is typed void* in Level.hpp because the character code compares it with null; the value goes in as an integer). The
+// original's second read of args[0] yields the same value, so its gAssertLevel branches (ASSERT gt < Constants::GameTypes::COUNT, Level.h:494)
+// cannot run and are not written.
 void LuaScript::_SetGameType(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
                              void* /*self*/) {
     if (args.m_values->empty() || args[0].m_type != kLuaTypeNumber) {
@@ -317,9 +315,10 @@ void LuaScript::_SetGameType(const sfc::script::lua::Arguments& args, sfc::scrip
     if (!luascript_g1::IsValidGameType(gameType)) {
         return;
     }
-    const Level* level = ApplicationGetInstance().GetCurrentLevel();
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level == nullptr) {
         return;
     }
-    // PARTIAL: the store of gameType at Level +0x150 is not written (see above).
+    level->unk_150 = reinterpret_cast<void*>(static_cast<std::uintptr_t>(gameType));
 }
+

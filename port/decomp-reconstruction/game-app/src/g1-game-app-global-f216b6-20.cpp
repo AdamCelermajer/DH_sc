@@ -9,20 +9,35 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
 
+#include <jni.h>
+#include "core-platform/touch_screen_base.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/SavegameManager.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "glitch-core-io/os/device.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
 
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
+#include "glitch-video/primitive_stream.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/mesh_functions.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
+
+// The JNI state of the Android glue (defined in core-platform/src/p1-core-platform-global-f216b6-*.cpp, declared in tb/android_jni_platform.hpp,
+// whose sound natives clash with vox-audio's declarations in one translation unit).
+extern JNIEnv* mEnv;
+extern jclass mClassGLResLoader;
+extern jmethodID getResFullID;
+extern jmethodID getResBytesID;
+extern jmethodID getResLengthID;
 
 namespace {
 
@@ -35,20 +50,35 @@ std::uint32_t ArmLogicalShiftLeft(std::uint32_t value, int amount) {
     return amount >= 32 ? 0u : value << amount;
 }
 
+// The touch screen's orientation word (TouchScreenBase +0x1a8) is protected and has no setter; SetFinalOrientation stores to it directly.
+struct TouchOrientationAccess : TouchScreenBase {
+    static void Set(TouchScreenBase& screen, int orientation) { screen.*(&TouchOrientationAccess::orientation_) = orientation; }
+};
+
 }  // namespace
 
 // 0x50e568 GetNodePolyCount(glitch::scene::ISceneNode*, bool)
-// PARTIAL: stub returns 0. The original adds, for a mesh node, the triangle count of its mesh: the node's virtual
-// at vtable +0xf8 gives the IMesh (an IReferenceCounted), the mesh's vtable +0x10 gives the buffer count, its
-// vtable +0x14 gives buffer i, and the buffer's word at +0x20 divided by 3 is the triangle count (each buffer is
-// dropped after use). With the flag set it then adds GetNodePolyCount(child, true) for every child on the node's
-// children list (an intrusive list whose sentinel is at node +0xf4; the element is the link address minus 4).
-// Blocked: ISceneNode has no vtable declared, the children list layout disagrees with the engine header (which maps
-// a std::vector at +0xf0), and IMesh / IReferenceCounted buffer accessors are not declared (layout requests).
+// For a mesh node (IsNodeMesh) with a mesh (IMeshSceneNode::getMesh, vptr+0xf8): the sum over the mesh buffers (getMeshBufferCount, vptr+0x10;
+// getMeshBuffer, vptr+0x14) of the buffer's element count (the primitive stream's count, buffer +0x20) divided by three. With includeChildren
+// set, the same count of every child on the child list is added.
 int GetNodePolyCount(glitch::scene::ISceneNode* node, bool includeChildren) {
-    (void)node;
-    (void)includeChildren;
-    return 0;
+    int total = 0;
+    if (IsNodeMesh(node)) {
+        boost::intrusive_ptr<glitch::scene::IMesh> mesh = static_cast<glitch::scene::IMeshSceneNode*>(node)->getMesh();
+        if (mesh) {
+            const std::uint32_t bufferCount = mesh->getMeshBufferCount();
+            for (std::uint32_t i = 0; i < bufferCount; ++i) {
+                boost::intrusive_ptr<glitch::scene::CMeshBuffer> buffer = mesh->getMeshBuffer(i);
+                total += static_cast<int>(buffer->primitiveStream.m_count / 3u);
+            }
+        }
+    }
+    if (includeChildren) {
+        for (glitch::scene::ISceneNode* child : node->getChildren()) {
+            total += GetNodePolyCount(child, true);
+        }
+    }
+    return total;
 }
 
 // 0x50e674 IsNodeVisible(glitch::scene::ISceneNode*)
@@ -160,19 +190,28 @@ void* CopyMeshSceneNode(glitch::scene::IMeshSceneNode* node) {
 }
 
 // 0x530a6c SetFinalOrientation(int)
-// PARTIAL: stub returns 0. Body verified against asm 0x530a6c, and the two remaining items are both re-confirmed:
-//  (1) the two stores go into TouchScreenBase::orientation_ (+0x1a8), which core-platform/touch_screen_base.hpp:83
-//      declares in the protected section (line 74) with no public setter, so this free function cannot write it; a
-//      core-platform header edit, outside this batch.
-//  (2) IVideoDriver::setOrientation (glitch-video/video_driver.hpp, +0x13c) returns void. The original's result is
-//      NOT void: IVideoDriver::setOrientation (0x5a9fd4) returns the virtual call at the object +0xc8's vtable +0x0c
-//      when the orientation changed and returns `this` when it did not, and SetFinalOrientation returns that r0.
-// The rest of the old list is stale and available: SavegameManager::getAutoReorientation (SavegameManager.hpp,
-// reached as *(app)+0x4c = Application::m_savegameManager), the touch screen at Application +0x20, the device's
-// driver at IDevice +0x10, lastOpenMenuID (0x9f63fc) and isScreenOriented (0x99b100) in dh2/global/Globals.hpp.
+// With the saved "auto orientation" option set (SavegameManager::getAutoReorientation, Application +0x4c, == 1): orientation 1 (not while the menu
+// 9 is open) stores 0 in the touch screen's orientation word (TouchScreenBase +0x1a8, Application +0x20), turns the video driver (IDevice +0x10)
+// to orientation 0 and sets isScreenOriented; orientation -1 (same menu test) stores 2, turns the driver to 2 and clears isScreenOriented. The
+// result is the option value; the original returns the value IVideoDriver::setOrientation leaves in r0 when it changes the orientation (the
+// driver's result, or the driver itself when nothing changed), which no caller reads and which setOrientation (void here) does not give.
 extern "C" int SetFinalOrientation(int orientation) {
-    (void)orientation;
-    return 0;
+    Application& app = ApplicationGetInstance();
+    const int result = app.m_savegameManager->getAutoReorientation();
+    if (result == 1) {
+        if (orientation == 1) {
+            if (lastOpenMenuID != 9) {
+                TouchOrientationAccess::Set(*app.m_touchScreen, 0);
+                app.m_device->videoDriver->setOrientation(0);
+                isScreenOriented = true;
+            }
+        } else if (orientation == -1 && lastOpenMenuID != 9) {
+            TouchOrientationAccess::Set(*app.m_touchScreen, 2);
+            app.m_device->videoDriver->setOrientation(2);
+            isScreenOriented = false;
+        }
+    }
+    return result;
 }
 
 // 0x530b5c SetDisplayString(char*)
@@ -198,37 +237,40 @@ extern "C" void GetNativeSoundRaw() {}
 extern "C" void GetNativeResourceSoundRawLength() {}
 
 // 0x53226c GetNativeResourceFull(int, int)
-// PARTIAL: stub, nothing is copied. The original is Android JNI glue on the GLResLoader class (mClassGLResLoader),
-// with the JNIEnv in mEnv. Its calls, by function-table byte offset (standard JNINativeInterface index; no jni.h is in
-// the tree to check them): NewStringUTF(name) (+0x29c), CallStaticObjectMethod(loader, getResFullID, jstring)
-// (+0x1c8), GetArrayLength(array) (+0x2ac), GetByteArrayRegion(array, 0, length, out) (+0x320), then two
-// DeleteLocalRef (+0x5c). The return is the leftover of the last DeleteLocalRef, so the function is void.
-// Blocked: mEnv, mClassGLResLoader and getResFullID are not declared, and no JNI header is in the tree.
+// Android JNI glue on the GLResLoader class: NewStringUTF(name), the static byte[] method getResFullID of mClassGLResLoader called with the
+// string, GetArrayLength, GetByteArrayRegion (0, length) into the caller's buffer, then DeleteLocalRef of the array and of the string. The
+// return value is the leftover of the last DeleteLocalRef, so the function is void.
 extern "C" void GetNativeResourceFull(const char* name, void* out) {
-    (void)name;
-    (void)out;
+    jstring jname = mEnv->NewStringUTF(name);
+    jbyteArray array = static_cast<jbyteArray>(mEnv->CallStaticObjectMethod(mClassGLResLoader, getResFullID, jname));
+    const jsize length = mEnv->GetArrayLength(array);
+    mEnv->GetByteArrayRegion(array, 0, length, static_cast<jbyte*>(out));
+    mEnv->DeleteLocalRef(array);
+    mEnv->DeleteLocalRef(jname);
 }
 
 // 0x532350 GetNativeResourceLength(int)
-// PARTIAL: stub returns 0. The original calls NewStringUTF(name) (+0x29c), then
-// CallStaticIntMethod(loader, getResLengthID, jstring) (+0x204), then DeleteLocalRef (+0x5c), and returns the int.
-// Blocked on the same JNI state as GetNativeResourceFull.
+// NewStringUTF(name), the static int method getResLengthID of mClassGLResLoader called with it, DeleteLocalRef of the string; returns the int.
 extern "C" int GetNativeResourceLength(const char* name) {
-    (void)name;
-    return 0;
+    jstring jname = mEnv->NewStringUTF(name);
+    const jint length = mEnv->CallStaticIntMethod(mClassGLResLoader, getResLengthID, jname);
+    mEnv->DeleteLocalRef(jname);
+    return length;
 }
 
 // 0x5323d8 GetNativeResourceBytes(int, int, size_t)
-// PARTIAL: stub returns nullptr. The original calls NewStringUTF(name), then CallStaticObjectMethod(loader,
-// getResBytesID, jstring, argument, length) (+0x1c8) for a byte array, allocates malloc(length), fills it with
-// GetByteArrayRegion(array, 0, length, buffer) (+0x320), releases the array and the string with DeleteLocalRef
-// (+0x5c) and returns the buffer. Blocked on the same JNI state as GetNativeResourceFull. The meaning of the second
-// Java argument is not recovered.
+// NewStringUTF(name), the static byte[] method getResBytesID of mClassGLResLoader called with (string, argument, length), malloc(length), the
+// array copied into it with GetByteArrayRegion (0, length), DeleteLocalRef of the array and the string; returns the buffer. The meaning of the
+// Java method's second argument is not visible in the native code; it is passed on unchanged.
 extern "C" void* GetNativeResourceBytes(const char* name, int argument, std::size_t length) {
-    (void)name;
-    (void)argument;
-    (void)length;
-    return nullptr;
+    jstring jname = mEnv->NewStringUTF(name);
+    jbyteArray array = static_cast<jbyteArray>(
+        mEnv->CallStaticObjectMethod(mClassGLResLoader, getResBytesID, jname, static_cast<jint>(argument), static_cast<jint>(length)));
+    void* buffer = std::malloc(length);
+    mEnv->GetByteArrayRegion(array, 0, static_cast<jsize>(length), static_cast<jbyte*>(buffer));
+    mEnv->DeleteLocalRef(array);
+    mEnv->DeleteLocalRef(jname);
+    return buffer;
 }
 
 // 0x532f14 GetAccelerometerParams(int*, int*, int*)
@@ -348,22 +390,182 @@ std::uint32_t TwiddleUV(std::uint32_t a1, std::uint32_t a2, std::uint32_t a3, st
 }
 
 // 0x69f768 PVRTCDecompress(void const*, int, int, int, unsigned char*)
-// PARTIAL: the pixel decode is not rebuilt, so nothing is written to result. What is reconstructed: the block size
-// (8 bytes when do2bitMode is set, else 4), the start value xDim / block size (at least 2), and the return value.
-// The original returns yDim after its row loop when yDim > 0, and the start value otherwise. The loop itself
-// addresses blocks with TwiddleUV, blends with InterpolateColours, and reads modulation values from the static tables
-// RepVals0 and RepVals1 of GetModulationValue (ELF 0x8eaf00 and 0x8eaf10, four words each). GetModulationValue is not
-// in this batch or the tree, and the scratch buffers alias through byte offsets, so the decode is not written.
+// Decodes a PVRTC image of xDim by yDim pixels (2 bits per pixel when do2bitMode, else 4) into RGBA bytes. Blocks are 8 bytes: word 0 the
+// modulation data, word 1 the two colours (bits 0..15 colour A, with bit 0 the modulation mode flag, and bits 16..31 colour B). The block
+// width is 8 or 4 pixels, the block row count yDim / 4 (2 when yDim is below 8), the blocks per row xDim / blockWidth (at least 2); a row
+// count of zero returns the blocks per row. For each pixel row y: the top block row is ((y - 2) & (yDim - 1)) / 4 and the bottom one the next
+// (wrapping); for each pixel x the left block column is ((xDim - 1) & (x - blockWidth / 2)) / blockWidth and the right one the next. The four
+// blocks (found with TwiddleUV) are decoded into the colour pairs, the modulation values and the modulation modes of an 8-row, 16-column scratch
+// grid, unless the same four blocks were decoded for the previous pixel. The colours are interpolated bilinearly (InterpolateColours) and the
+// modulation factor comes from the row and column of the pixel in the grid: a pixel whose parity requires it (2 bits per pixel, modes 1 to 3)
+// averages its neighbours' factors (RepVals0 = 0, 3, 5, 8); 4 bits per pixel with the flag set uses RepVals1 = 0, 4, 4, 8, and a value 2 there
+// is the punch-through (alpha 0). Each pixel is (8 * A + (B - A) * factor) >> 3. The return value is yDim.
 int PVRTCDecompress(const void* compressed, int do2bitMode, int xDim, int yDim, std::uint8_t* result) {
-    (void)compressed;
-    (void)result;
-    const int blockBytes = do2bitMode ? 8 : 4;
-    int startValue = xDim / blockBytes;
-    if (startValue < 2) {
-        startValue = 2;
+    static const int kRepVals[8] = {0, 3, 5, 8, 0, 4, 4, 8};  // GetModulationValue's RepVals0 (ELF 0x8eaf00) and RepVals1 (0x8eaf10)
+    const char* data = static_cast<const char*>(compressed);
+    const int blockWidth = do2bitMode ? 8 : 4;
+    int blocksPerRow = xDim / blockWidth;
+    if (blocksPerRow < 2) {
+        blocksPerRow = 2;
     }
-    if (yDim > 0) {
-        return yDim;
+    int blockRows;
+    if (yDim > 7) {
+        blockRows = yDim >> 2;
+    } else if (yDim > 0) {
+        blockRows = 2;
+    } else {
+        return blocksPerRow;
     }
-    return startValue;
+
+    const bool twoBit = do2bitMode != 0;
+    const char* previousBlocks[4] = {nullptr, nullptr, nullptr, nullptr};
+    int values[144] = {};  // the modulation values, 16 per grid row (eight rows); neighbour reads run past a row as in the original
+    int modes[144] = {};   // the modulation modes, same layout
+    int colours[32] = {};  // eight colours of four components: block (row r, column c) colour A at 16 * r + 8 * c, colour B 4 further
+
+    int rowOffset = 0;
+    for (int y = 0; y != yDim; ++y, rowOffset += xDim) {
+        if (xDim <= 0) {
+            continue;
+        }
+        const int gridRow = (y & 3) | (2 * (~y & 2));
+        const int topBlockRow = ((y - 2) & (yDim - 1)) / 4;
+        const int bottomBlockRow = (topBlockRow + 1) & (blockRows - 1);
+        const int rowAbove = 16 * (gridRow - 1);
+        const int rowBelow = 16 * (gridRow + 1);
+        const int rowBase = 16 * gridRow;
+        for (int x = 0; x != xDim; ++x) {
+            const int leftColumn = ((xDim - 1) & (x - (blockWidth >> 1))) / blockWidth;
+            const int rightColumn = (leftColumn + 1) & (blocksPerRow - 1);
+            const char* blocks[4] = {
+                data + 8 * TwiddleUV(blockRows, blocksPerRow, topBlockRow, leftColumn),
+                data + 8 * TwiddleUV(blockRows, blocksPerRow, topBlockRow, rightColumn),
+                data + 8 * TwiddleUV(blockRows, blocksPerRow, bottomBlockRow, leftColumn),
+                data + 8 * TwiddleUV(blockRows, blocksPerRow, bottomBlockRow, rightColumn),
+            };
+            if (std::memcmp(previousBlocks, blocks, sizeof(blocks)) != 0) {
+                for (int blockRow = 0; blockRow != 2; ++blockRow) {
+                    int columnOffset = 0;  // the block's first column in the grid
+                    for (int column = 0; column != 2; ++column) {
+                        const char* block = blocks[2 * blockRow + column];
+                        std::uint32_t modulation = 0;
+                        std::uint32_t colourWord = 0;
+                        std::memcpy(&modulation, block, 4);
+                        std::memcpy(&colourWord, block + 4, 4);
+                        int* pair = &colours[16 * blockRow + 8 * column];
+                        const std::uint32_t words[2] = {colourWord & 0xFFFEu, colourWord >> 16};
+                        for (int c = 0; c != 2; ++c) {
+                            const std::uint32_t colour = words[c];
+                            int* out = pair + 4 * c;
+                            if ((colour & 0x8000u) == 0) {  // 3 bits of alpha, 4 of red and green, 3 or 4 of blue
+                                out[0] = static_cast<int>((colour >> 7) & 0x1E) | static_cast<int>(((colour >> 7) & 0x1E) >> 4);
+                                out[1] = static_cast<int>((colour >> 3) & 0x1E) | static_cast<int>(((colour >> 3) & 0x1E) >> 4);
+                                out[2] = static_cast<int>(2 * (colour & 0xF));
+                                // The original widens the blue of the pair's first colour (pair[2]) here for both colours, so colour B's own
+                                // blue stays at its raw 4-bit value and colour A's is widened twice.
+                                const int firstBlue = pair[2];
+                                pair[2] = (c != 0) ? (firstBlue | (firstBlue >> 4)) : (firstBlue | (firstBlue >> 3));
+                                out[3] = static_cast<int>((colour >> 11) & 0xE);
+                            } else {  // opaque: 5 bits per channel
+                                out[0] = static_cast<int>((colour >> 10) & 0x1F);
+                                out[1] = static_cast<int>((colour >> 5) & 0x1F);
+                                int blue = static_cast<int>(colour & 0x1F);
+                                if (c == 0) {
+                                    blue |= blue >> 4;
+                                }
+                                out[2] = blue;
+                                out[3] = 15;
+                            }
+                        }
+                        const int modeFlag = static_cast<int>(colourWord & 1u);
+                        const int gridBase = 64 * blockRow;  // four grid rows of 16 per block row
+                        if (twoBit && modeFlag != 0) {
+                            // Checkerboard: only the pixels whose column and row parity agree carry a value (2 bits each).
+                            for (int j = 0; j != 4; ++j) {
+                                for (int i = 0; i != 8; ++i) {
+                                    const int index = gridBase + 16 * j + columnOffset + i;
+                                    modes[index] = 1;
+                                    if (((i ^ j) & 1) == 0) {
+                                        values[index] = static_cast<int>(modulation & 3u);
+                                        modulation >>= 2;
+                                    }
+                                }
+                            }
+                        } else if (twoBit) {
+                            // One bit per pixel: 0 or 3.
+                            for (int j = 0; j != 4; ++j) {
+                                for (int i = 0; i != 8; ++i) {
+                                    const int index = gridBase + 16 * j + columnOffset + i;
+                                    modes[index] = modeFlag;
+                                    values[index] = (modulation & 1u) != 0 ? 3 : 0;
+                                    modulation >>= 1;
+                                }
+                            }
+                        } else {
+                            // Two bits per pixel.
+                            for (int j = 0; j != 4; ++j) {
+                                for (int i = 0; i != 4; ++i) {
+                                    const int index = gridBase + 16 * j + columnOffset + i;
+                                    modes[index] = modeFlag;
+                                    values[index] = static_cast<int>(modulation & 3u);
+                                    modulation >>= 2;
+                                }
+                            }
+                        }
+                        columnOffset += blockWidth;
+                    }
+                }
+                std::memcpy(previousBlocks, blocks, sizeof(blocks));
+            }
+
+            int colourA[4];
+            int colourB[4];
+            InterpolateColours(&colours[0], &colours[8], &colours[16], &colours[24], do2bitMode, x, y, colourA);
+            InterpolateColours(&colours[4], &colours[12], &colours[20], &colours[28], do2bitMode, x, y, colourB);
+
+            int column;
+            if (twoBit) {
+                column = (x & 7) | (2 * (~x & 4));
+            } else {
+                column = (x & 3) | (2 * (~x & 2));
+            }
+            int mode = modes[rowBase + column];
+            int factor;
+            if (mode != 0) {
+                if (twoBit) {
+                    if (((column ^ gridRow) & 1) != 0) {
+                        if (mode == 1) {
+                            factor = (kRepVals[values[rowAbove + column]] + kRepVals[values[rowBelow + column]] + 2 +
+                                      kRepVals[values[rowBase + column - 1]] + kRepVals[values[rowBase + column + 1]]) / 4;
+                        } else if (mode == 2) {
+                            factor = (kRepVals[values[rowBase + column - 1]] + kRepVals[values[rowBase + column + 1]] + 1) / 2;
+                        } else {
+                            factor = (kRepVals[values[rowAbove + column]] + kRepVals[values[rowBelow + column]] + 1) / 2;
+                        }
+                    } else {
+                        factor = kRepVals[values[rowBase + column]];
+                    }
+                    mode = 0;
+                } else {
+                    const int value = values[rowBase + column];
+                    factor = kRepVals[value + 4];  // RepVals1
+                    mode = value == 2 ? 1 : 0;
+                }
+            } else {
+                factor = kRepVals[values[rowBase + column]];
+            }
+
+            int pixel[4];
+            for (int i = 0; i != 4; ++i) {
+                pixel[i] = (8 * colourA[i] + (colourB[i] - colourA[i]) * factor) >> 3;
+            }
+            std::uint8_t* destination = &result[4 * rowOffset + 4 * x];
+            destination[0] = static_cast<std::uint8_t>(pixel[0]);
+            destination[1] = static_cast<std::uint8_t>(pixel[1]);
+            destination[2] = static_cast<std::uint8_t>(pixel[2]);
+            destination[3] = mode == 0 ? static_cast<std::uint8_t>(pixel[3]) : static_cast<std::uint8_t>(0);
+        }
+    }
+    return yDim;
 }
+

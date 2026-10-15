@@ -228,14 +228,14 @@ void LaserTypeProjectile::Update() {
     }
 
     // No floor: the room at the position decides. No room expires with impact 0. A room whose flag bit 0 is set expires
-    // with the ground impact. PFRoom +0x24 is declared unk_24 in dh2/PFRoom.hpp.
+    // with the ground impact. PFRoom +0x24 is m_flags in dh2/PFRoom.hpp.
     PFRoom* room = Singleton<PFWorld>::s_inst.GetRoomAt(GameObject::m_position);
     if (room == nullptr) {
         OnExpire(IMPACT_NONE);
         m_lifetimeMs = -1;
         return;
     }
-    if ((room->unk_24 & 1u) != 0) {
+    if ((room->m_flags & 1u) != 0) {
         OnExpire(IMPACT_GROUND);
         m_lifetimeMs = -1;
     }

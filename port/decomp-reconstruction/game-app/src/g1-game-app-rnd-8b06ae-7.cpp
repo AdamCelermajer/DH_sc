@@ -7,18 +7,7 @@
 //   Tile::Tile(RandomGenerator&, Block&, Tile*, ListElem&)   0x4917f8, 0x491850
 //   Tile::~Tile()                                            0x4914e8, 0x491500
 //
-// PARTIAL (the ledger notes repeat these):
-//   - Tile::PlaceTile: the original returns the result of Block::PlaceInMap in r0. The header declares void, and the
-//     test of batch -3 stubs the same void signature, so the result is dropped here. Every side effect is written.
-//   - Tile::SetModuleMVXProperties: the path "<gameplay>/mvx/<name>.mvx" is built. The read of that file from the file
-//     system at dword_99F73C+0x34 (IDevice +0x34, not declared in the tree) and the TinyXML parse are not reproduced
-//     (the vox-audio TinyXML copy declares no TiXmlDocument::LoadFromBuffer and no TiXmlElement::Attribute), so no
-//     property is set.
-//   - Tile::TrySpawn: the offset of the opposite direction comes from rnd::Direction::sDirections through
-//     rnd::DIRECTION_OPPOSITES. rnd::Direction is not declared in the tree (no dh2/rnd/Direction.hpp), so the function
-//     returns null and spawns nothing.
-//   - Tile::SaveAsModuleXML: the module element, its name, position, data paths and children are written. Its mvx
-//     attributes come from SetModuleMVXProperties, which is partial.
+// Tile::PlaceTile returns the result of Block::PlaceInMap, as the original does.
 //
 // Storage: the original allocates tiles with operator new(0x90) and frees them with CustomFree in Unspawn; the port
 // uses CustomAlloc with placement new and CustomFree, as the batch -3 factories do.
@@ -33,10 +22,14 @@
 #include "dh2/Module.hpp"
 #include "dh2/PropertyMap.hpp"
 #include "dh2/rnd/Block.hpp"
+#include "dh2/rnd/Direction.hpp"
+#include "dh2/rnd/Exit.hpp"
+#include "dh2/rnd/FileText.hpp"
 #include "dh2/rnd/ListElem.hpp"
 #include "dh2/rnd/ListRule.hpp"
 #include "dh2/rnd/RandomGenerator.hpp"
 #include "dh2/rnd/Tile.hpp"
+#include "tinyxml.h"
 
 namespace rnd {
 
@@ -47,14 +40,12 @@ bool Tile::TryPlaceTile(int /*x*/, int /*y*/) {
 }
 
 // 0x4913d8 rnd::Tile::PlaceTile(int,int,float)
-// PARTIAL: the original returns the result of Block::PlaceInMap (vtable slot 0x08, called with the generator's tile map,
-// this, x and y) in r0. The header and the batch -3 test declare this function as void, so that result is dropped.
-// No caller in the tree reads it. The stores of x, y and z happen first, as in the original.
-void Tile::PlaceTile(int x, int y, float z) {
+// Stores z, x and y, then returns the result of Block::PlaceInMap (vtable slot 0x08, called with the generator's tile map, this, x and y).
+bool Tile::PlaceTile(int x, int y, float z) {
     m_z = z;
     m_x = x;
     m_y = y;
-    m_block->PlaceInMap(m_generator->m_tiles, this, x, y);
+    return m_block->PlaceInMap(m_generator->m_tiles, this, x, y);
 }
 
 // 0x491428 rnd::Tile::AddChild(rnd::Tile*)
@@ -92,15 +83,30 @@ void Tile::Print() {
 // The only work is ListElem::~ListElem on the copy at +0x34, which the implicit member destructor performs.
 Tile::~Tile() {}
 
-// 0x491518 rnd::Tile::SetModuleMVXProperties(Module*)
-// PARTIAL. The original builds the path "<block gameplay>/mvx/<block name>.mvx" (the path is built here), then opens it on
-// the file system at dword_99F73C+0x34 (IDevice +0x34, not declared in the tree), loads it into a TinyXML document,
-// finds the "Module" then "GameObject" elements, and copies their attributes scale, xrefmax, xrefobject, dae, fog_color
-// and is_solid into the module's PropertyMap (the module at +4). The read and the attribute copy are not reproduced.
+// 0x491518 rnd::Tile::SetModuleMVXProperties(Module *)
+// Reads "<block gameplay>/mvx/<block name>.mvx" on the device file system and parses it. When the file opens, the "GameObject" element
+// of its "Module" element (when there is one) gives the module's properties scale, xrefmax, xrefobject, dae, fog_color and is_solid
+// (an absent attribute passes null to SetProperty, which puts the property back to its default). The module's PropertyMap is at +4.
 void Tile::SetModuleMVXProperties(Module* module) {
-    const std::string mvxPath = m_block->m_gameplay + "/mvx/" + m_block->m_name + ".mvx";
-    (void)module;
-    (void)mvxPath;
+    const std::string mvxPath = m_block->m_gameplay + "/mvx/" + (m_block->m_name + ".mvx");
+    std::string text;
+    if (!ReadFileText(mvxPath.c_str(), text)) {
+        return;
+    }
+    TiXmlDocument document;
+    document.LoadFromBuffer(text.data(), static_cast<int>(text.size()), TIXML_DEFAULT_ENCODING);
+    TiXmlHandle moduleHandle = TiXmlHandle(&document).Child("Module", 0);
+    TiXmlHandle objectHandle = moduleHandle.Child("GameObject", 0);
+    TiXmlElement* object = objectHandle.ToElement();
+    if (object != nullptr) {
+        PropertyMap& props = *module;
+        props.SetProperty("scale", object->Attribute("scale"));
+        props.SetProperty("xrefmax", object->Attribute("xrefmax"));
+        props.SetProperty("xrefobject", object->Attribute("xrefobject"));
+        props.SetProperty("dae", object->Attribute("dae"));
+        props.SetProperty("fog_color", object->Attribute("fog_color"));
+        props.SetProperty("is_solid", object->Attribute("is_solid"));
+    }
 }
 
 // 0x4917f8 rnd::Tile::Tile(rnd::RandomGenerator&,rnd::Block&,rnd::Tile*,rnd::ListElem&) (C1)
@@ -176,20 +182,32 @@ Tile* Tile::Spawn(Block& block, int x, int y, float z, ListElem& elem) {
     return tile;
 }
 
-// 0x491ab0 rnd::Tile::TrySpawn(rnd::Exit const*,rnd::Exit const*,rnd::Exit const*,rnd::ListElem&)
-// PARTIAL. The original reads the direction of the "to" exit (its first word, the direction id), maps it through
-// rnd::DIRECTION_OPPOSITES to an entry of rnd::Direction::sDirections, and takes that entry's x and y. It adds those
-// to this tile's cell, adds the "from" exit's offset and height when given, and asks the exit's block whether the cell
-// fits (vtable slot 0x10, FitsInMap). When it fits, it calls Spawn with the exit's block and the new cell and height.
-// rnd::Direction is not declared in the tree, so nothing is computed and the function returns null.
-Tile* Tile::TrySpawn(const Exit* /*unused*/, const Exit* /*from*/, const Exit* /*to*/, ListElem& /*elem*/) {
+// 0x491ab0 rnd::Tile::TrySpawn(rnd::Exit const*,rnd::Exit const*,rnd::Exit const*,rnd::ListElem &)
+// The first argument is not read. "to" is the exit of the block to place: the cell is this tile's cell plus the offset of the direction
+// opposite to the exit's direction, minus the exit's own cell, plus the cell of "from" (the exit of this tile) when there is one; the height
+// is this tile's height plus the height (weight) of "from", and the new tile's height is that minus the exit's weight. When the exit's block
+// says the cell fits (FitsInMap, vtable slot 0x10, with the generator's tile map), the child is spawned with the exit's block and the element.
+// Returns the new tile or null.
+Tile* Tile::TrySpawn(const Exit* /*unused*/, const Exit* from, const Exit* to, ListElem& elem) {
+    const Direction& offset = Direction::sDirections[DIRECTION_OPPOSITES[to->m_direction->id]];
+    int x = offset.x + m_x - to->m_x;
+    int y = offset.y + m_y - to->m_y;
+    float z = m_z;
+    if (from != nullptr) {
+        x += from->m_x;
+        y += from->m_y;
+        z += from->m_weight;
+    }
+    const float exitWeight = to->m_weight;
+    if (to->m_block->FitsInMap(m_generator->m_tiles, x, y)) {
+        return Spawn(*to->m_block, x, y, z - exitWeight, elem);
+    }
     return nullptr;
 }
 
 // 0x491d90 rnd::Tile::SaveAsModuleXML(TiXmlElement*,int)
 // Writes this tile as a Module element under parent, then the children, and returns the index after the last one.
-// PARTIAL: the mvx attributes come from SetModuleMVXProperties, which is partial. The original also stores the literal
-// "Module" in a local that nothing reads; that dead store is not reproduced.
+// The original also stores the literal "Module" in a local that nothing reads; that dead store is not reproduced.
 int Tile::SaveAsModuleXML(TiXmlElement* parent, int index) {
     // The original constructs the module with GO_IDS value 5 (the id passed in r1). The ObjectBase enum in this tree
     // names only GO_DOOR, so the value is written as a cast.

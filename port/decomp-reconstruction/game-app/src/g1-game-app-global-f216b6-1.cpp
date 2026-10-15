@@ -9,6 +9,7 @@
 #include "dh2/global/subtitles.hpp"
 
 #include "core-platform/memory.hpp"
+#include "core-platform/stlport_alloc.hpp"
 #include "core-platform/w7_global_00.hpp"
 #include "net-session-online/c_msg_fixed.hpp"
 
@@ -17,15 +18,15 @@ namespace {
 // The subtitle deque holds 32-slot nodes (a 0x80-byte node of 4-byte pointers, as ClearSubtitles notes).
 constexpr int kSubtitleNodeSlots = 32;
 
-// Layout request (SubtitleEntry, core-platform/w7_global_00.hpp): the original reads an int start time at +0x00
-// and an int end time at +0x04. The header declares those words as void* (unknown_00, unknown_04), which is
-// host-width, so the times cannot be read yet. Both read as zero until the entry layout is fixed.
-int SubtitleStartTime(const SubtitleEntry* /*entry*/) {
-    return 0;
+// The node size the original passes to __node_alloc::_M_deallocate (32 four-byte slots).
+constexpr unsigned int kSubtitleNodeSize = 0x80;
+
+int SubtitleStartTime(const SubtitleEntry* entry) {
+    return entry->startTime;  // +0x00
 }
 
-int SubtitleEndTime(const SubtitleEntry* /*entry*/) {
-    return 0;
+int SubtitleEndTime(const SubtitleEntry* entry) {
+    return entry->endTime;  // +0x04
 }
 
 // Text of an entry (+0x08 in the original), or null when the entry has none.
@@ -55,13 +56,10 @@ extern "C" int* GetSkipText() {
 }
 
 // 0x33933c GetSubtitleTextToSet(int)
-// PARTIAL, for two gaps. (1) The start and end times read through SubtitleStartTime and SubtitleEndTime are
-// stubs that return zero: SubtitleEntry's +0x00 and +0x04 int fields are not declared (layout request above).
-// With zero times, a queued subtitle is always due and a current subtitle always ends on the next call, so the
-// timing is wrong until the stubs are replaced. (2) The node release at the end of a node calls CustomFree,
-// where the original calls the SGI node allocator (__node_alloc::_M_deallocate, 0x80 bytes). The allocator that
-// matches LoadSubtitles is not recovered, the same gap as ClearSubtitles in core-platform/src/w7_global_00.cpp.
-// The control flow and the stores otherwise follow the original's inlined deque pop_front.
+// The subtitle queue is a deque of SubtitleEntry*. With the queue empty or its front entry not yet due (start time after the current time), the
+// current subtitle keeps showing until its end time, then it is freed and the answer is null. When the front entry is due, the current
+// subtitle is freed, the front entry is popped (inlined deque pop_front: at the last slot of a node the node is released with
+// __node_alloc::_M_deallocate(node, 0x80) and the deque moves to the next map slot), it becomes the current subtitle, and its text is returned.
 extern "C" char* GetSubtitleTextToSet(int currentTime) {
     SubtitleDeque& q = g_SubtitlesQueue;  // start.cur, start.first, start.last, start.node, finish.cur
 
@@ -96,7 +94,7 @@ extern "C" char* GetSubtitleTextToSet(int currentTime) {
     if (pos == q.last - 1) {
         // Last slot of the node: release the node and move the deque map to the next node.
         if (q.first != nullptr) {
-            CustomFree(q.first);  // original: __node_alloc::_M_deallocate(first, 0x80), see PARTIAL note
+            std::__node_alloc::_M_deallocate(q.first, kSubtitleNodeSize);
         }
         ++q.node;
         q.cur = *q.node;

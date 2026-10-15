@@ -95,7 +95,7 @@ PFRoom::PFRoom(const char* name, std::uint32_t value, PFWorld* world, PFGOuterGr
     : m_name(name),
       unk_1c(value),
       m_world(world),
-      unk_24(0),
+      m_flags(0),
       m_oGraph(oGraph),
       m_iGraph(iGraph),
       m_floors(),

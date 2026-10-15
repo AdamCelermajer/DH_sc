@@ -10,6 +10,8 @@
 
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Door.hpp"
+#include <cstring>
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
 
 namespace {
 
@@ -76,15 +78,16 @@ Door::Door(ObjectBase::GO_IDS id) : Zone(id, false, true) {
 }
 
 // 0x3e8450 Door::__EventCallback(glitch::collada::STriggeredEvent const&, void*)
-// PARTIAL: the original reads the event name at STriggeredEvent +0x04 (const char*). When it is "opened" the door is
-// settled open (Opened(true)), and when it is "closed" it is settled closed (Closed(true)); LC_API_STRCMP_0 is strcmp.
-// glitch::collada::STriggeredEvent has no definition in the tree (only forward declarations), so the name cannot be
-// read and the dispatch is not written.
-// LAYOUT REQUEST (glitch-scene-collada-gui): STriggeredEvent +0x04 const char* name.
+// Reads the isTracingDoor switch (the answer is not used). The animation event named "opened" settles the door open (Opened(true))
+// and "closed" settles it closed (Closed(true)); other names do nothing.
 void Door::__EventCallback(const glitch::collada::STriggeredEvent& event, void* user) {
     TraceDoorSwitch();  // the "isTracingDoor" read, result discarded
-    (void)event;
-    (void)user;
+    Door* door = static_cast<Door*>(user);
+    if (!std::strcmp(event.eventName, "opened")) {   // STriggeredEvent +0x04
+        door->Opened(true);
+    } else if (!std::strcmp(event.eventName, "closed")) {
+        door->Closed(true);
+    }
 }
 
 // 0x3e8568 Door::__Callback(glitch::scene::ITimelineController*, void*)

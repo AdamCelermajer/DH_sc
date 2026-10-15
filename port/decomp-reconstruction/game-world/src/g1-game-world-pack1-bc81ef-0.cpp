@@ -22,6 +22,8 @@
 // the complete destructor followed by operator delete (CustomFree in the original). Their addresses are listed below
 // the D1 bodies.
 
+#include "core-platform/filesystem_win32.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/Dummy.hpp"
 #include "dh2/Floor.hpp"
 #include "dh2/IrrFactory.hpp"
@@ -90,7 +92,7 @@ Floor::~Floor() {}
 
 // 0x388e10 Floor::~Floor() (D0) is compiler-generated: the D1 body above, then CustomFree(this). skipped: no body.
 
-// 0x3886b4 Floor::InitPost()   (partial: see the file header, the ISceneNode view of VisualObject +0x08)
+// 0x3886b4 Floor::InitPost()
 //
 // Hex-Rays returns an int: the polygon count of the visual's node when there is a visual, else 0. The GameObject slot
 // (+0x1c) is void, so the override is void too and the count is computed and dropped. No caller reads a result from
@@ -101,8 +103,7 @@ void Floor::InitPost() {
     if (m_visualObject) {     // +0x2d8
         m_visualObject->ApplyMeshBox();
         m_visualObject->SetVisible(false);
-        // VisualObject +0x08 as the original's ISceneNode* (see the file header).
-        GetNodePolyCount(reinterpret_cast<glitch::scene::ISceneNode*>(m_visualObject->m_node), true);
+        GetNodePolyCount(m_visualObject->m_node, true);   // VisualObject +0x08
     }
 }
 
@@ -116,12 +117,12 @@ IrrFactory::~IrrFactory() {}
 
 // 0x350c40 IrrFactory::~IrrFactory() (D0) is compiler-generated: the D1 body above, then CustomFree(this). skipped: no body.
 
-// 0x350aec IrrFactory::createFileSystem()   (partial: see the file header)
-//
-// The original returns a counted FileSystemWin32 (0x540 bytes). FileSystemWin32 has no base class in core-platform, so this
-// returns a null file system. The FileSystemWin32 constructor is not run.
+// 0x350aec IrrFactory::createFileSystem()
+// Allocates a FileSystemWin32 (0x540 bytes), runs its constructor (the path setup) and returns it counted as glitch::io::IFileSystem:
+// the pointer takes one more use after the constructor, as the original's raw count increment does.
 boost::intrusive_ptr<glitch::io::IFileSystem> IrrFactory::createFileSystem() {
-    return boost::intrusive_ptr<glitch::io::IFileSystem>();
+    FileSystemWin32* fileSystem = new FileSystemWin32();
+    return boost::intrusive_ptr<glitch::io::IFileSystem>(fileSystem, true);
 }
 
 // 0x350a80 IrrFactory::createSceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem> const&,

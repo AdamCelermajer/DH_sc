@@ -10,20 +10,15 @@
 //   RootRule::Impl::Impl       0x48ce48, 0x48d0b4
 //   ForceBlock::Impl::Impl     0x48cf10, 0x48cff8
 //
-// PARTIAL (the ledger notes repeat these):
-//   - Rule::Impl::Impl: the original stores a Direction object into m_direction (+0x3c), chosen by the exit name. Direction
-//     is only forward-declared in this tree and the four objects (&Direction::sDirections, &unk_956AF4, &unk_956B04,
-//     &unk_956B14) have no declarations, so m_direction stays null. The rest of the body is written. The child link is
-//     written only while the parent holds fewer than six children: the original writes slot +0x10 + 4 * count unchecked,
-//     which runs past the six slots into m_depth from the seventh child on, and this port does not reproduce that.
-//   - RPElem::LoadFromXml, ListElem::LoadFromXml, RoomPool::LoadFromXml: the TinyXML element and attribute surface (ToElement,
-//     Attribute, QueryIntAttribute, FirstChild, NextSibling) is not declared in the tree (TinyXML is not vendored), so
-//     nothing is read. Each body is a stub that leaves its object as the caller set it.
-//
-// The derived constructors (EndPath, Path, ForceBlock) write their own fields exactly as the original does, but their base
-// constructor is partial for m_direction (see above). The RootRule::Impl constructor passes no parent, so the base's partial
-// direction store and its child link are never reached from it: that one is reconstructed in full.
+// The derived constructors (EndPath, Path, ForceBlock) write their own fields after the Rule::Impl base, which links the node into its
+// parent and picks the direction from the exit name. The RootRule::Impl constructor passes no parent, so the base's link and direction
+// store are not reached from it.
 #include <cstddef>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include "dh2/rnd/Direction.hpp"
+#include "tinyxml.h"
 #include <cstdint>
 #include <new>
 #include <string>
@@ -45,8 +40,10 @@ namespace rnd {
 
 // 0x48bd60 rnd::Rule::Impl::Impl(rnd::Rule const&,rnd::Rule::Impl*)
 // 0x48bebc rnd::Rule::Impl::Impl(rnd::Rule const&,rnd::Rule::Impl*)  (C2 variant; same body)
-// PARTIAL: m_direction is not stored (see the file header). Everything else follows the original: the fields are set,
-// and a node with a parent is linked into the parent's child slots and the child count rises by one.
+// The fields are set (limit 1, depth 0, no direction). A node with a parent is linked into the parent's child slots and the parent's
+// count rises by one (guarded at six slots: the original writes slot +0x10 + 4 * count unchecked, which runs past the six slots into
+// m_depth from the seventh child on, and this port does not reproduce that). A rule with an exit name gives the node the matching
+// sDirections entry ("north", "east", "south", "west"); any other name leaves the direction null.
 Rule::Impl::Impl(const Rule& rule, Impl* parent)
     : m_rule(const_cast<Rule*>(&rule)),  // the original keeps the rule pointer as it was passed; Impl does not write through it
       m_parent(parent),
@@ -58,7 +55,6 @@ Rule::Impl::Impl(const Rule& rule, Impl* parent)
     if (parent == nullptr) {
         return;
     }
-    // Link into the parent: slot m_childCount gets this node, then the count rises. Guarded at six slots (see the header).
     if (parent->m_childCount < 6) {
         parent->m_children[parent->m_childCount] = this;
         ++parent->m_childCount;
@@ -66,13 +62,17 @@ Rule::Impl::Impl(const Rule& rule, Impl* parent)
     if (m_rule->m_exit.empty()) {
         return;
     }
-    // PARTIAL: the original stores here the Direction object for the exit name ("north", "east", "south" or "west"), and
-    // leaves the pointer null for any other name. The four objects are not declared in the tree, so the pointer stays null.
+    for (int i = 0; i < 4; ++i) {
+        if (m_rule->m_exit == Direction::sDirections[i].name) {
+            m_direction = &Direction::sDirections[i];
+            break;
+        }
+    }
 }
 
 // 0x48c018 rnd::EndPath::Impl::Impl(rnd::EndPath const&,rnd::Rule::Impl*)
 // 0x48c080 rnd::EndPath::Impl::Impl(rnd::EndPath const&,rnd::Rule::Impl*)  (C2 variant; same body)
-// The base is built first (its direction store is partial), then m_path is set. The vtable store is implicit.
+// The base is built first , then m_path is set. The vtable store is implicit.
 EndPath::Impl::Impl(const EndPath& path, Rule::Impl* parent) : Rule::Impl(path, parent), m_path(&path) {}
 
 // 0x48c054 rnd::EndPath::NewImpl(rnd::Rule::Impl*) const
@@ -150,20 +150,42 @@ RPElem* RoomPool::Find(unsigned char* key) {
     return Find(static_cast<unsigned long>(m_generator->Hash(key)));
 }
 
-// 0x48c48c rnd::RPElem::LoadFromXml(TiXmlNode*)
-// PARTIAL, not rebuilt. The original reads the "id" attribute (hashed with the owning pool's generator into m_id) and the
-// "recursive" attribute (true when it equals "true") from the element. The element access (ToElement, Attribute) is not
-// declared in the tree, so nothing is read and the element keeps the values its caller gave it.
+// 0x48c48c rnd::RPElem::LoadFromXml(TiXmlNode *)
+// With an element and an owning pool: "id" (when present) is hashed with the pool's generator into m_id, and "recursive" is true only
+// for the text "true" (false when absent).
 void RPElem::LoadFromXml(TiXmlNode* node) {
-    (void)node;
+    TiXmlElement* element = node->ToElement();                           // vtable +0x2c
+    if (element != nullptr && m_pool != nullptr) {
+        const char* id = element->Attribute("id");
+        if (id != nullptr) {
+            std::string idText(id);
+            m_id = m_pool->m_generator->Hash(reinterpret_cast<unsigned char*>(&idText[0]));
+        }
+        const char* recursive = element->Attribute("recursive");
+        m_recursive = recursive != nullptr && std::strcmp(recursive, "true") == 0;
+    }
 }
 
-// 0x48c51c rnd::ListElem::LoadFromXml(TiXmlNode*)
-// PARTIAL, not rebuilt. The original reads the "name", "gameplay" and "visual" attributes into the three strings (an
-// absent attribute gives an empty string) and the "chances" attribute into m_chances (100 when the attribute is absent
-// or is not an integer). The attribute access is not declared in the tree, so nothing is read here.
+// 0x48c51c rnd::ListElem::LoadFromXml(TiXmlNode *)
+// With an element: "name", "gameplay" and "visual" go to the three strings (empty when absent), and "chances" to m_chances (100 when the
+// attribute is absent or is not an integer).
 void ListElem::LoadFromXml(TiXmlNode* node) {
-    (void)node;
+    TiXmlElement* element = node->ToElement();                           // vtable +0x2c
+    if (element == nullptr) {
+        return;
+    }
+    const char* name = element->Attribute("name");
+    m_name = name != nullptr ? name : "";
+    const char* gameplay = element->Attribute("gameplay");
+    m_gameplay = gameplay != nullptr ? gameplay : "";
+    const char* visual = element->Attribute("visual");
+    m_visual = visual != nullptr ? visual : "";
+    int chances = 0;
+    if (element->QueryIntAttribute("chances", &chances) == TIXML_SUCCESS) {
+        m_chances = chances;
+    } else {
+        m_chances = 100;
+    }
 }
 
 // 0x48c638 rnd::BlockSearch::operator()(rnd::ListElem&) const
@@ -172,13 +194,27 @@ bool BlockSearch::operator()(ListElem& elem) const {
     return elem.m_name == m_name && elem.m_gameplay == m_gameplay && elem.m_visual == m_visual;
 }
 
-// 0x48cac0 rnd::RoomPool::LoadFromXml(TiXmlNode*)
-// PARTIAL, not rebuilt. The original reads the "size" attribute of the node into m_size (atoi), then loads each "elem"
-// child: a temporary RPElem with m_pool set to this pool, m_id 0, m_recursive false and unk_0c, unk_10 and unk_14 at -1 is
-// filled by RPElem::LoadFromXml and appended to m_elems (a push_back, growing the vector as the original does). The node
-// access (ToElement, Attribute, FirstChild, NextSibling) is not declared in the tree, so no element is read or appended.
+// 0x48cac0 rnd::RoomPool::LoadFromXml(TiXmlNode *)
+// With an element, m_size is the atoi of its "size" attribute (the original passes a missing attribute on to atoi and crashes; here it
+// reads as 0). Each "elem" child then becomes an RPElem (pool this, id 0, not recursive, the three sizes -1), filled by
+// RPElem::LoadFromXml, and is appended to m_elems.
 void RoomPool::LoadFromXml(TiXmlNode* node) {
-    (void)node;
+    TiXmlElement* element = node->ToElement();                           // vtable +0x2c
+    if (element != nullptr) {
+        const char* size = element->Attribute("size");
+        m_size = size != nullptr ? std::atoi(size) : 0;
+    }
+    for (TiXmlNode* child = node->FirstChild("elem"); child != nullptr; child = child->NextSibling("elem")) {
+        RPElem elem;
+        elem.m_pool = this;
+        elem.m_id = 0;
+        elem.m_recursive = false;
+        elem.unk_0c = -1;
+        elem.unk_10 = -1;
+        elem.unk_14 = -1;
+        elem.LoadFromXml(child);
+        m_elems.push_back(elem);
+    }
 }
 
 // 0x48ce48 rnd::RootRule::Impl::Impl(rnd::RootRule const&)
@@ -195,7 +231,7 @@ RootRule::Impl::Impl(const RootRule& root) : Rule::Impl(root, nullptr), m_rootRu
 // 0x48cf10 rnd::ForceBlock::Impl::Impl(rnd::ForceBlock const&,rnd::Rule::Impl*)
 // 0x48cff8 rnd::ForceBlock::Impl::Impl(rnd::ForceBlock const&,rnd::Rule::Impl*)  (C2 variant; same body)
 // The base is built with the parent, then m_forceBlock is set. m_names takes the c_str of each block name of the force-
-// block rule, in order. The base's direction store is partial (see Rule::Impl::Impl).
+// block rule, in order.
 ForceBlock::Impl::Impl(const ForceBlock& rule, Rule::Impl* parent)
     : Rule::Impl(rule, parent), m_forceBlock(&rule) {
     for (const std::string& name : rule.m_blockNames) {

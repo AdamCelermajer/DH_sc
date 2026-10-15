@@ -30,7 +30,7 @@ public:
     ~RootRule() override;                                           // 0x48d6a0 / 0x48d6dc / 0x48d6f8
 
     Rule::Impl* NewImpl(Rule::Impl* parent) const override;         // slot 0x08: 0x48d17c
-    void LoadFromXml(TiXmlNode* node) override;                     // slot 0x0c: 0x4913cc
+    bool LoadFromXml(TiXmlNode* node) override;                     // slot 0x0c: 0x4913cc
     void Unload() override;                                         // slot 0x10: 0x48bd00
 
     // Original layout. Rule occupies +0x00 .. +0x87.

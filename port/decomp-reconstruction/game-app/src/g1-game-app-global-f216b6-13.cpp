@@ -54,6 +54,8 @@
 #include "dh2/global/native_app_bindings.hpp"
 #include <cstdio>
 #include <ctime>
+#include <list>
+#include <type_traits>
 #include <string>
 #include <vector>
 
@@ -70,6 +72,13 @@
 #include "dh2/global/charai_ai.hpp"
 #include "dh2/global/item_instance.hpp"
 #include "dh2/global/native_object_helpers.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "gameswf/gameswf_as_classes/as_array.h"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/gl_friend_info.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
 #include "pydata-accessors/member_names.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
@@ -718,23 +727,78 @@ void NativeInvGetItemDetails(const gameswf::fn_call& call) {
     call.result->set_as_object(object);
 }
 
+namespace {
+
+// The text of a friend number as GetGLFriendsNumber hands it out: the original returns the pointer of a number string that the caller copies with strdup;
+// the host declaration returns the number itself (GLXPlayerUserFriend::GetUserNumber), which is written in decimal.
+template <typename T>
+std::string FriendNumberText(T number) {
+    if constexpr (std::is_pointer_v<T>) {
+        return number != nullptr ? std::string(number) : std::string();
+    } else {
+        return std::to_string(number);
+    }
+}
+
+}  // namespace
+
 // 0x44d770 NativeInvitePlayer(gameswf::fn_call const&)
-// PARTIAL. With one or more arguments, the top one is an output array (tag 5, cast to as_array). The native does
-// nothing unless COnline::isOnlineGame_ (GetOnline() +0x05) is set and the OnlineGameState at +0x34 is 3 (the
-// multiplayer state). It then takes CMatching::Get(OnlineGameState) as a CMatchingGLLive and branches on
-// CMatchingGLLive::GLFriendsListLoaded().
-//   Loaded: every entry of GetGLFriendsList() is pushed (when arguments exist) as an object with name (entry +12),
-//   id (entry +8), sent (bool, entry +17) and online (bool, entry +16). The temporary list nodes (size 0x14) are freed.
-//   Not loaded: for each index below GetGLFriendsCount(), name = GetGLFriendsName(i) and number = GetGLFriendsNumber(i)
-//   are duplicated with strdup, and state = GetGLFriendState(i). When arguments exist, an object {name, id, sent (bool),
-//   online = state == 2} is pushed. Then CMatchingGLLive::AddFriendInGameList(id, name, state == 2) is called. After the
-//   loop GLFriendsListLoaded(true) is set.
-// Missing: the argument accessors, the tu_string names, set_string, set_bool, drop_refs, the object setter, the
-// as_array push, GetOnline() (thunk to COnline::GetInstance, not in the tree), the OnlineGameState field at +0x34 (not
-// declared in net-session-online/online_game_state.hpp), and CMatching::Get. In the not-loaded branch the pseudocode
-// leaves the CMatching argument unset on one path (v10), so that call target is unresolved.
+// Does nothing unless this is an online game (COnline flag at +5) and the online state's mode (+0x34) is 3 (GLLive). The top argument, when there
+// is one, is the output array (an object cast to as_array). Two paths on CMatchingGLLive::GLFriendsListLoaded():
+//   Loaded: every entry of the game friend list (a copy of GetGLFriendsList()) is pushed onto the array as an object {name, id (the friend's number),
+//   sent (the invited flag), online}.
+//   Not loaded: for each index below GetGLFriendsCount() the name and the number are copied (strdup in the original, which hands the copies to the
+//   list entry; std::string copies here) and the state is read. With an array, an object {name, id, sent = false, online = (state == 2)} is
+//   pushed and the entry (number, name, online, not invited) is added to the game friend list (AddFriendInGameList). After the loop
+//   GLFriendsListLoaded(true) is set.
 void NativeInvitePlayer(const gameswf::fn_call& call) {
-    (void)call;
+    if (!GetOnlineGameFlag()) {
+        return;
+    }
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 3) {
+        return;
+    }
+    CMatchingGLLive* matching = static_cast<CMatchingGLLive*>(CMatching::Get());
+    auto outputArray = [&call]() -> gameswf::as_array* {
+        if (call.nargs > 0 && call.arg(0).is_object()) {
+            return gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object());
+        }
+        return nullptr;
+    };
+    auto pushFriend = [&call](gameswf::as_array* array, const char* name, const char* number, bool sent, bool online) {
+        gameswf::as_object* object = nativeobj::NewObject(call);
+        nativeobj::SetString(object, "name", name);
+        nativeobj::SetString(object, "id", number);
+        nativeobj::SetBool(object, "sent", sent);
+        nativeobj::SetBool(object, "online", online);
+        nativeobj::PushObject(array, object);
+    };
+    if (matching->GLFriendsListLoaded()) {
+        const std::list<GLFriendInfo> friends = static_cast<CMatchingGLLive*>(CMatching::Get())->GetGLFriendsList();
+        for (const GLFriendInfo& entry : friends) {
+            if (gameswf::as_array* array = outputArray()) {
+                pushFriend(array, entry.name.c_str(), entry.number.c_str(), entry.invited, entry.online);
+            }
+        }
+    } else {
+        const int count = static_cast<CMatchingGLLive*>(CMatching::Get())->GetGLFriendsCount();
+        for (int index = 0; index < count; ++index) {
+            const char* nameText = matching->GetGLFriendsName(index);
+            std::string name = nameText != nullptr ? nameText : "";
+            std::string number = FriendNumberText(matching->GetGLFriendsNumber(index));
+            const int state = matching->GetGLFriendState(index);
+            if (gameswf::as_array* array = outputArray()) {
+                pushFriend(array, name.c_str(), number.c_str(), false, state == 2);
+                GLFriendInfo info;
+                info.number = number;
+                info.name = name;
+                info.online = state == 2;
+                info.invited = false;
+                static_cast<CMatchingGLLive*>(CMatching::Get())->AddFriendInGameList(info);
+            }
+        }
+        static_cast<CMatchingGLLive*>(CMatching::Get())->GLFriendsListLoaded(true);
+    }
 }
 
 // 0x44de4c NativeGetParsedString(gameswf::fn_call const&)

@@ -4,13 +4,14 @@
 // Most rows of this batch are already in the sfc graph headers as inline template members, each with its address
 // comment: Node.hpp (Node<unsigned int>), Edge.hpp (Edge<PFGInnerNode, float>) and GraphSparse.hpp (_InNode). Their
 // ledger rows point at those headers. The bodies below are the ones the headers only declare:
-// GraphSparse<PFGInnerEdge>::addNode and addEdge. GraphSparse<PFGOuterEdge>::clear is partial: the walk is fully
-// checked against the asm (see the note at the end of this file) but the outer edge and node types are not in the
-// tree, so the delete expressions cannot be written.
+// GraphSparse<PFGInnerEdge>::addNode and addEdge, and GraphSparse<PFGOuterEdge>::clear (the outer edge and node classes are
+// declared in dh2/PFGOuterEdge.hpp and dh2/PFGOuterNode.hpp).
 #include "dh2/sfc/math/graph/GraphSparse.hpp"
 
 #include "dh2/PFGInnerEdge.hpp"
 #include "dh2/PFGInnerNode.hpp"
+#include "dh2/PFGOuterEdge.hpp"
+#include "dh2/PFGOuterNode.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 
 namespace sfc {
@@ -84,27 +85,26 @@ PFGInnerEdge* GraphSparse<PFGInnerEdge>::addEdge(unsigned int from, unsigned int
 }
 
 // 0x522f70 sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()
-// The body is the same two-level walk as the PFGInnerEdge instantiation (0x52328c, defined in
-// g1-game-app-sfc-57f3bb-1.cpp): for every node in key order, delete each edge of the node's edge map through its
-// virtual deleting destructor, empty that map, delete the node through its own deleting destructor, then empty the
-// node map. The asm (0x522f70, 100 instructions) confirms every step and the orders:
-//   522F8C  R6 = node (outer map node's value at +0x14)      522F90/522F94  edge map root / header at node+8
-//   522FA0  edge = node+0x14 of the map node  522FB8  LDR PC,[R3,#0x20] = the edge's deleting destructor (slot 8)
-//   52309C  _Rb_tree<...,PFGOuterEdge*>::_M_erase(node+8, node+0x0c) then the +0x14/+0x10/+0x0c/+0x18 header reset
-//   5230BC  LDR PC,[R3,#0x0c] = the node's deleting destructor (slot 3) on the _InNode object
-//   523044  _Rb_tree<...,_InNode*>::_M_erase + the a1+0x14/+0x10/+0x0c/+0x08 header reset (m_nodes)
-// The binary's destructor slots are the ones a C++ `delete` emits: _ZTV13PFGOuterGraph (0x96C7B8) holds the D1
-// 0x523164 and the D0 0x523198, and _ZTVN...GraphSparseI12PFGOuterEdgeEE (0x96C7C8) the D1 0x5231d4 / D0 0x523238,
-// so deleting through the GraphSparse base or through the derived type reaches the same pair.
-// PARTIAL: not written. It cannot be: the delete expressions need the complete types of the outer graph's edge and
-// node, and neither exists in the tree. grepping the whole decomp-reconstruction tree finds no definition of
-// PFGOuterEdge or PFGOuterNode (only the forward declaration in dh2/PFGOuterGraph.hpp), and the ELF has no such
-// symbols either: recovered/native/symbols/libDungeonHunter2.so has a .symtab STT_FILE entry for PFGOuterEdge.cpp
-// and PFGOuterNode.cpp but no vtable, destructor or method symbol for either class, so the recoverable evidence
-// (the vtable slot used, 0x20, and the node's 0x44-byte allocation) is already recorded above and the classes
-// themselves are unreconstructed. Missing item: dh2/PFGOuterEdge.hpp and dh2/PFGOuterNode.hpp (or the class bodies
-// in whatever header owns them). The instantiation `template void GraphSparse<PFGOuterEdge>::clear();` cannot even
-// be declared here until then. The row stays partial.
+// The same two-level walk as the PFGInnerEdge instantiation (0x52328c, g1-game-app-sfc-57f3bb-1.cpp): for every node in key order, delete each
+// edge of the node's edge map through its virtual deleting destructor (asm 522FB8: LDR PC,[R3,#0x20] = slot 8), empty that map (_M_erase at
+// 52309C plus the header reset), delete the node through its own deleting destructor (5230BC: slot 3), then empty the node map (523044).
+// The destructor slots are the ones a C++ delete emits: _ZTV13PFGOuterGraph (0x96C7B8) holds the D1 0x523164 and the D0 0x523198, and
+// _ZTVN...GraphSparseI12PFGOuterEdgeEE (0x96C7C8) the D1 0x5231d4 / D0 0x523238, so deleting through the base or the derived type reaches the same
+// pair. The classes PFGOuterEdge and PFGOuterNode (dh2/PFGOuterEdge.hpp, dh2/PFGOuterNode.hpp) have no code of their own in the binary.
+template <typename EdgeT>
+void GraphSparse<EdgeT>::clear() {
+    for (auto& nodeEntry : m_nodes) {
+        _InNode* node = nodeEntry.second;
+        for (auto& edgeEntry : node->m_edges) {
+            delete edgeEntry.second;
+        }
+        node->m_edges.clear();
+        delete node;
+    }
+    m_nodes.clear();
+}
+
+template void GraphSparse<PFGOuterEdge>::clear();
 
 }  // namespace graph
 }  // namespace math

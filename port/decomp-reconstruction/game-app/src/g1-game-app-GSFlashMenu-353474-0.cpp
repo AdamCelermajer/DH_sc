@@ -48,34 +48,13 @@ void GSFlashMenu::Draw(const StateMachine* /*machine*/) {
 
 // 0x3841b4 GSFlashMenu::GSFlashMenu()  (C1 variant)
 // 0x38421c GSFlashMenu::GSFlashMenu()  (C2 variant, same body; both are 72 bytes)
-// PARTIAL, and the earlier reading of the STL call was wrong. Asm (0x3841b4): vptr (+0x00), +0x04/+0x08/+0x0c cleared,
-// R2 = this+0x10, +0x20 = R2 and +0x24 = R2, then _M_allocate_block(this+0x10, 16), then the NUL is stored at the
-// pointer read back from +0x20, and +0x28/+0x29 are cleared.
-// The old note said the call "can change the finish and end pointers" and that the body's unk_10 assumption was
-// unverified. It cannot change them: 0x3209a8 std::priv::_String_base<char, SAllocator<char,0>>::_M_allocate_block
-// allocates ONLY when its size argument is strictly greater than 16 (0x10), and this call passes exactly 16, so that
-// branch is not taken and the function returns without writing anything. The constructed state is therefore exactly
-// what this body writes: the string's data pointer is the inline buffer (+0x10) and both +0x20 (end) and +0x24
-// (finish) hold that same address, i.e. an empty string on its inline buffer. The body reproduces it byte for byte,
-// and the member uses in this batch (assignment from a menu name, comparison) go through those two pointers, which
-// are right.
-// Concrete missing item: the member is a stand-in triple (unk_10/unk_20/unk_24) for STLport's _String_base.
-// The two block helpers are no longer missing - core-platform/include/core-platform/stlport_alloc.hpp defines
-// _M_allocate_block and _M_deallocate_block for exactly this instantiation
-// (std::priv::_String_base<char, glitch::core::SAllocator<char, glitch::memory::EMH_UNRECOVERED> >), and
-// core-platform/tests/stlport_alloc_test.cpp covers them - but they belong to the glitch string spelling
-// std::basic_string<char, char_traits<char>, glitch::core::SAllocator<char,0> >, while this tree spells string
-// members std::string (std::allocator). So the member would still have to be retyped for the recovered bodies
-// to be what its destructor calls. Bounded impact, verified: nothing else in this batch assigns or grows that
-// member. GSFlashMenu::Ctor (asm 0x384740..0x384760) builds the "isTracingGSFlashMenu" name in a STACK string
-// and releases it there, and the only other touch of +0x10 is this constructor and ~GSFlashMenu.
+// Asm (0x3841b4): vptr (+0x00), +0x04/+0x08/+0x0c cleared, the string at +0x10 built with its inline buffer (+0x20 and +0x24 point at it, then
+// _M_allocate_block(this+0x10, 16), which allocates only for sizes above 16 and so does nothing, and the NUL stored at the data pointer), and
+// +0x28/+0x29 cleared. The string is an empty std::string member (unk_10), which holds exactly that state.
 GSFlashMenu::GSFlashMenu() {
     m_manager = nullptr;                               // +0x04
     m_menu = nullptr;                                  // +0x08
     m_pendingMenu = nullptr;                           // +0x0c
-    unk_20 = reinterpret_cast<char*>(unk_10);          // +0x20 string end, the inline buffer
-    unk_24 = reinterpret_cast<char*>(unk_10);          // +0x24 string finish, the same address (end == finish)
-    *unk_20 = '\0';                                    // empty string; the asm re-reads +0x20, which the call left as it was
     m_popped = false;                                  // +0x28
     m_loadMainMenu = false;                            // +0x29
 }
@@ -86,17 +65,8 @@ GSFlashMenu::GSFlashMenu() {
 
 // 0x384284 GSFlashMenu::~GSFlashMenu()  (D1 variant)
 // 0x3842b8 GSFlashMenu::~GSFlashMenu()  (D2 variant, same body)
-// PARTIAL. Asm (D1, 0x384284): the vptr is stored, then `STR R2,[R0],#0x10` stores the GSFlashMenu vptr at +0x00 and
-// advances R0 to this+0x10, and _M_deallocate_block runs on that string. The call is not reproduced here (the body is
-// empty), but the helper it reaches is now recovered and the state it sees makes it the no-op path. For the
-// state the constructor leaves (data == end == finish == the inline buffer at +0x10, low byte 0) it is the no-op
-// case: the instantiation this call reaches is 0x56c2bc _String_base<char, SAllocator<char,0>>::_M_deallocate_block
-// (0x3139ac is the std::allocator twin), which frees only when the data pointer differs from the inline buffer and
-// is non-null, and the constructor's _M_allocate_block(16) never took a block. Nothing in this batch grows the
-// string either, so no memory is leaked or double-freed by the empty body. The concrete missing item is the one the
-// constructor note names: the member is a stand-in triple rather than the glitch SAllocator _String_base, so the
-// release path would only be closed for a string that did grow once the member is retyped. The base destructor
-// StateBase::~StateBase runs after this body, as the compiler inserts it.
+// Asm (D1, 0x384284): the vptr is stored and _String_base::_M_deallocate_block runs on the string at +0x10, which frees only a block that is not the
+// inline buffer (the string never grows). The std::string member releases itself after this empty body; StateBase::~StateBase then runs.
 GSFlashMenu::~GSFlashMenu() {}
 
 // 0x384460 GSFlashMenu::Update(StateMachine*, double)

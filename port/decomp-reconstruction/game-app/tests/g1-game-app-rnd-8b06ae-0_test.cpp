@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <new>
+#include <string>
 
 #include "core-platform/memory.hpp"
 #include "dh2/LevelConfig.hpp"
@@ -15,6 +16,7 @@
 #include "dh2/rnd/RandomGenerator.hpp"
 #include "dh2/rnd/RoomPool.hpp"
 #include "dh2/rnd/Tile.hpp"
+#include "tinyxml.h"
 
 // ---- link-only stubs (the batch source references these; the tested paths do not call the aborting ones) ----
 
@@ -50,8 +52,15 @@ void Tile::Print() {
 }
 void RootRule::Unload() {}
 Tile* RootRule::Impl::Generate(Array2d<Tile*>&) { return g_stubRoot; }
-void RoomPool::LoadFromXml(TiXmlNode*) { std::abort(); }
-void ListRule::LoadFromXml(TiXmlNode*) { std::abort(); }
+}
+int g_poolLoads = 0;
+int g_listLoads = 0;
+namespace rnd {
+void RoomPool::LoadFromXml(TiXmlNode*) { ++g_poolLoads; }
+void ListRule::LoadFromXml(TiXmlNode*) {
+    ++g_listLoads;
+    m_name = "list" + std::to_string(g_listLoads);
+}
 }  // namespace rnd
 
 void PropertyMap::InitProperties() {}
@@ -201,18 +210,32 @@ void TestUnloadRulesEmptiesListMap() {
     rule->m_name = "cave";
     gen->m_listRules.insert(std::make_pair(rule->m_name.c_str(), rule));
     gen->m_xmlBuffer = nullptr;                         // free(NULL) in UnloadRules
-    gen->UnloadRules();                                 // the TiXmlDocument seam is not exercised (null document)
+    gen->m_xmlDocument = new TiXmlDocument();           // deleted and cleared by UnloadRules
+    gen->UnloadRules();
     EXPECT(gen->m_listRules.empty());
     EXPECT(gen->m_xmlBuffer == nullptr);
+    EXPECT(gen->m_xmlDocument == nullptr);
 }
 
 void TestLoadCountsReturnOne() {
     rnd::RandomGenerator* gen = MakeGenerator(0);
-    // The named-child walk is a seam; with no document the loaders report success without loading anything.
-    EXPECT(gen->LoadRoomPools(nullptr) == 1);
-    EXPECT(gen->LoadListRules(nullptr) == 1);
-    EXPECT(gen->m_roomPools.empty());
-    EXPECT(gen->m_listRules.empty());
+    // Only the children named "pool" and "list" are loaded; the others are skipped. Each loader returns 1.
+    TiXmlDocument document;
+    const char* text = "<rules><pool/><other/><pool/><list/></rules>";
+    document.LoadFromBuffer(text, static_cast<int>(std::strlen(text)), TIXML_DEFAULT_ENCODING);
+    TiXmlNode* rules = document.FirstChild("rules");
+    EXPECT(rules != nullptr);
+    g_poolLoads = 0;
+    g_listLoads = 0;
+    EXPECT(gen->LoadRoomPools(rules) == 1);
+    EXPECT(gen->LoadListRules(rules) == 1);
+    EXPECT(g_poolLoads == 2);
+    EXPECT(gen->m_roomPools.size() == 2);
+    EXPECT(gen->m_roomPools[0]->m_generator == gen);
+    EXPECT(g_listLoads == 1);
+    EXPECT(gen->m_listRules.size() == 1);
+    EXPECT(gen->m_listRules.begin()->second->m_generator == gen);
+    EXPECT(gen->m_listRules.begin()->second->m_replacement);
 }
 
 void TestGenerateReportsFailure() {

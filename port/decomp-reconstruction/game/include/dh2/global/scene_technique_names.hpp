@@ -63,10 +63,10 @@ inline std::optional<std::string> CustomTechniqueName(const char* materialName, 
     if (HasPrefix(materialName, "FX_")) {
         const std::string fogSuffix = (r.wantFog && r.fogOn) ? "_fog" : "";
         // The NoBlend_VC test cannot match a name that starts with FX_; it stays in the order the original has it.
-        if (HasPrefix(materialName, "NoBlend_VC")) {
+        if (std::strncmp(materialName, "NoBlend_VC", 9) == 0) {
             return std::string("NoBlend_VC") + fogSuffix;
         }
-        if (HasPrefix(materialName, "FX_BLEND")) {
+        if (std::strncmp(materialName, "FX_BLEND", 7) == 0) {
             return std::string("Additif_VC") + fogSuffix;
         }
         return std::string();

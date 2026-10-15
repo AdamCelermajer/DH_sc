@@ -1,7 +1,7 @@
 // Test for the rnd batch g1-game-app-rnd-8b06ae-7. It covers the Tile tree: NewRoot, the constructor's parent link and
 // copy of the element, Spawn (placement through PlaceTile and the erase of a candidate from its list), AddChild,
-// RemoveChild, Print, RemoveNeighbors and Unspawn (the map removal and the list hand-back). SaveAsModuleXML and the
-// partial functions (TrySpawn, SetModuleMVXProperties) are not run here.
+// RemoveChild, Print, RemoveNeighbors and Unspawn (the map removal and the list hand-back), TrySpawn (the cell and height from the
+// exits, the block's FitsInMap) and SetModuleMVXProperties (the attributes of the mvx file). SaveAsModuleXML is not run here.
 //
 // The batch source references functions that other batches define, so they are given here as link-only stubs: the
 // allocator, the ListElem and Block members, ListRule::Replace, and the PropertyMap calls of SaveAsModuleXML. The Module
@@ -15,10 +15,16 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "core-platform/memory.hpp"
+#include "dh2/Module.hpp"
 #include "dh2/PropertyMap.hpp"
+#include "dh2/rnd/Direction.hpp"
+#include "dh2/rnd/Exit.hpp"
+#include "dh2/rnd/FileText.hpp"
+#include "tinyxml.h"
 #include "dh2/rnd/Block.hpp"
 #include "dh2/rnd/ListElem.hpp"
 #include "dh2/rnd/ListRule.hpp"
@@ -77,8 +83,21 @@ Block::~Block() {}
 
 void PropertyMap::InitProperties() {}
 void PropertyMap::LoadDefaultProperties() {}
-void PropertyMap::SetProperty(const char* /*name*/, const char* /*value*/) {}
+static std::vector<std::pair<std::string, std::string>> g_properties;  // SetProperty calls; a null value is recorded as "<null>"
+void PropertyMap::SetProperty(const char* name, const char* value) {
+    g_properties.emplace_back(name, value != nullptr ? value : "<null>");
+}
 void PropertyMap::SavePropertiesToXML(TiXmlElement* /*element*/, const char* /*name*/) {}
+
+// The mvx file text ReadFileText hands out, and whether the file opens.
+static std::string g_mvxText;
+static bool g_mvxOpens = false;
+static std::string g_mvxPath;
+bool rnd::ReadFileText(const char* path, std::string& text) {
+    g_mvxPath = path;
+    text = g_mvxText;
+    return g_mvxOpens;
+}
 
 // A block that records the map calls the tiles make.
 class TestBlock : public rnd::Block {
@@ -104,9 +123,15 @@ public:
         return true;
     }
 
-    bool FitsInMap(Array2d<rnd::Tile*>& /*map*/, int /*x*/, int /*y*/) override {
-        return true;
+    bool FitsInMap(Array2d<rnd::Tile*>& /*map*/, int x, int y) override {
+        fitsX = x;
+        fitsY = y;
+        return fits;
     }
+
+    bool fits = true;
+    int fitsX = 0;
+    int fitsY = 0;
 
     int placeCalls = 0;
     int removeCalls = 0;
@@ -255,6 +280,71 @@ int main() {
     CHECK(t3 != nullptr);
     t3->Unspawn();
     CHECK(g_replaceCalls == replacesBeforeNoOwner);
+
+    // TrySpawn: the cell is this tile's cell plus the offset of the direction opposite to the exit's, minus the exit's own cell (plus the
+    // "from" exit's cell when given); the height is this tile's plus from's weight, minus the exit's weight. The block's FitsInMap decides.
+    {
+        TestBlock toBlock("hall");
+        rnd::Block::Side toSide = {};
+        toSide.m_block = &toBlock;
+        toSide.m_x = 2;
+        toSide.m_y = 3;
+        toSide.m_weight = 1.5f;
+        toSide.m_direction = &rnd::Direction::sDirections[1];  // east: the new tile sits to the west
+        rnd::Block::Side fromSide = {};
+        fromSide.m_x = 100;
+        fromSide.m_y = 200;
+        fromSide.m_weight = 2.0f;
+        const rnd::Exit* toExit = reinterpret_cast<const rnd::Exit*>(&toSide);
+        const rnd::Exit* fromExit = reinterpret_cast<const rnd::Exit*>(&fromSide);
+        rnd::Tile* base = rnd::Tile::NewRoot(gen, block, elem);
+        base->m_x = 10;
+        base->m_y = 20;
+        base->m_z = 5.0f;
+        rnd::Tile* spawned = base->TrySpawn(nullptr, nullptr, toExit, elem);
+        CHECK(spawned != nullptr);
+        CHECK(toBlock.fitsX == 7 && toBlock.fitsY == 17);
+        CHECK(spawned != nullptr && spawned->m_block == &toBlock && spawned->m_parent == base);
+        CHECK(spawned != nullptr && spawned->m_x == 7 && spawned->m_y == 17 && spawned->m_z == 3.5f);
+        rnd::Tile* shifted = base->TrySpawn(nullptr, fromExit, toExit, elem);
+        CHECK(shifted != nullptr);
+        CHECK(toBlock.fitsX == 107 && toBlock.fitsY == 217);
+        CHECK(shifted != nullptr && shifted->m_x == 107 && shifted->m_y == 217 && shifted->m_z == 5.5f);
+        toBlock.fits = false;
+        const int childrenBeforeNoFit = base->m_childCount;
+        CHECK(base->TrySpawn(nullptr, nullptr, toExit, elem) == nullptr);
+        CHECK(base->m_childCount == childrenBeforeNoFit);
+        base->RemoveNeighbors();
+        base->Unspawn();
+    }
+
+    // SetModuleMVXProperties: the path is <gameplay>/mvx/<name>.mvx; an unreadable file sets nothing; the GameObject attributes of the
+    // Module element are copied, an absent one as null.
+    {
+        TestBlock mvxBlock("cave");
+        mvxBlock.m_gameplay = "data/gp";
+        rnd::Tile* tile = rnd::Tile::NewRoot(gen, mvxBlock, elem);
+        alignas(Module) static unsigned char moduleStorage[sizeof(Module)];
+        Module* module = reinterpret_cast<Module*>(moduleStorage);
+        g_properties.clear();
+        g_mvxOpens = false;
+        tile->SetModuleMVXProperties(module);
+        CHECK(g_mvxPath == "data/gp/mvx/cave.mvx");
+        CHECK(g_properties.empty());
+        g_mvxOpens = true;
+        g_mvxText = "<Module><GameObject scale=\"2\" dae=\"a.dae\" is_solid=\"1\"/></Module>";
+        tile->SetModuleMVXProperties(module);
+        CHECK(g_properties.size() == 6);
+        CHECK(g_properties.size() == 6 && g_properties[0].first == "scale" && g_properties[0].second == "2");
+        CHECK(g_properties.size() == 6 && g_properties[1].first == "xrefmax" && g_properties[1].second == "<null>");
+        CHECK(g_properties.size() == 6 && g_properties[3].first == "dae" && g_properties[3].second == "a.dae");
+        CHECK(g_properties.size() == 6 && g_properties[5].first == "is_solid" && g_properties[5].second == "1");
+        g_properties.clear();
+        g_mvxText = "<Module/>";
+        tile->SetModuleMVXProperties(module);
+        CHECK(g_properties.empty());
+        tile->Unspawn();
+    }
 
     if (g_failures == 0) {
         std::printf("tile tests passed\n");

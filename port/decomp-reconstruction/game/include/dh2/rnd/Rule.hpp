@@ -37,7 +37,7 @@ public:
 
     // Vtable slots 0x08..0x14, in order. Slot 0x08 is pure: each rule kind builds its runtime node.
     virtual Impl* NewImpl(Impl* parent) const = 0;                  // slot 0x08
-    virtual void LoadFromXml(TiXmlNode* node);                      // slot 0x0c: 0x490bdc
+    virtual bool LoadFromXml(TiXmlNode* node);                      // slot 0x0c: 0x490bdc
     virtual void Unload();                                          // slot 0x10: 0x48bc94 (deletes the child rules)
     virtual RootRule* GetRootRule();                                // slot 0x14: 0x48bbf8
 

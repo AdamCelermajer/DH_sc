@@ -46,14 +46,25 @@
 #include "glitch-video/video_driver.hpp"
 #include "glitch-video/texture_manager.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "core-platform/lc_api.hpp"
+#include "dh2/CRoomAttributes.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
 #include "net-session-online/game_center.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "net-session-online/online_game_state.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "glitch-core-io/os/logging.hpp"
 
+#include <chrono>
 #include <list>
 #include <new>
+#include <thread>
 
 #include "core-platform/debug_out.hpp"
 #include "core-platform/device.hpp"
@@ -775,24 +786,37 @@ void Application::_Draw() {
 }
 
 // 0x32bdc8 Application::LoadLevel(...)
-// Reconstructed from the listing line by line except the savegame/online seed block. Written: the staging globals
-// (temp_* 0x99fa40..0x99fa58, dh2/global/Globals.hpp), the GameCenter flag (GCSingleton<GameCenter> +0x14, unk_14),
-// the unk_ab (+0xab) reset and the statub bar hide; then the two paths of the original.
-//   A running level (its m_loadStep must be 38, else the function returns): when the level is not in its game view,
-//   MultiMenuManager::PopMenu(true) runs (the m_menuManager +0xf4 object, vtable +0x38). Then m_inTransition (+0x145)
-//   is set, SendGLHiScore runs, m_levelChange (+0xf0) is set, SG_SaveLocalPlayer(true), QuickSave(true) and
-//   ResetIsLoaded run. The switch argument fromSubId is the level's m_levelListSubId (+0x40), read as a full word.
-//   No level: the player manager's unk_71b (+0x71b) is set, and fromSubId is -1.
-// Then the switch: GSLevel::LoadLevel with the arguments, PlayerStatManager::s_inst.Reset(), PlayerManager unk_6c9 = 0
-// and PlayerManager::Update.
-// Still missing (so the row stays partial): the seed/difficulty block the original runs between the paths and the
-// switch when isRemotelyTriggered is false. It builds a PlayerSavegame on the stack (PlayerSavegame.hpp is in the
-// tree), reads the per-difficulty seed at PlayerSavegame + 92 + 4 * m_difficultyLevel, replaces it with
-// glitch::os::Timer::getRealTime() when it is 0 or the "DontUsePlayerSeed" debug switch is set, writes it back and
-// passes it as the switch's seed and syncedSeed. Its online half needs `Arrays::LevelList` (the py-data level array
-// at +32 per 72-byte record; no declaration exists anywhere in the tree) for the CMsgStartGame level index, and
-// CMessaging::Get() (net-session-online/c_messaging.hpp declares the class, the singleton accessor is not there).
-// Until that block is written the switch takes the caller's seed and syncedSeed.
+// Written: the staging globals (temp_* 0x99fa40..0x99fa58, dh2/global/Globals.hpp), the GameCenter flag (GCSingleton<GameCenter> +0x14, unk_14), the unk_ab (+0xab)
+// reset and the statub bar hide; then the two paths of the original.
+//   A running level (its m_loadStep must be 38, else the function returns): when the level is not in its game view, MultiMenuManager::PopMenu(true) runs (the
+//   m_menuManager +0xf4 object, vtable +0x38). Then m_inTransition (+0x145) is set, SendGLHiScore runs, fromSubId = m_levelListSubId (+0x40), m_levelChange
+//   (+0xf0) is set, SG_SaveLocalPlayer(true), QuickSave(true) and ResetIsLoaded run.
+//   No level: the player manager's unk_71b (+0x71b) is set and fromSubId is -1.
+// A call that is not remotely triggered then builds the seed. A PlayerSavegame for the slot is read (constructed with (slot, 1, isRemotelyTriggered)); the seed
+// is its per-difficulty seed (m_seeds[PlayerSavegame::m_difficultyLevel], +0x5c), replaced by glitch::os::Timer::getRealTime() when it is 0 or the
+// "DontUsePlayerSeed" debug switch is set, and written back to the temporary. In an online game the level list (Arrays::LevelList, 72-byte records, the level
+// name at +0x20) is searched case-insensitively for the level name (the last match wins); for a found level a CMsgStartGame is sent through CMessaging
+// (payload at +0x50: level index, entry point id, resume, useSpawnPoint, difficulty, seed, seed, -1); then the matching object's room attributes get
+// attribute 7 = 1 (vtable +0xa4, SetAttributeInt slot). The synced seed becomes the seed. GSLevel::LoadLevel then runs with those values, then
+// PlayerStatManager::s_inst.Reset(), the player manager's unk_6c9 (+0x6c9) is cleared and PlayerManager::Update runs.
+namespace {
+
+// The 28 bytes of CMsgStartGame's payload (message +0x50).
+struct StartGamePayload {
+    int32_t levelIndex;     // +0x00
+    int32_t entryPointId;   // +0x04
+    uint8_t resume;         // +0x08
+    uint8_t useSpawnPoint;  // +0x09
+    uint8_t pad_0a[2];
+    int32_t difficulty;     // +0x0c
+    uint32_t seed;          // +0x10
+    uint32_t syncedSeed;    // +0x14
+    int32_t unk_24;         // +0x18
+};
+static_assert(sizeof(StartGamePayload) == 28, "CMsgStartGame payload");
+
+}  // namespace
+
 void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegameSlot, bool resume, bool useSpawnPoint,
                             int difficulty, bool isRemotelyTriggered, uint32_t seed, uint32_t syncedSeed) {
     temp_savegameSlot = savegameSlot;
@@ -828,8 +852,39 @@ void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegam
         m_playerManager->unk_71b = true;  // +0x71b
     }
 
-    // PARTIAL: the seed/difficulty savegame block is not written, see the note above.
-    (void)isRemotelyTriggered;
+    if (!isRemotelyTriggered) {
+        PlayerSavegame save(savegameSlot, 1, isRemotelyTriggered);
+        seed = static_cast<uint32_t>(save.m_seeds[PlayerSavegame::m_difficultyLevel]);  // +0x5c + 4 * difficulty
+        if (seed == 0 || DebugSwitches::GetInstance()->GetSwitch(std::string("DontUsePlayerSeed"))) {
+            seed = glitch::os::Timer::getRealTime();
+        }
+        save.m_seeds[PlayerSavegame::m_difficultyLevel] = static_cast<int32_t>(seed);
+        if (IsOnlineGame()) {  // *(GetOnline() + 5)
+            const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
+            int levelIndex = -1;
+            for (uint32_t i = 0; i < Arrays::LevelList::size; ++i) {
+                if (LC_API_STRCASECMP(static_cast<const char*>(levels[i].m_w8), name) == 0) {  // row +0x20
+                    levelIndex = static_cast<int>(i);
+                }
+            }
+            if (levelIndex != -1) {
+                CMessaging* messaging = GetMessaging();
+                CMessage* message = CMessage::CreateMessage("CMsgStartGame", true);
+                StartGamePayload* payload = static_cast<StartGamePayload*>(message->GetDataPtr());  // +0x50
+                payload->levelIndex = levelIndex;                      // +0x50
+                payload->unk_24 = -1;                                  // +0x68
+                payload->entryPointId = entryPointId;                  // +0x54
+                payload->resume = resume;                              // +0x58
+                payload->useSpawnPoint = useSpawnPoint;                // +0x59
+                payload->difficulty = difficulty;                      // +0x5c
+                payload->seed = seed;                                  // +0x60
+                payload->syncedSeed = seed;                            // +0x64
+                messaging->SendMsg(message);
+            }
+            CMatching::Get()->GetRoomAttributes()->SetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(7), 1);
+        }
+        syncedSeed = seed;
+    }
 
     GSLevel::LoadLevel(name, entryPointId, savegameSlot, seed, syncedSeed, resume, useSpawnPoint, fromSubId, difficulty);
     PlayerStatManager::s_inst.Reset();
@@ -887,7 +942,7 @@ void Application::GoToMainMenu(GoToMainMenuEvent event) {
             signIn->SignOut();     // vtable +0x14
         }
         CMatching* matching = CMatching::Get();
-        if (matching->UnknownGate()) {  // vtable +0x64 (IsInRoom in the providers)
+        if (matching->IsInRoom()) {  // vtable +0x64 (IsInRoom in the providers)
             CMatching::Get()->LeaveRoom();  // vtable +0x3c
         }
         CMatching::Get();  // the original's discarded access
@@ -1025,18 +1080,24 @@ void Application::_Update(int dtMs) {
 }
 
 // 0x32ccc4 Application::Update()
-// Reconstructed from the listing except the frame-pacing sleeps. Written: the paused exit, the online packet
-// receive (gated by the online byte, Application::IsOnlineGame, GetOnline +0x05), the unk_7a clear, the frame-time
-// gate (a frame longer than 2000 ms stamps m_lastTickTime and returns through ComputeDt), the DataReloaderManager
-// reload timer (4000 ms against the function static Application::Update()::reloadtimer, ELF 0x99fa00 .bss) with the
-// m_lastTickTime store, the online update block (PushProfilingContext "OnlineUpdate", COnline::Update(m_dt),
-// OnlineGameState::Update, PopProfilingContext), the touch-screen event pump, ComputeDt, the perf counters, _Update,
-// _Draw, the online send and the three-static average pacing. Deviation: the device timer (IDevice +0x20, virtual
-// getRealTime at slot +0x0c) is the port's header-only static glitch::os::Timer::getRealTime(), as in ComputeDt and
-// _CheckGamepad. Concrete missing item, both pacing branches: the original calls the device virtual at vtable +0x10,
-// which the vtable listing names CAndroidOSDevice::sleep(unsigned int, bool) (asm LDR PC,[R3,#0x10] with r1 =
-// avgSleepTime); glitch::IDevice (glitch-core-io/os/device.hpp) declares no sleep slot and no yield slot, so the
-// port has no way to name that call and the two branches return without sleeping.
+// Written: the paused exit, the online packet receive (gated by the online byte, Application::IsOnlineGame, GetOnline +0x05), the unk_7a clear,
+// the frame-time gate (a frame longer than 2000 ms stamps m_lastTickTime and returns through ComputeDt), the DataReloaderManager reload timer
+// (4000 ms against the function static Application::Update()::reloadtimer, ELF 0x99fa00 .bss) with the m_lastTickTime store, the online update block
+// (PushProfilingContext "OnlineUpdate", COnline::Update(m_dt), OnlineGameState::Update, PopProfilingContext), the touch-screen event pump,
+// ComputeDt, the perf counters, _Update, _Draw, the online send and the three-static average pacing. Deviation: the device timer (IDevice +0x20,
+// virtual getRealTime at slot +0x0c) is the port's header-only static glitch::os::Timer::getRealTime(), as in ComputeDt and _CheckGamepad.
+// The pacing sleeps are the device virtual at vtable +0x10, CAndroidOSDevice::sleep(unsigned int ms, bool pauseTimer) (0x6a0374) called with
+// (avgSleepTime, 0): with the flag clear it is a plain nanosleep of ms milliseconds and does not touch the device timer, which is what
+// DeviceSleep does here.
+namespace {
+
+// CAndroidOSDevice::sleep(ms, false) (0x6a0374): split into seconds and nanoseconds and nanosleep; the timer is not paused for a clear flag.
+void DeviceSleep(unsigned int milliseconds) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+}
+
+}  // namespace
+
 void Application::Update() {
     if (m_paused) {
         return;
@@ -1105,11 +1166,11 @@ void Application::Update() {
         avgFrameRate = 0;
         avgFrameCount = 0;
         avgSleepTime = v14 > 4 ? v14 : 5;
-        // PARTIAL: the original calls the device's sleep(avgSleepTime, ...) here (vtable +0x10), see the note above.
+        DeviceSleep(static_cast<unsigned int>(avgSleepTime));
         return;
     }
     if (avgSleepTime > 0) {
-        // PARTIAL: the same sleep call, see the note above.
+        DeviceSleep(static_cast<unsigned int>(avgSleepTime));
         return;
     }
 }

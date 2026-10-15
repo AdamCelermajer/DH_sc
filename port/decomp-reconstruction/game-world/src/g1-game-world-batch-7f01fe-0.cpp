@@ -1,8 +1,7 @@
 // Batch g1-game-world-batch-7f01fe-0: batch::BatchNodeCompiler, its segment callback
 // (BatchNodeCompiler::SGameObjectLinkedCallback) and batch::GOBatchSceneNode.
 // The owner headers are game/include/dh2/batch/BatchNodeCompiler.hpp and GOBatchSceneNode.hpp.
-// Every function starts with its original address. Rows that are not complete are marked partial
-// in game-world/ledger.d/g1-game-world-batch-7f01fe-0.csv with the missing part named.
+// Every function starts with its original address.
 
 #include "dh2/batch/BatchNodeCompiler.hpp"
 
@@ -13,7 +12,23 @@
 #include <map>
 #include <vector>
 
+#include "core-platform/w7_global_02.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/VisualObject.hpp"
+#include "dh2/batch/CBatchMeshExt.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "dh2/batch/GOBatchSceneNode.hpp"
 #include "dh2/global/SceneNodeHelpers.hpp"
 #include "glitch-scene-collada-gui/scene/CBatchMesh.hpp"
@@ -35,23 +50,15 @@ BatchNodeCompiler::SGameObjectLinkedCallback::~SGameObjectLinkedCallback() {}
 // virtual destructor above (the same body plus operator delete), as for the other D0 destructors.
 
 // 0x3efe58 batch::BatchNodeCompiler::SGameObjectLinkedCallback::operator()(glitch::scene::CBatchMesh *,void *,glitch::scene::SCompileInfo const&)
-// PARTIAL. The original takes the rendered node from the scene manager (+0x04) and looks it up in the owner's
-// m_nodeObjects (+0x0c). It then stores the GameObject (or 0) in the segment's slot and sets the visible byte of the
-// object. The second argument is not a pointer in the binary: it is used as the segment index (r2 times the mesh's
-// segment stride (+0x70 of CBatchMesh), plus 44). The third argument (SCompileInfo const&) is never read.
-// Missing or not exact:
-//  - getCurrentRenderedNode returns a 32-bit word in the engine. The original compares it with the 32-bit node keys.
-//    The host keys are pointers, so the rendered word is converted to a pointer here (exact on a 32-bit host only).
-//  - The slot is written as a host-width pointer at segment + 44. The 32-bit layout uses a 4-byte slot there, and
-//    the segment stride is 44 in 32-bit terms. A write that does not fit the segment buffer is skipped here; the
-//    original writes it unchecked.
-//  - When no node is found, the original reports ASSERT(go != 0) and then writes the visible byte through the null
-//    object pointer (a fault: dword_0 at level 2, or +0x2fc of null after the report at level 1). The write is not
-//    repeated; the report is.
+// The original takes the rendered node from the scene manager (+0x04) and looks it up in the owner's m_nodeObjects (+0x0c). It then
+// stores the GameObject (or 0) in the segment's extra slot (CBatchMeshExt<GameObject*>, after the 44-byte record) and sets the visible
+// byte (GameObject +0x2fc) of the object. The second argument is not a pointer in the binary: it is the segment index (r2 times the
+// mesh's segment stride (+0x70 of CBatchMesh), plus 44). The third argument (SCompileInfo const&) is never read. When no node is found,
+// the original reports ASSERT(go != 0) (gAssertLevel 1) and then writes the visible byte through the null object (a fault); the write is
+// not repeated.
 void BatchNodeCompiler::SGameObjectLinkedCallback::operator()(glitch::scene::CBatchMesh* mesh, void* segmentData,
                                                              const glitch::scene::SCompileInfo& /*info*/) {
-    const std::uint32_t renderedWord = m_sceneManager->getCurrentRenderedNode(nullptr, nullptr);
-    const auto* rendered = reinterpret_cast<const glitch::scene::ISceneNode*>(static_cast<std::uintptr_t>(renderedWord));
+    const auto* rendered = reinterpret_cast<const glitch::scene::ISceneNode*>(m_sceneManager->getCurrentRenderedNode(nullptr, nullptr));
 
     // Lower bound of the key: found only when the key is equal to the rendered node.
     const auto& nodeObjects = m_compiler->m_nodeObjects;
@@ -62,9 +69,8 @@ void BatchNodeCompiler::SGameObjectLinkedCallback::operator()(glitch::scene::CBa
     }
 
     const auto index = static_cast<std::size_t>(reinterpret_cast<std::uintptr_t>(segmentData));
-    const std::size_t slot = static_cast<std::size_t>(mesh->segmentStride) * index + 44;
-    if (slot + sizeof(object) <= mesh->segmentData.size()) {
-        std::memcpy(mesh->segmentData.data() + slot, &object, sizeof(object));
+    if (index < mesh->segmentCount()) {
+        std::memcpy(mesh->segmentExtra(index), &object, sizeof(object));   // the original writes unchecked
     }
 
     if (object) {
@@ -111,14 +117,19 @@ void BatchNodeCompiler::_MapMeshNode(GameObject* object, glitch::scene::ISceneNo
 }
 
 // 0x50cd44 batch::GOBatchSceneNode::isSegmentVisible(glitch::scene::CBatchMesh::SSegment const&)
-// PARTIAL. The original reads the segment's index (SSegment +0x04), finds the GameObject stored in the segment slot
-// (segment data + stride * index + 44) and returns false when the object hides it: GameObject::IsZonable (vtable
-// +0xc4) with m_zoningEnabled (+0x2ee) and not m_inZone (+0x2f0), or the object byte at +0x80. Otherwise it returns the
-// segment's visible byte (SSegment +0x20).
-// Missing: CBatchMesh::SSegment declares no index (+0x04), and GameObject declares no byte at +0x80. Until both are
-// declared, the object test cannot be reached, so this returns the visible byte. The original can hide a segment
-// that this version shows.
+// The segment's GameObject is the pointer in the extra slot of the record numbered by the segment's info index (SSegment +0x04); the
+// segment is hidden when the object is zonable (vtable +0xc4) with zoning enabled (+0x2ee) and not in its zone (+0x2f0), or when the
+// object is not visible (ObjectBase +0x80). Otherwise the segment's visible byte (SSegment +0x20) is the answer. An info index outside the
+// mesh is not guarded in the original; here it falls back to the visible byte.
 bool GOBatchSceneNode::isSegmentVisible(const glitch::scene::CBatchMesh::SSegment& segment) {
+    GameObject* object = nullptr;
+    if (segment.infoIndex < mesh->segmentCount()) {
+        std::memcpy(&object, mesh->segmentExtra(segment.infoIndex), sizeof(object));
+    }
+    if (object != nullptr &&
+        ((object->IsZonable() && object->m_zoningEnabled && !object->m_inZone) || !object->m_visible)) {
+        return false;
+    }
     return segment.visible != 0;
 }
 
@@ -147,29 +158,70 @@ bool BatchNodeCompiler::MakeNoBatchVisible(glitch::scene::ISceneNode* node, bool
 }
 
 // 0x50d71c batch::GOBatchSceneNode::updateSegmentVisibility()
-// PARTIAL. The original recomputes the visible segments for the current scene manager: it clears the visible
-// records, loads the current level when the scene manager is missing, returns when the node is culled, and otherwise
-// adds the visible segments for each batch with the intersector that the scene manager selects (universe, box,
-// frustum box, frustum box 3). Then it stamps the tick of each batch record.
-// Reconstructed here: the visibility gate, the clear, the scene manager check and the culling test.
-// Missing:
-//  - clearVisibleSegments returns the batch count in the original (Hex-Rays uses the result). The engine header
-//    declares it void, so the batch count is not used below.
-//  - The level load when the scene manager is missing (Application::LoadLevel with the temp_* arguments). The
-//    function returns in that case.
-//  - The intersector dispatch and the tick bookkeeping: addVisibleSegments<...> is not declared in the engine header.
+// Does nothing unless the node is visible. clearVisibleSegments gives the batch count. A node with no scene manager takes the device's
+// (+0x1c) and reloads the current level through Application::LoadLevel with the staged temp_* arguments (online games pass false for
+// isRemotelyTriggered). A node the manager culls is left alone. Otherwise the manager's culling switch is saved and, when it was on,
+// cleared for the duration; the mode is the node's segment mode (+0x138) and the camera the manager's active one, with the switch off
+// both are zero. Per batch, by the mode: 0 / 4 with the visible-index cache off count every segment, with it on collect them
+// (SUniverseIntersector); 1 the camera frustum's box (SBoxIntersector); 2 SFrustumBoxIntersector; 8 SFrustumBoxIntersector3. Every
+// record from the solid batch count (+0x144) on is stamped with the current tick and emptied, and the switch is restored.
 void GOBatchSceneNode::updateSegmentVisibility() {
     if ((flags & glitch::scene::ESNF_VISIBLE) == 0) {
         return;
     }
-    clearVisibleSegments();
+    const std::int32_t batchCount = clearVisibleSegments();
     if (sceneManager == nullptr) {
-        return;
+        sceneManager = DeviceSceneManager();
+        Application& application = ApplicationGetInstance();
+        Level* currentLevel = application.GetCurrentLevel();
+        if (currentLevel) {
+            const bool online = GetOnlineGameFlag();    // COnline +0x05; the original also asks PlayerManager::IsLocalPlayerHosting and drops the answer
+            application.LoadLevel(currentLevel->m_levelName.c_str(), temp_entryPointId, temp_savegameSlot, temp_resume,
+                                  temp_useSpawnPoint, temp_difficulty, online ? false : temp_isRemotelyTriggered, temp_seed,
+                                  temp_syncedSeed);
+        }
     }
-    if (sceneManager->isCulled(this)) {
-        return;
+    if (!sceneManager->isCulled(this)) {
+        const bool cullingWasOn = sceneManager->cullingEnabled;                  // scene manager +0x250
+        std::uint32_t mode = 0;
+        glitch::scene::ICameraSceneNode* camera = nullptr;
+        if (cullingWasOn) {
+            mode = unk_138;
+            sceneManager->cullingEnabled = false;
+            camera = sceneManager->activeCamera;                                  // +0xe4
+        }
+        for (std::int32_t batch = 0; batch < batchCount; ++batch) {
+            switch (mode) {
+                case 0:
+                case 4:
+                    if (visibleIndexCacheOn) {
+                        addVisibleSegments(static_cast<std::uint32_t>(batch), SUniverseIntersector{});
+                    } else {
+                        visibleEntry(static_cast<std::uint32_t>(batch))->count =
+                            static_cast<std::uint16_t>(mesh->batches[batch].endSegmentInfo - mesh->batches[batch].firstSegmentInfo);
+                    }
+                    break;
+                case 1:
+                    addVisibleSegments(static_cast<std::uint32_t>(batch), SBoxIntersector{&camera->getViewFrustum()->box});
+                    break;
+                case 2:
+                    addVisibleSegments(static_cast<std::uint32_t>(batch), SFrustumBoxIntersector{camera->getViewFrustum()});
+                    break;
+                case 8:
+                    addVisibleSegments(static_cast<std::uint32_t>(batch), SFrustumBoxIntersector3{camera->getViewFrustum()});
+                    break;
+                default:
+                    break;
+            }
+        }
+        for (std::uint32_t entry = static_cast<std::uint32_t>(unk_144); entry < mesh->batches.size(); ++entry) {
+            visibleEntry(entry)->tick = glitch::os::Timer::TickCount;
+            visibleEntry(entry)->count = 0;
+        }
+        if (cullingWasOn) {
+            sceneManager->cullingEnabled = true;
+        }
     }
-    // GAP: intersector dispatch and tick bookkeeping (see the note above).
 }
 
 // 0x50dabc batch::GOBatchSceneNode::~GOBatchSceneNode() (deleting)
@@ -185,35 +237,70 @@ void BatchNodeCompiler::Trim() {
 }
 
 // 0x50dc84 batch::BatchNodeCompiler::Compile(bool)
-// PARTIAL. The original builds the batch node for the level and sets each object's batch state. Reconstructed here:
-// Trim at the end, and the two object loops as far as their node type allows (see GAP G). Missing:
-//  - GAP A: creating m_batchNode on first use. The original allocates a CBatchMesh with segment stride 48 and a
-//    GOBatchSceneNode (operator new(360)), sets its refcount and vptrs, calls the CBatchSceneNode base constructor
-//    (its arguments are not in the pseudocode) and sets the node's automatic culling to off. GOBatchSceneNode declares
-//    no constructor, so the node is not created here and m_batchNode stays null.
-//  - GAP B: the call on the scene manager's object (+0x04, vtable +0x5c) for each collected node.
-//  - GAP C: the debug switch that the original reads for nobatch nodes. It can end loop 1 early when the value is
-//    long. DebugSwitches::GetSwitch is declared to return bool, but the original uses it to fill a string.
-//  - GAP D: the batch build (the scene manager's vtable +0x50 with the collected nodes and the linked callback),
-//    the quantize step (when quantize is set and the driver allows it), FlushMeshBuffers and m_compiled = 1.
-//  - GAP G: both loops need each visual's node as glitch::scene::ISceneNode. VisualObject::m_node is RootSceneNode*,
-//    which is not an ISceneNode here, so the loops are not run (see the body).
-//  - GAP F: loop 2's name test. GameObject +0x5c (the class name compared with "Decor" and "Module") is not declared,
-//    so the objects that lose their visual object (SetVisualObject(0)) are not changed here.
+// Builds the batch node for the level and sets each object's batch state. On first use the node is created over a CBatchMeshExt<GameObject*>
+// (segment stride 0x30), made visible, its automatic culling switched off (0) and its segment mode (+0x138) set to 2. Loop 1: every
+// object with a visual object and a node adds the node to the scene root (vtable +0x5c), hides its "nobatch" parts, reads the
+// isTracingBatchingCompiler switch when there were any (the answer is not used) and joins the node list. With a non-empty list the scene
+// manager compiles it into the batch node with this compiler's segment callback (vtable +0x50, no split choice, zero segment size);
+// with quantize set and a driver type with any of bits 0 to 2 the batch mesh quantizes its components; the mesh buffers are flushed
+// and m_compiled is set. Loop 2: every object with a visual object shows its "nobatch" parts again; when there were none, a Decor or
+// Module object (ObjectBase +0x48) drops its visual object. Trim ends the compile.
 void BatchNodeCompiler::Compile(bool quantize) {
-    (void)quantize;  // used by GAP D
+    SceneManager* sceneManager = DeviceSceneManager();                        // dword_99F73C + 0x1c
+    glitch::scene::ISceneNode* root = sceneManager->rootNode;                 // +0x04
 
-    // GAP A (see the note above).
+    if (!m_batchNode) {
+        boost::intrusive_ptr<glitch::scene::CBatchMesh> batchMesh(new glitch::scene::CBatchMeshExt<GameObject*>(), true);
+        m_linkedCallback.m_compiler = this;                                   // +0x0c
+        m_batchNode = new GOBatchSceneNode(-1, batchMesh);
+        m_batchNode->setVisible(true);                                        // vtable +0x48
+        m_batchNode->setAutomaticCulling(0);
+        m_batchNode->unk_138 = 2;                                             // +0x138
+    }
 
-    // GAP G: both loops need each object's visual node as a glitch::scene::ISceneNode. VisualObject::m_node is declared
-    // RootSceneNode*, and RootSceneNode derives from glitch::collada::CRootSceneNode, which is not an ISceneNode in this
-    // tree, so the conversion does not exist and the loops are not run. The intended loops:
-    //  loop 1: for each object with a visual and a node, MakeNoBatchVisible(node, false) (GAP B and GAP C around it),
-    //          then the node is added to the batch list in every case;
-    //  GAP D:  build the batch from that list;
-    //  loop 2: for each object with a visual and a node, MakeNoBatchVisible(node, true); when that returns false the
-    //          name test of GAP F follows.
+    std::vector<glitch::scene::ISceneNode*> nodes;
+    for (GameObject* object : m_gameObjects) {
+        VisualObject* visual = object->m_visualObject;                        // +0x2d8
+        if (!visual) {
+            continue;
+        }
+        glitch::scene::ISceneNode* node = visual->m_node;                     // VisualObject +0x08
+        if (!node) {
+            continue;
+        }
+        root->addChild(node);                                                 // vtable +0x5c
+        if (MakeNoBatchVisible(node, false)) {
+            DebugSwitches::s_inst.load();
+            DebugSwitches::s_inst.GetSwitch(std::string("isTracingBatchingCompiler"));
+        }
+        nodes.push_back(node);
+    }
+    if (!nodes.empty()) {
+        m_linkedCallback.m_sceneManager = sceneManager;                       // +0x08
+        sceneManager->compile(nodes, m_batchNode, false, &m_linkedCallback, nullptr, glitch::core::vector3d<float>());
+        glitch::video::IVideoDriver* deviceDriver = ApplicationGetInstance().m_device->videoDriver;   // dword_99F73C + 0x10
+        if (quantize && (static_cast<std::uint32_t>(deviceDriver->getDriverType()) & 7u) != 0) {
+            m_batchNode->mesh->quantizeComponents(false, true, sceneManager->driver);
+        }
+        FlushMeshBuffers(m_batchNode->mesh.get(), true, false, false);
+        m_compiled = true;
+    }
 
+    for (GameObject* object : m_gameObjects) {
+        VisualObject* visual = object->m_visualObject;
+        if (!visual) {
+            continue;
+        }
+        if (MakeNoBatchVisible(visual->m_node, true)) {
+            DebugSwitches::s_inst.load();
+            DebugSwitches::s_inst.GetSwitch(std::string("isTracingBatchingCompiler"));
+            continue;
+        }
+        const char* gameType = object->m_gameType.c_str();                    // ObjectBase +0x48
+        if (!std::strcmp(gameType, "Decor") || !std::strcmp(gameType, "Module")) {
+            object->SetVisualObject(static_cast<VisualObject*>(nullptr));
+        }
+    }
     Trim();
 }
 

@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 #include "dh2/Application.hpp"
 #include "dh2/global/pvrtc_decompress.hpp"
@@ -127,7 +128,35 @@ void TestPvrtcStartValue() {
     Check(PVRTCDecompress(nullptr, 0, 16, 0, buffer) == 4, "PVRTCDecompress start value, 4 bpp");
     Check(PVRTCDecompress(nullptr, 1, 16, 0, buffer) == 2, "PVRTCDecompress start value, 2 bpp");
     Check(PVRTCDecompress(nullptr, 0, 4, 0, buffer) == 2, "PVRTCDecompress start value clamps to 2");
-    Check(PVRTCDecompress(nullptr, 0, 16, 5, buffer) == 5, "PVRTCDecompress returns yDim when yDim > 0");
+}
+
+// A 4 bits per pixel image of 8 x 8 pixels is 2 x 2 blocks. Four identical opaque blocks: colour A pure red (5 bits of red, bit 15 set),
+// colour B pure green. Modulation 0 selects colour A everywhere, modulation 3 (all bits set) selects colour B.
+void TestPvrtcDecode() {
+    std::uint32_t blocks[8];
+    for (int block = 0; block < 4; ++block) {
+        blocks[2 * block + 1] = (0x8000u | (31u << 5)) << 16 | (0x8000u | (31u << 10));
+    }
+    std::uint8_t pixels[8 * 8 * 4];
+    for (int block = 0; block < 4; ++block) {
+        blocks[2 * block] = 0u;
+    }
+    std::memset(pixels, 0x55, sizeof(pixels));
+    Check(PVRTCDecompress(blocks, 0, 8, 8, pixels) == 8, "PVRTCDecompress returns yDim");
+    bool allRed = true;
+    for (int i = 0; i < 64; ++i) {
+        allRed = allRed && pixels[4 * i] == 255 && pixels[4 * i + 1] == 0 && pixels[4 * i + 2] == 0 && pixels[4 * i + 3] == 255;
+    }
+    Check(allRed, "PVRTCDecompress modulation 0 gives colour A");
+    for (int block = 0; block < 4; ++block) {
+        blocks[2 * block] = 0xFFFFFFFFu;
+    }
+    PVRTCDecompress(blocks, 0, 8, 8, pixels);
+    bool allGreen = true;
+    for (int i = 0; i < 64; ++i) {
+        allGreen = allGreen && pixels[4 * i] == 0 && pixels[4 * i + 1] == 255 && pixels[4 * i + 2] == 0 && pixels[4 * i + 3] == 255;
+    }
+    Check(allGreen, "PVRTCDecompress modulation 3 gives colour B");
 }
 
 void TestNativeSoundBodies() {
@@ -143,6 +172,7 @@ int main() {
     TestTwiddleUV();
     TestVisibility();
     TestPvrtcStartValue();
+    TestPvrtcDecode();
     TestNativeSoundBodies();
     if (g_failures != 0) {
         std::printf("%d check(s) failed\n", g_failures);

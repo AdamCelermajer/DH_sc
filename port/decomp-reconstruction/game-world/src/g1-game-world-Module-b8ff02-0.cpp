@@ -12,6 +12,9 @@
 #include "dh2/IStreamBase.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/Module.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/VisualObject.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
@@ -75,18 +78,16 @@ void Module::Deserialize(IStreamBase* stream) {
 }
 
 // 0x388b20 _ZN6Module8InitPostEv
-// PARTIAL. The original first calls a virtual on the visual's root node (m_visualObject +0x2d8, then the node at
-// VisualObject +0x08) at vtable byte offset 0x34 and keeps its result as the aabbox for Zone::InitWithBoundingBox.
-// That slot is not identified: in the RootSceneNode and CRootSceneNode tables, +0x34 is ISceneNode::setName(char const*)
-// and the box getter sits at +0x3c, so the callee and its argument are unresolved. This body therefore does not
-// call InitWithBoundingBox; it does everything else: Decor::InitPost, the name, the spawn, the handle copy and the
-// back pointer. Both the SEAM call and the InitWithBoundingBox call are missing.
+// Decor::InitPost, then, with a visual object: the transformed bounding box of its root node (ISceneNode vtable +0x34) is taken, a
+// RoomZone named generated_roomzone_<4-digit counter> is spawned through the object manager (global, not saved) and, when the object
+// is a RoomZone (GO id 11), its handle is kept (+0x400), the box becomes the room zone's bounds (Zone::InitWithBoundingBox) and the
+// room zone points back at this module (RoomZone +0x38c).
 void Module::InitPost() {
     Decor::InitPost();
     if (m_visualObject == nullptr) {  // +0x2d8
         return;
     }
-    // SEAM: the node box call (see the comment above) runs here in the original, before the spawn.
+    const glitch::core::aabbox3d<float>& box = m_visualObject->m_node->getTransformedBoundingBox();   // VisualObject +0x08, vtable +0x34
 
     static int unique_roomzone_id = 0;  // Module::InitPost()::unique_roomzone_id (.bss)
     char name[52];
@@ -100,7 +101,7 @@ void Module::InitPost() {
     }
     m_roomZone = spawned;  // +0x400, 12-byte handle copy
     RoomZone* room = static_cast<RoomZone*>(object);
-    // SEAM: Zone::InitWithBoundingBox(box) would run here, with the box from the seam above. Not reconstructed.
+    room->InitWithBoundingBox(box);
     room->unk_38c = this;  // RoomZone +0x38c, the owning Module
 }
 

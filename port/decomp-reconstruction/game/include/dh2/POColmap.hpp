@@ -9,6 +9,11 @@
 
 class POColmap : public PhysicalObject {
 public:
+    // No constructor symbol exists: ColBox::InitPost (0x3884fc) builds a PhysicalObject and stores the POColmap vtable pointer over it.
+    // This constructor is that PhysicalObject constructor with the same arguments.
+    POColmap(PhysicalWorld* world, GameObject* owner, bool isStatic, bool isCircle, bool isSensor, bool isBullet, short group,
+             unsigned short category, unsigned short mask, int unused)
+        : PhysicalObject(world, owner, isStatic, isCircle, isSensor, isBullet, group, category, mask, unused) {}
     // Vtable slots 0 and 1 (the destructors). Slots 2 to 9 are PhysicalObject's and are not redeclared here.
     ~POColmap() override;                                               // +0x00, +0x04: 0x388628 (D1), 0x388dcc (D0)
 };

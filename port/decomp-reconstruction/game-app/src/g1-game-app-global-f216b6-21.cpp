@@ -117,11 +117,10 @@ double GetTimeDT(double a1, double a2) {
 // ---------------------------------------------------------------------------------------------------------------
 
 // 0x7dc1ec KillVertex(GLUvertex*, GLUvertex*)
-// PARTIAL: not defined. This is the libtess (SGI GLU tessellator) helper: walk the vertex's half-edge ring through Onext
-// (+0x08 from the half-edge), set each half-edge's Org (+0x10) to newOrg, unlink the vertex from its doubly-linked
-// list (vNext = vDel->next at +0x00, vPrev = vDel->prev at +0x04; vNext->prev = vPrev; vPrev->next = vNext), then free
-// the vertex (asm: free). The first-edge pointer is vDel->anEdge at +0x08. Waits on GLUvertex (next +0x00, prev +0x04,
-// anEdge +0x08) and GLUhalfEdge (Onext +0x08, Org +0x10). The libtess declarations are not in the tree.
+// UPSTREAM: the static KillVertex of libtess (SGI GLU 9.0.0) mesh.c, line 224 of tinyxml-and-c-libs/upstream/libtess-glu-9.0.0/src/libtess/mesh.c, built
+// in libdh2_vendor_libtess. The listing matches it step by step: the ring of half-edges from vDel->anEdge (+0x08) through Onext (+0x08) gets
+// Org (+0x10) = newOrg, the vertex leaves the list (vNext = vDel->next at +0x00, vPrev = vDel->prev at +0x04; vNext->prev = vPrev;
+// vPrev->next = vNext) and memFree (free) releases it. The symbol is file-static in the libtess translation unit, so no body is written here.
 
 // 0x7e44f4 ComputeCentroid(b2Vec2 const*, int)
 // UPSTREAM: Box2D 2.0.1, the static ComputeCentroid in Source/Collision/Shapes/b2PolygonShape.cpp of

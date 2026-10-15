@@ -7,13 +7,9 @@
 //     m_xmlDocument and m_xmlBuffer; LoadRoomPools, LoadListRules and Generate return int (LoadRuleFile reads them).
 //   dh2/rnd/RoomPool.hpp: +0x10 m_generator (was pad_10).   dh2/rnd/ListRule.hpp: +0x28 m_generator (after m_elems).
 //
-// Seams (rows are partial where these apply):
-//   - LoadRoomPools / LoadListRules: the walk over the named children needs TiXmlNode::FirstChild(name) and
-//     NextSibling(name). tixml_node.hpp declares only the unnamed FirstChild(), so the walk is not written. The
-//     per-child work is in LoadOneRoomPool / LoadOneListRule.
-//   - UnloadRules: the delete of the TiXmlDocument at +0x124 needs the class; tixml_dh.hpp only forward-declares it.
+// Notes:
+//   - PrintMap: the original's walk has no observable effect in the binary, so the body is empty.
 //   - Generate: RootRule::Impl::Generate yields the root Tile*. RootRule.hpp declares it Tile*, and Generate stores it.
-//   - PrintMap: the original's walk has no observable effect in the binary.
 #include "dh2/rnd/RandomGenerator.hpp"
 
 #include <cstdint>
@@ -31,6 +27,7 @@
 #include "dh2/rnd/ListRule.hpp"
 #include "dh2/rnd/RoomPool.hpp"
 #include "dh2/rnd/Tile.hpp"
+#include "tinyxml.h"
 
 namespace rnd {
 
@@ -46,7 +43,7 @@ void CopyNameKey(char (&key)[512], const char* name) {
 
 // The per-child part of LoadRoomPools (0x485cdc): allocate a RoomPool (operator new(0x14, 0), size 0 and an empty
 // element vector), set its generator at +0x10, read it from XML, and append it to the pool vector.
-[[maybe_unused]] void LoadOneRoomPool(RandomGenerator* generator, TiXmlNode* child) {
+void LoadOneRoomPool(RandomGenerator* generator, TiXmlNode* child) {
     RoomPool* pool = new (CustomAlloc(static_cast<unsigned int>(sizeof(RoomPool)))) RoomPool();
     pool->m_generator = generator;
     pool->LoadFromXml(child);
@@ -56,7 +53,7 @@ void CopyNameKey(char (&key)[512], const char* name) {
 // The per-child part of LoadListRules (0x4865f0): allocate a ListRule (operator new(0x2c, 0), empty name), default
 // its replacement flag to true at +0x18 and its generator at +0x28, read it from XML, and insert it by name. The key
 // is the name's own storage, as in the original. A name already present keeps its first rule (insert_unique).
-[[maybe_unused]] void LoadOneListRule(RandomGenerator* generator, TiXmlNode* child) {
+void LoadOneListRule(RandomGenerator* generator, TiXmlNode* child) {
     ListRule* rule = new (CustomAlloc(static_cast<unsigned int>(sizeof(ListRule)))) ListRule();
     rule->m_replacement = true;
     rule->m_generator = generator;
@@ -137,11 +134,11 @@ bool RandomGenerator::ValidBlock(const char* name) {
     return m_blocks.find(key) != m_blocks.end();
 }
 
-// 0x484820 rnd::RandomGenerator::PrintMap()   [PARTIAL]
+// 0x484820 rnd::RandomGenerator::PrintMap()
 // The pseudocode walks the tile grid with deque iterators: one step per row, and a column loop bounded by the first
 // row's length. Its only calls are deque iterator helpers, and it stores to locals only. The release binary therefore
-// prints nothing and changes no state. The walk is not reproduced: Array2d has no read-only accessor (operator() would
-// grow the grid). The original returns the row count, which Generate ignores, and the header declares void.
+// prints nothing and changes no state, so the body is empty. The original returns the row count, which Generate ignores, and the
+// header declares void.
 void RandomGenerator::PrintMap() {
 }
 
@@ -166,19 +163,23 @@ void RandomGenerator::UnloadRoomPools() {
     }
 }
 
-// 0x485cdc rnd::RandomGenerator::LoadRoomPools(TiXmlNode*)   [PARTIAL]
-// SEAM: the original calls LoadOneRoomPool(this, child) for each child named "pool" of node, in document order, and
-// returns 1. The named-child walk is not declared in this tree (see the file header). Until it is, no pool is loaded.
+// 0x485cdc rnd::RandomGenerator::LoadRoomPools(TiXmlNode*)
+// For each child of the node named "pool", in document order: a RoomPool (size 0, empty elements, generator this) is loaded from the
+// child and appended to the pool vector. Returns 1.
 int RandomGenerator::LoadRoomPools(TiXmlNode* node) {
-    (void)node;
+    for (TiXmlNode* child = node->FirstChild("pool"); child != nullptr; child = child->NextSibling("pool")) {
+        LoadOneRoomPool(this, child);
+    }
     return 1;
 }
 
-// 0x4865f0 rnd::RandomGenerator::LoadListRules(TiXmlNode*)   [PARTIAL]
-// SEAM: the original calls LoadOneListRule(this, child) for each child named "list" of node and returns 1. The
-// named-child walk is not declared in this tree (see the file header). Until it is, no list rule is loaded.
+// 0x4865f0 rnd::RandomGenerator::LoadListRules(TiXmlNode*)
+// For each child of the node named "list", in document order: a ListRule (empty name, replacement true, generator this) is loaded from
+// the child and inserted into the list map under its name. Returns 1.
 int RandomGenerator::LoadListRules(TiXmlNode* node) {
-    (void)node;
+    for (TiXmlNode* child = node->FirstChild("list"); child != nullptr; child = child->NextSibling("list")) {
+        LoadOneListRule(this, child);
+    }
     return 1;
 }
 
@@ -229,14 +230,15 @@ int RandomGenerator::Generate(int seed) {
 ListElem::~ListElem() {
 }
 
-// 0x488300 rnd::RandomGenerator::UnloadRules()   [PARTIAL]
-// Frees the file buffer at +0x128 with free(), then empties the list-rule map (each rule gets its destructor and
-// CustomFree), calls RootRule::Unload, and empties the block map (each block is deleted through its virtual
-// destructor). SEAM: the original also deletes the TiXmlDocument at +0x124 through its virtual deleting destructor and
-// clears the word. The class is not declared in this tree, so that delete is not written and the pointer is kept.
+// 0x488300 rnd::RandomGenerator::UnloadRules()
+// Frees the file buffer at +0x128 with free(), deletes the TiXmlDocument at +0x124 through its virtual deleting destructor and
+// clears both words, then empties the list-rule map (each rule gets its destructor and CustomFree), calls RootRule::Unload, and
+// empties the block map (each block is deleted through its virtual destructor).
 void RandomGenerator::UnloadRules() {
     std::free(m_xmlBuffer);
     m_xmlBuffer = nullptr;
+    delete m_xmlDocument;
+    m_xmlDocument = nullptr;
     while (!m_listRules.empty()) {
         auto it = m_listRules.begin();
         ListRule* rule = it->second;
@@ -259,7 +261,7 @@ void RandomGenerator::UnloadRules() {
 
 // 0x488504 rnd::RandomGenerator::~RandomGenerator()   (complete-object destructor, D1)
 // 0x488704 rnd::RandomGenerator::~RandomGenerator()   (base-object destructor, D2; same body)
-// [PARTIAL: inherits the UnloadRules seam.] The body unloads the tiles, the rules and the room pools, then deletes the
+// The body unloads the tiles, the rules and the room pools, then deletes the
 // LevelConfig through its virtual deleting destructor. The members then go in reverse declaration order, which matches
 // the original: the strings at +0x174, +0x15c, +0x144 and +0x12c, the room pool vector at +0x118, the string at +0xfc,
 // the RootRule at +0x6c, the list-rule map, the block map, and the tile grid at +0x08.

@@ -19,8 +19,10 @@ public:
     std::int32_t x;       // +0x08
     std::int32_t y;       // +0x0c
 
-    // Static table of the four directions (original sDirections at 0x956AE4), indexed by id.
-    static const Direction sDirections[4];
+    // Static table of the four directions (original sDirections at 0x956AE4), indexed by id, and a fifth entry, "none" (id 4, offset 0, 0) at
+    // 0x956B24, which is the direction a Block side has before it is loaded (the original's unk_956B24) and the one Exit::LoadFromXml
+    // gives a direction name that matches none of the four.
+    static const Direction sDirections[5];
 };
 
 // DIRECTION_OPPOSITES maps a direction id to the id of its opposite.
@@ -30,6 +32,7 @@ public:
 // south(2), east(1) -> west(3), south(2) -> north(0), west(3) -> east(1): an involution, as the name
 // implies. Six rows waited on this - IsStraight, GetFlag, LinkToOtherBlocks, Rule::Impl's constructor,
 // ForceBlock::Impl::FilterExits and Tile::TrySpawn.
-extern const std::int32_t DIRECTION_OPPOSITES[4];
+extern const std::int8_t gDistributions[26136];     // 0x8ce5c8, see rnd_direction_tables.cpp
+extern const std::int32_t DIRECTION_OPPOSITES[5];   // the fifth word (0x999890) is 4: none is its own opposite
 
 }  // namespace rnd

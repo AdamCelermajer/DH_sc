@@ -15,7 +15,12 @@
 #include "glitch-video/video_driver.hpp"
 #include "glitch-video/render_target.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-core-io/io/interfaces.hpp"
 #include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/gui/CGUITTFont.hpp"
+#include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
+#include "glitch-scene-collada-gui/gui/IGUISkin.hpp"
+#include "vendor-gameswf/bitmap_glyph_provider.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "dh2/GSInit.hpp"
 #include "dh2/LuaManager.hpp"
@@ -69,21 +74,15 @@ void Application::RegisterForIrrlichtEvents(glitch::IEventReceiver* receiver) {
 }
 
 // 0x32fab4 Application::InitWin32(glitch::IDevice *)
-// PARTIAL: everything except the font block is written, in the original's order. The touch screen is built from the
-// current render target: the original reads the driver (IDevice +0x10, videoDriver), takes the last element of its
-// target stack (asm: the vector end word at driver +0xcc, minus 4), and passes that target's width (+0x0c) and height
-// (+0x10) to TouchScreenWin32 (operator new(0x1b8)); the two values are ints truncated to the constructor's shorts.
-// In the port that is driver->m_renderTargets.back() (entry 0 is the screen, glitch-video/render_target.hpp declares
-// m_width/m_height). Then the savegame manager (operator new(0x58)), the touch screen registered as a glitch event
-// receiver through its IEventReceiver sub-object (the original adds 436 = 0x1b4 to the pointer; the static_cast below
-// asks the compiler for the same sub-object), Init, PostInit, and the device's file system call through IDevice +0x34
-// vtable +0x18: addZipFileArchive("shaders.pak", true, false) (glitch-core-io/io/interfaces.hpp names that slot).
-// Still missing: the font block. get_fontfile("_sans", 0, 0, &buffer, 255) fills a 256-byte name buffer (get_fontfile
-// has no declaration anywhere in the tree), then the object at IDevice +0x18 is asked through vtable +0x50 to load
-// that name with length 14, and, when that returns 0, to load the same buffer from its second byte; a non-zero result
-// goes to that object's vtable +0x38 and the result of that to vtable +0x2c as (result, 0). glitch-core-io/os/device.hpp
-// declares the +0x18 member as `void* unk_18` with the comment that its role is not identified, so neither its class
-// nor those slots can be named; the same object blocks GSConsole::Draw2D (0x3832c4) and Application::_Draw (0x32ade8).
+// The touch screen is built from the current render target: the original reads the driver (IDevice +0x10, videoDriver), takes the last element of its target
+// stack (asm: the vector end word at driver +0xcc, minus 4), and passes that target's width (+0x0c) and height (+0x10) to TouchScreenWin32 (operator new(0x1b8));
+// the two values are ints truncated to the constructor's shorts. In the port that is driver->m_renderTargets.back() (entry 0 is the screen,
+// glitch-video/render_target.hpp declares m_width/m_height). Then the savegame manager (operator new(0x58)), the touch screen registered as a glitch event
+// receiver through its IEventReceiver sub-object (the original adds 436 = 0x1b4 to the pointer; the static_cast below asks the compiler for the same
+// sub-object), Init, PostInit, the device's file system call IFileSystem::addZipFileArchive("shaders.pak", true, false) (IDevice +0x34, vtable +0x18), and
+// the UI font: get_fontfile("_sans", false, false, buffer, 255) fills a 256-byte name buffer; when it succeeds the GUI environment (IDevice +0x18, slot +0x50
+// getTTFont) is asked for that name at size 14 and, when that returns null, for the same buffer from its second byte; a font goes to the skin
+// (IGUIEnvironment::getSkin, slot +0x38) as IGUISkin::setFont(font, default font) (slot +0x2c). Finally the menu manager (operator new(0x114)).
 void Application::InitWin32(glitch::IDevice* device) {
     glitch::video::IVideoDriver* driver = device->videoDriver;  // +0x10
     const glitch::video::IRenderTarget* target = driver->m_renderTargets.back().get();  // +0xc8, the last entry
@@ -97,14 +96,18 @@ void Application::InitWin32(glitch::IDevice* device) {
     Init(device);
     PostInit();
 
-    // PARTIAL: the device's file system call through IDevice +0x34 is not written. The original calls vtable +0x18
-    // with ("shaders.pak", 1, 0), which glitch-core-io/io/interfaces.hpp names
-    // IFileSystem::addZipFileArchive(const char*, bool ignoreCase, bool ignorePaths). The member is typed
-    // FileSystemWin32* (core-platform/filesystem_win32.hpp) and that class declares no addZipFileArchive (the glitch
-    // io hierarchy is a separate stand-in there), so the call has no declared target.
+    device->fileSystem->addZipFileArchive("shaders.pak", true, false);  // IDevice +0x34, vtable +0x18
 
-    // PARTIAL: the font block is not written; see the note above (IDevice +0x18 object, slots +0x50/+0x38/+0x2c,
-    // and the undeclared get_fontfile).
+    char fontFile[256];
+    if (get_fontfile("_sans", false, false, fontFile, 255)) {
+        glitch::gui::IGUITTFont* font = device->guiEnvironment->getTTFont(fontFile, 14);  // IDevice +0x18, vtable +0x50
+        if (font == nullptr) {
+            font = device->guiEnvironment->getTTFont(fontFile + 1, 14);
+        }
+        if (font != nullptr) {
+            device->guiEnvironment->getSkin()->setFont(font, glitch::gui::EGDF_DEFAULT);  // vtable +0x38, then +0x2c
+        }
+    }
 
     m_menuManager = new MenuManager();                 // +0x54, operator new(0x114)
 }

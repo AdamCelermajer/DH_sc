@@ -4,6 +4,8 @@
 // dependency headers; the definitions in game-app/src/g1-game-app-global-f216b6-21.cpp include them.
 #pragma once
 
+#include <cstdint>
+
 class CConnectionManager;
 class COnline;
 class CMessaging;
@@ -12,7 +14,16 @@ class CNetPlayerManager;
 class CPacketManager;
 class CTransportManager;
 class CNetworkEmulation;
-struct _tDedicatedServerInfo;
+// The dedicated-server record, 0x30 bytes (GetDedicatedServer 0x827a9c allocates 0x30 and zeroes twelve words). Only the four
+// fields ParseDedicatedServerInfo (0x8279d8) writes are named by offset; the rest is unread by any recovered function.
+struct _tDedicatedServerInfo {
+    std::uint32_t unk_00[6];  // +0x00 .. +0x17
+    std::uint32_t address;    // +0x18 inet_addr() of the host name read from the packet
+    std::int16_t unk_1c;      // +0x1c first getShort of the packet
+    std::int16_t unk_1e;      // +0x1e second getShort of the packet
+    std::uint32_t unk_20[3];  // +0x20 .. +0x2b
+    std::int32_t unk_2c;      // +0x2c getInt of the packet
+};
 
 // Thunks: each is `B <Owner>::GetInstance` in the binary, so the result is the singleton that call returns.
 CConnectionManager* GetConnectionMgr();   // 0x7fbd74 -> CConnectionManager::GetInstance (0x7fbd54)

@@ -16,6 +16,11 @@
 #include "dh2/CameraLevel.hpp"
 #include "dh2/ConditionData.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"            // ApplicationGetInstance (the Application singleton)
@@ -179,15 +184,18 @@ void ObjectBase::Serialize(IStreamBase* stream) {
 }
 
 // 0x33e61c _ZN10ObjectBase20TestDisableConditionEb
-// PARTIAL: the gate needs dh2/PlayerManager.hpp (GetLocalPlayer on dword_99F76C) and dh2/Character.hpp (m_savegame)
-// in one translation unit, and those two cannot share one (CustomFree is redefined in pydata-accessors/deps/stream_reader.hpp).
-// PlayerInfo +0x660 (Character* unk_660) and PlayerSavegame::m_questSynced (+0x14) are declared. The original first looks up the local player (GetLocalPlayer(0, true) on
-// dword_99F76C). It reads the pointer at PlayerInfo +0x660, which is the Character (see GameObject::IsPlayerNearby
-// in game-world/ledger.d). It then reads Character::m_savegame (+0x14e8, declared in Character.hpp) and that
-// PlayerSavegame's m_questSynced (+0x14, declared). When the savegame is null or not quest synced, the function
-// returns m_enabled without checking the condition. That gate is not reproduced: the body below assumes it is
-// open and checks the disable condition.
+// The local player's character (PlayerManager::GetLocalPlayer(0, true), PlayerInfo +0x660) gates the test: a character whose savegame
+// (+0x14e8) is missing or not quest synced (PlayerSavegame +0x14) leaves the object as it is (m_enabled is returned). Otherwise a
+// disable condition that is not yet tested (+0xd0) and has a list (+0xcc) is evaluated; when it is false the object is disabled and
+// the condition is marked tested when asked to.
 bool ObjectBase::TestDisableCondition(bool markTested) {
+    Character* localPlayer = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (localPlayer != nullptr) {
+        PlayerSavegame* savegame = localPlayer->m_savegame;
+        if (savegame == nullptr || !savegame->m_questSynced) {
+            return m_enabled;
+        }
+    }
     if (m_disableCond.m_tested || m_disableCond.m_list == nullptr) {  // +0xd0 (m_tested), +0xcc (m_list)
         return m_enabled;
     }
@@ -199,3 +207,4 @@ bool ObjectBase::TestDisableCondition(bool markTested) {
     }
     return m_enabled;
 }
+

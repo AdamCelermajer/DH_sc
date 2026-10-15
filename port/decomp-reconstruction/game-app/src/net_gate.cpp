@@ -27,7 +27,7 @@ bool NetGateOpen() {
     if (!OnlineSingleton<OnlineGameState>::GetInstance()->flag24_) {
         return false;
     }
-    if (!CMatching::Get()->UnknownGate()) {  // vtable +0x64: IsInRoom()
+    if (!CMatching::Get()->IsInRoom()) {  // vtable +0x64: IsInRoom()
         return false;
     }
     GetNetPlayerMgr();                       // the original calls it, then the static IsInitialized

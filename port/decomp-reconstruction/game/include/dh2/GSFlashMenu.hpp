@@ -6,6 +6,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 #include "dh2/StateBase.hpp"
 
@@ -31,9 +32,7 @@ public:
     MenuManager* m_manager;                                         // +0x04 MenuManager::GetInstance() at construction
     MenuBase* m_menu;                                               // +0x08 menu currently shown
     MenuBase* m_pendingMenu;                                        // +0x0c menu to show on the next Update; "menu_MainMenu" when m_loadMainMenu was set
-    uint8_t unk_10[0x10];                                           // +0x10 16-byte buffer; the ctor clears its first byte
-    char* unk_20;                                                   // +0x20 points at unk_10 (set by the ctor)
-    char* unk_24;                                                   // +0x24 points at unk_10 (set by the ctor)
+    std::string unk_10;                                             // +0x10 an empty string (0x18 bytes in the original, a glitch SAllocator STLport string): the ctor builds it with the inline buffer, the dtor releases it; nothing else reads or writes it
     bool m_popped;                                                  // +0x28 set when the state pops itself (Update, Dtor); cleared by the ctor
     bool m_loadMainMenu;                                            // +0x29 set by the caller; the ctor loads the main menu once and clears it
 };

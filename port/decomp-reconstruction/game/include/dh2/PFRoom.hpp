@@ -60,7 +60,7 @@ public:
     std::string m_name;                 // +0x04 the name passed to the ctor (24 bytes in the original)
     std::uint32_t unk_1c;               // +0x1c the uint ctor argument; no PFRoom function reads it
     PFWorld* m_world;                   // +0x20 owning world; ExtendBoundingBox writes its bounds
-    std::uint32_t unk_24;               // +0x24 zeroed by the ctor; not read or written by the decompiled PFRoom code
+    std::uint32_t m_flags;              // +0x24 zeroed by the ctor; bit 0 is the solid flag Decor::LoadFloorMap (0x388730) sets from Decor::m_isSolid
     PFGOuterGraph* m_oGraph;            // +0x28 passed to each PFFloor
     PFGInnerGraph* m_iGraph;            // +0x2c passed to each PFFloor
     std::vector<PFFloor*> m_floors;     // +0x30 begin, end, capacity; owned, each deleted by its virtual dtor
