@@ -98,14 +98,23 @@ CBatchDriver::CBatchDriver(uint32_t vertexBufferCapacityBytes, uint32_t indexBuf
 // (asm 0x5a3d80-0x5a3dbc: the count word of the pointed-to CVertexStreams is decremented and, at zero, the
 // destructor 0x5a0a1c runs and the block is freed), and finally CNullDriver::~CNullDriver (0x5b9524) runs.
 // The port writes this as the ordinary member teardown: C++ destroys this class's declarations in reverse order
-// (maxIndices, segmentSizeMode, segmentSize, and the +0x238 / +0x234 pointer members) and then the base. The two
-// reference-counted drops the listing performs at +0x248 and +0x240 are NOT reproduced, and deliberately so: the
-// append state is not declared on this class - everything from +0x110 to +0x15F belongs to the base IVideoDriver,
-// whose own destructor releases it - and a previous version of the header declared those two words here, which put
-// three live pointers inside the base object. Re-declaring them needs a listing that names their type.
+// (+0x260 maxIndices, +0x25C segmentSizeMode, +0x250 segmentSize, the +0x248 mesh-buffer handle, the +0x244 raw
+// primitive-stream pointer, the +0x240 vertex-streams handle, the +0x23C callback and the +0x238 / +0x234
+// callbacks) and then the base. The two reference-counted drops the listing performs - +0x248 through the virtual
+// drop (0x5a3d64 / 0x5a3d7c) and +0x240 inline through CVertexStreams::~CVertexStreams 0x5a0a1c plus free
+// (0x5a3d80-0x5a3dbc) - ARE reproduced now: the four words +0x23C .. +0x248 were declared as members of this class
+// (+0x240 and +0x248 as counting intrusive_ptr, so their destructors are exactly those two drops, in that order,
+// ahead of the base). The one remaining deviation is structural, not behavioural: the original frees the
+// CVertexStreams block with CustomFree (glitch::memory's free) where the port's intrusive_ptr_release calls
+// `delete`, which is the same allocation path every other counted glitch-video object already uses here.
 CBatchDriver::~CBatchDriver() = default;
 
 // 0x58a920 _ZN6glitch5video12CBatchDriver10initBufferEv
+// RESOLVED - the DEFECT block below is KEPT as the record of what was measured, but it is no longer true of the
+// code under it: the body no longer calls releaseAppendBuffer, and the function name is now also flagged by
+// -Wunused-function. Do NOT re-add the call because the paragraph below says the body has it - the paragraph says
+// what happens IF it is re-added. The body is at the bottom of this comment: push_back(the handle), then
+// m_batchBuffer = m_batchBuffers.front(), with no second drop.
 // DEFECT (found by the coverage batch, glitch-video/tests/batch_driver_buffers_test.cpp; the body is the only
 // one of the family that no test could enter): the `releaseAppendBuffer(buffer);` below is a SECOND drop of the
 // listing's single one. The listing drops the temporary once (0x58a9b0-0x58a9b8, count 2 -> 1) and then stores
@@ -117,6 +126,7 @@ CBatchDriver::~CBatchDriver() = default;
 // stored in m_batchBuffer was freed inside the call and the process exited 0xC0000374 (heap corruption). With
 // `releaseAppendBuffer(buffer);` deleted the same probe reports the block alive, 0 frees, exit 0. Until that
 // one line goes, any caller corrupts the heap, so the row is `partial` and the test does not call this.
+//
 // Reconstructed. The listing, in order (all of it in members of the base IVideoDriver; the object is R4 = `this`
 // throughout, so +0x22C / +0x230 are this class's two capacities and +0x110 / +0x114 / +0x118 / +0x120 are the base's
 // batch state):
