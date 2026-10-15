@@ -109,8 +109,8 @@ int main(int argc,char** argv){try{
   resolved[2]=-1;
   data::PropertyView properties{defaults.data(),types.data(),base.data(),saved.data(),gear.data(),resolved.data(),nullptr,0};
   data::AnimationTables tables;tables.characters.resize(18);
-  tables.characters[17].fields[4]={20};tables.characters[17].fields[5]={30};
-  tables.characters[17].fields[6]={40};tables.characters[17].fields[7]={10};
+  tables.characters[17].fields[3]={20};tables.characters[17].fields[4]={30};
+  tables.characters[17].fields[5]={40};tables.characters[17].fields[6]={10};
   std::vector<unsigned char> constants_bytes;put_word(constants_bytes,2);
   put_name(constants_bytes,"AnimStancedAnim");put_word(constants_bytes,1);
   put_name(constants_bytes,"SL__LIST_IPHONE");put_word(constants_bytes,0x78000);

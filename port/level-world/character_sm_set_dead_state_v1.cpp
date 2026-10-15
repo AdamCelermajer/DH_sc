@@ -98,7 +98,7 @@ Status execute(const Bindings& bindings, const Request& request, Result* output,
     selected_request.character = bindings.character.identity;
     selected_request.row = table.row;
     selected_request.constants = bindings.constants;
-    selected_request.field = great_for_death ? 4u : 7u;
+    selected_request.field = great_for_death ? 3u : 6u;
     selected_request.stance_mask = great_for_death ? 0x20000u : 0x8000u;
     selected_request.anim_stance_context = bindings.anim_stance.context;
     selected_request.get_anim_stance = bindings.anim_stance.get_anim_stance;
@@ -125,7 +125,7 @@ Status execute(const Bindings& bindings, const Request& request, Result* output,
     const bool great_for_despawn = machine.dead_alternate != 0;
     machine.animation_override = selected.animation;
 
-    selected_request.field = great_for_despawn ? 6u : 5u;
+    selected_request.field = great_for_despawn ? 5u : 4u;
     selected_request.stance_mask = great_for_despawn ? 0x40000u : 0x10000u;
     selected = {};
     selection_status = character_dead_animation_selection_v1::select_one(
