@@ -1,12 +1,77 @@
 // Slice 20 reconstruction. See include/glitch-scene-collada-gui/recon/slice_20.hpp.
 #include "glitch-scene-collada-gui/recon/slice_20.hpp"
 
+#include "glitch-scene-collada-gui/ps_types.hpp"
+
 #include <cstdint>
+#include <cstdlib>
 
 namespace glitch::collada::recon_20 {
 
+// SParticle is a 25-float (100-byte) record; see the stride in the 0x64c190 body.
+inline constexpr std::size_t kSParticleFloats = 25;
+
+// ---- object views ----------------------------------------------------------------------------
+// The particle, render-data and context classes have no member layout in the layout headers, so the
+// objects stay opaque (void*) exactly as declared in slice_20.hpp and the members the recovered
+// bodies touch are named here with their original offsets. Only the fields a body proves are here.
+
+// glitch::ps::PRenderDataBillboardModel<...>. The class has no member layout in the layout headers,
+// so the object stays opaque (void*) exactly as slice_20.hpp declares it and each recovered body
+// reads or writes the word it proved, through the offset accessors below. Those accessors use the
+// ORIGINAL 32-bit offsets directly (the object here is a view, not a reproduced layout), so the host
+// pointer width does not shift anything.
+namespace rd {
+
+// glitch::ps::PS_FREE is std::free in the original; this local definition keeps the slice test
+// self-contained (the test links only this file, and ps_types.cpp is the file that defines the
+// public PS_FREE symbol). The behaviour is identical: the original release path frees the buffer.
+inline void psFree(void* p) {
+    std::free(p);
+}
+
+inline void*& stream(void* self) {  // +0x10, intrusive_ptr target (its count is at target +0x00)
+    return *reinterpret_cast<void**>(static_cast<char*>(self) + 0x10);
+}
+inline bool& ownsBuffer(void* self) {  // +0x8c, cleared by setRenderBuffer
+    return *reinterpret_cast<bool*>(static_cast<char*>(self) + 0x8c);
+}
+inline void*& buffer(void* self) {  // +0x90
+    return *reinterpret_cast<void**>(static_cast<char*>(self) + 0x90);
+}
+inline std::uint32_t& bufferSize(void* self) {  // +0x94
+    return *reinterpret_cast<std::uint32_t*>(static_cast<char*>(self) + 0x94);
+}
+inline std::uint32_t sizeNeeded(const void* self) {  // +0x98
+    return *reinterpret_cast<const std::uint32_t*>(static_cast<const char*>(self) + 0x98);
+}
+
+}  // namespace rd
+
+// The render stream's IBuffer, reached at stream + 0x14 by the deallocate/setRenderBuffer bodies.
+// Only the reset slot the listing calls is named: vtable +0x08 is reset(uint size, const void* data,
+// int flags) (the original's call site passes four arguments, the last one unknown).
+struct IBufferView {
+    void* vtable;  // +0x00
+};
+using IBufferResetFn = void (*)(void* self, unsigned int size, const void* data, int flags);
+
+inline void* ibufferAt(void* stream) {
+    return stream ? *reinterpret_cast<void**>(static_cast<char*>(stream) + 0x14) : nullptr;
+}
+
+inline void bufferReset(void* buffer, unsigned int size, const void* data, int flags) {
+    if (!buffer) {
+        return;
+    }
+    auto** vtable = *reinterpret_cast<void***>(buffer);
+    reinterpret_cast<IBufferResetFn>(vtable[2])(buffer, size, data, flags);
+}
 
 // 0x64bb90 _ZNK6glitch7collada24CParticleSystemSceneNode16getParticleCountEv
+// PARTIAL: see the note in the ledger. The particle container at this+0x178 is reached through the
+// vtable-relative base pointer (this + *(this->vptr - 12) + 0x18), which is a virtual-base adjustment
+// the port has no model for, so the count cannot be computed.
 int CParticleSystemSceneNode_getParticleCount(const void* self) { return 0; }
 
 // 0x64bbe0 _ZN6glitch2ps15IParticleSystemINS0_9SParticleEE4initEv
@@ -28,7 +93,21 @@ float PColorModel_initPColor(float result, void* a2, void* a3) { return 0.0f; }
 int PEmitterModel_initPPosition(void* a1, void* a2, void* a3) { return 0; }
 
 // 0x64c190 _ZN6glitch2ps12PMotionModelINS0_9SParticleEE12applyPMotionEPS2_S4_
-float PMotionModel_applyPMotion(float result, void* a2, void* a3) { return 0.0f; }
+// Verified against Hex-Rays 0x64c190: for every particle in [a2, a3) (stride 100 bytes = 25 floats)
+// the position [0..2] advances by step * velocity [3..5]. The original fetches step from the model's
+// own scaled-time word at +0x50 (this + *(this->vptr - 12) + 80) before the loop; the stand-in has no
+// model layout or vtable, so the step is the first argument, exactly as the queue's signature has it.
+// Deviation: the array is walked as 25-float records instead of the original's byte stride.
+float PMotionModel_applyPMotion(float step, void* a2, void* a3) {
+    float* first = static_cast<float*>(a2);
+    float* last = static_cast<float*>(a3);
+    for (float* p = first; p != last; p += kSParticleFloats) {
+        p[0] = p[0] + step * p[3];
+        p[1] = p[1] + step * p[4];
+        p[2] = p[2] + step * p[5];
+    }
+    return step;
+}
 
 // 0x64c25c _ZN6glitch2ps10PSpinModelINS0_9SParticleEE10applyPSpinEPS2_S4_
 float PSpinModel_applyPSpin(float result, void* a2, void* a3) { return 0.0f; }
@@ -40,21 +119,49 @@ float PLifeModel_initPLife(void* a1, void* a2, void* a3) { return 0.0f; }
 float PLifeModel_applyPLife(float result, void* a2, void* a3) { return 0.0f; }
 
 // 0x64c448 _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE22getRenderVertexStreamsEv
-void* RDB_NullColor_getRenderVertexStreams(void* result, void* a2) { return nullptr; }
+// Verified against Hex-Rays 0x64c448 (5 statements): v2 = *(void**)(a2 + 16); *result = v2;
+// if (v2) ++*(int*)v2; return result; 鈥?an intrusive_ptr copy of the render stream word at +0x10.
+// The stand-in holds the count at +0x00 of the target because that is what the listing increments.
+void* RDB_NullColor_getRenderVertexStreams(void* result, void* a2) {
+    void* stream = rd::stream(a2);
+    *static_cast<void**>(result) = stream;
+    if (stream) {
+        ++*static_cast<int*>(stream);
+    }
+    return result;
+}
 
 // 0x64c484 _ZNK6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE25getRenderBufferSizeNeededEv
-int RDB_NullColor_getRenderBufferSizeNeeded(const void* a1) { return 0; }
+// Verified against Hex-Rays 0x64c484: return *(_DWORD *)(a1 + 152); 鈥?the size needed word at +0x98.
+int RDB_NullColor_getRenderBufferSizeNeeded(const void* a1) {
+    return static_cast<int>(rd::sizeNeeded(a1));
+}
 
 // 0x64c49c _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE15initPRenderDataEPS2_SD_
+// Verified against Hex-Rays 0x64c49c: the body is a single `;`, i.e. empty. The current signature is
+// the declaration's (no parameters), so the row is reconstructed as an empty body.
 void RDB_NullColor_initPRenderData() {}
 
 // 0x64c4b0 _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE22getRenderVertexStreamsEv
-void* RDB_BillboardColor_getRenderVertexStreams(void* result, void* a2) { return nullptr; }
+// Verified against Hex-Rays 0x64c4b0: byte-for-byte the same body as 0x64c448 (the billboard-colour
+// instantiation differs only in its vtable and its baker types, neither of which the body reads).
+void* RDB_BillboardColor_getRenderVertexStreams(void* result, void* a2) {
+    void* stream = rd::stream(a2);
+    *static_cast<void**>(result) = stream;
+    if (stream) {
+        ++*static_cast<int*>(stream);
+    }
+    return result;
+}
 
 // 0x64c4ec _ZNK6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE25getRenderBufferSizeNeededEv
-int RDB_BillboardColor_getRenderBufferSizeNeeded(const void* a1) { return 0; }
+// Verified against Hex-Rays 0x64c4ec: return *(_DWORD *)(a1 + 152); 鈥?same body as 0x64c484.
+int RDB_BillboardColor_getRenderBufferSizeNeeded(const void* a1) {
+    return static_cast<int>(rd::sizeNeeded(a1));
+}
 
 // 0x64c504 _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE15initPRenderDataEPS2_SD_
+// Verified against Hex-Rays 0x64c504: the body is a single `;`, i.e. empty, as 0x64c49c.
 void RDB_BillboardColor_initPRenderData() {}
 
 // 0x64c674 _ZN6glitch2ps22PSGenericPositionBakerINS0_9SParticleEE21convertVertexPositionEPKS2_jjRKNS_5video13SVertexStream10SMapBufferINS_4core8vector3dIfEEEE
@@ -107,16 +214,60 @@ int CParticleSystemSceneNode_onRegisterSceneNode(void* self) { return 0; }
 int CParticleSystemSceneNode_onAnimate(void* self, unsigned int a2) { return 0; }
 
 // 0x64dba0 _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE16deallocateBufferEv
-void RDB_BillboardColor_deallocateBuffer(void* a1) {}
+// Verified against Hex-Rays 0x64dba0 (5 statements): if the render buffer word at +0x90 is set AND the
+// ownership byte at +0x8c is set, PS_FREE it, clear the word and reset the stream's IBuffer with
+// (size 0, data null, 0). The IBuffer object is reached through the render stream at +0x10, whose
+// +0x14 holds it; reset is the IBuffer slot at vtable +0x34 with the original's four arguments.
+void RDB_BillboardColor_deallocateBuffer(void* a1) {
+    if (rd::buffer(a1) && rd::ownsBuffer(a1)) {
+        rd::psFree(rd::buffer(a1));
+        void* stream = rd::stream(a1);
+        rd::buffer(a1) = nullptr;
+        bufferReset(ibufferAt(stream), 0, nullptr, 0);
+    }
+}
 
 // 0x64dbe8 _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE15setRenderBufferEPvj
-void RDB_BillboardColor_setRenderBuffer(void* a1, void* a2, unsigned int a3) {}
+// Verified against Hex-Rays 0x64dbe8 (6 statements): only when the incoming pointer is non-null does it
+// deallocate the old buffer, store the new pointer at +0x90 and its size at +0x94, clear the ownership
+// byte at +0x8c and reset the stream's IBuffer with (size, data, 0). The null case does nothing.
+void RDB_BillboardColor_setRenderBuffer(void* a1, void* a2, unsigned int a3) {
+    if (!a2) {
+        return;
+    }
+    RDB_BillboardColor_deallocateBuffer(a1);
+    void* stream = rd::stream(a1);
+    rd::ownsBuffer(a1) = false;
+    rd::buffer(a1) = a2;
+    rd::bufferSize(a1) = a3;
+    bufferReset(ibufferAt(stream), a3, a2, 0);
+}
 
 // 0x64dc3c _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE16deallocateBufferEv
-void RDB_NullColor_deallocateBuffer(void* a1) {}
+// Verified against Hex-Rays 0x64dc3c: same body as 0x64dba0; the two instantiations in this cluster
+// differ only in their template arguments, which the body does not read.
+void RDB_NullColor_deallocateBuffer(void* a1) {
+    if (rd::buffer(a1) && rd::ownsBuffer(a1)) {
+        rd::psFree(rd::buffer(a1));
+        void* stream = rd::stream(a1);
+        rd::buffer(a1) = nullptr;
+        bufferReset(ibufferAt(stream), 0, nullptr, 0);
+    }
+}
 
 // 0x64dc84 _ZN6glitch2ps25PRenderDataBillboardModelINS0_9SParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE15setRenderBufferEPvj
-void RDB_NullColor_setRenderBuffer(void* a1, void* a2, unsigned int a3) {}
+// Verified against Hex-Rays 0x64dc84: same body as 0x64dbe8.
+void RDB_NullColor_setRenderBuffer(void* a1, void* a2, unsigned int a3) {
+    if (!a2) {
+        return;
+    }
+    RDB_NullColor_deallocateBuffer(a1);
+    void* stream = rd::stream(a1);
+    rd::ownsBuffer(a1) = false;
+    rd::buffer(a1) = a2;
+    rd::bufferSize(a1) = a3;
+    bufferReset(ibufferAt(stream), a3, a2, 0);
+}
 
 // 0x64dcd8 _ZN6glitch2ps24PSBillboardPositionBakerINS0_9SParticleEE28getPerParticleSystemPositionEPKNS0_16IParticleContextIS2_EEPKNS_4core8CMatrix4IfEE
 float PSBillboardPositionBaker_getPerParticleSystemPosition(void* a1, const void* a2) { return 0.0f; }

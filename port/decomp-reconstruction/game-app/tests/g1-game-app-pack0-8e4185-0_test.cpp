@@ -14,7 +14,16 @@
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/Gamepad.hpp"
 #include "dh2/GamepadTweaker.hpp"
+#include "dh2/MenuFX.hpp"
 #include "dh2/Point3D.hpp"
+
+// 0x7a9160 RenderFX::Find(char const*) is reconstructed in game-ui/src/n2-game-ui-RenderFX-849cdc-1.cpp and its
+// declaration now exists (game/include/dh2/RenderFX.hpp:160), so DebugCachedCharacter::RefreshCache(path, menu, root)
+// really calls it. That body dereferences m_root (`m_root->m_movie`, `m_root->get_root_movie()`), and a test MenuFX has
+// no gameswf root movie to load, so the lookup cannot be driven here. This is the same test seam the sibling game-ui
+// tests use (g1-game-ui-SWFAnimManager-c5dc0b-0_test.cpp:65). Returning null keeps the cache empty, which is what the
+// batch body does when the path is not found; the path/menu/root stores below are still the real body's.
+gameswf::as_object* RenderFX::Find(const char*) { return nullptr; }
 
 // Declarations as in the batch source (core-platform/memory.hpp), and the definitions they need here.
 enum MemoryHintState : int {
@@ -183,10 +192,13 @@ static void TestDebugCachedCharacter() {
     CHECK(c.m_menu == nullptr);
     CHECK(c.GetChar() == nullptr);
 
-    // The lookup is not reproduced (RenderFX::Find is not declared), so the cache stays empty.
-    c.RefreshCache("menu/item", nullptr, nullptr);
+    // The lookup returns null through the RenderFX::Find seam above, so the cache stays empty. A null menu must not be
+    // passed: the reconstructed body calls menu->Find(path), which needs a real MenuFX to dispatch on.
+    static MenuFX menu;
+    c.RefreshCache("menu/item", &menu, nullptr);
     CHECK(c.m_path == "menu/item");
     CHECK(c.GetChar() == nullptr);
+    CHECK(c.m_menu == &menu);
 
     DebugCachedCharacter d(nullptr);
     CHECK(d.m_character == nullptr);

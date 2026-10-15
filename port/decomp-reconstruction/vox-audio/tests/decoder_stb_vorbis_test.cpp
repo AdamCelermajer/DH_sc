@@ -43,8 +43,12 @@ struct stb_vorbis {
     int channels = kChannels;
 };
 
+// The signature must match stb_vorbis_api.hpp exactly. It is declared non-const there because that is
+// the binary's mangled name (_Z20stb_vorbis_open_filePN3vox21StreamCursorInterfaceEiPiP16stb_vorbis_alloc);
+// a `const stb_vorbis_alloc*` here is a DIFFERENT overload, so this fake would not define the symbol
+// DecoderStbVorbisCursor calls and the real vendored stb_vorbis_open_file would be linked in instead.
 stb_vorbis* stb_vorbis_open_file(vox::StreamCursorInterface* stream, int close_on_free, int* error,
-                                 const stb_vorbis_alloc* alloc) {
+                                 stb_vorbis_alloc* alloc) {
     (void)stream;
     (void)close_on_free;
     (void)alloc;

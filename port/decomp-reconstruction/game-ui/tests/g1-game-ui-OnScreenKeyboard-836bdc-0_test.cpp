@@ -12,6 +12,8 @@
 
 #include "core-platform/lc_api.hpp"
 #include "dh2/EventManager.hpp"
+#include "dh2/EvKeyboard.hpp"
+#include "dh2/EvTouchScreenPress.hpp"
 #include "dh2/IEvent.hpp"
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/OnScreenKeyboard.hpp"
@@ -59,12 +61,6 @@ bool EventManager::Detach(int eventId, IEventReceiver* receiver) {
 
 static EventManager* g_test_dword_99F740 = &g_manager;
 EventManager*& dword_99F740 = g_test_dword_99F740;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
-
-// An event with a settable id, for the onEvent gate.
-class TestEvent : public IEvent {
-public:
-    explicit TestEvent(std::uint32_t id) : IEvent(id) {}
-};
 
 // ----- Checks -----
 
@@ -177,8 +173,8 @@ void TestReleaseKeyboard() {
 
 void TestOnEventGate() {
     ResetState();
-    TestEvent keyboardEvent(0);
-    TestEvent otherEvent(5);
+    EvKeyboard keyboardEvent(0, 65, true, false, false);   // id 0, 'A' pressed: handled
+    EvTouchScreenPress otherEvent(1, 2, 3, true);          // id 4: not handled, before any field is read
     // Event id 0 is handled (the original returns 1 on every path for it).
     CHECK(OnScreenKeyboard::s_inst.onEvent(&keyboardEvent, nullptr) == true);
     // Any other id is not handled, before the event fields are read.

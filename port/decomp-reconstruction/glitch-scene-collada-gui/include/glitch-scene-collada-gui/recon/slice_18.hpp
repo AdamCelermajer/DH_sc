@@ -131,11 +131,17 @@ void GNPSSizeModel_initPSize(const float* model, float* first, float* last, PSRa
 void GNPSLifeModel_initPLife(const float* model, float* first, float* last, PSRandom* random, PSDrawFn draw);
 void PRenderDataBillboardModel_initPRenderData(void* self, float* first, float* last);
 
+// 0x63877c _ZN6glitch2ps25PRenderDataBillboardModelINS0_12GNPSParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE15initPRenderDataEPS2_SD_
+//   PRenderDataBillboardModel::initPRenderData (both template instances): empty body.
+void PRenderDataBillboardModel_initPRenderData(void* self, float* first, float* last);
+
 // ---- group 4: partial stubs (simplified signatures) --------------------------
 void IParticleSystem_init(void* self);
 void GNPSColorModel_initPColor(void* self, float* first, float* last);
 void PEmitterModel_initPPosition(void* self, float* first, float* last);
-void PRenderDataBillboardModel_getRenderVertexStreams(void* self, void* result);
+// 0x638728 / 0x638790 getRenderVertexStreams: writes the render stream word into `result` and
+// increments its count; returns `result`, as the original's sret slot does.
+void* PRenderDataBillboardModel_getRenderVertexStreams(void* self, void* result);
 std::uint32_t PRenderDataBillboardModel_getRenderBufferSizeNeeded(const void* self);
 void PSGenericPositionBaker_convertVertexPosition(void* self, float* first, float* last);
 void GNPSLifeModel_applyPLife(void* self, float* first, float* last);

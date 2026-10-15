@@ -185,10 +185,15 @@ void GS_InterruptLoading::Update(StateMachine*, double) {
     // CTextureManager::getTexture(char const*, char const*) (0x5ed210, texture_manager.hpp:108) reached through
     // driver +0xe0. glitch-video/c2d_driver.hpp declares C2DDriver with none of those slots, so the same one-line
     // retype in glitch-core-io/os/device.hpp that unblocks Draw unblocks this row too.
-    if (firstframe > 1 || firstframe != 1) {
+    // The guard is `firstframe < 1`: the function counts firstframe up and then runs the driver and texture work for
+    // every frame from 1 on (asm: `CMP R3,#1` 0x4179dc, `BLE loc_417A44` 0x4179e8, `BNE loc_417A5C` 0x417a44, and the
+    // fall-through at loc_417A48 `ADD R3,R3,#1; STR R3,[R2]` before the return at loc_417a58). The earlier
+    // `firstframe > 1 || firstframe != 1` always returned and nothing was ever counted, so Draw's body (which runs only
+    // when `firstframe > 1`, 0x41747c/0x417484) was unreachable.
+    if (firstframe < 1) {
         return;
     }
-    ++firstframe;  // frame 0 only counts up (LABEL_6); frame 1 follows under the retype above
+    ++firstframe;  // loc_417A48
 }
 
 // 0x417fe8 GS_InterruptLoading::Dtor(StateMachine const*)

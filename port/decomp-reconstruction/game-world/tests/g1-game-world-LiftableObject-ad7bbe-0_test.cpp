@@ -3,13 +3,16 @@
 // The batch's translation unit defines the LiftableObject vtable (its key function is the destructor), so it refers to
 // the GameObject, ObjectBase, VisualObject, PhysicalObject and PFWorld functions the vtable lists. Those are stubbed
 // here; each stub only records the call. The LiftableObject storage is zero-filled and never constructed, and every call
-// on it is qualified (non-virtual), so no vtable is read. Virtual calls (AnimController::PlayClip, ISceneNode::addChild,
-// SetVisible on a live object) are not reachable without a constructed object, so Drop, PickUp's attach and InitPost's
-// visual branch are not run here; their guard paths are.
+// on it is qualified (non-virtual), so no vtable is read. The visual's scene node is a real glitch::scene::ISceneNode
+// subclass (FakeNode below): Release calls getAbsolutePosition and addChild through the node's vptr, so a zeroed buffer
+// cannot stand in for it. Virtual calls on the visual itself (AnimController::PlayClip, SetVisible on a live object) are
+// not reachable without a constructed object, so Drop, PickUp's attach and InitPost's visual branch are not run here;
+// their guard paths are.
 
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <new>
 
 #include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
@@ -17,9 +20,11 @@
 #include "dh2/PFWorld.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/RootSceneNode.hpp"
+#include "dh2/SceneManager.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 // ---- symbols the batch refers to (engine assert level and the shared origin) ----
@@ -49,9 +54,40 @@ struct Calls {
     bool meetConditionResult = true;
     Point3D<float> visualPosition{1.0f, 2.0f, 3.0f};
     glitch::core::vector3d<float> absolute{7.0f, 8.0f, 9.0f};
+    int addChild = 0;
+    glitch::scene::ISceneNode* lastAddedChild = nullptr;
 };
 
 Calls g_calls;
+
+// A real scene node: Release attaches the visual's node to the scene root with addChild, a virtual slot (ISceneNode
+// +0x5c), so the object stored at the visual's m_node must carry a live vtable. The engine's own ISceneNode base body
+// runs (the fake only records the attach); the root it is attached to is the node DeviceSceneManager() reaches below.
+class FakeNode : public glitch::scene::ISceneNode {
+public:
+    FakeNode()
+        : glitch::scene::ISceneNode(0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                    glitch::core::quaternion{}, glitch::core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+
+    void render(void*) override {}
+    const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box_; }
+    // getAbsolutePosition is NON-virtual (ISceneNode.hpp:215), so Release's call on an ISceneNode* is a direct call,
+    // not a vtable slot; ISceneNode::getAbsolutePosition itself is stubbed in this file and records the call.
+    void addChild(glitch::scene::ISceneNode* child) override {
+        ++g_calls.addChild;
+        g_calls.lastAddedChild = child;
+    }
+
+private:
+    glitch::core::aabbox3d<float> box_{};
+};
+
+// The scene manager the unit reaches through DeviceSceneManager(): a zeroed block (the unit writes nothing into it)
+// whose rootNode is the node the fake node is added to. Raw storage, so no SceneManager constructor runs.
+alignas(SceneManager) unsigned char g_sceneManagerStorage[sizeof(SceneManager)];
+SceneManager* FakeSceneManager() {
+    return reinterpret_cast<SceneManager*>(g_sceneManagerStorage);
+}
 
 }  // namespace
 
@@ -217,6 +253,7 @@ alignas(LiftableObject) unsigned char g_objectStorage[sizeof(LiftableObject)];
 alignas(VisualObject) unsigned char g_visualStorage[sizeof(VisualObject)];
 alignas(GameObject) unsigned char g_ownerStorage[sizeof(GameObject)];
 alignas(RootSceneNode) unsigned char g_nodeStorage[sizeof(RootSceneNode)];
+alignas(RootSceneNode) unsigned char g_rootStorage[sizeof(RootSceneNode)];
 unsigned char g_physicalStorage[64];
 unsigned char g_otherStorage[64];
 
@@ -240,6 +277,16 @@ std::uint32_t Bits(float value) {
 bool SamePoint(const Point3D<float>& a, const Point3D<float>& b) {
     return a.X == b.X && a.Y == b.Y && a.Z == b.Z;
 }
+
+}  // namespace
+
+// DeviceSceneManager(): the unit's scene manager (VisualObject-0654b6-2.cpp reads IDevice +0x1c). The test gives it the
+// zeroed block above so Release's `rootNode->addChild(...)` lands on the fake root instead of a null manager.
+SceneManager* DeviceSceneManager() {
+    return FakeSceneManager();
+}
+
+namespace {
 
 // ---- tests ----
 
@@ -334,13 +381,21 @@ void TestUpdate() {
 void TestRelease() {
     LiftableObject* obj = FreshObject();
     VisualObject* visual = FreshVisual();
+    // Release reaches the visual's node through the vptr (getAbsolutePosition) and then attaches it to the scene root
+    // with addChild. The node and the root are both real ISceneNode subobjects.
     std::memset(g_nodeStorage, 0, sizeof g_nodeStorage);
-    visual->m_node = reinterpret_cast<RootSceneNode*>(g_nodeStorage);
+    FakeNode* node = new (g_nodeStorage) FakeNode();
+    visual->m_node = reinterpret_cast<RootSceneNode*>(node);
     obj->m_visualObject = visual;
     obj->m_physicalObject = reinterpret_cast<PhysicalObject*>(g_physicalStorage);
     obj->m_owner = reinterpret_cast<GameObject*>(g_otherStorage);
     obj->m_baseScale = Point3D<float>{4.0f, 5.0f, 6.0f};
     obj->m_dropping = true;
+    std::memset(g_sceneManagerStorage, 0, sizeof g_sceneManagerStorage);
+    SceneManager* sceneManager = FakeSceneManager();
+    std::memset(g_rootStorage, 0, sizeof g_rootStorage);
+    FakeNode* root = new (g_rootStorage) FakeNode();
+    sceneManager->rootNode = root;
 
     obj->LiftableObject::Release();
     EXPECT(obj->m_owner == nullptr);
@@ -355,6 +410,8 @@ void TestRelease() {
     EXPECT(g_calls.validate == 1);
     EXPECT(g_calls.sync == 1);
     EXPECT(g_calls.enableFilter == 1);
+    EXPECT(g_calls.addChild == 1);
+    EXPECT(g_calls.lastAddedChild == static_cast<glitch::scene::ISceneNode*>(node));
 }
 
 void TestInitPostGuards() {

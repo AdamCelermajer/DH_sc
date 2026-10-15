@@ -126,12 +126,17 @@ static void checkVisitEnter() {
     }
 
     // Nested at depth 2 with one attribute: two tabs before the name, three before the attribute.
+    // The attribute must come from the element's own TiXmlAttributeSet. TiXmlAttribute::Next (0x483ac8, tinyxml.cpp:1174)
+    // walks the circular list and decides "end" by looking at the *next* attribute's name and value ("We are using
+    // knowledge of the sentinel"), so it dereferences next unconditionally: a standalone TiXmlAttribute has no sentinel
+    // and its next is not a valid attribute, which is a null dereference inside Next. Attaching the attribute puts the
+    // sentinel at the end of the list and makes Next return null there, which is the case this check is about.
     {
         TiXmlPrinterDH p;
         p.depth = 2;
-        TiXmlAttribute k("k", "v");
         TiXmlElement item("item");
-        CHECK(p.VisitEnter(item, &k));
+        item.SetAttribute("k", "v");
+        CHECK(p.VisitEnter(item, item.FirstAttribute()));
         CHECK(p.buffer == "\t\t<item\n\t\t\tk=\"v\"\n />\n");
         CHECK(p.depth == 3);
     }

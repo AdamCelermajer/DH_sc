@@ -493,7 +493,12 @@ boost::intrusive_ptr<IMesh> createMeshCopy(const boost::intrusive_ptr<IMesh>& me
         result->addMeshBuffer(copy, mesh->getMaterial(index), mesh->getMaterialVertexAttributeMap(index));
     }
     result->setBoundingBox(mesh->getBoundingBox());
-    return boost::intrusive_ptr<IMesh>(result.get());
+    // The listing's tail (0x59b7c8..0x59b814) is
+    //   result->setBoundingBox(mesh->getBoundingBox());  *a1 = result.px; ++result->referenceCounter; drop(result.px);
+    // i.e. it returns the local handle through the intrusive_ptr upcast, which adds a use, and only then drops the
+    // local's reference. Building the returned handle from result.get() (the single-argument, taking constructor)
+    // adds no use, so the local's destructor dropped the object's only reference and the caller held a freed CMesh.
+    return result;
 }
 
 // 0x59ba3c _ZN6glitch5scene22createMeshWith2TCoordsERKN5boost13intrusive_ptrINS0_5IMeshEEEPNS_5video12IVideoDriverE

@@ -17,9 +17,11 @@
 #include <string>
 
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/ConditionList.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
 #include "dh2/PropertyMap.hpp"
 #include "dh2/ScriptManager.hpp"
 #include "dh2/TriggerObject.hpp"
@@ -62,8 +64,14 @@ alignas(Application) unsigned char g_appStorage[sizeof(Application)];
 alignas(PlayerInfo) unsigned char g_playerStorage[sizeof(PlayerInfo)];
 PlayerInfo* g_localPlayer = reinterpret_cast<PlayerInfo*>(g_playerStorage);
 
-// Two byte-sized stand-ins whose addresses are only compared (never dereferenced) by the tested paths.
-unsigned char g_fakeCharacter = 0;
+// Two addresses whose objects the tested paths READ: TestInteractiveCond reads the local player's Character and the
+// Character's PlayerSavegame (m_savegame, +0x14e8, and its m_questSynced byte, +0x14). Both are therefore full objects:
+// zero-filled storage sized for the real class, with only the member the condition tests written. g_fakeStream is an
+// address-only stand-in for the IStreamBase of Serialize.
+alignas(Character) unsigned char g_characterStorage[sizeof(Character)];
+Character* g_character = reinterpret_cast<Character*>(g_characterStorage);
+alignas(PlayerSavegame) unsigned char g_savegameStorage[sizeof(PlayerSavegame)];
+PlayerSavegame* g_savegame = reinterpret_cast<PlayerSavegame*>(g_savegameStorage);
 unsigned char g_fakeConditionStorage[sizeof(ConditionList)];
 unsigned char g_fakeStream = 0;
 
@@ -263,13 +271,35 @@ void TestInteractiveCondNoCharacter() {
 
 void TestInteractiveCondWithCharacter() {
     TriggerObject* o = Fresh();
-    g_localPlayer->unk_660 = reinterpret_cast<Character*>(&g_fakeCharacter);  // the savegame gate is not bound
-    o->m_unlocked = false;
+    // With a local character the object is locked unless that character has a savegame whose quest-sync byte (+0x14) is
+    // set: the listing (0x3993bc) tests `!character || (character->m_savegame && character->m_savegame->m_questSynced)`
+    // before it looks at the unlock ConditionList. The savegame gate is therefore the state under test here.
+    std::memset(g_characterStorage, 0, sizeof g_characterStorage);
+    std::memset(g_savegameStorage, 0, sizeof g_savegameStorage);
+    g_localPlayer->unk_660 = g_character;
+
+    // No savegame yet: the gate is closed, so an unlocked object is locked again.
+    g_character->m_savegame = nullptr;
+    o->m_unlocked = true;
+    o->m_unlockConditions = nullptr;
     o->TestInteractiveCond();
     EXPECT(!o->m_unlocked);
+
+    // A savegame that is not quest-synced: the gate is still closed.
+    g_character->m_savegame = g_savegame;
+    g_savegame->m_questSynced = false;
     o->m_unlocked = true;
     o->TestInteractiveCond();
+    EXPECT(!o->m_unlocked);
+
+    // A quest-synced savegame opens the gate; with no unlock conditions the object unlocks and the idle sound is muted.
+    g_savegame->m_questSynced = true;
+    o->m_unlocked = false;
+    o->m_idleSoundMuted = 1;
+    o->TestInteractiveCond();
     EXPECT(o->m_unlocked);
+    EXPECT(o->m_idleSoundMuted == 0);
+
     g_localPlayer->unk_660 = nullptr;
 }
 

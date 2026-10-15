@@ -11,16 +11,104 @@
 #include "dh2/AnimController.hpp"
 #include "dh2/AnimatedFX.hpp"
 #include "dh2/VisualObject.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 // Global assert level read by AnimatedFX::ForceMaterial.
 int gAssertLevel = 0;
 
-// Link stubs for the non-virtual engine calls in the batch file (never reached here).
-glitch::collada::ISceneNodeAnimator* AnimController::GetAnim(unsigned int) {
-    return nullptr;
+// The animator and the timeline the loop-end checks need. _HandleLoopEnd (0x4927a4) runs its end-of-loop
+// callback and then reads the animator unconditionally (asm: four BL AnimatedFX::GetAnimator with no null
+// test, 0x492818 .. 0x492874), so the FX must have a visual whose controller returns an animator. The
+// original's GetAnimator is `m_visual->m_animController->GetAnim(0)`: the doubles below give the visual an
+// AnimController whose GetAnim answers with the animator, and the animator a timeline.
+namespace {
+
+class TestTimeline : public glitch::scene::ITimelineController {
+public:
+    float setClip(std::int32_t) override { return 0.0f; }
+    std::int32_t setClip(const char*) override { return -1; }
+    std::int32_t getClipIndex(const char*) const override { return -1; }
+    std::int32_t getClipCount() const override { return 0; }
+    std::uint32_t getClipStart(std::int32_t) const override { return 0; }
+    std::uint32_t getClipEnd(std::int32_t) const override { return 0; }
+    std::uint32_t getClipLength(std::int32_t) const override { return 0; }
+    std::uint32_t getCurrentClipStart() const override { return 0; }
+    std::uint32_t getCurrentClipEnd() const override { return 0; }
+    std::uint32_t getCurrentClipLength() const override { return 0; }
+    std::int32_t getCurrentClipIndex() const override { return -1; }
+    const char* getClipName(std::int32_t) const override { return ""; }
+    void setLoop(bool loop) override { loopSet = loop; ++setLoopCalls; }
+    void setRange(std::int32_t, std::int32_t, bool) override {}
+
+    int setLoopCalls = 0;
+    bool loopSet = false;
+};
+
+class TestAnimator : public glitch::collada::ISceneNodeAnimator {
+public:
+    explicit TestAnimator(TestTimeline* timeline) { timelineCtrl = timeline; }
+
+    void animateNode(glitch::scene::ISceneNode* node, std::uint32_t timeMs) override {
+        ++animateCalls;
+        lastNode = node;
+        lastTime = timeMs;
+    }
+    ISceneNodeAnimator* createClone() override { return nullptr; }
+    const glitch::collada::SChannel* getAnimationTrack(std::int32_t) override { return nullptr; }
+    glitch::collada::IAnimationTrackEx* getAnimationTrackEx(std::int32_t) override { return nullptr; }
+    void setTarget(std::int32_t, void*, const glitch::collada::animation_track::CApplicatorInfo*) override {}
+    const char* getBindURI(std::int32_t) override { return ""; }
+    std::int32_t getTargetCount() override { return 0; }
+    std::int32_t getTargetSize(std::int32_t) override { return 0; }
+    std::int32_t getTargetsSize() override { return 0; }
+    void getAnimationValue(std::int32_t, std::int32_t, void*) override {}
+
+    int animateCalls = 0;
+    glitch::scene::ISceneNode* lastNode = nullptr;
+    std::uint32_t lastTime = 0;
+};
+
+// An ISceneNode for the animator's animateNode; AnimatedFX never calls into it (it only passes m_visual->m_node,
+// which is a RootSceneNode* in this port, straight to animateNode).
+class TestNode : public glitch::scene::ISceneNode {
+public:
+    TestNode()
+        : ISceneNode(0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                     glitch::core::quaternion{0.0f, 0.0f, 0.0f, 1.0f}, glitch::core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+    void render(void*) override {}
+    const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box; }
+    glitch::core::aabbox3d<float> box{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
+};
+
+TestTimeline g_timeline;
+TestAnimator g_animator(&g_timeline);
+TestNode g_node;
+
+// The controller the visual's GetAnimator walks through. The base constructor asserts on a null node at every
+// level (0x474e44 falls through to the null dereference), and with trackEvents false its remaining work on the
+// node is the reference bump (0x474d30); nothing here reads a node method, and GetAnim is answered by the
+// double at the bottom of this file. The node is therefore writable storage big enough for the reference
+// counter the bump touches, and it is built on first use rather than in a static initializer.
+alignas(16) unsigned char g_fakeNode[64];
+
+AnimController* ControllerForTest() {
+    static AnimController* controller = new AnimController(reinterpret_cast<RootSceneNode*>(g_fakeNode), false);
+    return controller;
 }
 
-VisualObject::VisualObject(GameObject*, const std::string&, const std::string&) {}
+}  // namespace
+
+// The visual every AnimatedFX in this test gets: a real VisualObject shape with a live controller and node.
+// The batch builds one with operator new in Load (0x49296c); the checks here do not run Load, so the
+// constructor stands in. m_node is typed RootSceneNode* in VisualObject; nothing here ever treats it as one
+// (AnimatedFX only forwards it to the animator), so the ISceneNode test node stands in through a cast.
+VisualObject::VisualObject(GameObject*, const std::string&, const std::string&) {
+    m_animController = ControllerForTest();
+    m_node = reinterpret_cast<RootSceneNode*>(&g_node);
+}
 
 void VisualObject::SetScaling(const Point3D<float>&) {}
 
@@ -29,6 +117,12 @@ void VisualObject::SetScaling(const Point3D<float>&) {}
 VisualObject::~VisualObject() {}
 void VisualObject::Update() {}
 void VisualObject::Draw() const {}
+
+// Link stubs for the non-virtual engine calls in the batch file. GetAnim answers with the test animator so
+// AnimatedFX::GetAnimator (0x49267c, which forwards to it) is never null.
+glitch::collada::ISceneNodeAnimator* AnimController::GetAnim(unsigned int) {
+    return &g_animator;
+}
 
 namespace {
 
@@ -115,6 +209,7 @@ void TestLoopCountdown() {
 
 void TestLoopEndFinishSetsFlag() {
     AnimatedFX fx(0);
+    fx.Load("fx", "anim", 1.0f, 0, false);
     unsigned char setData[4] = {0, 0, 0, 0};
     fx.SetAnimFX(false, false, false, 1.0f, 0, setData, nullptr);
     fx.SetLooping(true);
@@ -126,6 +221,7 @@ void TestLoopEndFinishSetsFlag() {
 
 void TestLoopEndCallback() {
     AnimatedFX fx(0);
+    fx.Load("fx", "anim", 1.0f, 0, false);
     unsigned char setData[2] = {0, 0};
     g_callbackCalls = 0;
     g_callbackFx = nullptr;

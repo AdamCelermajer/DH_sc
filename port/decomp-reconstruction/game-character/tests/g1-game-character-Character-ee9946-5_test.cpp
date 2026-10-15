@@ -13,10 +13,17 @@
 #include <map>
 
 #include "dh2/Character.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"  // Arrays::ModelDict
 #include "pydata-accessors/w7_arrays27.hpp"
 
 std::map<int, Character*> Character::s_concurrentAI;
 std::map<int, unsigned int> Character::s_cachedCharOIDs;
+
+// AddCharOIDToCache walks Arrays::CharacterTable's rows for the new id's model word: its `members` array is a real
+// block here (w7_arrays27.cpp leaves it null until a table file has been read), so the body under test can run.
+std::int32_t g_charTableRows[1000];
+std::uint8_t* Arrays::CharacterTable::members = reinterpret_cast<std::uint8_t*>(g_charTableRows);
 std::uint32_t Arrays::CharacterTable::size = 1000;
 
 namespace {

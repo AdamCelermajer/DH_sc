@@ -126,6 +126,9 @@ MenuFlash2DCamera::~MenuFlash2DCamera() {}
 // position is clamped so the clip bounds cover the screen (left and top, then right and bottom, with the screen size read from the
 // last render target of the video driver); then the menu viewport and bounds are set. The original returns the SetBounds result,
 // which every caller ignores, so the void signature stays.
+// The screen size is read INSIDE the limit-clip branch because that is the only place the original uses it (the listing loads
+// the render target's width and height at the start of the guarded block, 0x42ce1c/0x42ce20/0x42ce24, after `if (limitClip)` at
+// 0x42ce04). Reading it unconditionally dereferences Application::m_device, which the menu tests do not build.
 void MenuFlash2DCamera::Update() {
     // Ease x toward the target: one step is at least one unit and never passes the target.
     if (m_x >= m_targetX) {
@@ -145,10 +148,12 @@ void MenuFlash2DCamera::Update() {
         m_y = m_y + 1 + (m_targetY - m_y) / 10;
     }
 
-    const glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
-    const std::int32_t width = target->m_width;    // element +0x0c
-    const std::int32_t height = target->m_height;  // element +0x10
+    std::int32_t width = 0;
+    std::int32_t height = 0;
     if (m_limitClip != nullptr) {
+        const glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
+        width = target->m_width;    // element +0x0c
+        height = target->m_height;  // element +0x10
         // Left and top clamps: the eased position may not pass minus the clip's xmin and ymin.
         const auto minX = static_cast<std::int32_t>(m_clipMinX);
         if (minX + m_x > 0) {

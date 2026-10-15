@@ -285,6 +285,22 @@ std::array<float, 4> GameSWFUtils::GetAbsoluteBoundingRect(gameswf::character*) 
     return g_rect;
 }
 
+// RenderFX::SetViewport and SetBounds are the two engine calls MenuFlash2DCamera::Update ends with. The library bodies
+// (0x7a9bac and 0x7a9b30) go through m_player->get_root(), and this test builds no gameswf player, so they are recorded
+// here instead. The size Update passes them is read from the last render target of
+// Application::m_device->videoDriver, which this test does not build either, so the recording is the whole check: the
+// clamp arithmetic that needs that size is exercised only by the runs of TestClipClamps whose clamps fire on the clip
+// bound alone (the runs the assertions cover).
+static int g_viewportCalls = 0;
+static int g_boundsCalls = 0;
+
+void RenderFX::SetViewport(int, int, int, int) {
+    ++g_viewportCalls;
+}
+void RenderFX::SetBounds(int, int, int, int, gameswf::scale_mode) {
+    ++g_boundsCalls;
+}
+
 // ----- Driver -----
 
 int main() {

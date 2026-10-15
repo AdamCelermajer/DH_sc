@@ -23,13 +23,90 @@ collada were mid-edit). Compare against a fresh run you take yourself, not again
 These are the reason several tests fail. Each is a case where the 32-bit original's storage cannot be
 expressed directly with host-width types, and a worker correctly stopped instead of inventing.
 
-1. **`CBatchSceneNode`'s visible-segment cache block** (`glitch-scene-collada-gui`). The visible-entry
-   records (20 bytes, `firstIndex` at +0x10) hold a WORD offset into the cache block at +0x154, and each
-   cache word is an `SSegment*`. In the 32-bit original a pointer is exactly one word; on this 64-bit host
-   a pointer does not fit, and `firstIndex`/`base` are word offsets so the `4 *` arithmetic cannot simply
-   become `8 *` without deciding what a "word" means. This is what segfaults
-   `glitch-scene-collada-gui/scene_batch_visible_test` in `computeMaxIndices`. Deciding it fixes that test
-   and unblocks the `registerSolidBatches`/`registerTransparentBatches` rows.
+### The two single classes that block the most rows
+
+- **`glitch::video::CBatchDriver` does not exist at all** (forward-declared only, at
+  `glitch-video/include/glitch-video/video_types.hpp:73`). It is the single biggest blocker in the tree:
+  it gates ~11 `glitch-scene-collada-gui` rows (CSceneManager's ctors/dtors 0x58d908 / 0x58ddd0 /
+  0x58ef00 / 0x58eb70 / 0x58ef1c, all six compile/compileInternal rows, and CBatchSceneNode's
+  registerSolidBatches / registerTransparentBatches / renderBatchBBoxes) plus `game-world`'s
+  `Level::_LoadBatching`. Reconstructing it is glitch-video's job and would be one of the highest-value
+  single tasks left.
+- **`CMaterialRendererManager::createMaterialRenderer` (0x5d8b28) has no body** (it is `skipped`). It
+  gates six CSkyBoxSceneNode / CBillboardTextSceneNode rows. NOTE: the older claim that the
+  material-parameter "seam" blocked them is STALE — `material.parameters.setParameter` stores into the
+  material's own value buffer now.
+- **`CVertexStreams::computeBoundingBox` (0x5a0ec0) is declared with no body** — the specific missing
+  item for `CBatchMesh::updateBoundingBox` (0x57a6d4) and `CMesh::recalculateBoundingBox` (0x6bc2cc).
+
+### Reusable recovery methods (both proved this session)
+
+- **A `getStringsInternal`-style table is always recoverable.** These functions are 2-3 instructions
+  returning a pointer to a file-local static table. `get_bytes` the returned address, then read each
+  pointer as a string. Two rows closed this way: `getStringsInternal(E_LIGHT_TYPE*)` 0x5a18a8 ->
+  table 0x99b5fc = {Point, Spot, Directional, Ambient, NULL}, and
+  `getStringsInternal(E_INTERPOLATION_MODE*)` 0x667c38 -> table 0x99b868 = {Default, Step, Linear}.
+- **When a note says a symbol's ADDRESS is unknown, look in the ELF symbol table**, not for a data
+  xref: find the symbol's NAME string, take the `Elf32_Sym` entry that references it, and read its
+  `st_value` field at entry offset +0x04. `_ZN3rnd19DIRECTION_OPPOSITESE` -> name at 0x121282 ->
+  Elf32_Sym at 0x56d98 -> st_value 0x999880 -> the four int32 {2,3,0,1} (now defined in
+  `game-app/src/rnd_direction_tables.cpp` with `sDirections`).
+- **A compiler-static data table in the shipped `.so` is `.bss`**: a raw `get_bytes` returns zeroes.
+  The values exist only as the explicit stores inside each function's one-time guard block, and the
+  compiler SHUFFLES the store order, so they must be decoded by tracking register constants across the
+  store run. Two generators were recovered this way (`createPlaneMesh` 0x9f7ec8, `createCubeMesh`
+  0x9f7f4c, 224 words total). `tools/trackb/listing_index.py` exists for a one-pass listing index,
+  because `decomp_asm.py` rescans 145 MB per address and is unusable in bulk.
+
+### Two wrong source comments that will mislead the next worker
+
+- `glitch-scene-collada-gui/src/scene/CSceneManager_virtuals.cpp:818` — the comment immediately above
+  `CSceneManager::clear` is a copy of **GSViewer::Dtor**'s (it quotes 0x3871c8 and the
+  `Application::m_device +0x10 / +0x1c` path). `CSceneManager::clear` 0x589888 is really
+  `rootNode->removeAll()` through the parent's vtable +0x64 plus erasing the vector at +0x90..+0x098.
+  The port's body is right; only the comment is wrong.
+- `glitch-scene-collada-gui/src/scene/CCameraSceneNode.cpp:93` — says "0x582254 ... D1Ev (skipped;
+  D0 0x35c318 likewise)", i.e. swapped. 0x35c318 is the D1 and 0x582254 is the D0.
+
+### Dead stand-ins that make rows look unreconstructed
+
+`glitch-scene-collada-gui/src/recon/slice_05.cpp` still carries stand-ins (`billboardOnRegisterSceneNode`,
+`billboardGetMaterial`, `billboardSetColor` x2, `billboardSetMaterial`, `billboardClone`,
+`lightSceneNodeCopyConstruct`, `lightSceneNodeConstruct`, `CLightSceneNode_ctor_C1/C2`,
+`lightSceneNodeClone`) for rows that are ALREADY live in `src/scene/`. They return null or do nothing,
+so a row screened by "is there a body?" looks unfinished when it is not.
+`tools/trackb/verify_rows.py` screens a ledger for exactly this: rows whose address appears ONLY under
+`src/recon/`, or whose body is empty or returns null. It found 17 false-positive `reconstructed` rows.
+
+### The rest
+
+1. **`CBatchSceneNode`'s visible-segment list** (`glitch-scene-collada-gui`) - CORRECTED and partly FIXED; a narrower
+   decision is still open. The list is NOT in the cache block at +0x154 (the previous round assumed it was):
+   computeMaxIndices 0x57e5b8 does `LDR R2,[R0,#0x158]` and 0x57e5cc `ADD R3, R2, R1,LSL#2` (R1 = record word +0x10,
+   firstIndex); updateIndices 0x57f740/0x57f75c forms the same address. `firstIndex` is therefore a WORD offset into the
+   +0x158 visible-ENTRY block, which holds the 20-byte records and, after them, each batch's array of
+   `CBatchMesh::SSegment*`. +0x154 is only the index-data cache: 12-byte slots {count, capacity, base}, word 1 = the
+   batch's OWN mesh-buffer index count (0x57ecc8: `SBatch +0x00` -> `CMeshBuffer +0x20`), word 2 = the running offset
+   into the index area.
+   Fixed from the listing: `visibleSegment()` read the +0x154 block (now +0x158); `updateIndices` cleared a cache slot
+   instead of the record's flags word at +0x0C (0x57f800); `invalidateVisibleIndexCache` sized and offset the cache by
+   segment-info counts instead of the batches' index counts (0x57ec48); `postCompile` never wrote +0x144 although the
+   listing stores the same value into +0x144 and +0x15C (0x57f000 / 0x57f06c). `scene_batch_visible_test` passes again
+   (option (i): the test stores its SSegment* values where the listing-backed reader looks, `4 * firstIndex` BYTES into
+   the +0x158 block, and its cache-slot / `updateIndices` expectations were corrected to the listing).
+   STILL OPEN (this is the decision): in the 32-bit original one SSegment* is exactly one word, so a list of N entries
+   occupies N words and postCompile 0x57ef64 (and invalidate 0x57eca8 for the index base) advances the next offset by one
+   word per entry. On this 64-bit host a pointer is 8 bytes, so the +0x158 allocation - 4 * (20 * batchCount +
+   totalSegments) bytes, postCompile 0x57eecc - has 4 bytes per list entry where each entry needs 8: postCompile
+   UNDER-ALLOCATES (once something writes the lists that is a heap overflow, not merely an overlap) and two batches whose
+   lists are both non-empty overlap. Nothing writes those lists yet (`addVisibleSegments` is `skipped`, `onRegisterSceneNode`
+   only forwards to the base), so no current test and no game path exercises it; the port keeps the original's word offsets
+   with host-width elements (see the comments in `src/scene/CBatchSceneNode.cpp` and its header). The choice to make before
+   `addVisibleSegments` / `onRegisterSceneNode` can be written:
+   (a) double the offsets (firstIndex and the cache slot bases advance 2 words per entry and the allocation doubles),
+   (b) store a one-word segment index instead of a pointer (keeps every listing offset literally true; costs a lookup), or
+   (c) keep the pointers in a separate host-width array with the +0x158 words as indices into it. (b) is the only one that
+   leaves the original's arithmetic untouched.
 2. **`IDevice`'s virtual order** (`glitch-core-io/os/device.hpp`). The binary is +0x0c `yield()`,
    +0x10 `CAndroidOSDevice::sleep(unsigned int, bool)` (0x6a0434), +0x14 getVideoModeList, ...,
    +0x30 closeDevice. The port declares a different order and has neither `yield` nor `sleep`, so its
@@ -61,7 +138,8 @@ expressed directly with host-width types, and a worker correctly stopped instead
 
 ## Known-failing tests and what each actually needs
 
-- `glitch-scene-collada-gui/scene_batch_visible_test` - design question 1.
+- `glitch-scene-collada-gui/scene_batch_visible_test` - FIXED (design question 1: the list is in the +0x158 block, see
+  the corrected item 1 under "The rest"; the test now passes and the remaining decision there is the writer side).
 - `net-session-online/r1n-...-CMatching-9acceb-0/1_test` - assertions on
   `CMatching::GetMemberIdByIndex(32)` and `RoomNetEnabled`; same batch as the record types.
 - `game-world/g1-game-world-CameraBase-b32e3c-0_test`, `CameraTarget-255099-0_test`,
@@ -133,4 +211,12 @@ reaches the Application singleton and changes what the test observes.
   member disappear) while its tests still assumed the old shape. `filesystem_base.hpp` /
   `_FileHandle::obfuscated_` and `cmatching_local_*.hpp` both did this. When a header changes, compile the
   TESTS, not just the sources.
+- **A returned `intrusive_ptr` built from a local handle's `.get()` is a dangling pointer, not a reference transfer.**
+  The port's `intrusive_ptr(T*)` takes the reference it is given and adds no use, and the glitch objects are born with
+  count 0 (`CMesh::CMesh` clears +0x04, so `intrusive_ptr<CMesh> result(new CMesh(), true)` leaves count 1). So
+  `return boost::intrusive_ptr<IMesh>(result.get());` lets `result`'s destructor delete the object and hands the caller
+  freed memory; the listing's tail (`*a1 = v60; ++count; drop(v60)`, e.g. 0x59b7c8..0x59b814) is the intrusive_ptr
+  UPCAST, i.e. `return result;`. Three rows had it - `createMeshCopy` 0x59b2a4, `createPlaneMesh` 0x6d72d0,
+  `createCubeMesh` 0x6d8cb4 - and it segfaulted `scene_mesh_functions_test` at `copy->getMeshBufferCount()`. Those three
+  are fixed; a `.get()` in a `return boost::intrusive_ptr<...>` is the shape to grep for.
 

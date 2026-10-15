@@ -22,6 +22,7 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ScriptManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/net_singletons.hpp"  // GetOnlineGameFlag
 #include "pydata-accessors/w7_pydata12.hpp"
 
 int gAssertLevel = 0;
@@ -79,6 +80,11 @@ int PyDataConstants::getConstant(const char*, const char*) const { return 50; }
 Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }
 bool Application::IsSavedOptionOn(const char* name) { return std::string(name) == "GOD_MANA" && g_godManaOption; }
 bool Application::IsOnlineGame() { return g_onlineGame; }
+
+// The online-game byte (COnline +0x05). The library definition (game-app/src/online_flag.cpp) reads it through
+// GetOnline(), which this test does not build, so the flag comes from the test's own variable instead. UseMana and
+// HasMana both take the online branch off this byte.
+bool GetOnlineGameFlag() { return g_onlineGame; }
 
 DebugSwitches* DebugSwitches::GetInstance() { return reinterpret_cast<DebugSwitches*>(g_dbgStorage); }
 void DebugSwitches::load() { ++g_loads; }

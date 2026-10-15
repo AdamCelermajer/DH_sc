@@ -9,6 +9,21 @@ namespace glitch::collada::recon_18 {
 
 namespace {
 
+// glitch::ps::PRenderDataBillboardModel<...>. The class has no member layout in the layout headers,
+// so the object stays opaque (void*) and each recovered body reads the word it proved, through these
+// offset accessors. They use the ORIGINAL 32-bit offsets directly, so the host pointer width does not
+// shift anything: the stream word is at +0x10, the size-needed word at +0x98.
+namespace rd {
+
+inline void* stream(void* self) {  // +0x10, intrusive_ptr target (its count is at target +0x00)
+    return *reinterpret_cast<void**>(static_cast<char*>(self) + 0x10);
+}
+inline std::uint32_t sizeNeeded(const void* self) {  // +0x98
+    return *reinterpret_cast<const std::uint32_t*>(static_cast<const char*>(self) + 0x98);
+}
+
+}  // namespace rd
+
 struct Vec3 {
     float x, y, z;
 };
@@ -262,13 +277,16 @@ std::size_t CGlitchNewParticleSystemSceneNode_getParticleCount(const void*) {
 }
 
 // 0x637cf4 _ZN6glitch2ps12GNPSParticleC1ERKS1_
-//   GNPSParticle::GNPSParticle(const GNPSParticle&): 39 words copied in order.
+//   GNPSParticle::GNPSParticle(const GNPSParticle&). Verified against Hex-Rays 0x637cf4: thirty-nine
+//   consecutive word copies, dst[0..38] = src[0..38], and no other statement. The port's record is the
+//   same 39-word (156-byte) image, so one memcpy is the same operation.
 void GNPSParticle_copy(float* dst, const float* src) {
     std::memcpy(dst, src, kGNPSParticleFloats * sizeof(float));
 }
 
 // 0x637e30 _ZN6glitch2ps12GNPSParticleaSERKS1_
-//   GNPSParticle::operator=: same 39-word copy.
+//   GNPSParticle::operator=. Verified against Hex-Rays 0x637e30: byte-for-byte the same 39-word copy
+//   as the copy constructor, returning the destination.
 void GNPSParticle_assign(float* dst, const float* src) {
     std::memcpy(dst, src, kGNPSParticleFloats * sizeof(float));
 }
@@ -326,18 +344,27 @@ void GNPSColorModel_initPColor(void*, float*, float*) {}
 //   PEmitterModel::initPPosition (partial: emitter shape dispatch not modelled)
 void PEmitterModel_initPPosition(void*, float*, float*) {}
 
+// 0x638728 _ZN6glitch2ps25PRenderDataBillboardModelINS0_12GNPSParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE22getRenderVertexStreamsEv
 // 0x638790 _ZN6glitch2ps25PRenderDataBillboardModelINS0_12GNPSParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE22getRenderVertexStreamsEv
-// 0x6387cc _ZNK6glitch2ps25PRenderDataBillboardModelINS0_12GNPSParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE25getRenderBufferSizeNeededEv
-//   era getRenderVertexStreams (rows 42 and 45, both template instances) (partial:
-// the buffer reference copy at +16 is not modelled)
-void PRenderDataBillboardModel_getRenderVertexStreams(void*, void*) {}
+//   Verified against Hex-Rays (both addresses, identical bodies): the render stream word at +0x10 is
+//   copied into the sret slot and its reference count at target +0x00 is incremented when non-null.
+//   The previous note blamed the "+16 reference copy" for blocking the row; it is a plain word copy
+//   plus an increment, and that is what is written here.
+void* PRenderDataBillboardModel_getRenderVertexStreams(void* self, void* result) {
+    void* stream = rd::stream(self);
+    *static_cast<void**>(result) = stream;
+    if (stream) {
+        ++*static_cast<int*>(stream);
+    }
+    return result;
+}
 
 // 0x638764 _ZNK6glitch2ps25PRenderDataBillboardModelINS0_12GNPSParticleENS0_27PSNullShaderParametersBakerENS0_16PSNullColorBakerIS2_EENS0_20PSGenericNormalBakerIS2_EENS0_22PSGenericPositionBakerIS2_EENS0_23PSGenericTexCoordsBakerIS2_EEE25getRenderBufferSizeNeededEv
 // 0x6387cc _ZNK6glitch2ps25PRenderDataBillboardModelINS0_12GNPSParticleENS0_27PSNullShaderParametersBakerENS0_21PSBillboardColorBakerIS2_EENS0_22PSBillboardNormalBakerIS2_EENS0_24PSBillboardPositionBakerIS2_EENS0_25PSBillboardTexCoordsBakerIS2_EEE25getRenderBufferSizeNeededEv
-//   getRenderBufferSizeNeeded (rows 43 and 46, both template instances)
-// Partial: returns the member at +152; the stand-in does not expose that member.
-std::uint32_t PRenderDataBillboardModel_getRenderBufferSizeNeeded(const void*) {
-    return 0;
+//   Verified against Hex-Rays (both addresses): return *(_DWORD *)(a1 + 152); — the word at +0x98.
+//   The old note claimed the stand-in "does not expose member +152"; the view above names it.
+std::uint32_t PRenderDataBillboardModel_getRenderBufferSizeNeeded(const void* self) {
+    return rd::sizeNeeded(self);
 }
 
 // 0x638954 _ZN6glitch2ps22PSGenericPositionBakerINS0_12GNPSParticleEE21convertVertexPositionEPKS2_jjRKNS_5video13SVertexStream10SMapBufferINS_4core8vector3dIfEEEE

@@ -282,6 +282,16 @@ void ReleaseJobThreads() {
 }  // namespace
 
 int main() {
+    // The library's own Singleton<Application>::s_inst (game-app/src/Globals.cpp:22) runs Application::Application()
+    // from a static initializer before main, so it has already made its five CustomAlloc calls by the time the test's
+    // own placement-new runs. Resetting the recorder here makes the checks below describe only the construction this
+    // test performs, which is what TestJobThreadAllocations/Pointers/Objects/Guards mean by "the constructor".
+    g_allocCalls = 0;
+    for (int i = 0; i < kJobCount; ++i) {
+        g_allocSizes[i] = 0;
+        g_allocBlocks[i] = nullptr;
+    }
+
     std::memset(g_storage, 0xAB, sizeof g_storage);
     Application* app = new (g_storage) Application();
 

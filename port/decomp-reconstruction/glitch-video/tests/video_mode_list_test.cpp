@@ -29,7 +29,12 @@ int main() {
     added.addMode({800, 600}, 32);                     // duplicate: ignored
     added.addMode({800, 600}, 16);                     // same size, other depth: kept
     CHECK(added.getVideoModeCount() == 2);
-    CHECK(added.getVideoModeDepth(1) == 16);
+    // 0x6dae90 appends the 16-bit mode (the 32-bit duplicate was rejected) and then heapsorts the whole list with
+    // SVideoMode::operator< (0x6dac5c: width, then height, then depth, each ascending), so the 16-bit entry sorts
+    // first; the 32-bit one is second. The old check here read depth(1) as 16, which is the pre-sort (insertion)
+    // order the listing does not produce.
+    CHECK(added.getVideoModeDepth(0) == 16);
+    CHECK(added.getVideoModeDepth(1) == 32);
 
     std::printf("%s\n", failures ? "video_mode_list: FAILED" : "video_mode_list: ok");
     return failures != 0;

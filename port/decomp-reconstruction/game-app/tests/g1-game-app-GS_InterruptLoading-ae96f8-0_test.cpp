@@ -62,6 +62,14 @@ void ResetState() {
 
 void _DEBUG_OUT(const char*, ...) {}
 
+// 0x5338e8 nativeResumeMusicBG (core-platform/src/p1-core-platform-global-f216b6-3.cpp). The batch's Dtor calls it
+// whenever Musicplayerpause is set, so TestDtorReleasesSplashAndClearsFlags reaches it. The real body is the Android
+// JNI bridge, `mEnv->functions->CallStaticVoidMethod(mEnv, mClassMusicplayer, mMethodResumeMusicBG)`, and mEnv is null
+// in a host test (Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeInitplayer never runs), so the
+// unconditional dereference the original performs faults. The bridge is a test seam: this no-op stands in for it and
+// the Dtor behaviour the test checks (Musicplayerpause cleared, Resume_Sound_Interrupt raised) is unaffected.
+extern "C" void nativeResumeMusicBG() {}
+
 Application& ApplicationGetInstance() {
     return *PlaceholderApp();
 }
@@ -140,6 +148,10 @@ void TestDtorWithoutJavaSounds() {
 }
 
 void TestUpdateFrameCounter() {
+    // NOTE: the two "counts up" checks below fail. The batch body counts firstframe up (see its Update note and the
+    // ARM listing 0x4179c8: fall-through at loc_417A48 `ADD R3,R3,#1; STR R3,[R2]`), but this test cannot observe it -
+    // the firstframe it reads is the private copy its own translation unit got from including the batch source, while
+    // the Update/Draw the linker keeps are a second copy. See the batch report.
     ResetState();
     GS_InterruptLoading splash;
 

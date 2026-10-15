@@ -2,11 +2,19 @@
 // bodies of src/scene_nodes.cpp and the recon free-function stand-ins in src/recon/slice_05.cpp (getMesh, the render
 // registration helpers), slice_31.cpp (constructors, attribute slots, setup) and src/recon/v2/wave_02.cpp (getMesh).
 //
-// The visible-entry array (+0x158) is an array of SSegment POINTERS and a 32-bit word holds one exactly: the original is a
-// 32-bit ARM binary, so its pointers are four bytes. computeMaxIndices 0x57e5b4 reads a record word as an SSegment* and then
-// the segment's index range at +0x10 / +0x14; updateIndices 0x57f704 copies `2 * (indexEnd - indexBegin)` bytes per entry;
-// renderBatchBBoxes 0x57f21c reads the pointer's box at +0x0c. The class models that with SVisibleEntry (20 bytes, five words)
-// and CBatchMesh::SSegment (44 bytes, indexBegin at +0x10 and indexEnd at +0x14).
+// The visible-entry block (+0x158) is ONE allocation: 20 bytes of record per batch, then each batch's array of
+// CBatchMesh::SSegment pointers. The record's word +0x10 (firstIndex) is the WORD offset of that batch's array inside this
+// same block; computeMaxIndices 0x57e5b8 loads the block from +0x158 and forms the array address as `block + 4 * firstIndex`
+// (0x57e5cc), and updateIndices 0x57f740/0x57f75c does the same. The 12-byte slot table at +0x154 is the OTHER block: the
+// index-data cache (slot {count, capacity, base}); nothing in this file reads an SSegment* out of it.
+//
+// In the 32-bit original one SSegment* is exactly one word, so an array of `count` entries occupies `count` words and
+// postCompile 0x57ef64 advances the next batch's firstIndex by that count (invalidateVisibleIndexCache 0x57eca8 does the
+// same for the index-data base). On this 64-bit host an SSegment* is 8 bytes, so an array of `count` entries spans 2 * count
+// words while the offsets still advance one word per entry: two batches whose arrays are both non-empty therefore overlap.
+// The port keeps the original's word offsets and uses the host pointer width for the elements (visibleSegment below); the
+// open decision - whether to double the offsets, to store word indices instead of pointers, or to keep the pointers in a
+// separate host-width array - is recorded in TRACK-B-HANDOVER.md (question 1) and is not exercised by the tests.
 #include "glitch-scene-collada-gui/scene/CBatchSceneNode.hpp"
 
 #include <cstring>
@@ -32,6 +40,15 @@ const core::vector3d<float> kUnitScale{1.0f, 1.0f, 1.0f};
 // The index data of a visible segment: [indexBegin, indexEnd) of the segment record (SSegment +0x10 / +0x14).
 std::int32_t segmentIndexCount(const CBatchMesh::SSegment* segment) {
     return static_cast<std::int32_t>(segment->indexEnd) - static_cast<std::int32_t>(segment->indexBegin);
+}
+
+// The number of 16-bit indices a batch contributes to the +0x154 cache block: the batch's mesh buffer (SBatch +0x00) and its
+// primitive stream's element count (CMeshBuffer +0x20). invalidateVisibleIndexCache 0x57ec48 (the size sum) and 0x57ecc0..
+// 0x57ecc8 (each slot's word 1) both read it; the previous body used the batch's segment-info range instead, which sizes the
+// visible-entry block, not the index cache. The null guard is host necessitated: the original's invariant is that a batch
+// always has a mesh buffer, while the port's tests build batches with addBatch() alone.
+std::uint32_t batchIndexCount(const CBatchMesh::SBatch& batch) {
+    return batch.meshBuffer ? batch.meshBuffer->primitiveStream.m_count : 0u;
 }
 
 }  // namespace
@@ -203,22 +220,25 @@ void CBatchSceneNode::setup(bool flag, video::IVideoDriver* /*driver*/) {
 }
 
 // 0x57ee34 _ZN6glitch5scene15CBatchSceneNode11postCompileEv
-// The mesh buffer count drives everything. When the transparent base (+0x15c) is -1 it is recomputed: it starts at the batch
-// count and every batch whose material's first render pass has bit 16 of the second state word set lowers it by one (the
-// transparent batches sort to the end), leaving the first transparent batch index; the loop then ends.
-// The entry array (+0x158) is operator delete[]d and rebuilt as a block of 4 * (totalIndexCount + 20 * batchCount) bytes,
-// where totalIndexCount is the sum over the batches of (batch.endSegmentInfo - batch.firstSegmentInfo) - the count of segment
-// infos, which is what the batch-node index counts are expressed in. +0x13c and +0x140 are cleared. Each of the `batchCount`
-// 20-byte records gets {count = 0, indexBase = 0, tick = 1, flags = 1, firstIndex = running}, with `running` starting at
-// 20 * batchCount / 4 words (= the size of the record array) and advanced by that batch's segment-info count; each batch's
-// material decides whether its (buffer's vertex attribute map) size raises +0x13c (solid) or +0x140 (transparent). The body
-// ends with invalidateVisibleIndexCache(0xFFFFFFFF).
+// The mesh buffer count drives everything. When the solid batch count (+0x144) is -1 it is recomputed (loc_57EFCC): it
+// starts at the batch count and every batch whose material's first render pass has bit 16 of the second state word set
+// lowers it by one (the transparent batches sort to the end), leaving the first transparent batch index; the same value is
+// stored into the transparent base (+0x15c, 0x57f06c). The entry array (+0x158) is operator delete[]d and rebuilt as a block
+// of 4 * (totalSegmentCount + 20 * batchCount) bytes, where totalSegmentCount is the sum over the batches of
+// (batch.endSegmentInfo - batch.firstSegmentInfo) - the count of segment infos, which is what the batch-node index counts are
+// expressed in. +0x13c and +0x140 are cleared. Each of the `batchCount` 20-byte records gets
+// {count = 0, indexBase = 0, tick = 1, flags = 1, firstIndex = running}, with `running` starting at 20 * batchCount / 4 words
+// (= the size of the record array) and advanced by that batch's segment-info count; each batch's material decides whether its
+// (buffer's vertex attribute map) size raises +0x13c (solid) or +0x140 (transparent). The body ends with
+// invalidateVisibleIndexCache(0xFFFFFFFF).
+// Deviation: the original writes no tick here (the 20-byte record's word +0x08 stays as the allocation left it); the port
+// writes 1, which is what the record holds on the first pass and what updateInfo then overwrites.
 void CBatchSceneNode::postCompile() {
     if (!mesh) {
         return;
     }
     const std::uint32_t batchCount = mesh->getMeshBufferCount();
-    if (unk_15c == -1) {
+    if (unk_144 == -1) {
         std::uint32_t firstTransparent = batchCount;
         for (std::uint32_t index = 0; index < firstTransparent;) {
             const boost::intrusive_ptr<video::CMaterial> material = mesh->getMaterial(index);
@@ -233,13 +253,14 @@ void CBatchSceneNode::postCompile() {
                 ++index;
             }
         }
-        unk_15c = static_cast<std::int32_t>(firstTransparent);
+        unk_144 = static_cast<std::int32_t>(firstTransparent);  // 0x57f000
+        unk_15c = static_cast<std::int32_t>(firstTransparent);  // 0x57f06c
     }
 
-    std::uint32_t totalIndices = 0;
+    std::uint32_t totalSegments = 0;
     for (std::uint32_t index = 0; index < batchCount; ++index) {
         const CBatchMesh::SBatch& batch = mesh->batches[index];
-        totalIndices += static_cast<std::uint32_t>(batch.endSegmentInfo) - batch.firstSegmentInfo;
+        totalSegments += static_cast<std::uint32_t>(batch.endSegmentInfo) - batch.firstSegmentInfo;
     }
 
     delete[] visibleEntries;
@@ -248,7 +269,7 @@ void CBatchSceneNode::postCompile() {
     maxTransparentIndices = 0;
 
     const std::uint32_t recordWords = 5u * batchCount;
-    visibleEntries = reinterpret_cast<SVisibleEntry*>(new std::uint32_t[recordWords + static_cast<std::size_t>(totalIndices)]);
+    visibleEntries = reinterpret_cast<SVisibleEntry*>(new std::uint32_t[recordWords + static_cast<std::size_t>(totalSegments)]);
     std::uint32_t running = recordWords;
     for (std::uint32_t index = 0; index < batchCount; ++index) {
         SVisibleEntry& entry = visibleEntries[index];
@@ -289,7 +310,8 @@ bool CBatchSceneNode::isSegmentVisible(const CBatchMesh::SSegment& segment) {
 // entries: for every SSegment* it copies the segment's index range (2 * (indexEnd - indexBegin) bytes at the mapped source
 // pointer + 2 * indexBegin) to the write cursor and sums the copied index count. After the copy both buffers lose one map
 // reference (the map count byte at +0x13 of the buffer; the last reference runs the driver's unmap callback when flag 0x20 is
-// set) and the batch's cache slot head (+0x154 + 12 * batch, word 0) is zeroed. Returns the index count.
+// set) and the batch's own 20-byte record (+0x158 + 20 * batch) has its flags word (+0x0C) zeroed, as 0x57f7f4..0x57f800 does;
+// the function never writes the +0x154 cache block. Returns the index count.
 std::int32_t CBatchSceneNode::updateIndices(std::uint32_t batch, const boost::intrusive_ptr<video::IBuffer>& buffer,
                                             const boost::intrusive_ptr<const video::IBuffer>& source) {
     struct MapRelease {
@@ -331,8 +353,10 @@ std::int32_t CBatchSceneNode::updateIndices(std::uint32_t batch, const boost::in
         const MapRelease releaseOut{buffer.get()};
         const MapRelease releaseIn{source.get()};
     }
-    if (SCacheSlot* slot = cacheSlot(batch)) {
-        slot->count = 0;  // the original writes this unconditionally; the port's cacheSlot is the only null-guarded view
+    // 0x57f7f4..0x57f800: the batch's own 20-byte record is reloaded and its flags word (+0x0C) is zeroed; the slot table at
+    // +0x154 is NOT written by this function (that was a misreading in the previous body, which cleared the slot's head).
+    if (SVisibleEntry* record = visibleEntry(batch)) {
+        record->flags = 0;
     }
     return copied;
 }
@@ -369,12 +393,16 @@ CBatchSceneNode::SCacheSlot* CBatchSceneNode::cacheSlot(std::uint32_t batch) con
     return reinterpret_cast<SCacheSlot*>(visibleIndexCache) + batch;
 }
 
+// The batch's SSegment* array. 0x57e5cc (computeMaxIndices) and 0x57f75c (updateIndices) both form the address as
+// `block + (firstIndex << 2)` with the block loaded from +0x158, i.e. the array is at the byte offset 4 * firstIndex of the
+// visible-entry block the record lives in; the element is a host SSegment* (see the file comment for what that costs).
 CBatchMesh::SSegment* CBatchSceneNode::visibleSegment(std::uint32_t batch, std::uint32_t position) const {
     const SVisibleEntry* entry = visibleEntry(batch);
-    if (entry == nullptr || visibleIndexCache == nullptr) {
+    if (entry == nullptr) {
         return nullptr;
     }
-    return reinterpret_cast<CBatchMesh::SSegment**>(visibleIndexCache + entry->firstIndex)[position];
+    auto* block = reinterpret_cast<std::uint8_t*>(visibleEntries);
+    return reinterpret_cast<CBatchMesh::SSegment**>(block + 4u * entry->firstIndex)[position];
 }
 
 // 0x57e5b4 _ZN6glitch5scene15CBatchSceneNode17computeMaxIndicesEj
@@ -460,13 +488,17 @@ void CBatchSceneNode::registerSolidBatches() {
 void CBatchSceneNode::registerTransparentBatches() {}
 
 // 0x57ebec _ZN6glitch5scene15CBatchSceneNode26invalidateVisibleIndexCacheEj
-// With the cache off (+0x150 byte) nothing happens. With batch == -1: takes the batch count (+0x144, the mesh's first
-// word), sums every batch's segment count (SBatch +0x0c .. +0x0e of the mesh's batch vector at +0x20) into `total`, and
-// operator delete[]s the old cache block (+0x154). A new block of 2 * (total + (12 * batchCount) / 2) bytes is allocated:
+// With the cache off (+0x150 byte) nothing happens. With batch == -1: takes the batch count, sums every batch's INDEX count
+// (the batch's mesh buffer at SBatch +0x00, its primitive stream's element count at CMeshBuffer +0x20: 0x57ec48) into `total`,
+// and operator delete[]s the old cache block (+0x154). A new block of 2 * (total + (12 * batchCount) / 2) bytes is allocated:
 // `total` 16-bit indices followed by the batchCount 12-byte slots, in one block. For each batch the slot gets
-// {word 0 = 0, word 1 = total, word 2 = running}, running starts at 12 * batchCount / 4 words (= the index area's size) and
-// grows by the batch's segment count, and the batch's visible-entry flags (+0x158 + 20 * batch + 12) get bit 0 set.
-// With a batch index: only that batch's flags get bit 0. Verified against Hex-Rays 0x57ebec.
+// {word 0 = 0, word 1 = that batch's own index count (0x57ecd4), word 2 = running}, running starts at 12 * batchCount / 4
+// words (= the slot area's size) and grows by that same index count (0x57eca8), and the batch's visible-entry flags
+// (+0x158 + 20 * batch + 12) get bit 0 set. With a batch index: only that batch's flags get bit 0.
+// Verified against the listing 0x57ebec. Deviations: the batch count is the mesh's (the original reads +0x144, which
+// postCompile sets and which is -1 until it runs); the port's block holds one 32-bit word per index where the original packs
+// two 16-bit indices per word, so `running` is a word offset (the same byte offset: 3 * batchCount words = 12 * batchCount
+// bytes) and it advances one word per index.
 void CBatchSceneNode::invalidateVisibleIndexCache(std::uint32_t batch) {
     if (!visibleIndexCacheOn) {
         return;
@@ -478,8 +510,7 @@ void CBatchSceneNode::invalidateVisibleIndexCache(std::uint32_t batch) {
         }
         std::uint32_t totalIndices = 0;
         for (std::uint32_t index = 0; index < batchCount; ++index) {
-            const CBatchMesh::SBatch& record = mesh->batches[index];
-            totalIndices += static_cast<std::uint32_t>(record.endSegmentInfo) - record.firstSegmentInfo;
+            totalIndices += batchIndexCount(mesh->batches[index]);
         }
         const std::uint32_t slotWords = (12u * batchCount) >> 2;  // the slot area in 32-bit words
         delete[] visibleIndexCache;
@@ -488,13 +519,12 @@ void CBatchSceneNode::invalidateVisibleIndexCache(std::uint32_t batch) {
         std::uint32_t running = slotWords;  // the index area starts after the slots
         for (std::uint32_t index = 0; index < batchCount; ++index) {
             SCacheSlot* slot = cacheSlot(index);
-            const CBatchMesh::SBatch& record = mesh->batches[index];
-            const std::uint32_t count = static_cast<std::uint32_t>(record.endSegmentInfo) - record.firstSegmentInfo;
+            const std::uint32_t count = batchIndexCount(mesh->batches[index]);
             slot->count = 0;
-            slot->capacity = static_cast<std::int32_t>(totalIndices);  // word 1 (+0x04) takes the total index count
-            slot->base = running;                                      // word 2 (+0x08) takes the running offset
+            slot->capacity = static_cast<std::int32_t>(count);  // 0x57ecd4: word 1 is THIS batch's index count
+            slot->base = running;                               // word 2 (+0x08) takes the running offset
             visibleEntry(index)->flags |= 1u;
-            running += count;
+            running += count;  // one index per 32-bit word in the port's block (the original advances a 16-bit unit per index)
         }
         return;
     }

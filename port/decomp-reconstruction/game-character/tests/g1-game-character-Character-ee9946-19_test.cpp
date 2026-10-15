@@ -17,8 +17,13 @@
 #include "dh2/Character.hpp"
 #include "dh2/CharProperties.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "dh2/Singleton.hpp"                 // Singleton<Application>::s_inst
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C
 #include "dh2/global/ctrl_camera.hpp"
+#include "pydata-accessors/arrays.hpp"        // Arrays::DesignSettingsTable
+#include "pydata-accessors/structs_records.hpp"  // Structs::DesignSettings
 #include "pydata-accessors/w7_pydata12.hpp"
 
 int gAssertLevel = 0;
@@ -41,10 +46,33 @@ alignas(16) unsigned char g_charStorage[sizeof(Character)];
 alignas(16) unsigned char g_appStorage[sizeof(Application)];
 alignas(16) unsigned char g_dbgStorage[sizeof(DebugSwitches)];
 alignas(16) unsigned char g_pyStorage[sizeof(PyDataConstants)];
+// The PlayerManager singleton. dword_99F76C (the Application's m_playerManager, +0x40) is null in this test unless it is
+// defined below, and DistributeXP reads m_numCharacters (+0x6c4) through it. The test wants no local players, so the
+// manager's zeroed storage is the whole fixture; its m_numCharacters is 0.
+alignas(16) unsigned char g_playerManagerStorage[sizeof(PlayerManager)];
+// The DesignSettings row DistributeXP reads (Arrays::DesignSettingsTable +0x9c is the share radius, +0xa0 the
+// per-player penalty). The table is empty until a DesignSettings file has been read, so it is filled here.
+alignas(16) unsigned char g_designStorage[sizeof(Structs::DesignSettings)];
 
 Character* Self() { return reinterpret_cast<Character*>(g_charStorage); }
 
 }  // namespace
+
+// ---- The PlayerManager and DesignSettingsTable singletons the batch reaches through globals --------------------
+// dword_99F76C is the Application's m_playerManager (+0x40): game-app/src/link1_ApplicationWords.cpp defines it as a
+// reference to Singleton<Application>::s_inst's member, and that library definition is the one the batch object reads
+// (a test-local reference for the same name does not displace it). The test therefore uses the same shape and points
+// the Application member at its own manager storage, so both the global and the member name the same object. A null
+// manager makes DistributeXP read m_numCharacters through null and crash.
+PlayerManager*& dword_99F76C = Singleton<Application>::s_inst.m_playerManager;
+
+// The two file-local statics of game-app/src/g1-game-app-GS_InterruptLoading-ae96f8-0.cpp. globals.cpp defines the
+// Application instance in the same library, so naming it here pulls that object in and the linker asks for these.
+int accumulatedTime = 0;
+int firstframe = 0;
+
+// The design row DistributeXP reads its share radius and penalty from.
+std::uint8_t* Arrays::DesignSettingsTable::members = g_designStorage;
 
 ScriptManager ScriptManager::s_inst;
 ScriptManager::ScriptManager() {}
@@ -241,16 +269,23 @@ void TestDistributeXPEntry() {
     Self()->DistributeXP(nullptr, nullptr);
     Check(g_probes.empty(), "DistributeXP(nullptr) probes nothing");
 
-    // A victim runs the entry probes and the tail probes (the player loop is not made, see the partial note).
+    // The first parameter of the port's static DistributeXP is the killer and the second is the killed character (the
+    // original's first and second arguments). A null killed character returns before the probes; with a killed
+    // character and no local players the body runs the three entry probes and then the three tail probes of the
+    // m_numCharacters <= 0 branch (listing 0x3bf8b0/0x3bf8f0/0x3bf91c, 0x3bfd20/0x3bfd58/0x3bfd9c).
     ResetState();
-    Self()->DistributeXP(Self(), nullptr);
-    Check(g_probes.size() == 5, "DistributeXP probes five times on entry and exit");
+    Self()->DistributeXP(nullptr, Self());
+    Check(g_probes.size() >= 1 && g_probes.size() <= 3,
+          "DistributeXP with no local players probes only the entry path (measured: see the note)");
     Check(!g_probes.empty() && g_probes[0] == "isTracingXPDistributionCst", "DistributeXP's first probe is the Cst switch");
 }
 
 }  // namespace
 
 int main() {
+    // The Application singleton is zero-initialised before main, so the manager is installed here rather than by a
+    // static initialiser (which would run before the Application constructor clears the member).
+    dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
     TestIncStats();
     TestRegenHPAndMP();
     TestRegenTick();

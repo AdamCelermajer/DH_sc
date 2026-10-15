@@ -11,6 +11,8 @@
 
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C
 #include "dh2/global/charai_ai.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -42,6 +44,7 @@ bool g_ranged = false;
 alignas(Character) unsigned char g_storage[sizeof(Character)];
 alignas(ItemInstance) unsigned char g_itemStorage[sizeof(ItemInstance)];
 alignas(PyDataConstants) unsigned char g_pyData[64];
+alignas(PlayerManager) unsigned char g_playerManagerStorage[sizeof(PlayerManager)];
 
 Character* Obj() {
     return reinterpret_cast<Character*>(g_storage);
@@ -52,6 +55,16 @@ ItemInstance* Item() {
 }
 
 }  // namespace
+
+// The PlayerManager singleton. dword_99F76C is the Application member (game-app/src/link1_ApplicationWords.cpp), which is
+// null in this test unless it is defined here; INV_TransmuteItem asks it IsLocalPlayer for the trophy, so it needs a real
+// object. The manager reports that the character is not local, which keeps the trophy path out of the test.
+static PlayerManager* g_test_dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member
+
+int PlayerManager::IsLocalPlayer(const Character*) {
+    return 0;
+}
 
 // Callees the checks reach, defined with their header signatures.
 int Character::GetCharAnimTableId() const { return g_animTableId; }

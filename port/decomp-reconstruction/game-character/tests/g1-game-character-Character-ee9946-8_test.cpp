@@ -12,8 +12,10 @@
 #include "dh2/global/runtime_support.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/global/CombatFormulas.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C
 #include "dh2/global/cf_calc.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
@@ -65,8 +67,21 @@ CombatDamage g_damageAnswer{};
 alignas(Character) unsigned char g_characterStorage[sizeof(Character)];
 alignas(Character) unsigned char g_attackerStorage[sizeof(Character)];
 alignas(Character) unsigned char g_defenderStorage[sizeof(Character)];
+// The PlayerManager singleton. dword_99F76C is the Application member (game-app/src/link1_ApplicationWords.cpp), which is
+// null in this test unless it is defined here; IncFaeryLevel asks it IsLocalPlayer for the "faery_charged" trophy, so it
+// needs a real object.
+alignas(PlayerManager) unsigned char g_playerManagerStorage[sizeof(PlayerManager)];
 
 }  // namespace
+
+// The PlayerManager singleton and the answer its IsLocalPlayer gives. The manager reports that the character is not
+// local, which keeps the trophy path out of this test.
+static PlayerManager* g_test_dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member
+
+int PlayerManager::IsLocalPlayer(const Character*) {
+    return 0;
+}
 
 // ---- Stubs for symbols defined by other batches (only the linker needs them) --------------------------------
 

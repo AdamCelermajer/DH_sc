@@ -13,6 +13,7 @@
 
 #include "glitch-core-io/core/strings.hpp"
 #include "luascript_link_stubs.hpp"
+#include "vox-audio/vox/sound_manager.hpp"  // VoxSoundManager: a real instance for the _PlaySound/_PlayMusic reaches
 
 // Value rules of luascript_g1 (declared as in g1-game-app-LuaScript-5015a8-2.cpp).
 namespace luascript_g1 {
@@ -46,6 +47,15 @@ unsigned int hashString(const char* text) {
 // stubbed in luascript_link_stubs.hpp, so these bodies only need to exist.
 LuaScript::LuaScript(bool) {}
 LuaScript::~LuaScript() {}
+
+// The three VoxSoundManager calls the sound bindings reach. They are seams: the bindings' own bodies are what this test
+// checks (the argument rules and the early return), and the calls themselves are decoded and checked by the vox-audio
+// tests. The real bodies would need the manager's arrays and the VoxEngine, which a single-file test has no way to build
+// (VoxSoundManager::Play reads sounds_[SoundRecord(sound).m_w1] through Arrays::Sounds::members). Making them no-ops
+// keeps the "the call is reached" checks of TestSoundArgumentChecks meaningful.
+int VoxSoundManager::Play(int, bool, int, int, bool) { return 0; }
+void VoxSoundManager::PlayMusic(int, bool, bool, int) {}
+void VoxSoundManager::Stop(int, int) {}
 
 namespace {
 
@@ -434,6 +444,14 @@ void TestCurrentLevelRange() {
 
 void TestSoundArgumentChecks() {
     sfc::script::lua::ReturnValues ret;
+    // VoxSoundManager::s_instance. The library's own definition leaves it null (vox-audio/src/link1_VoxSoundManager_statics.cpp)
+    // and only CreateInstance (0x36ca88, a skipped row) ever sets it, while _PlaySound/_PlayMusic/_StopSound dereference
+    // it unconditionally, exactly as the listing does. This test passed nullptr as the binding's self and let s_instance
+    // stay null, so the "sound call is reached (not written) without a throw" check below faulted on a null this. As
+    // with the GSFlashMenu batch, the test now owns a real instance for the length of the check.
+    VoxSoundManager sounds;
+    VoxSoundManager* const savedInstance = VoxSoundManager::s_instance;
+    VoxSoundManager::s_instance = &sounds;
     // _PlaySound reads args[3] first: fewer than four arguments throw out_of_range, as the original does.
     bool threw = false;
     try {
@@ -487,6 +505,8 @@ void TestSoundArgumentChecks() {
         threw = true;
     }
     CHECK(threw);
+
+    VoxSoundManager::s_instance = savedInstance;
 }
 
 }  // namespace

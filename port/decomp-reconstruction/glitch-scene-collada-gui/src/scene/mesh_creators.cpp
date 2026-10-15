@@ -227,7 +227,10 @@ boost::intrusive_ptr<IMesh> createPlaneMesh(std::uint32_t, video::IVideoDriver* 
     const boost::intrusive_ptr<video::CMaterialVertexAttributeMap> noMap;
     mesh->addMeshBuffer(buffer, noMaterial, noMap);
     mesh->recalculateBoundingBox();
-    return boost::intrusive_ptr<IMesh>(mesh.get());
+    // The listing's tail returns the local handle with a new use (sret = mesh.px; ++mesh->referenceCounter;
+    // drop(mesh.px)), i.e. the intrusive_ptr upcast; see createMeshCopy's note. result.get() would add no use and
+    // the local's destructor would free the mesh the caller keeps.
+    return mesh;
 }
 
 // 0x6d7808 _ZN6glitch5scene16createSphereMeshEjPNS_5video12IVideoDriverEfjj
@@ -291,7 +294,7 @@ boost::intrusive_ptr<IMesh> createCubeMesh(std::uint32_t, video::IVideoDriver* d
     const boost::intrusive_ptr<video::CMaterialVertexAttributeMap> noMap;
     mesh->addMeshBuffer(buffer, noMaterial, noMap);
     mesh->recalculateBoundingBox();
-    return boost::intrusive_ptr<IMesh>(mesh.get());
+    return mesh;  // a new use, as in the listing's tail (see createPlaneMesh's note)
 }
 
 // 0x6d945c _ZN6glitch5scene18createCylinderMeshEjPNS_5video12IVideoDriverEffjRKNS1_6SColorEbf

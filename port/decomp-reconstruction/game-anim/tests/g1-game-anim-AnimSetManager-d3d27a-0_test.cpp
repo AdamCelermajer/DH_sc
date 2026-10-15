@@ -16,6 +16,7 @@
 #include "dh2/AnimatorSet.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/global/AnimationSet_GetAnimation.hpp"
+#include "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp"
 
 namespace {
 
@@ -47,13 +48,38 @@ AnimationSet::~AnimationSet() {}
 
 int AnimationSet::CreateAnimSet() {
     ++g_createCalls;
+    // The engine set's one call in this batch (AddTemplateAnim 0x476444, setDefaultAnimationLibrary) goes
+    // straight at +0x20 with no null test. The double builds the same empty CDynamicAnimationSet the body
+    // builds (operator new, 0x364ca0), so m_animSet is never null.
+    if (m_animSet == nullptr) {
+        m_animSet = new glitch::collada::CDynamicAnimationSet();
+    }
+    unk_2c = 1;
     return 0;
 }
+
+// The entry LoadAnimation returns. AddTemplateAnim reads its file name (Animation +0x00) and passes it to
+// the collada database constructor: the listing dereferences the LoadAnimation result with no null test
+// (0x47641c: the r0 of the call is used as the Animation* immediately, then Animation[5] is read), so a null
+// double faults exactly where the original would. The real LoadAnimation never returns null for an id inside
+// the AnimDict table (0x3659ec builds the entry and returns the tree node); only an out-of-range id gives
+// s_invalidAnim, which is a real object too. The double therefore returns a real Animation.
+Animation g_loadEntry;
 
 Animation* AnimationSet::LoadAnimation(int animId) {
     ++g_loadCalls;
     g_lastLoadArg = animId;
-    return nullptr;
+    return &g_loadEntry;
+}
+
+// AddTemplateAnim's last step builds the database of the entry's file (0x476424..0x476444) and hands it to
+// the engine set. The loader behind that constructor (CResFileManager::load 0x65a98c) is not reconstructed,
+// so its link stub aborts. The double records nothing and leaves the handle empty; the manager's own checks
+// do not look at the database, they count the load and the template call.
+glitch::collada::CColladaDatabase::CColladaDatabase(const char* fileName, glitch::collada::CColladaFactory* factory) {
+    (void)fileName;
+    this->record = nullptr;
+    this->factory = factory;
 }
 
 // The entry GetAnimation returns for any id. Its clip id (+0x20) is 7.

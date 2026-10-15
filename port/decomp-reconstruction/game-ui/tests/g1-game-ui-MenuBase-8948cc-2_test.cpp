@@ -38,6 +38,7 @@ alignas(StringManager) unsigned char g_stringStorage[sizeof(StringManager)];
 alignas(MultiMenuManager) unsigned char g_mmmStorage[sizeof(MultiMenuManager)];
 alignas(MenuFX) unsigned char g_fxStorage[sizeof(MenuFX)];
 alignas(MenuBase) unsigned char g_menuObjStorage[sizeof(MenuBase)];
+alignas(MenuBase) unsigned char g_argMenuStorage[sizeof(MenuBase)];
 unsigned char g_menuTag;
 // The fake MultiMenuManager: its first word points at this table. Slot 14 (+0x38) is PopMenu(bool).
 void* g_fakeMmmVtable[16] = {};
@@ -204,6 +205,10 @@ int main() {
     // The menu's MenuFX, the menu that owns it, and the MultiMenuManager with its fake vtable (slot 14, PopMenu(bool)).
     MenuBase* fakeMenu = reinterpret_cast<MenuBase*>(g_menuObjStorage);
     fakeMenu->m_menu = reinterpret_cast<MenuFX*>(g_fxStorage);
+    // FS_IsSaveSlotValid publishes its boolean on the argument menu's RenderFX (MenuBase m_menu, State +0x04). The
+    // handlers that reach the menu use this object; a null menu here made FS_IsSaveSlotValid write through null.
+    MenuBase* argMenu = reinterpret_cast<MenuBase*>(g_argMenuStorage);
+    argMenu->m_menu = reinterpret_cast<MenuFX*>(g_fxStorage);
     *reinterpret_cast<void***>(g_mmmStorage) = g_fakeMmmVtable;
     g_fakeMmmVtable[14] = reinterpret_cast<void*>(&FakeMmmPopMenu);
     reinterpret_cast<MenuManager*>(g_managerStorage)->m_multiMenuManager =
@@ -214,12 +219,13 @@ int main() {
     Arrays::Sounds::m_memberNames.names = g_soundNames;
     Arrays::Sounds::m_memberNames.size = 2;
 
-    // FS_IsSaveSlotValid: null args and slot -1 never reach SG_Exists; any other slot does.
-    Check(MenuBase::FS_IsSaveSlotValid("", nullptr, nullptr), "FS_IsSaveSlotValid(null) returns true");
+    // FS_IsSaveSlotValid: null args and slot -1 never reach SG_Exists; any other slot does. The slot publishes its
+    // result on the menu it is given (argMenu), which is the object the original receives as its third argument.
+    Check(MenuBase::FS_IsSaveSlotValid("", nullptr, argMenu), "FS_IsSaveSlotValid(null) returns true");
     Check(g_existsCalls.empty(), "FS_IsSaveSlotValid(null) does not call SG_Exists");
-    Check(MenuBase::FS_IsSaveSlotValid("", "-1", nullptr), "FS_IsSaveSlotValid(-1) returns true");
+    Check(MenuBase::FS_IsSaveSlotValid("", "-1", argMenu), "FS_IsSaveSlotValid(-1) returns true");
     Check(g_existsCalls.empty(), "FS_IsSaveSlotValid(-1) does not call SG_Exists");
-    Check(MenuBase::FS_IsSaveSlotValid("", "2", nullptr), "FS_IsSaveSlotValid(2) returns true");
+    Check(MenuBase::FS_IsSaveSlotValid("", "2", argMenu), "FS_IsSaveSlotValid(2) returns true");
     Check(g_existsCalls.size() == 1 && g_existsCalls[0] == 2, "FS_IsSaveSlotValid(2) calls SG_Exists(2) once");
 
     // Handlers whose return value is fixed on every path.

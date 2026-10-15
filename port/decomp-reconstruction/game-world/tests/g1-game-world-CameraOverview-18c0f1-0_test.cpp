@@ -4,14 +4,17 @@
 // destructor and virtual hooks, EventManager::Attach and Detach (Detach records its arguments), the InputManager and
 // PlayerManager lookups, and ISceneNode::setPosition(x, y, z). The globals the unit reads (dword_99F740, dword_99F76C and
 // Vec3f_Origin) and the PFWorld singleton storage are defined here. The checks cover the key state machine (ApplyKey),
-// the stick direction (StickDirection), the constructor's zeroing, onEvent's event id test and seam, and Deactivated's
-// Detach call. Activated and Update need a live player record and scene nodes, so they are not run here.
+// the stick direction (StickDirection), the constructor's zeroing, onEvent's event id test and key consumption, and
+// Deactivated's Detach call. Activated and Update need a live player record and scene nodes, so they are not run here.
+// onEvent is fed real EvKeyboard objects: dh2/EvKeyboard.hpp is in the tree and ReadKeyboardEvent reads its fields
+// directly (see the body at 0x410930, whose source comment says so).
 
 #include <cmath>
 #include <cstdio>
 
 #include "dh2/CameraOverview.hpp"
 #include "dh2/EventManager.hpp"
+#include "dh2/EvKeyboard.hpp"
 #include "dh2/IEvent.hpp"
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/InputManager.hpp"
@@ -121,14 +124,25 @@ void testOnEvent() {
     // An event whose id is not zero is not a keyboard event: the original returns 0 before it reads any field.
     IEvent other(1u);
     EXPECT(!cam.onEvent(&other, nullptr));
-    // A keyboard event (id 0) reaches the ReadKeyboardEvent seam, which reports no fields, so nothing is consumed.
-    IEvent keyEvent;
-    EXPECT(!cam.onEvent(&keyEvent, nullptr));
-    EXPECT(sameVec(cam.unk_1c, 0.0f, 0.0f, 0.0f));
-    // The seam itself reports no keyboard fields until dh2/EvKeyboard.hpp exists.
+    // A real keyboard event (id 0): ReadKeyboardEvent reads the key code (+0x0c) and the pressed flag (+0x10) of the
+    // EvKeyboard, which onEvent has already checked for id 0. The stub of ReadKeyboardEvent that returned false is gone.
+    EvKeyboard keyEvent(0, 'E', true, false, false);
+    EXPECT(cam.onEvent(&keyEvent, nullptr));
+    EXPECT(sameVec(cam.unk_1c, 0.0f, 0.0f, 100.0f));  // 'E' pressed sets the z offset (listing 0x410930, case 'E')
+    // A keyboard event the switch does not know is not consumed and leaves the offset alone.
+    EvKeyboard otherKey(0, 'Z', true, false, false);
+    EXPECT(!cam.onEvent(&otherKey, nullptr));
+    EXPECT(sameVec(cam.unk_1c, 0.0f, 0.0f, 100.0f));
+    // The reader itself reports the fields it read. The listing at 0x410930 reads them directly and has no failure path.
     int keyCode = -1;
-    bool pressed = true;
-    EXPECT(!CameraOverview_detail::ReadKeyboardEvent(&keyEvent, keyCode, pressed));
+    bool pressed = false;
+    EXPECT(CameraOverview_detail::ReadKeyboardEvent(&keyEvent, keyCode, pressed));
+    EXPECT(keyCode == 'E');
+    EXPECT(pressed);
+    // A release (pressed false) takes the release branch, which clears only z for the keys in the mask 0xc50019.
+    EvKeyboard releaseEvent(0, 'E', false, false, false);
+    EXPECT(cam.onEvent(&releaseEvent, nullptr));
+    EXPECT(sameVec(cam.unk_1c, 0.0f, 0.0f, 0.0f));
 }
 
 void testDeactivated() {
