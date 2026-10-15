@@ -132,6 +132,28 @@ Both are real incidents, recorded so they are not repeated and so the lost work 
 cleanly, leave that row `partial` with the blocker named and keep the file building. Run
 `./tools/trackb/check_tu.sh <file>` as the last action before reporting.
 
+## `scene_batch_visible_test` flaking under `-j 4`: classified, and it is NOT a test defect
+
+Seen three times: fails in a parallel full-suite run, passes standalone and in serial runs. It is
+recorded here so the next worker does not re-investigate it from scratch, and because the leading
+explanation is a process problem, not a code one.
+
+Checked and RULED OUT:
+- It does no file I/O at all - no `fopen`/`ofstream`/`remove`/fixed resource name - so it is not the
+  `iglu.bin` race class (that one was real and is fixed with a `RESOURCE_LOCK`; see `CMakeLists.txt`).
+- It has no shared global with any other test; the tests are separate processes.
+- It passes reliably standalone and in serial full runs.
+
+Leading explanation: **relink races from running `ctest` while workers were rebuilding the tree.** A
+worker independently reported `glitch-video/image_copyto_test` coming back "Not Run" for a missing
+executable for exactly this reason, and `build/tb-int` is a shared incremental directory that several
+workers rebuild concurrently. Under those conditions ctest can execute a target whose binary is being
+replaced.
+
+The operational fix is not in the test: **do not run a full `ctest` while worktree builds are in
+flight**, or give each build its own directory. If this is ever seen on a quiet tree, then it is a real
+defect and this note should be replaced with the actual cause.
+
 ## THE `CMatching` VTABLE REORDER - one decision, four consequences, now fully evidenced
 
 This has been deferred repeatedly because it is the only remaining item that changes vtable layout across
