@@ -189,7 +189,7 @@ void CBatchDriver::releaseBuffer() {
 }
 
 // 0x5a3a20 _ZN6glitch5video12CBatchDriver5flushEv (vtable 0x977108 slot +0x1fc)
-// PARTIAL. Written here: everything except the +0x234 callback call. The listing:
+// Reconstructed. The listing:
 //   * 0x5a3a24 m_batchBuffer = the base's +0x120; 0x5a3a2c the test of CAppendMeshBuffer +0x50 and 0x5a3a34 the
 //     branch that skips the whole unmap block while that word is zero;
 //   * 0x5a3a38-0x5a3a40: the two IBuffer* of the append buffer (+0x58 vertex, +0x5c index) and their map-count byte
@@ -198,20 +198,28 @@ void CBatchDriver::releaseBuffer() {
 //   * 0x5a3ad0-0x5a3b1c / 0x5a3b24-0x5a3b34: at one it reads IBuffer's flag byte (+0x12), and when bit 0x20
 //     (kFlagUnmapCallback) is set calls vtable +0x18 (= unmapImpl) with the buffer, then clears the count;
 //   * 0x5a3a80-0x5a3a88: both mapped pointers (+0x50, +0x54 in this class's own header) are zeroed;
-//   * 0x5a3a90-0x5a3abc: the +0x234 callback, called through vtable +0x08 with (the finished append buffer, the
-//     base's batch-buffer vector) - NOT WRITTEN, see below;
+//   * 0x5a3a90-0x5a3abc, decoded register by register: R3 = driver + 0x234, return when it is null (0x5a3a94);
+//     R2 = append buffer + 0x3C (vertexUsedBytes), return when that is zero (0x5a3a98); R0 = R3 (the callback),
+//     R1 = R5 (the append buffer), R2 = driver + 0x124 (the base's m_batchMaterial, 0x5a3aa4 `ADD R2,R4,#0x124`),
+//     then the vtable load and `LDR PC,[R3,#8]`. So the signature is
+//     `operator()(CAppendMeshBuffer& buffer, intrusive_ptr<CMaterial>& material)` and the port's call matches it
+//     argument for argument.
 //   * 0x5a3ac4-0x5a3acc: the tail call to CAppendMeshBuffer::clear (0x6b8878).
 // The port writes the unmap with the port's own IBuffer::unmap(), which is the same operation the inlined listing is
 // (0x637a68: `--mapCount; if (!mapCount && (flags & 0x20)) unmapImpl();`) and is a no-op for a buffer that was never
 // mapped, so no map-count arithmetic is duplicated here. The `+0x50 != 0` gate is kept, because the port's
-// CAppendMeshBuffer does keep that word (indexUsedBytes) and the listing gates on it.
-// MISSING, named exactly: the call at 0x5a3aa8-0x5a3abc.
-//   * the port's glitch::scene::ISegmentCompileCallback (scene_simple_accessors.hpp) declares no operator() at all,
-//     so there is nothing to call; the virtual slot the listing calls assumes the interface has one.
-//   * the second argument is not the batch material: 0x5a3ab0 computes `ADD R2, R4, #0x124`, i.e. a pointer to the
-//     base's m_batchBuffers vector, and R1 holds the finished append buffer, so this is a builder hook over both and
-//     its parameter list has to be recovered from the real callback implementation before it can be declared.
-//   Guessing either would be exactly the kind of invention rule 5 forbids, so the row stays partial.
+// CAppendMeshBuffer does keep that word (mappedVertices) and the listing gates on it.
+// SETTLED, not open: the slot is +0x234 and the interface it holds IS IEndOfBatchCallback. The earlier note here
+// read compileInternal 0x58facc as filling +0x234 with an SDefaultSegmentCompileCallback; it is the other way
+// round, and four register-level facts from that listing settle it: the two stack objects are `v14[5]` at SP+0 and
+// `v20[6]` at SP+0x2C; `v14[0] = off_9762B8` (0x58fb34) and off_9762B8 = _ZTVN6glitch5scene26SDefaultEndOfBatch-
+// CallbackE + 8 (the symbol is at 0x9762b0); `v20[0] = off_9762A0` (0x58fb0c) and off_9762A0 = _ZTVN6glitch5scene30-
+// SDefaultSegmentCompileCallbackE + 8 (0x976298); and the stores are `*(driver + 564) = v14` (0x58fb64) and
+// `*(driver + 568) = v20` (0x58fb70). So driver +0x234 holds the SDefaultEndOfBatchCallback object - the same v14
+// that `SDefaultEndOfBatchCallback::finalize(v14)` runs on (0x58fbfc `MOV R0,SP`, 0x58fc00 the call) - and +0x238
+// holds the segment-compile one. flush therefore calls the END-OF-BATCH slot, which is what the argument shape
+// (buffer, material) says as well. The earlier comment here - "a pointer to the base's m_batchBuffers vector at
+// +0x124" - was wrong: +0x124 is m_batchMaterial.
 void CBatchDriver::flush() {
     if (m_batchBuffer) {
         auto* buffer = reinterpret_cast<scene::CAppendMeshBuffer*>(m_batchBuffer.get());
@@ -231,10 +239,10 @@ void CBatchDriver::flush() {
             buffer->mappedIndices = nullptr;
             buffer->mappedVertices = nullptr;
         }
-        // 0x5a3a90-0x5a3abc: call the +0x234 end-of-batch callback (vtable +0x08) with the finished buffer and
-        // the base's m_batchMaterial, gated on vertexUsedBytes (+0x3c) being non-zero. The callback member is now
-        // correctly typed - compileInternal 0x58facc passes SDefaultEndOfBatchCallback::finalize its v14, and v14
-        // is what it stores at +0x234. Its operator() signature in CAppendMeshBuffer.hpp:112 matches the listing.
+        // 0x5a3a90-0x5a3abc: the +0x234 END-OF-BATCH callback (vtable +0x08) with the finished buffer and the
+        // base's m_batchMaterial, gated on vertexUsedBytes (+0x3c) being non-zero. R0/R1/R2 of the listing are
+        // exactly the callback, the buffer and +0x124, and the slot is the IEndOfBatchCallback one (see the
+        // register-level proof above), so both the offset and the interface here are settled.
         if (endOfBatchCallback != nullptr && buffer->vertexUsedBytes != 0) {
             (*endOfBatchCallback)(*buffer, m_batchMaterial);
         }
@@ -242,6 +250,93 @@ void CBatchDriver::flush() {
     }
 }
 
+// 0x5a6fe0 _ZN6glitch5video12CBatchDriver15thisAppendBatchERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_
+// 16CPrimitiveStreamERKNS3_IKNS_5scene11CMeshBufferEEE
+//
+// NOT WRITTEN, and this is the recovered structure of the whole body so the next pass does not have to read it out
+// of the export again (0x1aa0 bytes; Hex-Rays chunk_029.c lines 24009-25229). The Hex-Rays text prints byte offsets
+// as DWORD indices of a float* `a1` (`*((_DWORD *)a1 + 143)` is byte +0x23C); its parameters are
+// a1 = this, a2 = &streams, a3 = &primitives, a4 = &meshBuffer.
+//
+// PROLOGUE (0x5a6fe0-0x5a70d4) - recovered completely:
+//   1. local state: a vector of records (`v207/v208/v209`), the clustering result
+//      std::map<uint32, std::vector<uint32>> (`v202`..`v206`), the vertex-dedup std::map<uint16,uint16>
+//      (`v191`..`v195`) and the per-primitive box vector `p` (`v211`).
+//   2. `if (this->+0x23C == nullptr) goto CLUSTER;` - 0x5a6fec `LDR R12,[R0,#0x23C]`, 0x5a7034 `BEQ 0x5a83e0`.
+//   3. rebind +0x240: add-ref argument 1 (`++*v4`, the count is the pointee's +0x00), store it and release the old
+//      value (decrement, then CVertexStreams::~CVertexStreams 0x5a0a1c and free at zero).
+//   4. `*((_DWORD *)a1 + 145) = a3;` - +0x244 = the CPrimitiveStream* argument, not owned.
+//   5. rebind +0x248: add-ref the mesh buffer (count +0x04), store it, drop the old value through the virtual drop.
+//   6. `(**(int(**)(...))(*(_DWORD *)a1 + 0x23C) vtable + 8)(this + 0x23C, 0, 0, (int *)a1 + 144)` and test the
+//      result: non-zero enters the CLUSTER block. This is the +0x23C split-segment-choice callback called with
+//      (0, 0, &this->+0x240). 0x5a70b4-0x5a70d4.
+//
+// CLUSTER BLOCK (0x5a70d4-0x5a83e0) - entered when the choice callback is absent or answered non-zero:
+//   * gate: `((segmentSize.x || .y || .z) && !segmentSizeMode) || (maxIndices && segmentSizeMode)` (+0x250 floats,
+//     +0x260, +0x25C).
+//   * `v180 = *(uint16 *)(*a2 + 34)` = the vertex stride; the primitive stream's index buffer is mapped
+//     (`IBuffer::map(*a3, 1) + a3[1]`) and its vertex buffer likewise (`*(*a2 + 20)` mapped + `*(*a2 + 24)`).
+//   * for every primitive (`CPrimitiveStream::getPrimitiveCount`): the three vertices' floats at
+//     `vertexBase + stride * index` are clamped into +-FLT_MAX, accumulated into the run's total box and stored as
+//     a 28-byte `pair<uint32, aabbox3d<float>>` in `p`; then both mapped buffers are unbound with the inlined
+//     `--mapCount; if (!mapCount && (flags & 0x20)) vtable[0x18]()` sequence.
+//   * `maxIndices` mode: `v149 = a3[4] - a3[3]; v150 = v149 * v180 / *((_DWORD *)a1 + 151);
+//     if (v150 > 1) kdTreeClustering(&v202, (int *)&p, v149 / v150, (float *)&v196);`
+//     else `spatialGridClustering(&v202, (int *)&p, (const vector3d<float> *)(a1 + 148));`
+//     The two BL sites inside this function are 0x5a88a8 (kd-tree) and 0x5a89b8 (spatial grid); the FUNCTIONS are
+//     kdTreeClustering 0x5a6568 and spatialGridClustering 0x5a5860 (an earlier note listed the call sites as if
+//     they were the callees).
+//   * the `p` vector is released.
+//
+// RECORD BUILDING (0x5a77xx-0x5a83e0; the `v206 <= 1` test is the single-cluster shortcut):
+//   * with 0 or 1 cluster keys one record is built straight from the arguments ({streams = *a2, the primitives word
+//     for word: a3[1]..a3[4], a3[10]/a3[11]}) and pushed on the vector.
+//   * otherwise `isVertexStreamHomolaced(a2, &v219)` picks a fast path, and for every cluster key a CVertexStreams
+//     is built (a clone, or rebuilt stream by stream from the attribute map through
+//     `CVertexStreams::updateHomogeneityInternal` and `detail::SVertexAttributeTypeInspection::ValueTypeSize`) plus
+//     one IBuffer from the driver's vtable +0x78 (`(*(...)(*a1 + 120))(&out, a1, 0, 4, size, new[](size), 1)`), the
+//     cluster's indices are merged into a CPrimitiveStream, and every primitive's three vertices are looked up in
+//     the std::map<uint16,uint16> dedup table and copied once with
+//     `copyVertex(index, a2, &streams, base, &dest, homogeneous)`.
+//   * each finished record is pushed on the vector; the dedup map is erased and the temporary handles dropped.
+//
+// EMIT LOOP (0x5a83e0-0x5a8a70, `LABEL_117` in Hex-Rays):
+//   * `CAppendMeshBuffer::beginAppend(this->m_batchBuffer)` (`*((_DWORD *)a1 + 72)`, the BASE's +0x120).
+//   * per record, skipping while `(uint16)record[13] <= 3 || record[12] != 1`:
+//     - `CAppendMeshBuffer::hasEnoughSpace(buffer, record[5] - record[4], 3 * getPrimitiveCount)`, and when it
+//       answers false the original prints 28 identical `puts("@@@...")` lines and calls
+//       `(*(vtable + 508))(this)` = vtable +0x1fc = CBatchDriver::flush (0x5a7cb8);
+//     - the attribute map is the one reached through this +0xE8, or the static `IVideoDriver::DefaultAttribMap`
+//       rebuilt by `MEMSET(..., 255, 0x1E)` plus `DefaultAttribMap[entry.attribute] = index >> 4` per stream entry;
+//     - the record is handed to the batch baker's virtual at vtable +0x0C: `v80 = *((_DWORD *)a1 + 74)` = the base's
+//       +0x128 m_batchBaker, and the call takes 18 arguments (`v80, record, record + 2, +0x12c, the +0x134 byte,
+//       the attribute map, buffer + 20, buffer + 24, +0x124 material, ... , map counts, 0, primitives, -1`);
+//     - the append buffer's counters (words 5, 8, 9, 10, 15, 17, 18, 19) are advanced from the record's index
+//       counts, reproducing
+//       `word15 = max(word15, word18 * ((uint16)(record[10] - record[8]) + word15 / word18))` and the matching
+//       index-side maximum;
+//     - `if (this->+0x238) { rebind +0x240 / +0x244 / +0x248 from the record and call the +0x238 SEGMENT-COMPILE
+//       callback through vtable +0x08 with (0, 0, &this->+0x240); }`.
+//   * the record vector and the cluster map are destroyed; the function returns 0.
+//
+// MISSING, named exactly - each of these is its own reconstruction, and none of them is this class:
+//   1. glitch::video::spatialGridClustering 0x5a5860 - ledger `skipped`: the map key is a hash of an ostringstream
+//      holding the three cell indices; the hashed string range and whether the stream is reset are unidentified.
+//   2. glitch::video::kdTreeClustering 0x5a6568 - ledger `skipped`: needs CKdTree<pair<uint32, aabbox3d<float>>>
+//      (shared/include/glitch-shared/kd_tree.hpp and glitch-core-io's core/kd_tree.hpp) in glitch-video.
+//   3. glitch::video::isVertexStreamHomolaced 0x5a23f4 - `partial`, body not written.
+//   4. glitch::video::copyVertex 0x5a2b18 - `partial`: the whole-vertex branch is not written.
+//   5. the +0x23C and +0x238 call operators: neither interface declares one in the port
+//      (scene_simple_accessors.hpp gives them only destructors), so the argument lists have to come out of the
+//      callback classes' own listings (SDefaultSegmentCompileCallback 0x5891a8, SDefaultEndOfBatchCallback 0x59013c
+//      / 0x58d3d4) before either call can be written.
+//   6. IVideoDriver::DefaultAttribMap - a static table with no port definition.
+//   7. the base vtable slots the body dispatches: +0x0C and +0x14 of m_batchBaker (IBatchBaker), +0x78 (the
+//      CVertexStreams allocator) and +0x1FC (flush, already written).
+//   8. aabbox3d<float> / vector3d<float> in glitch-video's own deps (the clustering signatures).
+// (1)..(4) are the calls that produce and fill the records, so no honest sub-slice of the body exists: without them
+// the emit loop would only append whatever it was handed. The row stays `partial` with this note.
+//
 // 0x5a8a80 _ZN6glitch5video12CBatchDriver4drawERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_
 // 16CPrimitiveStreamEPPNS0_14CDriverBindingERKNS3_IKNS_5scene11CMeshBufferEEE (vtable 0x977108 slot +0x58)
 // Reconstructed. The listing is two instructions - `LDR R3, [SP,#arg_0]` (the 4th parameter is on the stack and is

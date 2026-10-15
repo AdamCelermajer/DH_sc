@@ -50,7 +50,11 @@
 //     (0x5a2e7c / 0x5a2e80 / 0x5a2e84; it writes +0x244 not at all);
 //   * the destructor releases +0x248 through the virtual drop (0x5a3d64 / 0x5a3d7c) and +0x240 inline with
 //     CVertexStreams::~CVertexStreams (0x5a0a1c) plus free (0x5a3d80-0x5a3dbc);
-//   * CSceneManager::compileInternal 0x58facc writes +0x23C from its fourth argument (0x58fb7c).
+//   * CSceneManager::compileInternal 0x58facc writes +0x23C from its FIFTH argument (that function is
+//     compileInternal(ISceneNode*, CBatchSceneNode*, bool, ISegmentCompileCallback*, ISplitSegmentChoiceCallback*),
+//     so r0..r3 take `this` and the first three; the first stack word arg_0 is the ISegmentCompileCallback and
+//     `LDR R2,[SP,#0x44+arg_4]` - the second stack word - is the ISplitSegmentChoiceCallback. Hex-Rays reads the
+//     same store as `*(_DWORD *)(driver + 572) = a6` with a6 the last parameter).
 // There is no second base and no bias: the offsets are literal. The concrete types are declared below.
 //
 // MEMBERS OF THIS CLASS (only these groups belong to it):
@@ -60,22 +64,28 @@
 //           IVideoDriver +0xd4 (= IDevice* m_device; IDevice::creationParameters is at +0x5c), so they are
 //           device->creationParameters.bytes + 0x40 and + 0x44 (asm 0x58d994-0x58d9a0). Level::_LoadBatching writes
 //           (unsigned)((double)size * 1.02) into them at 0x3f2c0c (vertex) and 0x3f2cd4 (index).
-//   +0x234 scene::ISegmentCompileCallback*  the callback flush invokes through vtable +0x08 (0x5a3a90-0x5a3abc).
-//           CSceneManager::compileInternal 0x58facc stores its own stack SDefaultSegmentCompileCallback object there
-//           (`STR SP,[R0,#0x234]`, asm 0x58fb64 - the same SP it later passes to SDefaultEndOfBatchCallback::finalize
-//           at 0x58fc00, so the object at SP is this slot's value). The constructor clears it (0x5a2e74).
-//   +0x238 scene::IEndOfBatchCallback*  compileInternal stores the stack SDefaultEndOfBatchCallback pointer at
-//           `[driver + 0x238]` (asm 0x58fb70, R2 = SP + 0x18, the object that finalize() is called on). The
-//           constructor clears it (0x5a2e78). No listing in this class reads the word back, so only the store is
-//           proven; the type is the best reading of that store.
-//           CORRECTION (this batch): these two slots were NAMED THE OTHER WAY ROUND before (the +0x234 word was
-//           called the end-of-batch callback). The listing says +0x234 = the SDefaultSegmentCompileCallback object
-//           at SP and +0x238 = the SDefaultEndOfBatchCallback pointer built at SP+0x18. flush already calls +0x234
-//           as the live one.
-//   +0x23C scene::ISplitSegmentChoiceCallback*  thisAppendBatch null-tests it and returns at once when it is null
-//           (0x5a6fec), then calls it through vtable +0x08 with (streams, &this->m_currentVertices) and, when it
-//           returns non-null, jumps to the early-exit block 0x5a83e0 (0x5a70bc-0x5a70d4: R0 = the callback,
-//           R3 = this + 0x240). compileInternal stores its fourth argument here (0x58fb7c). ctor clears it.
+//   +0x234 scene::IEndOfBatchCallback*  the callback flush invokes through vtable +0x08 (0x5a3a90-0x5a3abc).
+//           PROVEN TWICE against compileInternal 0x58facc, register by register and in its own Hex-Rays text:
+//           (a) IDA names the two stack objects - `_DWORD v14[5]; // [sp+0h]` and `_DWORD v20[6]; // [sp+2Ch]`;
+//           (b) `v14[0] = off_9762B8` (0x58fb34) and off_9762B8 = _ZTVN6glitch5scene26SDefaultEndOfBatchCallbackE+8
+//           (that symbol is at 0x9762b0), while `v20[0] = off_9762A0` (0x58fb0c) and off_9762A0 =
+//           _ZTVN6glitch5scene30SDefaultSegmentCompileCallbackE+8 (0x976298);
+//           (c) `*(_DWORD *)(driver + 564) = v14` (0x58fb64) and `*(_DWORD *)(driver + 568) = v20` (0x58fb70),
+//           i.e. +0x234 = the SDefaultEndOfBatchCallback object and +0x238 = the SDefaultSegmentCompileCallback one;
+//           (d) `SDefaultEndOfBatchCallback::finalize(v14)` is called on the v14 object (hexrays line 4182; asm
+//           0x58fbfc `MOV R0,SP` + 0x58fc00 BL ...finalize), and v14 IS the +0x234 value.
+//           So +0x234 is the END-OF-BATCH slot and +0x238 the segment-compile one. A later note here flipped the
+//           two and called it a correction; it is wrong, and the four register-level facts above are the check.
+//           The constructor clears both (0x5a2e74 / 0x5a2e78).
+//   +0x238 scene::ISegmentCompileCallback*  see (b), (c) above: the stack SDefaultSegmentCompileCallback object.
+//           thisAppendBatch calls this slot once per emitted record through vtable +0x08.
+//   +0x23C scene::ISplitSegmentChoiceCallback*  thisAppendBatch null-tests it (0x5a6fec `LDR R12,[R0,#0x23C]`) and
+//           branches to 0x5a83e0 while it is null (0x5a7034), then calls it through vtable +0x08 with the arguments
+//           (0, 0, &this->m_currentVertices) - 0x5a70b4 `MOV R1,#0`; 0x5a70b8 `MOV R2,R1`; 0x5a70bc
+//           `LDR R3,[LR,#0x23C]`; 0x5a70c0 `MOV R0,R3`; 0x5a70c8 `ADD R3,LR,#0x240`; 0x5a70d0 `LDR PC,[R12,#8]` -
+//           and the return value gates the clustering block (0x5a70d4 `CMP R0,#0`). The Hex-Rays text is the same
+//           call: `(**(vtable+8))(this+0x23C, 0, 0, (int*)this + 144)`. compileInternal stores its FIFTH argument
+//           here (0x58fb7c). The constructor clears it (0x5a2e7c); the destructor never touches it.
 //   +0x240 intrusive_ptr<const CVertexStreams>  the streams thisAppendBatch is appending, and the argument it hands
 //           the choice callback as `&this->m_currentVertices` (0x5a70c8). Rebound twice (0x5a7050-0x5a7068,
 //           0x5a7cb8-0x5a7ce8) and released inline by the destructor (0x5a3d80-0x5a3dbc: decrement the count word at
@@ -160,20 +170,20 @@ public:
     void releaseBuffer();
     // 0x5a6fe0 (0x1aa0 bytes, 1221 decompiled lines): the append path - rebinds THIS class's own batch state at
     // +0x23C / +0x240 / +0x244 / +0x248 (the base's +0x110 / +0x120 / +0x124 / +0x128 is a different state and is
-    // only read indirectly), clusters the primitives (spatialGridClustering 0x5a89b8 or kdTreeClustering 0x5a88a8
-    // according to +0x25C) and copies or deduplicates the vertices into the base's current append buffer. NOT
-    // WRITTEN: it needs one pass of its own, and glitch::video::isVertexStreamHomolaced (0x5a23f4) and copyVertex
-    // (0x5a2b18) are still partial. The CAppendMeshBuffer dependency that was recorded as its blocker does not exist
-    // (the buffer is an opaque handle).
+    // read later in the body), clusters the primitives (spatialGridClustering 0x5a5860 or kdTreeClustering 0x5a6568
+    // according to +0x25C; 0x5a89b8 and 0x5a88a8 are the two BL SITES inside this function, not the functions) and
+    // copies or deduplicates the vertices into the base's current append buffer. NOT WRITTEN - the recovered
+    // structure of the whole body is recorded in glitch-video/src/batch_driver.cpp, and the pieces that block it are
+    // named there and in the ledger row.
     void thisAppendBatch(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
                          const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer);
     // 0x5a3a20 _ZN6glitch5video12CBatchDriver5flushEv (vtable 0x977108 slot +0x1fc, the IVideoDriver::flush slot)
-    // Reconstructed in glitch-video/src/batch_driver.cpp from the port's ISegmentCompileCallback declaration: the
-    // listing's unmap half, the +0x234 callback call (0x5a3a90-0x5a3abc, vtable +0x08, gated on the append
-    // buffer's +0x3c vertexUsedBytes) and the trailing clear() are all written. The callback slot is +0x234, the
-    // ISegmentCompileCallback one (see the member table); the earlier comment here (and in that source) called the
-    // +0x234 slot the end-of-batch callback and named the base's batch-buffer vector as the second argument, which
-    // the listing does not support. Declared with `override` because it is the base's slot.
+    // Reconstructed in glitch-video/src/batch_driver.cpp: the listing's unmap half, the +0x234 END-OF-BATCH
+    // callback call (0x5a3a90-0x5a3abc, vtable +0x08, gated on the append buffer's +0x3c vertexUsedBytes) and the
+    // trailing clear() are all written. The +0x234 slot IS the IEndOfBatchCallback one (register-level proof in the
+    // member table above); the note that called it the segment-compile slot had the two swapped. A later note in
+    // that source called the call's second argument the base's batch-buffer vector, which was wrong too: it is
+    // +0x124 m_batchMaterial. Declared with `override` because it is the base's slot.
     void flush() override;
 
     // ---- vtable slots this class overrides -------------------------------------------------------------------
@@ -183,30 +193,40 @@ public:
     void draw(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
               CDriverBinding** binding, const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer) override;
 
-    // The compile entry point registerSolidBatches 0x57e800 and registerTransparentBatches 0x57ea70 call:
-    //   (node, *mesh->getMaterial(batch - 1), batch, 4, nullptr, 0x7fffffff)                       [asm 0x57e8b8-0x57e8e4]
-    //   (node, material, batch | ((segment->field34 + 1) << 16), 8, segmentCentre, segment+0x22 word)
-    //                                                                                              [asm 0x57eb64-0x57eb84]
-    // The listings reach it through a vtable slot the notes call +0x24. This header deliberately declares it
-    // NON-virtual: slot +0x24 of the real vtable (0x977108) is an inherited IVideoDriver slot - IDA reads the word at
-    // 0x97712c as IVideoDriver::draw3DTriangle - and inserting a slot would renumber every later slot of every
-    // driver class in the tree. The parameter list below is read off those two call sites; it is not proven by a
-    // mangled symbol, and the last argument is left as a void pointer because the compile-info record the scene code
-    // passes has no header of its own in the port. The body is not written.
-    void compile(scene::CBatchSceneNode* node, const boost::intrusive_ptr<CMaterial>& material, uint32_t batchWord,
-                 uint32_t flags, const core::vector3d<float>* segmentCentre, uint32_t maxValue, const void* compileInfo);
+    // THERE IS NO CBatchDriver COMPILE ENTRY POINT - the declaration that used to stand here was a misreading of
+    // the object whose vtable the two call sites dispatch through, and it was removed rather than given a body
+    // (emitting it would be a rule-10 violation: no such symbol exists in the original, and glitch-video/queue.csv
+    // has no row for it). The call sites and what they really call:
+    //   registerSolidBatches 0x57e800: 0x57e894 `LDR R9,[R7,#0x110]` - node+0x110 is ISceneNode::sceneManager
+    //   (ISceneNode.hpp:259), NOT the batch driver; 0x57e8a0 `LDR LR,[R9]`; 0x57e8ac `LDR R6,[LR,#0x24]`;
+    //   0x57e8e4 `BLX R6` with R0 = the manager, R1 = the node, R2 = the batch material, R3 = the batch index and
+    //   the stack words 4 / 0 / 0x7fffffff.
+    //   registerTransparentBatches 0x57ea70: 0x57eb40 `LDR R11,[R12,#0x24]` and 0x57eb84 `BLX R11` with the stack
+    //   words 8 / the segment centre / the segment's +0x22 word.
+    // The manager's primary vptr is `_ZTVN6glitch5scene13CSceneManagerE (0x9766d8) + 0x1C` = 0x9766f4 (stored by
+    // its own constructor at 0x58d974-0x58d984), and the word at 0x9766f4 + 0x24 is
+    // _ZN6glitch5scene13CSceneManager24registerNodeForRenderingEPNS0_10ISceneNodeERKN5boost13intrusive_ptrINS_5video9CMaterialEEEPvNS0_24E_SCENE_NODE_RENDER_PASSEPKNS_4core8vector3dIfEEi
+    // (0x58f348, ledgered `reconstructed`). Six arguments after `this` - node, material, userData, the render pass
+    // (4 = ESNRP_SOLID, 8 = ESNRP_TRANSPARENT), the camera position and the max index count - which is exactly the
+    // shape both call sites build. CBatchDriver's own word at 0x97712c is +0x24 of ITS vtable
+    // (_ZTVN6glitch5video12CBatchDriverE = 0x977100, vptr 0x977108) and holds IVideoDriver::draw3DTriangle
+    // (0x5a8bdc), an inherited slot - which is what the earlier note saw and mistook for a compile hook.
 
     // ---- members (original 32-bit offsets; the base IVideoDriver is 0x160 bytes, CNullDriver ends at +0x22C) ------
     uint32_t defaultVertexBufferCapacityBytes = 0;  // +0x22C
     uint32_t defaultIndexBufferCapacityBytes = 0;   // +0x230
 
-    // +0x234. The ORIGINAL slot contents, in order: the ISegmentCompileCallback at +0x234, the IEndOfBatchCallback
-    // at +0x238 (the PORT had these two names the other way round; see the correction in the member table above).
-    // compileInternal 0x58facc stores its stack SDefaultSegmentCompileCallback object at +0x234 (`STR SP,[R0,#0x234]`,
-    // asm 0x58fb64) and its stack SDefaultEndOfBatchCallback object at the next word (asm 0x58fb70, R2 = SP + 0x18);
-    // flush 0x5a3a20 calls the +0x234 word through vtable +0x08. The constructor clears both.
-    scene::ISegmentCompileCallback* segmentCompileCallback = nullptr;  // +0x234
-    scene::IEndOfBatchCallback* endOfBatchCallback = nullptr;          // +0x238 (vptr off_9762A0 at the store site)
+    // +0x234 / +0x238, in original order: the END-OF-BATCH callback is +0x234 and the SEGMENT-COMPILE one +0x238.
+    // compileInternal 0x58facc stores its stack SDefaultEndOfBatchCallback object at +0x234 (`STR SP,[R0,#0x234]`,
+    // asm 0x58fb64: SP is the object whose vptr is off_9762B8 = _ZTVN6glitch5scene26SDefaultEndOfBatchCallbackE+8,
+    // and SDefaultEndOfBatchCallback::finalize runs on that same object at 0x58fc00) and its stack
+    // SDefaultSegmentCompileCallback object at the next word (asm 0x58fb70; that object's vptr is off_9762A0 =
+    // _ZTVN6glitch5scene30SDefaultSegmentCompileCallbackE+8, built at 0x58fb0c). flush 0x5a3a20 calls the +0x234 word
+    // through vtable +0x08 with (the buffer, &m_batchMaterial), i.e. exactly IEndOfBatchCallback::operator()
+    // (CAppendMeshBuffer.hpp:112) - the argument shape settles the type as well as the offset. Both are cleared by
+    // the constructor (0x5a2e74 / 0x5a2e78).
+    scene::IEndOfBatchCallback* endOfBatchCallback = nullptr;          // +0x234, the slot flush calls
+    scene::ISegmentCompileCallback* segmentCompileCallback = nullptr;  // +0x238, the slot thisAppendBatch calls
 
     // +0x23C .. +0x248: this class's OWN batch state, a different state from the base's +0x110 / +0x120 / +0x124 /
     // +0x128 (the evidence is in the file comment and in the member table). Recovered types, in original order:

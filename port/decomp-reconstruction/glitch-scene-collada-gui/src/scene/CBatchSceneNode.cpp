@@ -23,6 +23,7 @@
 #include "glitch-core-io/io/iattributes.hpp"
 #include "glitch-core-io/os/logging.hpp"  // glitch::os::Timer::TickCount (updateInfo)
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"  // registerNodeForRendering (vptr+0x24, 0x58f348)
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
 
@@ -463,28 +464,79 @@ std::int32_t CBatchSceneNode::updateInfo(std::uint32_t batch, std::uint32_t segm
     return total;
 }
 
-// 0x57e800 _ZN6glitch5scene15CBatchSceneNode18registerSolidBatchesEv
-// Walks the solid batches [0, unk_144): for a batch whose visible-entry count is non-zero it takes the batch's
-// material (mesh vtable +0x18) and the driver's sorted batch order (CBatchDriver::sortedBatches: a null-terminated uint16 list
-// that starts at element 1 and is read as the *batch index + 1*), gives both to the driver's compile entry point (vtable
-// +0x24 of the batch driver, the 7-argument CBatchDriver::compile: node, material, packed batch index, 4, null, 0x7fffffff,
-// then per-segment compile info) and reports the batch to its ISegmentCompileCallback. Every batch then gets the same entry
-// bookkeeping updateInfo applies, with the tick read from os::Timer::TickCount. The object's +0x148 flag gates the whole body.
-// PARTIAL: the port has no glitch::scene::CBatchDriver (IVideoDriver carries no compile slot; the batch driver, the sorted
-// batch order and the segment compile callback are not reconstructed), so nothing but the gate is written here.
+// 0x57e800 _ZN6glitch5scene15CBatchSceneNode20registerSolidBatchesEv
+// Reconstructed against the listing 0x57e800 and Hex-Rays 0x57e800. The gate is +0x144 (the solid batch count) being zero:
+// asm 0x57e804 `LDR R3,[R0,#0x144]; CMP R3,#0; BEQ` (the port keeps `> 0`, which also covers the -1 the member holds before
+// postCompile computes it, where the original's unsigned compare would read the whole batch list). For every batch
+// [0, +0x144) the batch's 20-byte visible-entry record is loaded from +0x158 (asm 0x57e87c), and when its count word is
+// non-zero (asm 0x57e88c) the batch's material is taken from the mesh's vtable +0x18 and the batch is filed with the scene
+// manager: the manager is the word at +0x110 (`LDR R9,[R7,#0x110]`, 0x57e894), which is ISceneNode::sceneManager, and the
+// call is that object's vtable slot +0x24 (`LDR R6,[LR,#0x24]` with LR = [R9]; `BLX R6`, 0x57e8ac / 0x57e8e4), i.e.
+// CSceneManager::registerNodeForRendering 0x58f348. The arguments are R0 = the manager (asm 0x57e8e0), R1 = this node
+// (0x57e8d4), R2 = the material handle (0x57e8dc), R3 = `batch + 1` (asm 0x57e8d8 MOV R3,R8, where R8 = batch + 1 and the
+// getMaterial index is R8 - 1 from asm 0x57e880 SUB R2,R8,#1), then the stack words 4 (asm 0x57e8bc), 0 (0x57e8c4) and
+// 0x7fffffff (0x57e8cc): pass 4 is ESNRP_SOLID, no position and the sort order. The userData word is 1-BASED, and render
+// 0x5808ac confirms it: it draws the solid batch of the packed word as `renderSolidBatch(this, driver, word - 1)`. The
+// material, by contrast, is the batch's own index (`getMaterial(v3 - 1)` with the loop counter v3 = batch + 1, Hex-Rays
+// 0x57e800). This is NOT a CBatchDriver compile call: the object the slot is read from is node+0x110 (the manager) and 0x24
+// of the manager's vtable word 0x9766f4 is registerNodeForRendering. The entry bookkeeping is the tail of the same loop (asm
+// 0x57e8f8 -> loc_57E840, 0x57e840-0x57e870): the record's count is reloaded, `flags` becomes flags|1 unless
+// indexBase == count, and the tick is os::Timer::TickCount - set for every batch, because the original's `if (v7)` guards
+// only the updates that need the count, not the tick store.
+// Deviation, named: the original dereferences the +0x158 block and the material unconditionally; the port tests both
+// (visibleEntry returns null for a missing block, and a batch index out of the mesh's range yields a null material), because
+// the port's tests build batches with addBatch() alone.
 void CBatchSceneNode::registerSolidBatches() {
-    if (!unk_144) {
+    if (unk_144 <= 0) {
         return;
+    }
+    const std::uint32_t solidCount = static_cast<std::uint32_t>(unk_144);
+    for (std::uint32_t batch = 0; batch < solidCount; ++batch) {
+        SVisibleEntry* entry = visibleEntry(batch);
+        if (entry == nullptr) {
+            continue;
+        }
+        if (entry->count != 0) {
+            const boost::intrusive_ptr<video::CMaterial> material =
+                mesh ? mesh->getMaterial(batch) : boost::intrusive_ptr<video::CMaterial>();
+            if (sceneManager != nullptr) {
+                // R3 = batch + 1: the registration word is 1-based (render 0x5808ac subtracts one), while the material
+                // above is the batch's own index - exactly what the listing passes (asm 0x57e880 vs 0x57e8d8).
+                sceneManager->registerNodeForRendering(
+                    this, material, reinterpret_cast<void*>(static_cast<std::uintptr_t>(batch) + 1u), ESNRP_SOLID, nullptr,
+                    0x7FFFFFFF);
+            }
+        }
+        if (entry->count) {
+            entry->flags = (entry->indexBase == entry->count) ? entry->flags : (entry->flags | 1u);
+        }
+        entry->tick = os::Timer::TickCount;
     }
 }
 
 // 0x57ea70 _ZN6glitch5scene15CBatchSceneNode25registerTransparentBatchesEv
-// Walks the transparent batches [unk_144, the mesh's batch count): for each visible segment of the batch it takes the
-// segment's centre (CBatchMesh::getSegmentCenter 0x57e90c), passes it as the compile info to the driver's compile entry point
-// (vtable +0x24, packed as `batch | ((segment->field34 + 1) << 16)`, flag 8, the centre, the segment's +0x22 word) and reports
-// the batch to its callback. Then it zeroes the batch's entry count and stamps the tick with os::Timer::TickCount.
-// PARTIAL: as registerSolidBatches, the batch driver's compile entry point and CBatchMesh::getSegmentCenter have no body in
-// the port.
+// PARTIAL, and the recorded blocker is replaced by the two items that really are missing. Verified against the listing
+// 0x57ea70 and Hex-Rays 0x57ea70: the loop is the transparent batches [the solid batch count at +0x144, the mesh's buffer
+// count) - asm 0x57ea88 `LDR R7,[R0,#0x144]` and the bound built from the mesh's +0x20 / +0x24 words. Per batch it loads the
+// 20-byte visible-entry record from +0x158 and reads its count word as the length of the SSegment* array at
+// `block + 4 * record[+0x10]` (asm 0x57eadc-0x57eaf4, the same arithmetic computeMaxIndices and updateIndices use). Per
+// segment it (1) calls CBatchMesh::getSegmentCenter 0x57e90c as `getSegmentCenter(&centre, mesh, segment[+0x04])` (asm
+// 0x57eb14-0x57eb20) and (2) files the batch with the scene manager: the manager is the word at +0x110 (asm 0x57eb24),
+// which is ISceneNode::sceneManager, and the call is its vtable slot +0x24 (`LDR R11,[R12,#0x24]` with R12 = [R8];
+// `BLX R11`, 0x57eb40 / 0x57eb84), i.e. CSceneManager::registerNodeForRendering 0x58f348 - NOT a CBatchDriver compile call
+// (the word the notes called 0x97712c is an inherited IVideoDriver slot of the batch driver's vtable, while the object the
+// slot is read from here is node+0x110). The arguments are R0 = the manager (asm 0x57eb5c), R1 = this node (0x57eb50),
+// R2 = the material handle (0x57eb58, the vtable +0x18 call at 0x57eb48), R3 = `batch | ((segment[+0x22] + 1) << 16)` (asm
+// 0x57eb4c-0x57eb7c, +0x22 read as a signed halfword), then the stack words 8 (0x57eb64 = ESNRP_TRANSPARENT), the centre
+// (0x57eb70) and the sign-extended segment[+0x22] (0x57eb74/0x57eb80). Then the batch's record count is zeroed and its tick
+// is stamped with os::Timer::TickCount (asm 0x57ebb0-0x57ebd4).
+// MISSING, named exactly: (1) the material handle in R2 at the call - the listing reaches it through the segment's own
+// stream table, `(*segment)[+0x04]` indexing `*(meshBuffer + 0x14)` and then a vtable +0x18 material call (asm
+// 0x57eb4c-0x57eb58); neither SSegment +0x04 / +0x22 nor the stream table at CMeshBuffer +0x14 is mapped in the port
+// (CBatchMesh::SSegment declares them as unrecovered padding), and the port's CBatchMesh::getSegmentCenter is
+// declared-only, so writing the body now would both invent a field meaning and add an undefined symbol the link does not
+// have; (2) CBatchMesh::getSegmentCenter 0x57e90c has no body in the port (its own ledger row lists the same unmapped
+// SSegment bytes). Unlike registerSolidBatches, nothing here can be written from mapped members alone.
 void CBatchSceneNode::registerTransparentBatches() {}
 
 // 0x57ebec _ZN6glitch5scene15CBatchSceneNode26invalidateVisibleIndexCacheEj
