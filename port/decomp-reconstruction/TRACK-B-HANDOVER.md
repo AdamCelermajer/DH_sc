@@ -104,6 +104,34 @@ recover the `DeclareMember` order exactly as was done for the other two records.
 warning applies: this record holds a `NetStructString<16>` where the base's holds a `NetStructUInt<8>`,
 which is why it is 360 rather than 432.
 
+## Two workers stopped mid-edit and left the tree unbuildable
+
+Both are real incidents, recorded so they are not repeated and so the lost work is recoverable.
+
+1. **`glitch-video/src/image.cpp`** (earlier round) — 1,155 lines added, 8 compile errors including raw
+   Hex-Rays output pasted unedited (`__builtin_sdiv`) and members that do not exist (`CImage::left`/`top`).
+   Its worker was still running; it converged by itself after ~10 minutes and the file now compiles and is
+   committed. 22 ledger rows.
+
+2. **`net-session-online/src/multiplayer_callback.cpp`** (2026-10-15) — 276 insertions / 22 deletions, then
+   the worker **finished** and stopped with the file broken and **no ledger row written**. Errors:
+   `'RenderFX' is not a base of 'MenuBase'`, `no matching function for call to 'CMatching::IsInRoom()'`, and
+   `'class MenuBase' has no member named 'InvokeASCallback'`. All three are calls written against an API that
+   does not exist in the tree, i.e. exactly what rule 5 forbids. The integrator stashed that work to restore
+   the build:
+
+   `git stash list` -> `stash@{0}: WIP on track-b/development: 3f6ce686`
+
+   **A worker redoing this must `git stash show -p stash@{0}` first and treat it as a draft to be checked
+   against the real headers, not as code to reapply.** The specific traps: `MenuBase` does not derive from
+   `RenderFX` (the original reaches an `RenderFX` object some other way); `CMatching::IsInRoom()` has no
+   zero-argument overload in the port; and `RenderFX::InvokeASCallback` has two overloads, one taking
+   `gameswf::character*` first — a previous worker guessed the other one and was rejected.
+
+**Lesson for every worker**: a file you touch must compile when you stop. If a body cannot be finished
+cleanly, leave that row `partial` with the blocker named and keep the file building. Run
+`./tools/trackb/check_tu.sh <file>` as the last action before reporting.
+
 ### The rest
 
 1. **`CBatchSceneNode`'s visible-segment list** (`glitch-scene-collada-gui`) - CORRECTED and partly FIXED; a narrower
