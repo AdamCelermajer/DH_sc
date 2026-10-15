@@ -106,6 +106,17 @@ CBatchDriver::CBatchDriver(uint32_t vertexBufferCapacityBytes, uint32_t indexBuf
 CBatchDriver::~CBatchDriver() = default;
 
 // 0x58a920 _ZN6glitch5video12CBatchDriver10initBufferEv
+// DEFECT (found by the coverage batch, glitch-video/tests/batch_driver_buffers_test.cpp; the body is the only
+// one of the family that no test could enter): the `releaseAppendBuffer(buffer);` below is a SECOND drop of the
+// listing's single one. The listing drops the temporary once (0x58a9b0-0x58a9b8, count 2 -> 1) and then stores
+// m_batchBuffers[0] into +0x120 with a raw store that adds no use (0x58a9bc-0x58a9c4). Here the C++ temporary
+// `intrusive_ptr<IReferenceCounted>(buffer, true)` already drops itself at the end of the push_back statement,
+// so by the time releaseAppendBuffer runs the count is 1 and that call deletes the CAppendMeshBuffer inside
+// initBuffer; `m_batchBuffer = m_batchBuffers.front()` then add-refs freed memory and both handles dangle.
+// Measured with a probe that overrides operator new/delete and calls initBuffer on a leaked driver: the block
+// stored in m_batchBuffer was freed inside the call and the process exited 0xC0000374 (heap corruption). With
+// `releaseAppendBuffer(buffer);` deleted the same probe reports the block alive, 0 frees, exit 0. Until that
+// one line goes, any caller corrupts the heap, so the row is `partial` and the test does not call this.
 // Reconstructed. The listing, in order (all of it in members of the base IVideoDriver; the object is R4 = `this`
 // throughout, so +0x22C / +0x230 are this class's two capacities and +0x110 / +0x114 / +0x118 / +0x120 are the base's
 // batch state):
