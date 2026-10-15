@@ -318,6 +318,13 @@ foreach(cat IN LISTS DH2_DECOMP_CATEGORIES DH2_GAME_CATEGORIES DH2_VENDOR_CATEGO
       target_link_options(${exe} PRIVATE -Wl,--allow-multiple-definition)
     endif()
     add_test(NAME ${cat}/${tname} COMMAND ${exe})
+    # Two net-session-online tests use ./iglu.bin in the build directory as their RMS input, and one of them
+    # DELETES it. Under `ctest -j` they raced: a_license_check_test failed roughly 1 run in 4 at -j 8 while
+    # passing 2/2 at -j 1. Serialising just these two costs nothing and removes a phantom failure that was
+    # being reported as a real one. (Fix the general case if a third test ever shares this file.)
+    if(tname STREQUAL "a_license_check_test" OR tname STREQUAL "r1n-net-session-online-ALicenseCheck-6e7781-0_test")
+      set_tests_properties(${cat}/${tname} PROPERTIES RESOURCE_LOCK iglu_rms_input)
+    endif()
   endforeach()
 endforeach()
 
