@@ -132,6 +132,48 @@ Both are real incidents, recorded so they are not repeated and so the lost work 
 cleanly, leave that row `partial` with the blocker named and keep the file building. Run
 `./tools/trackb/check_tu.sh <file>` as the last action before reporting.
 
+## THE `CMatching` VTABLE REORDER - one decision, four consequences, now fully evidenced
+
+This has been deferred repeatedly because it is the only remaining item that changes vtable layout across
+a class hierarchy. The evidence is now complete, so it should be settled once by an owner rather than
+worked around per row. A `-Woverloaded-virtual` audit (report:
+`default-workspace/dh2-warn-audit/WARN-AUDIT-overloaded-virtual.md`) established all of it from the
+recovered binary. **Do not fix these piecemeal** - the two `IsInRoom` overloads and the base declaration
+must move together.
+
+1. **`GetRoomAttributes` and `GenerateNewMemberId` are 8 bytes out in the port.** The port puts
+   `GetRoomAttributes` at `+0xa4` and `GenerateNewMemberId` at `+0xac`; the binary has them at `+0xac`
+   and `+0xb4`. `CMatchingGLLive::ReadPacketData` (0x81e4d0) and `WritePacketData` (0x81f53c) both
+   dispatch through the affected range, so **their room half currently calls the wrong function**.
+   This is what keeps those two rows `partial`.
+2. **`CMatchingGLLive::GenerateNewMemberId() const` is a genuine mis-override.** `_ZTV15CMatchingGLLive`
+   dyn `+0x0ac` holds the NON-const `CMatchingGLLive::GenerateNewMemberId()`, the same slot
+   `_ZTV14CMatchingLocal` gives its own; the symbol is `_ZN15CMatchingGLLive19GenerateNewMemberIdEv`
+   (0x81bbf4, no `K`). The port's `const` therefore breaks the override, emits a symbol the original does
+   not have (rule-10 violation), and adds a slot - so a virtual call on a `CMatchingGLLive` through
+   `CMatching*`/`CMatchingLocal*` silently runs `CMatchingLocal`'s body (0x80675c), never 0x81bbf4.
+3. **`CMatchingLocal::IsInRoom() const` is a genuine mis-override.** `_ZTV9CMatching` (0x991f40) has
+   **both** `+0x64 IsInRoom()` and `+0x68 IsInRoom(int)` as PURE slots, and `CMatchingLocal` implements
+   both (0x805cc8 / 0x805c1c, neither const). The port's base declares only `IsInRoom(int)` - its `+0x64`
+   stand-in is the differently-named `UnknownGate()` - so the derived cannot override.
+4. **A dispatch bug the compiler warning CANNOT see at any level** (`-Woverloaded-virtual` verbosity 0, 1
+   and 2 all miss it): `CMatchingLocal::IsInRoom(std::int32_t) const` has the base's parameter list but is
+   `const`, so it is not even virtual and does not override. **Every virtual `IsInRoom(idx)` call runs the
+   base's `return false` stub instead of 0x805c1c.** `CMatchingGLLive::IsInRoom(int)` (correctly non-const)
+   then cannot override either, so GLLive carries an extra slot.
+   Five more `CMatchingLocal` members carry a `const` the binary lacks - `IsRoomClosed`, `IsRoomHidden`,
+   `GetMemberMask`, `GetInvitationRoomId`, `GetMemberName`. Each one's own port comment already quotes the
+   non-const mangled name, so they are provable rule-10 symbol mismatches, but not dispatch bugs.
+   **Constraint:** `GetMemberMask` must STAY `const` while the base `MemberBit(int)` is `const`.
+
+Two further layout-neutral items an owner should take at the same time, both proved by the same audit:
+`CMatching::SearchRoom` (0x7feb40) needs a new virtual slot at `+0x08` (its listing tail-calls the search
+object's `+0x08`, which the port does not declare) - this is the single real blocker on three
+net-session rows (`0x49b580`, `0x49b660`, and `joinRoom`'s `+0x90 GetRoomList`); and
+`CUserPointerAttribute::getString(char*)` **is** virtual in the binary (a new slot `+0x10c`; its `_ZTV` is
+280 B/68 slots against `IAttribute`'s 276 B/67), while the port declares it non-virtual, so the port's
+vtable is one slot short.
+
 ### The rest
 
 1. **`CBatchSceneNode`'s visible-segment list** (`glitch-scene-collada-gui`) - CORRECTED and partly FIXED; a narrower
