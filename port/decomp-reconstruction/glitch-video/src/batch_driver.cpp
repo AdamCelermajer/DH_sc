@@ -205,7 +205,11 @@ void CBatchDriver::releaseBuffer() {
 void CBatchDriver::flush() {
     if (m_batchBuffer) {
         auto* buffer = reinterpret_cast<scene::CAppendMeshBuffer*>(m_batchBuffer.get());
-        if (buffer->indexUsedBytes != 0) {
+        // The listing tests the CAppendMeshBuffer word at +0x50 (asm 0x5a3a2c), which that class's own header
+        // names mappedVertices - NOT +0x44 indexUsedBytes, which is what this body read before. The two differ
+        // whenever a buffer has mapped vertices but no indices written yet, and there the listing still unmaps
+        // while the old gate skipped the block entirely.
+        if (buffer->mappedVertices != nullptr) {
             auto* vertexBuffer = const_cast<IBuffer*>(buffer->vertexBuffer.get());
             auto* indexBuffer = const_cast<IBuffer*>(buffer->indexBuffer.get());
             if (vertexBuffer != nullptr) {
