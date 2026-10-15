@@ -1,8 +1,8 @@
 // glitch::video::pixel_format: the pixel format descriptor table and the size
 // helpers that read it. The original table (pixel_format::detail::PFDTable) is
-// 40 entries of 0x28 bytes in .rodata. Its data is not in the repo, so the
-// table is declared here and filled by the port when the values are known (see
-// NOTES.md). The helpers are reconstructed over this layout.
+// 40 entries of 0x28 bytes in .rodata at ELF 0x8e36c0; its bytes were recovered
+// from the binary and are defined in src/pixel_format_table.cpp. The helpers are
+// reconstructed over this layout.
 #pragma once
 
 #include <cstdint>
@@ -31,7 +31,7 @@ struct SFormatEntry {
 };
 static_assert(sizeof(SFormatEntry) == 0x28, "PFDTable entries are 0x28 bytes");
 
-// Table data (see the header comment). Zero-filled in this port.
+// Table data: the original's 40 rows, defined in src/pixel_format_table.cpp.
 extern SFormatEntry PFDTable[kFormatCount];
 
 }  // namespace detail

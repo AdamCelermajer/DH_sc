@@ -47,9 +47,13 @@ public:
 
     // 0x65dbd8 (C1) and 0x65dda0 (C2). PARTIAL: see the source.
     CSceneNodeAnimator(const CColladaDatabase& database, SLibraryAnimationClips& clips);
-    // vptr+0x08 / +0x0c: 0x65dab0 (D1), 0x65db58 (D2), 0x65db3c (D0, skipped). PARTIAL: see the source.
+    // vptr+0x08 / +0x0c: 0x65dab0 (D1), 0x65db58 (D2), 0x65db3c (D0, skipped). Reconstructed: removeAnimationTracks, the
+    // animation block at +0x54 when set, the target vector's allocation, the database and the base, in that order. The
+    // members here do the same.
     ~CSceneNodeAnimator() override;
 
+    // 0x65df4c: writes BlendOutWeight (+0x30), Start (+0x38), End (+0x3c) and Length (+0x14) in seconds, the interpolation
+    // type as an enum over getStringsInternal, the bound node's uid and the record's file name. Reconstructed.
     void serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const override;  // 0x65df4c
     void deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) override;      // 0x65d540
     void animateNode(scene::ISceneNode* node, std::uint32_t timeMs) override;            // +0x10, 0x65d528

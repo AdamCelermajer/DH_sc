@@ -13,6 +13,13 @@ namespace glitch::collada {
 
 // 0x662d10 _ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSetC1ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEERKSt6vectorISsNS_4core10SAllocatorISsLNS_6memory13E_MEMORY_HINTE0EEEE
 // and 0x662df0 (C2)
+// Verified against the decompilation 0x662d10: the CSceneNodeAnimatorSet base is constructed, +0x60 / +0x64 / +0x68 are
+// zeroed (the segments vector), the vtable words are stored, segmentCount at +0x6c is
+// -1431655765 * ((end - begin) >> 3) = (end - begin) / 24 = the number of names (computed from the vector argument, in
+// the dump: `*(a1 + 108) = -1431655765 * ((a3[1] - *a3) >> 3)`), then the names vector at +0x70 is copy-constructed, +0x80
+// (reachedEnd) is 0, +0x7c (elapsedTime) is 0, owner (+0x5c, read as `this + 23` words) is set to `this`, and init(set)
+// runs last. The port's declaration order is segments (+0x60), segmentCount (+0x6c), names (+0x70), elapsedTime (+0x7c),
+// reachedEnd (+0x80), so the two initialisers run in the original's order and only the owner store is in the body.
 CSceneNodeAnimatorSynchronizedSet::CSceneNodeAnimatorSynchronizedSet(const boost::intrusive_ptr<CAnimationSet>& set,
                                                                      const std::vector<std::string>& eventNames)
     : segmentCount(static_cast<std::uint32_t>(eventNames.size())), names(eventNames) {

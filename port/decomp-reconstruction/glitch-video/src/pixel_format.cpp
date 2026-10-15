@@ -5,8 +5,8 @@
 namespace glitch::video::pixel_format {
 
 namespace detail {
-// Placeholder: the .rodata table is not in the repo, so every entry is zero.
-// PFDTable is defined in pixel_format_table.cpp (bytes from the original binary).
+// PFDTable is defined in pixel_format_table.cpp: the original's 40 rows of 0x28 bytes, read from
+// ELF 0x8e36c0.
 }  // namespace detail
 
 namespace {
@@ -134,8 +134,10 @@ struct SPackedRGBtoLuminanceAlphaConverter {
 }  // namespace
 
 // 0x5edca4 _ZN6glitch5video12pixel_format12_GLOBAL__N_135SPackedRGBtoLuminanceAlphaConverterC1ENS0_14E_PIXEL_FORMATE
-// (C1 only; the C2 form is not in the ARM listing.) Partial: PFDTable is zero-filled in
-// this port, so the divisions yield inf/NaN until the table data is supplied.
+// (C1 only; the C2 form is not in the ARM listing.) Reconstructed against the listing: the three
+// channel weights 0.3/0.59/0.11 divided by (key[i] >> shift[i]), the masks and shifts stored at
+// +0x0c/+0x18, then alphaShift +0x1b, alphaMask +0x1c, alphaScale +0x20 and alphaMaxBits +0x24
+// (zeroed when the row flags bit 0 is set). The table it reads is the binary's.
 SPackedRGBtoLuminanceAlphaConverter::SPackedRGBtoLuminanceAlphaConverter(E_PIXEL_FORMAT format) {
     const SFormatEntry& row = PFDTable[format];
     // Row bytes not named in SFormatEntry (+0x1c..+0x1e are the channel shifts, +0x1f the

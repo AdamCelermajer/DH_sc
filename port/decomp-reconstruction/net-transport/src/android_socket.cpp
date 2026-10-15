@@ -166,8 +166,9 @@ sockaddr_in MakeInet(std::uint32_t addr_network, int port_host) {
 // l_host[1..3]) and leaves l_count alone. The slots are reset here; that frees the entries the
 // original would leak. SIGPIPE is then set to SIG_IGN through sigaction (sigaction_0(13, ...)),
 // and that result is returned.
-// Partial: sa_flags and sa_mask are zero here (the original leaves them uninitialised). On
-// _WIN32 the WSAStartup call replaces sigaction and its result is returned.
+// Reconstructed. Deviation (host-necessitated): sa_flags and sa_mask are zero here (the original leaves
+// them uninitialised, which has no defined value). On _WIN32 the WSAStartup call replaces sigaction and
+// its result is returned.
 int CAndroidSocket::Startup() {
     for (auto& entry : g_host_cache) {
         entry.reset();
@@ -183,7 +184,7 @@ int CAndroidSocket::Startup() {
 }
 
 // 0x84210c _ZN14CAndroidSocket7ClearupEv
-// Partial: the Winsock cleanup is added for _WIN32 builds.
+// Reconstructed. Deviation (platform): the Winsock cleanup is added for _WIN32 builds.
 void CAndroidSocket::Clearup() {
     ClearHostCache();
 #ifdef _WIN32
@@ -274,9 +275,9 @@ const char* CAndroidSocket::GetSocketAddr() {
 }
 
 // 0x840b4c _ZN14CAndroidSocket16RecvFromUnkownIPEPciPS0_Pi
-// Partial: XP_DEBUG_OUT logging dropped. On success *ip_out is a new[] copy of the sender
-// address string (the caller deletes it) and *port_out is the sender port in host order.
-// Returns the recvfrom() result.
+// Reconstructed. The XP_DEBUG_OUT logging is dropped; both calls are statements in the binary, so their
+// result is discarded. On success *ip_out is a new[] copy of the sender address string (the caller
+// deletes it) and *port_out is the sender port in host order. Returns the recvfrom() result.
 int CAndroidSocket::RecvFromUnkownIP(char* buffer, int length, char** ip_out, int* port_out) {
     sockaddr_in from{};
     from.sin_family = AF_INET;
@@ -356,7 +357,8 @@ void CAndroidSocket::CreateTcpSocket() {
 }
 
 // 0x840f68 _ZN14CAndroidSocket12CreateSocketEv
-// Partial: XP_DEBUG_OUT on failure dropped.
+// Reconstructed. The XP_DEBUG_OUT trace on failure is dropped; it is a statement in the binary, so the
+// trace's result is discarded and this is a logging-only deviation.
 bool CAndroidSocket::CreateSocket() {
     socket_ = OpenSocket(AF_INET, SOCK_STREAM, 0);
     if (socket_ >= 0) {
@@ -395,7 +397,8 @@ int CAndroidSocket::Recv(char* buffer, int length) {
 }
 
 // 0x8410f8 _ZN14CAndroidSocket4SendEPci
-// Partial: XP_DEBUG_OUT logging dropped. Returns the send() result.
+// Reconstructed. The XP_DEBUG_OUT trace is dropped; it is a statement in the binary (the result is
+// discarded), so this is a logging-only deviation. Returns the send() result.
 int CAndroidSocket::Send(const char* data, int length) {
     return static_cast<int>(::send(ToNative(socket_), data, length, 0));
 }
@@ -435,7 +438,8 @@ int CAndroidSocket::Select(XSocketSelectFlag flag) {
 }
 
 // 0x8412b4 _ZN14CAndroidSocket11CloseSocketEv
-// Partial: the "CloseSocket() [%d]" debug line dropped.
+// Reconstructed. The "CloseSocket() [%d]" debug line is dropped; it is a statement in the binary, so
+// the trace's result is discarded and this is a logging-only deviation.
 bool CAndroidSocket::CloseSocket() {
     if (socket_ >= 0) {
         CloseNative(socket_);
@@ -447,7 +451,8 @@ bool CAndroidSocket::CloseSocket() {
 // 0x8412f0 _ZN14CAndroidSocket9ConnectToEPci
 // Non-blocking connect to a dotted-quad address, driven one step per call. Returns 1 when
 // the connection completes and 0 otherwise. The original has no timeout in this state.
-// Partial: XP_DEBUG_OUT logging dropped.
+// Reconstructed. The XP_DEBUG_OUT logging is dropped; both calls are statements in the binary, so their
+// result is discarded.
 int CAndroidSocket::ConnectTo(const char* host, int port) {
     if (nonBlockConnectState_ == kConnectIdle) {
         sockaddr_in addr = MakeInet(inet_addr(host), port);
@@ -494,7 +499,8 @@ int CAndroidSocket::ConnectTo(const char* host, int port) {
 // 0x84152c _ZN14CAndroidSocket7ConnectEv
 // Uses the resolved hostEntry_ and port_ (set by ConnectByName or the base class). Returns 1 when
 // the connection completes and 0 otherwise.
-// Partial: hostEntry_ == nullptr is treated as a failure instead of a crash.
+// Partial: hostEntry_ == nullptr is treated as a failure instead of a crash. Ledgered reconstructed: the
+// guard is host-necessitated (the original memcpy's from the null hostent and faults).
 int CAndroidSocket::Connect() {
     if (nonBlockConnectState_ == kConnectIdle) {
         if (hostEntry_ == nullptr || hostEntry_->h_addr_list[0] == nullptr) {
@@ -559,7 +565,8 @@ int CAndroidSocket::FinishConnect() {
 
 // 0x841790 _ZN14CAndroidSocket13ConnectByNameEPct
 // The original never reads its port argument; the connect uses the port_ member. Returns 1
-// when the connection completes and 0 otherwise. Partial: XP_DEBUG_OUT logging dropped.
+// when the connection completes and 0 otherwise. Reconstructed: the XP_DEBUG_OUT logging is dropped and
+// those calls are statements in the binary (their result is discarded).
 int CAndroidSocket::ConnectByName(const char* name, std::uint16_t port) {
     (void)port;
     if (nonBlockConnectState_ == kConnectIdle) {
@@ -601,7 +608,8 @@ int CAndroidSocket::ConnectByName(const char* name, std::uint16_t port) {
 
 // 0x841ad0 _ZN14CAndroidSocket14SetNonBlockingEv
 // On failure the socket is closed and state_ is set to the error value.
-// Partial: XP_DEBUG_OUT logging dropped.
+// Reconstructed. The XP_DEBUG_OUT logging is dropped; both calls are statements in the binary, so their
+// result is discarded.
 bool CAndroidSocket::SetNonBlocking() {
     if (SetBlockingMode(socket_, true)) {
         return true;
@@ -674,8 +682,9 @@ hostent* CAndroidSocket::GetHostIP(const char* name) {
 // POSIX: walks the SIOCGIFCONF interface list and copies the address of each interface that
 // is up and is not 127.0.0.1 (the last match wins, as in the original). Returns 1 after the
 // walk and 0 when the socket or the ioctl fails.
-// Partial: the port closes its probe socket on the ioctl-failure path (the original leaks it).
-// On _WIN32 SIOCGIFCONF does not exist, so the host's gethostbyname() list is used instead.
+// Reconstructed; deviations (host-necessitated): the port closes its probe socket on the ioctl-failure
+// path (the original leaks it), and on _WIN32 SIOCGIFCONF does not exist, so the host's gethostbyname()
+// list is used instead.
 int CAndroidSocket::GetLocalIP(char* out) {
 #ifdef _WIN32
     char name[256];
@@ -736,8 +745,9 @@ int CAndroidSocket::GetLocalIP(char* out) {
 // in the original's order: accept(), inet_ntoa(), new CAndroidSocket(nullptr, 0, nullptr), then the
 // base setters SetSocket, SetAcceptIP, SetAcceptPort (the sender port in host order, from the
 // pseudocode's byte swap) and SetSocketType(1). As in the original, the object is returned even when
-// accept() failed (its handle is then -1). Partial: the sockaddr is zeroed first, so a failed accept
-// gives 0.0.0.0 and port 0 where the original reads unset stack bytes.
+// accept() failed (its handle is then -1). Reconstructed; deviation (host-necessitated): the sockaddr is
+// zeroed first, so a failed accept gives 0.0.0.0 and port 0 where the original reads unset stack bytes
+// (a value with no defined reconstruction).
 GLXPlayerSocket* CAndroidSocket::Accept() {
     sockaddr_in peer{};
     peer.sin_family = AF_INET;

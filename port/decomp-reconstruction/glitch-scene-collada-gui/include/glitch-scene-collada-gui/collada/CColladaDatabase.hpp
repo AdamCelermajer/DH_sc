@@ -435,10 +435,15 @@ public:
     bool zipLoadingEnabled = true;               // +0x2a enables the zip path in getReadFile
     bool disableZipAfterFirstUse = true;         // +0x2b when set, getReadFile clears zipLoadingEnabled after one use
 
-    // 0x657894 (C1) / 0x657914 (C2): zeroes the members, stores the device and the default factory and publishes the singleton.
-    // Declared only. ~CResFileManager(): 0x6582c4 (D1), 0x6583c4 (D2), 0x6583a8 (D0, skipped): unload everything and unpublish. Not reproduced.
+    // 0x657894 (C1) / 0x657914 (C2): zeroes the members, stores the device and the default factory and publishes the
+    // singleton. Reconstructed; see src/tb_scene-collada-gui-glitch_collada_CResFileManager-0.cpp. The C2 is emitted from
+    // the same declaration (both symbols verified in that translation unit).
     explicit CResFileManager(glitch::IDevice* device);
     CResFileManager() = default;
+    // ~CResFileManager() 0x6582c4 (D1), 0x6583c4 (D2), 0x6583a8 (D0, skipped) is still NOT declared. It walks the
+    // std::map in order dropping each entry's +0x28 slot, unpublishes the singleton, then erases the map; the walk is
+    // expressible, but declaring the destructor would make the class non-trivially destructible and reach every user that
+    // currently relies on the implicit one. That decision is left to the integrator.
     // 0x65799c: the version check of a file by name. Declared only.
     std::int32_t checkVersion(const char* fileName);
     // 0x657bd0: the read file the loaders use for `file` (a memory copy for zipped archives). Declared only.

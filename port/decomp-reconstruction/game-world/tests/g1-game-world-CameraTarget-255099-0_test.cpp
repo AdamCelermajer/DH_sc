@@ -4,9 +4,15 @@
 // constructor, destructor and virtuals, GameObject::GetCameraAnchorPosition, Application::GetDt and
 // ApplicationGetInstance, and the ObjectManager lookup with its ObjectHandle conversions. The stubs read
 // a few globals set here. The two globals the unit reads (Vec3f_Origin and the ObjectManager instance)
-// are defined here as well. The camera-node seams in the unit are neutral, so the node position is never
-// observed. The checks cover the transition countdown, the target bookkeeping, the offset and ghost
-// arithmetic, and the damping arithmetic against the origin that the neutral seam reports.
+// are defined here as well.
+//
+// The unit reaches its node through the named ISceneNode virtuals: the node's absolute position
+// (slot +0xa0, HandleDamping) and setPosition (slot +0xa4, HandleTransition and Update). A raw byte
+// buffer cannot stand in for that: those are virtual dispatches through the node's vptr. FakeSceneNode
+// below is therefore a real ISceneNode subclass (the engine's own base body runs, so its absolute
+// position is the position written through setPosition), and the checks read that position back. The
+// checks cover the transition countdown and the position each branch writes, the target bookkeeping,
+// the offset and ghost arithmetic, and the damping arithmetic.
 
 #include <cmath>
 #include <cstdio>
@@ -19,6 +25,7 @@
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 namespace {
 
@@ -30,10 +37,9 @@ Point3D<float> g_anchor{10.0f, 20.0f, 30.0f};  // every GameObject's camera anch
 bool g_lookupFound = false;
 GameObject* g_lookupObject = nullptr;
 
-// Storage whose address stands for objects and nodes. The stubs never read through it.
+// Storage whose address stands for objects. The stubs never read through it.
 char g_fakeManager[16];
 char g_fakeBase[16];
-char g_fakeNode[16];
 char g_objA[16];
 char g_objB[16];
 char g_objC[16];
@@ -53,9 +59,37 @@ bool sameVec(const Point3D<float>& a, const Point3D<float>& b) {
     return near(a.X, b.X) && near(a.Y, b.Y) && near(a.Z, b.Z);
 }
 
+// The node's returned vector is a glitch::core::vector3d, not a Point3D, so it is checked component by
+// component.
+bool nearVec(const glitch::core::vector3d<float>& a, const Point3D<float>& b) {
+    return near(a.X, b.X) && near(a.Y, b.Y) && near(a.Z, b.Z);
+}
+
+// ISceneNode::setPosition stores the position (+0xac) and sets ESNF_POSITION_CHANGED; the absolute matrix
+// (+0x24) is recomputed by updateAbsolutePosition only when the flags it tests are set, so the value
+// getPosition returns is the one the node was given.
+bool nodeAt(const glitch::scene::ISceneNode& node, const Point3D<float>& expected) {
+    return nearVec(node.getPosition(), expected);
+}
+
 GameObject* asObject(char* storage) { return reinterpret_cast<GameObject*>(storage); }
 
-glitch::scene::ISceneNode* fakeNode() { return reinterpret_cast<glitch::scene::ISceneNode*>(g_fakeNode); }
+// A real scene node, so the unit's virtual dispatches (getAbsolutePosition, slot +0xa0, and setPosition,
+// slot +0xa4) land on the engine's own bodies and the checks can read the position back. The two slots the
+// unit uses are not overridden: ISceneNode::setPosition stores the vector and updates the absolute matrix,
+// and ISceneNode::getAbsolutePosition returns the translation column of that matrix.
+class FakeSceneNode : public glitch::scene::ISceneNode {
+public:
+    FakeSceneNode()
+        : glitch::scene::ISceneNode(0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                    glitch::core::quaternion{}, glitch::core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+
+    void render(void*) override {}
+    const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box_; }
+
+private:
+    glitch::core::aabbox3d<float> box_{};
+};
 
 // Exposes the protected fields the checks need.
 class TestCamera : public CameraTarget {
@@ -159,20 +193,27 @@ void testSetTargetByName() {
 
 void testTransitionCountdown() {
     TestCamera cam;
-    cam.setNode(fakeNode());
+    FakeSceneNode node;
+    cam.setNode(&node);
     cam.SetTarget(asObject(g_objA), 500);  // no old target: blend from the origin, 500 ms
 
+    // The blend writes the interpolated position into the node through ISceneNode::setPosition (slot +0xa4);
+    // getPosition (slot +0x9c) returns what was written. There is no old target, so the blend starts at the
+    // origin and t = 1 - 300/500 = 0.4: the node takes 0.4 * (10, 20, 30).
     g_dt = 200;
     EXPECT(cam.HandleTransition());
     EXPECT(cam.remainingMs() == 300);
+    EXPECT(nodeAt(node, Point3D<float>{4.0f, 8.0f, 12.0f}));
 
     g_dt = 300;
-    EXPECT(cam.HandleTransition());  // reaches zero: the node snaps to the anchor
+    EXPECT(cam.HandleTransition());  // the countdown reaches zero: the node snaps to the anchor
     EXPECT(cam.remainingMs() == 0);
+    EXPECT(nodeAt(node, g_anchor));
 
     g_dt = 300;
     EXPECT(cam.HandleTransition());  // past zero, still the snap branch
     EXPECT(cam.remainingMs() == -300);
+    EXPECT(nodeAt(node, g_anchor));
 
     EXPECT(!cam.HandleTransition());  // idle once the countdown is negative
     EXPECT(cam.remainingMs() == -300);
@@ -186,7 +227,8 @@ void testTransitionCountdown() {
 
 void testUpdateTransitionGate() {
     TestCamera cam;
-    cam.setNode(fakeNode());
+    FakeSceneNode node;
+    cam.setNode(&node);
     const int before = g_baseUpdates;
 
     // A running transition returns from Update before CameraBase::Update is called.
@@ -207,22 +249,25 @@ void testUpdateTransitionGate() {
 
 void testDamping() {
     TestCamera cam;
+    FakeSceneNode node;
     Point3D<float> p{10.0f, 0.0f, 0.0f};
 
     // Damping on but no node: false, position unchanged.
     EXPECT(!cam.HandleDamping(p));
     EXPECT(sameVec(p, Point3D<float>{10.0f, 0.0f, 0.0f}));
 
-    cam.setNode(fakeNode());
+    cam.setNode(&node);
     cam.EnableDamping(false);
     EXPECT(!cam.HandleDamping(p));
 
-    // Damping on with ratio 1 and a 1000 ms frame. The neutral node seam reports the origin, so the
-    // velocity becomes (10 + 0 - 0) * 1 = 10 and the position becomes 1.0 s * 10 + 0 = 10.
+    // Damping on with ratio 1 and a 1000 ms frame. The node starts at the origin, so the velocity becomes
+    // (10 + 0 - 0) * 1 = 10 and the position becomes 1.0 s * 10 + 0 = 10. The node is left where it was and
+    // the caller writes the damped position.
     cam.EnableDamping(true);
     cam.SetDampingRatio(1.0f);
     g_dt = 1000;
     EXPECT(cam.HandleDamping(p));
+    EXPECT(nodeAt(node, Point3D<float>{0.0f, 0.0f, 0.0f}));
     EXPECT(near(cam.velocity().X, 10.0f));
     EXPECT(sameVec(p, Point3D<float>{10.0f, 0.0f, 0.0f}));
 }
@@ -274,3 +319,4 @@ int main() {
     }
     return g_failures == 0 ? 0 : 1;
 }
+

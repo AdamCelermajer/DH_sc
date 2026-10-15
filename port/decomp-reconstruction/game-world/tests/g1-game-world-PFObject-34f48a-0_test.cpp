@@ -3,7 +3,8 @@
 // The PFObject constructor and destructor are defined in the batch source, so a real object is built on the stack.
 // No PFFloor is constructed: PFFloor's constructor is not in this batch, so the floor-positive branches of
 // IsOverAHole, IsInWater and CanPathOn are not exercised here. The path-length sum needs PFGInnerEdge and the
-// DBG_ draw functions need the driver or the PFWorld singleton, so only their early-return cases run.
+// DBG_ draw functions need the driver or the PFWorld singleton, so only their early-return cases run; the material
+// set-up of PFObject::DBG_DrawObstacleForces is reached by the moving-object word and is described at the call.
 
 #include <cstdio>
 #include <cstring>
@@ -91,14 +92,22 @@ int main() {
         // An empty path has length 0.
         EXPECT(obj.GetPathLengthSQ() == 0.0f);
 
-        // The DBG_ draw functions return without drawing for these flag words.
-        obj.DBG_DrawPath();                                     // empty path
-        obj.DBG_DrawObstacle();                                 // bits 2 and 3 are not both set
-        obj.DBG_DrawObstacleForces();                           // bit 1 set, so this is a moving object: nothing drawn
-        obj.m_flags = 0u;
-        obj.DBG_DrawObstacleForces();                           // bit 1 clear
-        obj.m_flags = 2u;
-        obj.DBG_DrawObstacleForces();                           // moving and not static: partial, returns
+        // The DBG_ draw functions return before they touch the video driver for those flag words. The guard of
+        // DBG_DrawObstacleForces is (m_flags bit 1 clear), which is what the three words below set. The other half
+        // of the guard, a moving object that is not static (bit 1 set, bit 0 clear), does NOT return: the listing
+        // then runs the material set-up, which needs Application::m_device, the driver's
+        // CMaterialRendererManager and that manager's createMaterialRenderer. That path cannot run in a host test
+        // (the device is null and those two calls are aborting link stubs), so it is not called here.
+        obj.DBG_DrawPath();       // empty path
+        obj.DBG_DrawObstacle();   // bits 2 and 3 are not both set
+        obj.m_flags = 2u;         // bit 1 set, bit 0 clear: the moving-object word, no call (see above)
+        EXPECT(obj.m_flags == 2u);
+        obj.m_flags = 0u;         // bit 1 clear
+        obj.DBG_DrawObstacleForces();
+        obj.m_flags = 3u;         // bit 0 set (static)
+        obj.DBG_DrawObstacleForces();
+        obj.m_flags = 1u;         // static
+        obj.DBG_DrawObstacleForces();
     }  // ~PFObject runs here and clears the (empty) path list.
 
     if (g_failures != 0) {

@@ -70,17 +70,20 @@ public:
     const core::aabbox3d<float>& getBoundingBox() const override;
     // 0x6e5a40: stores the width and height, mapping a zero to 1.
     void setSize(const core::dimension2d<float>& size);
-    // 0x6e5bc8: PARTIAL. Calls the blocking callback at +0x130 with the segment from the absolute position of this node to the
-    // camera's; the camera lookup (scene manager +0x110) is not reconstructed, so this returns 0.
+    // 0x6e5bc8: calls the blocking callback at +0x130 with the segment from the camera's absolute position to this node's
+    // (the camera is the scene manager's +0xe4). Reconstructed; the only deviation is a null-camera guard where the
+    // original dereferences.
     std::int32_t isBlocked();
-    // 0x6e5c40: registers the node with the scene manager unless it is blocked. PARTIAL: the registration call is not
-    // reconstructed; returns 1 as the original does.
+    // 0x6e5c40: registers the node with the scene manager unless it is blocked (registerNodeForRendering with pass 3 and
+    // sort order 0x7fffffff). Reconstructed.
     int onRegisterSceneNode() override;
     // 0x6e5d14: PARTIAL, declared only. The draw path (camera basis, corner expansion, vertex stream fill, material setup) is
     // not reconstructed.
     void render(void* renderContext) override;
-    // 0x6e5a90 / 0x6e5b0c: PARTIAL, declared only; the attribute slots are written by the layout evidence in recon/slice_33.
+    // 0x6e5a90: addFloat("Width"), addFloat("Height"), addColor("VColor"). Reconstructed.
     void serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const override;
+    // 0x6e5b0c: the same three attributes back (getFloat, getFloat, getColor). PARTIAL: the trailing virtual call at the
+    // object's vtable slot +0xf4 is not a method this class declares and is dropped; see the source.
     void deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) override;
 
     // +0x130: blocking callback (see isBlocked). Null means never blocked.

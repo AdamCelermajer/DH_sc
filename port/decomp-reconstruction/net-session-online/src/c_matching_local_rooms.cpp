@@ -107,7 +107,7 @@ std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, CRoomAttributes& 
     if (index >= 0 && index < kLocalMemberCount) {
         MemberInfoNetStruct& record = localMembers_[index];
         record.setId(newId);  // element +0x130 id member SetValue
-        record.networkId().Set(GetTransportMgr()->GetListenNetworkId(0));  // element +0x158
+        record.setNetworkId(GetTransportMgr()->GetListenNetworkId(0));  // element +0x158, SetValue 0x8020b8
     }
 
     if (!IsRoomHidden()) {

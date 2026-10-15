@@ -47,6 +47,11 @@ public:
     void clearTracks();
     // vptr+0x0c, 0x62f354: as CAnimationSet::addAnimation over the owned channels (the channel is copied by value).
     int addAnimation(const SAnimation* animation) override;
+    // vptr+0x38, 0x62f61c: recompiles the set when the dirty byte is set: clearTracks, add every animation of every
+    // database, prune the channels neither a blendable animation nor a default value covers, rebuild the bindings (kind
+    // and the default value from the database, falling back to the default library), CompileInternal and clear the dirty
+    // byte. Reconstructed against the listing; see src/collada/CAnimationSet.cpp.
+    void compile() override;
     // 0x62ee9c, 0x62fc90, 0x62fcf8: declared only (not reconstructed).
     void addAnimationLibraryBindings(const CColladaDatabase& database);
     void setDefaultAnimationLibrary(const CColladaDatabase& database);

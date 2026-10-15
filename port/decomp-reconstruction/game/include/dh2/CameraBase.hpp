@@ -21,6 +21,10 @@ public:
     void SetData(float fov, float aspect, float nearValue, float farValue, bool unused);  // 0x40e9a8; also sets the up vector to +Z
     Point3D<float> GetCameraLookAtVec() const;             // 0x40e8a8 row 1 of the absolute transform, Vec3f_Origin without a camera node
     Point3D<float> GetCameraUpVec() const;                 // 0x40e928 row 2 of the absolute transform
+    // The glitch camera this base wraps (+0x08). Callers outside the camera classes read it directly: the camera
+    // block of Application::_Draw (asm 0x32b1ec `LDR R1,[R3,#8]` on the Level's CameraLevel) passes it to
+    // CSceneManager::setActiveCamera. Null until Load/SetData has given the camera a node.
+    glitch::scene::ICameraSceneNode* GetCameraNode() const { return m_camera; }
     // Screen position (pixels) to the point where the view ray crosses the horizontal plane at height z.
     static bool GetWorldCoord(const Point2D<int>& screen, Point3D<float>& world, float z);    // 0x40f2f0 static: uses no this
     static bool GetWorldCoord(const Point2D<float>& screen, Point3D<float>& world, float z);  // 0x40f394 screen in -1..1; static

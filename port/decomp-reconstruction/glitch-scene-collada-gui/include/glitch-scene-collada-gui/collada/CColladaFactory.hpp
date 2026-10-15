@@ -113,9 +113,12 @@ public:
     virtual void* createParticleSystemGravityForce(const CColladaDatabase& db, SForce* force);
     virtual void* createParticleSystemWindForce(const CColladaDatabase& db, SForce* force);
     virtual void* createParticleSystemDeflectorForce(const CColladaDatabase& db, SForce* force);
-    // K 0x78 / 0x7c, 0x630010 and 0x630008: both pass the URL to getExternalLightSceneNodeDefault (0x62ff80): the light node of that
-    // uid (a leading '#' skipped) in the scene manager, accepted when its type is 'lght'. PARTIAL: the scene manager comes from
-    // CResFileManager::Inst->device (IDevice +0x1c), which glitch-core-io's IDevice does not map; null is returned.
+    // K 0x78 / 0x7c, 0x630010 and 0x630008: both are 8-byte tail calls to the file-local
+    // getExternalLightSceneNodeDefault (0x62ff80): strchr(url, '#') and the part after it as the name (else the whole
+    // url), the light node of that name in the device's scene manager (CResFileManager::Inst->device +0x20, scene
+    // manager +0x1c, slot +0x14 getSceneNodeFromName), accepted when its type is 'lght'. Both are reconstructed;
+    // see src/collada/CColladaFactory.cpp for the one reinterpret_cast the category's forward-declared
+    // scene::ISceneManager forces.
     virtual scene::CLightSceneNode* getExternalLightSceneNode(const CColladaDatabase& db,
                                                               const boost::intrusive_ptr<video::CMaterial const>& material,
                                                               std::uint16_t parameterId, std::uint32_t arrayIndex, const char* url);

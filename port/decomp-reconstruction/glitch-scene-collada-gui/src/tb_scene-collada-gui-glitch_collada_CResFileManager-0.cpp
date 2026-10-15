@@ -69,9 +69,46 @@
 //     a deps stand-in, for the log lines in stages D and H.
 
 #include "glitch-scene-collada-gui/layouts/collada_db.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+
+#include <map>
+#include <string>
+
+#include "glitch-core-io/os/device.hpp"
 
 namespace glitch {
 namespace collada {
+
+// 0x657894 _ZN6glitch7collada15CResFileManagerC1EPNS_7IDeviceE (and 0x657914, the C2: one body).
+// Verified against the decompilation 0x657894. The original writes, in this order: the vtable at +0x00, 1 at +0x04 (the
+// reference count), 0 at +0x0c, 0 at +0x08 (the map header's colour byte), the header pointer (`this + 8`) at +0x14 / +0x10
+// and 0 at +0x18 (the map's node count), the device argument at +0x20, &DefaultResFactory at +0x24, and then the four
+// flag bytes: +0x28 = 1, +0x29 = 0, +0x2a = 1, +0x2b = 1. It finishes by publishing the singleton
+// (CResFileManager::Inst = this). Every one of those offsets is a member the port already models, so the body is written
+// straight and the initialiser values restate the original writes rather than the header's defaults (which differ:
+// IReferenceCounted starts at 0, autoUnloadEnabled is not zeroed but written, and flag_0x29 / zipLoadingEnabled /
+// disableZipAfterFirstUse are = {} here).
+//
+// The map header the original fills at +0x08..+0x1b is the port's std::map<std::string, CResFile*> (files_0x08). It is
+// declared as raw bytes in the port's header, so value-initialising it is the equivalent of the original's four header
+// writes plus the node count.
+CResFileManager::CResFileManager(glitch::IDevice* device)
+    : refCount(1),
+      files_0x08{},
+      device(device),
+      resFactory(&DefaultResFactory),
+      autoUnloadEnabled(true),
+      flag_0x29(false),
+      zipLoadingEnabled(true),
+      disableZipAfterFirstUse(true) {
+    if (device != nullptr) {
+        ++device->referenceCounter;
+    }
+    Inst = this;
+}
+
+// 0x657914 _ZN6glitch7collada15CResFileManagerC2EPNS_7IDeviceE is the same body's C2; g++ emits it from the same
+// declaration (verified with nm on this translation unit: both C1 and C2 are defined here).
 
 // 0x657994 _ZN6glitch7collada15CResFileManager12checkVersionEPNS_2io9IReadFileE
 // The original body is a constant: it returns 0.

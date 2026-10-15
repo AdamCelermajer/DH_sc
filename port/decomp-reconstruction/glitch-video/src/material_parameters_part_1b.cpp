@@ -387,7 +387,9 @@ int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 }
 
 // 0x5c48a0 setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(unsigned short, unsigned int, ...)
-// Partial: the state word (textureStateWord) and the count (textureAddRef / textureDrop) are hooks.
+// Reconstructed: the type gate is textureStateWord (the +0x38 low two bits), the addref is textureAddRef
+// and the release of the replaced value is textureDrop (IReferenceCounted::drop, 0x31d584); all three are
+// defined at the bottom of this file. A stored pointer slot takes sizeof(void*), not the original 4 bytes.
 int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, ITexture* const& src) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e) return 0;
@@ -421,7 +423,10 @@ int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 }
 
 // 0x5c5a40 getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...) const
-// Partial: the last-reference release goes through destroyLight.
+// Reconstructed: assignLight is the intrusive pointer assignment the listing inlines - addref of the new
+// value into the caller's pointer, store, release of the caller's old value, last reference through
+// releaseLight -> destroyLight (both defined above). The element step is sizeof(void*) where the original
+// uses 4.
 int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight*& out) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || e->type != 18 || index >= e->count) return 0;
@@ -504,8 +509,10 @@ int setParameterArrayCvt(GlobalParameterStore& s, std::uint16_t id, CLight* cons
 }
 
 // 0x5c568c setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, CLight const*, int)
-// Partial: the last-reference release goes through destroyLight. A stride of 0 means 4 (the original's
-// element size); the port uses sizeof(void*).
+// Reconstructed: the listing's addref-before-store / release-of-the-replaced-element-after-store loop is
+// assignLight, whose last-reference path is releaseLight -> destroyLight (both defined above). A stride of
+// 0 means the original's 4-byte element size; the port uses sizeof(void*) because a host pointer does not
+// fit that slot.
 int setParameterArray(GlobalParameterStore& s, std::uint16_t id, CLight* const* src, int stride) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || e->type != 18) return 0;

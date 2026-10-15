@@ -55,12 +55,24 @@ void IMaterialParameters<Owner, kTrackDirty>::setParameterAt(core::vector4d<floa
 }
 
 // setParameterAt(SColorf*, vector4d const&). G 0x5ba104 and R 0x5cefc4 copy only.
-// M 0x5caf10: partial. It compares with SColorf::equals (an epsilon compare whose
-// extra argument is not recovered); this port compares exactly.
+// M 0x5caf10 compares with SColorf::equals (0x5caa98, the 3-argument clone that binds the constant
+// tolerance 1e-6, bits 0x358637BD) and marks the dirty words when a channel is outside it; the same
+// tolerance comparison is what part 1c's setParameterAt<SColorf> (0x5cac8c) uses, so the two agree.
+// The four stores are the listing's four word stores.
+namespace {
+bool sameColorfChannel(float stored, float value) {
+    const float tolerance = 1e-6f;  // the clone's constant, bits 0x358637BD
+    return value <= stored + tolerance && value >= stored - tolerance;
+}
+}  // namespace
+
 template <typename Owner, bool kTrackDirty>
 void IMaterialParameters<Owner, kTrackDirty>::setParameterAt(SColorf* dst, const core::vector4d<float>& value) {
     if constexpr (kTrackDirty) {
-        if (!(dst->r == value.X && dst->g == value.Y && dst->b == value.Z && dst->a == value.W)) setDirty();
+        if (!(sameColorfChannel(dst->r, value.X) && sameColorfChannel(dst->g, value.Y) &&
+              sameColorfChannel(dst->b, value.Z) && sameColorfChannel(dst->a, value.W))) {
+            setDirty();
+        }
     }
     dst->r = value.X;
     dst->g = value.Y;

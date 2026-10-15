@@ -156,9 +156,10 @@ std::int32_t CMatchingGLLive::IsMyFriend(char* name) {
 }
 
 // 0x81c9e8 _ZN15CMatchingGLLive23sPacketReceiverCallbackEiPci
-// Partial. The original forwards the packet to CMatchingGLLive::PacketReceiverCallback on the CMatching singleton
-// (CMatching::s_Matching) with the first argument as the sender. Deviation: the binary does not check s_Matching for
-// null; this port returns when it is null, as sBroadcastPacketReceiverCallback does (e2 batch, same callee class).
+// Reconstructed: the original forward is a plain call to CMatchingGLLive::PacketReceiverCallback on the
+// CMatching singleton (CMatching::s_Matching), with the first argument as the sender, and the port's call
+// is that call. Deviation (host-necessitated): the binary does not check s_Matching for null; this port
+// returns when it is null, as sBroadcastPacketReceiverCallback does (e2 batch, same callee class).
 void CMatchingGLLive::sPacketReceiverCallback(std::int32_t from, char* data, int size) {
     auto* matching = static_cast<CMatchingGLLive*>(CMatching::s_Matching);
     if (matching == nullptr) {
@@ -222,10 +223,14 @@ void CMatchingGLLive::SyncMemberId() {}
 
 // 0x81e4d0 _ZN15CMatchingGLLive14ReadPacketDataEiiR12NetBitStream
 // Partial. The original unserializes the room attributes (CRoomAttributes::Unserialize through
-// virtual slot +0xa4, not reachable here), loads the 32-entry member info array
+// virtual slot +0xa4), loads the 32-entry member info array
 // (NetStructArray<CMatching::MemberInfoNetStruct,32>::Load), then calls each member's virtual
-// slot +0x18 and syncs member ids when one returns non-zero. None of those layouts are declared,
-// so the stream is not read.
+// slot +0x18 and syncs member ids when one returns non-zero.
+// CORRECTION: CRoomAttributes::Unserialize(int, NetBitStream&) IS declared (dh2/CRoomAttributes.hpp:87,
+// 0x817fec) and has a body, so the room half can be written. What is missing is the element half: the port
+// inlines NetStructArray<...>::Load in its callers instead of using the template, and the per-element
+// slot +0x18 (ConditionalLoad) needs the real CMatchingGLLive::MemberInfoNetStruct (the 360-byte record at
+// +0x3a00), which is still a stand-in. So the stream is not read.
 void CMatchingGLLive::ReadPacketData(std::int32_t /*a2*/, std::int32_t /*a3*/, NetBitStream& /*stream*/) {}
 
 // 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb

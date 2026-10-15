@@ -204,8 +204,24 @@ CAnimationSet::~CAnimationSet() {
 }
 
 // 0x6601fc _ZN6glitch7collada13CAnimationSet12addAnimationEPKNS0_10SAnimationE
-// PARTIAL: the original asks CColladaDatabase::getAnimationTrackEx(animation) (0x611ae0, which picks the track class from the
-// channel type: not reconstructed) for the track; the track the loader stored at SAnimation +0x14 is used here.
+// PARTIAL, and the missing piece is one callee: CColladaDatabase::getAnimationTrackEx (0x611ae0, ledgered `skipped`). The
+// original's only call in the whole 632-byte body is
+//   AnimationTrack = CColladaDatabase::getAnimationTrackEx(animation);   // 0x660330
+// which is a 91-case switch on the animation's channel type ((*(animation + 0x10) + 8) - 1, cases 1..0x5b) that reads the
+// animation's offset/scale record (+0x1c) and picks one of ~15 concrete target classes: CFloatEx, CWeightEx,
+// CVisibilityEx, CVector3dEx, CTextureTransformEx, and the CVirtualEx<CApplyValueEx<Value, Mixin<char|short|float>>>
+// instantiations (the char/short/float key widths). Every arm returns the address of a function-local static, or nullptr
+// for a type with no arm. Porting it means naming all ~15 targets in animation_track.hpp and mapping the case list.
+// Everything else in this body IS reproduced line by line from the listing (I verified each step): the channel match
+// (CompatibilityTable row = the existing channel's type, tested at (table + 4 * (type >> 5)) & (1 << (type & 31)); for type
+// 14 the flag byte at +0x0c, for type 86 the string at +0x0c, else a name match), the -1 on no track, and the two
+// push_backs (channels at +0x0c, tracks at +0x18) with the index ((end - begin) >> 2) - 1.
+// The interim port reads the track the loader cached at SAnimation +0x14 instead. That word is exactly the result the
+// original stores there: CResFileManager::postLoadProcess's animation pass writes `entry + 0x14 = getAnimationTrackEx(entry)`
+// for every animation, and both this function and CSceneNodeAnimator::getAnimationTrackEx (0x65d3e8: LDR R3,[R0,#0x44];
+// LDR R3,[R3,R1,LSL#4]; LDR R0,[R3,#0x14]) read it back. So when the loader ran, the port's track is the same pointer the
+// original would compute. The observable difference is the un-loaded case: the port returns -1 where the original would
+// still return the singleton.
 int CAnimationSet::addAnimation(const SAnimation* animation) {
     const SChannel& channel = *animation->channels;
     const int match = findMatchingChannel(static_cast<int>(channels.size()), channel,
@@ -337,6 +353,79 @@ void CAnimationSet::compile() {
         }
     }
     CompileInternal();
+}
+
+// 0x62f61c _ZN6glitch7collada20CDynamicAnimationSet7compileEv
+// Reconstructed against the decompilation 0x62f61c (884 bytes). Whole body is guarded by the dirty byte at +0x70.
+//   1. clearTracks().
+//   2. For every database (vector +0x24 / +0x2c, 8-byte elements) and every animation of its table holder
+//      (tables +0x24 count; animationAt), call the addAnimation slot +0x0c.
+//   3. Prune pass, for every database: walk the own channels (+0x74 / +0x7c, 16-byte elements) with an index that is NOT
+//      advanced after an erase; drop the channel when the database has no blendable animation for it, no default value
+//      for it, and the mismatch behaviour (+0x08) is 0. Unlike CAnimationSet::compile this pass never asks the template.
+//      The two erases are the two byte-shifts at 0x62f900..0x62f974: SChannel entries move down one element, tracks move
+//      down one pointer.
+//   4. animatedTrackCount (+0x3c) = the new channel count; bindings (+0x30) is reserve()d then resize()d to
+//      databaseCount * animatedTrackCount with a zero-valued SBinding ({0, 0, 0}).
+//   5. Fill pass, per (database, channel): kind (+0x00) is 2 when the database has a blendable animation else 1;
+//      animation (+0x08) is that animation; getDefaultValue writes straight into defaultValue (+0x04) - note the dynamic
+//      form asks unconditionally, where CAnimationSet::compile only asks when there is no blendable animation - and when
+//      that fails it retries against the default library (+0x68) and stores 0 when that fails too.
+//   6. CompileInternal(), then the dirty byte is cleared.
+void CDynamicAnimationSet::compile() {
+    if (!dirty) {
+        return;
+    }
+    clearTracks();
+
+    for (CColladaDatabase& database : databases) {
+        const int animationCount = static_cast<int>(database.tables().animations.size());
+        for (int k = 0; k < animationCount; ++k) {
+            addAnimation(animationAt(database.tables(), k));  // vptr+0x0c
+        }
+    }
+
+    for (CColladaDatabase& database : databases) {
+        for (std::size_t j = 0; j < ownedChannels.size();) {
+            const SChannel* channel = &ownedChannels[j];
+            void* defaultValue = nullptr;
+            if (database.getBlendableAnimation(channel) == nullptr &&
+                !database.getDefaultValue(channel, &defaultValue) && mismatchBehavior == 0) {
+                ownedChannels.erase(ownedChannels.begin() + static_cast<std::ptrdiff_t>(j));
+                tracks.erase(tracks.begin() + static_cast<std::ptrdiff_t>(j));
+                continue;  // the original does not advance the index after an erase
+            }
+            ++j;
+        }
+    }
+
+    animatedTrackCount = static_cast<std::uint32_t>(ownedChannels.size());
+    bindings.clear();
+    bindings.reserve(databases.size() * animatedTrackCount);
+    bindings.resize(databases.size() * animatedTrackCount, SBinding());
+
+    std::size_t index = 0;
+    for (CColladaDatabase& database : databases) {
+        for (std::size_t j = 0; j < ownedChannels.size(); ++j, ++index) {
+            const SChannel* channel = &ownedChannels[j];
+            SBinding& binding = bindings[index];
+            SAnimation* blendable = database.getBlendableAnimation(channel);
+            binding.kind = blendable != nullptr ? 2u : 1u;
+            binding.animation = blendable;
+            void* defaultValue = nullptr;
+            if (!database.getDefaultValue(channel, &defaultValue)) {
+                defaultValue = nullptr;
+            }
+            binding.defaultValue = defaultValue;
+            if (defaultValue == nullptr) {
+                void* libraryValue = nullptr;
+                binding.defaultValue = defaultLibrary.getDefaultValue(channel, &libraryValue) ? libraryValue : nullptr;
+            }
+        }
+    }
+
+    CompileInternal();
+    dirty = false;
 }
 
 // 0x65f044 _ZNK6glitch7collada13CAnimationSet17getAnimationCountEv
@@ -535,8 +624,12 @@ void CDynamicAnimationSet::clearTracks() {
 }
 
 // 0x62f354 _ZN6glitch7collada20CDynamicAnimationSet12addAnimationEPKNS0_10SAnimationE
-// As CAnimationSet::addAnimation, over the owned channels (copied by value). A negative channel type gives -1.
-// PARTIAL: the track is the one the loader stored at SAnimation +0x14 (see CAnimationSet::addAnimation).
+// As CAnimationSet::addAnimation, over the owned channels (copied by value) and with the negative-type rejection: when the
+// owned channel list is non-empty and (int)channel.type < 0 the original returns -1 before searching. Verified against the
+// decompilation; the channel match is the same shared shape.
+// PARTIAL: same single missing callee as CAnimationSet::addAnimation - CColladaDatabase::getAnimationTrackEx (0x611ae0),
+// the 91-case target-class dispatcher. The port reads the track the loader cached at SAnimation +0x14 (see the long note on
+// CAnimationSet::addAnimation for why that word is the same pointer once postLoadProcess has run).
 int CDynamicAnimationSet::addAnimation(const SAnimation* animation) {
     const SChannel& channel = *animation->channels;
     if (!ownedChannels.empty() && static_cast<std::int32_t>(channel.type) < 0) {

@@ -121,8 +121,10 @@ std::uint32_t FloorDebugColour(std::uint32_t typeMask, std::uint32_t objectFlags
 }  // namespace
 
 // 0x51b874 _ZN7PFFloor14GetCollisionAtERK7Point3DIfES3_RS1_
-// The line start..end is cast against the triangle selector of the nav mesh (m_navMesh->getTriangleSelector(), vtable +0xb0) through the scene collision manager (the device's scene manager +0x2c,
-// getCollisionPoint at vtable +0x0c). On a hit the point is written to hit and true is returned.
+// Verified against the listing (0x51b874): the line start..end is cast against the triangle selector of the nav
+// mesh (m_navMesh->getTriangleSelector(), vtable +0xb0) through the scene collision manager (the device's scene
+// manager +0x2c reached from ApplicationGetInstance().m_device +0x1c, getCollisionPoint at vtable +0x0c, the first
+// ISceneCollisionManager slot after the two destructors). On a hit the point is written to hit and true is returned.
 bool PFFloor::GetCollisionAt(const Point3D<float>& start, const Point3D<float>& end, Point3D<float>& hit) {
     glitch::core::line3d<float> line;
     line.start = glitch::core::vector3d<float>{start.X, start.Y, start.Z};
@@ -137,7 +139,8 @@ bool PFFloor::GetCollisionAt(const Point3D<float>& start, const Point3D<float>& 
 }
 
 // 0x51b96c _ZN7PFFloor14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEE
-// The bounding box of the floor is tested first. A point outside it, or past any of its faces, gives false. Inside, the vertical line (x, y, z + 1000) .. (x, y, z - 1000) is cast against the nav mesh's triangle
+// Verified against the listing (0x51b96c): the bounding box of the floor is tested first (six inclusive compares). A
+// point outside it, or past any of its faces, gives false. Inside, the vertical line (x, y, z + 1000) .. (x, y, z - 1000) is cast against the nav mesh's triangle
 // selector through the scene collision manager (the device's scene manager +0x2c); the hit point and the triangle are returned.
 bool PFFloor::GetCollisionAt(const Point3D<float>& start, Point3D<float>& hit,
                              glitch::core::triangle3d<float>& triangle) {
@@ -171,7 +174,7 @@ bool PFFloor::GetCollisionAt(const Point3D<float>& start, Point3D<float>& hit,
 }
 
 // 0x51badc _ZN7PFFloor16GetFloorHeightAtERK7Point3DIfEPfPS1_
-// The ray query above gives the hit point and its triangle. height receives the hit Z and normal the triangle's normal (TriangleNormal). Either pointer may be null. The result is the query's result.
+// Verified against the listing (0x51badc): the ray query above gives the hit point and its triangle. height receives the hit Z and normal the triangle's normal (TriangleNormal). Either pointer may be null. The result is the query's result.
 bool PFFloor::GetFloorHeightAt(const Point3D<float>& point, float* height, Point3D<float>* normal) {
     Point3D<float> hit{};
     glitch::core::triangle3d<float> triangle{};
@@ -328,7 +331,7 @@ PFGInnerEdge* PFFloor::_CreateEdge(PFGInnerNode* from, PFGInnerNode* to) {
 }
 
 // 0x51fa64 _ZN7PFFloor11_CreateNodeERK7Point3DIfES3_S3_b
-// Nothing is made on a void floor (object flag 0x01000000). The midpoint of a and b is the key: an existing node at that midpoint is returned. Otherwise the side test runs unless force is set: the two points one
+// Verified against the listing (0x51fa64). Nothing is made on a void floor (object flag 0x01000000). The midpoint of a and b is the key: an existing node at that midpoint is returned. Otherwise the side test runs unless force is set: the two points one
 // unit from the midpoint, along the unit vector perpendicular to the edge in the plane of the normal, must both lie on this floor. The node takes the next id from the inner graph's counter (m_iGraph +0x1c,
 // incremented before GraphSparse::addNode) and gets the midpoint, the normalised direction (b - a), the length of the edge as its width and length, and this floor; it is entered in m_nodeByPos.
 PFGInnerNode* PFFloor::_CreateNode(const Point3D<float>& a, const Point3D<float>& b, const Point3D<float>& normal,
@@ -451,7 +454,7 @@ void PFFloor::_Link(PFFloor* other) {
 }
 
 // 0x520588 _ZN7PFFloor12_CreateNodesEPN6glitch4core10triangle3dIfEEj
-// Per triangle (A, B, C), the edges AB, AC and BC get nodes and six directed edges (AB-AC, AB-BC, AC-BC, each way). An edge
+// Verified against the listing (0x520588). Per triangle (A, B, C), the edges AB, AC and BC get nodes and six directed edges (AB-AC, AB-BC, AC-BC, each way). An edge
 // with no node is kept as an InvalidNode record: its midpoint, its end points and the triangle normal, and the other two
 // edges as neighbours. Nothing is built on a void floor (object flag 0x01000000).
 void PFFloor::_CreateNodes(glitch::core::triangle3d<float>* triangles, unsigned int count) {

@@ -53,14 +53,19 @@ int CMatching::GetTeamId(int memberId) const {
 }
 
 // 0x7fe618 _ZN9CMatching18GetMemberIdByIndexEj
-// Asm/Hex-Rays: `return *((_DWORD*)this + 108*a2 + 92)` -- the member id of element a2 with NO range check,
-// even though callers pass the member count as the bound, so a caller that passes 32 reads past the table
-// (the CMatchingGLLive::GetMemberIdList loop does exactly that: 0..count-1 with count 32).
-// Reconstructed with one host-necessitated deviation: an index at or past the 32-slot table returns 0
-// (the old body returned -1, which is a valid member id in this protocol and would collide with a real id).
-// Callers in the port stay inside 0..31, so the deviation is not reachable today.
+// Asm/Hex-Rays: `return *((_DWORD*)this + 108*a2 + 92)` -- the member id of element a2 with NO range check
+// (108 dwords = 432 bytes = the element stride; 92 dwords = 0x170 = element base 0x20 + the id value at
+// +0x150). Callers pass the member count as the bound, so an index of 32 reads 432 bytes past element 31,
+// i.e. past the whole 32-slot table. That read has no defensible reconstructed value: the function's own
+// contract is "the id of element index", and there is no element 32.
+// Host-necessitated deviation, named here because the test pins it: an index at or past the 32 slots
+// returns -1, which is exactly the id an empty element holds (JoinRoom writes -1 into every element's id
+// member, and GetMemberIdList skips ids < 0). So the answer for an out-of-range index is the same as the
+// answer for an in-range empty slot -- the value the binary would read for an untouched slot -- and it can
+// never collide with a real member id (0 would alias the id of a real member 0). No production caller
+// reaches this: CMatchingGLLive::GetMemberIdList walks 0..count-1 and all other call sites test the range.
 std::int32_t CMatching::GetMemberIdByIndex(std::uint32_t index) const {
-    if (index >= static_cast<std::uint32_t>(kMaxMembers)) return 0;
+    if (index >= static_cast<std::uint32_t>(kMaxMembers)) return -1;  // out of the table: the empty-slot id
     return members_[index].id();  // element +0x150
 }
 

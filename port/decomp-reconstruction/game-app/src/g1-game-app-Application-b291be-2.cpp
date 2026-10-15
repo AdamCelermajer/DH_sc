@@ -71,6 +71,7 @@
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/CameraLevel.hpp"  // the camera block of _Draw: Level::m_camera at +0x128
 #include "dh2/LevelConfig.hpp"
 #include "dh2/MenuCharacterSelect.hpp"
 #include "dh2/LuaManager.hpp"
@@ -671,12 +672,10 @@ bool Application::onEvent(const glitch::SEvent& event) {
 // Level.h:476): LevelConfig::m_clearColor (+0x1ec) is read as three floats, each converted to unsigned and stored
 // into the SColor's bytes 0, 1 and 2, with byte 3 = 0xFF (asm: __aeabi_f2uiz, then STRB into the four bytes of the
 // word at SP+0x18).
-// PARTIAL, one item: the camera block at 0x32b0b4. The original reads activeCamera at CSceneManager +0xe4 and,
-// only when it is null, re-reads the level (0x32b1d0) and, when the level and its Level +0x128 object are
-// non-null, calls setActiveCamera(CSceneManager, *(Level + 0x128 + 8)). glitch-scene-collada-gui's
-// CSceneManager.hpp declares activeCamera, but port/dh2/Level.hpp declares the +0x128 member only as
-// `CameraLevel* m_camera` and CameraLevel (dh2/CameraLevel.hpp) declares no accessor for the ICameraSceneNode at
-// its +0x08, so the condition cannot be evaluated and the call is not written. Everything else is exact.
+// The camera block at 0x32b0b4 is written too: activeCamera (CSceneManager +0xe4) when it is already set,
+// otherwise, when the level and its Level +0x128 object are non-null, setActiveCamera(CSceneManager,
+// *(Level + 0x128 + 8)). `Level +0x128 + 8` is the CameraLevel's CameraBase::m_camera, read through the
+// CameraBase::GetCameraNode() accessor added to dh2/CameraBase.hpp for it.
 void Application::_Draw() {
     PushProfilingContext("Application::Draw");
     glitch::video::IVideoDriver* driver = m_device->videoDriver;  // m_device +0x10
@@ -721,8 +720,16 @@ void Application::_Draw() {
             if (showCharacterSelect) {
                 PushProfilingContext("Application::Draw3D");
                 scene->driver->setDepthRange(0.0f, 0.8f);  // CSceneManager +0x14, driver +0x11c
-                // PARTIAL: the activeCamera block is not written; see the note above (CSceneManager +0xe4 and the
-                // Level +0x128 camera at its +0x08).
+                // The active camera (asm 0x32b0b4): CSceneManager::activeCamera (+0xe4) when the scene already has
+                // one; otherwise the level's camera (Level +0x128, a CameraLevel) is made active through its glitch
+                // camera (CameraBase +0x08). The original re-reads GetCurrentLevel here rather than reusing the
+                // `level` above, and skips the call when either the level or its camera is null.
+                if (scene->activeCamera == nullptr) {
+                    Level* activeLevel = GetCurrentLevel();
+                    if (activeLevel != nullptr && activeLevel->m_camera != nullptr) {
+                        scene->setActiveCamera(activeLevel->m_camera->GetCameraNode());
+                    }
+                }
                 // The original's slot +0x3c is CSceneManager::registerSceneNodes(ISceneNode*) (0x58b88c), called
                 // with a null node, not a drawAll; the earlier note that called it "drawAll" was wrong.
                 scene->registerSceneNodes(static_cast<glitch::scene::ISceneNode*>(nullptr));  // vtable +0x3c, r1 = 0

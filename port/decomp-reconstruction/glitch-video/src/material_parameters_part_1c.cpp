@@ -30,6 +30,18 @@ constexpr std::uint32_t kConvertions[19] = {0x1,     0x22,    0x4,     0x8,     
                                             0x80,    0x30100, 0x200,   0x400,   0x800,   0x1000,  0x2000,
                                             0x4000,  0x8000,  0x30100, 0x30100, 0x40000};
 
+// SShaderParameterTypeInspection::ValueTypeBaseType (19 words, ELF 0x8e2bf8): the base value type of
+// each stored code, as the setParameterElement gates read it (0 = SColor, 1 = int, 5 = float, 0xc..0xf
+// = the four pointer codes, 0x12 = CLight). Read from the binary; the symbol is
+// _ZN6glitch5video6detail30SShaderParameterTypeInspection17ValueTypeBaseTypeE.
+constexpr std::uint32_t kValueTypeBaseType[19] = {0, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5,
+                                                 0xC, 0xD, 0xE, 0xF, 0, 5, 0x12};
+// SShaderParameterTypeInspection::ValueTypeArraySize (19 bytes, ELF 0x8e2c44): the component count of
+// each stored code (code 10 has 9, the matrix 11 has 16, SColor 16 has 4, SColorf 17 has 4). Read from
+// the binary; the symbol is ...ValueTypeArraySizeE. Codes at or above 19 have no entry.
+constexpr std::uint8_t kValueTypeArraySize[19] = {1, 1, 2, 3, 4, 1, 2, 3, 4, 4, 9, 0x10,
+                                                  1, 1, 1, 1, 4, 4, 1};
+
 // A pointer slot is 4 bytes in the original. Its key is valueOffset + 4 * element index.
 constexpr std::uint32_t kPointerSlotBytes = 4;
 
@@ -311,7 +323,13 @@ bool sameValue(const T& a, const T& b) {
 // Array forms.
 
 // Non-Cvt array read: the entry type must match, count elements are copied with the caller's stride.
-// Pointer types copy the slots (no reference counting in the port's intrusive_ptr).
+// Pointer types read the slots through the counting boost::intrusive_ptr (0x5cc43c ITexture, 0x5cc50c
+// CLight): each element is addref'd into the caller's slot and the caller's old value dropped, which is
+// the listing's element-wise branch. The listing's other branch (stride 0 or 4) is a raw memcpy of
+// 4*count bytes that touches NO reference count; the port has no contiguous 4-byte slot array to copy
+// from (the slots are SPointerSlots entries) and reaches the same branch on a stride of 0 or sizeof(T),
+// where it assigns through the pointer instead of memcpy'ing. That count difference is the one
+// deviation of these two rows.
 template <class T>
 int getParameter(const SParameterTable& t, std::uint16_t id, T* out, int stride) {
     const SParameterEntry* e = findEntry(t, id);
@@ -332,6 +350,10 @@ int getParameter(const SParameterTable& t, std::uint16_t id, T* out, int stride)
 }
 
 // Non-Cvt array write: the dirty mark is set after the gate, then count elements are stored.
+// Pointer types store through the counting boost::intrusive_ptr, which is the listing's
+// addref-before-store / drop-of-the-replaced-element-after-store (0x5cc2b8 CLight inlines that loop;
+// 0x5cc8b4 ITexture instead calls detail::setArrayParameter 0x5bb7ec, whose per-element type gate and
+// its error log are NOT reproduced here: the port stores every element once the entry type passed).
 template <class T>
 int setParameter(const SParameterTable& t, std::uint16_t id, const T* src, int stride) {
     const SParameterEntry* e = findEntry(t, id);
@@ -497,32 +519,26 @@ int setParameterCvt(const SParameterTable& t, std::uint16_t id, std::uint32_t in
 // ---------------------------------------------------------------------------------------------
 // setParameterElement and setParameterAt.
 
-// Partial. ValueTypeBaseType and ValueTypeArraySize are not in the container, so the base type and
-// the component count below are inferred from the gates of the pseudocode (int base 1, float base 5,
-// bytes base 0). The offset rule is the listing's: a byte index adds its component unscaled, an int
-// or float index scales the sum by 4. The matrix branch (stored code 11) is not ported and returns 0.
+// The gates of the three listings read the two inspection tables directly
+// (0x5caf68 reads ValueTypeBaseType[v] and returns 0 unless it is 0, 0x5cb098 unless it is 1,
+// 0x5cb1c4 unless it is 5; each then compares the component against ValueTypeArraySize[v] and the
+// index against the entry count). The tables above are the binary's own bytes, so the accepted codes
+// are exact: uchar accepts 0 and 16, int accepts 1..4, float accepts 5..8, 9, 10, 11 and 17. Codes at
+// or above 19 are refused, where the original reads the 19-word table past its end.
+// Stored code 11 (the 4x4 matrix) keeps its 0x44-byte CMatrix4 behind a pointer written into the
+// value slot, which a 64-bit pointer does not fit; that branch is not ported and returns 0, so the
+// float form is short of the listing there.
 template <class T>
 int setParameterElement(const SParameterTable& t, std::uint16_t id, std::uint32_t index,
                         std::uint8_t component, T value) {
     const SParameterEntry* e = findEntry(t, id);
-    if (e == nullptr || e->type == 11) return 0;
-    std::uint8_t base = 0xFF;
-    std::uint32_t components = 0;
-    switch (e->type) {
-        case 1: case 2: case 3: case 4: base = 1; break;
-        case 5: case 6: case 7: case 8: case 17: base = 5; break;
-        case 16: base = 0; break;
-        default: break;
-    }
-    switch (e->type) {
-        case 1: case 5: components = 1; break;
-        case 2: case 6: components = 2; break;
-        case 3: case 7: components = 3; break;
-        case 4: case 8: case 16: case 17: components = 4; break;
-        default: break;
-    }
+    if (e == nullptr || e->type >= 19) return 0;
     constexpr std::uint8_t kBase = std::is_same_v<T, std::uint8_t> ? 0 : (std::is_same_v<T, int> ? 1 : 5);
-    if (base != kBase || component >= components || index >= e->count) return 0;
+    if (kValueTypeBaseType[e->type] != kBase || component >= kValueTypeArraySize[e->type] ||
+        index >= e->count) {
+        return 0;
+    }
+    if (e->type == 11) return 0;
     std::uint32_t byteOffset;
     if constexpr (std::is_same_v<T, std::uint8_t>) {
         byteOffset = index + component;

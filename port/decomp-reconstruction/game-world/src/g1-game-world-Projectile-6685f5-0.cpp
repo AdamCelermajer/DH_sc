@@ -179,7 +179,7 @@ void Projectile::SetManager(ProjectileManager* manager) {
 }
 
 // 0x3e5078 Projectile::OnExpire(Projectile::ImpactType)
-// A table row that asks for it (+0x34) snaps the projectile to the floor under its stored position (+0x394): the floor of the PFObject (+0x10) answers when it has one, else the room of the PFObject
+// Verified against the listing (0x3e5078). A table row that asks for it (+0x34) snaps the projectile to the floor under its stored position (+0x394): the floor of the PFObject (+0x10) answers when it has one, else the room of the PFObject
 // (+0x0c), else the world (PFWorld::GetFloorHeightAt). The position is set (SetPosition, with the found height; the height starts at 0 and stays 0 when no floor answers) in every case.
 // Then the hit object is cleared (+0x3cc), the projectile is marked expiring (+0x3d1) and the impact effect plays at the target position.
 void Projectile::OnExpire(ImpactType impact) {
@@ -203,7 +203,7 @@ void Projectile::OnExpire(ImpactType impact) {
 }
 
 // 0x3e51b0 Projectile::Update()
-// An expiring projectile first runs its finish callback (m_onFinish, result 0 without one). With no hit object it goes back to its pool (dead, no longer expiring, ProjectileManager::DeSpawn); with
+// Verified against the listing (0x3e51b0). An expiring projectile first runs its finish callback (m_onFinish, result 0 without one). With no hit object it goes back to its pool (dead, no longer expiring, ProjectileManager::DeSpawn); with
 // a hit object a result of 0 plays the impact effect (HandleImpactFX(hit, position)) and goes back to the pool, and a result of 1 revives it (not dead, not expiring). A target that died is dropped (+0x384).
 // A dead projectile does nothing more. Otherwise the stored position (+0x394) takes GetTargetPosition(), the destination is the target's position for a homing row (table +0x35), or 1000 units along the
 // normalised XY direction (destination - position) from the position, then GameObject::Update, the speed decays by deceleration * dt / 1000, and the lifetime (+0x3b4) loses dt. The projectile expires

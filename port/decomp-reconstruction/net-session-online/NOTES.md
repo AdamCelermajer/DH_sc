@@ -606,8 +606,15 @@ plain field structs rather than as `NetStruct` records.
 
 - `roomInfo_` and `serverBackup_` are heap objects (a nested type cannot be complete before its owner), allocated in the
   constructor and released in the destructor. `localMembers_` is a real member.
-- `CMatchingLocal::MemberInfoNetStruct::networkId_` is a plain `CNetworkId`, not a `NetStructMemberType<CNetworkId>`: its
-  vtable (`off_992008`) is not identified, so it does not take part in the record's serialize.
+- `CMatchingLocal::MemberInfoNetStruct`'s address member is now net-transport's real `NetStructNetworkId`, declared
+  through the record's second `DeclareMember` call, so the listen address takes part in the record's serialize. This
+  closes the old deviation ("a plain `CNetworkId`, because its vtable `off_992008` is not identified"): `off_992008`
+  IS `_ZTV18NetStructNetworkId + 8` -- the constructor at 0x806c64..0x806c78 loads `_ZTV18NetStructNetworkId_ptr`,
+  adds 8 to the table base 0x992000 and stores the result at element +0x158. The dumped slot list is exactly the
+  port's `NetStructNetworkId` vtable: Erase 0x801bfc, Write 0x801f14, Read 0x801de0, PostLoad 0x36d1f8,
+  GetSizeBits 0x36d1fc, D1 0x801b04, D0 0x801bc8, SetValue 0x8020b8, TestValue 0x801b8c, GetValue 0x801b84
+  (0x992038 is the base template's table with `__cxa_pure_virtual` 0xa36490 in the Read/Write slots). The writers
+  now go through `setNetworkId` -> `NetStructMemberType<CNetworkId>::SetValue` (0x8020b8).
 - `CMatching` keeps the `NetStructArray` header's count as the plain int `memberCount_` instead of net-transport's
   `NetStructArray` template, whose `count_` is protected and whose element type would have to be declared inside
   `CMatching`; the four array-wide operations (Load/Erase/Serialize/Process*) are therefore inlined in the callers.

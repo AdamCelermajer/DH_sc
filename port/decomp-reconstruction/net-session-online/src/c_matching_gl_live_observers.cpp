@@ -95,8 +95,10 @@ void CMatchingGLLiveLobbyObserver::OnMPStartGameSuccess(DataPacket* /*packet*/) 
 // Partial: when the game-started flag is set, the original also calls PrintDatapacket (0x8212d0) on
 // the packet and returns its value. That helper is defined file-local in
 // tb_session-online-CMatchingGLLiveLobbyObserver-0.cpp, so this file cannot call it without a second
-// copy of the same address. The void slot discards the return value, but the packet getter calls that
-// the helper makes are not made here, so the body stays partial.
+// copy of the same address. CORRECTION: the helper is not a log. Its whole body is
+// `(*(vt+0x64))(packet); return (*(vt+0x60))(packet);` -- two unnamed DataPacket virtual calls whose
+// result this body returns -- so what is missing is those calls, and they cannot be written until slots
+// +0x60 and +0x64 are named (whether they have side effects decides whether omitting them matters).
 void CMatchingGLLiveLobbyObserver::OnMPGetLobbyInfo(DataPacket* /*packet*/) {
     if (!gameStarted_) {
         return;

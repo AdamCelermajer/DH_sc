@@ -269,8 +269,10 @@ public:
     // 0x7fe5e0 CMatching::GetTeamId(int): team value of the member's slot, 0 when the member is not in the table.
     int GetTeamId(int memberId) const;
     // 0x7fe618 CMatching::GetMemberIdByIndex(unsigned int). The binary indexes the element array with no
-    // range check (`*(this + 108*index + 92)`); the port's host-necessitated deviation returns 0 for an
-    // index at or past the 32 slots (see src/tb_session-online-CMatching-0.cpp).
+    // range check (`*(this + 108*index + 92)`, element +0x150, stride 432), so index 32 reads past the end
+    // of the 32-slot table. Host-necessitated deviation: an index at or past the 32 slots returns -1, the
+    // id an empty element holds, which is the value an untouched slot would give and cannot collide with a
+    // real member id (see src/tb_session-online-CMatching-0.cpp).
     std::int32_t GetMemberIdByIndex(std::uint32_t index) const;
     // 0x7fe574 CMatching::LockRoom(bool). Partial: the virtual slot +0x48 call is not ported (see the
     // KNOWN DEFECT block at the top of this header).

@@ -176,9 +176,10 @@ void LCAndroidSocket::Startup() {
 // first address, the address list and the entry, then sets l_countLC to 0 (the binary's
 // LC_API_FREE_0, 0x30e2b0, is a tail jump to operator delete(void*), which is what delete and
 // delete[] of these new/new[] blocks do). The debug call is dropped exactly (LC_DEBUG_OUT, an
-// empty stub). Partial: null slots are skipped; the original dereferences them and faults. A
-// null slot is reachable: Startup clears the slots without resetting l_countLC, so a later
-// Clearup meets them. WSACleanup is added for _WIN32 builds, not in the pseudocode.
+// empty stub). Reconstructed; deviations: (host-necessitated) null slots are skipped, where the
+// original dereferences them and faults -- a null slot is reachable because Startup clears the slots
+// without resetting l_countLC, so a later Clearup meets them; (platform) WSACleanup is added for _WIN32
+// builds, not in the pseudocode.
 void LCAndroidSocket::Clearup() {
     for (int i = 0; i < l_countLC; ++i) {
         hostent* entry = l_hostLC[i];
@@ -204,7 +205,8 @@ void LCAndroidSocket::Clearup() {
 void LCAndroidSocket::Init() {}
 
 // 0x89e5b4 _ZNK15LCAndroidSocket12IsReadyForRWEv
-// Partial: fds outside the 1024-bit bitmap report false (the original indexes without a check).
+// Reconstructed; deviation (host-necessitated): fds outside the 1024-bit bitmap report false, where the
+// original indexes the ready bitmap (m_set at +0x868) with no check.
 bool LCAndroidSocket::IsReadyForRW() {
     if (socket_ < 0 || socket_ >= kFdBitmapBits) {
         return false;
@@ -248,7 +250,8 @@ std::uint16_t LCAndroidSocket::GetSocketPort() {
 }
 
 // 0x89e7e8 _ZN15LCAndroidSocket13GetSocketAddrEv
-// Partial: a null first address (h_addr_list[0]) returns nullptr here; the original dereferences it.
+// Reconstructed; deviation (host-necessitated): a null first address (h_addr_list[0]) returns nullptr
+// here, where the original dereferences it.
 // First IPv4 address of this machine's host name, in inet_ntoa's static buffer (as the original).
 const char* LCAndroidSocket::GetSocketAddr() {
     char name[256];
@@ -394,8 +397,9 @@ int LCAndroidSocket::Send(const char* data, int size) {
 }
 
 // 0x89ef3c _ZN15LCAndroidSocket6SelectEN15LCXPlayerSocket17XSocketSelectFlagE
-// Partial: a socket with fd >= 1024 returns -1 here; the original writes past the 0x80-byte set
-// for such fds. The flag values are confirmed by the ARM listing: read = 0 (cmp flag, #0 selects
+// Reconstructed; deviation (host-necessitated): a socket with fd >= 1024 returns -1 here, where the
+// original writes past the 0x80-byte set for such fds (an overwrite with no faithful reconstruction).
+// The flag values are confirmed by the ARM listing: read = 0 (cmp flag, #0 selects
 // the readfds call) and write = 1.
 // The socket's bit is set in the ready bitmap and select() runs on a local
 // fd_set holding only that socket. The bitmap is rewritten from the result, so afterwards
@@ -507,9 +511,10 @@ bool LCAndroidSocket::ConnectTo(const char* ip, int port) {
 }
 
 // 0x89f290 _ZN15LCAndroidSocket7ConnectEv
-// Partial: a null server address (m_server_addr) returns false here; the original dereferences it.
-// The failure log is an LC_DEBUG_OUT call (omitted). Connects to the resolved server address and
-// port. Waiting for the connect uses a 30 s timeout.
+// Reconstructed; deviation (host-necessitated): a null server address (m_server_addr) returns false
+// here, where the original dereferences it.
+// The failure log is an LC_DEBUG_OUT call (omitted; an empty stub whose result the binary discards).
+// Connects to the resolved server address and port. Waiting for the connect uses a 30 s timeout.
 bool LCAndroidSocket::Connect() {
     if (nonBlockConnectState_ != 0) {
         if (nonBlockConnectState_ != 1) {
@@ -540,8 +545,9 @@ bool LCAndroidSocket::Connect() {
 }
 
 // 0x89f4fc _ZN15LCAndroidSocket13ConnectByNameEPc
-// Partial: a null first address (h_addr_list[0]) fails the connect here; the original dereferences
-// it. The debug logs are LC_DEBUG_OUT calls (omitted). Resolves server_name through GetHostByName,
+// Reconstructed; deviation (host-necessitated): a null first address (h_addr_list[0]) fails the connect
+// here, where the original dereferences it. The debug logs are LC_DEBUG_OUT calls (omitted; empty stubs
+// whose result the binary discards). Resolves server_name through GetHostByName,
 // which returns null until the lookup finishes. The lookup is given 9999 ms. The connect is the
 // same as Connect's. The port is the stored serverPort_ (ConnectByName takes only the name).
 bool LCAndroidSocket::ConnectByName(const char* server_name) {
@@ -801,10 +807,11 @@ LCAndroidSocket::LCAndroidSocket(const char* server_name, int server_port, LCXPl
 
 // 0x89ff54 _ZN15LCAndroidSocketD1Ev
 // 0x89ffc8 _ZN15LCAndroidSocketD2Ev has the same ARM listing (ledgered on its own row).
-// Partial (std::thread deviation). The original: if the lookup state (+0x85c, gethostbynameState_) is
-// nonzero, pthread_join the lookup thread; then CloseSocket (non-virtual); then the LCXPlayerSocket base
-// destructor (_ZN15LCXPlayerSocketD2Ev, 0x8a051c; D1 0x8a0464 has the same body). The vptr reset is implicit.
-// Deviation: a joinable std::thread must be joined or detached before it is destroyed. The port joins
+// Reconstructed. Deviation (host-necessitated, the policy's std::thread clause). The original: if the
+// lookup state (+0x85c, gethostbynameState_) is nonzero, pthread_join the lookup thread; then CloseSocket
+// (non-virtual); then the LCXPlayerSocket base destructor (_ZN15LCXPlayerSocketD2Ev, 0x8a051c; D1
+// 0x8a0464 has the same body). The vptr reset is implicit.
+// A joinable std::thread must be joined or detached before it is destroyed. The port joins
 // while the state is nonzero, as the original does, and detaches an idle worker when the state is zero,
 // where the original leaves it unjoined. Nothing waits for an idle worker in either version.
 // A busy state with no joinable thread has nothing to join (the original would pthread_join an unset id).

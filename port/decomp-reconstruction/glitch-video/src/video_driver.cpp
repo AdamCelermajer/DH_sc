@@ -1,5 +1,7 @@
 #include "glitch-video/video_driver.hpp"
 
+#include <cstdio>
+
 #include "glitch-video/deps/os_logging.hpp"
 #include "glitch-video/shader_manager.hpp"
 #include "glitch-video/unreconstructed.hpp"
@@ -61,10 +63,18 @@ bool IVideoDriver::checkDriverReset() { return false; }
 uint32_t IVideoDriver::getMaximalPrimitiveCount() const { return 0xffffffffu; }
 
 // 0x5aa8a0 _ZNK6glitch5video12IVideoDriver19checkPrimitiveCountEj
-// Partial: the os::Printer log of the failure is not written (the original formats "Could not draw triangles, too many
-// primitives(%u), maxium is %u." into a 1 KiB buffer); the result is kept.
+// Reconstructed: the maximal count is read through the virtual accessor (the listing's vtable slot
+// +0x60), a count within it passes, otherwise the failure line is formatted and logged at level 3
+// (ELL_ERROR) and the call fails. Deviation: the original sprintf's the message into a 1 KiB stack
+// buffer; the port snprintf's into a buffer of the same size, which cannot differ for this message.
 bool IVideoDriver::checkPrimitiveCount(uint32_t count) const {
-    return getMaximalPrimitiveCount() >= count;
+    const uint32_t maxCount = getMaximalPrimitiveCount();
+    if (maxCount >= count) return true;
+    char buffer[1024];
+    std::snprintf(buffer, sizeof buffer,
+                  "Could not draw triangles, too many primitives(%u), maxium is %u.", count, maxCount);
+    glitch::os::Printer::log(buffer, glitch::ELL_ERROR);
+    return false;
 }
 
 // 0x5a909c _ZN6glitch5video12IVideoDriver17setMaxTextureSizeERKNS_4core11dimension2dIiEE

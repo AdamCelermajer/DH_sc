@@ -4,6 +4,9 @@
 // A comment `// 0xADDR symbol` precedes each function; PARTIAL in the comment means the ledger row stays partial.
 #include "glitch-scene-collada-gui/collada/CColladaFactory.hpp"
 
+#include <cstring>
+
+#include "glitch-core-io/os/device.hpp"
 #include "glitch-scene-collada-gui/collada/CBillboardSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CCameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CLightSceneNode.hpp"
@@ -14,6 +17,7 @@
 #include "glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp"
 #include "glitch-scene-collada-gui/collada/CSkinnedMesh.hpp"
 #include "glitch-scene-collada-gui/collada/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
 
@@ -222,19 +226,57 @@ void* CColladaFactory::createParticleSystemDeflectorForce(const CColladaDatabase
     return nullptr;
 }
 
+// 0x62ff80 _ZN6glitch7collada12_GLOBAL__N_132getExternalLightSceneNodeDefaultEPKc. This is the shared body of BOTH
+// getExternalLightSceneNode overloads (0x630008 and 0x630010 are one-instruction tail calls to it; the two template
+// instantiations emit the same code).
+//
+// From the listing: strchr(url, '#') and, when it is found, everything after it is used as the name, else the whole url.
+// The node is then looked up in the device's scene manager - CResFileManager::Inst (0x9f701c) -> device (+0x20) ->
+// scene manager (+0x1c) -> vtable slot +0x14 = scene::ISceneManager::getSceneNodeFromName(name, nullptr) (R1 = name,
+// R2 = 0 = start, the tree's slot order matches the binary: decomp_vtable.py lists getSceneNodeFromId at +0x10, UID at
+// +0x14 and Name at +0x18, and the tree's slot comments are shifted the same way). A null node gives null. Otherwise
+// the node's type (vtable slot +0xBC) is accepted only when it equals 0x7468676C, i.e. the four little-endian bytes
+// 'l','g','h','t' = 'lght' - the tree spells that as SCENE_NODE_TYPE_LIGHT and casts the enum through the same word.
+static scene::CLightSceneNode* getExternalLightSceneNodeDefault(const char* url) {
+    const char* hash = std::strchr(url, '#');
+    const char* name = hash != nullptr ? hash + 1 : url;
+    glitch::IDevice* device = CResFileManager::Inst != nullptr ? CResFileManager::Inst->device : nullptr;
+    // The port has no scene::ISceneManager interface header, and glitch-core-io only forward-declares the type. The
+    // concrete class is reachable from this category, and its getSceneNodeFromName sits at the same vtable index the
+    // binary calls (+0x14), so it is called through CSceneManager directly.
+    // A reinterpret_cast is used because glitch::scene::ISceneManager is only forward-declared here, so the
+    // down-cast the original's vtable call implies cannot be written as a static_cast. It is sound for the object
+    // the game stores at IDevice+0x1c: the binary reached the same slot (+0x14) on that object and it is the
+    // CSceneManager the CIrrFactory creates.
+    scene::CSceneManager* sceneManager =
+        device != nullptr ? reinterpret_cast<scene::CSceneManager*>(device->sceneManager) : nullptr;
+    if (sceneManager == nullptr) {
+        return nullptr;
+    }
+    scene::ISceneNode* node = sceneManager->getSceneNodeFromName(name, nullptr);
+    if (node == nullptr) {
+        return nullptr;
+    }
+    const std::uint32_t type = static_cast<std::uint32_t>(node->getType());
+    if (type != static_cast<std::uint32_t>(scene::ESNT_LIGHT)) {
+        return nullptr;
+    }
+    return static_cast<scene::CLightSceneNode*>(node);
+}
+
 // 0x630010 _ZN6glitch7collada15CColladaFactory25getExternalLightSceneNodeERKNS0_16CColladaDatabaseERKN5boost13intrusive_ptrIKNS_5video9CMaterialEEEtjPKc
-// 0x630008 (the renderer form). Both are 8-byte tail calls of getExternalLightSceneNodeDefault (0x62ff80): the node named by the URL
-// (a leading '#' skipped) in the scene manager (CResFileManager::Inst->device, IDevice +0x1c, slot +0x14), accepted when its type is
-// 'lght', else null. PARTIAL: IDevice is not mapped in glitch-core-io (no scene manager member), so null is returned.
+// 0x630008 (the renderer form). Both are 8-byte tail calls of getExternalLightSceneNodeDefault (0x62ff80) and neither
+// reads any of its other arguments: the database, the material / renderer, the parameter id and the array index are
+// dead in the original. That is why the body is one call.
 scene::CLightSceneNode* CColladaFactory::getExternalLightSceneNode(const CColladaDatabase&,
                                                                    const boost::intrusive_ptr<video::CMaterial const>&, std::uint16_t,
-                                                                   std::uint32_t, const char*) {
-    return nullptr;
+                                                                   std::uint32_t, const char* url) {
+    return getExternalLightSceneNodeDefault(url);
 }
 scene::CLightSceneNode* CColladaFactory::getExternalLightSceneNode(const CColladaDatabase&,
                                                                    const boost::intrusive_ptr<video::CMaterialRenderer const>&,
-                                                                   std::uint16_t, std::uint32_t, const char*) {
-    return nullptr;
+                                                                   std::uint16_t, std::uint32_t, const char* url) {
+    return getExternalLightSceneNodeDefault(url);
 }
 
 }  // namespace glitch::collada

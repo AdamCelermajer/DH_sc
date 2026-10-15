@@ -50,8 +50,11 @@ int main() {
         CMatching::s_matchingProvider = 1;
     }
 
-    // WritePacketData (0x8010a4): the room enable flag takes IsServer() of the static instance, the call
-    // returns 0 (both serialize steps are stubs), and the room used is the one of the object it is called on.
+    // WritePacketData (0x8010a4): the room's replicated block is enabled from IsServer() of the static
+    // instance (NetStruct::SetEnabled, CRoomAttributes+0x08) before the room serializes, both sub-serializes
+    // are OR-ed into the return value, and the room used is the one of the object it is called on. Neither
+    // sub-serialize has anything to send here -- the room's NetStruct is enabled but every member was just
+    // marked sent, and the static object's member elements were never enabled -- so the return is 0.
     {
         TestMatching server;
         server.server = true;

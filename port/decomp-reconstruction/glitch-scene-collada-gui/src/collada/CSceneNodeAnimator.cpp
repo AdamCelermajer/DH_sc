@@ -8,8 +8,11 @@
 
 #include <algorithm>
 
+#include "glitch-core-io/io/attributes.hpp"
 #include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
 #include "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/tb/glitch_collada_material_creation.hpp"
 
 namespace glitch::collada {
 
@@ -42,18 +45,35 @@ CSceneNodeAnimator::CSceneNodeAnimator(const CColladaDatabase& source, SLibraryA
 }
 
 // 0x65dab0 _ZN6glitch7collada18CSceneNodeAnimatorD1Ev, 0x65db58 (D2); D0 0x65db3c is skipped.
-// PARTIAL: removes the animation tracks (their applicators), drops the animation block (the streaming manager's CAnimationBlock
-// is not reconstructed, so the pointer is never set), frees the target vector and drops the database handle (see dropDatabase).
+// Verified against the decompilation: the vtable words, removeAnimationTracks (0x65d628), the animation block at +0x54
+// released when non-null (collada::intrusive_ptr_release), the target vector's allocation freed with GlitchFree (+0x44),
+// the database at +0x28 destroyed, then the ISceneNodeAnimator base. The port's members do the same and in the same order:
+// removeAnimationTracks runs here, animationBlock is only ever set by getAnimationData (which releases the block it
+// replaces) and is null in the current port, the std::vector<STarget> frees its own allocation, and the ~CColladaDatabase
+// member drops the record. No deviation on this body.
 CSceneNodeAnimator::~CSceneNodeAnimator() {
     removeAnimationTracks();
     dropDatabase(database);
 }
 
 // 0x65df4c _ZNK6glitch7collada18CSceneNodeAnimator19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// PARTIAL, not reconstructed: the body writes the attributes "BlendOutWeight", "Start", "End", "Length" (floats in seconds, from
-// +0x30, +0x38, +0x3c and +0x14), "Interpolation Type" (an enum over getStringsInternal, from +0x0c), "Binded to" (the bound
-// node's UID) and "Source" (the database's file name) through the IAttributes interface, which is only forward-declared.
-void CSceneNodeAnimator::serializeAttributes(io::IAttributes*, io::SAttributeReadWriteOptions*) const {}
+// Verified against the disassembly 0x65df4c. Every write goes through the port's IAttributes slots, all of which exist
+// (glitch-core-io/io/iattributes.hpp): addFloat +0x64 with flag 0 for "BlendOutWeight" (the float at +0x30), then flag 1
+// for "Start" (+0x38), "End" (+0x3c) and "Length" (+0x14), each after __aeabi_i2f and a divide by 0x447a0000 = 1000.0f;
+// addEnum +0xf4 for "Interpolation Type" with the value at +0x0c and the table getStringsInternal returns (this is the only
+// call site of 0x667c38, now reconstructed); addString +0x7c with the bound node's getUID (the node at +0x10, its slot
+// +0x54) for "Binded to"; addString +0x7c with the database record's fileName (record +0x20) for "Source", written as null
+// when there is no record. The trailing argument of the last two is 1 and of addFloat/addEnum 0, as the listing sets r3.
+void CSceneNodeAnimator::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
+    (void)options;
+    attributes->addFloat("BlendOutWeight", unk_30, false);                          // +0x64, flag 0
+    attributes->addFloat("Start", static_cast<float>(startTime) / 1000.0f, true);   // +0x64, flag 1
+    attributes->addFloat("End", static_cast<float>(endTime) / 1000.0f, true);
+    attributes->addFloat("Length", static_cast<float>(length) / 1000.0f, true);
+    attributes->addEnum("Interpolation Type", static_cast<int>(interpolationType), getStringsInternal(), false);  // +0xf4
+    attributes->addString("Binded to", boundNode != nullptr ? boundNode->getUID() : nullptr, true);               // +0x7c
+    attributes->addString("Source", database.record != nullptr ? database.record->fileName : nullptr, true);
+}
 
 // 0x65d540 _ZN6glitch7collada18CSceneNodeAnimator21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Empty in the original.
@@ -166,10 +186,14 @@ void CSceneNodeAnimator::removeAnimationTracks() {
 }
 
 // 0x65d768 _ZN6glitch7collada18CSceneNodeAnimator16getAnimationDataEi
-// PARTIAL. Asks the timeline controller for its current clip (vptr+0x38), builds an SAnimationBlockSearchKey from the database, the
-// clip and the time, asks CAnimationStreamingManager::getAnimationBlock (0x60c59c) for the block, keeps it at +0x54 and returns the
-// output array at block -> holder -> +0x0c. The streaming manager's block registry is not reconstructed (see getAnimationBlock), so
-// the held block, and with it the data, stays null.
+// Verified against the decompilation 0x65d768: the timeline controller (vptr+0x44) is asked for its current clip (its
+// vptr+0x38), an SAnimationBlockSearchKey is built from the database at +0x28 with that clip and the time (0x65d6d8),
+// CAnimationStreamingManager::getAnimationBlock (0x60c59c) is called on the singleton with the block slot at +0x54, and the
+// result is `block ? block->dataHolder->buffer : null`. The port has all of that.
+// PARTIAL for exactly one reason: CAnimationStreamingManager::getAnimationBlock itself, whose missing pieces are itemised
+// on that row (CAnimationBlock with its ctor 0x60c05c, getBlock 0x60b350 and its counts, the manager's sorted registry
+// __lower_bound 0x60c220, and the CAnimationBlockSearch comparator 0x60b454). Until that class exists the block slot is
+// never set, so this returns null. One deviation beyond that: the manager is null-tested, where the original dereferences it.
 const SAnimationOutput* CSceneNodeAnimator::getAnimationData(std::int32_t time) {
     scene::ITimelineController* controller = getTimelineCtrl();
     SAnimationBlockSearchKey key;
@@ -198,8 +222,12 @@ std::int32_t sampleTime(scene::ITimelineController* controller, std::int32_t sta
 }  // namespace
 
 // 0x65d80c _ZN6glitch7collada18CSceneNodeAnimator22computeAnimationValuesEj
-// PARTIAL: with the animation data missing (see getAnimationData) nothing is read. For every target with a target object the value
-// at the sample time is read into it through the accessor (getValue), with the shared key hint when the streaming flag is set.
+// Verified against the listing: the guard (targets or +0x50), ISceneNodeAnimator::updateTime, the sample time (the
+// controller's current time, else start + time % length), getAnimationData, the cache byte from the streaming flag at +0x34,
+// then per target `if (target) SAnimationAccessor::getValue(time, target, keyIndex, interpolate)` with targets[0].keyIndex
+// as the shared hint when the flag is set and interpolate = (interpolationType != 1).
+// Deviation, named: the early return when getAnimationData is null; the original passes the null data on. The animated
+// values themselves depend on CAnimationStreamingManager::getAnimationBlock (see getAnimationData above and row 0x60c59c).
 void CSceneNodeAnimator::computeAnimationValues(std::uint32_t timeMs) {
     if (targets.empty() && unk_50 == 0) {
         return;
@@ -223,7 +251,8 @@ void CSceneNodeAnimator::computeAnimationValues(std::uint32_t timeMs) {
 }
 
 // 0x65d91c _ZN6glitch7collada18CSceneNodeAnimator20applyAnimationValuesEj
-// PARTIAL: as computeAnimationValues, with applyValue (the record's applicator is passed) instead of getValue.
+// As computeAnimationValues (verified against its listing too), with SAnimationAccessor::applyValue and the record's
+// applicator instead of getValue, plus the same named null-data deviation.
 void CSceneNodeAnimator::applyAnimationValues(std::uint32_t timeMs) {
     if (targets.empty() && unk_50 == 0) {
         return;
@@ -248,7 +277,10 @@ void CSceneNodeAnimator::applyAnimationValues(std::uint32_t timeMs) {
 }
 
 // 0x65da38 _ZN6glitch7collada18CSceneNodeAnimator17getAnimationValueEiiPv
-// PARTIAL (the animation data): reads the value of one track at `time` with the key cache switched off.
+// Verified against the listing: target record `targets + 16 * trackIndex`, a zeroed key-cache byte (no caching), then
+// SAnimationAccessor::getValue(time, out, the record's keyIndex, interpolationType != 1). No default value is copied here
+// (the old note confused this with CSceneNodeAnimatorSet::getAnimationValue). Deviation, named: the early return when
+// getAnimationData is null.
 void CSceneNodeAnimator::getAnimationValue(std::int32_t trackIndex, std::int32_t time, void* out) {
     STarget& record = targets[trackIndex];
     const SAnimationOutput* data = getAnimationData(time);

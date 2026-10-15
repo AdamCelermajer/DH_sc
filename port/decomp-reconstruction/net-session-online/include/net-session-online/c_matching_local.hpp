@@ -57,8 +57,19 @@ public:
     //   +0x130  NetStructInt<32> member, value at +0x150   (id; ReadPacketData and WritePacketData read
     //           the int at element +0x150, and IsInRoom(int) the word at element +0x720... which is the
     //           same field in a record whose base is 4 bytes later; see the .cpp note)
-    //   +0x158  NetStructMemberType<CNetworkId> member, value at +0x178 (the listen address; the ctor
-    //           overwrites its vptr with off_992008 and CreateJoinRoomInternal writes the address there)
+    //   +0x158  NetStructNetworkId member (NetStructMemberType<CNetworkId> with NetStructNetworkId's Read
+    //           and Write), value at +0x178 (the listen address). IDENTIFIED this pass: the table the
+    //           constructor stores at element +0x158 is off_992008, and 0x992008 is
+    //           _ZTV18NetStructNetworkId + 8 -- the constructor at 0x806c64..0x806c78 loads
+    //           _ZTV18NetStructNetworkId_ptr, adds 8 to the table base 0x992000 and stores it, so the
+    //           member IS the net-transport NetStructNetworkId already modelled in
+    //           net-transport/net_struct.hpp. Its slots are Erase 0x801bfc,
+    //           NetStructNetworkId::Write 0x801f14, NetStructNetworkId::Read 0x801de0, PostLoad 0x36d1f8,
+    //           GetSizeBits 0x36d1fc, D1 0x801b04, D0 0x801bc8,
+    //           NetStructMemberType<CNetworkId>::SetValue 0x8020b8, TestValue 0x801b8c, GetValue 0x801b84.
+    //           So the listen address DOES serialize, through this member (the constructor's second
+    //           DeclareMember), and it is modelled as the real member now instead of a plain CNetworkId.
+    //
     // The constructor 0x806b98 shows exactly this pair: the int member's value word at +0x150 and the
     // CNetworkId member at +0x158 (built from a Reset() CNetworkId), then two DeclareMember calls.
     struct MemberInfoNetStruct : public NetStruct {
@@ -70,15 +81,14 @@ public:
         std::int32_t id() const { return idMember_.GetValue(); }
         void setId(std::int32_t value) { idMember_.SetValue(value); }
 
-        // The listen address. The binary's member is a NetStructMemberType<CNetworkId> whose vtable is
-        // overwritten with the unidentified off_992008 right after construction; the port keeps a plain
-        // CNetworkId in a member object so the record stays a NetStruct, and reads/writes it directly
-        // (CreateJoinRoomInternal's write is the only writer any recovered body shows).
-        CNetworkId& networkId() { return networkId_; }
-        const CNetworkId& networkId() const { return networkId_; }
+        // The listen address: a real NetStructNetworkId (see the slot dump above), so it takes part in the
+        // record's Serialize/Load/change tracking. The writes go through SetValue, which is the
+        // NetStructMemberType<CNetworkId>::SetValue the binary's call sites reach (0x8020b8).
+        const CNetworkId& networkId() const { return networkIdMember_.GetValue(); }
+        void setNetworkId(const CNetworkId& value) { networkIdMember_.SetValue(value); }
 
-        NetStructInt<32> idMember_;   // +0x130, value at +0x150
-        CNetworkId networkId_;        // +0x158, value at +0x178
+        NetStructInt<32> idMember_;           // +0x130, value at +0x150
+        NetStructNetworkId networkIdMember_;  // +0x158, value at +0x178
     };
 
     // 0x807e44 _ZN14CMatchingLocalC2Ev: sets the counters and empty containers, then runs Reset(), which

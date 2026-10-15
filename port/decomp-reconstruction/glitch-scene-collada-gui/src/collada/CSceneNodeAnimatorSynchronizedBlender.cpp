@@ -163,7 +163,14 @@ void CSceneNodeAnimatorSynchronizedBlender::compile(std::vector<std::uint8_t>* b
 }
 
 // 0x6612bc _ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender22computeAnimationValuesEj
-// PARTIAL guard: the original dereferences the blender's timeline without a test (it exists after compile).
+// Verified against the disassembly 0x6612bc: normalizeWeights when the dirty byte (+0xb1) is set, then the weighted sum of the
+// children's lengths, then the sync timeline at +0x78 gets setRange(0, total, false) through its slot +0x50, then
+// ISceneNodeAnimator::updateTime, lastTime (+0xac), getLength (slot +0x48), getSynchronizationPercentage (slot +0xc4), the
+//   percentage + (elapsed - lastTime, clamped at 0) / length   expression, applySynchronizedAnimationValues (slot +0xb8),
+// and reachedEnd (+0xb0) = the first child's hasReachedEnd (slot +0x24).
+// Deviation, named: the sync timeline pointer is null-tested. The listing loads +0x78 straight into r12 and does
+// LDR PC,[R12,#0x50] with no test, so the original faults on a blender whose timeline was never installed; the port cannot
+// reproduce the fault. After compile() the timeline always exists, so the two behave the same on every real path.
 void CSceneNodeAnimatorSynchronizedBlender::computeAnimationValues(std::uint32_t timeMs) {
     if (weightsDirty) {
         normalizeWeights();

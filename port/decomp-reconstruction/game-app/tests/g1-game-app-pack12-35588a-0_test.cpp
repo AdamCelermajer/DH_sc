@@ -8,8 +8,9 @@
 // heap copy.
 //
 // The batch source references functions of other classes (DebugSwitches, Application, Character, ItemInventory,
-// v2Controller, ObjectManager, ObjectHandle) and the ScriptCmdImpl base. Those are defined below as stubs. The Character
-// pointers used here are pointers to a zeroed buffer, which the stubs never read. Each stub returns a value the test sets.
+// vox-audio's VoxSoundManager, ObjectManager, ObjectHandle) and the ScriptCmdImpl base. Those are defined below as
+// stubs. The Character pointers used here are pointers to a zeroed buffer, which the stubs never read. Each stub
+// returns a value the test sets.
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -38,6 +39,7 @@
 #include "dh2/TestCharTemplate.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/v2Controller.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 namespace {
 
@@ -56,8 +58,19 @@ int g_dt = 0;           // Application::GetDt result
 int g_charPropsId = -1;
 int g_charTemplateId = -1;
 
+// The two VoxSoundManager calls Script_StopSound::Execute makes. It publishes them through the null
+// VoxSoundManager::s_instance (vox-audio declare it in .bss and only CreateInstance sets it, 0x36ca88, which is a
+// skipped row), and the real bodies dereference that null `this`, so this test supplies the instance and the two
+// calls: the stubs below stand in for the sound engine, the same seam the other singleton accessors in this tree use.
+int g_stopMusicCalls = 0;
+int g_stopMusicFade = -1;
+int g_stopCalls = 0;
+int g_stopSound = -1;
+int g_stopFade = -1;
+
 alignas(16) unsigned char g_appStorage[4096];   // stands in for the Application singleton; never read by the stubs
 alignas(16) unsigned char g_debugStorage[64];   // stands in for the DebugSwitches singleton; never read by the stubs
+alignas(16) unsigned char g_soundManagerStorage[512];  // stands in for the VoxSoundManager singleton
 
 }  // namespace
 
@@ -70,6 +83,23 @@ DebugSwitches* DebugSwitches::GetInstance() {
 
 bool DebugSwitches::GetSwitch(const std::string& /*name*/) {
     return false;
+}
+
+// VoxSoundManager: a non-null singleton over zeroed storage plus the two calls Script_StopSound::Execute makes.
+// The real Stop/StopMusic bodies index the engine (sounds_, VoxEngine) that this test does not build, so they are
+// replaced here exactly as the record destructors and the other class stubs are. The arguments are recorded.
+VoxSoundManager* VoxSoundManager::s_instance =
+    reinterpret_cast<VoxSoundManager*>(g_soundManagerStorage);
+
+void VoxSoundManager::Stop(int sound, int fade_ms) {
+    ++g_stopCalls;
+    g_stopSound = sound;
+    g_stopFade = fade_ms;
+}
+
+void VoxSoundManager::StopMusic(int fade_ms) {
+    ++g_stopMusicCalls;
+    g_stopMusicFade = fade_ms;
 }
 
 Application& ApplicationGetInstance() {
@@ -284,6 +314,10 @@ int main() {
 
         stop.Execute(false, 0);
         EXPECT(g_traceCalls == before + 1);
+        EXPECT(g_stopCalls == 1);           // m_w3 (music flag, +0x0c) is false
+        EXPECT(g_stopSound == 9);           // the record's sound id (m_w4, +0x10)
+        EXPECT(g_stopFade == 7);            // the record's fade (m_w2, +0x08)
+        EXPECT(g_stopMusicCalls == 0);
 
         g_lookupCalls = 0;
         hands.Execute(false, 5);

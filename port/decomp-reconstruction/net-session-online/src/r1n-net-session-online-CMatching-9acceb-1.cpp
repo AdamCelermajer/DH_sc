@@ -33,18 +33,25 @@ std::int32_t CMatching::ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitS
 }
 
 // 0x8010a4 _ZN9CMatching15WritePacketDataEiiR12NetBitStream
-// Reconstructed from the 0x8010a4 pseudocode:
+// Reconstructed from the 0x8010a4 pseudocode and re-verified against it this pass:
 //   `v8 = (*vt+0xa4)(this);                      // the room attributes
-//    v9 = CMatching::Get(); NetStruct::SetEnabled(room + 8, CMatching::IsServer(v9));
+//    v9 = CMatching::Get(); IsServer = CMatching::IsServer(v9);
+//    NetStruct::SetEnabled(v8 + 8, IsServer);    // the room's NetRoomAttributes block (CRoomAttributes+0x08)
 //    v11 = (*vt+0xa4)(this); LOBYTE(v8) = CRoomAttributes::Serialize(v11, a2, a3, stream);
 //    return NetStructArray<MemberInfoNetStruct,32>::Serialize(this + 24, stream, a2, a3) | LOBYTE(v8);`
-// The enable flag takes IsServer() of the STATIC matching object (CMatching::Get()), not of this.
+// The enable flag takes IsServer() of the STATIC matching object (CMatching::Get()), not of this, and it is
+// written BEFORE the room serializes -- NetStruct::SerializeInternal reads enabled_ on its first line, so
+// the order is observable and is the binary's.
 // The member array's Serialize writes its own presence bit and then the elements' Serialize through
-// NetStructArray's rule (stop at the first element that reports data).
+// NetStructArray's rule (stop at the first element that reports data). Both sub-serialize results are OR-ed
+// into the return value, as the binary's `| LOBYTE(v8)` does.
 // Deviations:
 //   - Get() returns null for matching provider 2 (CMatchingBluetooth is not derived from CMatching in this
 //     port). The original would then call IsServer() on the Bluetooth object. Here the flag reads false.
-//   - the +0xa4 slot is null-checked (as in ReadPacketData above).
+//   - the +0xa4 slot is null-checked (as in ReadPacketData above); the binary calls it unguarded, which
+//     only derived classes that return a real room ever reach.
+// Mutation observed by tests/r1n-net-session-online-CMatching-9acceb-1_test.cpp: with the static instance a
+// server, the room's NetStruct ends up enabled; with a client, disabled.
 std::int32_t CMatching::WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) {
     CMatching* matching = Get();  // CMatching::Get() (the static instance)
     const bool isServer = matching != nullptr && matching->IsServer();
@@ -52,10 +59,12 @@ std::int32_t CMatching::WritePacketData(std::int32_t a2, std::int32_t a3, NetBit
     if (room == nullptr) {
         return 0;
     }
+    // NetStruct::SetEnabled on the room's replicated block (CRoomAttributes+0x08 / NetRoomAttributes), with
+    // the static instance's IsServer() as the argument.
+    room->m_netRoomAttributes.SetEnabled(isServer);
     // CRoomAttributes::Serialize(memberId, packetId, stream) is the game-world body (0x817ebc); it
-    // forwards to the room's NetStruct::Serialize. The room enable flag is set on the NETSTRUCT of the
-    // room (the block at room + 8), which is what the pseudocode's `v8 + 8` names.
-    room->Serialize(a2, a3, stream);
+    // forwards to the room's NetStruct::Serialize and returns `NetStruct::Serialize(...) != 0`.
+    const bool roomWrote = room->Serialize(a2, a3, stream);
 
     // NetStructArray<MemberInfoNetStruct,32>::Serialize (0x7fe894): the presence bit under
     // HasDataToSend(a2), then the elements until one reports data.
@@ -68,5 +77,5 @@ std::int32_t CMatching::WritePacketData(std::int32_t a2, std::int32_t a3, NetBit
     } else {
         stream.WriteBit(0);
     }
-    return wrote ? 1 : 0;
+    return (roomWrote ? 1 : 0) | (wrote ? 1 : 0);
 }

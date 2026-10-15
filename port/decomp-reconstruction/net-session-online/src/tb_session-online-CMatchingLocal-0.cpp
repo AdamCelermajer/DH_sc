@@ -153,7 +153,7 @@ std::int32_t CMatchingLocal::WritePacketData(std::int32_t a2, std::int32_t a3, N
             record.setId(-1);
             CNetworkId zero;
             zero.Reset();
-            record.networkId().Set(zero);
+            record.setNetworkId(zero);
         }
         const bool enabled = (memberId_ >= 0 && memberId_ == serverMemberId_) || recordId == a2;
         record.SetEnabled(enabled);
@@ -222,6 +222,6 @@ void CMatchingLocal::Reset() {
         record.setId(-1);            // element id member SetValue, +0x130
         CNetworkId zero;
         zero.Reset();
-        record.networkId().Set(zero);  // element address member SetValue, +0x158
+        record.setNetworkId(zero);   // element address member SetValue, +0x158
     }
 }

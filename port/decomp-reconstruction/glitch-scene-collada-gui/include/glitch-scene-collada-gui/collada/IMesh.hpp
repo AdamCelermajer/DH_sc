@@ -146,7 +146,9 @@ public:
     // targets from the database and is not reconstructed here.
     CMorphingMesh(const CColladaDatabase& database, video::IVideoDriver* driver, SController& controller,
                   CRootSceneNode* root);
-    // 0x64a1b8 (D1), 0x64a264 (D0), 0x64a248 (D2). PARTIAL: CRootSceneNode::removeMorphingMesh is not called.
+    // 0x64a1b8 (D1), 0x64a264 (D0), 0x64a248 (D2). Calls CRootSceneNode::removeMorphingMesh(+0x38, this), then the
+    // vectors. The root node is null-tested (the port's test-only default constructor leaves it null); every other step is
+    // the original's.
     ~CMorphingMesh() override;
 
     boost::intrusive_ptr<scene::IMesh> clone() const override;                                     // 0x64990c (null handle)

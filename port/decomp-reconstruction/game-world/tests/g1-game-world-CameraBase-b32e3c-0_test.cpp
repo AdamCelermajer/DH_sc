@@ -155,11 +155,15 @@ int main() {
     EXPECT(SameVec(probe.GetCameraLookAtVec(), Point3D<float>{4.0f, 5.0f, 6.0f}));
     EXPECT(SameVec(probe.GetCameraUpVec(), Point3D<float>{8.0f, 9.0f, 10.0f}));
 
-    // With a camera: GetCenterOffset returns true and writes (m[4], m[5], 0). The scaling branch is not made (partial),
-    // so this checks the unscaled offset only.
+    // With a camera: GetCenterOffset returns true and writes (m[4], m[5], 0). The listing normalises and scales that
+    // offset in place when m[4]^2 + m[5]^2 reaches 0.0001, and that scale is 0 for this fake camera (it reports FOV 0,
+    // so the listing's half-angle is 0 and its tan(angle) - tan(angle - half) is 0), so these checks use the unscaled
+    // branch: the two words below keep the squared sum under the threshold and the offset is written unchanged.
+    g_absolute[4] = 0.001f;
+    g_absolute[5] = 0.002f;
     offset = Point3D<float>{7.0f, 8.0f, 9.0f};
     EXPECT(probe.GetCenterOffset(offset, 1.0f) == true);
-    EXPECT(SameVec(offset, Point3D<float>{4.0f, 5.0f, 0.0f}));
+    EXPECT(SameVec(offset, Point3D<float>{0.001f, 0.002f, 0.0f}));
     g_absolute[4] = 0.0f;
     g_absolute[5] = 0.0f;
     EXPECT(probe.GetCenterOffset(offset, 1.0f) == true);

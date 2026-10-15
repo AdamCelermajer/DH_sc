@@ -8,6 +8,7 @@
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
 #include "glitch-video/video_driver.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 
 namespace glitch::collada {
@@ -187,10 +188,17 @@ CMorphingMesh::CMorphingMesh(const CColladaDatabase& db, video::IVideoDriver* /*
     lastIndex = -1;
 }
 
-// 0x64a1b8 _ZN6glitch7collada13CMorphingMeshD1Ev (D0 0x64a264, D2 0x64a248 skipped)
-// PARTIAL: the original first calls CRootSceneNode::removeMorphingMesh(root, this), which is not reconstructed here; then it
-// erases the buffer vector and destroys the target vector (each drops its uses).
-CMorphingMesh::~CMorphingMesh() = default;
+// 0x64a1b8 _ZN6glitch7collada13CMorphingMeshD1Ev (D2 0x64a248, D0 0x64a264); the destructor's only statement before the
+// member destruction is `CRootSceneNode::removeMorphingMesh(rootNode, this)` (+0x38 is the root node: the constructor
+// writes the root argument there, STR R2,[R4,#0x38] at 0x64ba70). The buffers and the targets are then destroyed, which
+// the member destructors do. One host deviation, named: the root node is tested for null, because the port's test-only
+// default constructor leaves +0x38 null where the original's constructor always stores a root. The real constructor
+// stores a root, so the deviation only covers the not-in-the-binary empty mesh.
+CMorphingMesh::~CMorphingMesh() {
+    if (rootNode != nullptr) {
+        rootNode->removeMorphingMesh(this);
+    }
+}
 
 // 0x64990c _ZNK6glitch7collada13CMorphingMesh5cloneEv
 // Returns a null handle (the original stores 0 into the result slot).

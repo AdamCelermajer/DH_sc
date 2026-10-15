@@ -104,11 +104,11 @@ std::int32_t CMatchingGLLive::JoinRoomInternal(std::uint64_t roomId) {
 // flag is set to IsHost(); the 32 member info elements at +0x3a00 are each enabled when this object is the
 // server or the element index equals the local member's index (CMatching::GetMemberIndex of +0x3640), then
 // serialized, and any element that wrote makes the result 1.
-// Not reproduced: CRoomAttributes::Serialize(room, a2, a3, stream) and
-// NetStructArray<CMatching::MemberInfoNetStruct,32>::Serialize(this + 0x18, ...) (their result is OR-ed into the
-// return value): the NetStruct wire format lives in net-transport, and the (int, int, NetBitStream&)
-// overload of CRoomAttributes::Serialize is not declared. The element serializer is a stand-in that writes
-// nothing and reports no data, so the function always returns 0 and the stream is not written.
+// Not reproduced: CRoomAttributes::Serialize(room, a2, a3, stream) -- the (int,int,NetBitStream&) overload IS
+// declared and has a body now (dh2/CRoomAttributes.hpp:82, 0x817ebc) and CMatching::WritePacketData already
+// calls it, so this half can be written -- and NetStructArray<CMatchingGLLive::MemberInfoNetStruct,32>::Serialize
+// over the 360-byte records at +0x3a00, which is the real blocker: that record type is the stand-in whose
+// Serialize writes nothing and reports no data, so the function returns 0 and the stream is not written.
 std::int32_t CMatchingGLLive::WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) {
     CRoomAttributes* room = GetRoomAttributes();
     room->m_netRoomAttributes.SetEnabled(IsHost());  // NetStruct::SetEnabled(room + 8, IsHost())

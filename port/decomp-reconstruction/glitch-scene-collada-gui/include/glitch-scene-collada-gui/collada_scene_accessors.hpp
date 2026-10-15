@@ -66,8 +66,8 @@ public:
     // 0x64bbc0 _ZNK6glitch7collada24CParticleSystemSceneNode25getTransformedBoundingBoxEv
     const core::aabbox3d<float>* getTransformedBoundingBox() const;
 
-    const core::aabbox3d<float>* transformedBoundingBox = nullptr;  // +0x14c
-    SUidHolder* uidHolder = nullptr;                                // +0x18c
+    const core::aabbox3d<float>* transformedBoundingBox = nullptr;  // +0x14C (LDR R0,[R0,#0x14C])
+    SUidHolder* uidHolder = nullptr;                                // +0x18C (LDR R3,[R0,#0x18C])
 };
 
 class CGlitchNewParticleSystemSceneNode {
@@ -77,8 +77,8 @@ public:
     // 0x637b84 _ZNK6glitch7collada33CGlitchNewParticleSystemSceneNode25getTransformedBoundingBoxEv
     const core::aabbox3d<float>* getTransformedBoundingBox() const;
 
-    const core::aabbox3d<float>* transformedBoundingBox = nullptr;  // +0x14c
-    SUidHolder* uidHolder = nullptr;                                // +0x17c
+    const core::aabbox3d<float>* transformedBoundingBox = nullptr;  // +0x14C (LDR R0,[R0,#0x14C])
+    SUidHolder* uidHolder = nullptr;                                // +0x17C (LDR R3,[R0,#0x17C]; the sibling uses +0x18C)
 };
 
 namespace animation_track {

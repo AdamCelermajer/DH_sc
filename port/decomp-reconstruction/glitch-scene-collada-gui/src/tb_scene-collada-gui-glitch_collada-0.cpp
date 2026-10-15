@@ -6,13 +6,19 @@
 namespace glitch::collada {
 
 // 0x667c38 _ZN6glitch7collada18getStringsInternalEPNS0_18ISceneNodeAnimator20E_INTERPOLATION_MODEE
-// Partial. The original is `return &strings;`, the address of a function-local static table. The
-// element count and the string contents are not mapped: the pseudocode gives only the address, and
-// the table is not in the decompiled data. The hook stays null, the same way IGUIElement::getTypeName
-// is handled in NOTES.md. Layout request: map the `strings` table (element count and contents) from
-// the data at the table address. The E_INTERPOLATION_MODE* argument is never read by the original.
+// The original is three instructions - LDR R0,=strings - 0x667C44; ADD R0, PC, R0; BX LR - i.e. `return strings;`,
+// the address of a function-local static table of `const char*`. The table is at 0x99b868 and holds four words:
+//   {0x008c6878, 0x008da630, 0x008e4300, 0x00000000}
+// which are the strings {"Default", "Step", "Linear"} followed by the null terminator. Dumped with
+// get_bytes on 0x99b868 and on each pointer. The only xref to the function is CSceneNodeAnimator::serializeAttributes
+// (0x65e02c), which passes the table to IAttributes' enum-writing slot +0xf4 together with the animator's
+// E_INTERPOLATION_MODE word at +0x0c, so the three texts are the interpolation-type enum names in value order.
+// The E_INTERPOLATION_MODE* argument is never read by the original (the call site passes 0); the declaration below
+// omits it, because ISceneNodeAnimator::E_INTERPOLATION_MODE is not mapped in this category and a `void*` parameter
+// would not be symbol-compatible either. The parameter is omitted, not deviated: the original ignores it.
 char** getStringsInternal() {
-    return nullptr;
+    static const char* strings[4] = {"Default", "Step", "Linear", nullptr};
+    return const_cast<char**>(strings);
 }
 
 // 0x631ce8 _ZN6glitch7collada14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS4_17CMaterialRendererEEERNS0_9SMaterialEPNS0_14CRootSceneNodeE

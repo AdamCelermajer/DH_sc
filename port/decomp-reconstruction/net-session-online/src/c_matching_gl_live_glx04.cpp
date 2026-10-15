@@ -110,13 +110,14 @@ int CMatchingGLLive::LoadGLLiveProfile() {
 }
 
 // 0x81bf88 _ZN15CMatchingGLLive10IsLoggedInEv
-// Partial: the flag (CSignIn +0x11) is read through CSignIn::LoggedInForTest(), the only accessor. CSignIn::Get()
-// is null only for a provider other than 0 and 1, where the original dereferences null; this port reads it as
-// signed out.
+// Reconstructed: the byte at CSignIn+0x11, read through CSignIn::LoggedIn(). Deviation
+// (host-necessitated): CSignIn::Get() is null only for a provider other than 0 and 1, where the original
+// dereferences null; this port reads that as signed out.
 int CMatchingGLLive::IsLoggedIn() { return SignInLoggedIn() ? 1 : 0; }
 
 // 0x81bf98 _ZNK15CMatchingGLLive17GetServerMemberIdEv
-// Partial through IsLoggedIn: the signed-in test reads the same flag, with the same accessor and null reading.
+// Reconstructed: game-starting returns serverMemberId_ (+0x3644), signed in returns 0, else -1. The
+// signed-in test reads the same null-guarded flag as IsLoggedIn (see above).
 std::int32_t CMatchingGLLive::GetServerMemberId() const {
     if (s_IsGameStarting) {
         return serverMemberId_;
