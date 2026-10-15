@@ -35,7 +35,11 @@
 namespace {
 
 // The 17-name table of video::getStringsInternal(E_MATERIAL_TYPE*) 0x5df898 (0x957400), as the body's file-local copy
-// spells it. Restated here so the test does not read the production table.
+// spells it. Restated here so the test does not read the production table. The list was re-read from the ELF on this
+// pass, independently of the source: get_bytes(0x957400, 72) gives the 17 little-endian pointers
+// 0x8e13a0, 0x8e13b8, 0x8e13d8, 0x8e1400, 0x8e1420, 0x8e0b10, 0x8e1448, 0x8e1460, 0x8e1480, 0x8e14b8, 0x8e14e8,
+// 0x8e1520, 0x8e1538, 0x8e1550, 0x8e1578, 0x8e1598, 0x8e15c0 and a null word, and the NUL-terminated bytes at those
+// addresses are exactly the 17 strings below (index 5, 0x8e0b10, is the literal "**** TODO ****").
 constexpr const char* const kTypeNames[17] = {
     "Unlit Non Textured",
     "Unlit Non Textured Blend",

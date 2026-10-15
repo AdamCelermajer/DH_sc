@@ -1,4 +1,5 @@
 symbol,kind,size,category,address,demangled
+WinMain,data,8,see link-missing.csv,,
 _Z12get_fontfilePKcbbPci,function,0,see link-missing.csv,0x42b38c,get_fontfile(char const*| bool| bool| char*| int)
 _Z14mpc_demux_exitP9mpc_demux,function,0,see link-missing.csv,,mpc_demux_exit(mpc_demux*)
 _Z14mpc_demux_initP12mpc_reader_t,function,0,see link-missing.csv,,mpc_demux_init(mpc_reader_t*)
@@ -19,9 +20,6 @@ _Z29DBG_DrawGlitchNodeBoundingBoxPN6glitch5scene10ISceneNodeE,function,0,see lin
 _Z36DBG_TraceAllLoadedResfileInformationv,function,0,see link-missing.csv,0x50e228,DBG_TraceAllLoadedResfileInformation()
 _Z36DBG_TraceAllLoadedTextureInformationv,function,0,see link-missing.csv,0x50e2b8,DBG_TraceAllLoadedTextureInformation()
 _Z48TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalissePN6glitch5scene10ISceneNodeE,function,0,see link-missing.csv,0x381a10,TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalisse(glitch::scene::ISceneNode*)
-_Z8ObjToStrPcRb,function,0,see link-missing.csv,0x30eeb4,ObjToStr(char*| bool&)
-_Z8StrToObjPKcRN6glitch4core8vector3dIfEE,function,0,see link-missing.csv,0x30f334,StrToObj(char const*| glitch::core::vector3d<float>&)
-_Z8StrToObjPKcRb,function,0,see link-missing.csv,0x30f020,StrToObj(char const*| bool&)
 _ZN13AnimatedDecorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,AnimatedDecor::AnimatedDecor(ObjectBase::GO_IDS)
 _ZN15VoxSoundManager10InitializeEv,function,0,see link-missing.csv,0x36c2e4,VoxSoundManager::Initialize()
 _ZN15VoxSoundManager14CreateInstanceEv,function,0,see link-missing.csv,0x36ca88,VoxSoundManager::CreateInstance()
