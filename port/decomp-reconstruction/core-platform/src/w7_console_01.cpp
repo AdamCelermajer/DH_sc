@@ -126,7 +126,7 @@ void Console::Toggle() {
             items.erase(items.begin(), items.end());
         }
         if (glitch::IDevice* device = ConsoleDevice()) {
-            if (FileSystemWin32* fileSystem = device->fileSystem) {
+            if (FileSystemWin32* fileSystem = static_cast<FileSystemWin32*>(device->fileSystem)) {  // +0x34 is io::IFileSystem*; getFiles is a FileSystemWin32 method
                 fileSystem->getFiles("data/scene/*.xml", items);
                 fileSystem->getFiles("data/scene/*.mlx", items);
             }

@@ -8,7 +8,7 @@
 // *(dword_99F73C + 0x34): Application::m_device (+0x10) -> IDevice +0x34.
 FileSystemWin32* SavefileFileSystemPtr() {
     glitch::IDevice* device = ApplicationGetInstance().m_device;
-    return device != nullptr ? device->fileSystem : nullptr;
+    return device != nullptr ? static_cast<FileSystemWin32*>(device->fileSystem) : nullptr;  // +0x34 is io::IFileSystem* now
 }
 
 // HOST-PORT: the original always has a device. A host build that runs game code before the platform layer has created the device

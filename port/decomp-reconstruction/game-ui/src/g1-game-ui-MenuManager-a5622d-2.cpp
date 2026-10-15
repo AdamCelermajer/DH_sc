@@ -417,7 +417,7 @@ bool MenuManager::Init() {
             m_multiMenuManager->m_menuFX[index] = nullptr;       // +0x134 + 4 * index
             m_multiMenuManager->m_cameras[index] = nullptr;      // +0x144 + 4 * index
             const char* file = kSwfFiles[0][index];
-            if (reinterpret_cast<FileSystemBase*>(ApplicationGetInstance().m_device->fileSystem)->doesFileExists(file)   /* FileSystemBase::doesFileExists, vtable +0xa8; core-platform keeps FileSystemWin32 separate from FileSystemBase and the body reads no member */) {
+            if (static_cast<FileSystemBase*>(ApplicationGetInstance().m_device->fileSystem)->doesFileExists(file)   /* FileSystemBase::doesFileExists, vtable +0xa8; core-platform keeps FileSystemWin32 separate from FileSystemBase and the body reads no member */) {
                 if (Width_Screen == 854) {
                     m_multiMenuManager->LoadSWFFile(kSwfFiles[4][index], index);
                 } else {

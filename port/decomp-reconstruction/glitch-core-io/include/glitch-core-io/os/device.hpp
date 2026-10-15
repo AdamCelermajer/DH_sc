@@ -86,10 +86,25 @@ public:
     void* logger = nullptr;
     // +0x30: cleared by the constructor, role not identified
     void* unk_30 = nullptr;
-    // +0x34: the file system. The constructor takes it from the CIrrFactory (vtable +0x08 of the factory instance). The
-    // game calls its savefile slots through Application::m_device: getFiles (+0x7c), getFilesMatching (+0x80), openSavefile
-    // (+0x94), deleteSavefile (+0x9c) and doesSavefileExists (+0xb0). The dynamic type is FileSystemWin32.
-    FileSystemWin32* fileSystem = nullptr;
+    // +0x34: the file system, as glitch::io::IFileSystem* - the interface, which is what the original stores.
+    // PROOF, from the ARM listing rather than the pseudocode:
+    //   * The IDevice constructor 0x672040 (instructions 0x672198-0x6721e4) is literally
+    //     `intrusive_ptr<IFileSystem> x = CIrrFactory::createFileSystem();` assigned into +0x34: it calls the
+    //     factory instance's vtable slot +0x08 (createFileSystem 0x533fb0) with an sret slot, then does
+    //     `LDR R3,[R3,#4]; ADD R3,#1; STR R3,[R3,#4]` (the intrusive count 0 -> 1) and stores into [R4,#0x34],
+    //     dropping the previous value.
+    //   * CTweakable::loadXML 0x32b6b8 (0x32b6f8-0x32b718) reads `[device+0x34]`, loads its vtable and calls
+    //     slot +0x50, which IFileSystem declares as createXMLReader(IReadFile*) (io/interfaces.hpp).
+    // The member used to be FileSystemWin32*, a class with no vtable, so that call could not be written.
+    // RETYPED once the concrete chain became sound: FileSystemWin32 : FileSystemBase : glitch::io::CFileSystem :
+    // IFileSystem (proved from _ZTV14FileSystemBase, the same 196-byte layout as _ZTV15FileSystemWin32), so a
+    // static_cast to the interface is now justified and the interface is the right static type. Note the POINTEE
+    // is still not pinned: CIrrFactory::createFileSystem allocates a 0x2C CFileSystem while the game's
+    // IrrFactory::createFileSystem (0x350aec, still partial) allocates a 0x540 FileSystemWin32. Both derive from
+    // IFileSystem in the original, so the interface type is correct for either; do not assume one concrete type.
+    // The game's savefile slots are reached through this interface: getFiles (+0x7c), getFilesMatching (+0x80),
+    // openSavefile (+0x94), deleteSavefile (+0x9c) and doesSavefileExists (+0xb0).
+    io::IFileSystem* fileSystem = nullptr;
     // +0x38: cleared by the constructor, role not identified
     void* unk_38 = nullptr;
     // +0x3c
