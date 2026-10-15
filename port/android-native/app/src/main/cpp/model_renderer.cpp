@@ -18502,6 +18502,65 @@ int SpawnOwner::request_path(const float* target) {
  return result.requested?int(result.find_result):0;
 }
 
+// Character::IsAvoidingObstacles (0x3a3754) is CharStateMachine::SM_IsMoving(false)
+// (CSMove 4 or state 19); GameObject::UpdatePath (0x3940c0) then runs
+// PFWorld::AvoidObstacles over the Level's obstacle registry before the boundary
+// validation. The scene lists every registered Character PFObject (Player and
+// Monsters) with its collision filter so PhysicalObject::canCollide filters the
+// pairs; corpses are left out.
+namespace {
+struct MonsterAvoidanceStorage {
+ std::vector<dh2::navigation::AvoidanceActor> actors;
+ std::vector<std::uint64_t> keys;
+ std::vector<dh2::navigation::ObstacleEntry> entries;
+ std::vector<std::uint32_t> floors;
+ dh2::navigation::ObstacleRegistry registry{};
+ dh2::navigation::AvoidanceScene scene{};
+};
+const dh2::navigation::AvoidanceScene* build_monster_avoidance_scene(SpawnOwner& self){
+ static MonsterAvoidanceStorage s;
+ if(!live_registry.entries||!self.actor||!self.pf_object_ready)return nullptr;
+ s.actors.clear();s.keys.clear();s.entries.clear();
+ const auto add=[&](std::uint64_t key,const dh2::navigation::NavigationObject& object,
+                    std::int16_t group,std::uint16_t category,std::uint16_t mask,bool body){
+  dh2::navigation::AvoidanceActor actor{};
+  actor.object=object;
+  std::copy(object.motion.position,object.motion.position+3,actor.target);
+  actor.physical={body?1u:0u,0,1,1,{group,category,mask,1},{0,0,0,0}};
+  s.actors.push_back(actor);s.keys.push_back(key);
+ };
+ bool have_self=false;
+ for(unsigned i=0;i<live_registry.count;++i){
+  const auto key=live_registry.entries[i].object;
+  if(key==prince_character.identity()){
+   add(key,prince_runtime.object,-1,4,0xd7f,prince_body.body!=nullptr);
+  }else{
+   auto* other=native_char_ai_actor(key);
+   if(!other||other->combat_state.dead||!other->spawn_owner||!other->spawn_owner->runtime_ready||
+      !other->spawn_owner->pf_object_ready)continue;
+   const auto& cfg=other->spawn_owner->config;
+   add(key,other->spawn_owner->runtime.object,std::int16_t(cfg.shape.group_index),
+       std::uint16_t(cfg.shape.category_bits),std::uint16_t(cfg.shape.mask_bits),
+       cfg.enabled!=0&&other->spawn_owner->body.body!=nullptr);
+   if(key==self.actor->identity)have_self=true;
+  }
+  s.entries.push_back(live_registry.entries[i]);
+  if(s.actors.size()!=s.entries.size())s.entries.pop_back();
+ }
+ if(!have_self){
+  const auto& cfg=self.config;
+  add(self.actor->identity,self.runtime.object,std::int16_t(cfg.shape.group_index),
+      std::uint16_t(cfg.shape.category_bits),std::uint16_t(cfg.shape.mask_bits),true);
+ }
+ s.floors.assign(live_registry.floor_capacity,0);
+ for(unsigned i=0;i<live_registry.floor_count;++i)s.floors[i]=live_registry.floors[i];
+ s.registry={s.entries.data(),unsigned(s.entries.size()),unsigned(s.entries.size()),
+             s.floors.data(),live_registry.floor_count,unsigned(s.floors.size())};
+ s.scene={&s.registry,s.actors.data(),s.keys.data(),unsigned(s.actors.size()),0};
+ return &s.scene;
+}
+}
+
 void SpawnOwner::update_runtime(const dh2::objects::Resource& resource,
         const dh2::animation::Player& clip,int animation_ms,unsigned dt_ms,unsigned frame) {
  if(!actor||!runtime_ready||!pf_object_ready||!body.body||frozen)return;
@@ -18524,7 +18583,10 @@ void SpawnOwner::update_runtime(const dh2::objects::Resource& resource,
   throw std::runtime_error("Ghost physical view refresh failed");
  runtime.subobjects.path_count=runtime.path.count;
  std::memcpy(runtime.subobjects.path_target,runtime.path.target,sizeof(runtime.subobjects.path_target));
- const dh2::actor::RuntimePolicy policy{{1,0,0,decoded.position_from_physics},0,0,0,0,
+ // GameObject::UpdatePath asks IsAvoidingObstacles (virtual +124) before AvoidObstacles.
+ const bool avoiding=character.state.current==4||character.state.current==19;
+ const auto* avoidance_scene=avoiding?build_monster_avoidance_scene(*this):nullptr;
+ const dh2::actor::RuntimePolicy policy{{1,avoidance_scene?1u:0u,0,decoded.position_from_physics},0,0,0,0,
                                         dh2::actor::base_virtual_speed};
  const dh2::subobjects::Services services{nullptr,actor_virtual_service};
  const float* source_target_position=
@@ -18532,7 +18594,7 @@ void SpawnOwner::update_runtime(const dh2::objects::Resource& resource,
  const dh2::actor::RuntimeRequest request{
   &runtime,&body,&visual,&scene,&level.native_floor->collision_world,
   &level.native_floor->graph,&live_registry,&live_motion_policy,&live_workspace,
-  nullptr,actor->properties.resolved.data(),&policy,&services,source_target_position,
+  avoidance_scene,actor->properties.resolved.data(),&policy,&services,source_target_position,
   actor->identity,character.state.flags,dt_ms};
  dh2::actor::RuntimeResult result{};
  if(dh2::actor::update_actor(result,request,error))
@@ -29487,6 +29549,29 @@ bool monster_path_trace_enabled(){
  static const bool enabled=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v&&*v!='0';}();
  return enabled;
 }
+void trace_monster_chase(ObjectActor& actor,unsigned dt_ms){
+ // Diagnostic only (DH2_TRACE_MONSTER_CHASE=name-substring): one line per 10
+ // updates of the named Monster: pose, facing, FSM, route and Player range.
+ static const char* filter=std::getenv("DH2_TRACE_MONSTER_CHASE");
+ if(!filter||!*filter||actor.name.find(filter)==std::string::npos||!actor.spawn_owner||
+    !actor.spawn_owner->runtime_ready)return;
+ static std::unordered_map<std::uint64_t,unsigned> counter;
+ static std::unordered_map<std::uint64_t,unsigned long long> clock;
+ clock[actor.identity]+=dt_ms;
+ static const unsigned every=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_CHASE_EVERY");return v&&*v?unsigned(std::atoi(v)):10u;}();
+ if(counter[actor.identity]++%(every?every:10u)!=0)return;
+ auto& owner=*actor.spawn_owner;auto& runtime=owner.runtime;
+ const float dx=actor_position[0]-actor.position[0],dy=actor_position[1]-actor.position[1];
+ const float to_player=std::atan2(dy,dx)*57.29578f;
+ const auto* wp=runtime.path.count?runtime.path.segments[0].target:runtime.controller.destination;
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+   "MonsterChase | %s | t %llu | fsm %d %s | scale %.2f | pos %.1f,%.1f | rotZ %.1f | heading %d ang %.1f | toPlayer %.1f | dist %.1f | route %u | wp %.1f,%.1f | dest %.1f,%.1f | ptarget %.1f,%.1f",
+   actor.name.c_str(),clock[actor.identity],owner.character.state.current,actor.state.c_str(),owner.visual.root.scale[0],
+   actor.position[0],actor.position[1],actor.rotation_degrees[2],int(runtime.controller.heading.active),
+   runtime.controller.heading.angle*57.29578f,to_player,std::sqrt(dx*dx+dy*dy),runtime.path.count,
+   wp[0],wp[1],runtime.controller.destination[0],runtime.controller.destination[1],
+   runtime.path.target[0],runtime.path.target[1]);
+}
 void trace_monster_path(ObjectActor& actor,unsigned dt_ms){
  const bool enabled=monster_path_trace_enabled();
  if(!enabled||!actor.spawn_owner||!actor.native_ai||!actor.spawn_owner->runtime_ready)return;
@@ -30215,6 +30300,7 @@ void native_monster_collision_persist_v1(std::uintptr_t owner_identity,
    }};
   persist::Result result{};
   const auto status=persist::persist(&state,peer_identity,instigator?1u:0u,&services,&result);
+  if(monster_path_trace_enabled()&&ais.counter_bc!=init->ais.counter_bc){const auto* pa=native_char_ai_actor(peer_identity);__android_log_print(ANDROID_LOG_INFO,"DH2Native","MonsterPathTrace stuck-count | %s | peer %s (%llx) | instigator %d | counter %u -> %u | pos %.0f,%.0f peer %.0f,%.0f dist %.0f",actor->name.c_str(),pa?pa->name.c_str():(peer_identity==prince_character.identity()?"PLAYER":"?"),(unsigned long long)peer_identity,int(instigator),unsigned(init->ais.counter_bc),unsigned(ais.counter_bc),actor->position[0],actor->position[1],pa?pa->position[0]:0.f,pa?pa->position[1]:0.f,pa?std::hypot(pa->position[0]-actor->position[0],pa->position[1]-actor->position[1]):-1.f);}
   init->ais.counter_bc=ais.counter_bc;
   init->ais.word_c0=state.frame_c0;
   if(status!=persist::Status::complete){
@@ -30966,7 +31052,7 @@ bool update_ordered_character_v1(void* raw,
     return false;
    }
   decay_character_reaction_gate_14fc(actor->reaction_gate_14fc,context.dt_ms);
-  trace_monster_path(*actor,context.dt_ms);
+  trace_monster_path(*actor,context.dt_ms);trace_monster_chase(*actor,context.dt_ms);
   if(spawn_owner) {
    std::string fx_error;
    if(!update_spawn_state_fx(*spawn_owner,fx_error)) {
@@ -46560,8 +46646,8 @@ void initialize_native_actor(AAssetManager* assets,bool restore){
  live_obstacle_entries.assign(256,{});live_obstacle_floors.assign(level.native_floor->records.size()+1,0);
  live_registry={live_obstacle_entries.data(),0,unsigned(live_obstacle_entries.size()),live_obstacle_floors.data(),0,unsigned(live_obstacle_floors.size())};
  live_path_segments.resize(level.native_floor->graph.node_count+1);live_workspace_segments.resize(live_path_segments.size());
- live_workspace_floors.resize(live_obstacle_floors.size());live_workspace_actors.resize(1);
- live_workspace={live_workspace_segments.data(),unsigned(live_workspace_segments.size()),0,live_workspace_actors.data(),1,0,live_workspace_floors.data(),unsigned(live_workspace_floors.size()),0};
+ live_workspace_floors.resize(live_obstacle_floors.size());live_workspace_actors.resize(live_obstacle_entries.size());
+ live_workspace={live_workspace_segments.data(),unsigned(live_workspace_segments.size()),0,live_workspace_actors.data(),unsigned(live_workspace_actors.size()),0,live_workspace_floors.data(),unsigned(live_workspace_floors.size()),0};
  prince_runtime.path.segments=live_path_segments.data();prince_runtime.path.capacity=live_path_segments.size();
  std::copy(actor_position.begin(),actor_position.end(),prince_runtime.path.target);
  dh2_nav_object_defaults(&prince_runtime.object);dh2_nav_motion_policy_defaults(&live_motion_policy);
