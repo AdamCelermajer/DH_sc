@@ -48708,6 +48708,14 @@ std::string debug_player_refill_hp(std::int32_t raise_max_to){
   return "Player HP fixture rejected";
  return "Player HP refilled";
 }
+std::string debug_player_set_hp(std::int32_t whole_hp){
+ if(!world_mode||!native_actor_ready||prince_combat.life.dead||
+    prince_combat.properties.resolved.size()<=38||whole_hp<1)return "Player HP set fixture rejected";
+ auto view=dh2::data::property_view(actor_property_rules,prince_combat.properties);
+ if(dh2_property_set(&view,36,std::min(whole_hp*256,prince_combat.properties.resolved[38])))
+  return "Player HP fixture rejected";
+ return "Player HP set";
+}
 // Verification probe: GetIDFromName + StartScript on the Level's one
 // ScriptManager session, exactly like the tutorial triggers (no new VM).
 std::string debug_start_level_script(const std::string& name){
