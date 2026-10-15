@@ -1,4 +1,5 @@
 #pragma once
+#include "game_clock_v1.hpp"
 
 // Included inside model_renderer's anonymous namespace, after
 // model_menu_scene_v69.hpp. This owns only the GPU/model preview resource;
@@ -338,7 +339,7 @@ bool load_menu_preview_actor_v1(AAssetManager* assets,std::int32_t slot,
   menu_preview_actor.weapon_images=std::move(next_weapon_images);
   std::copy(std::begin(next_scale),std::end(next_scale),menu_preview_actor.scale);
   menu_preview_actor.slot=slot;menu_preview_actor.character_row=character_row;
-  menu_preview_actor.epoch=std::chrono::steady_clock::now();
+  menu_preview_actor.epoch=dh2::game_clock::steady_now();
   menu_preview_actor.ready=true;menu_preview_assets=assets;
   error.clear();return true;
  }catch(const std::exception& failure){
@@ -357,7 +358,7 @@ void draw_menu_preview_actor_v1(const Matrix& projection,Submit&& submit){
  const auto duration=resource.animation.end-resource.animation.start;
  if(duration<=0)throw std::runtime_error("MainMenu Character preview MenuIdle duration is invalid");
  const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(
-     std::chrono::steady_clock::now()-actor.epoch).count();
+     dh2::game_clock::steady_now()-actor.epoch).count();
  const auto time=resource.animation.start+std::int32_t(elapsed%duration);
  if(!dh2::objects::sample(resource,time,error))
   throw std::runtime_error("MainMenu Character preview pose failed: "+error);

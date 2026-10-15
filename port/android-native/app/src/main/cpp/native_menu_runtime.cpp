@@ -1,4 +1,5 @@
 #include "native_menu_runtime.hpp"
+#include "game_clock_v1.hpp"
 #include "native_player_profile.hpp"
 #include "model_renderer.hpp"
 #include "player_profile_create_v1.hpp"
@@ -67,7 +68,7 @@ bool create_profile(AAssetManager* assets,const std::string& directory,
   };
   services.seed_time=[](void*,std::uint32_t* out,std::string&){
    // Original getRealTime import: gettimeofday seconds*1000+usec/1000, low32.
-   *out=std::uint32_t(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());return true;
+   std::uint64_t ms=0;if(!dh2::game_clock::wall_ms(ms))return false;*out=std::uint32_t(ms);return true;
   };
   services.save_date_time=[](void*,std::uint32_t* out,std::string& e){const auto now=std::time(nullptr);if(now<0){e="Save date clock unavailable";return false;}*out=std::uint32_t(now);return true;};
   services.difficulty_count=[](void* raw,std::uint32_t* out,std::string& e){auto& p=*static_cast<Providers*>(raw);return p.count_provider(p.count_context,out,e);};

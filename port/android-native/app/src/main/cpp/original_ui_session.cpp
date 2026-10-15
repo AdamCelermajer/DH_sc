@@ -1,4 +1,5 @@
 #include "original_ui_session.hpp"
+#include "game_clock_v1.hpp"
 #include "gameplay_main_menu_request_v1.hpp"
 #include "native_gameplay_touch_v1.hpp"
 #include "../../../../../engine-ui/inventory_click_binding_v1.hpp"
@@ -3459,7 +3460,7 @@ struct OriginalUiSession::Impl {
                 const auto rectangle=front_rectangle();if(!movie->input_rectangle(rectangle.data(),error))return false;
                 __android_log_print(ANDROID_LOG_INFO,tag,"Original source input connected | direct main event stage | MenuManager/HUDControls forwarding pending");
             }
-            loaded=true;menu_clock.reset();frame_time=std::chrono::steady_clock::now();return true;
+            loaded=true;menu_clock.reset();frame_time=dh2::game_clock::steady_now();return true;
         }
         if(!live_player){error="Gameplay HUD load requires the attached player";return false;}
         if(!settings||!settings->has_option("HUDStyle")){
@@ -3543,7 +3544,7 @@ struct OriginalUiSession::Impl {
             // CharacterMenu movie first because Character::ReloadSkills
             // synchronously asks its RenderFX menu for IsSpecTime.
             if(!gameplay_hud->activate(error))return false;
-            game_menu_stack.clear();game_menu_clock.reset();game_menu_frame_time=std::chrono::steady_clock::now();
+            game_menu_stack.clear();game_menu_clock.reset();game_menu_frame_time=dh2::game_clock::steady_now();
             __android_log_print(ANDROID_LOG_INFO,tag,
                 "Original gameplay menu renderer loaded | source dqcharmenu_droid.swf | screens %zu | separate HUD and character menu players | inventory/skills/faery callbacks remain owner-bound",
                 character_states.size());
@@ -4296,7 +4297,7 @@ bool OriginalUiSession::load_front_screen(const std::string& directory,const std
     impl_->front_screen=screen;impl_->directory=directory;impl_->live_player=false;
     impl_->front_name_input_active.store(screen=="main"&&!impl_->menu_stack.empty()&&
         impl_->menu_stack.back()=="menu_EnterName",std::memory_order_release);
-    impl_->selected=true;impl_->report_frame=true;impl_->frame_time=std::chrono::steady_clock::now();error.clear();return true;
+    impl_->selected=true;impl_->report_frame=true;impl_->frame_time=dh2::game_clock::steady_now();error.clear();return true;
 }
 bool OriginalUiSession::load_health_panel(const std::string& directory,std::string& error) {
     if(!impl_->front_screen.empty()){if(!impl_->reset_failed(error))return false;impl_->front_screen.clear();}
@@ -4333,7 +4334,7 @@ bool OriginalUiSession::render(int width,int height,std::string& error) {
     }
     const bool front=!impl_->front_screen.empty();
     if(front){
-        const auto now=std::chrono::steady_clock::now();
+        const auto now=dh2::game_clock::steady_now();
         const auto elapsed=now-impl_->frame_time;
         const float seconds=std::min(.1f,std::chrono::duration<float>(elapsed).count());impl_->frame_time=now;
         if(impl_->front_screen=="main"){
@@ -4872,6 +4873,10 @@ void OriginalUiSession::queue_level_transition(const std::string& destination,do
 }
 bool OriginalUiSession::flush_source_messages(std::string& error){
     auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()){
+        // Nothing can have been queued before the HUD exists (same rule as source_dialog_active).
+        error.clear();return true;
+    }
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){
         error="Source message flush requires the retained gameplay HUD session";return false;
     }
@@ -4916,7 +4921,7 @@ bool OriginalUiSession::resume_front_after_start_failure(std::string& error){
         error="Failed NativeStartGame has no retained authored front-menu owner";return false;
     }
     impl_->selected=true;impl_->report_frame=true;
-    impl_->frame_time=std::chrono::steady_clock::now();error.clear();
+    impl_->frame_time=dh2::game_clock::steady_now();error.clear();
     __android_log_print(ANDROID_LOG_INFO,tag,
         "Authored menu resumed after failed NativeStartGame | current %s | slot assignment and source menu stack retained",
         impl_->active_menu_path().c_str());
@@ -4975,7 +4980,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
         if(!self.loaded){self.driver_width=width;self.driver_height=height;require(self.load(error),"Gameplay UI load failed without a diagnostic");}
         require(self.viewport(width,height,error),"Gameplay UI viewport update failed without a diagnostic");
         if(self.character_menu_movie){
-            const auto now=std::chrono::steady_clock::now();
+            const auto now=dh2::game_clock::steady_now();
             const auto elapsed=now-self.game_menu_frame_time;self.game_menu_frame_time=now;
             const auto milliseconds=self.game_menu_clock.advance(std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed));
             self.last_menu_dt=milliseconds;
@@ -5005,7 +5010,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
             // through its canonical frame owner so authored combat-text clones
             // animate and retire; the menu-present branch above already does
             // this as active or inactive and must not be advanced twice.
-            const auto now=std::chrono::steady_clock::now();
+            const auto now=dh2::game_clock::steady_now();
             if(self.game_menu_frame_time.time_since_epoch().count()==0){
                 self.game_menu_clock.reset();self.game_menu_frame_time=now;
             }
@@ -5057,7 +5062,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                 std::ostringstream out;out<<"Authored HUD state identity changed | status "<<character<<" | projection "<<identity;
                 throw std::runtime_error(out.str());
             }
-            const auto now=std::chrono::steady_clock::now();
+            const auto now=dh2::game_clock::steady_now();
             const bool refresh_usable=self.gameplay_hud_usable_refresh.due(now);
             auto projection=self.gameplay_hud_state;
             std::string projection_error;
