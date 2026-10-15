@@ -154,14 +154,21 @@ int main() {
     }
 
     // WritePacketData: the room attributes follow IsHost(); with no server flag only the local member's
-    // element is enabled; as the server every element is enabled. Nothing is written (net-transport).
+    // element is enabled; as the server every element is enabled.
+    //
+    // These two CHECKs used to expect 0, with the reason "Nothing is written (net-transport)": that was true
+    // only while CMatchingGLLive::MemberInfoNetStruct was a STAND-IN whose Serialize wrote nothing. The record
+    // is now a real NetStruct (it holds one NetStructString<16> at +0x130, recovered from the ctor 0x81e680 and
+    // the vtable 0x992768), so the member elements genuinely serialize and WritePacketData reports that data was
+    // written. The return value is therefore 1; the 0 was an artefact of the old stand-in, not the original's
+    // behaviour. The room-attribute and enabled-element assertions below are unchanged and still hold.
     {
         LobbyFixture fixture;
         CMatchingGLLive m;
         CMatchingGLLive::s_IsGameStarting = true;
         m.SetMemberId(20);  // member index 1
         NetBitStream stream(16);
-        CHECK(m.WritePacketData(0, 0, stream) == 0);
+        CHECK(m.WritePacketData(0, 0, stream) == 1);  // the real member records serialize now
         CHECK(!RoomNetEnabled(*m.GetRoomAttributes()));  // IsHost() is false
         for (int i = 0; i < CMatchingGLLive::kMemberInfoCount; ++i) {
             CHECK(m.MemberInfoForTest(i).Enabled() == (i == 1));
@@ -172,7 +179,7 @@ int main() {
         m.ProcessChangeServerMessage(0, serverStream);
         m.SetInitializedForTest(true);
         CHECK(m.IsServer());
-        CHECK(m.WritePacketData(0, 0, stream) == 0);
+        CHECK(m.WritePacketData(0, 0, stream) == 1);  // every element enabled, all serialize
         for (int i = 0; i < CMatchingGLLive::kMemberInfoCount; ++i) {
             CHECK(m.MemberInfoForTest(i).Enabled());
         }
