@@ -105,8 +105,8 @@ struct OriginalUiSession::Impl {
     OriginalUiAssets assets;
     SwfGpu gpu;
     std::string directory,font_failure,provider_failure;
-    std::array<std::vector<std::uint8_t>,4> constant_bytes;
-    std::array<dh2_pycst_view,4> constants{};
+    std::array<std::vector<std::uint8_t>,5> constant_bytes;
+    std::array<dh2_pycst_view,5> constants{};
     std::vector<std::uint8_t> dialog_constant_bytes;
     dh2_pycst_view dialog_constants{};
     std::vector<std::int32_t> dialog_actor_name_ids;
@@ -3163,11 +3163,13 @@ struct OriginalUiSession::Impl {
     }
     bool ensure_localization_ready(std::string& error) {
         if(localization.ready()){error.clear();return true;}
-        std::array<std::vector<std::uint8_t>,4> next_constant_bytes;
-        std::array<dh2_pycst_view,4> next_constants{};
+        std::array<std::vector<std::uint8_t>,5> next_constant_bytes;
+        std::array<dh2_pycst_view,5> next_constants{};
         const char* constant_uris[]={"data/pydata/common_text_pycst.bin","data/fonts_pycst.bin",
-            "data/design_pycst.bin","source-data/font-palette/loot_audiovisual_pycst.bin"};
-        for(unsigned i=0;i<4;++i){
+            "data/design_pycst.bin","source-data/font-palette/loot_audiovisual_pycst.bin",
+            // Quest journal callbacks read v2QuestPriority.Debug/Primary (GetQuestFunctor).
+            "data/v2quests_pycst.bin"};
+        for(unsigned i=0;i<5;++i){
             if(i==0){if(!assets.read(constant_uris[i],next_constant_bytes[i],error))return false;}
             else if(!raw_asset(constant_uris[i],next_constant_bytes[i],error))return false;
             if(dh2_pycst_open(&next_constants[i],next_constant_bytes[i].data(),

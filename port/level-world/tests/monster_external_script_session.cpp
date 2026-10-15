@@ -924,11 +924,22 @@ AddToVFTable('OnDied', 'NativeImplicitAttack')
 )lua";
         Session implicit_attack; Fixture implicit_attack_fixture;
         initialized(implicit_attack, implicit_attack_fixture, commons, source(implicit_attack_script));
-        require(implicit_attack.dispatch(Event::died, enemy, error) == Status::script_error &&
+        require(implicit_attack.dispatch(Event::died, enemy, error) == Status::complete &&
                     implicit_attack_fixture.stops == 1 && implicit_attack_fixture.attacks == 0 &&
-                    !implicit_attack.ready(),
-                "unmodeled ReturnValues target for no-argument Attack must fail closed");
-        trace(implicit_attack_fixture, {"Stop"});
+                    implicit_attack.ready(),
+                "no-argument Attack without a CharAI target is the source no-op");
+        trace(implicit_attack_fixture, {"Stop", "GetTarget"});
+        ++cases;
+
+        // IDA 0x3b9f44: with a CharAI target present the no-argument overload
+        // attacks it; the provider reads that target itself (identity 0).
+        Session implicit_target; Fixture implicit_target_fixture;
+        implicit_target_fixture.target = enemy;
+        initialized(implicit_target, implicit_target_fixture, commons, source(implicit_attack_script));
+        require(implicit_target.dispatch(Event::died, enemy, error) == Status::complete &&
+                    implicit_target_fixture.stops == 1 && implicit_target_fixture.attacks == 1 &&
+                    implicit_target.ready(),
+                "no-argument Attack with a CharAI target must reach the Attack provider");
         ++cases;
 
         const std::string null_identity_attack_script = monster_bytes + R"lua(

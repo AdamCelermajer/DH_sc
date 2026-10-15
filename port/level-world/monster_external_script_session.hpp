@@ -164,6 +164,10 @@ struct Services {
     // re-enter CharAI (DoSkill -> AI_BeginSkill -> OnSkillCheck...) cannot call
     // back into the busy VM, so the provider queues them and runs them here.
     void (*after_callback)(void*, std::uintptr_t owner) = nullptr;
+    // AIS GetHostPlayer (PlayerManager::GetHostPlayer's Character): the host
+    // Player's opaque GameObject identity. Appended last so positional
+    // aggregates that stop at after_callback stay valid.
+    std::int32_t (*get_host_player)(void*, std::uintptr_t* identity) = nullptr;
 };
 
 // Optional GameObject providers for the identity-table methods (GetName, IsDead,
