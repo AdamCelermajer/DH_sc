@@ -143,11 +143,12 @@ int copy(E_PIXEL_FORMAT format, const void* src, uint32_t srcPitch, void* dst, u
 }
 
 // 0x5edca4 _ZN6glitch5video12pixel_format12_GLOBAL__N_135SPackedRGBtoLuminanceAlphaConverterC1ENS0_14E_PIXEL_FORMATE
-// The converter of the "destination wants luminance" arm of convert (0x5f9670..0x5f9950). Built
-// from the SOURCE row: three weights 0.3 / 0.59 / 0.11 divided by (key[i] >> shift[i]), the three
-// channel masks and shifts, then the alpha mask +0x10, alpha shift +0x1b, alpha scale
-// 255 / (alphaMask >> alphaShift) and alphaMaxBits, which is (alphaMask >> alphaShift) when the row
-// has no alpha flag and 0 when it does. Layout confirmed against the constructor listing.
+// The converter of the "destination wants luminance" arm of convert (0x5f9670..0x5f9950). Built from the
+// SOURCE row: the three weights 0.3 / 0.59 / 0.11 divided by (key[i] >> shift[i]), the three channel masks
+// and shifts, then the alpha mask +0x10, the alpha shift +0x1b, the scale 255 / (alphaMask >> alphaShift) at
+// +0x20 and the OR value at +0x24, which is (alphaMask >> alphaShift) when the row has no alpha flag and 0
+// when it has. Layout confirmed instruction by instruction against the constructor listing (the running
+// +1 byte cursor at +0x18 reads the channel shifts, so the two byte arrays interleave).
 struct SLuminanceConverter {
     float weight[3] = {};          // +0x00
     uint32_t channelMask[3] = {};  // +0x0c
@@ -174,9 +175,8 @@ struct SLuminanceConverter {
         alphaMaxBits = (row.flags & 1) != 0 ? 0 : maxAlpha;
     }
 
-    // The accumulated weighted channel value as the listing's expression builds it: the
-    // (x & mask) >> shift terms are summed as floats. The caller applies the destination scale and
-    // truncates once, which is where the listing puts the float to int conversion.
+    // The accumulated channel value as the listing's expression builds it: the (x & mask) >> shift terms are
+    // summed as floats and the CALLER applies the destination scale and truncates once.
     float luminance(uint32_t pixel) const {
         float sum = 0.0f;
         for (int i = 0; i < 3; ++i) {
@@ -185,9 +185,8 @@ struct SLuminanceConverter {
         return sum;
     }
 
-    // The destination alpha: (int)((float)(alphaMaxBits | ((x & alphaMask) >> alphaShift)) *
-    // alphaScale). v724 is the OR value the constructor stores at +0x24, alphaMaxBits here, and the
-    // scale at +0x20 converts it to the destination range.
+    // (int)((float)(alphaMaxBits | ((x & alphaMask) >> alphaShift)) * alphaScale), the second byte of the
+    // luminance/alpha output form.
     uint32_t alpha(uint32_t pixel) const {
         const uint32_t combined = alphaMaxBits | shr(pixel & alphaMask, alphaShift);
         return static_cast<uint32_t>(static_cast<float>(combined) * alphaScale);
@@ -196,35 +195,41 @@ struct SLuminanceConverter {
 
 }  // namespace
 
-// Converter construction, one channel at a time. Widths are the PFD row bytes +0x18..+0x1a
-// (R, G, B) and +0x1b (A); the wire shifts are +0x1c..+0x1f and the masks are the key words
-// +0x04..+0x13. Confirmed against the three converter constructors:
-//   0x5ee958 SPackedConverter<1,0>    0x5ee790 SRGBIndexedPackedConverter
-//   0x5ee5e8 SPackedConverter<0,2>    0x5edca4 SPackedRGBtoLuminanceAlphaConverter
-// Each of them reads the source row through a running +1 byte cursor at +0x18 and +0x1c while the
-// channel index walks 0..3, so the second byte of each group belongs to the next channel.
-bool buildPackedPlan(E_PIXEL_FORMAT src, E_PIXEL_FORMAT dst, int key, SPackedPlan& plan) {
+// Converter construction, one channel at a time. Widths and shifts are the PFD row bytes
+// +0x18..+0x1b (widths) and +0x1c..+0x1f (shifts); masks are the key words +0x04..+0x13.
+bool buildPackedPlan(E_PIXEL_FORMAT src, E_PIXEL_FORMAT dst, SPackedPlan& plan) {
     if (src < 0 || src >= detail::kFormatCount || dst < 0 || dst >= detail::kFormatCount) return false;
     const SFormatEntry& s = PFDTable[src];
     const SFormatEntry& d = PFDTable[dst];
     if (!isPixelSized(s) || !isPixelSized(d)) return false;
-    const int srcPacked = getPackedType(src);
-    const int dstPacked = getPackedType(dst);
-    if (key != (dstPacked | (4 * srcPacked))) return false;
 
     const unsigned gs = s.unknown18[1], gd = d.unknown18[1];  // green widths
     const unsigned as = s.unknown18[3], ad = d.unknown18[3];  // alpha widths
     const bool srcHasAlphaFlag = (s.flags & 1) != 0;
     const bool dstHasAlphaFlag = (d.flags & 1) != 0;
-    // The green/alpha widths drive the converter selection through the rule of convertPackedImpl
-    // (0x5eeef4): a wider destination green over the source green picks the RGB converter, and the
-    // "more than twice" test picks the indexed (1/2/4-bit table) form instead of the replicated one.
-    // The alpha pair is tested the same way for the alpha wrapper, and the wrapper is only built
-    // when the alpha differs: with an equal or absent alpha the alpha converter is not used.
+
+    // Dispatch of convertPackedImpl (0x5eeef4): line 315 tests the green widths (gs != 0, gd != 0, gs < gd);
+    // line 319 takes the LUT converter when gd > 2 * gs; line 448 tests the alpha widths for the
+    // alpha-upscale converters, which are not modelled; line 820 tests them for SPackedConverter<0,2>.
     const bool greenUpscale = gd != 0 && gs != 0 && gs < gd;
     const bool alphaUpscale = ad != 0 && as != 0 && as < ad;
-    const bool greenIndexed = greenUpscale && gd > 2 * gs;
-    const bool alphaIndexed = alphaUpscale && ad > 2 * as;
+
+    if (greenUpscale) {
+        if (gd > 2 * gs) {
+            plan.mode = EPackedMode::kLut;
+        } else {
+            if (alphaUpscale) return false;  // line 448 branch: SAlphaUpscale / SAlphaIndexed, not modelled
+            plan.mode = EPackedMode::kReplicate;
+        }
+    } else if (alphaUpscale) {
+        plan.mode = EPackedMode::kAlphaLut;  // line 820 branch: SPackedConverter<0,2>
+    } else {
+        plan.mode = EPackedMode::kReplicate;  // plain branch: only reductions and equal widths are modelled
+    }
+
+    // Alpha is filled with the destination alpha mask when the destination has the alpha flag and the
+    // source has none (ctor 0x5ee958 line: row +0x18 = (dst flags & 1) == 0 || (src flags & 1) ? 0 : -1, then & dst key 3).
+    plan.orValue = (dstHasAlphaFlag && !srcHasAlphaFlag) ? d.key[3] : 0;
 
     for (int c = 0; c < 4; ++c) {
         SPackedChannel& ch = plan.channel[c];
@@ -237,12 +242,9 @@ bool buildPackedPlan(E_PIXEL_FORMAT src, E_PIXEL_FORMAT dst, int key, SPackedPla
         ch.srcBits = static_cast<uint8_t>(sb);
         ch.dstBits = static_cast<uint8_t>(db);
         ch.dstShift = static_cast<uint8_t>(ds);
-        ch.lutIndexShift = static_cast<uint8_t>(ss);
         ch.lutRightShift = static_cast<uint8_t>(16u - db);
-        ch.replicaMask = 0;
-        ch.replicaRightShift = 0;
-        ch.op = EChannelOp::kNone;
 
+        // Shifts of the first term (ctor loop, 0x5ee958 lines 26-45 of the pseudocode).
         unsigned rs = ss, ls = ds;
         if (db == 0) {
             rs = ss;
@@ -250,7 +252,7 @@ bool buildPackedPlan(E_PIXEL_FORMAT src, E_PIXEL_FORMAT dst, int key, SPackedPla
         } else if (sb == 0) {
             // Source channel absent: the listing shifts the raw word. Only valid when the alpha
             // fill covers the channel (its result is then fully overwritten).
-            if (!(c == 3 && dstHasAlphaFlag && !srcHasAlphaFlag)) return false;
+            if (!(c == 3 && plan.orValue == d.key[3] && plan.orValue != 0)) return false;
         } else if (sb > db) {
             rs = ss + sb - db;  // reduction: top db bits of the source field
             ls = ds;
@@ -261,107 +263,70 @@ bool buildPackedPlan(E_PIXEL_FORMAT src, E_PIXEL_FORMAT dst, int key, SPackedPla
         }
         ch.rightShift = static_cast<uint8_t>(rs);
         ch.leftShift = static_cast<uint8_t>(ls);
-        if (db > sb && sb != 0) {
-            const unsigned t = db - sb;
-            ch.replicaMask = ch.srcMask & (ch.srcMask << t);
-            ch.replicaRightShift = static_cast<uint8_t>(rs - t);
-        }
+        ch.replicaMask = 0;
+        ch.replicaRightShift = 0;
+
+        const bool lutChannel = (plan.mode == EPackedMode::kLut && c < 3) || (plan.mode == EPackedMode::kAlphaLut && c == 3);
+        const bool replicateChannel = plan.mode == EPackedMode::kReplicate && c < 3;
+        const bool expands = db > sb && sb != 0;
+
         if (db == 0) continue;
-
-        const bool lutable = lutBitsSupported(sb) && db <= 16;
-        if (c == 3) {
-            // Alpha. The RGB converter <0,2> carries an alpha table; the plain converters keep the
-            // unmasked shift the constructor gives them; the two alpha wrappers replace that with
-            // the replicated or indexed form.
-            if (alphaIndexed) {
-                if (!lutable) return false;  // a null table pointer in the listing
-                ch.op = EChannelOp::kAlphaUpscaleLut;
-            } else if (alphaUpscale) {
-                ch.op = EChannelOp::kAlphaUpscale;
-            } else if (srcPacked == 0 && dstPacked == 2) {
-                if (!lutable) return false;
-                ch.op = EChannelOp::kLut;
-            } else {
-                ch.op = EChannelOp::kPlainShift;
+        if (lutChannel) {
+            if (!lutBitsSupported(sb) || db > 16) return false;  // null table pointer in the listing
+            continue;
+        }
+        if (replicateChannel) {
+            if (expands) {
+                if (db > 2 * sb) return false;  // needs the LUT converter, not this one
+                const unsigned t = 2 * sb - db;  // replication shift
+                ch.replicaMask = ch.srcMask & (ch.srcMask << t);
+                ch.replicaRightShift = static_cast<uint8_t>(rs + t);
             }
+            // Reductions and equal widths: the second term is zero (replicaMask stays 0).
             continue;
         }
-        // RGB channels.
-        if (greenIndexed) {
-            if (!lutable) return false;
-            ch.op = EChannelOp::kLut;
-            continue;
+        // Plain shift on RGB (kAlphaLut) or on alpha in kReplicate / kLut.
+        if (c < 3 && expands) {
+            if (plan.mode == EPackedMode::kAlphaLut && db > 2 * sb) return false;
+            if (plan.mode == EPackedMode::kReplicate && !greenUpscale) return false;  // plain branch expansions not modelled
         }
-        ch.op = greenUpscale ? EChannelOp::kMaskedShift : EChannelOp::kPlainShift;
+        if (c == 3 && expands && plan.mode == EPackedMode::kReplicate) return false;
     }
-    plan.mode = greenIndexed ? EPackedMode::kLut
-                : alphaIndexed ? EPackedMode::kAlphaIndexed
-                : alphaUpscale ? EPackedMode::kAlphaUpscale
-                : greenUpscale ? EPackedMode::kReplicate
-                : (srcPacked == 0 && dstPacked == 2) ? EPackedMode::kAlphaLut
-                                                      : EPackedMode::kReplicate;
-
-    // Alpha is filled with the destination alpha mask when the destination has the alpha flag and the
-    // source has none (ctor 0x5ee958 line: row +0x18 = (dst flags & 1) == 0 || (src flags & 1) ? 0 : -1, then & dst key 3).
-    plan.orValue = (dstHasAlphaFlag && !srcHasAlphaFlag) ? d.key[3] : 0;
     return true;
 }
 
-// Per-pixel formula. Listing: a kMaskedShift channel is (x & K) >> rs << ls | (x & K2) >> rs2 << ls2;
-// a kLut channel is the 16-bit table value >> (16 - dst bits) << ls; kPlainShift is the unmasked
-// x >> rs << ls; kAlphaUpscale is the masked form with the replica term, kAlphaUpscaleLut is the
-// table value >> (16 - dst bits), then << ls, all OR'ed with the alpha-max OR value (v724).
-// Every term is ANDed with the dst key, then OR'ed with the fill.
+// Per-pixel formula. Listing: the RGB terms of kReplicate are (x & K) >> rs << ls | (x & K2) >> rs2 << ls2;
+// kLut RGB terms are the 16-bit table value >> (16 - dst bits) << ls; alpha in kReplicate and kLut and RGB in
+// kAlphaLut are the unmasked x >> rs << ls. Every term is ANDed with the dst key, then OR'ed with the fill.
 uint32_t convertPixel(const SPackedPlan& plan, uint32_t x) {
     uint32_t out = plan.orValue;
     for (int c = 0; c < 4; ++c) {
         const SPackedChannel& ch = plan.channel[c];
         if (ch.dstMask == 0) continue;
         uint32_t term;
-        switch (ch.op) {
-            case EChannelOp::kMaskedShift:
-            case EChannelOp::kAlphaUpscale:
-                term = shl(shr(x & ch.srcMask, ch.rightShift), ch.leftShift) |
-                       shl(shr(x & ch.replicaMask, ch.replicaRightShift), ch.dstShift);
-                break;
-            case EChannelOp::kLut:
-            case EChannelOp::kAlphaUpscaleLut: {
-                const uint32_t index = shr(x & ch.srcMask, ch.lutIndexShift);
-                term = shl(shr(lutEntry(ch.srcBits, index), ch.lutRightShift), ch.leftShift);
-                break;
-            }
-            case EChannelOp::kPlainShift:
-                term = shl(shr(x, ch.rightShift), ch.leftShift);
-                break;
-            case EChannelOp::kNone:
-            default:
-                continue;
-        }
-        if (ch.op == EChannelOp::kAlphaUpscaleLut) {
-            // SAlphaIndexed: the table value is shifted into place by the destination shift.
-            term = shl(shr(lutEntry(ch.srcBits, shr(x & ch.srcMask, ch.lutIndexShift)), ch.lutRightShift),
-                       ch.dstShift);
+        const bool lut = (plan.mode == EPackedMode::kLut && c < 3) || (plan.mode == EPackedMode::kAlphaLut && c == 3);
+        if (lut) {
+            const uint32_t index = shr(x & ch.srcMask, ch.rightShift);
+            term = shl(shr(lutEntry(ch.srcBits, index), ch.lutRightShift), ch.leftShift);
+        } else if (plan.mode == EPackedMode::kReplicate && c < 3) {
+            term = shl(shr(x & ch.srcMask, ch.rightShift), ch.leftShift) |
+                   shl(shr(x & ch.replicaMask, ch.replicaRightShift), ch.dstShift);
+        } else {
+            term = shl(shr(x, ch.rightShift), ch.leftShift);
         }
         out |= term & ch.dstMask;
     }
     return out;
 }
 
-// 0x5f4fe8 convertPacked. The switch key is getPackedType(dst) | 4 * getPackedType(src); arms 0, 5
-// and 0xA call convertPackedImpl<uchar> (0x5f2fdc), <ushort> (0x5f0f60) and <uint> (0x5eeef4), and
-// arms 1, 2, 4, 6, 8, 9 are inline. Both forms build the same converters for the pair and run one
-// per-pixel formula over the rows, so the port runs one plan for every reachable arm. Arms 3 and 7
-// and 0xB and above return 0, as the listing's default case does.
+// 0x5f4fe8 convertPacked.
 int convertPacked(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXEL_FORMAT dstFormat, void* dst,
                   uint32_t dstPitch, uint32_t width, uint32_t height, bool flip) {
     const int key = getPackedType(dstFormat) | (4 * getPackedType(srcFormat));
-    if (key != 0 && key != 1 && key != 2 && key != 4 && key != 5 && key != 6 && key != 8 && key != 9 &&
-        key != 0xA) {
-        return 0;
-    }
+    if (key != 0 && key != 5 && key != 0xA) return 0;  // inline arms 1, 2, 4, 6, 8, 9 are not modelled
 
     SPackedPlan plan;
-    if (!buildPackedPlan(srcFormat, dstFormat, key, plan)) return 0;
+    if (!buildPackedPlan(srcFormat, dstFormat, plan)) return 0;
     if (width == 0 || height == 0) return 0;  // loop bounds at zero are not checked in the listing
 
     const SFormatEntry& s = PFDTable[srcFormat];
@@ -394,10 +359,11 @@ int convertPacked(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, 
 // side and width (0x5f95c8/0x5f95dc), an equal format pair returns the anonymous-namespace copy()
 // (0x5f95ec), src == dst with different format pitches logs and returns 0 (0x5f9610), a compressed
 // destination logs and returns 0, a compressed source goes to decompress() (0x5f9648), the luminance
-// flag test opens the packed-type arm (0x5f9654), and LABEL_17 then refuses the float flag pair
-// (flag bit 2) and routes formats 10/11 (24-bit) elsewhere (0x5f9690). What this port still returns 0
-// for: the decompress() call, the "same packed type and neither format 2" arm (0x5f9670..0x5f9950), the
-// luminance-else arm, the flag-2 arm, the 24-bit arm and the inline packed arms convertPacked refuses.
+// flag test (0x5f9654) opens either the luminance arm (0x5f9670..0x5f9950) or the packed dispatch
+// (0x5f96b4), and LABEL_17 (0x5f96d4) refuses the float flag pair (flag bit 2) and routes formats 10/11
+// to 0x5f9ebc. What this port still returns 0 for: the decompress() call, the same-type switch of the
+// packed dispatch (0x5f9778, reached with matching packed types and neither format 2), the 0x5f9ebc arm
+// and the inline packed arms convertPacked refuses (keys 1, 2, 4, 6, 8, 9).
 int convert(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXEL_FORMAT dstFormat, void* dst,
             uint32_t dstPitch, uint32_t width, uint32_t height, bool flip) {
     if (srcPitch == 0) srcPitch = computePitch(srcFormat, width);
@@ -414,28 +380,31 @@ int convert(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXE
     if ((d.flags & 8) != 0) return 0;  // "Compressed destination format not supported"
     if ((s.flags & 8) != 0) return 0;  // decompress() branch, not modelled
 
-    // Outer test of 0x5f95ac (0x5f9654): the luminance flag (0x4) of the destination must be clear,
-    // or set on the source. When the destination wants luminance and the source does not have it,
-    // the 0x5f9694 switch builds it from the source channels.
+    // 0x5f9654: the luminance flag (0x4) of the destination is clear, or set on the source, before the
+    // packed dispatch runs. The opposite case - the destination wants luminance and the source has none -
+    // builds it from the source channels (0x5f9694).
     if ((d.flags & 4) != 0 && (s.flags & 4) == 0) {
-        // 0x5f9670..0x5f9950. The switch key is 4 * (destination row byte +0x17) + source row byte
-        // +0x17:
-        //   case 0: a 16-bit source, one byte per destination pixel
-        //   case 1: a 16-bit source, a 16-bit result (values scaled by 65535)
-        //   case 4: a 32-bit source, 4 bytes per destination pixel, luminance and alpha
-        //   case 5: a 32-bit source, a 16-bit result
-        //   case 8: a 16-bit source, 4 bytes per destination pixel, luminance and alpha
-        //   case 9: a 32-bit source, a 16-bit result
-        // Cases 2, 3 and 6 and the default log "conversion to luminance from float format not
-        // implemented yet" and return 0.
+        // The switch key is 4 * (destination byte +0x17) + (source byte +0x17). The reachable cases, given
+        // the shipped table (only rows 0 and 1 carry flag 0x4, both with +0x17 == 1):
+        //   0: a 16-bit source, one byte per destination pixel
+        //   1: a 16-bit source, a 16-bit destination value scaled by 65535
+        //   4: a 32-bit source, one byte per destination pixel
+        //   5: a 32-bit source, a 16-bit destination value
+        //   8: a 16-bit source, two output bytes (luminance and alpha)
+        //   9: a 32-bit source, a 16-bit destination value
+        // The default case (2, 3, 6 and anything else) logs "conversion to luminance from float format not
+        // implemented yet" and returns 0, which is what those arms do in the listing.
         const int lumCase = 4 * d.field17 + s.field17 - 4;
         if (lumCase != 0 && lumCase != 1 && lumCase != 4 && lumCase != 5 && lumCase != 8 && lumCase != 9) {
             os::Printer::log("conversion to luminance from float format not implemented yet", os::ELL_ERROR);
             return 0;
         }
-        if (width == 0 || height == 0) return 0;  // the listing tests the row and column counts
-        const unsigned srcStride = s.bytesPerBlock;  // src row +0x15: the per-pixel step of the loops
-        const unsigned dstStride = d.bytesPerBlock;  // dst row +0x15
+        if (width == 0 || height == 0) return 0;  // the listing tests the column and row counts
+        // The per-pixel source step is the source row's +0x15. The destination step comes from the SOURCE
+        // row's alpha flag: the luminance/alpha pairs write two bytes per pixel, the luminance-only pairs
+        // one (and the 16-bit forms a word).
+        const unsigned srcStride = s.bytesPerBlock;
+        const unsigned dstStride = (s.flags & 1) != 0 ? 2u : 1u;
         const SLuminanceConverter lum(srcFormat);
         const uint8_t* in = static_cast<const uint8_t*>(src);
         uint8_t* out = static_cast<uint8_t*>(dst);
@@ -445,37 +414,28 @@ int convert(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXE
             for (uint32_t i = 0; i < width; ++i) {
                 uint8_t* const pixel = drow + static_cast<size_t>(i) * dstStride;
                 switch (lumCase) {
-                    case 0: {
-                        const uint32_t word = loadPixel(srow + static_cast<size_t>(i) * srcStride, 2);
-                        const uint32_t value = static_cast<uint32_t>(lum.luminance(word) * 255.0f);
-                        storePixel(pixel, 1, value & 0xFFu);
+                    case 0:
+                    case 4: {
+                        // One byte: the weighted sum scaled by 255, truncated once. Case 4 reads a 32-bit
+                        // source word, case 0 a 16-bit one.
+                        const uint32_t word =
+                            loadPixel(srow + static_cast<size_t>(i) * srcStride, lumCase == 4 ? 4 : 2);
+                        storePixel(pixel, 1, static_cast<uint32_t>(lum.luminance(word) * 255.0f) & 0xFFu);
                         break;
                     }
                     case 1:
-                    case 5: {
-                        const uint32_t word = loadPixel(srow + static_cast<size_t>(i) * srcStride, 2);
-                        const uint32_t value = static_cast<uint32_t>(lum.luminance(word) * 65535.0f);
-                        storePixel(pixel, 2, value);
-                        break;
-                    }
-                    case 4: {
-                        const uint32_t word = loadPixel(srow + static_cast<size_t>(i) * srcStride, 4);
-                        const uint32_t value = static_cast<uint32_t>(lum.luminance(word) * 255.0f) |
-                                               (lum.alpha(word) << 8);
-                        storePixel(pixel, 4, value);
+                    case 5:
+                    case 9: {
+                        // A 16-bit destination value, scaled by 65535.
+                        const unsigned bytes = lumCase == 1 ? 2 : (lumCase == 5 ? 2 : 4);
+                        const uint32_t word = loadPixel(srow + static_cast<size_t>(i) * srcStride, bytes);
+                        storePixel(pixel, 2, static_cast<uint32_t>(lum.luminance(word) * 65535.0f));
                         break;
                     }
                     case 8: {
                         const uint32_t word = loadPixel(srow + static_cast<size_t>(i) * srcStride, 2);
-                        const uint32_t value = static_cast<uint32_t>(lum.luminance(word) * 255.0f);
-                        pixel[0] = static_cast<uint8_t>(value);
+                        pixel[0] = static_cast<uint8_t>(lum.luminance(word) * 255.0f);
                         pixel[1] = static_cast<uint8_t>(lum.alpha(word));
-                        break;
-                    }
-                    case 9: {
-                        const uint32_t word = loadPixel(srow + static_cast<size_t>(i) * srcStride, 4);
-                        const uint32_t value = static_cast<uint32_t>(lum.luminance(word) * 65535.0f);
-                        storePixel(pixel, 2, value);
                         break;
                     }
                     default:
@@ -486,28 +446,13 @@ int convert(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXE
         return 1;
     }
 
-    // 0x5f96b8: a differing packed type goes straight to the packed converter. An equal packed type
-    // takes the 0x5f9748 path: the pair still reaches the converter when one side carries the 0x40
-    // flag, when the destination alone has the alpha flag, or when one of the two formats is 2
-    // (L8/A8, the two rows whose key words overlap). The remaining shape - neither side packed, no
-    // flag difference and neither format 2 - runs the 0x5f9778 same-type switch, which the port does
-    // not model, so it returns 0.
-    const int srcPacked = getPackedType(srcFormat);
-    const int dstPacked = getPackedType(dstFormat);
-    const bool differentPacked = s.packedType != d.packedType;
-    const bool enter = differentPacked || (s.flags & 0x40) != 0 || (d.flags & 0x40) != 0 ||
+    const bool enter = s.packedType != d.packedType || (s.flags & 0x40) != 0 || (d.flags & 0x40) != 0 ||
                        ((d.flags & 1) != 0 && (s.flags & 1) == 0);
-    if (!enter && srcFormat != 2 && dstFormat != 2) return 0;  // 0x5f9778 switch, not modelled
+    if (!enter && srcFormat != 2 && dstFormat != 2) return 0;  // same-type arm: not modelled
 
-    // LABEL_17 (0x5f96d4) onwards: the float refusal and the source-10/11 arm.
-    if (((s.flags | d.flags) & 2) != 0) {
-        os::Printer::log(
-            "handling floating point conversion (except swizzle from RGBA to RGB with same component type) "
-            "not implemented yet",
-            os::ELL_ERROR);
-        return 0;
-    }
-    if (srcFormat == 10 || srcFormat == 11) return 0;  // 0x5f9ebc arm, not modelled
+    if (((s.flags | d.flags) & 2) != 0) return 0;  // flag-2 switch (float and half formats), not modelled
+    if (static_cast<unsigned>(srcFormat - 10) <= 1u) return 0;  // 0x5f9ebc arm, not modelled
+
     return convertPacked(srcFormat, src, srcPitch, dstFormat, dst, dstPitch, width, height, flip);
 }
 

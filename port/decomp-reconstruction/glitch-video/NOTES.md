@@ -679,10 +679,26 @@ Modelled and checked (four pairs, checked by hand against the listing above, not
 - A1R5G5B5 (row 8) -> ARGB4444 (row 6), key 5: alpha LUT (0x8e3694). Check 4.
 
 Rows (partial; the parts not covered are listed in the header comment):
-- 0x5f95ac convert: covered: the packed-to-packed branch and the srcFormat == dstFormat copy() branch (0x5ee40c,
-  below). Not covered: the same-type branches, compressed source (decompress 0x5fd894, not in port) and destination,
-  the flag-2 switch (float and half rows 28-31, 33-35), the same-type and luminance-else switch at 2785 and 1754,
-  formats 10 and 11 (24-bit path, line 830-1745).
+- 0x5f95ac convert: covered: the packed-to-packed branch, the srcFormat == dstFormat copy() branch (0x5ee40c,
+  below) and the LUMINANCE ARM (0x5f9670..0x5f9950, see the block below). Not covered: the same-type switch of the
+  packed dispatch (0x5f9778), compressed source (decompress 0x5fd894, not in this category: it needs
+  PVRTCDecompress) and destination, the 0x5f9ebc arm (source 10/11 with a destination +0x17 of 2, 3 or 4), and the
+  inline packed arms convertPacked refuses (keys 1, 2, 4, 6, 8, 9). The flag-2 refusal is modelled; note that it is
+  reached from the 0x5f9778 path (0x5f96d4), not from the luminance side, so the earlier notes had it in the wrong
+  arm.
+- LUMINANCE ARM (r3b pass): the arm runs when the destination row has flag 0x4 and the source row does not
+  (0x5f9654/0x5f9664). Its switch key is 4 * (destination byte +0x17) + (source byte +0x17); with the shipped table
+  only rows 0 (L8) and 1 (L16) carry flag 0x4 and both have +0x17 == 1, so the keys that can occur are 0, 1, 3 and 4
+  (the source +0x17). Cases 0 and 4 write one byte per pixel (the weighted sum scaled by 255, case 4 reading a
+  32-bit source word); cases 1, 5 and 9 write a 16-bit value scaled by 65535; case 8 writes luminance then alpha;
+  cases 2, 3, 6 and the default log "conversion to luminance from float format not implemented yet" and return 0.
+  0x5edca4 (the converter ctor) was read instruction by instruction: built from the SOURCE row, the running +1 byte
+  cursor at +0x18 reads the channel shifts, so +0x18..+0x1a are the R/G/B widths and +0x1b the alpha width while
+  +0x1c + i are the channel shifts; the weights are 0.3/0.59/0.11 divided by (key[i] >> shift[i]), and +0x24 is
+  (alphaMask >> alphaShift) when the row has no alpha flag and 0 when it has. The per-pixel destination step comes
+  from the SOURCE row's alpha flag (two bytes for the luminance/alpha pairs, one otherwise). Measured with a scratch
+  harness: row 12 (32-bit RGBA8888, key 4) -> row 0 gives 0xff for white and 0x00 for black, row 12 -> row 1 gives
+  0xff, row 14 -> row 0 gives 0xff, row 10 (24-bit, key 3) returns 0 and leaves the destination alone.
 - 0x5ee40c (anonymous namespace) copy: reconstructed from its listing (Hex-Rays chunk_032.c:20938) and called by
   convert's srcFormat == dstFormat branch. Compressed row + flip logs and returns 0; rows = height / row byte +0x25;
   pitch = computePitch(format, width); src == dst is the no-op (no flip), the different-pitch refusal, or the in-place
