@@ -26433,7 +26433,6 @@ int native_level_script_actor_command_impl(void*,
   // Script_SetActorPosition::Execute (0x45e5c8): CharStateMachine::SM_SetIdleState(0)
   // (state 3, so CSLimbus::OnBlur revives and shows a Limbus Character), then
   // GameObject::SetPosition + ForceUpdatePosition.
-  const bool was_limbus=owner.character.state.current==0;
   if(owner.character.set_idle_state(false)<0)return (native_script_actor_command_fail_line=__LINE__,-1);
   // A Limbus Character (auto_spawn 0: the bosses their intros bring in) has no
   // PhysicalObject until it passes CSSpawn; CSIdle::OnFocus (0x3c3020) does not
