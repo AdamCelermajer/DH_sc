@@ -1,5 +1,4 @@
 symbol,kind,size,category,address,demangled
-WinMain,data,8,see link-missing.csv,,
 _Z12get_fontfilePKcbbPci,function,0,see link-missing.csv,0x42b38c,get_fontfile(char const*| bool| bool| char*| int)
 _Z14mpc_demux_exitP9mpc_demux,function,0,see link-missing.csv,,mpc_demux_exit(mpc_demux*)
 _Z14mpc_demux_initP12mpc_reader_t,function,0,see link-missing.csv,,mpc_demux_init(mpc_reader_t*)
@@ -30,8 +29,6 @@ _ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE8findNodeEjRKNS1
 _ZN3vox18DecoderMPC8FactoryEPv,function,0,see link-missing.csv,0x8704dc,vox::DecoderMPC8Factory(void*)
 _ZN5DecorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Decor::Decor(ObjectBase::GO_IDS)
 _ZN5DecorC2EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Decor::Decor(ObjectBase::GO_IDS)
-_ZN5DummyC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Dummy::Dummy(ObjectBase::GO_IDS)
-_ZN5FloorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Floor::Floor(ObjectBase::GO_IDS)
 _ZN6ColBoxC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,ColBox::ColBox(ObjectBase::GO_IDS)
 _ZN6glitch5video11CNullDriverC2EPNS0_12IVideoDriverE,function,0,see link-missing.csv,0x5b9764,glitch::video::CNullDriver::CNullDriver(glitch::video::IVideoDriver*)
 _ZN6glitch5video12CBatchDriver15thisAppendBatchERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_16CPrimitiveStreamERKNS3_IKNS_5scene11CMeshBufferEEE,function,0,see link-missing.csv,0x5a6fe0,glitch::video::CBatchDriver::thisAppendBatch(boost::intrusive_ptr<glitch::video::CVertexStreams const> const&| glitch::video::CPrimitiveStream const&| boost::intrusive_ptr<glitch::scene::CMeshBuffer const> const&)

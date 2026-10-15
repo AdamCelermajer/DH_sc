@@ -191,23 +191,202 @@ std::int32_t MultiplayerCallback::HandleIsHostMessage(void* /*message*/) {
 }
 
 // 0x49aa60 _ZN19MultiplayerCallback24HandleSpawnObjectMessageEPv
-// Partial: ObjectManager::GetObjectHandleByNetworkId and AssignObjectNetworkId, AddNoRoomObject are declared
-// (game/include) but have no definition in the tree, and RoomZone::AddInitialObject has none either. The
-// payload fields of CMsgSpawnObject are not named. The stub returns 0 (and does not mark the message consumed).
-std::int32_t MultiplayerCallback::HandleSpawnObjectMessage(void* /*message*/) { return 0; }
+// Re-verified against the 0x49aa60 disassembly (107 instructions) and rebuilt in full. The blockers the
+// previous note named are all gone: ObjectManager::GetObjectHandleByNetworkId (0x3407a0), AssignObjectNetworkId
+// (0x3431c0) and AddNoRoomObject (0x344184) are defined in
+// game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp / -1.cpp, and RoomZone::AddInitialObject (0x396a90)
+// in game-world/src/g1-game-world-RoomZone-830132-0.cpp. The CMsgSpawnObject payload is named (c_msg_fixed.hpp).
+// Order, from the listing: gate on Application::GetCurrentLevel() when m_loadStep (+0x130) is 38;
+// GetObjectHandleByNetworkId(msg +0x50) -> GameObject (asm 0x49aad0..0x49aae8); when it resolves, the +0x68
+// byte deletes the object (ObjectBase::Delete, asm 0x49aaf0..0x49aafc); when it does not resolve and +0x68 is
+// clear, Character::CreateNPC(msg +0x54, nullptr, false) (asm 0x49ab04..0x49ab18), then
+// GetObjectHandleByNetworkId(msg +0x58) -> GameObject (the summoner, asm 0x49ab2c), and when the NPC is non-null:
+// SetInitialPosition(position = msg +0x5c/+0x60/+0x64), SetPosition(the NPC's initial position, true) (asm
+// 0x49ab8c: R1 = NPC + 0x1450 = Character::m_initialPosition), SetRotation(rotation = summoner +0x16C/+0x170/
+// +0x174), m_isNetSpawned (+0x14E4) = 1, SetVisible(true) (asm 0x49abb0..0x49abbc: R1 = 1 and the object's
+// vtable +0x40, which GameObject.hpp:41 names SetVisible(bool)), AssignObjectNetworkId, then m_roomZone
+// (+0x2F4) with AddInitialObject or AddNoRoomObject + unk_2ef (+0x2EF) = 1 + ZoneEntered. Every path writes the
+// consumed flag (+0x3C) and returns 0.
+// Deviation: none in behaviour; the +0x40 call is written as the named slot because the port declares the
+// GameObject vtable order, and the listing's argument (R1 = 1) matches SetVisible(true).
+std::int32_t MultiplayerCallback::HandleSpawnObjectMessage(void* /*message*/) {
+    CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgSpawnObject");
+    auto* spawn = static_cast<CMsgSpawnObject*>(message);
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr && level->m_loadStep == 38) {
+        ObjectManager* objects = dword_99F764;
+        ObjectHandle existing = objects->GetObjectHandleByNetworkId(spawn->objectId_);  // +0x50
+        GameObject* object = existing;
+        if (object != nullptr) {
+            if (spawn->unk_68 != 0) {   // +0x68: this object is to be removed
+                object->Delete();
+            }
+        } else if (spawn->unk_68 == 0) {
+            Character* npc = Character::CreateNPC(spawn->unk_54, nullptr, false);  // +0x54 is the NPC type
+            ObjectHandle summonerHandle = objects->GetObjectHandleByNetworkId(spawn->unk_58);  // +0x58
+            GameObject* summoner = summonerHandle;
+            if (npc != nullptr) {
+                const Point3D<float> position{spawn->unk_5c, spawn->unk_60, spawn->unk_64};
+                const Point3D<float> rotation = summoner->m_rotation;  // +0x16c .. +0x174
+                npc->SetInitialPosition(position);
+                npc->SetPosition(npc->m_initialPosition, true);
+                npc->SetRotation(rotation);
+                npc->m_isNetSpawned = 1;   // +0x14e4
+                npc->SetVisible(true);     // vtable +0x40 with argument 1 (GameObject.hpp:41)
+                objects->AssignObjectNetworkId(npc);
+                RoomZone* zone = summoner->m_roomZone;  // +0x2f4
+                if (zone == nullptr || !zone->AddInitialObject(npc)) {
+                    objects->AddNoRoomObject(npc);
+                    npc->unk_2ef = 1;      // +0x2ef
+                    npc->ZoneEntered();
+                }
+            }
+        }
+    }
+    message->SetFinished();  // +0x3c
+    return 0;
+}
 
 // 0x49ac18 _ZN19MultiplayerCallback17HandleLootMessageEPv
-// Partial: the drop target lookup needs ObjectManager::GetObjectHandleByNetworkId, which has no definition in the
-// tree. The payload fields of CMsgDropLoot are only partly named (block length and data). The stub returns 0 (and does not mark the message
-// consumed).
-std::int32_t MultiplayerCallback::HandleLootMessage(void* /*message*/) { return 0; }
+// Re-verified against the 0x49ac18 disassembly (85 instructions) and rebuilt in full. The blocker the previous
+// note named is gone: ObjectManager::GetObjectHandleByNetworkId (0x3407a0) is defined. The CMsgDropLoot payload
+// stays opaque on purpose (c_msg_drop_loot.hpp: header at +0x50, block length at +0x64, block at +0x68), so the
+// words are read from GetDataPtr() at their original offsets.
+// Order: gate on GetCurrentLevel() with m_loadStep 38 AND m_isLoaded (+0x144) set (asm 0x49ac58..0x49ac80);
+// GetObjectHandleByNetworkId(payload +0x58) -> GameObject ("dropper", asm 0x49ac8c) and (payload +0x5c) ->
+// GameObject ("killer"): when the payload byte at +0x50 is set, a new ItemInstance(payload +0x54, 1) is built,
+// the dropper handle is re-resolved as a Character (asm 0x49acfc..0x49ad04), and with both non-null an
+// ItemInventory takes the instance (AddItemInstance(instance, true, true)), the payload's power block (length at
+// +0x64, block pointer at +0x68) is added word by word with AddPower(word, -1), CalcLootItemValue(item, 0) runs
+// and ItemObject::DropInventory(inventory, killer, killer, nullptr). Otherwise
+// ItemObject::DropLootTable(payload +0x54, payload +0x60). Every path writes the consumed flag (+0x3C) and
+// returns 0.
+// Deviations: (1) the original re-resolves the dropper handle through ObjectBase::GetHandle() and its Character
+// conversion operator; the port casts the handle it already holds (`static_cast<Character*>(dropperHandle)`),
+// which is the same ObjectHandle::operator Character* (0x33ff54) the port uses in HandlePlayerLeft; (2) the
+// listing fills six argument slots for DropLootTable and the port's 5-argument overload
+// (ItemObject.hpp declares the gap as an integrator decision) has no slot for both trailing values, so the int
+// slot takes payload +0x60 and the bool slot takes true.
+std::int32_t MultiplayerCallback::HandleLootMessage(void* /*message*/) {
+    CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgDropLoot");
+    std::uint8_t payload[0x18] = {};
+    if (const void* data = message->GetDataPtr(); data != nullptr) {
+        std::memcpy(payload, data, sizeof payload);
+    }
+    std::int32_t itemId = 0;      // +0x54
+    std::int32_t length = 0;      // +0x64 (bytes of the power block)
+    std::int32_t fixedCount = 0;  // +0x60 (used by DropLootTable)
+    std::memcpy(&itemId, payload + 0x04, sizeof itemId);
+    std::memcpy(&fixedCount, payload + 0x10, sizeof fixedCount);
+    std::memcpy(&length, payload + 0x14, sizeof length);
+    const std::uint8_t kind = payload[0];  // +0x50
+
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr && level->m_loadStep == 38 && level->m_isLoaded) {
+        std::int32_t objectNetworkId = 0;  // +0x58
+        std::int32_t killerNetworkId = 0;  // +0x5c
+        const void* block = nullptr;       // +0x68
+        std::memcpy(&objectNetworkId, payload + 0x08, sizeof objectNetworkId);
+        std::memcpy(&killerNetworkId, payload + 0x0c, sizeof killerNetworkId);
+        if (message->GetDataPtr() != nullptr) {
+            block = static_cast<const std::uint8_t*>(message->GetDataPtr()) + 0x18;  // +0x68
+        }
+        ObjectManager* objects = dword_99F764;
+        ObjectHandle dropperHandle = objects->GetObjectHandleByNetworkId(objectNetworkId);  // +0x58
+        GameObject* dropper = dropperHandle;
+        ObjectHandle killerHandle = objects->GetObjectHandleByNetworkId(killerNetworkId);   // +0x5c
+        GameObject* killer = killerHandle;
+        if (kind != 0) {
+            ItemInstance* item = new ItemInstance(itemId, 1);
+            Character* owner = static_cast<Character*>(dropperHandle);
+            if (item != nullptr && owner != nullptr) {
+                ItemInventory inventory;
+                const unsigned int index = static_cast<unsigned int>(inventory.AddItemInstance(item, true, true));
+                ItemInstance* added = inventory.GetItem(index);
+                if (added != nullptr) {
+                    const auto* powers = static_cast<const std::int32_t*>(block);
+                    const std::int32_t count = length / static_cast<std::int32_t>(sizeof(std::int32_t));
+                    for (std::int32_t i = 0; i < count; ++i) {
+                        added->AddPower(powers[i], -1);
+                    }
+                    ItemInventory::CalcLootItemValue(added, 0);
+                    ItemObject::DropInventory(inventory, owner, owner, nullptr);
+                }
+            }
+        } else {
+            ItemObject::DropLootTable(itemId, dropper, killer, fixedCount, true);
+        }
+    }
+    message->SetFinished();  // +0x3c
+    return 0;
+}
 
 // 0x49ade0 _ZN19MultiplayerCallback19HandleAttackMessageEPv
-// Partial: the attacker and target lookups need ObjectManager::GetObjectHandleByNetworkId, which has no definition in
-// the tree. CMsgAttackResult's payload fields exist in c_msg_attack_result.hpp, which conflicts with the second
-// CMsgAttackResult in c_msg_fixed.hpp, so it is not included here yet. The stub returns 0 (and does not mark the
-// message consumed).
-std::int32_t MultiplayerCallback::HandleAttackMessage(void* /*message*/) { return 0; }
+// Re-verified against the 0x49ade0 disassembly (72 instructions) and rebuilt in full. Both blockers the previous
+// note named are gone: ObjectManager::GetObjectHandleByNetworkId (0x3407a0) is defined, and c_msg_fixed.hpp no
+// longer declares a second CMsgAttackResult (c_msg_attack_result.hpp:1 records the single definition), so its
+// typed payload is used.
+// Order: the sender (+0x0C) names the attacker's player record (CNetPlayerManager::GetPlayerByMemberId, asm
+// 0x49ae10) and the handler returns at once unless that record answers its vtable +0x5C virtual -- PlayerInfo's
+// IsActive (PlayerInfo.hpp slot 23). The record's player id (+0x178) is resolved with
+// PlayerManager::GetPlayerByInternalID(id, false) and its Character (+0x660) must be non-null (asm
+// 0x49ae6c..0x49ae78). Then GetCurrentLevel() with m_loadStep 38 and m_isLoaded (+0x144), and the level tag at
+// payload +0x50 must equal Level +0x3C (m_levelListIndex) (asm 0x49aea8..0x49aeb8).
+// GetObjectHandleByNetworkId(payload +0x7C, short) -> GameObject (attacker, asm 0x49aec4) and (payload +0x7E,
+// short) -> Character (defender, asm 0x49aee0..0x49aeec); both must be non-null. With the payload byte at +0x80
+// set the attacker is a Character and the call is Character::F_ApplyResult(payload +0x54, attacker, defender,
+// true) 0x3b10b4 (asm 0x49af24), otherwise Character::F_ApplyResult(..., GameObject*, Character*, true)
+// 0x3b01b8 (asm 0x49af60). Last: when the defender's updating flag (ObjectBase +0x85) is clear and its
+// m_netOwnerId (+0x110) is -1, the owner id becomes the message sender (+0x0C) and the owner timer (+0x114) is
+// cleared. Every path writes the consumed flag (+0x3C) and returns 0.
+// Deviation: as in the original, the handle -> Character* conversion for the defender and the
+// GameObject* -> Character* reinterpretation on the Character branch are the port's ObjectHandle::operator
+// Character* (0x33ff54) and an implicit upcast.
+std::int32_t MultiplayerCallback::HandleAttackMessage(void* /*message*/) {
+    CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgAttackResult");
+    auto* attack = static_cast<CMsgAttackResult*>(message);
+    CNetPlayerManager* manager = GetNetPlayerMgr();
+    CNetPlayerInfo* sender = manager->GetPlayerByMemberId(message->Sender(), 0, false);
+    if (sender == nullptr || !sender->IsActive()) {  // vtable +0x5c
+        message->SetFinished();                      // +0x3c
+        return 0;
+    }
+    PlayerInfo* senderInfo = ApplicationGetInstance().m_playerManager->GetPlayerByInternalID(
+        manager->GetPlayerByMemberId(message->Sender(), 0, false)->member_id_.GetValue(), false);  // +0x178
+    if (senderInfo->unk_660 == nullptr) {  // +0x660
+        message->SetFinished();
+        return 0;
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || level->m_loadStep != 38 || !level->m_isLoaded) {
+        message->SetFinished();
+        return 0;
+    }
+    if (attack->levelTag_ != level->m_levelListIndex) {  // Level +0x3c
+        message->SetFinished();
+        return 0;
+    }
+    ObjectManager* objects = dword_99F764;
+    ObjectHandle attackerHandle = objects->GetObjectHandleByNetworkId(attack->first_);   // +0x7c
+    GameObject* attacker = attackerHandle;
+    ObjectHandle defenderHandle = objects->GetObjectHandleByNetworkId(attack->second_);  // +0x7e
+    Character* defender = static_cast<Character*>(defenderHandle);
+    if (attacker == nullptr || defender == nullptr) {
+        message->SetFinished();
+        return 0;
+    }
+    if (attack->flag_) {   // +0x80: the attacker is a Character
+        Character::F_ApplyResult(attack->result_, static_cast<Character*>(attacker), defender, true);
+    } else {
+        Character::F_ApplyResult(attack->result_, attacker, defender, true);
+    }
+    if (defender->unk_85 == 0 && defender->m_netOwnerId == -1) {  // +0x85, +0x110
+        defender->m_netOwnerId = message->Sender();               // +0x110
+        defender->unk_114 = 0.0f;                                 // +0x114
+    }
+    message->SetFinished();  // +0x3c
+    return 0;
+}
 
 // 0x49af74 _ZN19MultiplayerCallback23HandleQuestsSyncMessageEPv
 // On a server the handler asserts (ASSERT trace at MultiplayerCallbacks.cpp:562, recovered from the pseudocode). At gAssertLevel 2 the
@@ -258,17 +437,81 @@ std::int32_t MultiplayerCallback::HandleInitialMessage(void* /*message*/) {
 std::int32_t MultiplayerCallback::HandleStartGameMessage(void* /*message*/) { return 0; }
 
 // 0x49b3c8 _ZN19MultiplayerCallback15roomLobbyUpdateEPv
-// Partial: RenderFX::InvokeASCallback has no definition in the tree. The gate also reads the OnlineGameState byte
-// at +0x28 and COnline's online-game flag (+0x05), which has no getter. The attribute lookup
-// (CRoomAttributes::GetAttributeInt, attribute 7) and the menu lookup (MenuManager::GetMenuByName) are declared.
-// Returns 100 as the original does.
-std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) { return 100; }
+// Re-verified against the 0x49b3c8 disassembly (39 instructions) and rebuilt in full. The blockers the previous
+// note named are all gone: RenderFX::InvokeASCallback (0x7abe0c) is defined (game-ui and game-app bodies use
+// it), MenuManager::GetMenuByName is live, and the OnlineGameState byte at +0x28 is declared in
+// online_game_state.hpp as flag28_. The gate also reads COnline's online-game flag (+0x05), which is declared
+// (COnline) and reached through GetOnlineGameFlag() in this port the same way other net-session bodies reach it.
+// Order, from the listing: CMatching::Get()->GetRoomAttributes() (vtable +0xA4: the base declares this slot at
+// +0xA4, so no offset workaround is needed) and GetAttributeInt(7) (asm 0x49b3d0..0x49b3e4); GetOnline()->+0x05
+// and the attribute must both be zero, else the function returns 100 (asm 0x49b3ec..0x49b408);
+// OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ (+0x28) must be clear (asm 0x49b410..0x49b41c);
+// MenuManager::GetInstance()->GetMenuByName("menu_MultiplayerJoin") (asm 0x49b420..0x49b42c) gives a MenuBase
+// whose m_character (+0x4C, after the weak_ptr proxy at +0x48 is checked) is the movie character; then
+// GetMenuByName(menu->m_name) (asm 0x49b440..0x49b448) must be non-null; and finally the menu's own RenderFX
+// (+0x04) invokes "RefreshServers" on that character with no arguments (asm 0x49b454..0x49b46c). Returns 100.
+std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) {
+    CRoomAttributes* attributes = CMatching::Get()->GetRoomAttributes();  // vtable +0xa4
+    const std::int32_t attributeValue = attributes->GetAttributeInt(ROOM_INT_ATTRIBUTE_7);
+    if (!GetOnlineGameFlag() || attributeValue == 0) {
+        return 100;
+    }
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {  // +0x28
+        return 100;
+    }
+    MenuBase* menu = MenuManager::GetInstance()->GetMenuByName("menu_MultiplayerJoin");
+    if (menu == nullptr) {
+        return 100;
+    }
+    gameswf::character* character = menu->m_character;  // +0x4c, after the +0x48 weak_ptr proxy check
+    if (MenuManager::GetInstance()->GetMenuByName(menu->m_name) == nullptr) {
+        return 100;
+    }
+    menu->m_menu->InvokeASCallback(character, "RefreshServers", nullptr, 0);  // the menu's RenderFX at +0x04
+    return 100;
+}
 
 // 0x49b47c _ZN19MultiplayerCallback11lobbyUpdateEPv
-// Partial: RenderFX::InvokeASCallback has no definition in the tree, and COnline's online-game flag (+0x05) has no
-// getter. The player list needs PlayerManager::GetLocalPlayer (declared) and the menu lookup (declared). The
-// OnlineGameState byte at +0x28 is not declared. Returns 200 as the original does.
-std::int32_t MultiplayerCallback::lobbyUpdate(void* /*context*/) { return 200; }
+// Re-verified against the 0x49b47c disassembly (57 instructions) and rebuilt in full; the blockers the previous
+// note named are gone (RenderFX::InvokeASCallback is defined, COnline's online-game flag is reachable through
+// GetOnlineGameFlag(), and OnlineGameState +0x28 is declared as flag28_). The player check does NOT need
+// PlayerManager::GetLocalPlayer's list: the listing reads the local player's ingame flag instead, which is the
+// NetStructBool PlayerInfo::m_ingame (block +0x4c8, value at +0x4e5; PlayerInfo.hpp:83).
+// Order: CMatching::Get()->GetRoomAttributes() (vtable +0xA4) -> GetAttributeInt(7) (asm 0x49b484..0x49b498);
+// with COnline's +0x05 set the attribute must be zero, else return 200 (asm 0x49b4a0..0x49b4c8); flag28_ (+0x28)
+// must be clear (asm 0x49b4cc..0x49b4d8); CMatching::Get()'s IsInRoom() -- binary vtable +0x64, which the port
+// reaches through the base slot it names UnknownGate() (the derived classes override it as IsInRoom) -- must be
+// true (asm 0x49b4dc..0x49b4f0); the local player's m_ingame must be clear (asm 0x49b4f4..0x49b514); then
+// MenuManager::GetMenuByName("menu_MultiplayerLobby") with its m_character (+0x4C, after the +0x48 proxy check)
+// and a non-null GetMenuByName(menu->m_name) (asm 0x49b518..0x49b54c); and the menu's RenderFX (+0x04) invokes
+// "updatePlayerList" on that character with no arguments (asm 0x49b550..0x49b568). Returns 200.
+std::int32_t MultiplayerCallback::lobbyUpdate(void* /*context*/) {
+    CRoomAttributes* attributes = CMatching::Get()->GetRoomAttributes();  // vtable +0xa4
+    const std::int32_t attributeValue = attributes->GetAttributeInt(ROOM_INT_ATTRIBUTE_7);
+    if (!GetOnlineGameFlag() || attributeValue == 0) {
+        return 200;
+    }
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {  // +0x28
+        return 200;
+    }
+    if (!CMatching::Get()->UnknownGate()) {  // binary vtable +0x64 IsInRoom(); the port names the base slot UnknownGate
+        return 200;
+    }
+    PlayerInfo* local = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, false);
+    if (local->m_ingame.GetValue() != 0) {  // value at +0x4e5
+        return 200;
+    }
+    MenuBase* menu = MenuManager::GetInstance()->GetMenuByName("menu_MultiplayerLobby");
+    if (menu == nullptr) {
+        return 200;
+    }
+    gameswf::character* character = menu->m_character;  // +0x4c
+    if (MenuManager::GetInstance()->GetMenuByName(menu->m_name) == nullptr) {
+        return 200;
+    }
+    menu->m_menu->InvokeASCallback(character, "updatePlayerList", nullptr, 0);
+    return 200;
+}
 
 // 0x49b580 _ZN19MultiplayerCallback19searchRoomPushNotifEPv
 // Partial, and the note it carried was WRONG about three of its four blockers. Re-read against the 0x49b580

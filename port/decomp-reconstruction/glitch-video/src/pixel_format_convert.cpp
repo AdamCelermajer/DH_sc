@@ -69,8 +69,9 @@ bool isPixelSized(const SFormatEntry& e) {
 //     runtime helper returns 0 there, so this port copies no rows instead of trapping.
 //   * The listing adjusts the flip destination pointer by dstPitch * (rows - 1) before it tests the row
 //     count; at rows == 0 that is a wrapped pointer the listing never dereferences, so this port skips the
-//     adjustment and the (already skipped) loop. A null process-buffer block is likewise never memcpy'd
-//     into here, where the listing would fault.
+//     adjustment and the (already skipped) loop.
+//   * The in-place flip would memcpy through a null process-buffer block; this port restores the heap-excess
+//     flag and returns 0 there instead of faulting.
 int copy(E_PIXEL_FORMAT format, const void* src, uint32_t srcPitch, void* dst, uint32_t dstPitch, uint32_t width,
          uint32_t height, bool flip) {
     const SFormatEntry& row = PFDTable[format];

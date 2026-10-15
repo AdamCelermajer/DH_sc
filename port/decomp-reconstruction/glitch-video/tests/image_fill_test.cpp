@@ -287,10 +287,11 @@ int main() {
     }
 
     // ---- 0x601b10 (C2 0x601c24): the sub-image constructor ----
-    // Structure only, on purpose: the pixel transfer is pixel_format::convert with the source format equal to the
-    // destination format, and that call takes convert's "copy()" branch, which is not reconstructed (ledger row
-    // 0x5f95ac returns 0 there and writes nothing), so there is no correct pixel expectation to assert yet. The
-    // allocation, the field takeover and the null-source default (format 39) are checked.
+    // The pixel transfer is pixel_format::convert with the source format equal to the destination format, so it takes
+    // convert's "copy()" branch (0x5ee40c, reconstructed): rows = height, pitch = computePitch(12, 2) = 8, and because
+    // the source pitch (16) differs from that 8 the copy is one memcpy per row, the source advancing by its own
+    // pitch. The block below checks the fields and the allocation first, then overwrites the source bytes with their
+    // offsets so the transferred region is measurable.
     {
         boost::intrusive_ptr<CImage> source(new CImage(12, dims(4, 4)), true);
         source->fill(color);
@@ -304,6 +305,18 @@ int main() {
         CHECK(sub->m_hasMipmaps == 0);
         CHECK(sub->m_mipData == nullptr);
         CHECK(sub->m_data != nullptr);
+
+        // Source 4x4 format 12: pitch 16. The call's source pointer is m_data + 1 * 16 + 1 * 4 = offset 20, so row 0
+        // of the sub-image is source bytes 20..27 and row 1 (after the source advances by 16) is 36..43.
+        for (std::uint32_t i = 0; i < source->m_dataSize; ++i) {
+            source->m_data[i] = static_cast<std::uint8_t>(i);
+        }
+        boost::intrusive_ptr<CImage> copied(
+            new CImage(source, glitch::core::position2d<std::int32_t>{1, 1}, dims(2, 2)), true);
+        const std::uint8_t expected0[8] = {20, 21, 22, 23, 24, 25, 26, 27};
+        const std::uint8_t expected1[8] = {36, 37, 38, 39, 40, 41, 42, 43};
+        CHECK(std::memcmp(copied->m_data, expected0, sizeof expected0) == 0);
+        CHECK(std::memcmp(copied->m_data + 8, expected1, sizeof expected1) == 0);
 
         boost::intrusive_ptr<CImage> empty;
         boost::intrusive_ptr<CImage> none(

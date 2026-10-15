@@ -175,10 +175,13 @@ int main() {
 }
 
 // Abort stubs for engine symbols the batch references but the tests never reach (generated from the object's undefined
-// symbols). Each stub calls StubAbort with its symbol name. The vtable entries are zero-filled placeholders.
-extern "C" const char stubdat_55[256] __asm__("_ZTV13NetStructBool") = {0};
-extern "C" const char stubdat_56[256] __asm__("_ZTV15NetStructMember") = {0};
-extern "C" const char stubdat_57[256] __asm__("_ZTV19NetStructMemberTypeIbE") = {0};
+// symbols). Each stub calls StubAbort with its symbol name. The vtable placeholders that used to sit here
+// (_ZTV13NetStructBool, _ZTV15NetStructMember, _ZTV19NetStructMemberTypeIbE as 256 zero bytes each) are gone: the link
+// stubs in this file are dead, but a vtable is DATA, and no name comparison can see that its contents are zero. The test
+// object precedes the archives, so the zero vtables won and every NetStructBool a library object in this executable
+// constructs got a null vtable (a virtual call would have jumped to 0). The real vtables come from
+// libdh2_net_transport.a(net_struct.cpp.obj) and libdh2_net_transport.a(e2-net-transport-NetStructMemberType-b42f13-0.cpp.obj),
+// both of which are already in this executable's link closure.
 extern "C" void stub_1() __asm__("_ZN10GameObject11DeserializeEP11IStreamBase");
 extern "C" void stub_1() { StubAbort("_ZN10GameObject11DeserializeEP11IStreamBase"); }
 extern "C" void stub_2() __asm__("_ZN10GameObject9SerializeEP11IStreamBase");

@@ -647,7 +647,9 @@ place another category could be affected once that question is settled.
 ## pixel_format convert family (dep worker, table-driven)
 
 Files: include/glitch-video/pixel_format_convert.hpp, src/pixel_format_convert.cpp, tests/pixel_format_convert_test.cpp.
-Build check: g++ -std=c++17 -I include -I ../shared/include (needs the shared include for glitch-shared/glitch_core.hpp).
+Build check: g++ -std=c++17 -I include -I ../shared/include -I ../glitch-core-io/include (the shared include for
+glitch-shared/glitch_core.hpp, the core one for the process_buffer.hpp that copy's in-place flip uses; the test also
+needs src/pixel_format.cpp, src/pixel_format_table.cpp and ../glitch-core-io/src/process_buffer_heap.cpp).
 
 Confirmed from the listing (addresses are the Hex-Rays and ARM listing):
 - Row fields: unk18[0..3] are channel widths R,G,B,A (+0x18..+0x1b); unk18[4..7] are channel shifts (+0x1c..+0x1f);
@@ -677,9 +679,21 @@ Modelled and checked (four pairs, checked by hand against the listing above, not
 - A1R5G5B5 (row 8) -> ARGB4444 (row 6), key 5: alpha LUT (0x8e3694). Check 4.
 
 Rows (partial; the parts not covered are listed in the header comment):
-- 0x5f95ac convert: covered: the packed-to-packed branch, same-type branches excluded. Not covered: copy (src == dst format),
-  compressed source (decompress 0x5fd894, not in port) and destination, the flag-2 switch (float and half rows 28-31, 33-35),
-  the same-type and luminance-else switch at 2785 and 1754, formats 10 and 11 (24-bit path, line 830-1745).
+- 0x5f95ac convert: covered: the packed-to-packed branch and the srcFormat == dstFormat copy() branch (0x5ee40c,
+  below). Not covered: the same-type branches, compressed source (decompress 0x5fd894, not in port) and destination,
+  the flag-2 switch (float and half rows 28-31, 33-35), the same-type and luminance-else switch at 2785 and 1754,
+  formats 10 and 11 (24-bit path, line 830-1745).
+- 0x5ee40c (anonymous namespace) copy: reconstructed from its listing (Hex-Rays chunk_032.c:20938) and called by
+  convert's srcFormat == dstFormat branch. Compressed row + flip logs and returns 0; rows = height / row byte +0x25;
+  pitch = computePitch(format, width); src == dst is the no-op (no flip), the different-pitch refusal, or the in-place
+  row swap through one glitch::core::allocProcessBuffer row with the heap-excess flag saved/set/restored; src != dst is
+  the flip (destination starts at the last row, step -dstPitch) or one memcpy of rows * pitch when the pitch equals
+  both sides, else one memcpy per row. Deps now used: glitch-core-io/core/process_buffer.hpp and deps/os_logging.hpp
+  (both already used by glitch-video/src/material.cpp). Deviations in the source comment: blockHeight 0 (format 39)
+  copies no rows where the ARM helper's divide-by-zero gives 0, the rows == 0 flip pointer adjustment is skipped, and
+  a null process-buffer block returns 0 instead of faulting. Mangled spelling as for the 13 image.cpp
+  anonymous-namespace siblings: the emitted symbol is _ZN...12_GLOBAL__N_1L4copyEiPKvjPvjjjb (GCC internal-linkage
+  tag, E_PIXEL_FORMAT is the int32_t alias), not the original spelling without the L.
 - 0x5f4fe8 convertPacked: covered: arms 0, 5, 0xA through the generic plan. Not covered: arms 1, 2, 4, 6, 8, 9.
 - 0x5eeef4 convertPackedImpl<uint,uint>: covered: the green-upscale replication path, the alpha-LUT path, the plain
   reduction path, the in-place and flip loops (lines 374-560, 1043-1060 by the listing). Not covered: alpha upscale at
@@ -697,7 +711,15 @@ Open questions:
    sub-branch looks unreachable. Not modelled.
 3. The alpha-upscale converter types (SAlphaUpscalePackedConverter 0x5edfd4, SAlphaIndexed 0x5ededc) are still blocked; see
    the ledger rows that mention them.
-4. convert returns int here; the listing returns int too (r0). The copy helper and Printer::log are not ported.
+4. convert returns int here; the listing returns int too (r0). Printer::log is ported (deps/os_logging.hpp) and is now
+   called by copy; convert itself still drops the "Compressed destination format not supported" log because the format
+   name it prints comes from getStringsInternal (0x5ed944, not in port).
+5. copy (0x5ee40c) was added in the r3b pass; see its row above. The CImage rows that were blocked only on convert's
+   copy branch are 0x601b10 / 0x601c24 (sub-image constructor, now measured in tests/image_fill_test.cpp) and
+   0x60177c / 0x600708 / 0x60090c, which are separately blocked by an inverted direction in image.cpp's copyTo
+   (the argument is the DESTINATION and `this` is the pixel SOURCE, proved by the const void* source / void*
+   destination arguments of the convert call at 0x600880 and by 0x60177c passing target->m_data as copyToScaling's
+   destination buffer).
 
 ## wave4-glitch-video-2 (C2DDriver forwarders, ITexture attribute serializers)
 - IVideoDriver vtable slots (tools/decomp_vtable.py glitch::video::IVideoDriver): +0x2c draw2DLine(pos const&, pos const&, SColor),
