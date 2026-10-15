@@ -141,10 +141,13 @@ void destruct<bitmap_glyph_provider>(const bitmap_glyph_provider* object) {
 // float 0x3F317218) with a minimum of 4 (upstream 16), the table comes from malloc_internal (32 * size + 8 bytes on ARM: 32-byte entries, next
 // at +0, hash at +4, the tu_stringi key at +8, the value at +0x1c), and each moved entry's key heap text is released. It is the shared body,
 // dh2_hash_access::set_raw_capacity (gameswf_dh2_hash.hpp). Declared in gameswf_action.h.
+// The specialization is of the global ::hash, so it is defined outside namespace gameswf (clang requires the enclosing scope).
+}  // namespace gameswf
 template <>
 void ::hash<tu_stringi, gameswf::as_standard_member, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int new_size) {
     dh2_hash_access::set_raw_capacity(*this, new_size);
 }
+namespace gameswf {
 
 // ---------------------------------------------------------------------------------------------------------------
 // gameswf::render_cache

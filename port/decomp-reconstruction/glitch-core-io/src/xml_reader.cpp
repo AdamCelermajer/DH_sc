@@ -733,7 +733,7 @@ const WideReader::SAttribute* WideReader::getAttributeByName(const wchar_t* name
 // The text buffer is released with operator delete[], as the original does (it is always a new[] block:
 // the read buffer, or the widened copy). The std members are destroyed after this body, in place of the
 // original's explicit frees of its inline string buffers.
-WideReader::~WideReader() {
+CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::~CXMLReaderImpl() {
     ::operator delete[](textOwner);
 }
 

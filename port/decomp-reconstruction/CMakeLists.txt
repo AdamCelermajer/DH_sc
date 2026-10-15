@@ -19,6 +19,13 @@ if(MINGW)
   add_link_options(-static-libgcc -static-libstdc++ -static)
 endif()
 
+# Android (NDK toolchain, ANDROID_ABI=arm64-v8a): see ANDROID-BUILD.md. The NDK adds -Werror=format-security; the
+# reconstruction forwards the original's printf(text) thunks on purpose (sys::printNoFormat), so it is not an error here.
+if(ANDROID)
+  add_compile_options(-Wno-format-security)
+  set(DH2_ANDROID_COMPAT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android-compat)
+endif()
+
 # Track B builds one program from many folders. Every folder sees every other folder's
 # headers (addressed as "<category>/<file>.hpp", "dh2/<Class>.hpp", "glitch-shared/...",
 # "lua.h", "Box2D.h", "gameswf/..."), so a class is defined once and used everywhere.
@@ -98,6 +105,9 @@ else()
   list(TRANSFORM zlib_srcs APPEND .c)
   add_library(dh2_vendor_zlib STATIC ${zlib_srcs})
   set_target_properties(dh2_vendor_zlib PROPERTIES C_STANDARD 99)
+  if(ANDROID)
+    target_compile_definitions(dh2_vendor_zlib PRIVATE Z_HAVE_UNISTD_H)   # gz*.c call read/write/close/lseek
+  endif()
   target_include_directories(dh2_vendor_zlib SYSTEM PUBLIC ${DH2_ZLIB_DIR})
   if(NOT MSVC)
     target_compile_options(dh2_vendor_zlib PRIVATE -w)
@@ -173,6 +183,9 @@ set_source_files_properties(${tess_srcs} PROPERTIES LANGUAGE CXX)
 add_library(dh2_vendor_libtess STATIC ${tess_srcs})
 target_include_directories(dh2_vendor_libtess SYSTEM PUBLIC ${DH2_TESS_DIR}/include)
 target_include_directories(dh2_vendor_libtess PRIVATE ${DH2_TESS_DIR}/src/include ${DH2_TESS_DIR}/src/libtess)
+if(ANDROID)
+  target_include_directories(dh2_vendor_libtess SYSTEM PRIVATE ${DH2_ANDROID_COMPAT_DIR})   # <GL/gl.h> for glu.h
+endif()
 if(NOT MSVC)
   target_compile_options(dh2_vendor_libtess PRIVATE -w)
 endif()
@@ -363,4 +376,55 @@ message(STATUS \"no multiple definitions between the libraries\")
                    -DOUT=${CMAKE_CURRENT_BINARY_DIR}/dh2_duplicate_check.exe
                    "-DLIBS=$<JOIN:${dup_libs},|>" "-DEXTRA=$<$<BOOL:${WIN32}>:-lws2_32>"
                    -P ${CMAKE_CURRENT_BINARY_DIR}/dh2_duplicate_check.cmake)
+endif()
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Android: libdh2.so, every library linked whole-archive into one shared object (see ANDROID-BUILD.md).
+#   cmake -S port/decomp-reconstruction -B build/own-arm64 -G Ninja -DCMAKE_TOOLCHAIN_FILE=<ndk>/build/cmake/android.toolchain.cmake #         -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-26 -DDH2_ANDROID_ABORT_STUBS=ON
+#   cmake --build build/own-arm64 --target dh2
+# With the default -DDH2_ANDROID_ABORT_STUBS=OFF the link uses -Wl,--no-undefined and fails listing exactly the symbols of
+# reports/decomp-reconstruction/android-link-missing.csv. ON defines those (aborting function stubs, zeroed data) and the
+# a loadable library comes out; calling a stubbed row aborts and names the symbol on stderr.
+# ---------------------------------------------------------------------------------------------------------------------
+if(ANDROID)
+  option(DH2_ANDROID_ABORT_STUBS "Define the symbols no library defines yet as aborting stubs so libdh2.so links" OFF)
+  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/dh2_android_empty.cpp "// libdh2.so has no sources of its own; the libraries are linked whole-archive.
+")
+  add_library(dh2 SHARED ${CMAKE_CURRENT_BINARY_DIR}/dh2_android_empty.cpp)
+  target_link_libraries(dh2 PRIVATE "$<LINK_LIBRARY:WHOLE_ARCHIVE,${DH2_LIBS}>" log android EGL GLESv2 OpenSLES dl m)
+  target_link_options(dh2 PRIVATE -Wl,--error-limit=0)
+  if(DH2_ANDROID_ABORT_STUBS)
+    set(DH2_ANDROID_CSV ${CMAKE_SOURCE_DIR}/../../reports/decomp-reconstruction/android-link-missing.csv)
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${DH2_ANDROID_CSV})
+    file(STRINGS ${DH2_ANDROID_CSV} android_rows)
+    list(POP_FRONT android_rows)
+    set(android_stub_text "// generated from reports/decomp-reconstruction/android-link-missing.csv
+#include <cstdio>
+#include <cstdlib>
+")
+    set(android_n 0)
+    foreach(row IN LISTS android_rows)
+      # Rows are "symbol,kind,..."; a ';' inside a note splits a row into list items, which are skipped here.
+      if(NOT row MATCHES "^([A-Za-z_][A-Za-z0-9_]*),(function|data),")
+        continue()
+      endif()
+      set(a_sym ${CMAKE_MATCH_1})
+      set(a_kind ${CMAKE_MATCH_2})
+      math(EXPR android_n "${android_n} + 1")
+      if(a_kind STREQUAL "data")
+        string(APPEND android_stub_text "extern \"C\" { alignas(16) char dh2_android_data_${android_n}[4096] __asm__(\"${a_sym}\"); }
+")
+      else()
+        string(APPEND android_stub_text "extern \"C\" void dh2_android_fn_${android_n}() __asm__(\"${a_sym}\");
+extern \"C\" void dh2_android_fn_${android_n}() { std::fputs(\"DH2 android link stub called (not reconstructed yet): ${a_sym}\\n\", stderr); std::abort(); }
+")
+      endif()
+    endforeach()
+    file(GENERATE OUTPUT ${DH2_STUB_DIR}/android_residual_stubs.cpp CONTENT "${android_stub_text}")
+    set_source_files_properties(${DH2_STUB_DIR}/android_residual_stubs.cpp PROPERTIES GENERATED TRUE)
+    add_library(dh2_android_residual_stubs STATIC ${DH2_STUB_DIR}/android_residual_stubs.cpp)
+    target_link_libraries(dh2 PRIVATE dh2_android_residual_stubs)   # one object per symbol: only the ones still needed are pulled
+  else()
+    target_link_options(dh2 PRIVATE -Wl,--no-undefined)
+  endif()
 endif()

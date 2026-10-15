@@ -100,6 +100,9 @@ void createTriangles(const std::uint16_t* indices, std::uint32_t count, const SV
 
 }  // namespace
 
+// The explicit instantiations of an anonymous-namespace template belong in that namespace (clang requires it).
+namespace {
+
 // 0x591d38 _ZN6glitch5scene12_GLOBAL__N_115createTrianglesIfSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_
 // T = float: the vertex components are already float, so the reads are plain copies.
 template void createTriangles<float>(const std::uint16_t*, std::uint32_t, const SVertexStream&,
@@ -134,6 +137,8 @@ template void createTriangles<std::uint16_t>(const std::uint16_t*, std::uint32_t
 // T = int.
 template void createTriangles<std::int32_t>(const std::uint16_t*, std::uint32_t, const SVertexStream&,
                                                 TriangleVector&);
+
+}  // namespace
 
 // 0x6bccf0 _ZN6glitch5scene12_GLOBAL__N_19addStreamEPNS_5video12IVideoDriverERNS_7collada5SMeshERNS5_11SMeshBufferEcPNS2_17SVertexStreamDataEhRKNS5_13SBufferConfigE
 // addStream is not reconstructed in this batch: partial. The body fills a SVertexStreamData entry (16

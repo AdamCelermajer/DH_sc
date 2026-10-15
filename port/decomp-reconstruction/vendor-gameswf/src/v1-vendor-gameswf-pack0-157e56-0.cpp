@@ -230,11 +230,14 @@ void smart_ptr_proxy::operator=(weak_proxy* p)
 // The display list's name table. The same rehash as the other DH2 tables (minimum 4 entries, power of two from the
 // single-precision logf; 16-byte entries with the one-word key at +8 and the character pointer at +12; each live entry
 // is add()ed to the new table and cleared), through the shared body.
+// The specialization is of the global ::hash, so it is defined outside namespace gameswf (clang requires the enclosing scope).
+}  // namespace gameswf
 template <>
 void ::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int new_size)
 {
 	dh2_hash_access::set_raw_capacity(*this, new_size);
 }
+namespace gameswf {
 
 // 0x758a80 gameswf::filter_texture_cache::get_character_region(gameswf::character*, int, int)
 // The key is four words: the character pointer, its sign extension (zero for the pointers of the 32-bit build; the
