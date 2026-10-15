@@ -2,6 +2,7 @@
 #include "gameplay_audio_sdl.hpp"
 #include "model_renderer.hpp"
 #include "../android-native/app/src/main/cpp/player_skill_effect_audit_v1.hpp"
+#include "../android-native/app/src/main/cpp/game_clock_v1.hpp"
 #include "original_ui_session.hpp"
 #include "../android-native/app/src/main/cpp/menu_start_commit_gate_v1.hpp"
 #include "../game-data/campaign_profile_files_v1.hpp"
@@ -48,6 +49,9 @@ struct Options {
     std::filesystem::path initial_capture;
     std::uint64_t frames = 0;
     bool show_window = false;
+    // Headless (--frames without --show) runs advance the game clock by exactly this
+    // many milliseconds per rendered frame; interactive runs ignore it.
+    std::uint64_t fixed_dt_ms = 25;
     std::int32_t level_row = -1;
     // PlayerBase row used when the direct-row path has to create the fresh
     // source profile (the same class ids the authored class-selection menu
@@ -334,6 +338,13 @@ Options parse(int argc, char** argv) {
             else throw std::runtime_error("Unknown scenario: " + scenario);
         }
         else if (arg == "--show") options.show_window = true;
+        else if (arg == "--fixed-dt-ms") {
+            const auto count = value("--fixed-dt-ms");
+            std::size_t parsed = 0;
+            options.fixed_dt_ms = std::stoull(count, &parsed);
+            if (parsed != count.size() || options.fixed_dt_ms == 0)
+                throw std::runtime_error("--fixed-dt-ms must be a positive integer");
+        }
         else if (arg == "--frames") {
             const auto count = value("--frames");
             std::size_t parsed = 0;
@@ -350,6 +361,7 @@ Options parse(int argc, char** argv) {
                          "  --player-class C   knight (default), mage or rogue: class of the fresh profile created for --level-row runs\n"
                          "  --frames N         exit after N rendered UI/gameplay frames (hidden window, no audio)\n"
                          "  --show             show the window and play audio for --frames runs\n"
+                         "  --fixed-dt-ms N    headless --frames runs only: game clock advances exactly N ms per frame (default 25)\n"
                          "  --transition-to L[:E] queue NativeGoToZone to level L (entry E) at frame 300 (see --transition-at)\n"
                          "  --transition-at N     queue --transition-to at rendered frame N instead of 300\n"
                          "  --transition-after-revive  queue --transition-to 120 frames after the first Continue revive (move-defend/move-kill)\n"
@@ -2842,6 +2854,7 @@ int main(int argc, char** argv) {
         // Bounded (--frames) runs are automated tests: render into a hidden
         // window and use SDL's dummy audio driver unless --show is given.
         const bool headless = options.frames > 0 && !options.show_window;
+        if (headless) dh2::game_clock::enable_fixed_step(options.fixed_dt_ms);
         if (headless) SDL_setenv("SDL_AUDIODRIVER", "dummy", 1);
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
             throw std::runtime_error(std::string("SDL_Init: ") + SDL_GetError());
@@ -2999,7 +3012,7 @@ int main(int argc, char** argv) {
         bool text_input_started = false;
         std::uint64_t rendered_frames = 0;
         int mouse_x = 0, mouse_y = 0;
-        auto last_vitals = SDL_GetTicks64();
+        auto last_vitals = dh2::game_clock::monotonic_ms();
         std::array<int, 7> scenario_initial_vitals{};
         std::int32_t scenario_target_index = -1;
         // move-kill: ray/area skills (Mage Cold Ray, Rogue Roundhouse...) can kill
@@ -3279,7 +3292,7 @@ int main(int argc, char** argv) {
                 copy_level_saves(options.runtime, options.capture_series, "entry");
             if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
                 probe_runner.set_hud_blocked(cutscene_now);
-                probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
+                probe_runner.tick(rendered_frames - intro_held_frames, dh2::game_clock::monotonic_ms());
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
                     // Centre of the authored HUD faery button on the 1280x720 reference layout.
@@ -3995,12 +4008,13 @@ int main(int argc, char** argv) {
             }
             eglSwapBuffers(display, surface);
             ++rendered_frames;
+            dh2::game_clock::advance_frame();
             if (options.frames && rendered_frames >= options.frames) running = false;
             if (options.fixed_cultist_scenario && scenario_attack_sent &&
                 rendered_frames >= fixed_attack_frame + 120) {
                 running = false;
             }
-            const auto now = SDL_GetTicks64();
+            const auto now = dh2::game_clock::monotonic_ms();
             if (gameplay && now - last_vitals >= 1000) { print_vitals(); last_vitals = now; }
         }
 

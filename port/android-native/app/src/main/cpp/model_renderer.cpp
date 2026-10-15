@@ -1,4 +1,5 @@
 #include "model_renderer.hpp"
+#include "game_clock_v1.hpp"
 #include "player_skill_effect_audit_v1.hpp"
 #include "../../../../../level-world/char_ai_anim_step_skill_v1.hpp"
 #include "../../../../../../port/level-world/level_frame_v1.hpp"
@@ -358,10 +359,8 @@ extern dh2::actor::RuntimeState prince_runtime;
 extern bool native_actor_ready;
 using Matrix=std::array<float,16>;
 bool original_real_time_ms(std::uint32_t& result) noexcept {
- timeval now{};
- if(gettimeofday(&now,nullptr)!=0)return false;
- const auto milliseconds=static_cast<std::uint64_t>(now.tv_sec)*1000u+
-                         static_cast<std::uint64_t>(now.tv_usec)/1000u;
+ std::uint64_t milliseconds=0;
+ if(!dh2::game_clock::wall_ms(milliseconds))return false;
  result=static_cast<std::uint32_t>(milliseconds);return true;
 }
 struct NativeSourceCamera {
@@ -24738,7 +24737,7 @@ void set_time(int milliseconds){
     prince_state.current,unsigned(frozen),unsigned(native_scene_clock_ms()),prince_locomotion.current_clip(),prince_locomotion.current_engine_clip(),prince_locomotion.current_timeline().current_ms,static_cast<unsigned long long>(playback_hash),static_cast<unsigned long long>(pose));
    return;
   }
-  if(milliseconds<0){epoch=std::chrono::steady_clock::now()-std::chrono::milliseconds(sampled_ms-player.start);frozen=false;}
+  if(milliseconds<0){epoch=dh2::game_clock::steady_now()-std::chrono::milliseconds(sampled_ms-player.start);frozen=false;}
   else{sampled_ms=std::clamp(milliseconds,player.start,player.end);frozen=true;}
 }
 static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetManager* assets,bool preserve_level_session,
@@ -24877,7 +24876,7 @@ static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetM
     world_mode=false;resume_world=false;move_x=move_y=0;android_movement_stop_pending=false;
     for(unsigned i=0;i<3;++i)center[i]=(low[i]+high[i])*.5f;
     yaw=-1.57f;pitch=.35f;zoom=1;enabled=true;
-    current_scene=std::move(scene);player=std::move(candidate_player);epoch=std::chrono::steady_clock::now();sampled_ms=player.start;frozen=false;animation_failed=false;frozen_cursor_logged=false;
+    current_scene=std::move(scene);player=std::move(candidate_player);epoch=dh2::game_clock::steady_now();sampled_ms=player.start;frozen=false;animation_failed=false;frozen_cursor_logged=false;
     char report[384];std::snprintf(report,sizeof(report),"3D upload OK | %zu draws | %u triangles | %zu textures\n%u animation tracks | %u skipped | Preview lighting. Drag to orbit.",draws.size(),triangles,images.size(),player.track_count(),player.skipped);
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s | nodes %u | skipped nongeometry instances %u | skin draws %zu | segments %u",report,current_scene.nodes,current_scene.ignored_instances,std::count_if(draws.begin(),draws.end(),[](const Draw& d){return !d.skin.nodes.empty();}),player.segment_count());return report;
   }catch(const std::exception& e){release(candidate,textures);__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Model load failed: %s",e.what());return std::string("Model load failed: ")+e.what();}
@@ -50877,7 +50876,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     if(level_assets.name=="SWAMP"&&level_assets.level_file=="001_swamp.mlx"&&
        !level_assets.source_player_camera_enabled)
       swamp_default_camera_basis(yaw,pitch);
-    const auto frame_origin=std::chrono::steady_clock::now();
+    const auto frame_origin=dh2::game_clock::steady_now();
     std::uint32_t frame_origin_ms=0;
     if(!original_real_time_ms(frame_origin_ms))throw std::runtime_error("Source Application clock read failed at Level initialization");
     zoom=1;object_epoch=epoch=frame_origin;sampled_ms=0;frozen=restore?previous_frozen:false;
@@ -53709,7 +53708,7 @@ void draw(int width,int height){
   const auto& playback=player;
   if(world_mode)sampled_ms=prince_locomotion.current_timeline().current_ms;
   if(playback.track_count()&&!animation_failed&&!world_mode){
-    if(!frozen){const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-epoch).count();sampled_ms=playback.start+elapsed%(playback.end-playback.start);}
+    if(!frozen){const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(dh2::game_clock::steady_now()-epoch).count();sampled_ms=playback.start+elapsed%(playback.end-playback.start);}
     std::string error;if(!playback.sample(current_scene,sampled_ms,error)){animation_failed=true;__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Animation sample failed: %s",error.c_str());}
     if(world_mode&&!prince_visual.update_world(current_scene,error))throw std::runtime_error(error);
   }
@@ -53829,7 +53828,7 @@ void draw(int width,int height){
     }};
     if(group.animation_table<0){
       const auto& clip=group.resource.animation;int ms=clip.start;
-      if(clip.track_count()){const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-object_epoch).count();ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+elapsed%(clip.end-clip.start);}
+      if(clip.track_count()){const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(dh2::game_clock::steady_now()-object_epoch).count();ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+elapsed%(clip.end-clip.start);}
       if(!dh2::objects::sample(group.resource,ms,error)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Object sample failed: %s",error.c_str());enabled=false;return;}
       for(const auto& instance:group.instances)render_actor(instance,nullptr);
     }else for(auto& actor:group.instances){

@@ -12,22 +12,19 @@
 #endif	// for ftime()
 #include <assert.h>
 #include "base/tu_timer.h"
+#include "../../../../android-native/app/src/main/cpp/game_clock_v1.hpp"
 
-#ifdef __ANDROID__
-struct timeb { time_t time; unsigned short millitm; };
-static void ftime(timeb* t) { timeval v; gettimeofday(&v,NULL); t->time=v.tv_sec; t->millitm=v.tv_usec/1000; }
-#endif
-static timeb s_start_time;
+static std::uint64_t s_start_ms=0;
 void tu_timer::init_timer()
 {
-	ftime(&s_start_time);
+	dh2::game_clock::wall_ms(s_start_ms);
 }
 
 Uint32 tu_timer::get_ticks()
 {
-	struct timeb tv;
-	ftime(&tv);
-	return  (tv.time - s_start_time.time) * 1000 + (tv.millitm - s_start_time.millitm);
+	std::uint64_t now=0;
+	dh2::game_clock::wall_ms(now);
+	return Uint32(now-s_start_ms);
 }
 
 tu_datetime::tu_datetime()
@@ -143,6 +140,8 @@ void tu_datetime::set(part part, int val)
 
 Uint64 tu_timer::get_systime()
 {
+	std::uint64_t ms=0;
+	if(dh2::game_clock::wall_ms(ms))return ms/1000;
 	time_t ltime;
 	time(&ltime);
 	return (Uint64) ltime;
