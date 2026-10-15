@@ -13,6 +13,7 @@
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
 #include "net-session-online/c_online.hpp"
+#include "net-session-online/c_online_impl.hpp"
 
 // ---- test-only definitions of out-of-line symbols -------------------------------------------------
 
@@ -263,9 +264,19 @@ void TestAttackGate() {
 
 }  // namespace
 
+// A real COnlineImpl with the online flag clear, as the original's GetOnline() returns before any game goes
+// online. It MUST be a real object: the library's GetOnline() (game-app/src/g1-game-app-global-f216b6-21.cpp) is
+// the thunk to this function, and Cmd_UseOOI, Cmd_EndSkill, Cmd_BeginSkill and Cmd_Attack read
+// `GetOnline()->IsOnlineGame()` through it (+0x05) WITHOUT testing the pointer first (asm at 0x4057fc: the
+// LDRB follows the BL to GetOnline with no null test), so returning null here is a null dereference on those
+// paths rather than a short circuit. The call count the checks assert is still recorded. The object is created
+// as COnlineImpl, the type the real singleton allocates
+// (net-session-online/src/tb_session-online-COnline-0.cpp), the same fix GSFlashMenu-353474-0_test and
+// GSEndGame-20f7ca-0_test use.
+static COnlineImpl g_testOnline;
 COnline* COnline::GetInstance() {
     ++g_getInstanceCalls;
-    return nullptr;
+    return &g_testOnline;
 }
 
 int main() {

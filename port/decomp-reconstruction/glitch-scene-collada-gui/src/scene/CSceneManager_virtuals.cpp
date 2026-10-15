@@ -21,6 +21,7 @@
 #include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-video/batch_driver.hpp"
 #include "glitch-video/video_driver.hpp"
 
 namespace glitch::scene {
@@ -40,10 +41,10 @@ void release(T* object) {
     if (object != nullptr) object->drop();
 }
 
-// The batch driver (glitch::video::CBatchDriver, 0x264 bytes) belongs to glitch-video, which has not reconstructed it: its rows are
-// still partial there and the class is only declared. These helpers build and drop it as soon as the class is complete, and do
-// nothing while it is not (the overload with the `long` argument is the fallback). This is the one place that has to change when
-// glitch-video lands the class.
+// The batch driver (glitch::video::CBatchDriver, 0x264 bytes) now exists (glitch-video/include/glitch-video/
+// batch_driver.hpp, included above), so the sizeof SFINAE below selects the allocating overload and the `long` fallback
+// is dead code kept only so this TU still compiles if the include is ever dropped. The second helper drops the driver
+// through IReferenceCounted::drop, as the original's destructor does (0x58eb70).
 template <typename T, std::size_t = sizeof(T)>
 T* makeBatchDriver(video::IVideoDriver* driver, int) {
     const auto* device = driver->m_device;
@@ -68,13 +69,20 @@ void dropBatchDriver(T*, long) {}
 
 // 0x58d908 _ZN6glitch5scene13CSceneManagerC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNS7_15IGUIEnvironmentE (complete object)
 // 0x58ddd0 _ZN6glitch5scene13CSceneManagerC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNS7_15IGUIEnvironmentE (base object)
-// PARTIAL. The order of the original: the driver (also kept at +0x18) and the batch driver built from the device's screen size,
-// the file system, the stencil clear value 127 set on the driver, the root node (CSceneManagerRootNode, linked into the +0x08
+// Reconstructed (the two symbols are one C++ constructor here, as in the rest of the port), with one host deviation.
+// The order of the original: the driver (also kept at +0x18) and the batch driver built from the device's screen size
+// (operator new(0x264) then CBatchDriver(width, height, driver) at 0x58d994-0x58d9bc, stored at this +0x1c), the file
+// system, the stencil clear value 127 set on the driver, the root node (CSceneManagerRootNode, linked into the +0x08
 // child list), then a use of the driver, the cursor control and the GUI environment, a use of the mesh cache or a new
-// CMeshCache over the driver, the CSceneCollisionManager, the CColladaBinaryFileLoader (the first external mesh loader, its creation
-// use is the list's), the CDefaultSceneNodeFactory and CDefaultSceneNodeAnimatorFactory (registered, then the creator's use is
-// dropped) and the shadow colour 0x96000000. Not done: the CBatchDriver itself while glitch-video does not provide the class (see
-// makeBatchDriver above). Unlike the original the driver may be null (nothing of it is then touched), which the scene tests use.
+// CMeshCache over the driver, the CSceneCollisionManager, the CColladaBinaryFileLoader (the first external mesh loader,
+// its creation use is the list's), the CDefaultSceneNodeFactory and CDefaultSceneNodeAnimatorFactory (registered, then
+// the creator's use is dropped) and the shadow colour 0x96000000.
+// Deviation, named: the original dereferences the video driver unconditionally, and the port still cannot - 0x58d994
+// reads the device out of the driver (`LDR R3,[R6,#0xD4]`) and makeBatchDriver dereferences the device in turn, while
+// the scene tests build a CSceneManager with a null driver (seven test subclasses do). The batch driver is therefore
+// created only when the driver is present; CNullDriver's constructor would fault on a null driver anyway. With a real
+// driver the allocation now happens: glitch-video landed glitch::video::CBatchDriver (batch_driver.hpp, 0x264 bytes)
+// for this batch, so the sizeof SFINAE in makeBatchDriver above selects the allocating overload.
 CSceneManager::CSceneManager(video::IVideoDriver* videoDriver, const boost::intrusive_ptr<io::IFileSystem>& fileSystemArg,
                              gui::ICursorControl* cursorControlArg, IMeshCache* meshCacheArg,
                              gui::IGUIEnvironment* guiEnvironmentArg)

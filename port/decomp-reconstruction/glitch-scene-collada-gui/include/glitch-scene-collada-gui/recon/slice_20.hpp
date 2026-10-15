@@ -46,7 +46,9 @@ float PSGenericPositionBaker_convertVertexPosition(float* a1, int a2, int a3, vo
 // 0x64ce44 _ZNK6glitch7collada24CParticleSystemSceneNode14getBoundingBoxEv
 void* CParticleSystemSceneNode_getBoundingBox(const void* self);
 // 0x64d0bc _ZN6glitch2ps16IParticleContextINS0_9SParticleEE10hashStringEPKc
-unsigned int IParticleContext_hashString(const void* self, const char* s);
+// Retired from this slice: it is the canonical member
+// glitch::ps::IParticleContext<SParticle>::hashString (ps/IParticleSystem.hpp + src/ps/IParticleContext.cpp), so
+// the library defines the symbol once. Checked by tests/ps_particle_context_test.cpp.
 // 0x64d1d0 _ZN6glitch2ps16IParticleContextINS0_9SParticleEEC2Ev
 void* IParticleContext_ctor(void* self);
 // 0x64d298 _ZN6glitch2ps16IParticleContextINS0_9SParticleEED2Ev

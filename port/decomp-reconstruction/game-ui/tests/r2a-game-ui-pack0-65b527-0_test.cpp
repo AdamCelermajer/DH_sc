@@ -14,6 +14,8 @@
 #include <vector>
 
 #include "dh2/MenuFX.hpp"
+#include "gameswf/gameswf_character.h"  // weak_proxy, the pair word MenuFX::State::m_characterProxy holds
+#include "gameswf/gameswf_root.h"       // gameswf::root::m_movie, the root movie MenuFX::PopMenu passes to SetContext
 
 namespace {
 
@@ -26,20 +28,33 @@ void Check(bool ok, const char* what) {
     }
 }
 
-// Dummy characters. The bodies only compare and pass these pointers, so the storage is never read.
-char g_chars[6];
-const char* const kCharNames[6] = {"ctx", "btn1", "btn2", "root", "charA", "charB"};
+// Dummy characters. The bodies only compare and pass these pointers, so the members read are never meaningful; the
+// storage is one gameswf::character-sized block per dummy (index 3 is the flash root). MenuFX::State keeps its movie
+// as a (proxy, pointer) pair: CharacterOf() views +0x48 as a weak_ptr<character> and get_ptr() calls check_proxy(),
+// which dereferences the proxy whenever the cached pointer is set. The pair must therefore be given a live proxy --
+// m_character alone (with a null proxy) is a null dereference inside check_proxy, which is where this test crashed.
+static const int kCharCount = 6;
+const char* const kCharNames[kCharCount] = {"ctx", "btn1", "btn2", "root", "charA", "charB"};
+alignas(16) unsigned char g_chars[kCharCount][sizeof(gameswf::character)];
+weak_proxy g_charProxies[kCharCount];
 
 gameswf::character* Char(int index) {
-    return reinterpret_cast<gameswf::character*>(&g_chars[index]);
+    return reinterpret_cast<gameswf::character*>(&g_chars[index][0]);
+}
+
+// Points a State's movie at one of the dummies: both words of the weak_ptr pair, exactly as the library's
+// RegisterState stores them (CharacterOf(state) = found).
+void SetStateCharacter(MenuFX::State* state, int index) {
+    state->m_characterProxy = &g_charProxies[index];
+    state->m_character = Char(index);
 }
 
 std::string NameOf(const gameswf::character* character) {
     if (character == nullptr) {
         return "null";
     }
-    for (int i = 0; i < 6; ++i) {
-        if (character == reinterpret_cast<const gameswf::character*>(&g_chars[i])) {
+    for (int i = 0; i < kCharCount; ++i) {
+        if (character == reinterpret_cast<const gameswf::character*>(&g_chars[i][0])) {
             return kCharNames[i];
         }
     }
@@ -83,6 +98,9 @@ RecordingState g_b("menu_b");
 MenuFX::State* g_stackBuf[8];
 MenuFX::State* g_stateBuf[8];
 alignas(MenuFX) unsigned char g_menuStorage[sizeof(MenuFX)];
+// The root movie MenuFX::PopMenu hands to SetContext (m_root->m_movie). Raw storage with the movie pointer set to the
+// "root" dummy: the bodies read the word directly, and no gameswf player is built here.
+alignas(gameswf::root) unsigned char g_rootStorage[sizeof(gameswf::root)] = {};
 MenuFX* g_menu = nullptr;
 
 // RenderFX test doubles. The RenderFX functions below are the ones MenuFX.hpp declares and the bodies call.
@@ -137,6 +155,14 @@ void RenderFX::SetFocus(gameswf::character* character, int flag) {
     g_log.push_back("SetFocus:" + NameOf(character) + ":" + std::to_string(flag));
 }
 
+// RenderFX::Find(char const*) walks m_root (it dereferences m_root->m_movie and m_root->get_root_movie()), which a test
+// MenuFX has no gameswf movie for. Returning null keeps the lookup "not found", which is the branch MenuFX's
+// RegisterStates and RegisterState take for a movie that is not loaded; it is the same seam the sibling game-ui tests
+// use (g1-game-ui-SWFAnimManager-c5dc0b-0_test.cpp, g1-game-app-pack0-8e4185-0_test.cpp).
+gameswf::as_object* RenderFX::Find(const char*) {
+    return nullptr;
+}
+
 namespace {
 
 void Expect(const std::vector<std::string>& expected, const char* what) {
@@ -152,19 +178,24 @@ void Expect(const std::vector<std::string>& expected, const char* what) {
 }
 
 // Clean menu for a scenario: empty stack, empty registry, flags 0, the context character, and no doubles.
+// Both arrays are backed by the test's own static buffers, so their m_borrowed flag (+0x0c of the gameswf array, see
+// base/container.h: `reserve()` does nothing while it is set) is set as well: without it MenuFX::~MenuFX releases the
+// static buffers through reserve(0) and corrupts the heap.
 void ResetMenu() {
     g_menu->m_flags = 0;
     g_menu->m_context = Char(0);
     g_menu->m_stack.m_data = g_stackBuf;
     g_menu->m_stack.m_size = 0;
     g_menu->m_stack.m_capacity = 8;
+    g_menu->m_stack.m_staticBuffer = true;
     g_menu->m_states.m_data = g_stateBuf;
     g_menu->m_states.m_size = 0;
     g_menu->m_states.m_capacity = 8;
-    g_a.m_character = Char(4);
-    g_b.m_character = Char(5);
+    g_menu->m_states.m_staticBuffer = true;
     g_a.m_status = 0;
     g_b.m_status = 0;
+    SetStateCharacter(&g_a, 4);
+    SetStateCharacter(&g_b, 5);
     ResetDoubles();
 }
 
@@ -366,6 +397,13 @@ void TestGetStateHandlerExact() {
 
 int main() {
     g_menu = new (g_menuStorage) MenuFX();
+    // The root movie: m_root->m_movie is the character PopMenu passes to SetContext, and this test expects the "root"
+    // dummy. The word is written directly rather than through smart_ptr::operator=: that would take a reference
+    // (add_ref on storage no gameswf::root constructor built), and the smart_ptr member that ~MenuFX destroys would
+    // then drop the last reference and call the object's destructor on static storage. With the count left at 0 the
+    // drop only decrements it.
+    *reinterpret_cast<void**>(&g_menu->m_root) = g_rootStorage;
+    reinterpret_cast<gameswf::root*>(g_rootStorage)->m_movie = Char(3);
 
     TestSetFocusDefault();
     TestPushOntoEmptyStack();

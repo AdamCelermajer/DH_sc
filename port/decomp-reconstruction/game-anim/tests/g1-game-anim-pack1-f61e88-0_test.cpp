@@ -4,11 +4,16 @@
 // edge helpers that v2GamepadController::Update uses, and the pad lookup at the start of v2GamepadController::Update.
 //
 // The batch source refers to functions owned by other batches: the v2Controller base constructor, destructor and
-// Update, and the InputManager members. The definitions below are test doubles so that this test links on its own.
-// They are not reconstructed code. No Character, Gamepad or Controllable object is built.
-
+// Update, the InputManager members, and the Application members Update reads (m_gamepadTweaker and m_eventManager).
+// The definitions below are test doubles so that this test links on its own. They are not reconstructed code. No
+// Character or Controllable object is built; the Gamepad and the EventManager below are real objects because Update
+// reads them (see their definitions).
 #include <cstdio>
 
+#include "dh2/Application.hpp"
+#include "dh2/EventManager.hpp"
+#include "dh2/Gamepad.hpp"
+#include "dh2/GamepadTweaker.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/v2GamepadController.hpp"
 #include "dh2/v2HudController.hpp"
@@ -37,7 +42,6 @@ int g_numGamepads = 0;             // what InputManager::GetNumGamepads returns
 int g_gamepadCalls = 0;            // GetGamepad calls made through FakeInput
 int g_lastIndex = 0;               // index of the last GetGamepad call
 int g_firstCalls = 0;              // GetFirstConnectedGamepad calls
-int g_padSentinel = 0;             // address used as a non-null Gamepad*
 Gamepad* g_gamepadPad = nullptr;   // returned by GetGamepad
 Gamepad* g_firstPad = nullptr;     // returned by GetFirstConnectedGamepad
 
@@ -89,8 +93,37 @@ Gamepad* InputManager::GetFirstConnectedGamepad() {
     return g_firstPad;
 }
 
+// v2GamepadController::Update calls Application::m_gamepadTweaker->UpdateButtonMappings() (batch line 109) as soon as
+// a pad came back, before any control is read. This test builds no Application: ApplicationGetInstance returns zeroed
+// storage, so m_gamepadTweaker is null and the real GamepadTweaker::UpdateButtonMappings
+// (game-app/src/g1-game-app-pack0-8e4185-0.cpp) would dereference null. The call is out of this batch, so it is a
+// double here, like the other out-of-batch calls in this file.
+void GamepadTweaker::UpdateButtonMappings() {}
+
+// v2GamepadController::Update reaches Application::m_eventManager (+0x14, the global dword_99F740) once the pad lookup
+// and the stick handling are past: the 26 flagged controls and the zoom axis raise an EvGamepad/EvGamepadAxis on it
+// (batch lines 242..271). This test builds no Application, so that member is null and EventManager::Raise would fault
+// in its std::map walk. It MUST be a real EventManager: Update reads the pointer unconditionally. Update attaches no
+// receiver, so Raise finds no entry for the event id and returns without calling anything. The object is built once.
+alignas(16) unsigned char g_eventManagerStorage[sizeof(EventManager)];
+EventManager* TestEventManager() {
+    static EventManager* events = new (g_eventManagerStorage) EventManager();
+    return events;
+}
+
+// What InputManager hands back for the pad lookup. GetGamepad returns this pointer and Update reads its channels, so
+// it is a real Gamepad (its constructor sets every channel); nothing in this test connects it or runs a frame on it.
+alignas(16) unsigned char g_gamepadStorage[sizeof(Gamepad)];
+Gamepad* TestGamepad() {
+    static Gamepad* pad = new (g_gamepadStorage) Gamepad();
+    return pad;
+}
+
 int main() {
     using E = v2gamepad_detail::ButtonEvent;
+
+    ApplicationGetInstance().m_eventManager = TestEventManager();
+
 
     // Threshold formula (lo + hi + 1) * 0.5, exact for these inputs.
     CHECK(v2gamepad_detail::ButtonThreshold(0.0f, 0.0f) == 0.5f);
@@ -134,10 +167,10 @@ int main() {
         CHECK(net.m_character == nullptr);
     }
 
-    // v2GamepadController::Update lookup. Index at or past the count returns before any pad is asked for.
-    static int padSentinel = 0;
-    g_gamepadPad = reinterpret_cast<Gamepad*>(&padSentinel);
-    g_firstPad = reinterpret_cast<Gamepad*>(&padSentinel);
+    // v2GamepadController::Update lookup. Index at or past the count returns before any pad is asked for. The pad the
+    // stubs hand back is a real Gamepad: Update reads its channels once the lookup succeeds.
+    g_gamepadPad = TestGamepad();
+    g_firstPad = TestGamepad();
     g_numGamepads = 1;
     ResetPadCounters();
     {

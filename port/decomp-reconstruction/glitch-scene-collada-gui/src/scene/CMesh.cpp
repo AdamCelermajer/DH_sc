@@ -106,14 +106,29 @@ void CMesh::clear() {
 }
 
 // 0x6bc2cc _ZN6glitch5scene5CMesh22recalculateBoundingBoxEv
-// PARTIAL. With no entries the box is cleared to zero. Otherwise the box of each entry's vertex streams is computed
-// (CVertexStreams::computeBoundingBox with the buffer's words at +0x24 and +0x28) and merged: the first one is copied, the
-// others added with addInternalBox. The vertex-stream box computation is glitch-video's and is not called here, so the box of
-// a non-empty mesh is left unchanged.
+// With no entries the box at +0x14 is cleared to the origin (0x6bc3c8..0x6bc3dc). Otherwise, per entry, the box
+// of the entry's vertex stream table is computed (v11 = mesh buffer + 0x14, first = +0x24, last = +0x28 of the
+// embedded primitive stream, 0x6bc370..0x6bc394) with glitch::video::CVertexStreams::computeBoundingBox; the
+// first result is copied into +0x14 and the later ones are merged with core::aabbox3d<float>::addInternalBox
+// (0x6bc3ac). The temporary starts at the inverted unit box (-1..1), as the listing's stores at 0x6bc37c show.
 void CMesh::recalculateBoundingBox() {
     if (buffers.empty()) {
         boundingBox.MinEdge = core::vector3d<float>{0.0f, 0.0f, 0.0f};
         boundingBox.MaxEdge = core::vector3d<float>{0.0f, 0.0f, 0.0f};
+        return;
+    }
+    bool first = true;
+    for (const SBuffer& entry : buffers) {
+        CMeshBuffer* buffer = entry.buffer.get();
+        core::aabbox3d<float> box{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
+        buffer->vertexStreams->computeBoundingBox(buffer->primitiveStream.m_vertexStart,
+                                                  buffer->primitiveStream.m_vertexEnd, box);
+        if (first) {
+            boundingBox = box;
+            first = false;
+        } else {
+            boundingBox.addInternalBox(box);
+        }
     }
 }
 

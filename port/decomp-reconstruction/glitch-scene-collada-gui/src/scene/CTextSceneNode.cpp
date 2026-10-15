@@ -102,10 +102,16 @@ E_SCENE_NODE_TYPE CTextSceneNode::getType() const {
 
 // ---- CBillboardTextSceneNode --------------------------------------------------------------------------------------------
 
-// 0x6d6438 _ZN6glitch5scene23CBillboardTextSceneNodeC2ERNS_5video21CMaterialRendererManagerEiPNS_3gui8IGUIFontEPKwRKNS_4core8vector3dIfEERKNSB_11dimension2dIfEENS3_6SColorESI_
-// 0x6d6020 (C1, the same body). PARTIAL: the texture of each sprite bank texture goes into its material through the parameter seam
-// (scene/material_access.hpp, which stores nothing until glitch-video keeps parameter values in CMaterial), and
-// CMaterialRendererManager::createMaterialRenderer / createMaterialInstance are declared in glitch-video without bodies.
+// 0x6d6438 _ZN6glitch5scene23CBillboardTextSceneNodeC1ERNS_5video24CMaterialRendererManagerEiPNS_3gui8IGUIFontEPKwRKNS_4core8vector3dIfEERKNSA_11dimension2dIfEENS2_6SColorESJ_ (complete object)
+// 0x6d6020 _ZN6glitch5scene23CBillboardTextSceneNodeC2E... (base object; the same body). Verified against the listing 0x6d6020: the font type test (vtable +40) with the log on a
+// non-bitmap font, createMaterialRenderer(9) then getMaterialRenderer (the Invalid-entry check is the collection's get),
+// getParameterID(type 2, 0) into ParameterID, font stored at +388 with a use taken, `new CMesh` at +444, then per sprite-bank
+// texture (getTextureCount through the bank vtable +20, getTexture through +24): createMaterialInstance(9), setParameter<ITexture>
+// at index 0, and the buffer's vertex attribute mask read as m_renderer(+4)->m_techniques(+0x18)[getTechnique()*12 + 8]
+// ->passes[0](+0x20)->shader(+0x38), i.e. material->m_renderer->m_techniques[material->getTechnique()].passes[0].shader
+// (CMaterial::getTechnique 0x5c5d34 is reconstructed for its fallback path only, see its own row). stream index type 0xff and
+// primitive type 6, then addMeshBuffer(buffer, material, empty map). Ends with setText(initialText), setSize(newSize) and
+// setAutomaticCulling(1).
 CBillboardTextSceneNode::CBillboardTextSceneNode(video::CMaterialRendererManager& materialRenderers, int nodeId,
                                                  gui::IGUIFont* textFont, const wchar_t* initialText,
                                                  const core::vector3d<float>& position, const core::dimension2d<float>& newSize,

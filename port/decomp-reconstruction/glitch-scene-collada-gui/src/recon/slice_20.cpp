@@ -171,17 +171,11 @@ float PSGenericPositionBaker_convertVertexPosition(float* a1, int a2, int a3, vo
 void* CParticleSystemSceneNode_getBoundingBox(const void* self) { return nullptr; }
 
 // 0x64d0bc _ZN6glitch2ps16IParticleContextINS0_9SParticleEE10hashStringEPKc
-unsigned int IParticleContext_hashString(const void* self, const char* s) {
-    (void)self;
-    // Same fold as the pseudocode: h ^= c - 0x61C88647 + (h << 6) + (h >> 2) per char,
-    // with the char sign-extended before the subtraction.
-    std::uint32_t h = 0;
-    for (const char* p = s; *p != '\0'; ++p) {
-        const auto c = static_cast<std::uint32_t>(static_cast<std::int32_t>(*p));
-        h ^= c - 0x61C88647u + (h << 6) + (h >> 2);
-    }
-    return h;
-}
+// Retired from this slice: the symbol is defined by the canonical member
+// glitch::ps::IParticleContext<SParticle>::hashString (include/glitch-scene-collada-gui/ps/IParticleSystem.hpp,
+// instantiated in src/ps/IParticleContext.cpp). The copy that stood here had the right fold, so the slice test's
+// three cases (empty, "a", 0xff) all still hold; it was retired so the library defines the symbol once.
+// tests/ps_particle_context_test.cpp checks the canonical member.
 
 // 0x64d1d0 _ZN6glitch2ps16IParticleContextINS0_9SParticleEEC2Ev
 void* IParticleContext_ctor(void* self) { return nullptr; }

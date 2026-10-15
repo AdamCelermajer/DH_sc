@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+#include "glitch-core-io/core/bounding_box.hpp"
+
 namespace glitch::video {
 
 // 0x647f54 _ZN6glitch5video17SVertexStreamDataaSERNS0_13SVertexStreamE
@@ -146,6 +148,44 @@ void CVertexStreams::setStream(SVertexStream* stream, const SVertexStreamData& d
 // 0x5a0e24 _ZN6glitch5video14CVertexStreams12updateStatesEb
 // Thunk: the ARM body is `b #0x5a0d80`, so this forwards to updateStatesInternal.
 void CVertexStreams::updateStates(bool flag) { updateStatesInternal(flag); }
+
+// 0x5a0ec0 _ZNK6glitch5video14CVertexStreams18computeBoundingBoxEjjRNS_4core8aabbox3dIfEE
+// The position stream is entry 0 (this + 0x14): IBuffer::map(entry.buffer, 0) is the const read map 0x5a1adc
+// (LDR R0,[R0,#0x14] then BL _ZNK...map...READ_MAP_ACCESS at 0x5a0ee0), the first element is at
+// base + entry.offset + entry.field0e * first (0x5a0ee8..0x5a0efc) and the box is computed over
+// last - first elements of entry.field0c components of value type entry.field0a through
+// glitch::core::computeBoundingBox 0x6a48cc (0x5a0f00..0x5a0f14). The listing then releases the mapping
+// (the SMapBuffer release 0x5a0e28 at 0x5a0f1c) and, when bit 2 of m_flags is set, dequantizes both corners
+// with the trailing block: box = box * block[0] + block[1] (0x5a0f2c..0x5a0fd8).
+void CVertexStreams::computeBoundingBox(uint32_t first, uint32_t last, core::aabbox3d<float>& box) const {
+    const SVertexStream& position = m_streams.front();
+    const IBuffer* buffer = position.buffer.get();
+    // The listing inlines SVertexStream::SMapBuffer<const void>::reset(SVertexStream&, int) here and keeps the
+    // stream pointer and base + offset on the stack for the release below. The two calls are written out
+    // because the map call is the const read form (0x5a1adc) and the port's SMapBuffer::reset cannot select it:
+    // E_BUFFER_MAP_ACCESS and E_BUFFER_READ_MAP_ACCESS are both int32_t aliases, so overload resolution on a
+    // non-const buffer picks 0x5a19f0 instead.
+    uint8_t* base = buffer->map(0);
+    core::computeBoundingBox(base + position.offset + static_cast<uint32_t>(position.field0e) * first,
+                             position.field0a, position.field0c, position.field0e, last - first, box);
+    // The release half (0x5a0e28) unmaps when its mapped pointer is non-null. The port's SMapBuffer keeps that
+    // pointer null when the map itself returned null, so the offset is not added to a null base here.
+    if (base != nullptr) {
+        buffer->unmap();
+    }
+    // Host guard on the size: the original reads the two leading records of its trailing block, which its
+    // constructor always allocates (2 * (count0c + 1) vectors).
+    if ((m_flags & kFlagQuantized) != 0 && m_quantization.size() >= 2) {
+        const core::vector3d<float>& scale = m_quantization[0];
+        const core::vector3d<float>& offset = m_quantization[1];
+        box.MinEdge.X = box.MinEdge.X * scale.X + offset.X;
+        box.MinEdge.Y = box.MinEdge.Y * scale.Y + offset.Y;
+        box.MinEdge.Z = box.MinEdge.Z * scale.Z + offset.Z;
+        box.MaxEdge.X = box.MaxEdge.X * scale.X + offset.X;
+        box.MaxEdge.Y = box.MaxEdge.Y * scale.Y + offset.Y;
+        box.MaxEdge.Z = box.MaxEdge.Z * scale.Z + offset.Z;
+    }
+}
 
 namespace {
 uint32_t popcount32(uint32_t value) {

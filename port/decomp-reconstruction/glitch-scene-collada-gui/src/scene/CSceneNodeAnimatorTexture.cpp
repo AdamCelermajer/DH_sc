@@ -7,6 +7,7 @@
 
 #include "glitch-core-io/io/iattributes.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/material_access.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_renderer.hpp"
 #include "glitch-video/video_types.hpp"
@@ -87,11 +88,13 @@ void CSceneNodeAnimatorTexture::deserializeAttributes(io::IAttributes* attribute
 void CSceneNodeAnimatorTexture::updateTime(std::uint32_t /*timeMs*/) {}
 
 // 0x6cda58 _ZN6glitch5scene25CSceneNodeAnimatorTexture11animateNodeEPNS0_10ISceneNodeEj
-// PARTIAL: the frame is chosen exactly as in the original (a looping animator, or one before endTime, shows frame
-// ((timeMs - startTime) / timePerFrame) mod count; a finished one the last frame), but the last step, setParameter of the
-// first material's texture parameter (id from CMaterialRenderer::getParameterID(2, 0)) through
-// IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>>::setParameter<intrusive_ptr<ITexture>> (0x5cd324),
-// has no target: the port's CMaterial (glitch-video/material.hpp) has no parameter storage. Layout request to the video owner.
+// The frame is chosen as in the original (a looping animator, or one before endTime, shows frame
+// ((timeMs - startTime) / timePerFrame) mod count; a finished one the last frame) and the frame's texture is stored
+// in the first material's texture parameter: the parameter id comes from CMaterialRenderer::getParameterID(type 2, 0)
+// (0x5cef08) and the store is setParameter<intrusive_ptr<ITexture>> (0x5cd324) at index 0, through the
+// scene/material_access.hpp seam. The listing calls setParameter even when the id is 0xffff, and so does this body;
+// the material is held in an intrusive_ptr for the duration of the call (the sret slot of ISceneNode::getMaterial,
+// vtable +0x84) and released at the end.
 void CSceneNodeAnimatorTexture::animateNode(ISceneNode* node, std::uint32_t timeMs) {
     const std::uint32_t count = static_cast<std::uint32_t>(textures.size());
     if (count == 0) {
@@ -105,9 +108,9 @@ void CSceneNodeAnimatorTexture::animateNode(ISceneNode* node, std::uint32_t time
         frame = count - 1;
     }
     if (frame < count) {
-        boost::intrusive_ptr<video::CMaterial> material = node->getMaterial(0);  // vptr+0x84
+        boost::intrusive_ptr<video::CMaterial> material = node->getMaterial(0);  // vptr+0x84, the sret slot
         const std::uint16_t parameterId = material->m_renderer->getParameterID(static_cast<video::E_SHADER_PARAMETER_TYPE>(2), 0);
-        (void)parameterId;  // the texture parameter write has no target (see above)
+        setMaterialTexture(*material, parameterId, 0, textures[frame]);
     }
 }
 

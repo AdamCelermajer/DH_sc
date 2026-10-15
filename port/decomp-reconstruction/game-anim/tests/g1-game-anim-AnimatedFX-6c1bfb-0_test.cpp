@@ -2,15 +2,18 @@
 // the loop countdown and end-of-loop flag/callback, and the material assert level. Returns non-zero when a
 // check fails.
 //
-// The checks use no VisualObject (the paths that need one are not exercised here). The stubs below only exist
-// so that the batch file links; none of them is reached by these checks.
+// The checks do not inspect a VisualObject, but the loop-end ones do run Load, which builds one and its
+// AnimController (0x49296c). The stubs below therefore stand in for the real VisualObject with a live controller
+// and a real RootSceneNode, and define the engine calls the batch file links against.
 
 #include <cstdio>
 
 #include "core-platform/deps/game_types.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/AnimatedFX.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/VisualObject.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNodeAnimator.hpp"
@@ -19,11 +22,13 @@
 // Global assert level read by AnimatedFX::ForceMaterial.
 int gAssertLevel = 0;
 
-// The animator and the timeline the loop-end checks need. _HandleLoopEnd (0x4927a4) runs its end-of-loop
-// callback and then reads the animator unconditionally (asm: four BL AnimatedFX::GetAnimator with no null
-// test, 0x492818 .. 0x492874), so the FX must have a visual whose controller returns an animator. The
-// original's GetAnimator is `m_visual->m_animController->GetAnim(0)`: the doubles below give the visual an
-// AnimController whose GetAnim answers with the animator, and the animator a timeline.
+// The loop-end checks below run _HandleLoopEnd, which goes through the visual to its AnimController (Load builds
+// one), so the test supplies the two objects AnimatedFX::GetAnimator walks: a real VisualObject stand-in with a
+// live AnimController and a real RootSceneNode. The animator and the timeline those checks need follow. _HandleLoopEnd
+// (0x4927a4) runs its end-of-loop callback and then reads the animator unconditionally (asm: four BL
+// AnimatedFX::GetAnimator with no null test, 0x492818 .. 0x492874), so the FX must have a visual whose controller
+// returns an animator. The original's GetAnimator is `m_visual->m_animController->GetAnim(0)`: the doubles below give
+// the visual an AnimController whose GetAnim answers with the animator, and the animator a timeline.
 namespace {
 
 class TestTimeline : public glitch::scene::ITimelineController {
@@ -71,31 +76,27 @@ public:
     std::uint32_t lastTime = 0;
 };
 
-// An ISceneNode for the animator's animateNode; AnimatedFX never calls into it (it only passes m_visual->m_node,
-// which is a RootSceneNode* in this port, straight to animateNode).
-class TestNode : public glitch::scene::ISceneNode {
-public:
-    TestNode()
-        : ISceneNode(0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
-                     glitch::core::quaternion{0.0f, 0.0f, 0.0f, 1.0f}, glitch::core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
-    void render(void*) override {}
-    const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box; }
-    glitch::core::aabbox3d<float> box{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
-};
-
 TestTimeline g_timeline;
 TestAnimator g_animator(&g_timeline);
-TestNode g_node;
 
 // The controller the visual's GetAnimator walks through. The base constructor asserts on a null node at every
-// level (0x474e44 falls through to the null dereference), and with trackEvents false its remaining work on the
-// node is the reference bump (0x474d30); nothing here reads a node method, and GetAnim is answered by the
-// double at the bottom of this file. The node is therefore writable storage big enough for the reference
-// counter the bump touches, and it is built on first use rather than in a static initializer.
-alignas(16) unsigned char g_fakeNode[64];
+// level (0x474e44 falls through to the null dereference) and then increments the node's reference counter: with
+// trackEvents false its remaining work on the node is that bump (0x474d30). The bump is not a plain store -- the
+// count belongs to glitch::IReferenceCounted, a VIRTUAL base of ISceneNode, so the compiler reads the vbase offset
+// from the node's vtable (as the original does through the vtable at vptr-12) before it can touch the count. A
+// stand-in that is not a real node therefore cannot serve: at 0x474e44+30 the generated code does `mov (%rdx),%r9;
+// mov -0x18(%r9),%rax` and a buffer without a scene-node vtable faults on the first load. The node is a real
+// RootSceneNode, exactly as the game builds one (game-world/src/g1-game-world-VisualObject-0654b6-2.cpp passes
+// `new AnimController(m_node, false)` with its loaded scene node), over the zeroed database block the same class's
+// own test uses (game-world/tests/g1-game-world-RootSceneNode-e402f1-1_test.cpp). It is built on first use.
+alignas(16) unsigned char g_databaseBlock[64] = {};
+RootSceneNode& TestRootNode() {
+    static RootSceneNode node(*reinterpret_cast<const glitch::collada::CColladaDatabase*>(g_databaseBlock));
+    return node;
+}
 
 AnimController* ControllerForTest() {
-    static AnimController* controller = new AnimController(reinterpret_cast<RootSceneNode*>(g_fakeNode), false);
+    static AnimController* controller = new AnimController(&TestRootNode(), false);
     return controller;
 }
 
@@ -103,11 +104,11 @@ AnimController* ControllerForTest() {
 
 // The visual every AnimatedFX in this test gets: a real VisualObject shape with a live controller and node.
 // The batch builds one with operator new in Load (0x49296c); the checks here do not run Load, so the
-// constructor stands in. m_node is typed RootSceneNode* in VisualObject; nothing here ever treats it as one
-// (AnimatedFX only forwards it to the animator), so the ISceneNode test node stands in through a cast.
+// constructor stands in. m_node is the real RootSceneNode the controller above holds, as the game's own
+// VisualObject constructor does (`new AnimController(m_node, false)`); nothing in this test treats it as one.
 VisualObject::VisualObject(GameObject*, const std::string&, const std::string&) {
     m_animController = ControllerForTest();
-    m_node = reinterpret_cast<RootSceneNode*>(&g_node);
+    m_node = &TestRootNode();
 }
 
 void VisualObject::SetScaling(const Point3D<float>&) {}

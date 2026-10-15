@@ -122,7 +122,9 @@ struct PSManager {};
 void PSRandom_RandVec(float* out, PSDrawFn draw, PSRandom* source);
 void PSManager_dtor(void* self);
 PSManager& PSManager_getInstance();
-std::uint32_t IParticleContext_hashString(const char* text);
+// IParticleContext_hashString was retired: 0x63b44c is the canonical member
+// glitch::ps::IParticleContext<GNPSParticle>::hashString (ps/IParticleSystem.hpp + src/ps/IParticleContext.cpp),
+// and the copy here folded with the wrong constant. Checked by tests/ps_particle_context_test.cpp.
 std::size_t CGlitchNewParticleSystemSceneNode_getParticleCount(const void* self);
 void GNPSParticle_copy(float* dst, const float* src);
 void GNPSParticle_assign(float* dst, const float* src);

@@ -70,7 +70,8 @@ using E_TEXTURE_LAYOUT = int32_t;
 class IVideoDriver;                    // video_driver.hpp
 class CNullDriver;                     // null_driver.hpp
 class C2DDriver;                       // c2d_driver.hpp
-class CBatchDriver;
+class CBatchDriver;                    // batch_driver.hpp; that header is pulled in by null_driver.hpp, not here,
+                                       // because the class derives from CNullDriver
 class CDriverBinding;
 class ITexture;                        // texture.hpp
 class IBuffer;                         // buffer.hpp

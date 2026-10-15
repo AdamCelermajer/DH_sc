@@ -2,6 +2,8 @@
 // models, GNPS particle helpers. Partial rows are stubs (see the ledger notes).
 #include "glitch-scene-collada-gui/recon/slice_18.hpp"
 
+#include "glitch-scene-collada-gui/ps/IParticleSystem.hpp"
+
 #include <cmath>
 #include <cstring>
 
@@ -258,16 +260,14 @@ PSManager& PSManager_getInstance() {
 }
 
 // 0x63b44c _ZN6glitch2ps16IParticleContextINS0_12GNPSParticleEE10hashStringEPKc
-//   IParticleContext::hashString. Boost hash_combine style over the bytes:
-// seed ^= c + 0x9E3779B9 + (seed << 6) + (seed >> 2).
-std::uint32_t IParticleContext_hashString(const char* text) {
-    std::uint32_t seed = 0;
-    for (const char* c = text; *c != '\0'; ++c) {
-        std::int32_t ch = static_cast<std::int32_t>(*c);
-        seed ^= static_cast<std::uint32_t>(ch) + 0x9E3779B9u + (seed << 6) + (seed >> 2);
-    }
-    return seed;
-}
+//   Retired from this slice: the symbol is defined by the canonical member
+//   glitch::ps::IParticleContext<GNPSParticle>::hashString (include/glitch-scene-collada-gui/ps/IParticleSystem.hpp,
+//   instantiated in src/ps/IParticleContext.cpp). The copy that used to stand here folded with 0x9E3779B9 and did
+//   not sign-extend the byte; the listing (disassembly of 0x63b44c/0x64d0bc: `MOV R3, #0x9E3779B9`, `LDRSB R1,
+//   [R2],#1`) shows the step is `h ^= (int8_t)c - 1640531527 + (h << 6) + (h >> 2)`, so the old copy returned the
+//   wrong values for every input except the empty string. The free-function declaration is gone from slice_18.hpp;
+//   tests/ps_particle_context_test.cpp checks the canonical member instead.
+
 
 // 0x637b48 _ZNK6glitch7collada33CGlitchNewParticleSystemSceneNode16getParticleCountEv
 //   CGlitchNewParticleSystemSceneNode::getParticleCount (partial: element count (end-begin)/156 is

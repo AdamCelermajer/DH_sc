@@ -38,13 +38,17 @@ const float kVertices[24 * 5] = {
 
 }  // namespace
 
-// 0x6cf564 _ZN6glitch5scene16CSkyBoxSceneNodeC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS1_8ITextureEEES9_S9_S9_S9_S9_i (base object)
-// 0x6cebc8 (C1, complete object). The materials come from the sky renderer; their textures are clamped and stored in the renderer's
+// 0x6cf564 _ZN6glitch5scene16CSkyBoxSceneNodeC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i (complete object)
+// 0x6cebc8 _ZN6glitch5scene16CSkyBoxSceneNodeC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS2_8ITextureEEESA_SA_SA_SA_SA_i (base object; the same body).
+// (The C1/C2 addresses are the ones in the symbol table: 7140708 = 0x6cf564 is C1, 7138248 = 0x6cebc8 is C2.) The materials come from the sky renderer; their textures are clamped and stored in the renderer's
 // texture parameter, the colour parameter (when the renderer has one) is set to white. The vertex stream table has two streams over
 // one 480-byte buffer (positions at offset 8, texture coordinates at offset 0, stride 20) which the constructor fills with the cube.
-// PARTIAL: the three material parameter writes go through the seam of scene/material_access.hpp, which stores nothing until
-// glitch-video keeps parameter values in CMaterial; CMaterialRendererManager::createMaterialRenderer / createMaterialInstance and
-// CMaterialVertexAttributeMap::allocate(renderer, streams) are declared in glitch-video without bodies.
+// Verified against the listing 0x6cf564: createMaterialRenderer(11) then getMaterialRenderer (the Invalid-entry check is the
+// collection's get), getParameterID(type 2, 0) into +360 and getParameterID(type 6, 0) into the colour id, the six-face loop that
+// takes the face's use before storing it (LDR/ADD #1/STR and the drop after), setWrap then setParameter<ITexture> at index 0 and
+// setParameterCvt<SColor> of 0xFFFFFFFF only when the colour id is not 0xffff (CMP R7,#0xFFFF), CVertexStreams::allocate(1, 0),
+// the two setStream calls (offsets 8 and 0, fields 3/2 and stride 20), field08 = 24, IBuffer::reset(480, new[480], true) and
+// map(4), CMaterialVertexAttributeMap::allocate, the 480 copied bytes, the bind test on flags +12 and usage +17, and updateStates.
 CSkyBoxSceneNode::CSkyBoxSceneNode(video::IVideoDriver* driver, const boost::intrusive_ptr<video::ITexture>& top,
                                    const boost::intrusive_ptr<video::ITexture>& bottom,
                                    const boost::intrusive_ptr<video::ITexture>& left,

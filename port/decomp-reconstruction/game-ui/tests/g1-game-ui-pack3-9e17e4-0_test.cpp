@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "gameswf/gameswf.h"  // gameswf::rect must be complete: the MenuBase stub ctor and dtor destroy m_deadZones
+#include "dh2/Application.hpp"
 #include "dh2/GameSWFUtils.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuConfirm.hpp"
@@ -17,10 +18,23 @@
 #include "dh2/MenuFlash2DCamera.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/global/screen_size.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/null_driver.hpp"
+#include "glitch-video/render_target.hpp"
 
 // Screen size globals. The definitions belong to the owning category; the test sets the values it needs.
 int Width_Screen = 960;
 int Height_Screen = 540;
+
+// The Application singleton. MenuFlash2DCamera::Update reads the screen size from the last render target of
+// Application::m_device->videoDriver inside its limit-clip branch (game-ui/src/g1-game-ui-pack3-9e17e4-0.cpp line 154),
+// so that branch needs a real device chain, not a null m_device -- the null one is the dereference this test crashed
+// on. The storage is the same zero-filled Application block the other game-ui tests use; only m_device is read.
+alignas(Application) unsigned char g_appStorage[sizeof(Application)];
+
+Application& ApplicationGetInstance() {
+    return *reinterpret_cast<Application*>(g_appStorage);
+}
 
 namespace {
 
@@ -287,10 +301,7 @@ std::array<float, 4> GameSWFUtils::GetAbsoluteBoundingRect(gameswf::character*) 
 
 // RenderFX::SetViewport and SetBounds are the two engine calls MenuFlash2DCamera::Update ends with. The library bodies
 // (0x7a9bac and 0x7a9b30) go through m_player->get_root(), and this test builds no gameswf player, so they are recorded
-// here instead. The size Update passes them is read from the last render target of
-// Application::m_device->videoDriver, which this test does not build either, so the recording is the whole check: the
-// clamp arithmetic that needs that size is exercised only by the runs of TestClipClamps whose clamps fire on the clip
-// bound alone (the runs the assertions cover).
+// here instead.
 static int g_viewportCalls = 0;
 static int g_boundsCalls = 0;
 
@@ -301,9 +312,23 @@ void RenderFX::SetBounds(int, int, int, int, gameswf::scale_mode) {
     ++g_boundsCalls;
 }
 
+// The device chain Application::m_device->videoDriver->m_renderTargets.back() the clamp read needs, built for real:
+// glitch::IDevice (its port constructor only copies the parameters) and a glitch::video::CNullDriver, whose constructor
+// pushes its screen framebuffer on the render-target stack. That framebuffer is 0 x 0 in the port (null_driver.hpp),
+// which is the size the assertions were written against: the left and top clamps fire on the clip bounds alone, and
+// the width/height-dependent right and bottom clamps must not fire.
+static void BuildApplicationDevice() {
+    static glitch::SCreationParameters parameters{};
+    static glitch::IDevice device(parameters);
+    static glitch::video::CNullDriver driver(&device);
+    device.videoDriver = &driver;
+    ApplicationGetInstance().m_device = &device;
+}
+
 // ----- Driver -----
 
 int main() {
+    BuildApplicationDevice();
     TestConstructorRegisters();
     TestGetInstance();
     TestShowHide();

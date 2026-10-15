@@ -75,7 +75,7 @@ elf_address,symbol,status,source_file,notes
 0x57a59c,_ZN6glitch5scene10CBatchMeshD1Ev,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,CBatchMesh dtor: owner buffer members beyond +0x08 unmapped; vptr store unmapped
 0x57a620,_ZN6glitch5scene10CBatchMeshD2Ev,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,alias of 0x57a59c; dtor members beyond +0x08 unmapped
 0x57a688,_ZN6glitch5scene10CBatchMesh6SBatchD2Ev,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,alias of 0x57a368; SBatch dtor release path unmapped
-0x57a6d4,_ZNK6glitch5scene10CBatchMesh17updateBoundingBoxEv,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,updateBoundingBox: SSegment bounding box layout and CVertexStreams unmapped
+0x57a6d4,_ZNK6glitch5scene10CBatchMesh17updateBoundingBoxEv,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,"superseded by the ledger.csv row: CVertexStreams::computeBoundingBox (0x5a0ec0) is no longer missing; the remaining blockers are the unmapped SSegment bytes and the +0x68 stored-box half"
 0x57aae4,_ZN6glitch5scene10CBatchMesh20updateSegmentContentEPvPKNS0_11CMeshBufferEjbRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS7_INS8_19CVertexAttributeMapEEEPKNS8_12IVideoDriverE,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,updateSegmentContent: CVertexStreams and CPrimitiveStream layouts unmapped
 0x57b174,_ZN6glitch5scene10CBatchMesh30initStaticSegmentBoundingBoxesEv,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,initStaticSegmentBoundingBoxes: segment bounding box layout unmapped
 0x57b3d8,_ZN6glitch5scene10CBatchMesh8SSegment4loadEPNS_2io9IReadFileEb,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,SSegment::load: IReadFile vtable and SSegment layout unmapped

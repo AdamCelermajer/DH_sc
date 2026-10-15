@@ -6,6 +6,8 @@
 
 #include "dh2/AnimatorBlender.hpp"
 #include "dh2/BlendedAnimSetController.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 
 // Engine assert level (core-platform). AnimController's constructor reads it only on the null-node path.
 int gAssertLevel = 0;
@@ -36,9 +38,15 @@ int main() {
         }
     };
 
-    // The controller never dereferences its node in this batch, so a stack address stands in for the RootSceneNode.
-    static int fakeNodeStorage = 0;
-    RootSceneNode* node = reinterpret_cast<RootSceneNode*>(&fakeNodeStorage);
+    // The base AnimController constructor takes a reference on the node, and the count lives in
+    // glitch::IReferenceCounted, a VIRTUAL base of ISceneNode: the generated code reads the vbase offset out of the
+    // node's vtable (`mov (%rdx),%r9; mov -0x18(%r9),%rax` at AnimController::AnimController+27..+30, the original's
+    // read through the vtable at vptr-12) before it touches the count, so a stack address cannot stand in for it.
+    // The node is a real RootSceneNode over the zeroed database block RootSceneNode's own test uses
+    // (game-world/tests/g1-game-world-RootSceneNode-e402f1-1_test.cpp). It is built once, on first use.
+    alignas(16) static unsigned char databaseBlock[64] = {};
+    static RootSceneNode nodeStorage(*reinterpret_cast<const glitch::collada::CColladaDatabase*>(databaseBlock));
+    RootSceneNode* node = &nodeStorage;
 
     {
         BlendedAnimSetController controller(node, 7);

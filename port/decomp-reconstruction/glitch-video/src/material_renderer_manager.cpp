@@ -2,6 +2,7 @@
 
 #include <cstring>
 
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"  // 0x5d8b28 loads DefaultEffects.bdae and calls constructEffect
 #include "glitch-video/material.hpp"
 #include "glitch-video/deps/os_logging.hpp"
 #include "glitch-video/material_renderer_manager_layout.hpp"
@@ -22,6 +23,38 @@ void detail::materialrenderermanager::SProperties::onRemove(void* owner, uint16_
 }
 
 namespace {
+// The E_MATERIAL_TYPE name table createMaterialRenderer walks. The original reaches it through
+// glitch::video::getStringsInternal(E_MATERIAL_TYPE*) (0x5df898, three instructions: LDR R0,=table - 0x5DF8A4;
+// ADD R0,PC,R0; BX LR), which returns the address of its function-local static table at 0x957400. The 17 words
+// there are 0x8e13a0, 0x8e13b8, 0x8e13d8, 0x8e1400, 0x8e1420, 0x8e0b10, 0x8e1448, 0x8e1460, 0x8e1480,
+// 0x8e14b8, 0x8e14e8, 0x8e1520, 0x8e1538, 0x8e1550, 0x8e1578, 0x8e1598, 0x8e15c0 followed by a null word;
+// each pointer was read with get_bytes and holds the string of that index. Index 5 is 0x8e0b10, the exact
+// literal "**** TODO ****" the decompile compares against, which is why that type has no effect.
+// Port deviation: glitch-video's E_* enum types are int32_t aliases (video_types.hpp) and E_MATERIAL_TYPE is
+// only a forward-declared enum (material_renderer_manager.hpp), so the getStringsInternal overloads cannot be
+// told apart and the accessor cannot be declared (its own row 0x5df898 stays skipped). The identical table is
+// written here file-locally, the same treatment light.cpp gives E_LIGHT_TYPE and ISceneNode.cpp gives
+// AutomaticCullingNames.
+constexpr const char* const kMaterialTypeNames[materialrenderermanager_layout::kMaterialTypeCount] = {
+    "Unlit Non Textured",                                       // 0
+    "Unlit Non Textured Blend",                                 // 1
+    "Unlit Non Textured Blend Material Color",                  // 2
+    "Unlit Non Textured No Depth",                              // 3
+    "Unlit Non Textured Blend No Depth",                        // 4
+    "**** TODO ****",                                           // 5: no effect in DefaultEffects.bdae
+    "Unlit Textured Blend",                                     // 6
+    "Unlit Textured Blend No Depth",                            // 7
+    "Unlit Textured Additive Blend No Depth No Culling",        // 8
+    "Unlit Textured Blend Texture Alpha No Culling",            // 9
+    "Unlit Textured Blend Texture Alpha No Culling No Depth",   // 10
+    "Unlit Textured No Depth",                                  // 11
+    "Unlit Cube Map No Depth",                                  // 12
+    "Unlit Textured Blend Color Filter",                        // 13
+    "Unlit Multi Textured Blend",                               // 14
+    "Unlit Two Texture Lerp No Matrices",                       // 15
+    "Force Commit Texture",                                     // 16
+};
+
 // The SEntry the two lookups share: the entry at the id, or the collection's shared Invalid entry when the id
 // is past the end (get(id), 0x5d7d40 / the inline copy). The value of the Invalid entry is null, so reading it
 // is the same observable result as the original's "null for an id past the end". A null pointer is never
@@ -30,6 +63,16 @@ template <class Manager>
 auto* rendererEntry(Manager& manager, uint16_t id) {
     auto* entry = manager.get(id);
     return (entry != nullptr && entry->value) ? entry : nullptr;
+}
+
+// The renderer a just-created id maps to, or null. The original reaches it as *(entries + 8 * id) and does not
+// range check it, because the only caller passes an id constructEffect returned for a renderer it just put in
+// this collection; the port reads the entry with the collection's range-checked get(id) and drops the write for
+// an id past the end, where the original would read past the vector (see the note in createMaterialRenderer).
+template <class Manager>
+CMaterialRenderer* rendererAt(Manager& manager, uint16_t id) {
+    auto* entry = rendererEntry(manager, id);
+    return entry != nullptr ? entry->value.get() : nullptr;
 }
 }  // namespace
 
@@ -44,6 +87,70 @@ boost::intrusive_ptr<CMaterialRenderer> CMaterialRendererManager::getMaterialRen
         return boost::intrusive_ptr<CMaterialRenderer>();
     }
     return entry->value;
+}
+
+// 0x5d8b28 _ZN6glitch5video24CMaterialRendererManager22createMaterialRendererENS0_15E_MATERIAL_TYPEE
+// Written against the listing (0x5d8b28, 70 instructions) and Hex-Rays. The id of the type is the table entry at
+// +0x2c + 2*type: ADD R8,#0x14 (the original's addend 20 is the table's byte offset 0x2c divided by 2, because
+// the LDRH below uses a scale of 4), ADD R3,R0,R8,LSL#1; LDRH R6,[R3,#4]. 0xffff means "no renderer yet" and
+// the cached id is returned as-is otherwise (loc_5D8B54: MOV R0,R6; POP). On the miss path:
+//   * the database is a stack CColladaDatabase over "DefaultEffects.bdae" and the static DefaultFactory
+//     (LDR R1,=(aDefaulteffects-0x5D8B78); LDR R2,=DefaultFactory; BL 0x60f25c).
+//   * the 17 types are walked in index order with the driver table cursor R5 starting at this (ADD R5,#2 per
+//     step, so [R5,#0x2C] is this+0x2c+2*i) and the bound CMP R4,#0x11.
+//   * a type is skipped when its table slot is already taken (LDRH R3,[R5,#0x2C]; CMP R3,R6; BNE next) or when
+//     its name is the TODO literal (getStringsInternal(0) 0x5df898, LDR [R0,R4,LSL#2], LC_API_STRCMP_0 against
+//     "**** TODO ****" and BEQ next on equality).
+//   * the rest go through CColladaDatabase::constructEffect(driver, name, 0) (the const overload 0x61b10c,
+//     called with the database in R1, the driver read from the manager at +0x28, the name at index R4 and a
+//     null root), the returned renderer's parameter count (LDRH R3,[R3,#0xC] = CMaterialRenderer +0x0e) becomes
+//     the cached id in the table slot, and the type index is written into the renderer record at node +0x20
+//     (LDR R2,[R7,#0x18]; ADD R3,R2,R3,LSL#3; LDR R3,[R3,#4]; STRH R4,[R3,#0x20]) -- that is SProperties +0x08
+//     through the entry's name-map node iterator, the spelling getProperties(id) gives.
+//   * the loop ends at 17, the database is dropped (BL 0x619474) and the table slot is read back.
+// Deviations, all named: (a) the type index past the last of the 17 table entries is refused with 0xffff before
+// the read, where the original loads 2 bytes from manager + 2*type + 0x30 past the table (SProperties::onRemove
+// 0x5d7c44 bounds exactly the same table with CMP #0x10, and the word past it is the driver pointer at +0x28 with
+// the two name-map header words +0x50/+0x54 following, none of which is a renderer id); (b) the port's collection
+// is std::vector-backed, so the original's unchecked entries + 8*id read is done with the collection's
+// range-checked get(id) and rendererAt drops the store for an id past the end (the original would read past the
+// vector there; only a renderer just created by constructEffect can be returned, so no in-range id is refused);
+// (c) the TODO comparison is std::strcmp on the identical file-local table (see above), since the E_MATERIAL_TYPE
+// accessor of the original cannot be declared; (d) the local database is dropped through collada::dropDatabase
+// (the port's spelling of ~CColladaDatabase 0x619474, which is a helper there because the class is a pointer
+// pair); (e) the null-renderer and null-iterator guards are the port's and stand in for the original's unchecked
+// dereferences, which cannot be reached with an in-range id.
+uint16_t CMaterialRendererManager::createMaterialRenderer(E_MATERIAL_TYPE type) {
+    // The original's index: the E_MATERIAL_TYPE is a plain int word in the argument (CMP R3,#0x10 bounds it).
+    const uint16_t typeIndex = static_cast<uint16_t>(type);
+    if (typeIndex >= materialrenderermanager_layout::kMaterialTypeCount) {
+        return materialrenderermanager_layout::kNoId;
+    }
+    const uint16_t cachedId = m_materialTypeIds[typeIndex];
+    if (cachedId != materialrenderermanager_layout::kNoId) {
+        return cachedId;
+    }
+    collada::CColladaDatabase effects("DefaultEffects.bdae", &collada::CColladaDatabase::DefaultFactory);
+    for (uint16_t index = 0; index < materialrenderermanager_layout::kMaterialTypeCount; ++index) {
+        if (m_materialTypeIds[index] != materialrenderermanager_layout::kNoId) continue;
+        if (std::strcmp(kMaterialTypeNames[index], "**** TODO ****") == 0) continue;
+        boost::intrusive_ptr<CMaterialRenderer> renderer(
+            effects.constructEffect(m_driver, kMaterialTypeNames[index], nullptr));
+        if (!renderer) continue;
+        // The word constructEffect's renderer carries at +0x0c: LDRH R3,[R3,#0xC] takes its low half, i.e. the
+        // renderer's id, which is what the original caches in the table (the +0x0e name in the port's header
+        // covers the same word).
+        const uint16_t id = renderer->m_parameterCount;
+        m_materialTypeIds[index] = id;
+        // SProperties +0x08 of the renderer record, the layout the note in material_renderer_manager_layout.hpp
+        // fixes. The original dereferences the node iterator without a check; the port skips the store when the
+        // entry was not created (getProperties would index past the vector).
+        if (detail::materialrenderermanager::SProperties* props = getProperties(id)) {
+            props->materialType = index;
+        }
+    }
+    collada::dropDatabase(effects);
+    return m_materialTypeIds[typeIndex];
 }
 
 // 0x5d7c5c _ZN6glitch5video24CMaterialRendererManager14SCreationStateC1EPc

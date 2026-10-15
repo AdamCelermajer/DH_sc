@@ -16,6 +16,7 @@
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/EventManager.hpp"
 #include "dh2/Gamepad.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/MenuManager.hpp"
@@ -67,6 +68,7 @@ alignas(16) unsigned char g_playerInfoStorage[sizeof(PlayerInfo)];
 alignas(16) unsigned char g_characterStorage[sizeof(Character)];
 alignas(16) unsigned char g_padStorage[sizeof(Gamepad)];
 alignas(16) unsigned char g_inputStorage[sizeof(InputManager)];
+alignas(16) unsigned char g_eventManagerStorage[sizeof(EventManager)];
 // The two singleton instances, under the linker names the source uses (Singleton<PFWorld>::s_inst, DebugSwitches::s_inst).
 alignas(16) unsigned char g_pfWorldStorage[sizeof(PFWorld)] __asm__("_ZN9SingletonI7PFWorldE6s_instE");
 alignas(16) unsigned char g_debugSwitchesStorage[sizeof(DebugSwitches)] __asm__("_ZN13DebugSwitches6s_instE");
@@ -115,7 +117,12 @@ std::uint32_t FloatBits(float f) {
 
 Gamepad* Pad() { return reinterpret_cast<Gamepad*>(g_padStorage); }
 
-void ResetPad() { std::memset(g_padStorage, 0, sizeof g_padStorage); }
+// The pad the stubs hand back is a REAL Gamepad: Update reads m_buttons[] of it (value, minimum, maximum and the
+// previous_* fields), so zeroed storage is not a Gamepad. Gamepad's constructor sets every channel (ResetChannel)
+// and needs nothing else, so it is placement-constructed here; ResetChannel's values are its initial state.
+void ResetPad() {
+    new (g_padStorage) Gamepad();
+}
 
 // Sets one channel to pressed or released. Value and previous are 1 or 0, the bounds are -1 and 1 (press level 0.5), and
 // the latch is the flag given. Each control reads either the value or the previous fields, so both are set.
@@ -160,6 +167,15 @@ void Setup() {
     app.m_objectManager = reinterpret_cast<ObjectManager*>(g_objectManagerStorage);
     app.m_playerManager = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
     new (&app.m_objectManager->m_roomZones) std::list<std::list<GameObject*>*>();
+    // Application::m_eventManager (+0x14) is what RaiseOnChange goes through (the batch source reads
+    // `ApplicationGetInstance().m_eventManager` in RaiseGamepadEvent and Update calls it for the four action
+    // controls; the global dword_99F740). It must be a REAL EventManager: Raise walks m_receivers, a std::map, so a
+    // null or zeroed one faults inside the map walk (gdb: EventManager::Raise+48 reads the tree node, the manager
+    // pointer was null). Update attaches no receiver, so Raise finds no entry for the event id and returns. Setup
+    // runs many times, so the manager is built once and the same object is reused for every case.
+    if (app.m_eventManager == nullptr) {
+        app.m_eventManager = new (g_eventManagerStorage) EventManager();
+    }
     app.m_menuManager->unk_50 = FloatBits(100.0f);
     app.m_menuManager->unk_54 = FloatBits(50.0f);
     reinterpret_cast<PlayerInfo*>(g_playerInfoStorage)->unk_668 = 42;

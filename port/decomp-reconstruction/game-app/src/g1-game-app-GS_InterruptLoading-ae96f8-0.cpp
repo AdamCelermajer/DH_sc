@@ -185,15 +185,31 @@ void GS_InterruptLoading::Update(StateMachine*, double) {
     // CTextureManager::getTexture(char const*, char const*) (0x5ed210, texture_manager.hpp:108) reached through
     // driver +0xe0. glitch-video/c2d_driver.hpp declares C2DDriver with none of those slots, so the same one-line
     // retype in glitch-core-io/os/device.hpp that unblocks Draw unblocks this row too.
-    // The guard is `firstframe < 1`: the function counts firstframe up and then runs the driver and texture work for
-    // every frame from 1 on (asm: `CMP R3,#1` 0x4179dc, `BLE loc_417A44` 0x4179e8, `BNE loc_417A5C` 0x417a44, and the
-    // fall-through at loc_417A48 `ADD R3,R3,#1; STR R3,[R2]` before the return at loc_417a58). The earlier
-    // `firstframe > 1 || firstframe != 1` always returned and nothing was ever counted, so Draw's body (which runs only
-    // when `firstframe > 1`, 0x41747c/0x417484) was unreachable.
-    if (firstframe < 1) {
+    // The first-frame guard is the two-branch ladder the ARM listing and the Hex-Rays body both show. The flags from
+    // `CMP R3,#1` (0x4179dc) are still live at loc_417A44, six instructions later, because none of the instructions
+    // between them sets flags:
+    //   * `BLE loc_417A44` (0x4179e8) takes firstframe <= 1. There loc_417A44 is a second test of the same flags,
+    //     `BEQ loc_417A5C`:
+    //       - firstframe < 1: not equal, so it falls through to loc_417A48 `ADD R3,R3,#1; STR R3,[R2]`
+    //         (0x417a4c/0x417a54) and returns. The two warm-up frames only count: they load no texture and never call
+    //         the driver, which is why this arm is written as an early return before the work below.
+    //       - firstframe == 1: equal, so `BEQ` enters the work at loc_417A5C - the driver resetTexturesLoader (+0x44)
+    //         and ReinitDriver (+0x38) of the `firstframe != 1` block of the Hex-Rays body, and the splash-texture
+    //         load that follows it.
+    //   * firstframe > 1: `BLE` falls through, so the work at loc_417A5C runs and returns from its own tail
+    //     (0x417a18 / 0x417a3c) with NO increment - this arm never reaches loc_417A48.
+    // Hex-Rays prints the same shape: `if (firstframe <= 1) { if (firstframe != 1) { LABEL_6: firstframe = v3 + 1;
+    // return; } <the ==1 work> }`. The texture-diagnostic tail it prints as `v3 = firstframe; goto LABEL_6` is the
+    // tail of the multi-stage `firstframe == 1` work (it also ends in StateMachine::PopState), not a path the
+    // firstframe > 1 arm takes; only the first two frames count. firstframe is therefore a latch that goes
+    // 0 -> 1 -> 2 over the first two frames and then stays 2, which is the state Draw tests for (`CMP R2,#1` /
+    // `BLE loc_417658` at 0x41747c/0x417484 - Draw shows a spinner frame only while firstframe > 1). The earlier
+    // `firstframe > 1 || firstframe != 1` always returned and never counted, and the subsequent `firstframe < 1`
+    // returned before incrementing, so the latch could never leave 0 and Draw stayed unreachable.
+    if (firstframe <= 1) {
+        ++firstframe;  // loc_417A48, the warm-up path: no texture and no driver work on these two frames
         return;
     }
-    ++firstframe;  // loc_417A48
 }
 
 // 0x417fe8 GS_InterruptLoading::Dtor(StateMachine const*)

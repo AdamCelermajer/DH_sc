@@ -102,10 +102,20 @@ public:
     // already match. Returns the word at state +0x10 when it copies, 0 otherwise (as the original does).
     int32_t setRenderState(uint8_t technique, uint8_t pass, const detail::renderpass::SRenderState& state);
 
-    // 0x5cef08 / 0x5d308c: the parameter id for a type (or name) at the given occurrence. Declared only.
+    // 0x5cef08: the id of the first parameter entry at or after `index` whose type word (+0x04) is `type`;
+    // 0xffff when none. Defined in src/tb_video-glitch_video_CMaterialRenderer-0.cpp. E_SHADER_PARAMETER_TYPE
+    // is the int32_t alias of video_types.hpp, so the port emits ...getParameterIDEit where the original's
+    // symbol is ...getParameterIDENS0_23E_SHADER_PARAMETER_TYPEEt (armdiff's param_drift, as for
+    // IShader::getParameterID 0x5e48e4).
     uint16_t getParameterID(E_SHADER_PARAMETER_TYPE type, uint16_t index) const;
+    // 0x5d308c: the same over the parameter NAMES (the 0x5d308c listing compares the entry's +0x00 word at
+    // +4 with the interned name's text). Declared only, and it cannot be written yet: the entry's +0x00 name
+    // word is modelled as SParameterEntry::unknown00[4] (material_parameters.hpp), which is 4 bytes on the
+    // host, and material_parameters_part_1b.hpp:42 pins the record to 16 bytes, so the shared-string pointer
+    // has no field to live in.
     uint16_t getParameterID(const char* name, uint16_t index) const;
-    // 0x5d4714: technique id for a name; 255 when absent. Declared only (needs SSharedStringHeapEntry::SData::get).
+    // 0x5d4714: technique id for a name; 255 when absent. Defined in
+    // src/tb_video-glitch_video_CMaterialRenderer-0.cpp.
     uint8_t getTechniqueID(const char* name) const;
     // 0x5d3f14: number of lights a pass of a technique binds. Declared only.
     uint32_t getBindedLightCount(uint8_t technique, uint8_t pass) const;

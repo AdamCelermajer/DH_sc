@@ -180,12 +180,28 @@ void Check(bool ok, const char* what) {
 }  // namespace
 
 int main() {
-    // The constructor is not run: the engine base builds its track state from a live CAnimationSet (a null set is
-    // dereferenced there), and this test has none. The checks call the batch functions on zero-filled storage, through
-    // qualified names, so no vtable is used.
-    alignas(AnimatorSynchronizedSet) unsigned char setStorage[sizeof(AnimatorSynchronizedSet)];
-    std::memset(setStorage, 0, sizeof setStorage);
-    AnimatorSynchronizedSet& set = *reinterpret_cast<AnimatorSynchronizedSet*>(setStorage);
+    // A real AnimatorSynchronizedSet over an empty CAnimationSet, built the way AnimatorSynchronizedSet's constructor
+    // builds one. Zero-filled storage cannot stand in: the constructor's base calls init, which selects animation 0,
+    // and CSceneNodeAnimatorSet::setCurrentAnimation reads the database's clip library
+    // (animationSet->getDatabase(0)->getAnimationClipLibrary(), 0x60e334 dereferences the record with no test), so
+    // the set needs one database entry. The entry is the empty COLLADA file the model's own tests use: a CResFile
+    // whose data->tables is a zeroed holder, which makes the clip library empty, the animation range 0 and the event
+    // track null. animateNode then runs the base animateNode (0x65f270 tail-calls applyAnimationValues, 0x65f418)
+    // over an empty set, whose first statement reads animationSet->animatedTrackCount (0 here) and returns. The
+    // checks call the batch functions on this object; no vtable slot is called through it except the base animateNode
+    // the batch body names directly.
+    glitch::collada::CResFile record;
+    glitch::collada::SColladaFileData fileData;
+    glitch::collada::SDatabaseTables emptyTables;
+    fileData.tables = &emptyTables;
+    record.data = &fileData;
+
+    glitch::collada::CColladaDatabase database;
+    database.record = &record;
+
+    boost::intrusive_ptr<glitch::collada::CAnimationSet> animationSet(new glitch::collada::CAnimationSet());
+    animationSet->databases.push_back(database);
+    AnimatorSynchronizedSet set(animationSet, std::vector<std::string>());
 
     Check(set.AnimatorSynchronizedSet::getType() == 15, "getType returns 15");
 

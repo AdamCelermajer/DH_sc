@@ -25,15 +25,9 @@ float halfDraw(PSRandom*) {
 }  // namespace
 
 int main() {
-    // hashString: empty string is zero; one character follows the hash_combine step.
-    if (IParticleContext_hashString("") != 0u) {
-        std::printf("hashString empty failed\n");
-        return 1;
-    }
-    if (IParticleContext_hashString("a") != 97u + 0x9E3779B9u) {
-        std::printf("hashString 'a' failed\n");
-        return 1;
-    }
+    // hashString (0x63b44c) moved to the canonical glitch::ps::IParticleContext<GNPSParticle>::hashString; it is
+    // checked in tests/ps_particle_context_test.cpp, together with the 0xff sign-extension and the sequential
+    // fold the old slice-local copy got wrong.
 
     // PSManager::getInstance returns the same object every time.
     if (&PSManager_getInstance() != &PSManager_getInstance()) {

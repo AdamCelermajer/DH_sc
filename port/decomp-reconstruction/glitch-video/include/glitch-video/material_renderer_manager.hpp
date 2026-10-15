@@ -157,8 +157,13 @@ public:
     // non-null name the name is logged at level 3 and false is returned.
     bool isCreatingTechnique(const char* name) const;
 
-    // 0x5d8b28: the id of the renderer of a built-in type (created on first use). Still declared only (needs the
-    // video-side getStringsInternal, constructEffect and the DefaultEffects database); another worker owns its row.
+    // 0x5d8b28: the id of the renderer of a built-in type (created on first use). Reconstructed in
+    // material_renderer_manager.cpp: the +0x2c table entry is returned when it is set, otherwise
+    // "DefaultEffects.bdae" is loaded through a collada::CColladaDatabase and every type whose name is not
+    // "**** TODO ****" and whose slot is free is built with CColladaDatabase::constructEffect (0x61b10c), its
+    // id cached in the table and the type index stored in the renderer's record (SProperties +0x08). The name
+    // table of the original's video::getStringsInternal(E_MATERIAL_TYPE*) 0x5df898 is file-local there, because
+    // that accessor cannot be declared while E_MATERIAL_TYPE is only forward-declared.
     uint16_t createMaterialRenderer(E_MATERIAL_TYPE type);
     // 0x5d9af0 _ZN6glitch5video24CMaterialRendererManager22createMaterialInstanceENS0_15E_MATERIAL_TYPEE
     // Creates the renderer of that type when there is none yet, then allocates one material on it with a null

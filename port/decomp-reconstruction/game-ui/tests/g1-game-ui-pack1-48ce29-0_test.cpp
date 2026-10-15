@@ -1,8 +1,10 @@
 // Checks the bodies of batch g1-game-ui-pack1-48ce29-0 that run without the engine: the AnchorForward constructor, Reset and the
 // disabled Update; the Dragable constructor (the dead zone, the zone copy, the identity matrix and the debug switch read); the
 // Dragable destructor; SendEvent's forwarding to DragAndDrop::SendEvent; and the reachable part of ResetPosition.
-// AnchorForward::Update with the object enabled, the OnEvent drag path and the Dragable constructor's gameswf character reads are
-// not run here: they need a live GameObject, Character or gameswf character.
+// The Dragable constructor and ResetPosition do need a gameswf character, and they get one: a real gameswf::character built by
+// its own constructor with a vtable of test doubles (FakeCharacter below), so the get_bound and is calls and the direct
+// m_local_matrix / m_depth reads behave. AnchorForward::Update with the object enabled and the OnEvent drag path are still not
+// run here: they need a live GameObject, Character or gameswf character.
 //
 // The engine is not linked. This file defines the link stubs for what the batch references: the AnchorBase functions, the object
 // handle, the Character state machine queries, GameObject::GetLookAtVec, Point3D's angle and normalize, the Application accessor,
@@ -10,8 +12,10 @@
 // that a test path reaches count or record their calls, or return fixed values. The others abort, and no test path reaches them.
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <memory>
 #include <string>
 
@@ -28,6 +32,7 @@
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/Point3D.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
+#include "gameswf/gameswf_character.h"
 
 // Globals read by the batch.
 int gAssertLevel = 0;
@@ -59,9 +64,60 @@ bool NearlyEqual(float a, float b) {
     return std::fabs(a - b) < 1e-4f;
 }
 
+// The dummy gameswf::character the Dragable bodies are built around. It is a real character built by its own
+// constructor, so every member offset is the host's: the library's Dragable constructor reads the local matrix
+// pointer and m_depth directly and calls get_bound through the vtable, and only the host layout makes those reads
+// land on the right members. The vtable word is then pointed at a table of test doubles, because the real
+// character::get_bound reads the movie definition and the real is() reads the class list, neither of which this test
+// builds. The object is never destroyed: no destructor slot is installed.
+alignas(gameswf::character) unsigned char g_characterStorage[sizeof(gameswf::character)];
+void* g_characterVtable[96] = {};
+gameswf::character* g_character = nullptr;
+
+// get_bound double: the assertions below expect the bounds rectangle to stay zero ("the bounds query is not declared").
+void FakeGetBound(gameswf::character* self, gameswf::rect* bound) {
+    (void)self;
+    *bound = gameswf::rect();
+}
+
+// is() double: nothing this test builds is a sprite.
+bool FakeIs(const gameswf::character* self, int classId) {
+    (void)self;
+    (void)classId;
+    return false;
+}
+
+// The vtable slot of a virtual member function: under the Itanium C++ ABI the first word of the pointer is the
+// vtable byte offset plus one.
+template <typename Fn>
+std::size_t VtableSlotOf(Fn fn) {
+    struct Raw {
+        std::ptrdiff_t ptr;
+        std::ptrdiff_t adj;
+    };
+    static_assert(sizeof(Fn) == sizeof(Raw), "member-function pointer is not two words");
+    Raw raw;
+    std::memcpy(&raw, &fn, sizeof raw);
+    return static_cast<std::size_t>(raw.ptr - 1) / sizeof(void*);
+}
+
+void InstallFakeCharacter() {
+    if (g_character != nullptr) {
+        return;
+    }
+    g_character = new (g_characterStorage) gameswf::character(nullptr, nullptr, 1, 0);
+    using GetBoundFn = void (gameswf::character::*)(gameswf::rect*);
+    using IsFn = bool (gameswf::character::*)(int) const;
+    const GetBoundFn getBound = &gameswf::character::get_bound;
+    const IsFn isFn = &gameswf::character::is;
+    g_characterVtable[VtableSlotOf(getBound)] = reinterpret_cast<void*>(&FakeGetBound);
+    g_characterVtable[VtableSlotOf(isFn)] = reinterpret_cast<void*>(&FakeIs);
+    *reinterpret_cast<void***>(g_character) = g_characterVtable;
+}
+
 gameswf::character* FakeCharacter() {
-    static char storage[16];
-    return reinterpret_cast<gameswf::character*>(storage);
+    InstallFakeCharacter();
+    return g_character;
 }
 
 MenuFX* FakeMenu() {
@@ -208,7 +264,11 @@ void TestDragableResetPositionRegisters() {
     Dragable d(FakeMenu(), FakeCharacter(), nullptr);
     g_registerCalls = 0;
     const int result = d.ResetPosition();
-    Check(g_registerCalls == 1, "ResetPosition registers the character's display callback");
+    // The listing (0x412984) calls RenderFX::RegisterDisplayCallback twice: 0x4129d4 with the character's parent
+    // (`check_proxy(character + 60)` then `[character + 64]`, the weak parent's cached pointer) and 0x4129e4 with the
+    // character itself. The parent is null for a character built with no parent, but the call is still made, so the
+    // count is two and not one.
+    Check(g_registerCalls == 2, "ResetPosition registers the parent's and the character's display callback");
     Check(result == 0, "ResetPosition returns 0 in place of the missing results");
 }
 

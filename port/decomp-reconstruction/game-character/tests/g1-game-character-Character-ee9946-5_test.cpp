@@ -22,8 +22,12 @@ std::map<int, unsigned int> Character::s_cachedCharOIDs;
 
 // AddCharOIDToCache walks Arrays::CharacterTable's rows for the new id's model word: its `members` array is a real
 // block here (w7_arrays27.cpp leaves it null until a table file has been read), so the body under test can run.
-std::int32_t g_charTableRows[1000];
-std::uint8_t* Arrays::CharacterTable::members = reinterpret_cast<std::uint8_t*>(g_charTableRows);
+// The block must hold CharacterTable::size whole rows: AddCharOIDToCache indexes the array as a typed
+// Structs::CharacterProperties* (the port indexes rows through the typed pointer, not through the 900-byte ARM32
+// listing stride), so one row is sizeof(Structs::CharacterProperties) here. A 1000-element int32 block made the
+// rows[999] read in TestCachedOIDRejectsOutOfTableIds run off the end of the allocation.
+std::uint8_t g_charTableRows[1000 * sizeof(Structs::CharacterProperties)];
+std::uint8_t* Arrays::CharacterTable::members = g_charTableRows;
 std::uint32_t Arrays::CharacterTable::size = 1000;
 
 namespace {

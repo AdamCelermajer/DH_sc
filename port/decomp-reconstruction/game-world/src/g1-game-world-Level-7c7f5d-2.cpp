@@ -439,9 +439,11 @@ void Level::Draw() const {
 // print of each branch (LevelConfig, high-performance +0x2a0..+0x2a8, otherwise +0x2ac..+0x2b4), BatchNodeCompiler::Compile
 // with the branch's quantize flag, and the two tail calls are reconstructed. Each branch writes the two batch buffer sizes
 // into the scene manager's batch driver (CSceneManager +0x1c) as (unsigned)((double)size * 1.02): the vertex size at +0x22c
-// and the index size at +0x230 (asm 0x3f2c0c and 0x3f2cd4). glitch::video::CBatchDriver is only forward-declared in the tree
-// (it belongs to glitch-video, whose ledger rows 0x5a2e20 / 0x589f40 / 0x58a920 are still partial), so those two stores
-// cannot be typed here and are left out (SEAM). The tail: when the compiler's m_compiled (+0x00) is set, the scene manager's
+// and the index size at +0x230 (asm 0x3f2c0c and 0x3f2cd4). glitch::video::CBatchDriver now exists in the tree
+// (glitch-video/include/glitch-video/batch_driver.hpp, object 0x264 bytes, constructor 0x5a2e20, destructor 0x5a3d50) and
+// names those two words defaultVertexBufferCapacityBytes (+0x22C) and defaultIndexBufferCapacityBytes (+0x230), so the two
+// stores can be typed here as soon as this file includes that header and CSceneManager.hpp; they are still left out (SEAM).
+// The tail: when the compiler's m_compiled (+0x00) is set, the scene manager's
 // root node (CSceneManager +0x04) takes the batch node through addChild (its vtable +0x5c = ISceneNode::addChild, listing
 // slot 0x48 + 0x0c), and then the batch node itself takes setVisible(true) (its vtable +0x48 = ISceneNode::setVisible).
 // Deviation: the setVisible call is guarded for null because Compile is still partial in this tree (its GAP A and GAP D

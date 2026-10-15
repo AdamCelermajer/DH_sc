@@ -272,11 +272,14 @@ void TestDistributeXPEntry() {
     // The first parameter of the port's static DistributeXP is the killer and the second is the killed character (the
     // original's first and second arguments). A null killed character returns before the probes; with a killed
     // character and no local players the body runs the three entry probes and then the three tail probes of the
-    // m_numCharacters <= 0 branch (listing 0x3bf8b0/0x3bf8f0/0x3bf91c, 0x3bfd20/0x3bfd58/0x3bfd9c).
+    // m_numCharacters <= 0 branch. Counted in the listing of 0x3bf828: the entry block probes at 0x3bf8b0
+    // ("isTracingXPDistributionCst"), 0x3bf8f0 and 0x3bf91c, then, because `v4 = *(dword_99F76C + 1732)`
+    // (m_numCharacters) is <= 0, the LABEL_30 probe at 0x3bfd20 and the two LABEL_31 probes at 0x3bfd58 and
+    // 0x3bfd9c -- six DebugSwitches::GetSwitch calls, and no loop probe (the loop needs v4 > 0). The earlier
+    // 1..3 bound described only the entry block.
     ResetState();
     Self()->DistributeXP(nullptr, Self());
-    Check(g_probes.size() >= 1 && g_probes.size() <= 3,
-          "DistributeXP with no local players probes only the entry path (measured: see the note)");
+    Check(g_probes.size() == 6, "DistributeXP with no local players probes the three entry and three tail points");
     Check(!g_probes.empty() && g_probes[0] == "isTracingXPDistributionCst", "DistributeXP's first probe is the Cst switch");
 }
 

@@ -78,6 +78,32 @@ so a row screened by "is there a body?" looks unfinished when it is not.
 `tools/trackb/verify_rows.py` screens a ledger for exactly this: rows whose address appears ONLY under
 `src/recon/`, or whose body is empty or returns null. It found 17 false-positive `reconstructed` rows.
 
+### `CMatchingGLLive`'s 360-byte member record - structure recovered, ready to finish
+
+`net-session-online`'s remaining bulk (147 partial rows) is the four GLLive blocks, and the worker on it
+named the 360-byte record as the highest-leverage next step. Recovered from
+`CMatchingGLLive::ReadPacketData` (0x81e4d0):
+
+- The class holds **three different member-record arrays**, not one:
+  * `this + 0x18` - `NetStructArray<CMatching::MemberInfoNetStruct, 32>`, the BASE's array (stride 432).
+  * `this + 0x3A00` (14848) - `CMatchingGLLive::MemberInfoNetStruct[32]`, **stride 360 (0x168)**. This is
+    the one still modelled as a stand-in.
+  * (plus, on the Local side, `CMatchingLocal::MemberInfoNetStruct[32]` at +0x4BE0 stride 408 and
+    `ServerBackupNetStruct[32]` at +0x7EE8 stride 344.)
+- `ReadPacketData` walks the GLLive array as
+  `v12 = *(int(**)(char*, _BOOL4, NetBitStream*, int, int))(*(_DWORD*)v11 + 24)` then
+  `v12((char*)this + 360*v10 + 14848, isNotSelf, a4, a2, 0)` - so **the record's vtable slot +0x18 is its
+  load/unserialize entry**, and it returns non-null when the record belongs to this member, which triggers
+  `CMatchingGLLive::SyncMemberId` (0x81e25c). The loop is a do/while over all 32 elements, and `isNotSelf`
+  is `CMatching::GetMemberIndex(this, *((_DWORD*)this + 3472)) != v10`.
+- Before the loop it calls `CRoomAttributes::Unserialize` on whatever the class's own vtable slot +164
+  returns. The class vtable is `_ZTV15CMatchingGLLive` at 0x992828.
+
+To finish the record: dump `_ZTVN15CMatchingGLLive19MemberInfoNetStructE`, find its constructor, and
+recover the `DeclareMember` order exactly as was done for the other two records. The earlier worker's
+warning applies: this record holds a `NetStructString<16>` where the base's holds a `NetStructUInt<8>`,
+which is why it is 360 rather than 432.
+
 ### The rest
 
 1. **`CBatchSceneNode`'s visible-segment list** (`glitch-scene-collada-gui`) - CORRECTED and partly FIXED; a narrower

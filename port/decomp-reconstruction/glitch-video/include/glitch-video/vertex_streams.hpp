@@ -154,8 +154,12 @@ public:
     // homogeneity with flag. The buffer assignment takes a use of the new buffer and drops the old one.
     void setStream(SVertexStream* stream, const SVertexStreamData& data, bool flag);
 
-    // 0x5a0ec0: bounding box of vertices [first, last) of the position stream, dequantized with the trailing block
-    // when the quantized flag is set. Not reconstructed (declared; needs glitch::core::computeBoundingBox).
+    // 0x5a0ec0: bounding box of vertices [first, last) of the position stream (entry 0). The stream's buffer is
+    // read-mapped as IBuffer::map 0x5a1adc (access 0) and the elements start at base + entry.offset +
+    // entry.field0e * first, with entry.field0a as the value type and entry.field0c as the component count; the
+    // mapping is released before the quantized branch. With the quantized flag (bit 2 of m_flags) set, both
+    // corners become box * scale + offset, with the trailing block's first vector as the scale and the second as
+    // the offset. Body in src/vertex_streams.cpp.
     void computeBoundingBox(uint32_t first, uint32_t last, core::aabbox3d<float>& box) const;
     // 0x5a0fe4: copies the streams of the common attributes of this table, the source and `mask` (SVertexStream::copyStream
     // per stream; streams that differ in value type or component count are dropped from the result). Returns the
@@ -209,6 +213,8 @@ public:
     // Bits of m_flags, named by what the code tests them for.
     static constexpr uint16_t kFlagHomogeneous = 0x0001;  // bit 0, every bound stream shares one buffer
     static constexpr uint16_t kFlagHasData = 0x0002;      // bit 1, set on entry, cleared on a data-less buffer
+    static constexpr uint16_t kFlagQuantized = 0x0004;    // bit 2, the trailing block dequantizes the positions
+                                                          // (computeBoundingBox 0x5a0ec0: box * scale + offset)
 
     mutable uint32_t m_refCount = 0;       // +0x00, intrusive reference count (0 after the constructor; allocate adds the first use)
     std::vector<SVertexStream> m_streams;  // entries at +0x14 (16 bytes each), end pointer at +0x10 in the original

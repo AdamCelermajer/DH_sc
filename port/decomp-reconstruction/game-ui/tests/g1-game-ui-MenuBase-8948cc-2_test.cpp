@@ -26,6 +26,7 @@
 #include "dh2/StateMachine.hpp"
 #include "dh2/global/menu_base_fs.hpp"
 #include "pydata-accessors/member_names.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 // ---- Fake singletons. Only the fields the handlers read are set. ----
 namespace {
@@ -40,6 +41,11 @@ alignas(MenuFX) unsigned char g_fxStorage[sizeof(MenuFX)];
 alignas(MenuBase) unsigned char g_menuObjStorage[sizeof(MenuBase)];
 alignas(MenuBase) unsigned char g_argMenuStorage[sizeof(MenuBase)];
 unsigned char g_menuTag;
+// The sound manager the sound handlers call. VoxSoundManager::s_instance (0x9a238c) is null until CreateInstance
+// runs, and FS_PlayMusic / FS_PlaySoundFX call PlayMusic / PlayMenu through it on every found cue
+// (game-ui/src/g1-game-ui-MenuBase-8948cc-2.cpp), so a null instance is a null dereference, not a short circuit.
+// This test builds no sound system, so the instance is this tag and the two calls are stubbed below.
+unsigned char g_voxTag;
 // The fake MultiMenuManager: its first word points at this table. Slot 14 (+0x38) is PopMenu(bool).
 void* g_fakeMmmVtable[16] = {};
 int g_mmmPopCalls = 0;
@@ -150,6 +156,10 @@ void RenderFX::SetMember(const char* target, const char* name, const char* value
 void RenderFX::SetMember(const char* target, const char* name, gameswf::as_value&) {
     g_published.push_back(std::string(target) + "." + name + "=<as_value>");
 }
+// Link-only: FS_SetFocus now runs against argMenu, whose RenderFX is test storage with no gameswf movie behind it, so
+// the focus call is recorded instead of walking the movie (the library body looks the name up with RenderFX::Find).
+void RenderFX::SetFocus(const char*, int) {
+}
 void gameswf::as_value::set_bool(bool) {}
 void gameswf::as_value::drop_refs() {}
 
@@ -188,8 +198,16 @@ void GSFlashMenu::Draw(const StateMachine*) {}
 
 GSFlashMenu GSFlashMenu::s_inst;
 
-// Link-only: the sound name table that FS_PlayMusic and FS_PlaySoundFX search.
+// Link-only: the sound name table that FS_PlayMusic and FS_PlaySoundFX search, and the manager calls they make once
+// the cue is found. The calls are recorded nowhere: the assertions cover the name search and the result.
 pydata::NameTable Arrays::Sounds::m_memberNames;
+VoxSoundManager* VoxSoundManager::s_instance = nullptr;
+
+void VoxSoundManager::PlayMusic(int, bool, bool, int) {
+}
+int VoxSoundManager::PlayMenu(int, bool, int, int) {
+    return 1;
+}
 
 namespace {
 char g_soundMusic[] = "music_town";
@@ -218,6 +236,9 @@ int main() {
     reinterpret_cast<SavegameManager*>(g_saveStorage)->m_lastSlot = -1;
     Arrays::Sounds::m_memberNames.names = g_soundNames;
     Arrays::Sounds::m_memberNames.size = 2;
+    // The sound instance the two sound handlers call through (their bodies are stubbed above, so it is only used as
+    // the implicit argument).
+    VoxSoundManager::s_instance = reinterpret_cast<VoxSoundManager*>(&g_voxTag);
 
     // FS_IsSaveSlotValid: null args and slot -1 never reach SG_Exists; any other slot does. The slot publishes its
     // result on the menu it is given (argMenu), which is the object the original receives as its third argument.
@@ -228,16 +249,19 @@ int main() {
     Check(MenuBase::FS_IsSaveSlotValid("", "2", argMenu), "FS_IsSaveSlotValid(2) returns true");
     Check(g_existsCalls.size() == 1 && g_existsCalls[0] == 2, "FS_IsSaveSlotValid(2) calls SG_Exists(2) once");
 
-    // Handlers whose return value is fixed on every path.
-    Check(MenuBase::FS_GetSaveSlot("", "", nullptr), "FS_GetSaveSlot returns true");
-    Check(MenuBase::FS_ReturnToGame("", "", nullptr), "FS_ReturnToGame returns true");
-    Check(MenuBase::FS_SetFocus("", "btn", nullptr), "FS_SetFocus returns true");
+    // Handlers whose return value is fixed on every path. FS_GetSaveSlot, FS_SetFocus, FS_GetPlayerClass,
+    // FS_GetCharProperty and FS_GetPlayerClass2 publish on the menu's RenderFX, so they receive the argument menu the
+    // engine passes (a null menu made them write through null); FS_ReturnToGame reads only the save slot here, which is
+    // -1, so it takes no call on the menu.
+    Check(MenuBase::FS_GetSaveSlot("", "", argMenu), "FS_GetSaveSlot returns true");
+    Check(MenuBase::FS_ReturnToGame("", "", argMenu), "FS_ReturnToGame returns true");
+    Check(MenuBase::FS_SetFocus("", "btn", argMenu), "FS_SetFocus returns true");
     g_published.clear();
     Check(MenuBase::FS_GetPlayerClass("", "", fakeMenu), "FS_GetPlayerClass returns true");
     Check(g_published.size() == 1 && g_published[0] == "_root.retval=",
           "FS_GetPlayerClass publishes an empty class name without a character");
     Check(MenuBase::FS_GetCharProperty("", "Strength", fakeMenu), "FS_GetCharProperty returns true");
-    Check(MenuBase::FS_GetPlayerClass2("", "", nullptr), "FS_GetPlayerClass2 returns true");
+    Check(MenuBase::FS_GetPlayerClass2("", "", argMenu), "FS_GetPlayerClass2 returns true");
     Check(!MenuBase::FS_GetHasOffHandWeapon("", "", nullptr), "FS_GetHasOffHandWeapon returns false without a character");
     Check(!MenuBase::FS_GetHasMainHandWeapon("", "", nullptr), "FS_GetHasMainHandWeapon returns false without a character");
     Check(!MenuBase::FS_GetHasTwoHandWeapon("", "", nullptr), "FS_GetHasTwoHandWeapon returns false without a character");

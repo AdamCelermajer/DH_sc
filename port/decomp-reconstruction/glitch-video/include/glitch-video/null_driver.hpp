@@ -205,3 +205,8 @@ public:
 CNullDriver* createNullDriver(IDevice* device);
 
 }  // namespace glitch::video
+
+// glitch::video::CBatchDriver is defined at the end of this header, after CNullDriver is complete (it derives from it
+// and takes an IVideoDriver*). batch_driver.hpp includes this header back, which is safe here: by this point
+// null_driver.hpp is at its last line, so the re-include is a no-op and CBatchDriver sees the finished class.
+#include "glitch-video/batch_driver.hpp"

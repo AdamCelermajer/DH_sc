@@ -148,10 +148,10 @@ void TestDtorWithoutJavaSounds() {
 }
 
 void TestUpdateFrameCounter() {
-    // NOTE: the two "counts up" checks below fail. The batch body counts firstframe up (see its Update note and the
-    // ARM listing 0x4179c8: fall-through at loc_417A48 `ADD R3,R3,#1; STR R3,[R2]`), but this test cannot observe it -
-    // the firstframe it reads is the private copy its own translation unit got from including the batch source, while
-    // the Update/Draw the linker keeps are a second copy. See the batch report.
+    // firstframe is the first-frame latch the batch body shares with Draw. The ARM ladder counts it up over the two
+    // warm-up frames (firstframe <= 1 takes loc_417A48's `ADD R3,R3,#1; STR R3,[R2]`) and the work path taken at
+    // firstframe == 1 joins that same increment, so the latch settles at 2 and holds - the state Draw gates on
+    // (0x41747c/0x417484: the spinner frame is drawn only while firstframe > 1). The checks below pin that sequence.
     ResetState();
     GS_InterruptLoading splash;
 
