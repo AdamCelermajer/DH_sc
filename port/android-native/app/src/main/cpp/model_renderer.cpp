@@ -44436,9 +44436,17 @@ bool source_npc_kill_ready(ObjectActor& victim,std::uintptr_t killer){
  // PlayerKillCredit only supports the source's sole aggro recipient case.
  // before_hit either keeps this existing sole relation or adds the Player to
  // an empty outgoing list; an unrelated recipient cannot become eligible.
- if((has_relation&&victim.aggro.out_count!=1)||
+ // Character::Kill 0x3a5b18 walks every outgoing entry; the Player credit kernel
+ // accepts exactly one Player entry beside unmodeled recipients (an NPC/Faery that
+ // also engaged the victim). Without this a victim with a second aggro entry fell
+ // back to complete_player_enemy_kill: XP but no Dead state/animation/despawn.
+ // Only a non-Player killer keeps the sole-recipient gate.
+ const bool player_killer=killer==prince_character.identity();
+ const auto killer_entries=std::count_if(victim.aggro.outgoing.begin(),live_outgoing_end,
+     [&](const auto& entry){return entry.character==killer;});
+ if((has_relation&&(player_killer?killer_entries!=1:victim.aggro.out_count!=1))||
     (has_relation&&!has_reciprocal)||
-    (!has_relation&&victim.aggro.out_count!=0))return false;
+    (!has_relation&&!player_killer&&victim.aggro.out_count!=0))return false;
  if(victim.aggro.out_count>outgoing.capacity||killer_aggro.in_count>incoming.capacity||
     (!has_relation&&(victim.aggro.out_count>=outgoing.capacity||
                      killer_aggro.in_count>=incoming.capacity)))return false;
@@ -44474,8 +44482,12 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
  // The source Kill credit path requires the same live sole outgoing aggro
  // recipient. before_hit has already recorded that edge when this preflight
  // is reached, but this check itself is read-only.
- if((request.killer_object&&(victim.aggro.out_count!=1||victim.aggro.outgoing.size()<1||
-    victim.aggro.outgoing.front().character!=request.killer_object))||
+ if((request.killer_object&&(request.killer_object==prince_character.identity()?
+      std::count_if(victim.aggro.outgoing.begin(),victim.aggro.outgoing.begin()+
+        std::min<std::size_t>(victim.aggro.out_count,victim.aggro.outgoing.size()),
+        [&](const auto& entry){return entry.character==request.killer_object;})!=1:
+      (victim.aggro.out_count!=1||victim.aggro.outgoing.size()<1||
+       victim.aggro.outgoing.front().character!=request.killer_object)))||
     !prince_combat.inventory||!prince_combat.savegame||
     !actor_xp_design_settings.bytes){
   error="Source NPC Kill has no sole aggro recipient or XP owners";return false;
