@@ -6,9 +6,12 @@
 
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/Application.hpp"                // ApplicationGetInstance
-#include "dh2/Character.hpp"                  // Character::IsDead, Kill
+#include "dh2/Character.hpp"                  // Character::IsDead, Kill, CreateNPC, F_ApplyResult
 #include "dh2/GSLevel.hpp"                    // GSLevel::s_level (the +0x130 load step)
-#include "dh2/Level.hpp"                      // Level::m_loadStep, m_isLoaded
+#include "dh2/ItemInstance.hpp"               // ItemInstance::ItemInstance, AddPower
+#include "dh2/ItemInventory.hpp"              // ItemInventory, CalcLootItemValue
+#include "dh2/ItemObject.hpp"                 // ItemObject::DropInventory, DropLootTable
+#include "dh2/Level.hpp"                      // Level::m_loadStep, m_isLoaded, m_levelListIndex
 #include "dh2/ObjectManager.hpp"              // ObjectManager::unk_100, GetObjectHandleByNetworkId
 #include "dh2/Point3D.hpp"                    // Point3D<float>, PlayerManager::InitialSetup
 #include "dh2/PlayerInfo.hpp"                 // PlayerInfo::unk_660 (the local Character)
