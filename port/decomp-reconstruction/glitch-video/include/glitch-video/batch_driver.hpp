@@ -156,12 +156,15 @@ public:
     uint32_t defaultVertexBufferCapacityBytes = 0;  // +0x22C
     uint32_t defaultIndexBufferCapacityBytes = 0;   // +0x230
 
-    scene::ISegmentCompileCallback* segmentCompileCallback = nullptr;  // +0x234, called by flush (vtable +0x08)
+scene::IEndOfBatchCallback* endOfBatchCallback = nullptr;  // +0x234, the callback flush invokes (vtable +0x08).
+    // PROVEN by compileInternal 0x58facc: its local v14 is passed to SDefaultEndOfBatchCallback::finalize(v14)
+    // at 0x58fc00, and v14 is what is stored to the driver at +0x234 (564) at 0x58fb64. The previous name here
+    // (segmentCompileCallback) was wrong; +0x238 is the segment-compile one.
     // +0x238. Everything proven about this word and about +0x234 is: the constructor clears both, compileInternal
     // stores the stack SDefaultSegmentCompileCallback pointer at +0x234 (STR SP,[R0,#0x234], asm 0x58fb64) and the
     // stack SDefaultEndOfBatchCallback pointer at the next word (asm 0x58fb70), and flush calls the +0x234 word. The
     // exact pairing of interface to offset is therefore the best reading of the two stores, not a proven fact.
-    scene::IEndOfBatchCallback* endOfBatchCallback = nullptr;  // +0x238
+scene::ISegmentCompileCallback* segmentCompileCallback = nullptr;  // +0x238, via 0x58fb70 (v20, vptr off_9762A0)
 
     // +0x23C, +0x240, +0x244 and +0x248 are declared NOWHERE on purpose. The constructor clears +0x23C, +0x240 and
     // +0x248 and the destructor drops +0x248 and +0x240, so they are real storage, but no listing read assigns them a
