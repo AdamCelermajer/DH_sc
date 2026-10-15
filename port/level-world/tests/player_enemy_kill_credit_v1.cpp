@@ -136,16 +136,54 @@ void normal_kill_path() {
 }
 
 void aggro_scope_and_state_machine_fallback() {
+    {
+        // Player plus one non-Player entry: the Player is credited exactly once
+        // and the non-Player entry is reported as unmodeled.
+        Fixture mixed;
+        mixed.aggro = {mixed.extra.data(), 2, 2};
+        credit::Runtime runtime(mixed.bindings());
+        credit::Result result{};
+        std::string error = "unchanged";
+        check(runtime.after_loot_attempt(VICTIM, PLAYER, 0, &result, error) == credit::Status::complete,
+              "Player plus non-Player aggro episode did not complete");
+        check(mixed.service_calls == 1 && mixed.trace == std::vector<unsigned>{1, 2} &&
+              result.event4_completed == 1 && result.unmodeled_recipients == 1 &&
+              result.property23_added == 1 && result.property24_added == 1 &&
+              mixed.properties.saved[23] == 3 * 256 && mixed.properties.saved[24] == 8 * 256 &&
+              mixed.current_target == 0 && error.empty(),
+              "multi-recipient aggro did not credit the Player exactly once");
+    }
+    {
+        // Two Player entries is not one credit episode and must stay ineligible.
+        Fixture duplicate;
+        std::array<data::AggroEntry, 2> twice{{duplicate.entry, duplicate.entry}};
+        duplicate.aggro = {twice.data(), 2, 2};
+        credit::Runtime runtime(duplicate.bindings());
+        credit::Result untouched{};
+        untouched.event4_completed = 91;
+        std::string error = "unchanged";
+        check(runtime.after_loot_attempt(VICTIM, PLAYER, 0, &untouched, error) == credit::Status::ineligible_aggro,
+              "duplicate Player aggro entries were not rejected");
+        check(untouched.event4_completed == 91 && error == "unchanged" && duplicate.service_calls == 0 &&
+              duplicate.current_target == VICTIM && duplicate.properties.saved[23] == 2 * 256,
+              "duplicate Player aggro produced effects");
+    }
+    {
+        // A table without the Player (non-Player entry only) is not Player credit.
+        Fixture absent;
+        absent.aggro = {&absent.extra[1], 1, 1};
+        credit::Runtime runtime(absent.bindings());
+        credit::Result untouched{};
+        untouched.event4_completed = 92;
+        std::string error = "unchanged";
+        check(runtime.after_loot_attempt(VICTIM, PLAYER, 0, &untouched, error) == credit::Status::ineligible_aggro,
+              "aggro table without the Player was not rejected");
+        check(untouched.event4_completed == 92 && error == "unchanged" && absent.service_calls == 0,
+              "Player-less aggro produced effects");
+    }
+
     Fixture f;
-    f.aggro = {f.extra.data(), 2, 2};
-    credit::Runtime excluded(f.bindings());
-    credit::Result untouched{};
-    untouched.event4_completed = 91;
     std::string error = "unchanged";
-    check(excluded.after_loot_attempt(VICTIM, PLAYER, 0, &untouched, error) == credit::Status::ineligible_aggro,
-          "multi-recipient outgoing aggro was treated as supported Player-only credit");
-    check(untouched.event4_completed == 91 && error == "unchanged" && f.service_calls == 0,
-          "unsupported aggro episode produced effects");
 
     f.aggro = {&f.entry, 1, 1};
     f.trace.clear();

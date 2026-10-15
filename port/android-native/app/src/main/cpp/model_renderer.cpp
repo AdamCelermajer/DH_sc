@@ -1,4 +1,5 @@
 #include "model_renderer.hpp"
+#include "player_skill_effect_audit_v1.hpp"
 #include "../../../../../level-world/char_ai_anim_step_skill_v1.hpp"
 #include "../../../../../../port/level-world/level_frame_v1.hpp"
 #include "../../../../../../port/level-world/item_manager_pool_v1.hpp"
@@ -668,6 +669,7 @@ struct PlayerToNpcKillContextV1 {
 // Player-killer kills never see it, so their refusals stay unchanged.
 bool native_script_null_killer_kill=false;
 bool source_npc_kill_ready(ObjectActor&,std::uintptr_t);
+bool native_monster_dot_tick(ObjectActor&,std::string&);
 bool native_source_crypt_monster_candidate(ObjectActor&);
 int player_to_npc_before_dead_v1(void*,dh2::data::CombatResult&);
 bool native_group_ctrl_kill_player(ObjectActor&,std::uintptr_t,bool,std::string&);
@@ -11407,10 +11409,18 @@ struct BodyOwner {
  std::uintptr_t projectile_identity=0;
  unsigned additions=0,results=0;
  explicit BodyOwner(bool player=false):is_player(player){services.context=this;services.test=test;services.contact=collision;services.velocity=velocity;}
+ // A QuestMoveInZone sensor is a level-owned POZone body, not a BodyOwner: its
+ // context is the sensor Owner, so reading it as BodyOwner is invalid. Its
+ // PhysicalObject contact is the shape filter Box2D passes as other_filter.
+ static bool is_move_in_zone_sensor_context(void* peer){
+  if(!peer||!active_crypt_room_runtime)return false;
+  for(const auto& zone:active_crypt_room_runtime->source_move_in_zones)
+   if(zone&&static_cast<void*>(&zone->sensor)==peer)return true;
+  return false;
+ }
  static unsigned test(void* a,void* b,const dh2::physical::Filter*,
                       const dh2::physical::Filter* other_filter){
   auto& owner=*static_cast<BodyOwner*>(a);
-  auto& peer=*static_cast<BodyOwner*>(b);
   if(!other_filter)return 0;
   if(owner.character_identity.body_token||owner.character_identity.game_object_identity){
    if(!owner.native||!owner.native->body)return 0;
@@ -11424,6 +11434,13 @@ struct BodyOwner {
        state,other_filter->category);
    if(gate!=dh2::character_physical_collision_gate_v1::Decision::delegate_generic)return 0;
   }
+  if(is_move_in_zone_sensor_context(b)){
+   const decltype(owner.contact) zone{1,0,1,1,
+       {std::int16_t(other_filter->group),std::uint16_t(other_filter->category),
+        std::uint16_t(other_filter->mask),1},{}};
+   return dh2_nav_can_collide(&owner.contact,&zone)==1;
+  }
+  auto& peer=*static_cast<BodyOwner*>(b);
   return dh2_nav_can_collide(&owner.contact,&peer.contact)==1;
  }
  static void collision(void*,dh2::physical::ContactEvent,void*,const float*,unsigned);
@@ -13001,6 +13018,18 @@ dh2::character::TimerRouting SpawnOwner::timer_route(void* raw,
      owner->character.owner()!=owner->actor->identity)return Route::failed;
   return dispatch_native_monster_script_timer(*owner,timer.id)?
       Route::delivered:Route::failed;
+ }
+ if(event==0x34) {
+  // CharAI event 0x34 (DoT_Tick) -> CharProperties::HandleDots (0x3df3f0): every
+  // positive DoT word 126..131 is one F_DotAttack + F_ApplyResult on the
+  // Character itself. Skill DoTs (Mage Cyclone) deal all their damage here.
+  if(!owner||&owner->character!=&coordinator||!owner->actor||
+     owner->character.owner()!=owner->actor->identity)return Route::failed;
+  std::string dot_error;
+  if(!native_monster_dot_tick(*owner->actor,dot_error))
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Monster DoT tick failed | %s | %s",owner->actor->name.c_str(),dot_error.c_str());
+  return Route::delivered;
  }
  if(event!=0x36)return Route::machine;
  if(!owner||&owner->character!=&coordinator||!owner->buffs)return Route::failed;
@@ -25049,7 +25078,13 @@ dh2::character::factory::SpawnResult request_loaded_character(const std::string&
        factory::source_character_registered_states,actor.identity,actor.source_handle});
    if(actor.name==exact_name)selected=&owner;
   }
-  if(selected&&(selected->actor->combat_state.dead||selected->actor->aggro.out_count||selected->actor->aggro.in_count)) {
+  // Character::Deserialize returns a Dead/Despawn/Limbus row to Limbus and leaves the
+  // Character dead (a Limbus Character is dead); Script_SpawnCharacter -> SM_SetSpawnState ->
+  // _SetState(Spawn) then leaves Limbus through CSLimbus::OnBlur -> Character::Revive. A
+  // Character restored by a checkpoint revive is therefore spawnable although its dead byte
+  // is set; only a dead Character outside Limbus (or one with aggro) stays a no-op.
+  if(selected&&((selected->actor->combat_state.dead&&selected->character.state.current!=0)||
+                selected->actor->aggro.out_count||selected->actor->aggro.in_count)) {
    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
        "SpawnCharacter refused | %s | dead %u | aggro out %u in %u | state %d",
        exact_name.c_str(),unsigned(selected->actor->combat_state.dead),
@@ -25086,7 +25121,11 @@ int native_level_script_object_lookup(void*,const char* exact_name,
     source.phase!=dh2::source_level_owner_v1::Phase::active||
     source.source_level_state!=38)return -1;
  auto& manager=source_level_owner.object_manager();
- const bool local_player=std::strcmp(exact_name,"LocalPlayer")==0;
+ // ObjectManager::GetObjectByName (0x34aca0): "Player" and "LocalPlayer" both
+ // resolve to PlayerManager::GetLocalPlayer's Character (Swamp_Intro's
+ // PlayActorAnim rows address the Prince as 'Player').
+ const bool local_player=std::strcmp(exact_name,"LocalPlayer")==0||
+     std::strcmp(exact_name,"Player")==0;
  const auto* object=local_player?
      manager.find_by_identity(source.player_character):
      manager.find_by_name(exact_name,-1);
@@ -25520,7 +25559,8 @@ int native_level_script_play_actor_animation(void*,
       resolved.identity);
   // "LocalPlayer" is ObjectManager's alias for the local Player Character, whose
   // own row carries the profile's object name.
-  const bool local_player_alias=std::strcmp(request->actor_name,"LocalPlayer")==0&&
+  const bool local_player_alias=(std::strcmp(request->actor_name,"LocalPlayer")==0||
+      std::strcmp(request->actor_name,"Player")==0)&&
       resolved.identity==active.player_character;
   if(!manager_object||manager_object->identity!=resolved.identity||
      manager_object->source_handle!=resolved.source_handle||
@@ -26400,7 +26440,9 @@ int native_level_script_actor_command_impl(void*,
   // create one, so the original boss stays body-less after its intro. This port's
   // movement, Player collision and AIS natives are body-driven, so the Character
   // that just left Limbus receives the body its Spawn path would have given it.
-  if(was_limbus&&!owner.body.body&&owner.config.enabled) {
+  if(!owner.body.body&&owner.config.enabled) {
+   // Also reached when the Character already left Limbus (state 3) by another
+   // path (an AI wake) before the script placed it: it is still body-less.
    owner.create_body();owner.character.state.body_present=1;
   }
   if(!owner.body.body)return (native_script_actor_command_fail_line=__LINE__,-1);
@@ -27257,7 +27299,13 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!actor->spawn_owner||actor->spawn_owner->actor!=actor||
       actor->spawn_owner->character.owner()!=actor->identity)return -1;
    actor->spawn_owner->spawn.respawn_timer_eligible=c.fields[0].value.boolean?1u:0u;
-   return actor->spawn_owner->character.spawn_transition(0)>=0?1:-1;
+   // SM_SetLimbusState runs _SetState(0) from whatever state the machine is in.
+   // A Character the same script has already put through PlayActorAnim sits in
+   // CSAnim (14), which the spawn-family entry refuses; its Coordinator
+   // transition runs CSAnim::OnBlur then CSLimbus::OnFocus instead.
+   auto& machine=actor->spawn_owner->character;
+   const int moved=machine.state.current==14?machine.transition(0):machine.spawn_transition(0);
+   return moved>=0?1:-1;
   }
   case 44: {
    // Script_KillActor::Execute 0x114224: v2Controller::Cmd_Kill(ctrl, nullptr, 0)
@@ -32138,6 +32186,10 @@ struct PlayerSpellCombatContext {
  // Character::F_ApplyResult's GameObject-attacker overload (0x3b01b8): the
  // attacker is a TimerTrap/other GameObject with no Character owners.
  std::uintptr_t go_attacker{};
+ // HandleDots passes the Character as its own killer; Character::Kill then credits
+ // every aggro entry and DistributeXP reaches the Players. The aggro Player is the
+ // port's killer for that continuation (0 = none, null-killer kill).
+ std::uintptr_t go_killer{};
  dh2::data::PropertyView attacker_properties{},defender_properties{};
  std::unordered_map<std::uintptr_t,std::unique_ptr<std::string>> apply_strings;
  CombatAggroBeforeHit aggro{};
@@ -32929,8 +32981,8 @@ int spell_apply_result_invoke(void* raw,
      explicit NullKillerScope(bool on):active(on){if(active)native_script_null_killer_kill=true;}
      ~NullKillerScope(){if(active)native_script_null_killer_kill=false;}
      bool active;
-    } null_killer(go_attack);
-    const std::uintptr_t killer=go_attack?0:request->attacker;
+    } null_killer(go_attack&&!context->go_killer);
+    const std::uintptr_t killer=go_attack?context->go_killer:request->attacker;
     context->kill={defender_actor,killer,false,{}};
     if(!source_npc_kill_ready(*defender_actor,killer)||
        player_to_npc_before_dead_v1(&context->kill,*request->result)!=0||
@@ -32975,12 +33027,23 @@ int spell_apply_result_invoke(void* raw,
  case Operation::combat_text: {
   if(request->subject||request->peer||!request->result)return 1;
   std::string failure;
-  if(defender_actor)
-   return native_sct_apply_combat_v1(context->kill.text,*defender_actor,
+  if(defender_actor) {
+   const int status=native_sct_apply_combat_v1(context->kill.text,*defender_actor,
        *request->result,request->attacker,request->defender,failure);
-  return attacker_actor&&request->defender==prince_character.identity()&&
+   if(status)
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+        "F_ApplyResult combat text (Monster defender) failed | defender %s | status %d | %s",
+        defender_actor->name.c_str(),status,failure.c_str());
+   return status;
+  }
+  const int status=attacker_actor&&request->defender==prince_character.identity()&&
       native_sct_apply_to_player_v1(context->player_text,*attacker_actor,
           *request->result,failure)==0?0:1;
+  if(status)
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "F_ApplyResult combat text (Player defender) failed | attacker %s | %s",
+       attacker_actor?attacker_actor->name.c_str():"?",failure.c_str());
+  return status;
  }
  case Operation::combat_sound:
   if(request->subject||request->peer||!request->result)return 1;
@@ -33400,6 +33463,13 @@ int spell_apply_result(void* raw,std::uintptr_t attacker_id,
     (defender_actor&&context->defender&&context->defender!=defender_actor)) {
   error="F_ApplyResult crossed its canonical Character owners or source mode";return 1;
  }
+ // One SkillCombatRoll/SpellCombatRoll context carries several F_ApplyResult
+ // calls (one per target or dual-wield leg). The generic-started latch only
+ // guards a retry inside the same call; a stale latch from an earlier target
+ // made a later hit on an already dead target throw "cannot retry through the
+ // legacy result edge". Original HitFor (0x3a8bc4) returns at once for a dead
+ // defender, so that hit must reach the legacy edge, not an error.
+ context->generic_apply_started=false;
  auto& attacker_state=attacker_actor?attacker_actor->properties:
      prince_combat.properties;
  auto& defender_state=defender_actor?defender_actor->properties:
@@ -33485,8 +33555,16 @@ int spell_apply_result(void* raw,std::uintptr_t attacker_id,
   // with the actual Character killer. The same NPC provider handles either
   // Player or retained source-NPC killers; never demote an NPC hit to the
   // Player-only edge after the shared result has begun.
-  if(defender_actor&&!source_npc_kill_ready(*defender_actor,attacker_id))
+  if(defender_actor&&!source_npc_kill_ready(*defender_actor,attacker_id)) {
+   static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+   if(audit_on)
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+        "AUDIT lethal hit not kill-ready | defender %s | dead %d | hp %d | amount %d | attacker %llu | one_shot %d | generic_started %d",
+        defender_actor->name.c_str(),int(defender_actor->combat_state.dead),
+        int(defender_actor->properties.resolved[36]),int(result->amount),
+        static_cast<unsigned long long>(attacker_id),int(one_shot),int(context->generic_apply_started));
    use_generic=false;
+  }
   else if(!defender_actor&&defender_id!=prince_character.identity())
    use_generic=false;
  }
@@ -33670,6 +33748,10 @@ int player_spell_combat_native(void* raw,std::uint32_t raw_function,
   auto* output=static_cast<PlayerSkillLuaValue*>(raw_out);
   if(!output||!capacity)return -1;
   output[0]={};output[0].type=3;output[0].number=float(result.amount);*returned=1;
+  // Spell damage rolls count in the same ledger as SkillCombatRoll attacks.
+  auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+  ++ec.attacks;
+  if(result.amount>0)++ec.attack_hits;
  } else if(result.disposition==dh2::character_spell_combat_roll_v1::Disposition::boolean_false) {
   auto* output=static_cast<PlayerSkillLuaValue*>(raw_out);
   if(!output||!capacity)return -1;
@@ -33791,6 +33873,16 @@ int skill_attack(void* raw,std::uintptr_t attacker_id,
      &combat_random,flags|0x08000000u,category,element,0};
  if(dh2_combat_result(result,&request)) {
   error="source _F_CalculateResult rejected F_SkillAttack arguments";return 1;
+ }
+ {
+  static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+  if(audit_on)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT F_SkillAttack | defender %s hp %d dead %d | flags 0x%x | element %d | category %d | outcomes 0x%x | amount %d | dot elem %d dur %d amt %d | props 172=%d 174=%d 175=%d 79=%d 80=%d 97=%d",
+       defender?defender->name.c_str():"Player",int(defender_properties.resolved[36]),defender?int(defender->combat_state.dead):0,
+       unsigned(flags|0x08000000u),int(element),int(category),unsigned(result->outcomes),int(result->amount),
+       int(result->dot_element),int(result->dot_duration),int(result->dot_amount),
+       int(attacker_state.resolved[172]),int(attacker_state.resolved[174]),int(attacker_state.resolved[175]),
+       int(attacker_state.resolved[79]),int(attacker_state.resolved[80]),int(attacker_state.resolved[97]));
  }
  context->defender=defender;
  context->apply_attacker=attacker_id;context->apply_defender=defender_id;
@@ -34320,6 +34412,66 @@ bool native_timer_trap_deal_damage(SourceTimerTrap& trap,std::uintptr_t victim,
      trap.name.c_str(),player?"Player":defender_actor->name.c_str(),
      damager->name.c_str(),result.amount/256.0,hp_before/256.0,
      defender_state.resolved[36]/256.0,dead?1:0,skip_damage?" | gated":"");
+ return true;
+}
+
+// CharProperties::HandleDots (0x3df3f0) for a Monster: the DoT_Tick timer
+// (event 0x34) reads the six DoT words, and each positive one runs F_DotAttack
+// (mask 0x20080000, element word-127) then F_ApplyResult with the Character as
+// both attacker and defender. The HitFor/Cmd_Kill tail reuses the
+// GameObject-attacker edge (as the TimerTrap damage does): no XP or credit goes
+// to the Player, which is the port's null-killer continuation.
+bool native_monster_dot_tick(ObjectActor& actor,std::string& error) {
+ error.clear();
+ if(actor.kind!=1||actor.properties.resolved.size()!=224||actor.combat_state.dead||
+    !actor.spawn_owner||!actor.spawn_owner->runtime_ready||!native_debug||
+    !native_application.identity)return true;
+ static dh2::character_dot_attack::Runtime dot_runtime;
+ const auto id=actor.identity;
+ auto& sheet=actor.properties.resolved;
+ for(std::uint32_t property=126;property<132;++property) {
+  const std::int32_t amount=sheet[property];
+  if(amount<=0||actor.combat_state.dead)continue;
+  const std::int32_t element=std::int32_t(property)-127;
+  dh2::character_dot_attack::CombatContext combat{};
+  const dh2::character_dot_attack::Actor dot_actor{id,sheet.data()};
+  const dh2::character_dot_attack::Storage storage{&dot_actor,1,&combat,
+      &combat_random,&native_debug->globals(),&native_debug->services()};
+  const dh2::character_dot_attack::Arguments arguments{id,id,
+      static_cast<std::uint32_t>(amount),element};
+  dh2::data::CombatResult result{};dh2::character_dot_attack::Result stats{};
+  if(dot_runtime.attack(&storage,&arguments,&result,&stats)!=
+       dh2::character_dot_attack::Status::complete) {
+   error="F_DotAttack failed for "+actor.name;return false;
+  }
+  if(result.amount<=0)continue;
+  PlayerSpellCombatContext context{};
+  context.go_attacker=id;context.apply_attacker=id;context.apply_defender=id;
+  context.defender=&actor;
+  {
+   const auto live_end=actor.aggro.outgoing.begin()+std::min<std::size_t>(
+       actor.aggro.out_count,actor.aggro.outgoing.size());
+   if(std::any_of(actor.aggro.outgoing.begin(),live_end,
+        [&](const dh2::data::AggroEntry& e){return e.character==prince_character.identity();}))
+    context.go_killer=prince_character.identity();
+  }
+  using Operation=dh2::character_apply_result::Operation;
+  dh2::character_apply_result::Reply reply{};
+  const dh2::character_apply_result::Request hit{Operation::hit_for,id,id,0,
+      nullptr,&result,id,id,static_cast<std::uint32_t>(result.amount),0,0,0};
+  const auto hp_before=sheet[36];
+  actor.combat_state.push_death=0;
+  if(spell_apply_result_invoke(&context,&hit,&reply)!=0) {
+   error="Character::HitFor stopped inside the DoT F_ApplyResult for "+actor.name;
+   return false;
+  }
+  static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+  if(audit_on)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "AUDIT Monster DoT tick | %s | property %u element %d | amount %d | HP %.2f -> %.2f | dead %d",
+       actor.name.c_str(),property,element,int(result.amount),hp_before/256.0,
+       sheet[36]/256.0,int(actor.combat_state.dead));
+ }
  return true;
 }
 
@@ -36020,6 +36172,15 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   }else if(dh2_target_search_object_list_at(&state->list,
        &state->source_methods,radius,cone,search_center,&state->services))
    return fail("TargetListSearch canonical ObjectList provider failed");
+  {
+   static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+   if(audit_on)
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+        "AUDIT TargetListSearch | radius %.1f cone %.3f | center %.1f %.1f %.1f | player %.1f %.1f %.1f | filter %d object %d sort %d | monster owner %d | found %u",
+        radius,cone,search_center[0],search_center[1],search_center[2],actor_position[0],actor_position[1],actor_position[2],
+        int(state->character_filter),int(state->object_filter),int(state->sort),state->monster_owner?1:0,
+        unsigned(state->list.count));
+  }
   return 0;
  }
  case Fn::game_object_is_target_list_empty:
@@ -36096,6 +36257,20 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   if(result.disposition==Disposition::attacks) {
    if(result.attack_count>capacity||!out)
     return fail("SkillCombatRoll result buffer cannot hold source attack returns");
+   {
+    auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+    ec.attacks+=result.attack_count;
+    for(std::uint32_t i=0;i<result.attack_count;++i)
+     if(result.attacks[i].amount>0)++ec.attack_hits;
+    static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+    if(audit_on){
+     std::string amounts;
+     for(std::uint32_t i=0;i<result.attack_count;++i)
+      amounts+=" "+std::to_string(result.attacks[i].amount);
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT SkillCombatRoll | skill row %u | attack amounts%s",
+         skill_index,amounts.c_str());
+    }
+   }
    for(std::uint32_t i=0;i<result.attack_count;++i) {
     out[i]={};out[i].type=3;out[i].number=float(result.attacks[i].amount);
    }
@@ -36226,32 +36401,52 @@ int skill_host_object_facts(void*,std::uintptr_t identity,skill_host::ObjectFact
 // VisualFXManager::PlayAnimFXSet. A GameObject receiver takes the attached
 // overload (PlayAnimFX stores the GameObject at AnimatedFX+0x28 and syncs it);
 // an explicit position takes the Point3D overload with no GameObject.
+// DH2_ABIL_AUDIT=1 enables per-call logs for the skill/faery effect audit.
+bool abil_audit_enabled(){
+ static const bool enabled=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+ return enabled;
+}
 int skill_host_play_fx(void*,std::int32_t effect,std::uintptr_t attach,
     const float* position,std::string& error){
  if(!native_fx_owner){error="level VisualFXManager is not bound";return 1;}
  bool matched=false,launched=false;
+ dh2::native_visual_fx_manager_v1::Status status=dh2::native_visual_fx_manager_v1::Status::ok;
+ const char* target="point";
  if(!attach){
   if(!position){error="PlayFX has neither a GameObject nor a position";return 1;}
   const std::array<float,3> point{position[0],position[1],position[2]};
-  return native_fx_owner->PlayAnimFXSet(effect,point,nullptr,matched,launched,error)==
-      dh2::native_visual_fx_manager_v1::Status::ok?0:1;
+  status=native_fx_owner->PlayAnimFXSet(effect,point,nullptr,matched,launched,error);
+ } else {
+  void* character=nullptr;
+  void* object=nullptr;
+  if(attach==prince_character.identity()){
+   if(!native_actor_ready){error="Player is not live";return 1;}
+   sync_prince_search_projection();
+   character=&prince_search_projection.character;
+   target="player";
+  }else{
+   auto* actor=native_char_ai_actor(attach);
+   if(!actor||actor->identity!=attach){error="PlayFX target is not a live GameObject";return 1;}
+   sync_search_projection(*actor);
+   if(actor->kind==1)character=&actor->search_projection.character;
+   else object=&actor->search_projection.object;
+   target="actor";
+  }
+  status=native_fx_owner->PlayAnimFXSetAttached(effect,character?character:object,
+      character,object,matched,launched,error);
  }
- void* character=nullptr;
- void* object=nullptr;
- if(attach==prince_character.identity()){
-  if(!native_actor_ready){error="Player is not live";return 1;}
-  sync_prince_search_projection();
-  character=&prince_search_projection.character;
- }else{
-  auto* actor=native_char_ai_actor(attach);
-  if(!actor||actor->identity!=attach){error="PlayFX target is not a live GameObject";return 1;}
-  sync_search_projection(*actor);
-  if(actor->kind==1)character=&actor->search_projection.character;
-  else object=&actor->search_projection.object;
+ // Source PlayFX returns nothing, so a miss or a pool/asset no-launch is not an
+ // error here. The audit log makes those silent outcomes visible.
+ {
+  auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+  if(matched)++ec.fx_matched;
+  if(launched)++ec.fx_launched;
  }
- return native_fx_owner->PlayAnimFXSetAttached(effect,character?character:object,
-     character,object,matched,launched,error)==
-     dh2::native_visual_fx_manager_v1::Status::ok?0:1;
+ if(abil_audit_enabled())
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "AUDIT PlayFX | effect %d | target %s | status %d | matched %d | launched %d%s%s",
+      effect,target,int(status),int(matched),int(launched),error.empty()?"":" | ",error.c_str());
+ return status==dh2::native_visual_fx_manager_v1::Status::ok?0:1;
 }
 // VoxSoundManager::Play3D(soundId, position, false, ...). Sounds are named by
 // the SDD Sounds table; a name outside that table resolves to id -1 (no-op), and
@@ -36261,7 +36456,11 @@ int skill_host_play_sound_3d(void*,const char* name,std::size_t bytes,
  const auto resolved=dh2::player_gameplay_audio::resolve_source_sound_name(
      std::string_view(name?name:"",name?bytes:0));
  using SoundStatus=dh2::player_gameplay_audio::SourceSoundStatusV1;
+ if(abil_audit_enabled())
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT Play3D | sound %s | resolved status %d",
+      name?name:"(null)",int(resolved.status));
  if(resolved.status!=SoundStatus::playable)return 0;
+ ++dh2::native::player_skill_effect_audit_v1::counters().sound_playable;
  if(!resolved.source||!resolved.playback){error="Sound resolver returned an invalid source/playback pair";return 1;}
  const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{
      position[0],position[1],position[2]};
@@ -38347,6 +38546,24 @@ bool gameplay_enemy_state_snapshot(std::int32_t index,
  error="Source Monster actor is no longer materialized for the selected index";
  return false;
 }
+bool debug_monster_census(std::vector<MonsterCensusRowV1>& rows){
+ rows.clear();
+ if(!enabled||!world_mode||!native_actor_ready)return false;
+ for(const auto& group:object_groups)for(const auto& actor:group.instances){
+  if(actor.kind!=1)continue;
+  MonsterCensusRowV1 row;
+  row.name=actor.name;row.anim_state=actor.state;
+  row.position=actor.position;
+  if(actor.spawn_owner&&actor.spawn_owner->runtime_ready)
+   for(unsigned axis=0;axis<3;++axis)row.position[axis]=actor.spawn_owner->runtime.subobjects.position[axis];
+  row.gated=actor.gated_spawn;row.dead=actor.combat_state.dead;
+  row.visible=actor.renderer_visible&&actor.visible_80;
+  row.source_state=actor.spawn_owner?actor.spawn_owner->character.state.current:-99;
+  row.hp=actor.properties.resolved[36];
+  rows.push_back(std::move(row));
+ }
+ return true;
+}
 bool ui_player_identity(std::uintptr_t& identity,std::string& error){
  if(!world_mode||!prince_source_ai||!prince_source_ai->character_identity||
     !prince_combat.savegame||prince_combat.savegame->character()!=prince_source_ai->character_identity){
@@ -39507,14 +39724,16 @@ bool ui_player_use_skill_slot(std::uintptr_t identity,std::int32_t hud_slot,std:
  // !SM_IsStunned(true). Those exact bits are Character+0x528, projected by
  // the bound Character Coordinator as attack_gate. A denied source control
  // check is the original no-op, before SG_GetSkillInSlot reads the Save map.
- if(prince_state.attack_gate&((1u<<2)|(1u<<1))){error.clear();return true;}
+ if(prince_state.attack_gate&((1u<<2)|(1u<<1))){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: CTRLIsAllowed denied (attack_gate 0x%x)",unsigned(prince_state.attack_gate));error.clear();return true;}
  if(!prince_combat.savegame||prince_combat.savegame->character()!=identity||
     !prince_combat.savegame->skills_initialized()){
   error="NativeHUDSkill requires the active Character's canonical initialized Save";return false;
  }
  if(hud_slot<0||hud_slot>=3){error="NativeHUDSkill HUD slot is outside the source three-slot range";return false;}
  const auto saved_skill=prince_combat.savegame->skill_in_slot(hud_slot);
- if(saved_skill==-1){error.clear();return true;}
+ if(saved_skill==-1){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: HUD slot %d empty",int(hud_slot));error.clear();return true;}
  if(saved_skill<0){error="NativeHUDSkill saved slot contains an invalid source skill index";return false;}
  if(!prince_skills||!prince_skills->initialized()||
     !prince_skills->skill_state_callbacks_bound()){
@@ -39558,11 +39777,13 @@ bool ui_player_use_skill_slot(std::uintptr_t identity,std::int32_t hud_slot,std:
  const auto controller_command_allowed=[](){
   return prince_controller_forced||(!controller_global_blocked&&!prince_state.controller_locked);
  };
- if(!controller_command_allowed()){error.clear();return true;}
+ if(!controller_command_allowed()){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: controller command blocked (forced %d global_blocked %d locked %d)",int(prince_controller_forced),int(controller_global_blocked),int(prince_state.controller_locked));error.clear();return true;}
  dh2::character_ai_skill_commands_v1::Result begin_result{};
  if(!prince_skills->begin_skill(resolved.skill_index,animation_owner,services,
        begin_result,error))return false;
- if(!controller_command_allowed()){error.clear();return true;}
+ if(!controller_command_allowed()){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: controller command blocked (forced %d global_blocked %d locked %d)",int(prince_controller_forced),int(controller_global_blocked),int(prince_state.controller_locked));error.clear();return true;}
  dh2::character_ai_skill_commands_v1::Result end_result{};
  if(!prince_skills->end_skill(resolved.skill_index,animation_owner,&prince_locomotion,
        [](void* context,bool complete_next_update,std::string& callback_error)->bool{
@@ -44699,6 +44920,11 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
   // swallows script errors (the same reason OnPreSkill/OnPostSkill failures and
   // UpdateAllSkills failures continue). A skill script that needs a native the port
   // has not bound yet must not abort the process; keep it loud in the log.
+  {
+   auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+   if(status<0){++ec.on_skill_failed;ec.last_error="OnSkill: "+callback_error;}
+   else ++ec.on_skill_dispatched;
+  }
   if(status<0){
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "Source CharAISkillScript::OnSkill failed; the source ignores script failures and the skill continues | skill row %u | clip %d | %s",
@@ -44729,6 +44955,11 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
   const int status=prince_skills->invoke_faery_callback(
       static_cast<std::uint32_t>(faery_slot),
       dh2::native::player_skills::SkillCallback::use,callback,callback_error);
+  {
+   auto& ec=dh2::native::player_skill_effect_audit_v1::counters();
+   if(status<0){++ec.on_skill_failed;ec.last_error="faery OnSkill: "+callback_error;}
+   else ++ec.on_skill_dispatched;
+  }
   if(status<0)throw std::runtime_error("Source CharAISkillScript faery OnSkill failed: "+callback_error);
   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
       "Source state-7 do_spell dispatched through retained Player VM | faery slot %d | calls %u | Lua status %d | value %u | clip %d",
@@ -50145,7 +50376,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
            actor.source_global_87=census->is_global?1:0;
            if(!actor.source_activate_condition.empty()||!actor.source_deactivate_condition.empty())
             __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-                "DBGCOND Character %s | activate '%s' | deactivate '%s'",actor.name.c_str(),
+                "Character activation conditions | %s | activate '%s' | deactivate '%s'",actor.name.c_str(),
                 actor.source_activate_condition.c_str(),actor.source_deactivate_condition.c_str());
           }
           // Level::Level resets Module::s_moduleId to zero; each authored

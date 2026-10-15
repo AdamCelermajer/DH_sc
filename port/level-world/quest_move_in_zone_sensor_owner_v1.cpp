@@ -109,7 +109,9 @@ Status Owner::attach(physical::NativeWorld& world,
         shape.SetAsBox(sensor.half_extents[0], sensor.half_extents[1]);
         shape.userData = &callbacks_;
         shape.isSensor = true;
-        shape.friction = 0.0f;
+        // Zone::InitPost -> PhysicalObject::_init (original 0x46edf0): friction 0.2,
+        // restitution 0, density 0 (static body), isSensor from the box ctor arg.
+        shape.friction = 0.2f;
         shape.restitution = 0.0f;
         shape.density = 0.0f;
         shape.filter.groupIndex = sensor.group_index;
