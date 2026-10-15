@@ -19,8 +19,15 @@ public:
     ~v2QuestAutomatic() override;
     void finalize() override;
     void read(IStreamBase* stream) override;  // 0x504a90, thunk: forwards to v2QuestObjectiveStub::read
-    std::int32_t m_w4 = 0;  // +0x10, zeroed by finalize, stored by no read in this slice
-    std::int32_t m_w6 = 0;  // +0x18, zeroed by finalize, stored by no read in this slice
+    // NO members of its own. The original header (v2quests_pystruct.h) declares
+    // `class v2QuestAutomatic : public v2QuestObjectiveStub` with ZERO fields, so sizeof stays at the
+    // base's 0x2c. This class previously re-declared m_w4 and m_w6 here with `// +0x10` / `// +0x18`
+    // comments: because v2QuestObjectiveStub already has those names at +0x10/+0x18, they were NEW
+    // members SHADOWING the base ones, living at +0x2c/+0x30 and making sizeof 0x34. finalize then wrote
+    // the shadowed members and left the real size words at +0x10/+0x18 stale. The listing at 0x4d0054
+    // clears +0x10/+0x18 (CustomFree on +0x14/+0x1c, zero the +0x10/+0x18 size words) and then calls
+    // v2QuestObjectiveStub::finalize(this) - i.e. the base words. Removing the two declarations makes the
+    // unqualified m_w4/m_w6 in the body resolve to the base members, at the offsets their comments claim.
 };
 void DeletingDestructor(v2QuestAutomatic* self);
 
@@ -232,7 +239,7 @@ public:
     ~WeaponRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -266,7 +273,7 @@ public:
     ~RangedWeaponRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -300,7 +307,7 @@ public:
     ~ShieldRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -334,7 +341,7 @@ public:
     ~JewelryRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -367,7 +374,7 @@ class ArmorRef : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -399,7 +406,7 @@ class Valuable : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -431,7 +438,7 @@ class Potion : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -463,7 +470,7 @@ class GoldItem : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize (not read in this slice)
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
@@ -497,7 +504,7 @@ public:
     static pydata::NameTable m_dataNames;
     void finalize() override;
     void read(IStreamBase* stream) override;
-    std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize
+    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
     std::int32_t m_w17 = 0;  // +0x44
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
