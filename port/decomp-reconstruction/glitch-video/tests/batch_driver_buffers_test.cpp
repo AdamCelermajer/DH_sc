@@ -334,6 +334,28 @@ int main() {
               "first subobject, so +0x110 .. +0x140 cannot be CBatchDriver's +0x23C run)");
     }
 
+    // initBuffer 0x58a920. ENABLED 2026-10-15: the body used to be a use-after-free (it dropped the append
+    // buffer twice, so the object was deleted inside initBuffer and this handle then add-ref'd freed memory;
+    // measured as 8 frees and exit 0xC0000374 STATUS_HEAP_CORRUPTION). The extra drop has been removed, so
+    // these checks can run. They are the reason they were written: 0 of 112 executables had ever entered it.
+    {
+        CBatchDriver* d = new CBatchDriver(64u, 32u, &owner);  // leaked on purpose: destroying it drops the handle
+        d->initBuffer();
+        check(d->m_batchBuffers.size() == 1, "initBuffer pushes exactly one buffer on the base's +0x110 vector");
+        check(d->m_batchBuffer.get() == d->m_batchBuffers.front().get(),
+              "m_batchBuffer is m_batchBuffers.front()");
+        check(d->m_batchBuffer->referenceCounter == 2, "the vector and the +0x120 handle each hold one use");
+        auto* append = static_cast<CAppendMeshBuffer*>(d->m_batchBuffer.get());
+        check(append->vertexCapacityBytes == 64u && append->indexCapacityBytes == 32u,
+              "the ctor's +0x22C / +0x230 capacities are CAppendMeshBuffer's two capacity arguments");
+        check(append->vertexBuffer->m_usage == 1u, "the injected usage argument");
+        check(append->vertexStreams->m_attributeMask == 0xffffffffu, "the injected stride argument");
+        d->initBuffer();  // second call: early return
+        check(d->m_batchBuffers.size() == 1, "a set +0x120 makes initBuffer return at 0x58a934");
+        d->releaseBuffer();
+        check(d->m_batchBuffers.empty() && d->m_batchBuffer == nullptr, "releaseBuffer clears the state");
+    }
+
     std::printf("%s\n", failures == 0 ? "batch_driver_buffers: ok" : "batch_driver_buffers: FAILED");
     return failures == 0 ? 0 : 1;
 }
