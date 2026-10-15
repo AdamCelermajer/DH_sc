@@ -57,7 +57,7 @@ struct Core {
   resolved[2]=std::int32_t(gold.in[5]);
   death_properties={defaults.data(),types.data(),base.data(),saved.data(),gear.data(),resolved.data(),nullptr,0};
   death_tables={};death_tables.characters.resize(gold.in[6]);
-  for(auto& row:death_tables.characters){row.fields[4]={20};row.fields[5]={30};row.fields[6]={40};row.fields[7]={10};}
+  for(auto& row:death_tables.characters){row.fields[3]={20};row.fields[4]={30};row.fields[5]={40};row.fields[6]={10};}
   auto put32=[&](std::uint32_t n){for(unsigned i=0;i<4;++i)constants.push_back(std::uint8_t(n>>(i*8)));};
   auto put_name=[&](const char* name){const auto size=std::uint32_t(std::strlen(name));put32(size);constants.insert(constants.end(),name,name+size);};
   constants.clear();put32(2);put_name("AnimStancedAnim");put32(1);put_name("SL__LIST_IPHONE");put32(gold.in[7]);

@@ -191,7 +191,7 @@ inline Status select(const Request* request, Result* output) noexcept {
     one.character = request->character.identity;
     one.row = table.row;
     one.constants = request->constants;
-    one.field = death_great ? 4u : 7u;
+    one.field = death_great ? 3u : 6u;
     one.stance_mask = death_great ? 0x20000u : 0x8000u;
     one.classification = request->classification;
     one.classification_services = request->classification_services;
@@ -210,7 +210,7 @@ inline Status select(const Request* request, Result* output) noexcept {
     const bool despawn_great = request->live_great_knockback_for_despawn
         ? *request->live_great_knockback_for_despawn != 0
         : request->great_knockback_for_despawn != 0;
-    one.field = despawn_great ? 6u : 5u;
+    one.field = despawn_great ? 5u : 4u;
     one.stance_mask = despawn_great ? 0x40000u : 0x10000u;
     status = select_one(&one, &selected);
     result.despawn_animation = selected.animation;

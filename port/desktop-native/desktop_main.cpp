@@ -145,6 +145,9 @@ struct Options {
     std::int32_t follow_faery_select = -1;
     std::filesystem::path capture_series;
     std::uint64_t capture_every = 300;
+    std::uint64_t capture_death_frames = 0;  // --capture-death N: capture each frame from the Player's death for N frames
+    bool hold_stick_cutscene = false;  // --hold-stick-cutscene: keep a movement stick held through every cutscene and log the Player
+    std::uint64_t capture_from = 0;  // --capture-from N: first frame of --capture-series
     // faery-follow ends by leaving the level so the source LevelSavegame (which
     // serializes every Character position, the Faery's included) is published.
     std::string follow_exit_destination;
@@ -307,6 +310,9 @@ Options parse(int argc, char** argv) {
         else if (arg == "--walk-to") options.walk_to = std::stoi(value("--walk-to"));
         else if (arg == "--capture-series") options.capture_series = value("--capture-series");
         else if (arg == "--capture-every") options.capture_every = std::stoull(value("--capture-every"));
+        else if (arg == "--capture-death") options.capture_death_frames = std::stoull(value("--capture-death"));
+        else if (arg == "--hold-stick-cutscene") options.hold_stick_cutscene = true;
+        else if (arg == "--capture-from") options.capture_from = std::stoull(value("--capture-from"));
         else if (arg == "--scenario") {
             const auto scenario = value("--scenario");
             if (scenario == "move-attack") options.movement_attack_scenario = true;
@@ -3025,6 +3031,7 @@ int main(int argc, char** argv) {
         std::int32_t scenario_last_item_count = -1;
         bool scenario_damage_verified = false;
         bool scenario_player_died = false, scenario_revived = false;
+        std::uint64_t capture_death_start = 0;
         std::uint64_t transition_revive_frame = 0;
         unsigned scenario_death_taps = 0;
         std::int32_t scenario_last_hp = 0;
@@ -3280,6 +3287,17 @@ int main(int argc, char** argv) {
             if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
                 probe_runner.set_hud_blocked(cutscene_now);
                 probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
+                if (options.hold_stick_cutscene && cutscene_now) {
+                    // A held joystick during a locked cutscene: the Player must neither move nor leave Idle.
+                    steer_world(1.0f, 0.5f);
+                    if (rendered_frames % 30 == 0) {
+                        model_renderer::GameplayPoseSnapshotV1 hold_pose;
+                        if (model_renderer::gameplay_pose_snapshot(hold_pose, ui_error))
+                            std::cout << "Scenario hold-stick | frame " << rendered_frames << " | Player "
+                                      << hold_pose.player_position[0] << ',' << hold_pose.player_position[1] << ','
+                                      << hold_pose.player_position[2] << std::endl;
+                    }
+                }
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
                     // Centre of the authored HUD faery button on the 1280x720 reference layout.
@@ -3960,8 +3978,21 @@ int main(int argc, char** argv) {
                 scenario_started = true;
                 if (!options.initial_capture.empty()) save_capture(options.initial_capture, width, height);
             }
+            if (gameplay && options.capture_death_frames && !options.capture_series.empty()) {
+                if (!capture_death_start && model_renderer::player_vitals()[4] != 0) {
+                    capture_death_start = rendered_frames;
+                    std::cout << "Scenario Player death seen | frame " << rendered_frames << std::endl;
+                }
+                if (capture_death_start && rendered_frames < capture_death_start + options.capture_death_frames) {
+                    char suffix[32];
+                    std::snprintf(suffix, sizeof suffix, "_d%03llu.ppm",
+                                  (unsigned long long)(rendered_frames - capture_death_start));
+                    save_capture(std::filesystem::path(options.capture_series.string() + suffix), width, height);
+                }
+            }
             if (gameplay && !options.capture_series.empty() && options.capture_every &&
-                rendered_frames && rendered_frames % options.capture_every == 0) {
+                rendered_frames && rendered_frames >= options.capture_from && !options.capture_death_frames &&
+                rendered_frames % options.capture_every == 0) {
                 char suffix[32];
                 std::snprintf(suffix, sizeof suffix, "_%05llu.ppm", (unsigned long long)rendered_frames);
                 save_capture(std::filesystem::path(options.capture_series.string() + suffix), width, height);
