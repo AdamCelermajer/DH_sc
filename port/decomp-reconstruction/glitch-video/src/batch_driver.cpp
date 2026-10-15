@@ -221,7 +221,13 @@ void CBatchDriver::flush() {
             buffer->mappedIndices = nullptr;
             buffer->mappedVertices = nullptr;
         }
-        // The +0x234 callback call (0x5a3aa8-0x5a3abc) is not written; see the comment above.
+        // 0x5a3a90-0x5a3abc: call the +0x234 end-of-batch callback (vtable +0x08) with the finished buffer and
+        // the base's m_batchMaterial, gated on vertexUsedBytes (+0x3c) being non-zero. The callback member is now
+        // correctly typed - compileInternal 0x58facc passes SDefaultEndOfBatchCallback::finalize its v14, and v14
+        // is what it stores at +0x234. Its operator() signature in CAppendMeshBuffer.hpp:112 matches the listing.
+        if (endOfBatchCallback != nullptr && buffer->vertexUsedBytes != 0) {
+            (*endOfBatchCallback)(*buffer, m_batchMaterial);
+        }
         buffer->clear();
     }
 }
