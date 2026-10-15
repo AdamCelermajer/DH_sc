@@ -186,7 +186,7 @@ struct Session::Impl {
                      set_spell_cooldown, start_timer, stop_timer, self_id,
                      obj_name, obj_query, obj_master, obj_set_target, obj_command,
                      flee, state_time_get, include_script_op, trace_op,
-                     play_music_op, call_py_script_op, generic_native, unsupported };
+                     play_music_op, call_py_script_op, host_player, generic_native, unsupported };
     // `function`/`method`/`source_name` are used only by generic_native rows:
     // the character_native_bindings key, whether the row is a `target:Method()`
     // hidden native, and the original script-visible name.
@@ -642,8 +642,19 @@ struct Session::Impl {
                 // explicit target argument is present; nonobjects are a no-op.
                 // Its no-argument overload reads a hidden ReturnValues target
                 // that this facade does not project, so never fake success.
-                if (count == 0)
-                    return reject(error, error_capacity, "monster Attack without explicit target unsupported");
+                if (count == 0) {
+                    // IDA 0x3b9f44: the no-argument overload attacks the
+                    // Character's CharAI target (Character+0x408) and is a
+                    // no-op while there is none.
+                    std::uintptr_t current = 0;
+                    if (!services.get_target || !services.attack ||
+                        services.get_target(services.context, services.owner, &current) != 0)
+                        return reject(error, error_capacity, "monster Attack target provider unsupported");
+                    if (!current) return 0;
+                    if (services.attack(services.context, services.owner, 0) != 0)
+                        return reject(error, error_capacity, "monster Attack failed or unsupported");
+                    return 0;
+                }
                 if (!identity(arguments[0])) return 0;
                 if (!arguments[0].identity)
                     return reject(error, error_capacity, "monster Attack target identity missing");
@@ -669,6 +680,19 @@ struct Session::Impl {
                     return reject(error, error_capacity, "monster GetPosition failed or unsupported");
                 for (unsigned i = 0; i < 3; ++i) number(output[i], xyz[i]);
                 *returned = 3;
+                return 0;
+            }
+            if (binding.operation == host_player) {
+                std::uintptr_t player = 0;
+                if (!output || capacity < 1 || !services.get_host_player ||
+                    services.get_host_player(services.context, &player) != 0)
+                    return reject(error, error_capacity, "monster GetHostPlayer failed or unsupported");
+                output[0] = {};
+                if (player) {
+                    output[0].type = DH2_SCRIPT_IDENTITY;
+                    output[0].identity = player;
+                }
+                *returned = 1;
                 return 0;
             }
             if (!output || capacity < 2)
@@ -811,6 +835,7 @@ struct Session::Impl {
             case Function::get_py_cst: return py_constant;
             case Function::get_py_struct: return py_struct;
             case Function::get_py_oid: return py_oid;
+            case Function::get_host_player: return host_player;
             case Function::get_host_player_level: return host_level;
             case Function::get_host_player_difficulty: return host_difficulty;
             case Function::get_current_level_range: return level_range;
@@ -1556,7 +1581,8 @@ bool Session::uses_services(const Services& services) const noexcept {
         own.character_native == services.character_native &&
         own.play_music == services.play_music &&
         own.call_py_script == services.call_py_script &&
-        own.after_callback == services.after_callback;
+        own.after_callback == services.after_callback &&
+        own.get_host_player == services.get_host_player;
 }
 const char* Session::source_alias(Event event) const noexcept {
     const char* requested = callback_name(event);

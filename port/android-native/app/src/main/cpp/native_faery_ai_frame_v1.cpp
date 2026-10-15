@@ -249,8 +249,14 @@ std::int32_t Owner::master_service(void* context,
         return 0;
     }
     case Operation::close_range:
-    case Operation::range:
-        return self.fail("Faery master range query reached a ranged-attacker branch");
+    case Operation::range: {
+        std::uint32_t value = 0;
+        if (!self.host_->master_ranged_range(request->operation == Operation::close_range,
+                                             request->peer, value))
+            return self.fail("Master range query reached a ranged-attacker branch without a provider");
+        response->word = value;
+        return 0;
+    }
     case Operation::melee_range: {
         std::uint32_t value = 0;
         if (self.melee_value(request->peer, value))

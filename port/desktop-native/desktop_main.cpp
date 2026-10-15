@@ -140,6 +140,11 @@ struct Options {
     int window_w = 1280, window_h = 720;
     // 1280x720 reference-layout touch point used by --faery-hud-tap (default: faery button).
     int hud_tap_x = 1176, hud_tap_y = 281;
+    // --ui-tap X,Y@FRAME (repeatable): a press at the rendered gameplay frame and a release 4
+    // frames later, on the 1280x720 reference layout. Drives the authored HUD/menus (pause menu,
+    // quest tab) without a scenario.
+    struct UiTap { int x, y; std::uint64_t frame; };
+    std::vector<UiTap> ui_taps;
     // skill-matrix: test only this SkillTree row (a failed train poisons later rows).
     std::int32_t matrix_only = -1;
     // faery-follow: select this Faery Save slot (0..4) through the same entry as
@@ -309,6 +314,15 @@ Options parse(int argc, char** argv) {
             if (comma == std::string::npos) throw std::runtime_error("--hud-tap-xy expects X,Y");
             options.hud_tap_x = std::stoi(xy.substr(0, comma));
             options.hud_tap_y = std::stoi(xy.substr(comma + 1));
+        }
+        else if (arg == "--ui-tap") {
+            const auto spec = value("--ui-tap");
+            const auto comma = spec.find(','), at = spec.find('@');
+            if (comma == std::string::npos || at == std::string::npos || at < comma)
+                throw std::runtime_error("--ui-tap expects X,Y@FRAME");
+            options.ui_taps.push_back({std::stoi(spec.substr(0, comma)),
+                                       std::stoi(spec.substr(comma + 1, at - comma - 1)),
+                                       std::stoull(spec.substr(at + 1))});
         }
         else if (arg == "--matrix-only") options.matrix_only = std::stoi(value("--matrix-only"));
         else if (arg == "--follow-faery") options.follow_faery_select = std::stoi(value("--follow-faery"));
@@ -3395,6 +3409,17 @@ int main(int argc, char** argv) {
                 cutscene_wait_frames < 9000) {
                 ++cutscene_wait_frames;
                 ++options.frames;
+            }
+            for (const auto& tap : options.ui_taps) {
+                const int action = rendered_frames == tap.frame ? 0 : rendered_frames == tap.frame + 4 ? 1 : -1;
+                if (!gameplay || action < 0) continue;
+                int window_width = 1, window_height = 1;
+                SDL_GetWindowSize(window, &window_width, &window_height);
+                if (!dispatch_touch(original_ui, window, window_width * tap.x / 1280,
+                                    window_height * tap.y / 720, action, ui_error))
+                    plog("ui-tap failed: " + ui_error);
+                else plog(fmt("ui-tap %d,%d %s | frame %llu", tap.x, tap.y, action ? "released" : "pressed",
+                              (unsigned long long)rendered_frames));
             }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");

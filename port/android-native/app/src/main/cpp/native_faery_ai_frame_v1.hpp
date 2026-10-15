@@ -72,6 +72,12 @@ public:
     virtual bool debug_switch(std::uint32_t key, std::uint32_t& value) = 0;
     // Character::CanRangeAttack of the Faery (ItemInventory, none equipped).
     virtual bool can_range_attack(bool& value) = 0;
+    // CharAI::AI_IsInCloseRange (close=true) / AI_IsInRange (false) of the
+    // master, asked by _UpdateMaster only for a ranged attacker. The Faery
+    // never reaches it (no ranged weapon); the default reports unavailable.
+    virtual bool master_ranged_range(bool close, std::uintptr_t master, std::uint32_t& value) {
+        (void)close; (void)master; (void)value; return false;
+    }
     // Character::GetCharAIId.
     virtual bool char_ai_id(std::uint32_t& value) = 0;
 
@@ -151,6 +157,11 @@ public:
     // _UpdateTarget / _UpdateAggro / OnUpdate through its own Monster owners:
     // the same master kernel and Host providers the Faery frame uses.
     Status update_master_only(Host& host, std::int32_t machine_state, Result* result);
+    // CharAI::AI_IsInInteractionRange (0x3d4f98) of `master`; valid only while
+    // an update on this Owner is running (it uses that call's Host).
+    bool master_interaction_range(std::uintptr_t master, std::uint32_t& value) {
+        return host_ && interaction_range_value(master, value) == 0;
+    }
 
 private:
     static std::int32_t dispatch_frame(void*, character::AIFrameState32*,
