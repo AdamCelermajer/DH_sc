@@ -3745,8 +3745,16 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
             }
             captured=-1;error.clear();return true;
         }
+        // Buttons whose authored onRelease never reaches its Native* callback through the
+        // generic SWF cursor path: the finger is held here and the source handler runs on release.
+        const auto release_button=[&](int control){
+            return control==static_cast<int>(Control::faery)||control==static_cast<int>(Control::potion)||
+                   control==static_cast<int>(Control::skill1)||control==static_cast<int>(Control::skill2)||
+                   control==static_cast<int>(Control::skill3);
+        };
         if(action==0&&captured<0){
-            for(const auto control:{Control::attack,Control::joystick,Control::faery}){
+            for(const auto control:{Control::attack,Control::joystick,Control::faery,Control::potion,
+                                    Control::skill1,Control::skill2,Control::skill3}){
                 ui::AuthoredHudGeometryV1 geometry;
                 if(!impl_->gameplay_hud->geometry(control,x,y,geometry,error))return false;
                 if(!geometry.hit)continue;
@@ -3754,8 +3762,8 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                 // another finger already holds is consumed without a second press.
                 if(impl_->hud_control_held(static_cast<int>(control))){error.clear();return true;}
                 captured=static_cast<int>(control);
-                if(control==Control::faery){
-                    // The faery HUD button is hit-tested by the same authored geometry as
+                if(release_button(static_cast<int>(control))){
+                    // The faery/potion/skill HUD buttons is hit-tested by the same authored geometry as
                     // attack, but its source onRelease never reached NativeHUDSpell through
                     // the generic SWF cursor path (the SWF button stayed silent for press
                     // and release). Hold the finger here and cast on release, as onRelease does.
@@ -3853,15 +3861,28 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
         }
         if(captured>=0&&action==1){
             const int held=captured;captured=-1;
-            if(held==static_cast<int>(Control::faery)){
+            if(release_button(held)){
                 // Source onRelease fires only when the finger is still over the button.
                 ui::AuthoredHudGeometryV1 release_geometry;
-                if(!impl_->gameplay_hud->geometry(Control::faery,x,y,release_geometry,error))return false;
+                if(!impl_->gameplay_hud->geometry(static_cast<Control>(held),x,y,release_geometry,error))return false;
                 if(!release_geometry.hit){error.clear();return true;}
                 std::uintptr_t identity=0;std::string identity_error;
                 if(!model_renderer::ui_player_identity(identity,identity_error)||!identity){error.clear();return true;}
+                if(held==static_cast<int>(Control::potion)){
+                    // cmdHUDpotion -> NativeUsePotion -> v2Controller::Cmd_UsePotion.
+                    const bool used=model_renderer::ui_player_use_potion(identity,error);
+                    __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD potion release | %s",used?"used":error.c_str());
+                    return used;
+                }
+                if(held==static_cast<int>(Control::faery))
+                    return ui::run_hud_action_and_refresh_usable_v1(impl_->gameplay_hud_usable_refresh,[&]{
+                        return model_renderer::ui_player_use_spell(identity,error);
+                    });
+                // Skill slots 1..3 are HUD slots 0..2 (NativeHUDSkill).
+                const std::int32_t slot=held-static_cast<int>(Control::skill1);
+                __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD skill release | slot %d",slot);
                 return ui::run_hud_action_and_refresh_usable_v1(impl_->gameplay_hud_usable_refresh,[&]{
-                    return model_renderer::ui_player_use_spell(identity,error);
+                    return model_renderer::ui_player_use_skill_slot(identity,slot,error);
                 });
             }
             if(held==joystick){
@@ -3878,7 +3899,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
         // Keep the held attack out of the SWF cursor. Its source operation is
         // polled from render_player at the HUDControls::Update cadence.
         if(captured==attack&&action==2)return true;
-        if(captured==static_cast<int>(Control::faery)&&action==2)return true;
+        if(captured>=0&&release_button(captured)&&action==2)return true;
     }
     if(gameplay&&!gameplay_menu&&impl_->gameplay_character_button){
         if(action==3)impl_->gameplay_character_button_pressed[cursor_index]=false;

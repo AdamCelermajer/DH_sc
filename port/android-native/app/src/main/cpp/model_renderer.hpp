@@ -146,6 +146,8 @@ std::string debug_player_death();
 // positive `raise_max_to` (whole HP) first raises Max_HP, so a level-1 test
 // Character survives a boss's first blow.
 std::string debug_player_refill_hp(std::int32_t raise_max_to=0);
+// Development fixture: writes the Player's HP (properties[36], whole HP) so scenarios start hurt.
+std::string debug_player_set_hp(std::int32_t whole_hp);
 // Verification probes (desktop --start-script / --play-anim): start a Level
 // pyscript by name on the one ScriptManager session, and run Character::
 // _RegisterAnim/_PlayAnim (AnimDict names) on the Player or a named Monster.
