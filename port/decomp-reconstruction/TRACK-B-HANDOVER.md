@@ -89,6 +89,25 @@ reaches the Application singleton and changes what the test observes.
 
 ## Other findings worth keeping
 
+- **A library-owned null singleton is a hazard that test stubs cannot fix.** `vox-audio/src/link1_VoxSoundManager_statics.cpp`
+  defines `VoxSoundManager::s_instance = nullptr` and only `CreateInstance` (0x36ca88, a `skipped` row) ever
+  sets it, while `Script_StopSound::Execute` (0x45fe2c) dereferences it with no null check, as the original
+  does. So ANY test whose batch reaches a game body that touches `s_instance` segfaults regardless of what
+  test-local stubs it defines. `g1-game-app-pack12-35588a-0_test` was failing exactly this way. Before
+  diagnosing such a crash as a bad body, check whether the library's own static is null.
+- **TinyXML IS vendored** at `tinyxml-and-c-libs/upstream/tinyxml-2.5.3/tinyxml.h`, on the build's include
+  path (`TiXmlHandle::ToElement` 0x483a48 is there). Several ledger notes claim "TinyXML is not vendored"
+  and hold `rnd::*` `LoadFromXml` rows back on it — that claim is FALSE and those rows (~7) are writable.
+- **`rnd::sDirections` data, recovered**: table at 0x956AE4, stride 0x10, four records
+  `{0,"north",0,-1}, {1,"east",1,0}, {2,"south",0,1}, {3,"west",-1,0}`, names at
+  0x8d4dc0/0x8d4dc8/0x8d4dd0/0x8d4dd8. `rnd::Direction` is declared; `sDirections` is not defined.
+  **`DIRECTION_OPPOSITES`** is referenced from code (`_ZN3rnd19DIRECTION_OPPOSITESE`, name string at
+  0x121282) but its ADDRESS was never chased, so its four ints must come from the binary before anyone
+  writes it — it blocks about six rows (`IsStraight`, `GetFlag`, `LinkToOtherBlocks`, `Rule::Impl` ctor,
+  `ForceBlock::Impl::FilterExits`, `Tile::TrySpawn`). Do not guess those four values.
+- `rnd::gDistributions` (6-byte rows) is likewise undeclared.
+- `dh2/CameraBase.hpp` already declared `m_camera` (`ICameraSceneNode*`, +0x08) publicly; the accessor
+  `GetCameraNode()` was the whole gap, and it is non-virtual so it changes no layout or vtable.
 - The ledger's `CSceneManager` "K 0x28..0x34 registerSceneNodes" comments are shifted by 4 from the real
   table: **+0x3c is `registerSceneNodes`, not `drawAll`**. `dh2/SceneManager.hpp` labels its overrides with
   `decomp_vtable.py`'s address point, while the true dynamic offsets are those minus 0x0c, which is what
@@ -98,8 +117,20 @@ reaches the Application singleton and changes what the test observes.
   GAP B can be written.
 - `DBG_DrawGlitchNodeBoundingBox` (0x50e6a0) is a `skipped` core-platform row that was absent from BOTH
   `link_stubs.csv` and `link-missing.csv`, which broke 8 links until a stub row appeared. If it goes
-  missing again, that is why.
-- `clang`-visible hazard, three times this round: a worker rewrote a header (making a base abstract or a
+  missing again, that is why. `DBG_GetDetailedNodeName` (0x51049c) is the same shape but is correctly
+  absent from BOTH (nothing references it), so it needs no stub unless something starts calling it.
+- `link_stubs.csv` still carries three rows nothing references any more: `g_consoleFileLister`,
+  `_Z18DbgDrawOwnerDriverv` and `_Z25DbgDrawBoxViaDriverSlot28PvPKfj` (the Console uses the real
+  `IDevice::fileSystem`; the box draw uses `IVideoDriver::draw3DBox`). Safe to drop on a stub regeneration.
+- `core-platform/NOTES.md` lines 36/223/226-229 still describe removed DbgDraw seams and a
+  `DeviceFeatureFlags` stand-in.
+- **`_String_base::_M_swap`** (0x433880 char, 0x8a4c58 wchar_t) is deliberately NOT written. Its listing is
+  NOT a pointer exchange: when both sides are on their inline buffer it swaps the 16-byte buffer and then
+  re-seats each side's `end` and `data` relative to its own address (so `data == this` stays true), and the
+  else-branch swaps the four words and the two pointer fields. The port has no `_String_base` type (its
+  string members are `std::string`), and no row is blocked on it.
+- **`clang`-visible hazard, three times this round**: a worker rewrote a header (making a base abstract or a
   member disappear) while its tests still assumed the old shape. `filesystem_base.hpp` /
   `_FileHandle::obfuscated_` and `cmatching_local_*.hpp` both did this. When a header changes, compile the
   TESTS, not just the sources.
+

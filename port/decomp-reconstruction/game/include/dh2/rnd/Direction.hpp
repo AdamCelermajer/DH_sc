@@ -23,7 +23,13 @@ public:
     static const Direction sDirections[4];
 };
 
-// Maps a direction id to the id of its opposite. Declared only; see the header comment.
+// DIRECTION_OPPOSITES maps a direction id to the id of its opposite.
+// RECOVERED: its 16 bytes are at 0x999880 and read as the four int32 2, 3, 0, 1. The address came from
+// the ELF symbol table, not from a data xref: the only xref to the name string at 0x121282 is the
+// Elf32_Sym entry at 0x56d98, whose st_value field (entry offset +0x04) is 0x999880. So north(0) ->
+// south(2), east(1) -> west(3), south(2) -> north(0), west(3) -> east(1): an involution, as the name
+// implies. Six rows waited on this - IsStraight, GetFlag, LinkToOtherBlocks, Rule::Impl's constructor,
+// ForceBlock::Impl::FilterExits and Tile::TrySpawn.
 extern const std::int32_t DIRECTION_OPPOSITES[4];
 
 }  // namespace rnd
