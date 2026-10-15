@@ -80,9 +80,10 @@ public:
     void drawLine(const core::position2d<int32_t>& from, const core::position2d<int32_t>& to, const SColor& color);
     void drawRectangle(const core::rect<int32_t>& rect, const SColor& color);
     // 0x600708 / 0x60090c / 0x600ed0: blits to another image (with a clip rect, an alpha colour). Note the
-    // direction the listing has: for the two copyTo forms the intrusive_ptr argument is the READ side (its mip
-    // level and format are the source of the transfer) and `this` is written. They transfer through
-    // pixel_format::convert, whose same-format copy branch is still missing (see that row's ledger entry).
+    // direction the listing has: for the two copyTo forms the intrusive_ptr argument is the WRITE side (it
+    // supplies the mip-level guard, the default clip rectangle and the destination pitch/format) and `this` is
+    // the pixel READ side. They transfer through pixel_format::convert, whose same-format copy branch (0x5ee40c)
+    // is reconstructed, so a same-format copy moves real bytes.
     void copyTo(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position,
                 const core::rect<int32_t>& source, const core::rect<int32_t>* clip, uint32_t flags);
     void copyTo(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position, uint32_t flags);

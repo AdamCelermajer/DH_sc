@@ -716,10 +716,13 @@ Open questions:
    name it prints comes from getStringsInternal (0x5ed944, not in port).
 5. copy (0x5ee40c) was added in the r3b pass; see its row above. The CImage rows that were blocked only on convert's
    copy branch are 0x601b10 / 0x601c24 (sub-image constructor, now measured in tests/image_fill_test.cpp) and
-   0x60177c / 0x600708 / 0x60090c, which are separately blocked by an inverted direction in image.cpp's copyTo
-   (the argument is the DESTINATION and `this` is the pixel SOURCE, proved by the const void* source / void*
-   destination arguments of the convert call at 0x600880 and by 0x60177c passing target->m_data as copyToScaling's
-   destination buffer).
+   0x60177c / 0x600708 / 0x60090c. All three are now RECONSTRUCTED: the inverted direction in image.cpp's copyTo
+   (the intrusive_ptr argument is the DESTINATION and `this` is the pixel SOURCE, proved by the const void* source /
+   void* destination arguments of the convert call at 0x600880 and by 0x60177c passing target->m_data as
+   copyToScaling's destination buffer) has been turned around, the clip arithmetic now follows the listing's nested
+   position.X + (clipLeft - position.X) form, and 0x60090c's read rectangle comes from this image's own
+   m_width/m_height (LDR LR,[R0,#0x14] / LDR R4,[R0,#0x10] at 0x600910/0x600914). New coverage:
+   tests/image_copyto_test.cpp; it fails on the old inverted body on 9 of its checks.
 
 ## wave4-glitch-video-2 (C2DDriver forwarders, ITexture attribute serializers)
 - IVideoDriver vtable slots (tools/decomp_vtable.py glitch::video::IVideoDriver): +0x2c draw2DLine(pos const&, pos const&, SColor),

@@ -757,12 +757,8 @@ void CImage::initData(bool allocateMips) {
 // Read off the listing: the call's source pointer is source->m_data + position.Y * source->m_pitch +
 // position.X * PFDTable[m_format].bytesPerBlock (the table byte at +0x15), where m_format is the source's own format,
 // and both the source and the destination format arguments are that same m_format. The call's result is ignored.
-//
-// PARTIAL: the pixel transfer is not reproduced. The call takes pixel_format::convert's srcFormat == dstFormat
-// "copy()" branch, and that branch is not reconstructed in glitch-video/src/pixel_format_convert.cpp (the port's
-// convert returns 0 there and writes nothing), so the destination block is left as initData allocated it. Every other
-// part of this constructor - the reset values, the format/size/mip-flag takeover, the allocation, the source offset
-// and the call's arguments - is the listing's.
+// The pixel transfer goes through pixel_format::convert's srcFormat == dstFormat "copy()" branch (0x5ee40c, now
+// reconstructed in glitch-video/src/pixel_format_convert.cpp), so a same-format sub-image copy moves real bytes.
 CImage::CImage(const boost::intrusive_ptr<CImage>& source, const core::position2d<int32_t>& position,
                const core::dimension2d<int32_t>& size) {
     referenceCounter = 0;
@@ -1428,26 +1424,37 @@ void CImage::drawLine(const core::position2d<int32_t>& from, const core::positio
 
 // 0x600708 _ZN6glitch5video6CImage6copyToERKN5boost13intrusive_ptrIS1_EERKNS_4core10position2dIiEERKNS7_4rectIiEEPSE_j
 //
-// The full-form blit, read in the direction the listing actually has it: the TARGET image argument (r1/a2) is the
-// pixel SOURCE and `this` (r0/a1) is written to. Proved from the assembly: r5 = a2 and R5 is the object whose
-// +0x0c is indexed by flags - 1 as the level pointer (0x600840/0x600854) with computePitch of the target's format
-// (0x600848/0x600868), while the convert's destination pointer is r7 = r0 = this (0x600880/0x6008a4 from this
-// image's +0x08/+0x18). The region is then:
-//   * The requested mip level (the flags argument) must not be past the TARGET image's level count at +0x24
-//     (LDR R12,[R1,#0x24] at 0x60071c with r1 = *a2); outside a clip rectangle the region is the target's own
-//     extent for that level (getDimension at 0x6008e8) and the requested position is the placement.
-//   * The destination rectangle (the third argument) is intersected with that extent (0x60078c..0x6007e4); the
-//     result is dropped unless both extents come out positive.
-//   * The read pointer is the target's level (or its m_data and +0x18 for level 0) at the region's origin, and the
-//     write pointer is this image's m_data at the placement, each advanced by its own side's bytes per pixel
-//     (PFDTable +0x15).
-//   * The transfer is pixel_format::convert from the target's format to this image's. The ledger row of 0x5f95ac
-//     records that convert as a subset model whose srcFormat == dstFormat copy branch is not written, so the
-//     same-format path transfers nothing here; that limit belongs to convert, not to this method.
+// The full-form blit in the direction the listing actually has it: the intrusive_ptr argument (r1/a2) is the
+// DESTINATION and `this` (r0/r7) is the pixel SOURCE. The mangled name settles the direction on its own: the
+// convert call that ends the body is _ZN...convertENS0_14E_PIXEL_FORMATEPKvjS2_Pvjjjb, whose 2nd parameter is
+// void const* (read) and whose 5th is void* (written), and that call passes this image's format/data/pitch
+// (r7 = r0 = this: LDR R0,[R7,#0x20], LDR R12,[R7,#8], LDR R2,[R7,#0x18] at 0x6007f8/0x600804/0x600808) as
+// parameters 1-3 and the argument image's data/pitch (+0x08/+0x18, or the mip level) as parameters 4-6.
+//
+// Everything the argument image supplies is destination-shaped: the mip-level guard compares the flags argument
+// with its +0x24 (LDR R12,[R1,#0x24] at 0x60071c), the default clip rectangle is its getDimension(flags)
+// (0x6008e8), and the level pitch is computePitch of its format (0x600848/0x600868).
+//
+// Read off the listing, the region:
+//   * Position culling first: position.X > clipRight or position.Y > clipBottom returns (0x600750..0x60076c).
+//   * The read rectangle is the third argument, and it is culled against the clip as well: its left/top above
+//     clipRight/clipBottom returns (0x600754/0x600768).
+//   * The placement is clipped to the clip rectangle's left/top: when position.X < clipLeft the X placement
+//     becomes position.X + (clipLeft - position.X) (RSB R10,R8,R12 then ADD R10,R10,R12 at 0x600790/0x60079c;
+//     the same shape for Y at 0x6007a4..0x6007b4). The read rectangle's left/top are clipped the same way.
+//   * Its right/bottom are clamped to clipRight/clipBottom (0x6007b8..0x6007dc) and the transfer is dropped
+//     unless both extents come out positive (0x6007e8).
+//   * The read pointer is THIS image's level-0 block (or its mip level, when flags and a chain are present) at
+//     the read rectangle's origin; the write pointer is the ARGUMENT image's level-0 block at the clipped
+//     placement (m_data + pitch * destY + stride * destX; 0x600818/0x600828), each advancing by its own
+//     format's bytes per pixel (PFDTable +0x15).
+//   * The transfer is pixel_format::convert from this image's format to the argument image's, and a same-format
+//     pair takes convert's copy branch (0x5ee40c, reconstructed).
 void CImage::copyTo(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position,
                     const core::rect<int32_t>& source, const core::rect<int32_t>* clip, uint32_t flags) {
-    CImage* const pixelSource = target.get();
-    if (pixelSource == nullptr || flags > pixelSource->m_mipLevels) {
+    CImage* const destination = target.get();
+    if (destination == nullptr || flags > destination->m_mipLevels) {
+        // The listing dereferences the handle without this guard; it is kept so a null target cannot fault.
         return;
     }
     int32_t clipLeft;
@@ -1455,39 +1462,54 @@ void CImage::copyTo(const boost::intrusive_ptr<CImage>& target, const core::posi
     int32_t clipRight;
     int32_t clipBottom;
     if (clip != nullptr) {
+        // var_18/var_1C hold the clip's left/top, var_24/var_20 its right/bottom, and the culling below pairs
+        // the CLIP's right/bottom (R2/R1 at 0x600748/0x600744) with the POSITION and the READ rectangle.
         clipLeft = clip->UpperLeftCorner.X;
         clipTop = clip->UpperLeftCorner.Y;
         clipRight = clip->LowerRightCorner.X;
         clipBottom = clip->LowerRightCorner.Y;
     } else {
-        const core::dimension2d<uint32_t> extent = getDimension(flags);
+        const core::dimension2d<uint32_t> extent = destination->getDimension(flags);
         clipLeft = 0;
         clipTop = 0;
         clipRight = static_cast<int32_t>(extent.Width);
         clipBottom = static_cast<int32_t>(extent.Height);
     }
 
+    // The read rectangle (the third argument is the SOURCE side; var_20/var_24 hold its left/top).
     int32_t sourceLeft = source.UpperLeftCorner.X;
-    if (sourceLeft > clipRight) {
-        return;
-    }
     int32_t sourceTop = source.UpperLeftCorner.Y;
-    if (sourceTop > clipBottom) {
-        return;
-    }
     int32_t sourceRight = source.LowerRightCorner.X;
     int32_t sourceBottom = source.LowerRightCorner.Y;
-    int32_t offsetLeft = position.X;
-    int32_t offsetTop = position.Y;
+
+    // 0x600750..0x60076c: the placement and then the read rectangle are culled against the clip.
+    const int32_t positionX = position.X;
+    const int32_t positionY = position.Y;
+    if (positionX > clipRight || positionY > clipBottom) {
+        return;
+    }
+    if (sourceLeft > clipRight || sourceTop > clipBottom) {
+        return;
+    }
+
+    // 0x600790..0x6007b4: both the placement and the read rectangle slide right/up by the amount the
+    // placement lies past the clip's left/top. The two X updates are RSB R10,R8,R12 (shift = clipLeft -
+    // positionX) then ADD R10,R10,R12 (destX = positionX + shift), and the Y pair has the same shape.
+    int32_t destX = positionX;
+    int32_t destY = positionY;
+    if (positionX < clipLeft) {
+        const int32_t shift = clipLeft - positionX;
+        destX = positionX + shift;
+    }
+    if (positionY < clipTop) {
+        const int32_t shift = clipTop - positionY;
+        destY = positionY + shift;
+    }
     if (sourceLeft < clipLeft) {
-        const int32_t shift = clipLeft - sourceLeft;
-        sourceLeft -= shift;
-        offsetLeft += shift;
+        sourceLeft -= clipLeft - sourceLeft;
     }
     if (sourceTop < clipTop) {
-        const int32_t shift = clipTop - sourceTop;
-        sourceTop -= shift;
-        offsetTop += shift;
+        sourceTop -= clipTop - sourceTop;
     }
     if (sourceRight > clipRight) {
         sourceRight = clipRight;
@@ -1501,36 +1523,35 @@ void CImage::copyTo(const boost::intrusive_ptr<CImage>& target, const core::posi
         return;
     }
 
-    // The listing's two pointers: the SOURCE side is the target image's mip level (the pointer at +0x0c of the
-    // target, indexed flags - 1, with computePitch of that level; 0x600854 and 0x600868) or its m_data and +0x18
-    // when the level is 0 (0x6008d0/0x6008d4). The DESTINATION is this image's m_data at the placement - pitch *
-    // offsetTop plus the level format's byte-per-pixel * offsetLeft (0x600880/0x6008a4).
-    const E_PIXEL_FORMAT levelFormat = pixelSource->m_format;
-    const uint8_t* sourcePtr = pixelSource->m_data;
-    uint32_t sourcePitch = pixelSource->m_pitch;
-    if (flags != 0 && pixelSource->m_mipData != nullptr) {
-        sourcePtr = static_cast<const uint8_t*>(pixelSource->m_mipData[flags - 1]);
-        sourcePitch = pixel_format::computePitch(levelFormat, pixelSource->getDimension(flags).Width);
+    const E_PIXEL_FORMAT levelFormat = m_format;
+    const uint8_t* sourcePtr = m_data;
+    uint32_t sourcePitch = m_pitch;
+    if (flags != 0 && m_mipData != nullptr) {
+        sourcePtr = static_cast<const uint8_t*>(m_mipData[flags - 1]);
+        sourcePitch = pixel_format::computePitch(levelFormat, destination->getDimension(flags).Width);
     }
     const int32_t sourceStride = static_cast<int32_t>(pixel_format::detail::PFDTable[levelFormat].bytesPerBlock);
     sourcePtr += static_cast<int32_t>(sourcePitch) * sourceTop + sourceStride * sourceLeft;
 
     const int32_t destinationStride = static_cast<int32_t>(pixel_format::detail::PFDTable[m_format].bytesPerBlock);
-    uint8_t* destinationPtr = m_data + static_cast<int32_t>(m_pitch) * offsetTop + destinationStride * offsetLeft;
-    pixel_format::convert(levelFormat, sourcePtr, sourcePitch, m_format, destinationPtr, m_pitch,
-                          static_cast<uint32_t>(width), static_cast<uint32_t>(height), false);
+    uint8_t* destinationPtr = destination->m_data + static_cast<int32_t>(destination->m_pitch) * destY +
+                              destinationStride * destX;
+    pixel_format::convert(levelFormat, sourcePtr, sourcePitch, destination->m_format, destinationPtr,
+                          destination->m_pitch, static_cast<uint32_t>(width), static_cast<uint32_t>(height), false);
 }
 
 // 0x60090c _ZN6glitch5video6CImage6copyToERKN5boost13intrusive_ptrIS1_EERKNS_4core10position2dIiEEj
-// A fifteen-instruction wrapper: the source rectangle is built from the target image's own width and height (the two
-// stores at 0x600928/0x60092c) with a zero top-left, and the full form is called with no clip rectangle.
+// A fifteen-instruction wrapper: the read rectangle is built from THIS image's own width and height (LDR LR,
+// [R0,#0x14] and LDR R4,[R0,#0x10] at 0x600910/0x600914, stored into the local rect's right/bottom at
+// 0x600928/0x60092c) with a zero top-left, and the full form is called with no clip rectangle. This image is the
+// pixel source, so the rectangle is this image's extent, not the destination's.
 void CImage::copyTo(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position,
                     uint32_t flags) {
     core::rect<int32_t> source;
     source.UpperLeftCorner.X = 0;
     source.UpperLeftCorner.Y = 0;
-    source.LowerRightCorner.X = target != nullptr ? static_cast<int32_t>(target->m_width) : 0;
-    source.LowerRightCorner.Y = target != nullptr ? static_cast<int32_t>(target->m_height) : 0;
+    source.LowerRightCorner.X = static_cast<int32_t>(m_width);
+    source.LowerRightCorner.Y = static_cast<int32_t>(m_height);
     copyTo(target, position, source, nullptr, flags);
 }
 
