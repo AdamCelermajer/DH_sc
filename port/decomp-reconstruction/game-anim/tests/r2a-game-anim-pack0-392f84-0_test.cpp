@@ -2,8 +2,9 @@
 // +0x1c (Application::GetDt on the singleton) and the loop count reset at expiry, with no owner set.
 //
 // The AnimatedFX lives in zero-filled storage, as in the other game-anim tests. The functions that Update reaches
-// and this file does not define (SyncIrrData, SetSpeed, HasCompleted, VisualObject::SetVisible, the trace switch) are
-// stubbed below. The trace branch needs the visible flag (+0x24), which this test leaves clear, so it is not reached.
+// and this file does not define (SyncIrrData, SetSpeed, HasCompleted, VisualObject::SetVisible, GetSwitch) are
+// stubbed below; DebugSwitches::GetInstance returns a real (empty) object, see the comment on its definition. The
+// trace branch needs the visible flag (+0x24), which this test leaves clear, so it is not reached.
 
 #include <cstdio>
 #include <cstring>
@@ -53,9 +54,20 @@ bool AnimatedFX::HasCompleted() const {
 
 void VisualObject::SetVisible(bool) {}
 
+// A real (empty) DebugSwitches object, NOT a null stand-in. AnimatedFX::Update is exercised here, so this accessor
+// must be safe: the batch's `DebugSwitches::GetInstance()->GetSwitch(...)` would dereference a null. This definition
+// still shadows the library's real singleton for the whole executable (tests link with
+// -Wl,--allow-multiple-definition and the first definition wins); GetSwitch below answers false, as the real switch
+// table does when it holds no entry. The trace branch is not reached by the checks, because the visible flag stays
+// clear, so the accessor is only reached through the paths that stay inside this file.
 DebugSwitches* DebugSwitches::GetInstance() {
-    return nullptr;
+    static DebugSwitches instance;
+    return &instance;
 }
+
+// The function-local object above needs both, and they are the library's empty bodies (the two trees start empty).
+DebugSwitches::DebugSwitches() {}
+DebugSwitches::~DebugSwitches() {}
 
 bool DebugSwitches::GetSwitch(const std::string&) {
     return false;

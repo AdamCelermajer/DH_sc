@@ -733,9 +733,13 @@ void VoxEngine::Get3DEmitterPosition(EmitterHandle& emitter, float& x, float& y,
 }  // namespace vox
 
 // ---- The constructor's dependencies, which the test links (the constructor itself is in the batch
-// source now, row 0x36c7b0/0x36cad0). No engine exists here, so GetVoxEngine returns null and
-// Initialize is not reached at run time; both still need a definition to link. The three stubs stay
-// silent so the call log holds only what a test body does.
+// source now, row 0x36c7b0/0x36cad0). No engine exists here, so GetVoxEngine is a DELIBERATE STUB that answers
+// null: Initialize is not reached at run time and both still need a definition to link. It is also a shadowing
+// definition, because tests link with -Wl,--allow-multiple-definition and the first definition wins, so the
+// library's real vox::VoxEngine::GetVoxEngine (vox-audio/src/voxengine-facade/engine_instance.cpp) is disabled for
+// this whole executable. Nothing in the checks dereferences the result (the batch's constructor only stores it, and
+// the test's VoxSoundManager does not construct a real engine), but a later check that calls Initialize through it
+// would fault. The three stubs stay silent so the call log holds only what a test body does.
 vox::VoxEngine* vox::VoxEngine::GetVoxEngine() { return nullptr; }
 
 void vox::VoxEngine::Initialize() {}

@@ -86,9 +86,6 @@ bitmap_font_entity* bitmap_glyph_provider::get_font_entity_impl(const ::tu_strin
 default_bitmap_font_entity::default_bitmap_font_entity(bitmap_glyph_provider*, const ::tu_string&) {
 	std::abort();
 }
-bool get_fontfile(const char*, bool, bool, char*, int) {
-	std::abort();
-}
 ref_counted::ref_counted() {}
 ref_counted::~ref_counted() {}
 void ref_counted::add_ref() const {}
@@ -96,6 +93,13 @@ void ref_counted::drop_ref() {}
 void texture_cache::reset() {}
 texture_cache::~texture_cache() {}
 }  // namespace gameswf
+
+// Global, NOT gameswf:: -- this is what the batch calls and what bitmap_glyph_provider.hpp:123 declares
+// (the binary's symbol is _Z12get_fontfilePKcbbPci 0x42b38c). Inside namespace gameswf this definition
+// was a different, unreferenced symbol and the symbol actually linked came from the link stubs.
+bool get_fontfile(const char*, bool, bool, char*, int) {
+	std::abort();
+}
 
 // The glyph table's set_raw_capacity (bitmap_hash_dh2.hpp). Its body is in the pack19 source. This test does not reach it.
 template <>

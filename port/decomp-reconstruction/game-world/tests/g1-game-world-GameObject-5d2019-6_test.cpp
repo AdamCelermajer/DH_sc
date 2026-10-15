@@ -34,7 +34,14 @@ Application& ApplicationGetInstance() { std::abort(); }
 Level* Application::GetCurrentLevel() const { return nullptr; }
 bool Level::CanMoveTowards(const Point3D<float>&, const Point3D<float>&) { return true; }
 
-DebugSwitches* DebugSwitches::GetInstance() { return nullptr; }
+// A real DebugSwitches object, NOT a null stand-in. GetSwitch below turns every switch off, which is what the
+// library's own load() leaves behind when no switch file is present, so the observable behaviour is unchanged.
+// The store the stub reads is deliberately NOT DebugSwitches::s_inst: this test file defines that symbol itself
+// (so that the batch links), and the library's real GetInstance is a shadowed multiple definition anyway.
+DebugSwitches* DebugSwitches::GetInstance() {
+    static DebugSwitches instance;
+    return &instance;
+}
 bool DebugSwitches::GetSwitch(const std::string&) { return false; }
 DebugSwitches::DebugSwitches() {}
 DebugSwitches::~DebugSwitches() {}

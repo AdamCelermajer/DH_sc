@@ -44,6 +44,11 @@ void ObjectSearcher::BackupObjectList::Next() {}
 int ObjectSearcher::BackupObjectList::Size() {
     return 0;
 }
+// DELIBERATE TEST STUB, not a real cursor. The batch source is included above, so this definition replaces the
+// library's real ObjectSearcher::BackupObjectList::Get (src/g1-game-world-ObjectSearcher-3d104b-1.cpp) for the whole
+// executable. Nothing here calls it: the checks exercise only ConeAdmits and kFloatPi, and no test in the tree calls
+// TargetList::Search or SearchRect. A later check that walks a list through Search/SearchRect would receive null
+// from this stub and fault in the candidate test; the real Get returns the object the cursor points at.
 GameObject* ObjectSearcher::BackupObjectList::Get() {
     return nullptr;
 }

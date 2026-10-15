@@ -36,8 +36,9 @@
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/c_room_search_filter.hpp"
 #include "net-transport/sync.hpp"
-#include "net-session-online/deps/net_struct_stub.hpp"
 #include "net-session-online/gl_friend_info.hpp"
+#include "net-transport/net_struct.hpp"
+#include "net-transport/tb/net_struct_string.hpp"
 #include "net-session-online/t_matching_peer_t.hpp"
 #include "net-session-online/t_room_info.hpp"
 
@@ -60,45 +61,45 @@ class tFriendInfo;
 
 class CMatchingGLLive : public CMatching {
 public:
-    // The replicated per-member element (NetStructArray-like table of 32 at +0x3a00, 360 bytes each in
-    // the original). Constructor and destructor bodies are in
+    // The class's OWN per-member record (32 of them at +0x3A00, stride 360 = 0x168), distinct from the
+    // base CMatching's record (NetStructArray<CMatching::MemberInfoNetStruct,32> at +0x18, stride 432).
+    // It is a real NetStruct since this pass; its recovery notes (element layout, the evidence for each
+    // offset, and the difference from the base's record) are at the top of
+    // tb/cmatching_gl_live_member_info_net_struct.hpp. Constructor and destructor bodies are in
     // src/tb_session-online-CMatchingGLLive_MemberInfoNetStruct-0.cpp.
     //
-    // Layout (original 32-bit offsets, kept as comments; the total size is 360):
-    //   +0x00            vptr (not modelled; the port has no virtual dispatch here)
-    //   +0x04..+0x10b    NetStruct base fields not recovered
-    //   +0x10c..+0x11f   packet history: std::map<int, std::map<int, NetStruct::tPacketHistory>>
-    //                    (the rb-tree header, root, leftmost, rightmost and node count)
-    //   +0x124           NetStruct enabled flag (net-transport's NetStruct keeps it at +0x124)
-    //   +0x130..+0x157   NetStructString<16> member (value std::string at +0x150): the member's user name
-    //
-    // Not modelled: the destructor also destroys a std::string at +0x38. Its owner and its
-    // constructor are not identified, and the NetStruct base occupies that range, so the port
-    // declares no field there (see the ledger note on the destructor).
-    class MemberInfoNetStruct : public NetStructBaseStub {
+    // Element layout (original 32-bit offsets; sizeof 360):
+    //   +0x000            NetStruct base, sizeof 0x130 (net-transport/net_struct.hpp). Its +0x18
+    //                     (ConditionalLoad) and +0x1c (Load) slots are what
+    //                     CMatchingGLLive::ReadPacketData reaches through the record vptr.
+    //   +0x130..+0x167    NetStructString<16> member_, value std::string at +0x150: the member's user
+    //                     name. ONE DeclareMember call in 0x81e680, so it is the record's member 0.
+    class MemberInfoNetStruct : public NetStruct {
     public:
-        // 0x81e680 _ZN15CMatchingGLLive19MemberInfoNetStructC2Ev (partial, see the .cpp)
+        // 0x81e680 _ZN15CMatchingGLLive19MemberInfoNetStructC1Ev. See the .cpp.
         MemberInfoNetStruct();
-        // 0x81d1f4 _ZN15CMatchingGLLive19MemberInfoNetStructD1Ev (partial, see the .cpp)
-        ~MemberInfoNetStruct();
+        // 0x81d1f4 _ZN15CMatchingGLLive19MemberInfoNetStructD1Ev. See the .cpp.
+        ~MemberInfoNetStruct() override;
+        // 0x81d298 _ZN15CMatchingGLLive19MemberInfoNetStructD0Ev: the D1 body, then CustomFree(this).
+        // The port has no deleting-destructor symbol, so the D0 body lives in a named helper, as the
+        // CMatchingLocal records' do. See the .cpp.
+        void DeletingDestructor();
 
-        // NetStruct::SetEnabled (0x81366c, net-transport). Stand-in: records the flag.
-        void SetEnabled(bool enabled) { enabled_ = enabled; }
+        // The record's one declared member: the member's user name (+0x130, value at +0x150).
+        const std::string& name() const { return member_.GetValue(); }
+        void setName(const std::string& value) { member_.SetValue(value); }
+        NetStructString<16>& nameMember() { return member_; }
+        const NetStructString<16>& nameMember() const { return member_; }
+
+        // Not in the original: test seams. Enabled()/SetEnabled() read and write the NetStruct base's
+        // enabled flag (the real field at +0x124) so the layout tests keep working after the record
+        // stopped being a stand-in.
         bool Enabled() const { return enabled_; }
-        // NetStruct::Serialize(stream, memberId, packetId) (vtable +0x08, 0x814d00, net-transport).
-        // Stand-in: writes nothing and reports no data.
-        int Serialize(NetBitStream& /*stream*/, int /*memberId*/, int /*packetId*/) { return 0; }
-        // NetStruct::ProcessLostPacket (vtable +0x44, 0x814774) and ProcessAcknowledgedPacket (vtable +0x40,
-        // 0x814d28), net-transport's. Stand-ins: the packet history is not modelled, so they do nothing.
-        void ProcessLostPacket(int /*memberId*/, int /*packetId*/) {}
-        void ProcessAcknowledgedPacket(int /*memberId*/, int /*packetId*/) {}
+        void SetEnabled(bool enabled) { (void)NetStruct::SetEnabled(enabled); }
 
     private:
-        // +0x10c: packet history (std::map header in the original).
-        std::map<std::int32_t, std::map<std::int32_t, NetStructBaseStub::tPacketHistory>> packetHistory_;
-        bool enabled_ = false;  // +0x124
         // +0x130: NetStructString<16> member. Its value is at +0x150.
-        NetStructStringStub16 member_;
+        NetStructString<16> member_;
     };
 
     // The value type of the server map at +0x39e8 is the global tMatchingPeer (t_matching_peer.hpp).

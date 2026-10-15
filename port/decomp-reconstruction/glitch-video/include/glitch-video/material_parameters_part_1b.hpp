@@ -38,8 +38,13 @@ class ITexture;
 namespace glitch::video::detail::part1b {
 
 // The entry records are the ones of the owners: part1a::SParamEntry for G, detail::SParameterEntry for M.
+// G's record is a plain 20-byte value with no handle in it, so its size is still pinned. M's is NOT pinned
+// any more: its +0x00 field is a shared-string handle (the parameter name), 8 bytes on this host where the
+// original's was 4, so sizeof(detail::SParameterEntry) is 24 here. Its field OFFSETS are the original's and
+// are documented in material_parameters.hpp; only the raw 16-byte stride is a 32-bit-layout fact, and no
+// code in the port steps an entry array by that stride.
 static_assert(sizeof(part1a::SParamEntry) == 20, "G entry record is 20 bytes");
-static_assert(sizeof(detail::SParameterEntry) == 16, "M entry record is 16 bytes");
+static_assert(offsetof(detail::SParameterEntry, kind) >= sizeof(void*), "M entry kind follows the name handle");
 
 // Owner G: IMaterialParameters<CGlobalMaterialParameterManager, SEmptyBase>.
 struct GlobalParameterStore {

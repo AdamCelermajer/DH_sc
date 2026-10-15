@@ -30,14 +30,31 @@ class CMaterialRenderer;
 namespace detail {
 
 // One entry of a parameter table, 16 bytes in the original. Only the fields the
-// matrix accessors read are named. +0x00..+0x05 and +0x07 are not read here.
+// matrix accessors read are named. +0x05 and +0x07 are not read here.
+//
+// +0x00 is the parameter NAME: a shared-string handle (SSharedStringHeapEntry::SData* in the
+// original, the port's SSharedStringData*), the same word a technique entry carries at +0x00
+// (STechnique::name in material_renderer.hpp). Evidence: the renderer constructor (0x5d3124,
+// the loop at loc_5D35F0) copies the 16 bytes of each SShaderParameterDef into an entry and
+// then does `LDR R1,[R2]; if (R1) ++*(int*)R1`, i.e. reads the definition's +0x00 as a
+// reference-counted shared-string handle and takes a use; and the two name lookups compare the
+// same word: CMaterialRenderer::getParameterID(char const*,uint16_t) (0x5d308c) does
+// `LDR R3,[R4,R5,LSL#4] / CMP R3,#0 / ADDNE R3,R3,#4 / CMP R1,R3` against the text address of
+// the interned name (SData + 4), and IShader::getParameterID(char const*,stage,index)
+// (0x5e4b74) does the same with the same 16-byte stride.
+//
+// DEVIATION (host width, as for STechnique::name): the original's handle is 4 bytes and the
+// record is 16. On this 64-bit host the handle is 8 and the record grows; only the ORIGINAL
+// offsets, kept in the comments, are 16-byte-layout facts (sizeof is no longer pinned; see
+// material_parameters_part_1b.hpp). Every field is reached as a named member, never by raw
+// stride, so no listing arithmetic is broken by the growth.
 struct SParameterEntry {
-    uint8_t unknown00[4] = {};  // +0x00
-    uint16_t kind = 0;          // +0x04, 2: the hashed 4-byte words; 11 and 15 are not hashed (CMaterial::updateParametersHashCode)
-    uint8_t type = 0;           // +0x06, 11 selects a matrix parameter
-    uint8_t unknown07 = 0;      // +0x07
-    uint32_t count = 0;         // +0x08, number of matrices in the entry
-    uint32_t valueOffset = 0;   // +0x0c, byte offset of the first slot in the value area
+    const void* name = nullptr;  // +0x00, the parameter name (shared-string handle; SSharedStringData*)
+    uint16_t kind = 0;           // +0x04, 2: the hashed 4-byte words; 11 and 15 are not hashed (CMaterial::updateParametersHashCode)
+    uint8_t type = 0;            // +0x06, 11 selects a matrix parameter
+    uint8_t unknown07 = 0;       // +0x07
+    uint32_t count = 0;          // +0x08, number of matrices in the entry
+    uint32_t valueOffset = 0;    // +0x0c, byte offset of the first slot in the value area
 };
 
 // Header of a parameter table: count (uint16) at +0x0e and the entry array pointer at +0x20.

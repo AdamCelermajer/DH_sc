@@ -18,6 +18,11 @@
 //   +0x10  width     +0x14  height           +0x18  pitch in bytes      +0x1c  data size in bytes
 //   +0x20  E_PIXEL_FORMAT                    +0x24  number of mip levels below level 0
 //   +0x28  uint8, the image has a mip chain  +0x29  uint8, the image owns its data (the destructor frees it)
+//   The blit dispatcher (0x600948) reads a clip rectangle's left and top from +0x14 and +0x18 (the loads at
+//   0x600cf4 and 0x600d20) - the words this port models as m_pitch and m_dataSize. The constructor 0x602028
+//   zeroes both (0x602078/0x60207c), so on a freshly built image the dispatcher sees a zero clip rectangle; that
+//   is reproduced here by the separate m_clip member below, which starts zeroed and that a caller can set through
+//   setClipRect. Nothing else in the reconstructed tree writes those words before a blit.
 #pragma once
 
 #include <cstdint>
@@ -65,24 +70,34 @@ public:
     // 0x5ff638: dimension of the given mip level; zero-sized axes stay zero.
     core::dimension2d<uint32_t> getDimension(uint32_t mipLevel) const;
 
-    // 0x5ff680 / 0x5ff808 / 0x5ff9b4: single pixel write and read, and a fill. Declared only (they dispatch on the
-    // pixel format through the PFDTable converters).
+    // 0x5ff680 / 0x5ff808 / 0x5ff9b4: single pixel write and read, and a fill. setPixel is its own format switch
+    // over m_data/m_pitch (the listing calls no helper).
     void setPixel(uint32_t x, uint32_t y, const SColor& color);
     SColor getPixel(uint32_t x, uint32_t y) const;
     void fill(const SColor& color);
-    // 0x600104 / 0x600e1c: Bresenham line and rectangle outline. Declared only.
+    // 0x600104 / 0x600e1c: Bresenham line (self-contained, clipped) and a rectangle fill through the blit
+    // dispatcher.
     void drawLine(const core::position2d<int32_t>& from, const core::position2d<int32_t>& to, const SColor& color);
     void drawRectangle(const core::rect<int32_t>& rect, const SColor& color);
-    // 0x600708 / 0x60090c / 0x600ed0: blits to another image (with a clip rect, an alpha colour). Declared only.
+    // 0x600708 / 0x60090c / 0x600ed0: blits to another image (with a clip rect, an alpha colour). Note the
+    // direction the listing has: for the two copyTo forms the intrusive_ptr argument is the READ side (its mip
+    // level and format are the source of the transfer) and `this` is written. They transfer through
+    // pixel_format::convert, whose same-format copy branch is still missing (see that row's ledger entry).
     void copyTo(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position,
                 const core::rect<int32_t>& source, const core::rect<int32_t>* clip, uint32_t flags);
     void copyTo(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position, uint32_t flags);
     void copyToWithAlpha(const boost::intrusive_ptr<CImage>& target, const core::position2d<int32_t>& position,
                          const core::rect<int32_t>& source, const SColor& color, const core::rect<int32_t>* clip);
-    // 0x600fcc / 0x60177c / 0x601800: scaling blits. Declared only.
+    // 0x600fcc / 0x60177c / 0x601800: scaling blits (box filter; 0x601800 is a one-instruction branch to
+    // 0x60177c).
     void copyToScaling(void* target, uint32_t width, uint32_t height, E_PIXEL_FORMAT format, uint32_t pitch, int32_t flags);
     void copyToScaling(const boost::intrusive_ptr<CImage>& target, int32_t flags);
     void copyToScalingBoxFilter(const boost::intrusive_ptr<CImage>& target, int32_t flags);
+
+    // Port helper for the clip rectangle the blit dispatcher reads (see the layout note above). The original has
+    // no reconstructed writer for it yet; the dispatcher reads it through this member.
+    void setClipRect(const core::rect<int32_t>& clip) { m_clip = clip; }
+    const core::rect<int32_t>& getClipRect() const { return m_clip; }
 
     // +0x04 is IReferenceCounted::referenceCounter.
     uint8_t* m_data = nullptr;          // +0x08
@@ -95,6 +110,10 @@ public:
     uint32_t m_mipLevels = 0;           // +0x24
     uint8_t m_hasMipmaps = 0;           // +0x28
     uint8_t m_ownsData = 1;             // +0x29
+    // The clip rectangle the blit dispatcher reads from the ORIGINAL's +0x14/+0x18 (see the layout note above).
+    // It is kept last because it stands for words the reconstructed constructors already write through other
+    // members, and because its own writer is not recovered.
+    core::rect<int32_t> m_clip;
 };
 
 }  // namespace glitch::video

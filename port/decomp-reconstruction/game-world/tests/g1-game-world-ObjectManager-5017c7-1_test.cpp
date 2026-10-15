@@ -151,6 +151,14 @@ void NetStruct::Resend() {}
 unsigned char* NetStruct::SetEnabled(bool) { return nullptr; }
 bool Character::IsMerchant() const { return false; }
 
+// DELIBERATE TEST STUB, not a real object. CMatching is abstract here (LocalMemberId, ServerMemberId and MemberBit
+// are pure virtual) and this port's CMatching vtable order is a known defect (see the KNOWN DEFECT block in
+// net-session-online/include/net-session-online/c_matching_base.hpp), so no usable CMatching object can be built in
+// this file. Because tests link with -Wl,--allow-multiple-definition and the FIRST definition wins, this stub also
+// disables the library's real CMatching::Get for the whole executable. The batch's one call,
+// `CMatching::Get()->LocalMemberId()` in SerializeGameObjectNetData (src/g1-game-world-ObjectManager-5017c7-1.cpp),
+// sits in the `hosting` branch, and the checks below never set a local player as hosting, so it is not reached
+// today; a later check that does would dereference null and fault.
 CMatching* CMatching::Get() { return nullptr; }
 
 ObjectHandle ObjectManager::GetObjectHandleByNetworkId(int) { return ObjectHandle(g_handleTarget); }

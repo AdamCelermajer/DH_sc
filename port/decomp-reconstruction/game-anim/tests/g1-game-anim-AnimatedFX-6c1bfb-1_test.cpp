@@ -2,9 +2,9 @@
 //
 // No AnimatedFX or VisualObject is constructed. Both live in zero-filled storage and the batch
 // functions are called non-virtually, as in the game-world test. The functions the batch references
-// but does not define (SyncIrrData, SetSpeed, HasCompleted, VisualObject::SetVisible,
-// DebugSwitches::GetInstance and GetSwitch) are stubbed below and record their calls. Update is linked
-// but not called here; its lifetime countdown is tested in r2a-game-anim-pack0-392f84-0_test.cpp.
+// but does not define (SyncIrrData, SetSpeed, HasCompleted, VisualObject::SetVisible, GetSwitch) are stubbed
+// below and record their calls; DebugSwitches::GetInstance returns a real (empty) object, see below.
+// Update is linked but not called here; its lifetime countdown is tested in r2a-game-anim-pack0-392f84-0_test.cpp.
 
 #include <cstdio>
 #include <cstring>
@@ -64,10 +64,19 @@ void VisualObject::SetVisible(bool visible) {
     g_visualLastArg = visible;
 }
 
-// Only reached from Update, which this test does not call.
+// Only reached from Update, which this test does not call. A real zero-state DebugSwitches object, NOT a null
+// stand-in: the batch's `DebugSwitches::GetInstance()->GetSwitch(...)` dereferences the result unconditionally, and
+// this definition shadows the library's real singleton for the whole executable (tests link with
+// -Wl,--allow-multiple-definition and the first definition wins). GetSwitch below answers false, as the real
+// switch table does when it holds no entry.
 DebugSwitches* DebugSwitches::GetInstance() {
-    return nullptr;
+    static DebugSwitches instance;
+    return &instance;
 }
+
+// The function-local object above needs both, and they are the library's empty bodies (the two trees start empty).
+DebugSwitches::DebugSwitches() {}
+DebugSwitches::~DebugSwitches() {}
 
 bool DebugSwitches::GetSwitch(const std::string&) {
     return false;

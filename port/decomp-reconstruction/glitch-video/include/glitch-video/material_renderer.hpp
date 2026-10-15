@@ -108,11 +108,10 @@ public:
     // symbol is ...getParameterIDENS0_23E_SHADER_PARAMETER_TYPEEt (armdiff's param_drift, as for
     // IShader::getParameterID 0x5e48e4).
     uint16_t getParameterID(E_SHADER_PARAMETER_TYPE type, uint16_t index) const;
-    // 0x5d308c: the same over the parameter NAMES (the 0x5d308c listing compares the entry's +0x00 word at
-    // +4 with the interned name's text). Declared only, and it cannot be written yet: the entry's +0x00 name
-    // word is modelled as SParameterEntry::unknown00[4] (material_parameters.hpp), which is 4 bytes on the
-    // host, and material_parameters_part_1b.hpp:42 pins the record to 16 bytes, so the shared-string pointer
-    // has no field to live in.
+    // 0x5d308c: the same over the parameter NAMES: the entry's +0x00 handle (SParameterEntry::name) is a
+    // shared-string name, compared with the text of the name looked up in the heap. Defined in
+    // src/tb_video-glitch_video_CMaterialRenderer-0.cpp. The entries are the SShaderParameterDef records
+    // the renderer was built from (the constructor 0x5d3124 copies each one and takes a use on its +0x00).
     uint16_t getParameterID(const char* name, uint16_t index) const;
     // 0x5d4714: technique id for a name; 255 when absent. Defined in
     // src/tb_video-glitch_video_CMaterialRenderer-0.cpp.

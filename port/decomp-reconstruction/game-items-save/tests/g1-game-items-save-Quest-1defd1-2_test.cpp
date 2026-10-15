@@ -178,6 +178,13 @@ PlayerInfo* PlayerManager::GetLocalPlayer(int localId, bool flag) {
 
 int PlayerManager::IsLocalPlayerHosting() { return g_hosting ? 1 : 0; }
 
+// DELIBERATE TEST STUB, not a real object. CMatching is abstract here (LocalMemberId, ServerMemberId and MemberBit
+// are pure virtual) and this port's CMatching vtable order is a known defect (see the KNOWN DEFECT block in
+// net-session-online/include/net-session-online/c_matching_base.hpp), so no usable CMatching object can be built in
+// this file. Because tests link with -Wl,--allow-multiple-definition and the FIRST definition wins, this stub also
+// disables the library's real CMatching::Get for the whole executable: ANY later call added to this test's batch
+// that reaches CMatching::Get()->LocalMemberId() (Quest::UpdatePreActive's online branch, the batch's line with
+// GetRoomAttributes/SendGameParameters) would dereference null and fault. Nothing in the checks below reaches it.
 CMatching* CMatching::Get() { return nullptr; }
 
 bool ConditionList::Eval() {

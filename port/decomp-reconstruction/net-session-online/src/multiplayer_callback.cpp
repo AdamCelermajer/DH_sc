@@ -7,12 +7,16 @@
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/Application.hpp"                // ApplicationGetInstance
 #include "dh2/Character.hpp"                  // Character::IsDead, Kill
+#include "dh2/GSLevel.hpp"                    // GSLevel::s_level (the +0x130 load step)
 #include "dh2/Level.hpp"                      // Level::m_loadStep, m_isLoaded
+#include "dh2/ObjectManager.hpp"              // ObjectManager::unk_100, GetObjectHandleByNetworkId
 #include "dh2/Point3D.hpp"                    // Point3D<float>, PlayerManager::InitialSetup
 #include "dh2/PlayerInfo.hpp"                 // PlayerInfo::unk_660 (the local Character)
 #include "dh2/PlayerManager.hpp"
 #include "dh2/ScriptManager.hpp"              // ScriptManager::s_inst
+#include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764
 #include "dh2/global/net_singletons.hpp"      // GetOnline
+#include "net-session-online/c_event_queue_base.hpp"  // CEventQueueBase (internal_events_)
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_messaging.hpp"
 #include "net-session-online/c_msg_quests_sync.hpp"
@@ -99,10 +103,63 @@ std::int32_t MultiplayerCallback::HandleRaisedEventMessage(void* /*message*/) {
 std::int32_t MultiplayerCallback::LoadGLLiveFriends() { return 0; }
 
 // 0x49a808 _ZN19MultiplayerCallback16HandlePlayerLeftEPv
-// Partial: the event queue read (CEventQueueBase at CNetPlayerManager +0x180, event 3145731) needs a member that
-// CNetPlayerManager does not declare (layout request for net-transport). The character lookup needs
-// ObjectManager::GetObjectHandleByNetworkId, which has no definition in the tree. The stub returns 0.
-std::int32_t MultiplayerCallback::HandlePlayerLeft(void* /*message*/) { return 0; }
+// While the current Level is loaded (m_loadStep > 35), the internal player-left event (3145731 = 0x300003) is read
+// from CNetPlayerManager::internal_events_ (+0x180). The room-zone list at ObjectManager::unk_100 (+0x100, a
+// std::list<ObjectBase*> whose sentinel is the +0x100 member) is walked to count its entries (asm 0x49a880..0x49a88c),
+// then the loop asks GetObjectHandleByNetworkId for index 0..count-1 and, for an entry that converts to a Character
+// (ObjectHandle::operator Character*, 0x33ff54) that is not null, answers IsPlayer() (vtable +0x28) and whose
+// m_netInternalId (+0x1f8c, LDR R3,[R9,R10] with R10 = 0x1F8C) equals the event's member id, calls
+// PlayerManager::RemoveCharacter. The loop ends after the entry whose index reaches the count, or immediately when a
+// removal lands on the last index. With at most three players left (GetPlayerCount() <= 3) the matching object's
+// virtual slot +0x44 is invoked with 1, and the event is consumed.
+namespace {
+
+// The original is `LDR PC,[R3,#0x44]` on the CMatching object (asm 0x49a94c). That slot has no name in the tree:
+// c_matching_base.hpp's vtable sketch places +0x44 at OpenRoom, which is a room-lobby call and does not read as a
+// "few players left" notification, so no name is adopted. The slot offset is reproduced instead.
+void CallMatchingSlot44(CMatching* matching, int argument) {
+    void (*slot44)(CMatching*, int) = nullptr;
+    std::memcpy(&slot44, reinterpret_cast<const std::uint8_t*>(*reinterpret_cast<void* const*>(matching)) + 0x44,
+                sizeof(slot44));
+    if (slot44 != nullptr) {
+        slot44(matching, argument);
+    }
+}
+
+}  // namespace
+
+std::int32_t MultiplayerCallback::HandlePlayerLeft(void* /*message*/) {
+    Level* level = GSLevel::s_level;
+    if (level != nullptr && level->m_loadStep > 35) {
+        std::int32_t memberId = -1;
+        CNetPlayerManager* manager = GetNetPlayerMgr();
+        manager->internal_events_.GetEventData(0x300003, &memberId, 4);  // 3145731, +0x180
+        ObjectManager* objects = dword_99F764;
+        const std::list<ObjectBase*>& zones = objects->unk_100;  // +0x100
+        if (!zones.empty()) {
+            std::uint32_t count = 0;
+            for (auto it = zones.begin(); it != zones.end(); ++it) {
+                ++count;
+            }
+            for (std::uint32_t index = 0; index != count; ++index) {
+                ObjectHandle handle = objects->GetObjectHandleByNetworkId(static_cast<int>(index));
+                Character* character = static_cast<Character*>(handle);
+                if (character == nullptr || !character->IsPlayer() || character->m_netInternalId != memberId) {
+                    continue;
+                }
+                ApplicationGetInstance().m_playerManager->RemoveCharacter(character);
+                if (index + 1 == count) {
+                    break;
+                }
+            }
+        }
+        if (manager->GetPlayerCount() <= 3) {
+            CallMatchingSlot44(CMatching::Get(), 1);
+        }
+        manager->internal_events_.ConsumeEvent(0x300003);
+    }
+    return 0;
+}
 
 // 0x49a960 _ZN19MultiplayerCallback22HandleMenuReadyMessageEPv
 // Partial: the body is gated on OnlineGameState's state being 200, and the state has no accessor (the

@@ -20,13 +20,14 @@ static_assert(sizeof(detail::renderpass::SRenderState) == 32, "SRenderState is t
 namespace {
 constexpr std::size_t kPassStateBytes = 32;  // memcmp and copy length (0x20 in the original)
 
-// The text of a shared-string name (SSharedStringHeapEntry::SData). The heap interns every name, so two
-// entries hold the same interned name exactly when their texts are equal; the original's lookups below
-// compare the address of the inline text (SData + 4) on both sides. The port's SSharedStringData
-// (glitch-shared/shared_string_heap.hpp) keeps the text and reports it the way SData::release (0x6a4d9c)
-// selects it, so the same question is asked with strcmp. Null when the entry has no name.
+// The text of a shared-string name handle (SSharedStringHeapEntry::SData, held as an opaque word in
+// STechnique::name and in SParameterEntry::name). The heap interns every name, so two entries hold the
+// same interned name exactly when their texts are equal; the original's lookups below compare the address
+// of the committed text (SData + 4) on both sides. The port's SSharedStringData
+// (glitch-shared/shared_string_heap.hpp) reports the text the way SData::release (0x6a4d9c) selects it, so
+// the same question is asked with strcmp. Null when the handle is null.
 const char* sharedStringText(const void* data) {
-    return data == nullptr ? nullptr : static_cast<const core::detail::SSharedStringData*>(data)->text();
+    return core::detail::sharedStringText(static_cast<const core::detail::SSharedStringData*>(data));
 }
 }  // namespace
 
@@ -71,6 +72,39 @@ uint16_t CMaterialRenderer::getParameterID(E_SHADER_PARAMETER_TYPE type, uint16_
     return 0xFFFF;
 }
 
+// 0x5d308c _ZNK6glitch5video17CMaterialRenderer14getParameterIDEPKct
+// The id of the first parameter entry at or after `index` whose NAME is `name`; 0xffff when none.
+// Verified in the listing (152 bytes): the name is interned with SData::get(name, false) (BL to
+// 0x6a5074 with R1 = 0, the pure-lookup form that never creates a record), and a null result answers
+// 0xffff at once (CMP R0,#0 / MOVWEQ R5,#0xFFFF). The temporary is then used once: LDR R6,[R0] /
+// ADD R6,R6,#1 / STR R6,[R1],#4 is the use count at SData + 0x00 being raised, and R1 walks on to
+// SData + 4, the text address the comparison uses. The walk bound is CMP R5,R12 with R12 =
+// LDRH [R4,#0xE] (the entry count) and the entry is LDR R3,[R4,R5,LSL#4] (16-byte stride); the name
+// field is `LDR R3,[entry+0x00] / CMP R3,#0 / ADDNE R3,R3,#4 / CMP R1,R3`, so an entry with no name
+// never matches and a match is the interned text ADDRESS (the heap interns, so an existing record's
+// text address is the address get returned). Not found: MOV R5,#0xFFFF. The temporary's use count is
+// dropped again before every exit (SUB R6,R6,#1 / STR R6,[R0] / BEQ SData::release); the port does not
+// model that count or the release (shared_string_heap.hpp: no use-count word), and the interning table
+// keeps the record, so the original's drop-and-free is not reproduced here.
+// Deviation, the same one getTechniqueID (0x5d4714) records: the comparison is by TEXT
+// (sharedStringText + strcmp) rather than by the interned text address, because the port's heap
+// records are distinct objects with equal text. The engine's interning makes the two the same
+// question, and the parameter entries hold the name handle exactly as technique entries do (see
+// SParameterEntry::name).
+uint16_t CMaterialRenderer::getParameterID(const char* name, uint16_t index) const {
+    if (name == nullptr || *name == '\0') {
+        return 0xFFFF;  // SData::get returns 0 for both, and the original answers with its 0xFFFF sentinel
+    }
+    const detail::SParameterBlockHeader& header = parameters.parameterHeader();
+    for (uint16_t id = index; id < header.count; ++id) {
+        const char* entryName = sharedStringText(header.entries[id].name);
+        if (entryName != nullptr && std::strcmp(entryName, name) == 0) {
+            return id;
+        }
+    }
+    return 0xFFFF;
+}
+
 // 0x5d4714 _ZNK6glitch5video17CMaterialRenderer14getTechniqueIDEPKc
 // The ordinal of the first technique whose name is `name`; 0xff when the renderer has no such technique.
 // Verified in the listing (52 instructions): LDRB R5,[R4,#0x10] is the technique count, LDR R6,[R4,#0x18]
@@ -81,12 +115,13 @@ uint16_t CMaterialRenderer::getParameterID(E_SHADER_PARAMETER_TYPE type, uint16_
 // own listing (0x6a5074) returns 0 for a null pointer and for the empty text (CMP R0,#0 / LDRSB R3,[R0];
 // CMP R3,#0; both BEQ the "MOV R0,#0" exit), which is the null-or-empty guard here.
 // Deviations, both named: the walk compares the name TEXTS instead of the interned text addresses, because
-// the port's shared-string model has no intern table (SData::get 0x6a5074 has no body in the tree); the
-// engine's interning makes the two the same question, and they differ only for a table that holds two
+// the port's heap keeps each interned name as its own SSharedStringData record (getSharedString,
+// glitch-core-io/src/shared_string_heap.cpp, written in this pass) rather than comparing record addresses.
+// The engine's interning makes the two the same question, and they differ only for a table that holds two
 // distinct shared-string records with equal text, a state the original's heap cannot produce. The
 // original's temporary use of the key (++*(int*)data, then --*data and SData::release at zero) is not
-// reproduced: the port's SSharedStringData has no use-count word, and the heap keeps the record alive, so
-// the count never reaches zero on this path.
+// reproduced: the port's SSharedStringData has no use-count word, and the interning table keeps the record
+// alive, so the count never reaches zero on this path.
 uint8_t CMaterialRenderer::getTechniqueID(const char* name) const {
     if (name == nullptr || *name == '\0') {
         return 0xFF;  // SData::get returns 0 for both, and the original answers with its 0xFF sentinel

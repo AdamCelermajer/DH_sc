@@ -182,7 +182,15 @@ bool EventManager::Detach(int eventId, IEventReceiver* receiver) {
     return true;
 }
 
-InputManager* InputManager::GetInstance() { return nullptr; }
+// A real (never constructed) InputManager object, NOT a null stand-in. The batch does
+// `InputManager::GetInstance()->GetFirstConnectedGamepad()` and this definition shadows the library's real
+// singleton for the whole executable (tests link with -Wl,--allow-multiple-definition, first definition wins), so a
+// null here would be a dereference the moment Update() is called. GetFirstConnectedGamepad is the test's own stub
+// below, so the object is never read and reports "no pad", exactly as the checks expect.
+InputManager* InputManager::GetInstance() {
+    alignas(16) static unsigned char storage[sizeof(InputManager)];
+    return reinterpret_cast<InputManager*>(storage);
+}
 
 Gamepad* InputManager::GetFirstConnectedGamepad() { return nullptr; }
 

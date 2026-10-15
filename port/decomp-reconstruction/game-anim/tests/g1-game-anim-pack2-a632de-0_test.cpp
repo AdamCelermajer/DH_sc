@@ -77,9 +77,15 @@ void v2Controller::Cmd_UsePotion() { g_log.push_back("UsePotion"); }
 void v2Controller::Cmd_OpenIGM() { g_log.push_back("OpenIGM"); }
 void v2Controller::Cmd_Stop() { g_log.push_back("Stop"); }
 
-// The stubs ignore `this`. Update reaches InputManager only through these calls (GetGamepad is virtual and is never
-// reached here, because every test uses index -1 or no gamepad).
-InputManager* InputManager::GetInstance() { return nullptr; }
+// The stubs ignore `this`. The batch reaches InputManager only through these calls (GetGamepad is virtual and is
+// never reached here, because every test uses index -1 or no gamepad). The accessor returns a real (never
+// constructed) InputManager object, NOT a null stand-in: this definition shadows the library's real singleton for
+// the whole executable, and calling the member stubs below on a null `this` would be undefined behaviour. Nothing
+// dereferences the object because GetNumGamepads and GetFirstConnectedGamepad are the only calls the batch makes.
+InputManager* InputManager::GetInstance() {
+    alignas(16) static unsigned char storage[sizeof(InputManager)];
+    return reinterpret_cast<InputManager*>(storage);
+}
 int InputManager::GetNumGamepads() const { return g_numGamepads; }
 Gamepad* InputManager::GetFirstConnectedGamepad() { return g_firstPad; }
 

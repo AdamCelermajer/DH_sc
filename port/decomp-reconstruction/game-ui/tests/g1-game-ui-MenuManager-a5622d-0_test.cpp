@@ -3,9 +3,10 @@
 // MenuManager and the menus are raw zero-filled storage. The vector of menus is constructed in place, and each menu
 // block gets its m_name and m_visible set. No virtual function of those objects is called, and CanHandleEvent is
 // called with its qualified name so no vtable is read.
-// The definitions below exist only so the test links. They are not the real ones: ApplicationGetInstance is the
-// integrator's accessor, HUDControls::GetInstance is the HUD singleton's, and MenuBase::IsVisible is defined in
-// game-ui/src/g1-game-ui-MenuBase-8948cc-0.cpp. They are never reached from the checks below.
+// The definitions below exist so the test links. They are not the real ones: ApplicationGetInstance is the
+// integrator's accessor, MenuBase::IsVisible is defined in game-ui/src/g1-game-ui-MenuBase-8948cc-0.cpp, and
+// HUDControls::GetInstance returns a real (empty) HUDControls object rather than the library's singleton (see the
+// comment on its definition). None of them is reached from the checks below.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -23,10 +24,17 @@ Application& ApplicationGetInstance() {
     std::abort();
 }
 
+// A real (zero-filled, never constructed) HUDControls object, NOT a null stand-in. MenuManager::OnEvent (the batch)
+// does `HUDControls::GetInstance()->OnEvent(e)` with no null check, and because tests link with
+// -Wl,--allow-multiple-definition and the first definition wins, this shadowed the library's real singleton for the
+// whole executable. OnEvent is the test's own stub below, so nothing reads the object. OnEvent itself is not called
+// by the checks either; converting the accessor only removes the latent fault for a later call.
 HUDControls* HUDControls::GetInstance() {
-    return nullptr;
+    alignas(16) static unsigned char storage[sizeof(HUDControls)];
+    return reinterpret_cast<HUDControls*>(storage);
 }
 
+// Link-only stub: HUDControls::OnEvent runs on a zero-filled object here, so it does nothing.
 float HUDControls::OnEvent(RenderFX::Event& /*event*/) {
     return 0.0f;
 }

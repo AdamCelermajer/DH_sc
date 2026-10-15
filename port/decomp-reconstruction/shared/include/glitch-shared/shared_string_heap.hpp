@@ -38,7 +38,10 @@
 //   release (0x6a4d9c) selects the text as a1 + 1 when the word at +0x04 is nonzero, and *a1 otherwise.
 //   For a committed non-empty text the first byte at +0x04 is nonzero, so this picks the inline text.
 //   An empty committed string would have a zero word at +0x04; the original then reads a null text.
-//   That case is an open question (see the glitch-core-io NOTES).
+//   That case is unreachable through the original's own get: get returns 0 for a null and for an empty
+//   text, so nothing ever inserts one (get 0x6a5074's first two exits). The model below cannot produce
+//   it either - SSharedStringData::committed with an empty inlineText reads as "", and sharedStringText
+//   reports an empty string rather than the original's null - but no code path inserts such a record.
 //
 // Hash (get 0x6a5074, release 0x6a4d9c): each byte c of the text, in order, is sign-extended (the
 // listing uses SXTAB at 0x6a50d8 for the byte load; char is signed in this step) and folded in as
@@ -76,6 +79,19 @@ struct SSharedStringData {
 
     const char* text() const { return committed ? inlineText.c_str() : external; }
 };
+
+// The text of a record, exactly the selection release (0x6a4d9c) and the rehash in get (0x6a5074)
+// make: the inline text at +0x04 when the +0x04 word is non-zero (committed), the pointer at +0x00
+// otherwise. Null-safe, because get and the parameter/technique lookups all accept a null handle.
+inline const char* sharedStringText(const SSharedStringData* data) {
+    return data == nullptr ? nullptr : data->text();
+}
+
+// Hash of a record's own text, the bucket index the rehash in get recomputes for every record.
+inline std::uint32_t sharedStringHash(const SSharedStringData* data) {
+    const char* text = sharedStringText(data);
+    return text == nullptr ? 0u : sharedStringHash(text);
+}
 
 // One record of the bucket chains (GlitchAlloc(8) in get). The original links records by address
 // of their +0x04 word; here the chain is a pointer to the next record.

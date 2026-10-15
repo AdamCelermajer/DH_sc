@@ -139,6 +139,10 @@ void ObjectBase::Serialize(IStreamBase*) {}
 void ObjectBase::SetVisible(bool) {}
 ObjectSearcher::TargetList::~TargetList() {}
 ObjectSearcher::IObjectList::~IObjectList() {}
+// DELIBERATE vtable stubs, not real cursor walks. The BackupObjectList::Get below also replaces the library's real
+// accessor for the whole executable (tests link with -Wl,--allow-multiple-definition and the first definition wins);
+// the checks never walk a BackupObjectList, so nothing dereferences the null today. A later check that walks one
+// through TargetList::Search or SearchRect would receive null from Get and fault in the candidate test.
 ObjectSearcher::BackupObjectList::~BackupObjectList() {}
 void ObjectSearcher::BackupObjectList::Reset() {}
 bool ObjectSearcher::BackupObjectList::AtEnd() { return true; }

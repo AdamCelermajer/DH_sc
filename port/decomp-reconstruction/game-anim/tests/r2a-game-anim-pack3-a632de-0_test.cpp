@@ -252,6 +252,11 @@ void ObjectSearcher::TargetList::Search(const Point3D<float>&, float maxRange, f
 bool ObjectSearcher::TargetSorter::_sortNoSort(const ObjectSearcher::TargetInfo&, const ObjectSearcher::TargetInfo&) {
     return false;
 }
+// DELIBERATE vtable stubs, not real cursor walks: both `Get` definitions below also replace the library's real
+// BackupObjectList/RoomObjectList accessors for the whole executable (tests link with
+// -Wl,--allow-multiple-definition and the first definition wins). The checks never walk either list, so nothing
+// dereferences the null today; a later check that walks one through TargetList::Search or SearchRect would receive
+// null from Get and fault in the candidate test.
 ObjectSearcher::IObjectList::~IObjectList() {}
 ObjectSearcher::BackupObjectList::~BackupObjectList() {}
 void ObjectSearcher::BackupObjectList::Reset() {}

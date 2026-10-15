@@ -140,6 +140,10 @@ void ISerializable::Serialize(IStreamBase*) {}
 void ISerializable::Deserialize(IStreamBase*) {}
 
 // The IObjectList and BackupObjectList overrides the destructor chain of the ObjectSearcher result map names.
+// DELIBERATE stubs, not real cursor walks: the BackupObjectList::Get below also replaces the library's real accessor
+// for the whole executable (tests link with -Wl,--allow-multiple-definition and the first definition wins). The
+// checks never walk a BackupObjectList, so nothing dereferences the null today; a later check that walks one through
+// TargetList::Search or SearchRect would receive null from Get and fault in the candidate test.
 ObjectSearcher::IObjectList::~IObjectList() {}
 ObjectSearcher::BackupObjectList::~BackupObjectList() {}
 void ObjectSearcher::BackupObjectList::Reset() {}

@@ -168,6 +168,12 @@ void TestPlayerList() {
 }  // namespace
 
 // Stubs for functions of other batches that the vtables emitted in the batch sources refer to.
+// DELIBERATE STUBS, not real cursor walks: the two `Get` definitions below also replace the library's real
+// ObjectSearcher list accessors for the whole executable (tests link with -Wl,--allow-multiple-definition and the
+// first definition wins). The checks only read TargetSorter/CharacterList/PlayerList cursors, none of which calls a
+// BackupObjectList or PlayerList Get, so nothing dereferences the null today. Any later check that walks a list
+// through TargetList::Search or SearchRect would receive null from Get and fault in the candidate test; the real
+// Get returns the object the cursor points at.
 void ObjectSearcher::BackupObjectList::_Clear() {}
 void ObjectSearcher::BackupObjectList::Reset() {}
 bool ObjectSearcher::BackupObjectList::AtEnd() { return true; }

@@ -81,8 +81,16 @@ void MenuFX::PopAll() {
     g_log.push_back("PopAll");
 }
 
+// DELIBERATE TEST STUB, not a real object. Because tests link with -Wl,--allow-multiple-definition and the FIRST
+// definition wins, this stub also disables the library's real MenuManager::GetInstance (0x42ca8c, which returns
+// ApplicationGetInstance().m_menuManager) for the whole executable. The batch's only call is
+// `MenuManager::GetInstance()->m_multiMenuManager->PopMenu(true)` in FS_PopAllMenu, which this test does not call.
+// The other menu path, FS_SetLanguage -> ResetFonts, is kept safe by the link-only ResetFonts stub further down
+// (the Application singleton here has a null m_menuManager, so the real GetInstance would return null there too
+// and the real ResetFonts would then dereference it). Any later check that calls a real MenuManager member would
+// dereference null and fault.
 MenuManager* MenuManager::GetInstance() {
-    return nullptr;  // reached only by FS_PopAllMenu, which this test does not call
+    return nullptr;
 }
 
 // The library's MenuManager::ResetFonts (0x42d72c) forwards to MultiMenuManager::ResetFonts() through

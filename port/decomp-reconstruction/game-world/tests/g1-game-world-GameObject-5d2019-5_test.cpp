@@ -151,6 +151,9 @@ ObjectSearcher::CharacterList::~CharacterList() {}
 ObjectSearcher::PlayerList::~PlayerList() {}
 ObjectSearcher::RoomObjectList::~RoomObjectList() {}
 // The list objects are built on the stack by the bindings, so their vtables are emitted here; none of these is called.
+// The BackupObjectList::Get below is a DELIBERATE stub that also replaces the library's real accessor for the whole
+// executable (tests link with -Wl,--allow-multiple-definition and the first definition wins), so a later check that
+// walks one through TargetList::Search or SearchRect would receive null and fault in the candidate test.
 void ObjectSearcher::CharacterList::Reset() {}
 bool ObjectSearcher::CharacterList::AtEnd() { return true; }
 void ObjectSearcher::CharacterList::Next() {}

@@ -10,7 +10,7 @@
 // byte-array writes do not read the matching object.
 //
 // Not covered: Serialize (both overloads). They call NetStruct::Serialize, which reads CMatching::Get() for the local
-// member id, so they need the real matching object.
+// member id, so they need the real matching object (the inert test-local stub below is a different type entirely).
 
 #include <cstdint>
 #include <cstdio>
@@ -18,7 +18,12 @@
 
 #include "dh2/CRoomAttributes.hpp"
 
-// Link-time CMatching accessors (see the header comment). Not the net-session-online class.
+// Link-time CMatching accessors (see the header comment). Not the net-session-online class. DELIBERATE TEST STUB:
+// this is a test-local `::CMatching`, a different type from the library's net-session-online::CMatching, so unlike
+// the other test-local singleton stubs it does NOT shadow the library's real CMatching::Get in this executable;
+// any symbol the executable took from the library still reaches the real accessor. The stub is inert either way:
+// no check below reaches it, and the real class cannot be declared next to dh2/CRoomAttributes.hpp (both declare a
+// global CRoomAttributes), so Serialize stays uncovered until this file links the real matching object.
 class CMatching {
 public:
     static CMatching* Get();

@@ -43,8 +43,18 @@ PlayerInfo* PlayerManager::GetPlayerByInternalID(int internalId, bool /*flag*/) 
     return Record(internalId);
 }
 
-MenuManager* MenuManager::GetInstance() { return nullptr; }
+// A real (zero-filled, never constructed) MenuManager object, NOT a null stand-in: the library's Invoke overloads do
+// `MenuManager::GetInstance()->GetHUDRoot()` with no null check, and this definition shadows the library's real
+// singleton for the whole executable (tests link with -Wl,--allow-multiple-definition and the first definition
+// wins). GetHUDRoot below is the deliberate stub: it answers null because this test builds no MultiMenuManager, and
+// it is what keeps an Invoke call on a later batch path observable instead of a fault. This test's checks call
+// GetStatStr, GetStatValue and GetRanking only, so neither accessor is reached today.
+MenuManager* MenuManager::GetInstance() {
+    alignas(16) static unsigned char storage[sizeof(MenuManager)];
+    return reinterpret_cast<MenuManager*>(storage);
+}
 
+// Deliberate stub: the library's GetHUDRoot dereferences the manager's m_multiMenuManager, which does not exist here.
 MenuFX* MenuManager::GetHUDRoot() { return nullptr; }
 
 bool CNetPlayerInfo::IsRemote() const { return false; }
