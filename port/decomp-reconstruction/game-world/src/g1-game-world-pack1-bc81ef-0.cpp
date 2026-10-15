@@ -49,6 +49,15 @@ bool Dummy::IsAnimated() const { return false; }
 // 0x34014c Dummy::IsInteractive(GameObject*) const. The GameObject argument is not read.
 bool Dummy::IsInteractive(GameObject*) const { return false; }
 
+// 0x3410a4 _ZN5DummyC1EN10ObjectBase6GO_IDSE
+// Inlined into GetNewInstance<Dummy> (0x3410a4), so the binary has no standalone Dummy constructor symbol. The asm runs
+// GameObject::GameObject(GO_IDS 20) (MOV R1,#0x14 before the BL), stores the primary vptr at +0x00, the third at +0x04
+// and the second at +0x24, and sets m_static (+0x84) to 1; Dummy has no members of its own. The vptr stores and the
+// base call are what the C++ constructor emits, so the body is the single flag store.
+Dummy::Dummy(GO_IDS id) : GameObject(id) {
+    m_static = true;  // ObjectBase +0x84
+}
+
 // 0x341184 Dummy::~Dummy() (D1, complete-object destructor). The original stores the Dummy vtables at +0x00, +0x04 and
 // +0x24 and then runs GameObject::~GameObject. The compiler emits the same vptr stores and base destructor call.
 Dummy::~Dummy() {}
@@ -65,6 +74,15 @@ bool Floor::IsUpdatable() const { return false; }
 
 // 0x3883ec Floor::IsZonable() const
 bool Floor::IsZonable() const { return false; }
+
+// 0x34104c _ZN5FloorC1EN10ObjectBase6GO_IDSE
+// Inlined into GetNewInstance<Floor> (0x34104c), so the binary has no standalone Floor constructor symbol. The asm runs
+// GameObject::GameObject(GO_IDS 20) (MOV R1,#0x14 before the BL), stores the primary vptr at +0x00, the third at +0x04
+// and the second at +0x24 (STM R4,{R1,R3} plus the STR at +0x24), and sets m_static (+0x84) to 1; Floor has no members
+// of its own. The vptr stores and the base call are what the C++ constructor emits.
+Floor::Floor(GO_IDS id) : GameObject(id) {
+    m_static = true;  // ObjectBase +0x84
+}
 
 // 0x388470 Floor::~Floor() (D1, complete-object destructor). Same shape as Dummy::~Dummy: vtable stores, then
 // GameObject::~GameObject. The compiler emits the vptr stores and the base destructor call.

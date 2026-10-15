@@ -1,12 +1,21 @@
-// glitch::core::detail::SSharedStringHeapEntry::SData::get (0x6a5074) and SData::release (0x6a4d9c) over
-// the table layout in shared_string_heap.hpp.
+// The glitch::core shared-string heap of the original's libDungeonHunter2.so:
+//   * glitch::core::detail::SSharedStringHeapEntry::SData::get (0x6a5074) and SData::release (0x6a4d9c),
+//     the two business functions over the table layout in shared_string_heap.hpp;
+//   * initSharedStringHeap (0x6a5538), the anonymous-namespace function that creates the process-wide
+//     table SharedStringHeap (ELF 0x9f765c) and the one that tears it down again;
+//   * glitch::core::sharedStringHeapTable(), this port's owner accessor for that process-wide table,
+//     and glitch::core::SSharedString::operator= (0x5daf94), the first handle operation written on it.
 //
-// The original's table is the anonymous-namespace global SharedStringHeap (ELF 0x9f765c), allocated by
-// initSharedStringHeap (0x6a5538) and holding a boost::unordered_map<SSharedStringHeapEntry, SData*>. get
-// (0x6a5074, 1104 bytes) is that container's find/insert/rehash inlined; this file reconstructs what it
-// does, not its instruction sequence. Both functions take the table as a parameter (the port has no
-// SharedStringHeap global), so their mangled names are not the original's - the same deviation the
-// release row records.
+// The original's table is a boost::unordered_map<SSharedStringHeapEntry, SData*> (0x24 bytes), the
+// anonymous-namespace global SharedStringHeap (ELF 0x9f765c) holding a pointer to it. get (0x6a5074,
+// 1104 bytes) and release (0x6a4d9c) are that container's find/insert/rehash inlined; this file
+// reconstructs what they do over the port's own table model, not their instruction sequence.
+//
+// Both SData functions take the table as a parameter in the port, because the port reaches the global
+// through sharedStringHeapTable() instead of a file-local static: several translation units, in several
+// categories, hold records from the same table. That is the one deviation the two rows record; the
+// mangled name of the original does not appear either way (the original's get/release symbols are
+// static members of SSharedStringHeapEntry whose bodies read the anonymous-namespace table).
 #include "glitch-core-io/core/shared_string_heap_ops.hpp"
 
 #include <algorithm>
@@ -15,6 +24,9 @@
 #include <cstdint>
 #include <cstring>
 #include <vector>
+
+#include "glitch-core-io/os/logging.hpp"
+#include "glitch-shared/shared_string.hpp"
 
 namespace glitch::core::detail {
 namespace {
@@ -100,7 +112,135 @@ void rehash(SSharedStringHeapTable& table, std::size_t newBucketCount) {
     table.rehashThreshold = static_cast<std::size_t>(std::ceil(table.maxLoadFactor * static_cast<double>(newBucketCount)));
 }
 
+// The prime selection inside initSharedStringHeap (0x6a5538, the block at 0x6a55b8..0x6a560c): the
+// value of the prime list slot the original's binary search lands on for a target. It is NOT
+// "the first prime greater than 10" written as a scan. The two agree for the target the original
+// passes (10 -> 11; a simulator of this exact sequence, run against the 40 primes, returns index 1),
+// but the listing's search is a binary search whose result is a slot: `slot` is the base of the
+// current range and `status` the number of values it spans, and the "above the target" arm narrows by
+// writing status BEFORE applying LSR while the "not above" arm moves the base past the slot and
+// shrinks status around it. The final two instructions are the original's out-of-range fixup: when
+// the result slot is the pointer's end (R2 == V + 4 * 40 at 0x6a5600..0x6a5608) the slot before it is
+// used, i.e. the last prime. Transcribing that sequence keeps every target's answer the listing's
+// answer, which a scan cannot guarantee for targets other than 10.
+std::uint32_t searchPrimeSlotGreaterThan(std::uint32_t target) {
+    constexpr std::size_t kLength = sizeof(kSharedStringPrimes) / sizeof(kSharedStringPrimes[0]);
+    std::size_t slot = 0;    // R2, in prime slots
+    std::size_t status = kLength;  // R12
+    while (true) {
+        std::size_t index = status >> 1;  // 0x6a55c0: MOV R3, R12,ASR#1
+        bool left = false;                // a jump to 0x6a55fc leaves the loop
+        while (true) {
+            // 0x6a55d8: LDR R1,[R2,R3,LSL#2] / 0x6a55e0: CMP R1,#0xA / 0x6a55e4: BHI 0x6a55c8
+            if (kSharedStringPrimes[slot + index] <= target) {
+                // 0x6a55e8: SUB R12,R12,#1 / 0x6a55ec: RSB R12,R3,R12 / 0x6a55f4: ADD R2,LR,#4
+                status = status - 1 - index;
+                slot = slot + index + 1;
+                // 0x6a55f0: CMP R12,#0 / 0x6a55f8: BGT 0x6a55c0 - zero status falls to 0x6a55fc
+                if (status == 0) left = true;
+                break;
+            }
+            // above the target: 0x6a55c8: CMP R3,#0 / 0x6a55cc: MOV R12,R3 / 0x6a55d0: LSR R3,#1
+            const bool atZero = index == 0;
+            status = index;
+            index = status >> 1;
+            // 0x6a55d4: BLE 0x6a55fc (taken when the compare was zero AND the shifted index is zero)
+            if (atZero && index == 0) {
+                left = true;
+                break;
+            }
+        }
+        if (left) break;
+    }
+    // 0x6a5600: ADD R1,R3,#0xA0 / 0x6a5604: CMP R2,R1 / 0x6a5608: ADDEQ R2,R3,#0x9C
+    if (slot == kLength) slot = kLength - 1;
+    return kSharedStringPrimes[slot];
+}
+
+// The port's owner of the process-wide table (the original's SharedStringHeap plus its init flag). The
+// table is created on first use, so no static-initialization order can reach it before initSharedString
+// Heap has run; sharedStringHeapTable() returns this object, which gives every category one table.
+SSharedStringHeapTable& sharedStringHeapStorage() {
+    static SSharedStringHeapTable table;
+    return table;
+}
+
+// The 0x24-byte table object with its initial fields, as initSharedStringHeap (0x6a5538) stores them:
+// maxLoadFactor 1.0f (+0x08), the initial bucket count from the prime search (+0x18, 11 for the
+// target 10 the listing uses), the bucket array (+0x14) with the end sentinel in its bucketCount'th
+// slot, the cursor (+0x1c) at that sentinel, size 0 (+0x20), and the rehash threshold (+0x0c) =
+// ceil(maxLoadFactor * bucketCount), which the listing computes in double precision and clamps to
+// 0xFFFFFFFF when the product is at least 2^32 + 4 (the __aeabi_dcmpge at 0x6a566c).
+void createSharedStringHeap(SSharedStringHeapTable& table) {
+    table.maxLoadFactor = 1.0f;
+    table.bucketCount = searchPrimeSlotGreaterThan(10u);
+    table.cursor = table.bucketCount;
+    table.buckets.assign(table.bucketCount + 1, nullptr);
+    table.size = 0;
+    const double threshold = std::ceil(static_cast<double>(table.maxLoadFactor) * static_cast<double>(table.bucketCount));
+    table.rehashThreshold = threshold >= 4294967300.0 ? static_cast<std::size_t>(0xFFFFFFFFu)
+                                                      : static_cast<std::size_t>(static_cast<std::uint32_t>(threshold));
+}
+
+// The teardown of initSharedStringHeap (0x6a5538, false): when the table still holds records, the
+// original logs "Shared string objects not properly cleaned up" at level 3 (ELL_ERROR) through
+// os::Printer::log 0x60aca0 and then frees the bucket chains and the bucket array (delete_buckets
+// 0x6a4f18) and the table object itself (LC_API_FREE_0). The port brings the table back to its
+// pre-init state instead of freeing the object, because its one table is a function-local static owned
+// by the process; the observable part of the teardown - the warning for records that are still alive,
+// and an empty table afterwards - is the same. The records themselves are not walked: the original
+// frees the chain nodes and the bucket array, and the records are the handles' to release (see the
+// use-count note in shared_string_heap.hpp).
+void destroySharedStringHeap(SSharedStringHeapTable& table) {
+    if (table.size != 0) {
+        glitch::os::Printer::log("Shared string objects not properly cleaned up", glitch::ELL_ERROR);
+    }
+    table.buckets.clear();  // the original's delete_buckets: the chains and the bucket array
+    table.buckets.shrink_to_fit();
+    table.bucketCount = 0;
+    table.cursor = 0;
+    table.size = 0;
+    table.rehashThreshold = 0;
+    table.maxLoadFactor = 1.0f;
+}
+
 }  // namespace
+
+// The process-wide table, declared in glitch-shared/shared_string_heap.hpp. One definition, so every
+// translation unit that includes that header shares the one table of sharedStringHeapStorage().
+SSharedStringHeapTable& sharedStringHeapTable() {
+    // The original allocates the table with operator new(0x24) and stores it in the global only at the
+    // END of initSharedStringHeap, and the original's initializer runs before any string is interned
+    // (glitch::registerInitStep, 0x6a54d0, is not in the port - see the ledger row). Creating it here
+    // is initSharedStringHeap(true) at first use, which for this port is the same "one initialized
+    // table before the first lookup" contract. Forcing the initialization once here (not a second
+    // initialization: bucketCount is only 0 while the table has never been created) keeps a second
+    // caller from resetting a live table if it ever reaches this function before the first one.
+    static SSharedStringHeapTable& table = []() -> SSharedStringHeapTable& {
+        SSharedStringHeapTable& storage = sharedStringHeapStorage();
+        createSharedStringHeap(storage);
+        return storage;
+    }();
+    return table;
+}
+
+// 0x6a5538 _ZN6glitch4core6detail12_GLOBAL__N_120initSharedStringHeapEb
+//
+// The original's init step for the shared-string heap: argument true builds the table (operator
+// new(0x24), maxLoadFactor 1.0f at +0x08, the initial prime from the search, the bucket array with
+// its sentinel, cursor, size and the ceil threshold at +0x0c), argument false tears it down. This
+// function is not registered with an init-step list (glitch::registerInitStep is not in the port; the
+// 0x6a54d0 row is where that registration lives), so the port's table is created on first use by
+// sharedStringHeapTable(); this function is the direct form of both directions, for a caller that
+// wants to initialize or reset the table deliberately (and it is what the teardown warning lives in).
+void initSharedStringHeap(bool initialize) {
+    SSharedStringHeapTable& table = sharedStringHeapStorage();
+    if (initialize) {
+        createSharedStringHeap(table);
+    } else {
+        destroySharedStringHeap(table);
+    }
+}
 
 // 0x6a5074 _ZN6glitch4core6detail22SSharedStringHeapEntry5SData3getEPKcb
 //
@@ -120,22 +260,25 @@ void rehash(SSharedStringHeapTable& table, std::size_t newBucketCount) {
 //     because the table is always kept sorted-by-bucket only ever happens for a new lowest bucket.
 //   * commit (0x6a4cb8) runs on the newly built holder only (the B to the store on the create path), and
 //     the function returns the holder's +0x00 word, which is the holder's own address after commit. The
-//     existing-record exits return the record's +0x00 word directly.
+//     existing-record exits return the record's +0x00 word directly. (That word changes meaning when the
+//     record is committed: in the uncommitted key holder +0x00 is the caller's text pointer and +0x04 is
+//     zero, and commit 0x6a4cb8 replaces it with the new block, zeroes the block's +0x00 and strcpys the
+//     text to +0x04 - so a COMMITTED record's +0x00 is its USE COUNT, which is what operator= 0x5daf94
+//     increments and what release's `LDR R5,[R0,#4] / if (R5) R1 = R0 + 4` selection implies. Neither get
+//     path writes it, so the port's get does not touch useCount either.)
 //   * The two type-shared helpers keep the paths a caller observes identical: null/empty -> null; the
 //     create form always yields a committed record whose text is the interned text; the lookup form never
 //     creates and yields null for a text that is not interned.
 //
-// The two deviations, both host-necessitated and both named:
-//   (1) the table is a parameter because the port has no SharedStringHeap global (initSharedStringHeap
-//       0x6a5538 and the .bss global are not reconstructed), so this function does not emit the original
-//       mangled name. Same deviation as release (0x6a4d9c), and no port code needs the symbol.
-//   (2) the original's use count. It is the +0x00 word of a record, incremented by the callers
-//       (SSharedString::operator= 0x5daf94, getParameterID 0x5d308c: `LDR R6,[R0]; ADD R6,R6,#1`), and
-//       release (0x6a4d9c) frees the record when it reaches zero. The port's SSharedStringData has no
-//       use-count word (the missing item the SIDedCollection / SShaderParameterDef rows record), so the
-//       table owns every record it creates and nothing is freed on this path. The interning plus the text
-//       copy into the record mean a record does not alias the caller's buffer, so the difference is the
-//       lifetime of the records, not the text or the identity a lookup returns.
+// The one deviation, host-necessitated and named: the table is a parameter because the port reaches the
+// process-wide table through sharedStringHeapTable() rather than reading an anonymous-namespace global
+// (initSharedStringHeap 0x6a5538 and the table owner ARE reconstructed now, in this file), so this
+// function does not exist under the original mangled symbol - it is a free function in
+// glitch::core::detail, where the original was the static
+// SSharedStringHeapEntry::SData::get(char const*, bool). The body itself has no other deviation: in
+// particular it does NOT touch the record's use count, exactly as the listing does not - the callers
+// take the use (`SSharedString::operator=` 0x5daf94, `getParameterID` 0x5d308c) and release is the
+// last-use free. See the use-count note in glitch-shared/shared_string_heap.hpp.
 SSharedStringData* getSharedString(SSharedStringHeapTable& table, const char* text, bool noSideEffect) {
     if (text == nullptr || *text == '\0') return nullptr;
 
@@ -180,9 +323,11 @@ SSharedStringData* getSharedString(SSharedStringHeapTable& table, const char* te
 // the listing's committed case compares the two texts (it reads the record's own text at +0x00/+0x04 and
 // strcmps it with the released record's text). get (0x6a5074) interns by text, so a table holding two
 // records for one text cannot be produced through this port's get; the difference is still a real body
-// difference. The table is passed in: the original reads the anonymous-namespace global, which is not in
-// the port (see the header). Deleting the SData here is the original's last-use-free, expressed directly
-// because the port's SSharedStringData has no use count.
+// difference. The table is passed in: the original reads the anonymous-namespace global through the same
+// ownership the ports' sharedStringHeapTable() provides (see the header). Deleting the SData here is the
+// original's LAST-USE free, which it is in the listing too: this function does not decrement the use count
+// and does not test it. A caller runs it once its own `--data->useCount` read zero (operator= 0x5daf94,
+// getParameterID 0x5d308c); the count itself lives in SSharedStringData::useCount.
 void releaseSharedString(SSharedStringHeapTable& table, SSharedStringData* data) {
     if (table.bucketCount != 0) {
         const std::size_t index = sharedStringHash(data->text()) % table.bucketCount;
@@ -208,3 +353,42 @@ void releaseSharedString(SSharedStringHeapTable& table, SSharedStringData* data)
 }
 
 }  // namespace glitch::core::detail
+
+namespace glitch::core {
+
+// 0x5daf94 _ZN6glitch4core13SSharedStringaSEPKc
+//
+// Verified instruction by instruction against the listing (21 instructions, 0x5daf94..0x5dafe8):
+//   * `MOV R0,R1` / `MOV R1,#1` / `BL SData::get` - the CREATE form of the lookup (R1 != 0, the
+//     get-or-create that commits 0x6a4cb8), with the text as the first argument. get returns null for a
+//     null or an empty text and then takes no use.
+//   * `SUBS R3,R0,#0` / `LDRNE R2,[R3]` / `ADDNE R2,R2,#1` / `STRNE R2,[R3]` - the use count is the
+//     record's +0x00 word (commit zeroes it and puts the text at +0x04, so +0x00 is not the text here),
+//     taken on the NEW record BEFORE it is installed. The original needs no self-assignment guard: if
+//     the new record is the old one, the take runs first and the drop below balances it.
+//   * `LDR R0,[R4]` / `STR R3,[R4]` - the old record is read out of the handle and the new one is
+//     installed, unconditionally (a null new record stores null into the handle).
+//   * `CMP R0,#0` / `BEQ` - a null old record has nothing to drop.
+//   * `LDR R3,[R0]` / `SUB R3,R3,#1` / `CMP R3,#0` / `STR R3,[R0]` / `BNE` - drop the old record's use;
+//     only a drop that READ ZERO reaches the `BL SData::release`. This is the last-use test of the
+//     listing, and it is why the port's releaseSharedString stays the unconditional unlink-and-free it
+//     is (see the note above it): the count is the caller's, release is what runs once the count is 0.
+//   * `MOV R0,R4` - the return value is the handle.
+// get's table is the process-wide one (sharedStringHeapTable()), so the record this handle installs is
+// the same record every other category's handle would find for the same text.
+SSharedString& SSharedString::operator=(const char* text) {
+    detail::SSharedStringData* data = detail::getSharedString(detail::sharedStringHeapTable(), text, false);
+    if (data != nullptr) ++data->useCount;  // SUBS/LDRNE/ADDNE/STRNE: take the use on the new record
+
+    detail::SSharedStringData* previous = m_data;
+    m_data = data;
+
+    if (previous != nullptr) {
+        const std::uint32_t remaining = --previous->useCount;
+        if (remaining == 0) detail::releaseSharedString(detail::sharedStringHeapTable(), previous);
+    }
+    return *this;
+}
+
+}  // namespace glitch::core
+

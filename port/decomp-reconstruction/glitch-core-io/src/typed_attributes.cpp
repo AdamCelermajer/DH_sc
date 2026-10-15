@@ -434,7 +434,7 @@ boost::intrusive_ptr<glitch::video::CLight> CLightAttribute::getLight() const { 
 
 // 0x561dd8 _ZN6glitch2io15CLightAttribute9getStringEPc
 // The buffer receives "light" (with its terminator) when a light is set, else "".
-void CLightAttribute::getString(char* buf) const {
+void CLightAttribute::getString(char* buf) {
     if (light.get() != nullptr) {
         std::memcpy(buf, "light", 6);
         return;

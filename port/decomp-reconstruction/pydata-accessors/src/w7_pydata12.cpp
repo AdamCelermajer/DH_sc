@@ -86,18 +86,14 @@ const char* const kLoadFiles[] = {
 constexpr int kLoadDoneState = 70;
 static_assert(sizeof(kLoadFiles) / sizeof(kLoadFiles[0]) == kLoadDoneState, "Load has 70 file states");
 
-// Stand-in for StreamReader::readString in PyDataConstants::reloadData. Assumed form: a uint32 length
-// prefix, then that many bytes, failing when the length does not fit the 256-byte buffer or the stream is
-// short. The listing's readString arguments are not decoded, so this is not verified (see the ledger).
+// Capacity argument of both StreamReader::readString calls in PyDataConstants::reloadData (0x4c540c).
+// Decoded from the listing: MOV R2, #0x100 at 0x4c5524 (class name) and 0x4c55b8 (entry name), with R3 = 0,
+// so the 64-bit length argument is 256:0. IDA prints that immediate as "elf_hash_bucket+0x24", which is
+// 0xdc + 0x24 = 0x100. The two buffers it caps are the 256-byte arrays at sp+0x12C (the class name) and
+// sp+0x2C (the entry name). The old file-local ReadPrefixedString stand-in is gone: the real
+// StreamReader::readString (0x317734) is declared by dh2/StreamReader.hpp (line 38), which
+// deps/stream_reader.hpp includes, and is called directly.
 constexpr std::uint32_t kConstantsStringCap = 256;
-
-bool ReadPrefixedString(IStreamBase* stream, char* buf) {
-    const std::uint32_t len = StreamReader::readAs<std::uint32_t>(stream);
-    if (len >= kConstantsStringCap) return false;
-    if (len != 0 && (stream == nullptr || stream->read(buf, len) != len)) return false;
-    buf[len] = '\0';
-    return true;
-}
 
 }  // namespace
 
@@ -206,21 +202,36 @@ const char* PyDataConstants::getConstantName(const char* className, int value) c
 }
 
 // 0x4c540c _ZN15PyDataConstants10reloadDataEP11IStreamBasePKc
-// Partial. Parses the same layout as the listing: a uint32 class count; per class a name, a uint32 entry
-// count, and per entry a name and an int value stored at m_classes[class][name].
-// Not reproduced: the DebugSwitches load and the "isTracingPyDataConstants" lookup, whose result the
-// listing discards (no observable effect in this body). The string reads use the assumed
-// ReadPrefixedString form above, and the return value is a success flag, not the listing's last value.
+// Verified against Hex-Rays and the listing. Order: DebugSwitches::load (0x4c544c) and DebugSwitches::GetSwitch
+// ("isTracingPyDataConstants", 0x4c5470) run first; then the uint32 class count (readAs<unsigned int> value form
+// 0x4c5488); then per class a name through StreamReader::readString (0x317734) into the 256-byte buffer at
+// sp+0x12C, a uint32 entry count (0x4c553c), and per entry a name through readString into the 256-byte buffer at
+// sp+0x2C and an int through readAs<int> (the listing's out-parameter form at 0x4c55d4 / 0x459090; this body's
+// readAs<int>(stream) value form, 0x3364ec, reads the same 4 bytes) stored into
+// m_classes[class][name] (the two map operator[]<char[256]> calls, 0x4c562c / 0x4c5634).
+// The readString argument binding is decoded, not assumed: R0 = R5 = the stream parameter (MOV R5,R1 at
+// 0x4c5440, the function's second argument), R1 = the buffer (R10 = sp+0x12C outer, R6 = sp+0x2C inner),
+// R2:R3 = 256:0 (MOV R2,#0x100 at 0x4c5524 and 0x4c55b8, MOV R3,#0 at 0x4c5528 and 0x4c55bc). There is no
+// fourth argument: Hex-Rays splits the one 64-bit length parameter in two.
+// readString returns capacity > length (0x317734: CMP R8,R4 / BLS at 0x317808, then MOV R0,#1 when the high
+// word is nonzero), i.e. TRUE when the name FIT the buffer, so these two guards leave the loop when a name of
+// 256 bytes or more was truncated (readString has already copied and NUL-terminated the clamped 255 bytes).
+// Deviations: (1) the DebugSwitches pair is not called, both results being discarded and nothing else
+// observing them; (2) the return value here is a success flag, while the listing leaves the last computed
+// value in r0 (the map entry pointer on the normal path; 0 on either readString failure; the entry count 0
+// when the FINAL class has no entries; the residue of the preceding void readAs call when the class count is
+// 0). The slot is bool because w7_pydata12.hpp declares it so, and the only caller, PyDataConstants::Load
+// (0x4c3708), calls the vtable slot through a void cast and discards the result.
 bool PyDataConstants::reloadData(IStreamBase* stream, const char* fileName) {
     (void)fileName;
     const std::uint32_t classCount = StreamReader::readAs<std::uint32_t>(stream);
     char className[kConstantsStringCap];
     char key[kConstantsStringCap];
     for (std::uint32_t c = 0; c < classCount; ++c) {
-        if (!ReadPrefixedString(stream, className)) return false;
+        if (!StreamReader::readString(stream, className, kConstantsStringCap)) return false;
         const std::uint32_t entryCount = StreamReader::readAs<std::uint32_t>(stream);
         for (std::uint32_t e = 0; e < entryCount; ++e) {
-            if (!ReadPrefixedString(stream, key)) return false;
+            if (!StreamReader::readString(stream, key, kConstantsStringCap)) return false;
             const int value = StreamReader::readAs<int>(stream);
             m_classes[std::string(className)][std::string(key)] = value;
         }

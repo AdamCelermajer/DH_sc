@@ -764,16 +764,27 @@ Confirmed from the pseudocode and listings (addresses in brackets):
   findKNearest reads the element at +0x04].
 - SharedStringHeap is a pointer global (ELF 0x9f765c). The object is 0x24 bytes [initSharedStringHeap 0x6a5538]:
   maxLoadFactor float +0x08 (1.0f), rehash threshold +0x0c = ceil(mlf * count), bucket array +0x14,
-  bucket count +0x18, cursor +0x1c, size +0x20 [release 0x6a4d9c, get 0x6a5074].
+  bucket count +0x18, cursor +0x1c, size +0x20 [release 0x6a4d9c, get 0x6a5074]. 0x6a5538 is
+  initSharedStringHeap(bool): true builds that object and stores it in the global as its last act, false
+  teardown-frees the buckets and the object and logs "Shared string objects not properly cleaned up" at
+  ELL_ERROR when size is non-zero. The port has both directions (glitch::core::detail::initSharedStringHeap,
+  glitch-core-io/src/shared_string_heap.cpp) and the global's owner, glitch::core::sharedStringHeapTable()
+  (declared in glitch-shared/shared_string_heap.hpp): one process-wide table, created on first use.
 - Record, 8 bytes [get, GlitchAlloc(8)]: SData pointer +0x00, next link +0x04. Bucket and chain pointers are
   the link (record + 4) [release frees link - 4].
 - SData: uncommitted = {char* text, 0} [get]; committed = {0, text at +0x04} with allocation max(strlen+5, 8)
-  [commit 0x6a4cb8]. release picks a1 + 1 when the word at +0x04 is nonzero, else *a1 [0x6a4d9c].
+  [commit 0x6a4cb8]. release picks a1 + 1 when the word at +0x04 is nonzero, else *a1 [0x6a4d9c]. The word
+  at +0x00 is the record's USE COUNT: commit zeroes it, and the handle callers take/drop it
+  (SSharedString::operator= 0x5daf94 and CMaterialRenderer::getParameterID 0x5d308c both read it, add 1,
+  store; operator= subtracts 1 and calls release only when that read zero). get never touches it, so both
+  callers take their own use. The port's SSharedStringData::useCount is that word.
 - Hash [get 0x6a5074, asm SXTAB at 0x6a50d8 and EOR]: h ^= (h << 6) + int8(c) + 0x9E3779B9 + (h >> 2) over the
   bytes, from h = 0; index = h % count [__aeabi_uidivmod at 0x6a5100].
 - Prime table: 40 uint entries at ELF 0x8eafc0 (5, 11, 17, ..., 4294967291), read from the binary.
-  Initial count = first entry above 10 = 11 [init]. Growth in get: new size = max(size + size/2, size + 1),
-  divided by mlf (floor), first prime above that value; rehash moves records to the new buckets.
+  init's count is the slot its binary search at 0x6a55b8..0x6a560c lands on for target 10; that search is
+  NOT a bound scan ("first prime above 10" gives 11 by coincidence here - a simulator of the listing's exact
+  sequence confirms 11, and the port transcribes the sequence, not a scan). Growth in get: new size =
+  max(size + size/2, size + 1), divided by mlf (floor), first prime >= that value; rehash moves records.
 - Insert [get]: the record goes at the head of its bucket; size++; the cursor moves down when the new slot is lower.
 - get(text, create) returns 0 for a null or empty text. The lookup-only branch returns the stored SData.
 
@@ -795,8 +806,12 @@ Rows this slice unblocks (once implemented in src/ by the owning category):
   0x5a4e24 findKNearestElemsInternal, 0x5a5030 findKNearest. Still needed from the standard library: the
   std::remove_if and heap helpers used by remove (0x5a4374) and findKNearest (0x5a37d4, 0x5a3814), which are
   not ledgered in this category.
-- SSharedStringHeapEntry: 0x6a4d9c SData::release, 0x6a5074 SData::get, 0x6a4cb8 commit (its owner was not
-  identified; the layout is now known). 0x6a4d04 find is the same chain search.
+- SSharedStringHeapEntry: 0x6a4d9c SData::release, 0x6a5074 SData::get, 0x6a4cb8 commit, 0x6a5538
+  initSharedStringHeap(bool), 0x5daf94 glitch::core::SSharedString::operator=(char const*) - all in
+  glitch-core-io/src/shared_string_heap.cpp, with the record/table layout in
+  glitch-shared/shared_string_heap.hpp and the handle class in glitch-shared/shared_string.hpp. Release and
+  get stay partial only because the table is a parameter of theirs (the original reads the global), so their
+  original mangled symbols are not emitted. 0x6a4d04 find is the same chain search.
 - glitch-video kdTreeClustering 0x5a6568 can use the CKdTree header (it calls addElemInternal, removeElemInternal
   and findKNearest); its ledger row says the clustering helper was blocked on core types.
 

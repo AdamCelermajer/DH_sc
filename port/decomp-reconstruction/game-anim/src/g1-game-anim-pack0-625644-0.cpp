@@ -43,6 +43,22 @@ bool PlayRandomClip(AnimController* anim) {
 
 }  // namespace
 
+// 0x342600 _ZN13AnimatedDecorC1EN10ObjectBase6GO_IDSE
+// Inlined into GetNewInstance<AnimatedDecor> (0x342600), so the binary has no standalone AnimatedDecor constructor
+// symbol. The asm runs GameObject::GameObject(GO_IDS 20) (MOV R1,#0x14 before the BL) and does NOT call
+// Decor::Decor(GO_IDS): it stores the primary vptr at +0x00, the third at +0x04 and the second at +0x24, sets
+// m_floorMapPending (+0x375), m_isSolid (+0x376) and m_static (+0x84) to 1, builds the empty string at +0x37c
+// (_M_allocate_block(0x10), the data and end words both re-seated on the object's own address and the terminator
+// written), then clears m_floorMapPending to 0 and repeats the m_static store. The final state is m_floorMapPending 0,
+// m_isSolid 1, m_static 1 and an empty m_startAnim; the 1 -> 0 store pair is the compiler's inline expansion and is not
+// observable. The vptr stores are what the C++ constructor emits; the base is the flag-skipping Decor variant in
+// dh2/Decor.hpp, because this constructor writes m_floorMapPending and m_isSolid itself.
+AnimatedDecor::AnimatedDecor(GO_IDS id) : Decor(id, true) {
+    m_static = true;           // ObjectBase +0x84
+    m_floorMapPending = false; // +0x375, the original's last store
+    m_isSolid = true;          // +0x376
+}
+
 // 0x3883dc AnimatedDecor::IsAnimated() const
 bool AnimatedDecor::IsAnimated() const {
     return true;

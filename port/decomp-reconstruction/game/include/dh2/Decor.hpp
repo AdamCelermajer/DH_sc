@@ -15,6 +15,13 @@ public:
     // sets m_floorMapPending and m_isSolid to 1 and stores the primary and secondary vtables.
     explicit Decor(GO_IDS id);
 
+    // AnimatedDecor::AnimatedDecor (0x342600) is the only construction path of a Decor subclass that does NOT call the
+    // constructor above: its asm runs GameObject::GameObject(GO_IDS 20) and writes the AnimatedDecor vptrs, m_static,
+    // m_floorMapPending = 0 and m_isSolid = 1 itself. The layout then needs a base constructor that runs GameObject and
+    // skips the two Decor flags; AnimatedDecor writes both of them (0 and 1), so no member is left unset. This variant is
+    // inline and every call to it is inlined, and it has no original symbol of its own, so it adds no emitted symbol.
+    Decor(GO_IDS id, bool /*skipDecorFlags*/) : GameObject(id) {}
+
     ~Decor() override;                                                  // slot 0/1: 0x388428 (D1), 0x388eb0 (D0)
 
     // Overrides of GameObject slots, in vtable order.

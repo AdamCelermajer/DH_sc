@@ -2,12 +2,14 @@
 // original binary (pixel_format_table.cpp). Expected values are derived from the listing:
 //   converter ctor 0x5ee958 (replicate), 0x5ee790 (LUT), 0x5ee5e8 (alpha LUT),
 //   per-pixel expressions in convertPackedImpl<uint,uint> 0x5eeef4 (replicate and plain terms),
+//   the same-format copy 0x5ee40c (convert's srcFormat == dstFormat branch),
 //   LUT bytes at 0x8e3694 / 0x8e3698 / 0x8e36a0.
 //
 // Rows used (PFDTable index): 0 L8 and 2 A8 (type 0), 5 RGB565, 6 ARGB4444, 8 A1R5G5B5 (type 1),
 // 12 ARGB8888 (type 2, field17 == 4), 14 RGBA8888 (type 2), 17 a compressed block row.
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
 
 #include "glitch-video/pixel_format.hpp"
 #include "glitch-video/pixel_format_convert.hpp"
@@ -109,8 +111,73 @@ int main() {
         // Compressed destination: "Compressed destination format not supported".
         CHECK(pf::convert(kARGB8888, src, 4, kCompressed, dst, 4, 1, 1, false) == 0);
         CHECK(dst[0] == 0xdeadbeefu);
-        // Same format is the copy() branch (not modelled).
-        CHECK(pf::convert(kARGB8888, src, 4, kARGB8888, dst, 4, 1, 1, false) == 0);
+    }
+
+    // The srcFormat == dstFormat branch of convert is copy() (0x5ee40c). Every expectation below is the
+    // listing's: rows = height / row byte +0x25, pitch = computePitch(format, width), one memcpy of
+    // rows * pitch when the pitch equals both sides' otherwise one memcpy per row, the flip destination
+    // starting at the last row with a -dstPitch step, and for src == dst either the no-op (no flip), the
+    // in-place row swap through one process-buffer row (flip) or the "Bad conversion parameters" refusal
+    // (different pitch). Format 12 is 4 bytes per pixel, blockHeight 1.
+    {
+        // Same buffer shape on both sides: one whole-block memcpy.
+        std::uint8_t from[16];
+        std::uint8_t to[16] = {0};
+        for (int i = 0; i < 16; ++i) from[i] = static_cast<std::uint8_t>(i + 1);
+        CHECK(pf::convert(kARGB8888, from, 8, kARGB8888, to, 8, 2, 2, false) == 1);
+        CHECK(std::memcmp(from, to, sizeof from) == 0);
+    }
+    {
+        // Different pitches: one memcpy of pitch bytes per row, each side advancing by its own pitch.
+        std::uint8_t from[32];
+        std::uint8_t to[16] = {0};
+        for (int i = 0; i < 32; ++i) from[i] = static_cast<std::uint8_t>(0x10 + i);
+        CHECK(pf::convert(kARGB8888, from, 16, kARGB8888, to, 8, 2, 2, false) == 1);
+        CHECK(std::memcmp(from, to, 8) == 0);
+        CHECK(std::memcmp(from + 16, to + 8, 8) == 0);
+    }
+    {
+        // Flip: the destination rows are written backwards.
+        std::uint8_t from[16];
+        std::uint8_t to[16] = {0};
+        for (int i = 0; i < 8; ++i) from[i] = 0x11;
+        for (int i = 8; i < 16; ++i) from[i] = 0x22;
+        CHECK(pf::convert(kARGB8888, from, 8, kARGB8888, to, 8, 2, 2, true) == 1);
+        for (int i = 0; i < 8; ++i) CHECK(to[i] == 0x22);
+        for (int i = 8; i < 16; ++i) CHECK(to[i] == 0x11);
+    }
+    {
+        // src == dst with an equal pitch and no flip is a no-op that returns 1.
+        std::uint8_t buffer[16];
+        std::memset(buffer, 0x5a, sizeof buffer);
+        CHECK(pf::convert(kARGB8888, buffer, 8, kARGB8888, buffer, 8, 2, 2, false) == 1);
+        for (int i = 0; i < 16; ++i) CHECK(buffer[i] == 0x5a);
+    }
+    {
+        // src == dst with different pitches: logged and refused.
+        std::uint8_t buffer[16];
+        std::memset(buffer, 0x5a, sizeof buffer);
+        CHECK(pf::convert(kARGB8888, buffer, 8, kARGB8888, buffer, 16, 2, 2, false) == 0);
+        for (int i = 0; i < 16; ++i) CHECK(buffer[i] == 0x5a);
+    }
+    {
+        // src == dst with flip and an equal pitch: the rows are swapped in place through the process buffer.
+        std::uint8_t buffer[16];
+        for (int i = 0; i < 8; ++i) buffer[i] = 0x33;
+        for (int i = 8; i < 16; ++i) buffer[i] = 0x44;
+        CHECK(pf::convert(kARGB8888, buffer, 8, kARGB8888, buffer, 8, 2, 2, true) == 1);
+        for (int i = 0; i < 8; ++i) CHECK(buffer[i] == 0x44);
+        for (int i = 8; i < 16; ++i) CHECK(buffer[i] == 0x33);
+    }
+    {
+        // A compressed row (format 17, flag bit 8) refuses the flip; without it the same row copies, and
+        // the row count is the height divided by the row's block height (+0x25 = 4 for row 17).
+        std::uint8_t from[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+        std::uint8_t to[8] = {0};
+        CHECK(pf::convert(kCompressed, from, 8, kCompressed, to, 8, 4, 4, true) == 0);
+        CHECK(to[0] == 0);
+        CHECK(pf::convert(kCompressed, from, 8, kCompressed, to, 8, 4, 4, false) == 1);
+        CHECK(std::memcmp(from, to, sizeof from) == 0);
     }
 
     if (failures == 0) {

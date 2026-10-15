@@ -12,19 +12,26 @@
 #include "dh2/ItemInventory.hpp"              // ItemInventory, CalcLootItemValue
 #include "dh2/ItemObject.hpp"                 // ItemObject::DropInventory, DropLootTable
 #include "dh2/Level.hpp"                      // Level::m_loadStep, m_isLoaded, m_levelListIndex
+#include "dh2/MenuManager.hpp"                // MenuManager::GetInstance, GetMenuByName
+#include "dh2/MenuFX.hpp"                     // MenuFX (the RenderFX behind State::m_menu)
 #include "dh2/ObjectManager.hpp"              // ObjectManager::unk_100, GetObjectHandleByNetworkId
 #include "dh2/Point3D.hpp"                    // Point3D<float>, PlayerManager::InitialSetup
 #include "dh2/PlayerInfo.hpp"                 // PlayerInfo::unk_660 (the local Character)
 #include "dh2/PlayerManager.hpp"
+#include "dh2/RoomZone.hpp"                   // RoomZone::AddInitialObject (0x396a90)
 #include "dh2/ScriptManager.hpp"              // ScriptManager::s_inst
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764
 #include "dh2/global/net_singletons.hpp"      // GetOnline
 #include "net-session-online/c_event_queue_base.hpp"  // CEventQueueBase (internal_events_)
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_attack_result.hpp"  // CMsgAttackResult (the typed AttackResult payload)
+#include "net-session-online/c_msg_fixed.hpp"          // CMsgSpawnObject
 #include "net-session-online/c_msg_quests_sync.hpp"
 #include "net-session-online/c_msg_raised_event.hpp"
 #include "net-session-online/c_online.hpp"
+#include "net-session-online/online_game_state.hpp"    // OnlineGameState flags, OnlineSingleton
+#include "net-session-online/tb/online_singleton.hpp"  // OnlineSingleton<OnlineGameState>::GetInstance
 #include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager (host member id, players)
 
 // 0x49a0c4 _ZN19MultiplayerCallback9idleStateEPv
@@ -264,16 +271,48 @@ std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) { return 10
 std::int32_t MultiplayerCallback::lobbyUpdate(void* /*context*/) { return 200; }
 
 // 0x49b580 _ZN19MultiplayerCallback19searchRoomPushNotifEPv
-// Partial: the search itself is not issued. CRoomSearchFilter (its constructor and SetSearchAttributeInt) and
-// CMatching::SearchRoom have no definition in the tree. The OnlineGameState bytes at +0x24 and +0x25 are not
-// declared. Application::GetVersionNumber is declared. Returns 102 or 100 as the original does.
+// Partial, and the note it carried was WRONG about three of its four blockers. Re-read against the 0x49b580
+// disassembly (36 instructions):
+//  - CRoomSearchFilter IS defined: the class is dh2/CRoomSearchFilter.hpp with bodies in
+//    game-world/src/g1-game-world-CRoomSearchFilter-434a1f-0.cpp (ctor 0x8191fc, SetSearchAttributeInt
+//    0x819cf8 at line 164).
+//  - The OnlineGameState bytes at +0x24 and +0x25 ARE declared: online_game_state.hpp flag24_ / flag25_.
+//  - Application::GetVersionNumber IS declared and defined.
+//  - CMatching::SearchRoom (0x7feb40) has NO definition in the tree, and this time that is the one real
+//    blocker: its listing tail calls the search object's vtable +0x08 (CMatchingLocal::SearchRoomInternal
+//    0x807bec / CMatchingGLLive::SearchRoomInternal 0x81fadc), and the port's CMatching has no declaration at
+//    that slot. See consequence 4 of the KNOWN DEFECT block in c_matching_base.hpp. Reconstructing
+//    CMatching::SearchRoom would add a virtual slot to CMatching, which is exactly the integrator decision
+//    that block reserves.
+// The rest of the body is now fully recovered, so the next worker needs only the SearchRoom slot:
+//   if (!OnlineGameState::flag24_) return 100;                     // asm 0x49b588..0x49b5a8
+//   flag25_ = false;                                               // +0x25, asm 0x49b5b8
+//   CRoomSearchFilter filter;                                      // ctor 0x8191fc, asm 0x49b5c0
+//   filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_1, kOpEqual, 0xFEEDABBA);        // asm 0x49b5c4..0x49b5d8
+//   filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_2, kOpEqual, Application::GetVersionNumber());  // 0x49b5e4
+//   CMatching::Get()->SearchRoom(filter-copy, true, 0);            // asm 0x49b600..0x49b624
+//   if (mode_ (+0x34) != 3) return 100;                            // asm 0x49b630..0x49b648
+//   LoadGLLiveFriends(); return 100;                               // asm 0x49b650
+// Returns 100 in every reachable case here, as the stub does.
 std::int32_t MultiplayerCallback::searchRoomPushNotif(void* /*context*/) { return 100; }
 
 // 0x49b660 _ZN19MultiplayerCallback10searchRoomEPv
-// Partial: the search itself is not issued (CRoomSearchFilter and CMatching::SearchRoom have no definition in the
-// tree). The OnlineGameState bytes at +0x24 and +0x25 and the int at +0x34 are not declared. The root movie
-// lookup needs RenderFX::GetRoot and gameswf::root::get_root_movie, and the difficulty callback needs
-// RenderFX::InvokeASCallback (no definition). Returns 102 or 100 as the original does.
+// Partial, and the note it carried was WRONG about three of its four blockers; re-read against the 0x49b660
+// disassembly (86 instructions):
+//  - CRoomSearchFilter IS defined (see the row above).
+//  - The OnlineGameState bytes at +0x24 and +0x25 and the int at +0x34 ARE declared: flag24_, flag25_, mode_.
+//  - RenderFX::GetRoot (0x7a7cac), gameswf::root::get_root_movie and RenderFX::InvokeASCallback (0x7abe0c)
+//    are all declared and defined.
+//  - CMatching::SearchRoom (0x7feb40) has NO definition, which is the one real blocker and the same
+//    integrator decision as the row above (consequence 4 of the KNOWN DEFECT block in c_matching_base.hpp).
+// Recovered body, for the next worker: flag24_ must be set (else 100); flag25_ = false; PlayerSavegame built
+// with GetLocalPlayer(0, false)->unk_664 (+0x664, -1 falls back to dword_99F778+8); difficulty =
+// PlayerSavegame::m_difficultyLevel; the level id is SG_GetQuestSG()[4 * difficulty + 0x44] (asm
+// 0x49b70c..0x49b718); MenuManager::GetRoot()->GetRoot()->get_root_movie() feeds
+// RenderFX::InvokeASCallback("GetCurrentDifficulty") whose result the listing DISCARDS (asm 0x49b750 leaves it
+// in r0 and r0 is overwritten); when mode_ == 2 only attribute 4 is set (to dword_99F778+0x0C), otherwise
+// attributes 1 (0xFEEDABBA), 2 (GetVersionNumber) and then 4; attribute 5 is always set to the level id, copy
+// the filter and call CMatching::SearchRoom(copy, true, 0); then if mode_ == 3, LoadGLLiveFriends(). Returns 100.
 std::int32_t MultiplayerCallback::searchRoom(void* /*context*/) { return 100; }
 
 // 0x49b990 _ZN19MultiplayerCallback20HandleMenuBackButtonEPv
@@ -327,10 +366,30 @@ std::int32_t MultiplayerCallback::HandleScriptCmd(void* /*message*/) {
 }
 
 // 0x49c7b4 _ZN19MultiplayerCallback8joinRoomEPv
-// Partial: CMatching::JoinRoom has no definition in the tree. The room is taken from the tRoomInfo vector at
-// OnlineGameState +0x50 (not modelled), or, when the state mode at +0x34 is 2, from the matching object's
-// virtual slot +0x90 (not declared). The online-state flag at +0x24 is not declared either. t_room_info.hpp
-// (tRoomInfo) is in the port. The stub returns 200; the original's 103 path (flag clear) is not taken.
+// Partial, and the note it carried was WRONG: CMatching::JoinRoom HAS a definition in the tree
+// (net-session-online/src/tb_session-online-CMatching-0.cpp:153, row 0x7ff120, itself partial on the
+// SetEnabled(element, 0) loop), the tRoomInfo vector at OnlineGameState +0x50 IS modelled (roomInfos_, a
+// std::vector<tRoomInfo> member, with tRoomInfo 0x3c8 bytes as the binary has it), and the online-state gate at +0x24 IS
+// declared (flag24_). Re-read against the 0x49c7b4 disassembly (42 instructions):
+//   menuName30_ = state->menuName30_;                                                   // +0x30, asm 0x49c7dc
+//   if (state->flag24_ == 0) return 0x67;                                               // asm 0x49c7c0..0x49c7d4
+//   if (CMatching::Get()->UnknownGate()) { CMatching::Get()->LeaveRoom(); }             // asm 0x49c7ec, 0x49c860
+//   std::vector<tRoomInfo> rooms = state->roomInfos_;                                   // operator=, asm 0x49c828
+//   if (mode_ (+0x34) == 2) { CMatching::Get()->GetRoomList(&rooms); }                  // asm 0x49c8a0, slot +0x90
+//   const std::uint64_t roomId = *reinterpret_cast<const std::uint64_t*>(                 // asm 0x49c834..0x49c83c
+//       reinterpret_cast<const std::uint8_t*>(rooms.data()) + 0x3C8 * menuName30_);
+//   CMatching::Get()->JoinRoom(roomId);                                                 // asm 0x49c840
+//   return 0xC8;
+// The two remaining blockers are NOT missing definitions:
+//  1. the mode-2 branch. Vtable +0x90 is CMatchingGLLive::GetRoomList (0x82051c, returns
+//     std::vector<tRoomInfo> by value), which is a queued `skipped` row (see c_matching_gl_live.hpp:212), and
+//     the port's CMatching has no declaration at +0x90 -- the same integrator decision as consequence 4 of the
+//     KNOWN DEFECT block in c_matching_base.hpp. Without that branch's body the room id source differs from
+//     the binary's whenever mode_ == 2.
+//  2. the room id is read as the int64 at the head of the 0x3C8-byte element at index menuName30_; the port's
+//     tRoomInfo has roomId at +0x00, so this arithmetic is reproducible, but the vector it indexes cannot be
+//     filled on the mode-2 path (1). The mode != 2 path itself is ready.
+// Returns 200, which is the value the binary leaves in r0 on the path that reaches JoinRoom.
 std::int32_t MultiplayerCallback::joinRoom(void* /*context*/) { return 200; }
 
 // 0x49c8c0 _ZN19MultiplayerCallback10createRoomEPv

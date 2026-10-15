@@ -57,8 +57,10 @@ uint32_t convertPixel(const SPackedPlan& plan, uint32_t src);
 int convertPacked(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXEL_FORMAT dstFormat,
                   void* dst, uint32_t dstPitch, uint32_t width, uint32_t height, bool flip);
 
-// 0x5f95ac convert: top-level dispatch. Returns 1 when converted, 0 when not converted (the copy,
-// compressed, flag-2 and luminance-else branches are not modelled, see NOTES).
+// 0x5f95ac convert: top-level dispatch. Returns 1 when converted, 0 when not converted. The
+// srcFormat == dstFormat branch is the original's copy() (0x5ee40c, reconstructed in the .cpp) and now
+// transfers the pixels; the decompress(), luminance-else, flag-2 (float), 24-bit (formats 10/11),
+// "same packed type and neither format 2" and inline packed arms are still not modelled, see NOTES.
 int convert(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_PIXEL_FORMAT dstFormat, void* dst,
             uint32_t dstPitch, uint32_t width, uint32_t height, bool flip);
 

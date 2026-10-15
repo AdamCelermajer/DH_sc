@@ -83,9 +83,12 @@ uint16_t CMaterialRenderer::getParameterID(E_SHADER_PARAMETER_TYPE type, uint16_
 // field is `LDR R3,[entry+0x00] / CMP R3,#0 / ADDNE R3,R3,#4 / CMP R1,R3`, so an entry with no name
 // never matches and a match is the interned text ADDRESS (the heap interns, so an existing record's
 // text address is the address get returned). Not found: MOV R5,#0xFFFF. The temporary's use count is
-// dropped again before every exit (SUB R6,R6,#1 / STR R6,[R0] / BEQ SData::release); the port does not
-// model that count or the release (shared_string_heap.hpp: no use-count word), and the interning table
-// keeps the record, so the original's drop-and-free is not reproduced here.
+// dropped again before every exit (SUB R6,R6,#1 / STR R6,[R0] / BEQ SData::release). The port has that
+// count now (SSharedStringData::useCount) but this body does not take the temporary use the original
+// takes, so the record it reads the text of is not kept alive for the walk: if another owner drops the
+// last use on that record during the loop, this read reaches freed memory. The original cannot: its
+// temporary use held it. Writing the take-and-drop here is the fix and is deliberately left to a caller
+// pass (no reconstructed caller drives a name this way yet).
 // Deviation, the same one getTechniqueID (0x5d4714) records: the comparison is by TEXT
 // (sharedStringText + strcmp) rather than by the interned text address, because the port's heap
 // records are distinct objects with equal text. The engine's interning makes the two the same
@@ -120,8 +123,9 @@ uint16_t CMaterialRenderer::getParameterID(const char* name, uint16_t index) con
 // The engine's interning makes the two the same question, and they differ only for a table that holds two
 // distinct shared-string records with equal text, a state the original's heap cannot produce. The
 // original's temporary use of the key (++*(int*)data, then --*data and SData::release at zero) is not
-// reproduced: the port's SSharedStringData has no use-count word, and the interning table keeps the record
-// alive, so the count never reaches zero on this path.
+// reproduced here either: the count is SSharedStringData::useCount and the release is the last-use free in
+// glitch-core-io/src/shared_string_heap.cpp, but this body only reads the text and takes no use to drop
+// (see the same note on getParameterID above).
 uint8_t CMaterialRenderer::getTechniqueID(const char* name) const {
     if (name == nullptr || *name == '\0') {
         return 0xFF;  // SData::get returns 0 for both, and the original answers with its 0xFF sentinel

@@ -110,6 +110,15 @@
 //      (LeaveRoom, OpenRoom, CloseRoom, ShowRoom, HideRoom).
 //   3. the explicit `virtual ~CMatching()` below occupies a slot the binary does not put it in (+0x08 is
 //      D1Ev in the binary but the port's +=1 slot shift starts here).
+//   4. `CMatching::SearchRoom(CRoomSearchFilter, bool, unsigned char)` (0x7feb40) cannot be written. Its
+//      listing tail calls the search object's vtable +0x08, and in the binary that slot is
+//      CMatchingLocal::SearchRoomInternal (0x807bec) / CMatchingGLLive::SearchRoomInternal (0x81fadc). The
+//      port's base declares `JoinRoomInternal` at +0x00 and `CreateJoinRoomInternal` at +0x04 (the destructor
+//      shift above puts them there) and has no declaration at +0x08 (and its derived SearchRoomInternal is
+//      not an `override`), so the slot is neither declared nor reachable. The two
+//      MultiplayerCallback rows that need it (searchRoom 0x49b660, searchRoomPushNotif 0x49b580) stay
+//      `partial` on this, not on any missing callee: CRoomSearchFilter and its SetSearchAttributeInt
+//      (0x819cf8) are defined (game-world/src/g1-game-world-CRoomSearchFilter-434a1f-0.cpp).
 // Already correct: `CMatching::CreateJoinRoom` (0x7ff350) tail-calls +0x04, and
 // `CMatchingLocal::CreateJoinRoomInternal` DOES carry `override` with the binary's non-const reference,
 // so that dispatch reaches the right function.

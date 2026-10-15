@@ -118,6 +118,13 @@ void CheckpointZone::OnCollisionBegins(GameObject* other) {
 // ColBox
 // ============================================================================================================
 
+// 0x340fe0 _ZN6ColBoxC1EN10ObjectBase6GO_IDSE
+// Inlined into GetNewInstance<ColBox> (0x340fe0), so the binary has no standalone ColBox constructor symbol. The asm
+// runs GameObject::GameObject(GO_IDS 20) (MOV R1,#0x14 before the BL), stores the primary vptr at +0x00, the third
+// vptr at +0x04 and the second at +0x24, sets m_static (+0x84) to 1 and zeroes the three words at +0x374, +0x378 and
+// +0x37c, which is the Point3D<float> at +0x374. The vptr stores and the base call are what the C++ constructor emits.
+ColBox::ColBox(GO_IDS id) : GameObject(id), m_dimensions{} {}
+
 // 0x3883f4 _ZNK6ColBox11IsUpdatableEv
 bool ColBox::IsUpdatable() const {
     return false;
@@ -196,6 +203,18 @@ void ColBox::DeclareProperties() {
 // ============================================================================================================
 // Decor
 // ============================================================================================================
+
+// 0x3410fc _ZN5DecorC1EN10ObjectBase6GO_IDSE
+// Inlined into GetNewInstance<Decor> (0x3410fc), so the binary has no standalone Decor constructor symbol. The asm runs
+// GameObject::GameObject(GO_IDS 20) (MOV R1,#0x14 before the BL), stores the primary vptr at +0x00, the third at +0x04
+// and the second at +0x24, and sets m_static (+0x84), m_floorMapPending (+0x375) and m_isSolid (+0x376) to 1. The vptr
+// stores and the base call are compiler-generated; the three flags are the whole body. Module (0x389fa8) inlines these
+// same three flag stores, so its Decor(id) base call compiles to this definition.
+Decor::Decor(GO_IDS id) : GameObject(id) {
+    m_static = true;           // ObjectBase +0x84
+    m_floorMapPending = true;  // +0x375
+    m_isSolid = true;          // +0x376
+}
 
 // 0x3883d4 _ZNK5Decor11IsUpdatableEv
 bool Decor::IsUpdatable() const {

@@ -97,7 +97,7 @@ public:
     void setUserPointer(void* p) override;  // 0x560728
     void* getUserPointer() const;         // 0x560730
     const wchar_t* getTypeString() const; // 0x560738
-    void getString(char* out) const;      // 0x561a70
+    void getString(char* out);            // 0x561a70 (non-const: _ZN...9getStringEPc)
     void setString(const char* text);     // 0x561a88
 };
 

@@ -87,14 +87,13 @@ public:
     // and the timevaldiff call goes to the OnlineSingleton<OnlineGameState> instance. timevaldiff (0x4a00a0)
     // reads only its two timevals, so the receiver does not change the result.
     bool GCStartGameTimeoutExpired() const;
-    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Partial. The gate (+0x15), the start flag (+0x11),
-    // the start time (+0x1c), the CoinTossForHost sort, OnlineGameState flag28_ (+0x28) and
-    // OnlineGameState::Init(4) on the OnlineSingleton instance are reproduced; the return value is the Init
-    // result, as the binary's tail branch leaves in r0. Not ported: the MenuManager
-    // "GoToVerificationScreen" chain (MenuManager::GetInstance 0x42ca8c has no body in the tree and
-    // MenuManager::GetRoot 0x42cb80 is one of the outstanding game-ui rows), and the store of the
-    // CoinTossForHost word into the singleton's +0x30 (the address of the first sorted player ID; not a
-    // reproducible value, and no reader of that slot exists in this port).
+    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Re-verified against the listing and complete in the
+    // port: the gate (+0x15), the start flag (+0x11), the start time (+0x1c), the CoinTossForHost sort,
+    // OnlineGameState flag28_ (+0x28), the MenuManager "GoToVerificationScreen" chain (MenuManager::GetInstance
+    // 0x42ca8c, GetRoot 0x42cb80 and RenderFX::InvokeASCallback 0x7ad7e8 are all defined now) and
+    // OnlineGameState::Init(4) on the OnlineSingleton instance. The return value is the Init result, as the
+    // binary's tail branch leaves in r0. Deviation: the store of the CoinTossForHost word into the singleton's
+    // +0x30 (a char* into the sorted player list narrowed to a 32-bit word) is not reproduced -- see the cpp.
     int GCStartMultiplayerGame();
     // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb. The bool argument is unused in the original (a2 is
     // never read). It clears the start gate (+0x15) on the GameCenter singleton and tail-branches to the

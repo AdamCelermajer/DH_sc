@@ -5,6 +5,8 @@
 #include <cstring>
 
 #include "core-platform/gc_singleton.hpp"
+#include "dh2/MenuManager.hpp"  // MenuManager::GetInstance (0x42ca8c) and GetRoot (0x42cb80)
+#include "dh2/MenuFX.hpp"       // MenuFX::InvokeASCallback (0x7ad7e8)
 
 // 0x4991ac _ZN10GameCenter15ConnectToServerEi (bx lr)
 void GameCenter::ConnectToServer(std::int32_t /*value*/) {}
@@ -138,19 +140,21 @@ bool GameCenter::GCStartGameTimeoutExpired() const {
 }
 
 // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv
-// Asm, in order: read the GS singleton's gate byte (+0x15); return it immediately when it is ZERO
-// (LDRB R4,[R0,#0x15]; CMP R4,#0; BEQ loc_499F48 skips the tail); store 1 to OnlineGameState +0x28
-// (flag28_); store 1 to the singleton's start flag (+0x11); gettimeofday into the singleton's +0x1c;
-// store CoinTossForHost's word into the singleton's +0x30; walk the player-ID status list; then
-// MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen", 0, 0); and
-// return OnlineGameState::Init(4) on the OnlineSingleton instance.
-// Fixed this pass: the entry guard was inverted (it returned when the gate was SET). The gate is a byte
-// that GCStartMultiplayerGame(bool) clears and that the constructor leaves 0, so the binary only runs the
-// tail when it is set -- the previous body ran the tail in exactly the opposite case.
-// Not ported: the MenuManager chain (MenuManager::GetInstance 0x42ca8c and MenuManager::GetRoot 0x42cb80
-// have no definition in the tree; GetRoot is the one game-ui still owes, see TRACK-B-STATUS). The word
-// CoinTossForHost returns cannot be reproduced as an address, so the store into +0x30 (the host-UID slot)
-// is left out; nothing reads it. The Init(4) result is returned, as the binary's tail returns its r0.
+// Re-verified against the 0x499f24 disassembly (39 instructions). Asm, in order: read the GS singleton's gate
+// byte (+0x15); return at once when it is ZERO (LDRB R4,[R0,#0x15]; CMP R4,#0; BEQ loc_499F48 skips the tail);
+// store 1 to OnlineGameState +0x28 (flag28_); store 1 to the singleton's start flag (+0x11); gettimeofday into
+// the singleton's +0x1c; store CoinTossForHost's word into the singleton's +0x30; walk the player-ID status
+// list; then MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen", 0, 0);
+// and return OnlineGameState::Init(4) on the OnlineSingleton instance.
+// The blocker the previous note named is GONE: MenuManager::GetRoot (0x42cb80) is defined at
+// game-ui/src/g1-game-ui-MenuManager-a5622d-0.cpp:87 and MenuManager::GetInstance (0x42ca8c) at line 37, so the
+// MenuManager chain is written here. The invocation is the RenderFX::InvokeASCallback(const char*, const char*,
+// const as_value*, int) overload (0x7ad7e8), which is the one the listing resolves at asm 0x499fa8.
+// Fixed this pass (kept): the entry guard polarity -- the binary runs the tail when the gate is SET.
+// Still not reproduced: the store of CoinTossForHost's result into the singleton's +0x30 (hostUid_). The binary
+// stores the 32-bit word of a char* into that slot; on this 64-bit host the same value would have to be a real
+// pointer into playerList_ written through an owning unique_ptr, which would be a fabricated ownership claim,
+// not a reproduction. CoinTossForHost's own row documents the narrowing.
 // Deviation: on the 64-bit host both return values are addresses narrowed to the binary's 32-bit word.
 int GameCenter::GCStartMultiplayerGame() {
     GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
@@ -160,9 +164,9 @@ int GameCenter::GCStartMultiplayerGame() {
     OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ = true;  // +0x28
     singleton->startFlag_ = true;                                     // +0x11
     GetTimeOfDay(&singleton->gameStartTime_);                         // +0x1c
-    (void)singleton->CoinTossForHost();  // the result is the +0x30 store that cannot be reproduced
+    (void)singleton->CoinTossForHost();  // its word goes to +0x30, which cannot be reproduced (see above)
     DumpPlayerIDStatusList();
-    // Not ported: MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen").
+    MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen", nullptr, 0);
     return static_cast<int>(
         reinterpret_cast<std::uintptr_t>(OnlineSingleton<OnlineGameState>::GetInstance()->Init(4)));
 }

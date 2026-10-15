@@ -14,6 +14,12 @@
 #include "dh2/IStreamBase.hpp"
 #include "dh2/StreamReader.hpp"
 
+// No reader is re-declared here. dh2/StreamReader.hpp is the header that declares them (0x313a90, 0x317454,
+// 0x317734, 0x31763c, ...); it is included above, so every pydata TU already sees the real signatures,
+// including StreamReader::readString(IStreamBase*, char*, unsigned long long) (0x317734, declared at
+// dh2/StreamReader.hpp:38) that PyDataConstants::reloadData calls. A second copy here would be a retyped
+// signature that could drift from that one.
+
 // Hint the pydata code passes to operator new[] for its string buffers, element tables and word arrays. The original
 // passes 1 (in R1 at the operator new[] call).
 inline constexpr MemoryHintState kPydataBufferHint = static_cast<MemoryHintState>(1);

@@ -154,7 +154,7 @@ void* CUserPointerAttribute::getUserPointer() const { return value; }
 const wchar_t* CUserPointerAttribute::getTypeString() const { return L"userPointer"; }
 
 // 0x561a70 _ZN6glitch2io21CUserPointerAttribute9getStringEPc
-void CUserPointerAttribute::getString(char* out) const {
+void CUserPointerAttribute::getString(char* out) {
     std::sprintf(out, "0x%llx",
                  static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(value)));
 }

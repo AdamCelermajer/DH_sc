@@ -265,7 +265,7 @@ public:
     // intrusive_ptr assignment does; the light's count is at +0x00 in the original.
     void setLight(boost::intrusive_ptr<glitch::video::CLight> value) override;  // 0x5633ec
     // "light" when a light is set, else the empty string (0x561dd8 writes into buf).
-    void getString(char* buf) const;  // 0x561dd8
+    void getString(char* buf);  // 0x561dd8 (non-const: _ZN...9getStringEPc)
     std::string getString() const override;  // 0x562ae4
 };
 
