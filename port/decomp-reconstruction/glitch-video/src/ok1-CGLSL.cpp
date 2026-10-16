@@ -95,7 +95,11 @@ void CGLSLShaderCode::createShader(int type, const char** sources, int count) {
                     std::string l(line);
                     while (!l.empty() && (l.back() == 10 || l.back() == 13)) l.pop_back();
                     const size_t at = l.find("=>");
-                    if (at != std::string::npos) patches.emplace_back(l.substr(0, at), l.substr(at + 2));
+                    if (at != std::string::npos) {
+                        std::string to = l.substr(at + 2);
+                        for (size_t q; (q = to.find("\\n")) != std::string::npos;) to.replace(q, 2, "\n");   // a literal backslash-n in the patch file is a line break (for #ifdef)
+                        patches.emplace_back(l.substr(0, at), to);
+                    }
                 }
                 std::fclose(f);
                 __android_log_print(ANDROID_LOG_INFO, "DH2SHP", "%d shader patches loaded", (int)patches.size());

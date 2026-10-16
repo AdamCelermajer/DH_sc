@@ -179,7 +179,9 @@ CameraOverview::~CameraOverview() {}
 // scene manager at +0x1c, its factory vector is the pair at +0xcc/+0xd0, the factory is its first entry and its
 // vtable +0x0c (ISceneNodeFactory::addSceneNode(E_SCENE_NODE_TYPE, parent)) is called with the type 1601003875
 // ('caem') and a null parent. The node becomes m_node and m_camera with one extra reference, then:
+//   rootNode->addChild(node) (scene manager +0x04, vtable +0x5c),
 //   CameraBase::SetData(0.42963, 1.7778, 15000, 25000, true),
+//   setUpVector(0, 1, 0) (vtable +0x114),
 //   setTarget(0, 0, 0) (vtable +0x104),
 //   setRotation(quaternion::fromAngleAxis(0, (0, 1, 0))) (vtable +0x9c = ISceneNode::setRotation),
 //   setPosition(0, 0, 20000).
@@ -206,7 +208,10 @@ CameraOverview::CameraOverview() : CameraBase() {
     m_node = node;                                                    // +0x04
     if (node != nullptr) {
         ++static_cast<glitch::IReferenceCounted*>(node)->referenceCounter;   // the object's own count, as the listing does
+        // The node is attached to the scene root at once (the scene manager's rootNode +0x04, vtable +0x5c addChild), before SetData.
+        sceneManager->rootNode->addChild(m_node);
         SetData(0.42963f, 1.7778f, 15000.0f, 25000.0f, true);
+        m_camera->setUpVector(glitch::core::vector3d<float>{0.0f, 1.0f, 0.0f});  // vtable +0x114, stored before the target
         m_camera->setTarget(glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f});
         const glitch::core::quaternion rotation = glitch::core::quaternion::fromAngleAxis(
                 0.0f, glitch::core::vector3d<float>{0.0f, 1.0f, 0.0f});

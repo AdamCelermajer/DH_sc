@@ -1,0 +1,6 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x42b150,_Z12fs_read_funcPviS_,core-platform/src/fs_callbacks.cpp,67,high,side-effect,"  memcpy(a1, (const void *)(*a3 + v6), v4);
+  v7 = v4 + a3[2];
+  if ( v7 >= 0 && v7 <= a3[1] )","    if (count > 0) {
+        std::memcpy(dest, h->data_ + h->pos_, static_cast<std::size_t>(count));
+    }","The original advances the handle's read cursor after the copy (v7 = v4 + a3[2]; clamped, a3[2] = v7 at recovered/native/hexrays-all/chunk_013.c:6105-6107) and returns the number of bytes copied (return v4 at chunk_013.c:6108), while the reconstruction neither stores h->pos_ nor returns the count (line 70 returns 0), so every fs_read_func call re-reads from the same offset and reports no bytes read - streamed file/asset reads (gameswf) stall or loop."

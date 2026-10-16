@@ -48,6 +48,7 @@ import machine as mc  # noqa: E402
 import manifest  # noqa: E402
 import stubs  # noqa: E402
 from unicorn import UC_HOOK_BLOCK, UcError  # noqa: E402
+from unicorn.arm_const import UC_ARM_REG_R4, UC_ARM_REG_R5, UC_ARM_REG_R6, UC_ARM_REG_R7, UC_ARM_REG_R8, UC_ARM_REG_R9, UC_ARM_REG_R10, UC_ARM_REG_R11  # noqa: E402
 from unicorn.arm_const import UC_ARM_REG_R0, UC_ARM_REG_LR, UC_ARM_REG_SP as _SP, UC_ARM_REG_PC, UC_ARM_REG_CPSR, UC_ARM_REG_SP  # noqa: E402
 
 ROOT = build_arm.ROOT
@@ -131,6 +132,23 @@ def _install_models() -> None:
         m.write_mem(a[0], src + bytes(n - len(src)))
         return a[0]
     M["strncpy"] = strncpy_m
+
+    def setjmp_m(m, a):
+        regs = [m.uc.reg_read(r) for r in (UC_ARM_REG_R4, UC_ARM_REG_R5, UC_ARM_REG_R6, UC_ARM_REG_R7, UC_ARM_REG_R8,
+                                           UC_ARM_REG_R9, UC_ARM_REG_R10, UC_ARM_REG_R11, UC_ARM_REG_SP, UC_ARM_REG_LR)]
+        m.write_mem(a[0], struct.pack("<10I", *regs))
+        return 0
+    for n_ in ("setjmp", "_setjmp", "sigsetjmp"):
+        M[n_] = setjmp_m
+
+    def longjmp_m(m, a):
+        regs = struct.unpack("<10I", m.read_mem(a[0], 40))
+        for r, v in zip((UC_ARM_REG_R4, UC_ARM_REG_R5, UC_ARM_REG_R6, UC_ARM_REG_R7, UC_ARM_REG_R8, UC_ARM_REG_R9,
+                         UC_ARM_REG_R10, UC_ARM_REG_R11, UC_ARM_REG_SP, UC_ARM_REG_LR), regs):
+            m.uc.reg_write(r, v)
+        return a[1] or 1                 # the stub's `bx lr` now returns to the setjmp caller
+    for n_ in ("longjmp", "_longjmp", "siglongjmp"):
+        M[n_] = longjmp_m
 
     class ArgReader:
         """Reads variadic arguments the AAPCS way: 32-bit words, 64-bit values 8-byte aligned."""
@@ -623,6 +641,13 @@ class World:
         except (AttributeError, UcError):
             pass
 
+    def neuter_prefix(self, prefix: str, value: int = 0) -> int:
+        """neuter() every function whose mangled name starts with `prefix` (all overloads), in both images."""
+        names = {n for img in (self.m.orig, self.m.recon) for n, k in img.sym_kind.items() if n.startswith(prefix) and k == elf32.STT_FUNC}
+        for n in names:
+            self.neuter(n, value)
+        return len(names)
+
     def words(self, addr: int, n: int) -> list:
         """n 32-bit words at addr (code addresses canonicalised, so vptrs of the two images compare equal)."""
         raw = struct.unpack(f"<{n}I", self.m.read_mem(addr, 4 * n))
@@ -773,7 +798,7 @@ class World:
         if err is not None:
             return "fault", mc._classify_uc_error(err, pc, m), r
         if pc != mc.RET_ADDR:
-            return "budget", f"stopped at {m.describe(pc)} after {budget} instructions", r
+            return "budget", f"stopped at {m.describe(pc)} (lr {m.describe(uc.reg_read(UC_ARM_REG_LR))}) after {budget} instructions", r
         if uc.reg_read(UC_ARM_REG_SP) != sp:
             return "fault", "sp not restored", r
         return "ok", "", r
@@ -1524,6 +1549,8 @@ def main() -> int:
         ra = run_side(env, c, snap, "orig")
         rb = run_side(env, c, snap, "recon", cover=a.cover)
         diffs = compare_sides(env, c, ra, rb, a.verbose)
+        if ra.error or rb.error:
+            print(f"   run error: orig={ra.error[:200]!r} recon={rb.error[:200]!r}")
         cov = f"recon ran {len(rb.ran_recon)} functions, {len(rb.ran_orig)} fell back to the original; calls {len(ra.log)}"
         print(f"[chain] {n}: {'MATCH' if not diffs else 'MISMATCH ' + str(len(diffs))}  ({ra.seconds:.1f}s/{rb.seconds:.1f}s; {cov})", flush=True)
         if rb.fallback and a.verbose:

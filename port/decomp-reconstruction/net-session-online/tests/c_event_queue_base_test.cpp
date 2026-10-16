@@ -23,7 +23,7 @@ int main() {
     CHECK(q.HasEvents());
 
     char out[8] = {};
-    CHECK(q.GetEventData(2, out, 8) == -1);
+    CHECK(q.GetEventData(2, out, 8) == 4);  // CopyData returns the payload size (0x7fdf24)
     CHECK(std::strcmp(out, "bbb") == 0);
     CHECK(q.GetEventData(9, out, 8) == -1 && out[0] == 'b');
 

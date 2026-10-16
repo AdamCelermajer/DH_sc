@@ -388,8 +388,11 @@ int ItemInventory::TransferItemTo(unsigned int a2, ItemInventory& a3, bool a4, b
 // (TransferGoldTo). The original returns what TransferGoldTo leaves in r0 (declared void here); this returns 0.
 int ItemInventory::TransferInventoryTo(ItemInventory& a2, bool a3, bool a4) {
     for (ItemSlot* slot : m_items) {
-        a2._AddItemInstance(slot->m_item, a3, a4);
+        // Deviation (W2, AddressSanitizer heap-use-after-free): the listing calls _AddItemInstance first and then reads the id through the old
+        // slot->m_item; for a stackable item _AddItemInstance merges it into an existing stack and deletes it, so the read is of freed memory
+        // (the 32-bit allocator leaves the stale value intact). The id does not change by the add, so it is read before.
         const int itemId = slot->m_item->GetItemId();
+        a2._AddItemInstance(slot->m_item, a3, a4);
         Character* owner = a2.m_character;
         if (owner != nullptr && owner->IsPlayer()) {
             const auto& wanted = a2.m_activeQuestGatheredItemIds;

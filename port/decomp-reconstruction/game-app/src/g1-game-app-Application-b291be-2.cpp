@@ -44,6 +44,8 @@
 #include "glitch-core-io/os/device.hpp"
 #include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
 #include "glitch-video/video_driver.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
 #include "glitch-video/texture_manager.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "core-platform/lc_api.hpp"
@@ -753,6 +755,13 @@ void Application::_Draw() {
                     // for zero, so the bool is enough. The original walks the scene manager's rootNode (+0x04, asm
                     // LDR R0,[R3,#4]) with IsNodeVisible as the filter and DBG_DrawGlitchNodeBoundingBox as the
                     // visitor. IsNodeVisible returns int where the filter slot wants bool, so it is wrapped.
+                    // The original first selects the built-in debug material renderer (type 1, driver +0xdc manager) and sets its
+                    // material with technique 255 when the instance is null (the same sequence as ObjectManager::Draw3D).
+                    glitch::video::CMaterialRendererManager* renderers = driver->m_materialRendererManager;  // +0xdc
+                    const uint16_t renderer = renderers->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+                    boost::intrusive_ptr<glitch::video::CMaterial> debugMaterial = renderers->getMaterialInstance(renderer, true);
+                    const uint8_t debugTechnique = debugMaterial ? static_cast<uint8_t>(debugMaterial->getTechnique()) : 0xff;
+                    driver->setMaterial(debugMaterial, debugTechnique, nullptr);
                     DBG_TraverseAllGlitchNode(
                         scene->rootNode, &DBG_DrawGlitchNodeBoundingBox,
                         +[](glitch::scene::ISceneNode* node) -> bool { return IsNodeVisible(node) != 0; });
@@ -772,10 +781,11 @@ void Application::_Draw() {
     // always builds it in createGUIAndScene). The port's IDevice never fills that word, so a test harness that
     // reaches _Draw with a bare/null device would fault; the original's behaviour with a null device is the same
     // fault, so the guard only avoids a crash the harness would otherwise take.
+    // Order per the listing (0x32b1xx, deepseek audit finding verified): the driver's beginScene2D (+0x14) comes first, then the gui drawAll (+0x0c).
+    driver->beginScene2D();  // +0x14
     if (gui != nullptr) {
         gui->drawAll();  // IDevice +0x18, vtable +0x0c
     }
-    driver->beginScene2D();  // +0x14
     if (m_stateMachine != nullptr) {
         m_stateMachine->Draw2D();
     }

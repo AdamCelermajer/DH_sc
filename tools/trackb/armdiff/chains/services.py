@@ -47,6 +47,14 @@ def _fs_open(m, a):
     return _build_stream(m, f.read_bytes(), bool(m.recon is not None and m.recon.contains(lr)))
 
 
+@stubs.stub("chain_fs_exists")
+def _fs_exists(m, a):
+    path = stubs._cstr(m, a[1]).decode("latin1")
+    if m.trace:
+        m.trace[-1] = ("chain_fs_exists", (path,))
+    return 1 if (DATA_ROOT / "data" / path).is_file() else 0
+
+
 @stubs.stub("chain_fs_close")
 def _fs_close(m, a):
     if m.trace:
@@ -80,6 +88,16 @@ def install_files(w: World) -> int:
                 close_slot = i
     words[close_slot] = m.stub_for("chain_fs_close")
     words[open_slot] = m.stub_for("chain_fs_open")
+    extra = (("openFile", 0x88 // 4, "chain_fs_open", "_ZN15FileSystemWin328openFileEPKcbb"),
+             ("doesResourceExists", 0xac // 4, "chain_fs_exists", "_ZN14FileSystemBase18doesResourceExistsEPKc"),
+             ("doesFileExists", 0xa8 // 4, "chain_fs_exists", "_ZN14FileSystemBase14doesFileExistsEPKc"))
+    for _nm, oslot, stub_name, rsym in extra:
+        slot = oslot
+        if w.side == "recon":
+            img = m.recon
+            base = img.syms["_ZTV15FileSystemWin32"] + 8
+            slot = next((i for i in range(FS_VT_SLOTS) if m.read_u32(base + 4 * i) == img.syms.get(rsym)), oslot)
+        words[slot] = m.stub_for(stub_name)
     w.write(vt, struct.pack(f"<{FS_VT_SLOTS}I", *words))
     fs = w.alloc_service(8, struct.pack("<II", vt, 0))
     dev = w.alloc_service(0x80)
@@ -133,3 +151,11 @@ def install_object_manager(w: World) -> int:
     w.call("_ZN13ObjectManagerC1Ev", om, ret="void")
     set_app_field(w, "m_objectManager", 0x38, om)
     return om
+
+
+def install_lua_manager(w: World) -> int:
+    """Application::m_luaManager: a LuaManager built by its constructor (the Lua VM is the original's in both worlds)."""
+    lm = w.heap(0x1c, "@skip")
+    w.call("_ZN10LuaManagerC1Ev", lm, ret="void")
+    set_app_field(w, "m_luaManager", 0x3c, lm)
+    return lm

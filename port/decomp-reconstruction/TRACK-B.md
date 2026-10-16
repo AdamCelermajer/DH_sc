@@ -128,6 +128,16 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     anonymous struct inside the payload union, as in the binary. A number constructor must not write `m_owner`. `tu_datetime::m_time`
     is `int64_t` (8 bytes, read whole by `as_date::get_time` 0x79d650). The armdiff cache key is the source file hash only: after a
     header layout change rebuild with `build_arm.py --force`.
+14. Process-buffer heap alignment (2026-10-16, W2): `glitch-core-io/src/process_buffer_heap.cpp` places the first block word so that
+    every payload (header + 4 bytes) is 16-byte aligned and rounds every block to a multiple of 4 words. The binary carves 4-byte words
+    (32-bit ARM, `allocProcessBuffer` 0x5345f4). Host-width deviation in the spirit of decision 2: the blocks hold host objects with
+    pointers and 64-bit members. Evidence: `CMaterialRendererManager::beginMaterialRenderer` builds its `SCreationState` (pointer
+    members, alignment 8) in place in an `allocProcessBuffer(sizeof(SCreationState))` block (`ok1-CMaterialRendererManager.cpp` ~763);
+    the llvm-mingw UBSan build reported "member access within misaligned address 0x...824 for type 'SCreationState', which requires
+    8 byte alignment" (and the same for its `SPassBinding`/`STechniqueList` members) at the first material of the boot. On arm64 an
+    exclusive/atomic access or a vector store to such an address faults. Free-space accounting, merging and the dump format are the
+    binary's; only block sizes grow (the dump prints the rounded size). `glitch-core-io/tests/process_buffer_heap_test.cpp` checks this
+    layout.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

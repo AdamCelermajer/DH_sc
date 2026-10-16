@@ -207,12 +207,14 @@ Tile* Tile::TrySpawn(const Exit* /*unused*/, const Exit* from, const Exit* to, L
 
 // 0x491d90 rnd::Tile::SaveAsModuleXML(TiXmlElement*,int)
 // Writes this tile as a Module element under parent, then the children, and returns the index after the last one.
-// The original also stores the literal "Module" in a local that nothing reads; that dead store is not reproduced.
 int Tile::SaveAsModuleXML(TiXmlElement* parent, int index) {
     // The original constructs the module with GO_IDS value 5 (the id passed in r1). The ObjectBase enum in this tree
     // names only GO_DOOR, so the value is written as a cast.
     Module module(static_cast<Module::GO_IDS>(5));
     PropertyMap& props = module;  // the PropertyMap base, at +4 of the object
+    // W2 (ASan: null strcmp in PropertyMap::InitProperties for every random level): the store of "Module" right after the constructor
+    // (Hex-Rays v27, sp+0x54 = module+0x20) is PropertyMap::m_className, which InitProperties keys the class tables on; it is not dead.
+    props.m_className = "Module";
     props.InitProperties();
     props.LoadDefaultProperties();
 

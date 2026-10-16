@@ -1,0 +1,12 @@
+# B10 notes (game-ui / game-anim, prio 1)
+
+addr | verdict | findings | short note
+0x420fac | clean | 0 | Save-load branch matches: m_lastSlot (+0x08) check, PlayerSavegame ctor, PopAll on MenuBase::m_menu (+0x04), levels[unk_50[difficulty]].LevelFile (stride 72, +0x20) and m_levelEntryPoint[difficulty] (+0x40), LoadLevel literal args (0,1,0,0,0,0) all verified in Application.hpp/PlayerSavegame.hpp/array_strides.hpp.
+0x4537c0 | clean | 0 | GetCurrentLevel()->m_camera (+0x128), GetLocalPlayer(0,1)->character_660, SetTarget/SetActive/Update (CameraBase vtable +0x10), setCamera, DestroyMapCamera, MenuBase::Hide, DeviceSceneManager()->m_nodeMapRoot (+0x28c) setVisible(false) (ISceneNode +0x48) all match. Null-camera order preserved (documented in the comment).
+0x424698 | clean | 0 | strchr('|')/null return, name substring, atoi, trace switch (ReadMenuBaseTraceSwitch = DebugSwitches::load + GetSwitch), getString(null)->false, FormatHTML(name,"%s",text) match. std::string vs 64-byte memcpy buffer is a not-a-bug.
+0x42040c | clean | 0 | Find(name) on the menu's RenderFX (menu+4) then GotoFrame(Find result, frame text) matches the original call convention (GotoFrame(this=character, character*=frame label) at 0x4171f8); the r2 leftover arg is Hex-Rays noise. '|'=124 and the 100-byte buffer are the lead's false alarms.
+0x404e98 | clean | 0 | Camera = zoomHandler+0x20; !m_zoomLocked (+0x86); step = m_useObjectPosition (+0x85) ? -0.25f (0xbe800000) : -0.03f (0xbcf5c28f) verified in ctrl_camera.hpp; m_zoomCurrent (+0x88) update matches; GetCurrentLevel call kept.
+0x404fec | clean | 0 | Null/locked (+0x86)/clear map flag (+0x85) returns; kCtrlMapCamRotation = 0x3f3504f3 (0.70711), kCtrlMapCamScale = 0x437a0000 (250.0), pan +0x98/+0x9c/+0xa0 (X/Y/Z) all match the original's three stores.
+0x367ca4 | documented | 0 | Ledger documents the zero-clip-length guard (`length != 0`) for the modulo; everything else matches (children +0x30 vector, m_currentIndex +0xb4, owner +0x04 of the interface, getTimelineCtrl vptr+0x44, length +0x34, start +0x2c, jumpTo +0x0c, m_clipWrapOffset +0xcc cleared).
+0x3688f0 | clean | 0 | Own fields +0xb4..+0xd4 zeroed and the applicator (m_blender=this, empty weights, unk_4c=-1) match; the vptr/refcount writes are compiler-managed (documented U2 base inheritance).
+0x4169e8 | documented | 0 | get_parent() runs check_proxy as the original's weak_ptr check at +0x3c; m_local_matrix +0x4c with m_[0][2]/m_[1][2] match. The null-character early return is documented in the ledger (the original dereferences null).

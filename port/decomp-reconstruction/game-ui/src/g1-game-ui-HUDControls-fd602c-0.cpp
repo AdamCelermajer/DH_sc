@@ -510,7 +510,7 @@ void HUDControls::initCachedChars() {
                                      m_currentRoot.GetChar());
     m_btnFastTravelMenu.RefreshCache("LocationsMenu.btn_FastTravel", menu, nullptr);
 
-    gameswf::character* bg = menu->Find("bg", m_currentRoot.GetChar());
+    gameswf::character* bg = menu->Find("bg", m_joystick.GetChar());  // searched under the Joystick clip (+0x4c), not the root
     const int stickReach = static_cast<int>(static_cast<float>(bg->get_width() / 20.0) * 0.5f);  // vtable +0x128
     unk_0c = stickReach;
     unk_10 = stickReach;

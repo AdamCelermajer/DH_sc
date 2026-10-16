@@ -17,13 +17,13 @@ int main() {
 
     // A read of 8 bytes clamps to the 4 that remain.
     char out[16] = {};
-    CHECK(fs_read_func(out, 8, h) == 0);
+    CHECK(fs_read_func(out, 8, h) == 4 && h->pos_ == 10);
     CHECK(std::strncmp(out, "6789", 4) == 0 && out[4] == '\0');
 
     // A read that fits is copied in full.
     h->pos_ = 2;
     char small[4] = {};
-    fs_read_func(small, 3, h);
+    CHECK(fs_read_func(small, 3, h) == 3 && h->pos_ == 5);
     CHECK(std::memcmp(small, "234", 3) == 0);
 
     CHECK(fs_read_func(out, 4, nullptr) == 0);

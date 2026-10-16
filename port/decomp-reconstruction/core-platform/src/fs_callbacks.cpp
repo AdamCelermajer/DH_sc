@@ -53,8 +53,10 @@ int fs_seek_func(int pos, void* handle) {
 }
 
 // 0x42b150 _Z12fs_read_funcPviS_
-// The clamp follows the original: when size <= n + pos, only size - pos bytes are
-// copied. A position past the end copies nothing (the original would wrap).
+// Clamps to the bytes that remain (size <= n + pos -> size - pos), copies, advances the
+// cursor when the new position lies in [0, size], and returns the copied count (r4).
+// The original copies the (possibly negative) count unconditionally; a non-positive count
+// is not copied here, and the returned value stays the clamped count.
 int fs_read_func(void* dest, int n, void* handle) {
     if (handle == nullptr) {
         return 0;
@@ -67,7 +69,11 @@ int fs_read_func(void* dest, int n, void* handle) {
     if (count > 0) {
         std::memcpy(dest, h->data_ + h->pos_, static_cast<std::size_t>(count));
     }
-    return 0;
+    const int next = count + h->pos_;
+    if (next >= 0 && next <= h->size_) {
+        h->pos_ = next;
+    }
+    return count;
 }
 
 // 0x42b1a4 _Z13fs_close_funcPv

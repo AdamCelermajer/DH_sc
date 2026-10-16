@@ -1,0 +1,13 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x348ea4,ObjectManager::Remove(ObjectHandle),game-world/src/g1-game-world-ObjectManager-5017c7-2.cpp,480,low,branch,"  if ( v5 )
+  {
+    v7 = *(RoomZone **)(v5 + 756);
+    if ( v7 )
+      RoomZone::RemoveObject(v7, v6);
+    ObjectManager::RemoveNoRoomObject((ObjectManager *)a1, v6);","    if (object != nullptr) {
+        if (RoomZone* zone = object->m_roomZone) {
+            zone->RemoveObject(object);
+        }
+    }
+    RemoveNoRoomObject(object);
+    EraseFirst(unk_90, object);","The original runs RemoveNoRoomObject and the +0x90 unlink only inside `if (v5)`, i.e. only for an ObjectHandle that resolves to a GameObject (recovered/native/hexrays-all/chunk_003.c:11761-11788); the reconstruction hoists both calls out of that guard, so an unresolvable handle still scans (and, for a null entry, erases from) the no-room list and the list at +0x90, which the original skips. Same function, same root cause: the later `unk_2fc` test is likewise null-guarded in the port where the original dereferences the object unconditionally. Only reachable with a stale/empty handle whose id is still in m_objectMap, so the gameplay effect is confined to that edge case."

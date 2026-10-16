@@ -586,7 +586,12 @@ void CDynamicAnimationSet::setDefaultAnimationLibrary(unsigned index) {
 // adds the channel count, and reserve()s then resize()s bindings to that total; starts, ends and lengths each get
 // exactly one new element (one per library, not per channel), taken from the library's tables() range.
 void CDynamicAnimationSet::addAnimationLibraryBindings(const CColladaDatabase& database) {
-    databases.push_back(database);  // takes the record's use, as the original's push_back does
+    // W2 (AddressSanitizer heap-use-after-free at level teardown): the original's push_back copy-constructs a CColladaDatabase, which takes a use of
+    // the record. The port's handle is a plain struct, so the use has to be taken by hand (as addAnimationLibrary does); without it the set's
+    // destructor drops a use it never took and the file manager unloads a record the game's Animation entries still hold.
+    CColladaDatabase held;
+    copyDatabase(held, database);
+    databases.push_back(held);
 
     const SDatabaseTables& tables = database.tables();
     starts.push_back(tables.animationRange.start);   // 0x62eecc: *(holder + 28)

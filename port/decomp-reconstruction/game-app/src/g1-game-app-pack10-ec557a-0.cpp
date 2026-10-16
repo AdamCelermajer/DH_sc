@@ -217,7 +217,7 @@ bool Script_ShowFlash::IsBlocking() const {
     if (args->Loop <= 0) {
         return false;
     }
-    return static_cast<std::uint32_t>(args->Loop) > m_menu->m_animOverCount;
+    return args->Loop > static_cast<std::int32_t>(m_menu->m_animOverCount);  // signed: CMP / MOVGT at 0x4556c4
 }
 
 // 0x45983c Script_ShowFlash::Init()

@@ -6,7 +6,7 @@ project(dh2_armdiff_chains NONE)
 enable_testing()
 find_program(PY NAMES py python3 python REQUIRED)
 set(CHAIN ${CMAKE_CURRENT_SOURCE_DIR}/../chain.py)
-foreach(c charprops_load_base charprops_all_rows combat_cf char_stats char_buffs char_skills ai_aggro equip_gear item_instances
+foreach(c charprops_load_base charprops_all_rows combat_cf char_stats char_buffs char_skills char_levelup melee_hit ai_aggro ai_targets ai_update inventory_ops equip_gear item_instances
           loot_tables loot_deep pydata_ai_factions pydata_read_all savegame_sections quest_savegame)
   add_test(NAME armdiff-chain/${c} COMMAND ${PY} -3 ${CHAIN} ${c})
 endforeach()

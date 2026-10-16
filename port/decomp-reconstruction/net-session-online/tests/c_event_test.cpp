@@ -15,7 +15,7 @@ int main() {
     CEvent e(7, payload, sizeof payload);
     CHECK(e.Type() == 7);
     char out[8] = {};
-    CHECK(e.CopyData(out, 8) == -1);
+    CHECK(e.CopyData(out, 8) == 5);  // returns the payload size (0x7fdf24: LDR R0,[R4,#0xC])
     CHECK(std::strcmp(out, "abcd") == 0);
 
     // Too small a destination: nothing copied, return value unchanged.
@@ -35,7 +35,7 @@ int main() {
     CEvent copy(e);
     CHECK(copy.Type() == 7);
     char out2[8] = {};
-    CHECK(copy.CopyData(out2, 8) == -1);
+    CHECK(copy.CopyData(out2, 8) == 5);
     CHECK(std::strcmp(out2, "abcd") == 0);
 
     CEvent other(3, nullptr, 0);

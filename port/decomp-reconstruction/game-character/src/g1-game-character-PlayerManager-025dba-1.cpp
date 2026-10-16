@@ -430,8 +430,8 @@ void PlayerManager::_UpdateJoiningController(int controllerId, int internalId) {
 }
 
 // 0x370020 PlayerManager::_PackInventory(PlayerInfo &)
-// A local record with a Character, while a level is loaded: the equipment ids are folded into a hash by slot (slots 0 and 1 fold the sum of the ids of
-// slots 1 and 2, slot 2 is skipped, any other slot folds its item id; an empty slot, or a zero sum, complements the hash). When the hash differs from
+// A local record with a Character, while a level is loaded: the equipment ids are folded into a hash by slot (slot 1 folds the sum of the ids of
+// slots 1 and 2, slot 2 is skipped, any other slot (0 and >= 3) folds its own item id; an empty slot, or a zero sum, complements the hash). When the hash differs from
 // the replicated counter (unk_4a0) the counter is updated and the item id of every equipment slot (-1 when empty) is written to the replicated
 // array (unk_3b0, one int per slot).
 void PlayerManager::_PackInventory(PlayerInfo& info) {
@@ -450,7 +450,7 @@ void PlayerManager::_PackInventory(PlayerInfo& info) {
     const int numSlots = inventory->GetNumEquipmentSlots();
     std::int32_t hash = 0;
     for (int slot = 0; slot < numSlots; ++slot) {
-        if (slot - 1 > 1) {
+        if (static_cast<unsigned int>(slot) - 1u > 1u) {  // unsigned in the original: slot 0 and slots >= 3 fold their own item id
             ItemInstance* item = inventory->GetEquippedItem(static_cast<unsigned int>(slot));
             if (item == nullptr) {
                 hash = ~hash;

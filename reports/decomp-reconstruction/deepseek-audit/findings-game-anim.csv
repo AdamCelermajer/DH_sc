@@ -1,0 +1,6 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x4761cc,AnimSetManager::GetSynchronizedAnimator(int),port/decomp-reconstruction/game-anim/src/g1-game-anim-AnimSetManager-d3d27a-0.cpp,105,low,side-effect,"v6 = (_BYTE *)v5[8];
+if ( v6[112] )
+  (*(void (__fastcall **)(_DWORD))(*(_DWORD *)v6 + 56))(v5[8]);","    if (set.m_animSet->dirty) {
+        set.m_animSet->compile();
+    }","The dirty-set compile is guarded differently. The original tests the engine-set pointer for null before reading its dirty byte (+112) and calling compile (recovered/native/hexrays-all/chunk_016.c:366), so an entry whose m_animSet is null is skipped; the reconstruction dereferences set.m_animSet unconditionally. Every path that registers a set calls CreateAnimSet (0x47653c, 0x476398), so this is a robustness gap rather than a reachable crash today: severity low. The same pattern appears in GetAnimator (chunk_016.c:404) and is not reported twice."

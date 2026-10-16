@@ -72,6 +72,30 @@ Full run (one process, `py -3 tools/trackb/armdiff/chain.py`):
 
 All 16 chains MATCH; the two negative controls MISMATCH as required. `char_skills` matched in its own run (not in this log's list order).
 
+## Extension 2 (coordinator request: AI path, level-up)
+
+New chains, all MATCH (orig vs reconstruction, real data):
+
+| chain | what runs |
+|---|---|
+| melee_hit | `F_MeleeAttack` + `F_ApplyResult` between real Characters (damage, death) |
+| ai_targets | `TargetList` searches (range/cone, 3 sort orders, filter masks) over positioned Characters; hits read back from the backup list |
+| ai_update | AISMonster script loaded through the original Lua; target set; monster in the attack state; the hit events `attack_mainhand/offhand` through `CharAI::_OnAnimEvent` -> `OnAttack` -> `F_MeleeAttack` -> `F_ApplyResult`: the hero is damaged and killed identically |
+| char_levelup | `_GiveXP`, `LevelUp` on player Characters (level, XP, points) |
+
+Finding for the "enemies never damage the hero" report: from `_OnAnimEvent` down, the whole path (target selection, filters, aggro, relations,
+state change, `OnAttack`, formulas, `F_ApplyResult`) is identical to the original, and the hero takes damage. Whatever stops the hit on the emulator is
+therefore above this layer: the animation never raising the `attack_mainhand` event (animator/clip event delivery), `CharAI::Update` not running
+(controller blocked or `CharStateMachine::m_stateFlags & 0x100` clear, the gate in `Update`), or the Lua AI script. `CharAI::Update` itself could not be
+driven: with the fake environment the original recurses (`GetInteractionType` -> `AI_IsEnemy`) once a target is set by `_UpdateTarget`.
+Harness fixes of this round: a Character built with GO id 0 (the id `ResolveQueryCharacter` requires; id 3 made every object a non-Character),
+`setjmp/longjmp` models (the original Lua), fake FileSystem slots for `openFile/doesResourceExists`, `LuaManager`/`PlayerManager` objects.
+Known deviation seen: the reconstruction declares `Character::F_MeleeAttack` a member (hidden this) where the binary has a static; callers inside the
+reconstruction are consistent.
+
+Not done in this round: pathfinding from a real level floor (needs the scene graph and meshes of a loaded level), full-file savegame load/save
+(needs a write seam for `openSavefile` and the savegame job thread).
+
 ## Mismatches found
 
 None in the reconstruction. The mismatches the first runs showed were all harness or input errors, each root-caused: wrong offsets I

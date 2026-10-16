@@ -67,11 +67,16 @@ bool CEvent::IsExpired(unsigned int enabled) const {
 }
 
 // 0x7fdf24 _ZN6CEvent8CopyDataEPvi
+// -1 when the destination is null, the capacity is not positive, or the payload does not fit; otherwise the payload is copied and
+// its size (+0x0c) is returned.
 int CEvent::CopyData(void* dst, int capacity) const {
-    // Original: (dst && capacity != 0 && capacity >= 0) && size <= capacity.
-    if (dst != nullptr && capacity != 0 && capacity >= 0 &&
-        static_cast<std::int32_t>(size_) <= capacity) {
-        std::memcpy(dst, data_, size_);
+    if (dst == nullptr || capacity <= 0) {
+        return -1;
     }
-    return -1;
+    const std::int32_t size = static_cast<std::int32_t>(size_);
+    if (capacity < size) {
+        return -1;
+    }
+    std::memcpy(dst, data_, size_);
+    return size;
 }

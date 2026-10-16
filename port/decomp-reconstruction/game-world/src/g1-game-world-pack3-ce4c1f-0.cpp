@@ -146,9 +146,13 @@ int Point2D<float>::lineIntersection(const Point2D<float>& p0, const Point2D<flo
     const float tNum = wy * ex - wx * ey;
     const float uNum = wy * dx - wx * dy;
 
-    if (denom >= 0.0001 || denom <= -0.0001) {
-        t = tNum * static_cast<float>(1.0 / denom);
-        u = uNum * static_cast<float>(1.0 / denom);
+    // The listing uses the soft-float helpers with the single-precision constant 0.0001f (0x38D1B717): the parallel test is
+    // fcmplt(denom, k) && fcmpgt(denom, -k) and every range test is fcmpge/fcmple whose failure means "outside", so a NaN
+    // takes the non-parallel path and counts as outside [0, 1] (Hex-Rays prints the negated forms, for which NaN differs).
+    const float kEps = 0.0001f;
+    if (!(denom < kEps && denom > -kEps)) {
+        t = tNum * (1.0f / denom);
+        u = uNum * (1.0f / denom);
 
         // The original stores out in this order (direction, scaled direction, then the point). The stores are kept in
         // the same order because out may alias p0, and the last two stores read p0 after the earlier ones.
@@ -161,12 +165,14 @@ int Point2D<float>::lineIntersection(const Point2D<float>& p0, const Point2D<flo
         out.X = scaledX + p0.X;
         out.Y = scaledY + p0.Y;
 
-        if (t < 0.0 || t > 1.0) {
-            return (u < 0.0 || u > 1.0) ? 2 : 4;
+        const bool tInside = t >= 0.0f && t <= 1.0f;
+        const bool uInside = u >= 0.0f && u <= 1.0f;
+        if (!tInside) {
+            return !uInside ? 2 : 4;
         }
-        return (u < 0.0 || u > 1.0) ? 3 : 5;
+        return !uInside ? 3 : 5;
     }
-    return tNum < 0.0001 && tNum > -0.0001 && std::fabs(tNum - uNum) < 0.0001;
+    return tNum < kEps && tNum > -kEps && std::fabs(tNum - uNum) < kEps;
 }
 
 // 0x312b40 Point2D<float>::lineIntersection(p0, p1, q0, q1, out)

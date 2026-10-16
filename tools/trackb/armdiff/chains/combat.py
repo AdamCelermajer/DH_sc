@@ -138,7 +138,7 @@ def run_props_all(w: World):
 CHAINS.append(Chain("charprops_all_rows", "pydata", run_props_all, "all CharacterTable rows loaded/recalculated, ClassTable rows applied", compare_heap=False))
 
 
-def real_char(w: World, row: int, name: str, goid: int = 3):
+def real_char(w: World, row: int, name: str, goid: int = 0):
     """A Character built by its real constructor (the vtable and every base subobject are in place), with the row's
     stat sheet loaded the way Character::InitPost does it (LoadBaseProperties + RecalcProperties)."""
     c = w.heap(CHAR_BLOCK, "@skip")
@@ -286,3 +286,182 @@ def run_control_mutation(w: World):
 
 CHAINS.append(Chain("control_mutated_function", "pydata", run_control_mutation,
                     "negative control: RecalcProperty returns 0 in the reconstruction only; must be reported", compare_heap=False))
+
+
+def ai_world(w: World, rows):
+    """Real Characters registered in an ObjectManager, CharAI.m_character set; returns [(char, ai, props)]."""
+    from chains import services
+    w.sheets = {}
+    services.install_files(w)
+    services.install_constants(w)
+    services.install_strings(w)
+    services.install_savegame_manager(w)
+    pmgr = w.heap(0x720, "@skip")
+    w.call("_ZN13PlayerManagerC1Ev", pmgr, ret="void", fatal=False)
+    services.set_app_field(w, "m_playerManager", 0x40, pmgr)
+    om = services.install_object_manager(w)
+    services.install_lua_manager(w)
+    w.neuter("_ZN9Character7SG_SaveEv")
+    for nm in ("PlayAnimFXSet", "GrabAnimFX", "DropAnimatedFX"):
+        w.neuter_prefix(f"_ZN15VisualFXManager{len(nm)}{nm}E")
+    w.neuter("_Z24GetScreenPosFromWorldPosRKN6glitch4core8vector3dIfEERNS0_10position2dIiEE")
+    w.neuter_prefix("_ZN16FlashAnimManager13PlayFlashAnim")
+    w.put_u32(w.sym("_ZN7GSLevel7s_levelE"), w.heap(0x400, "@skip"))      # a blank Level: difficulty 0, nothing loaded
+    out = []
+    for r in rows:
+        c = real_char(w, r, f"a{r}")
+        w.call(w.fn("ObjectManager", "Add"), w.alloc_service(16), om, c, w.cstr(f"char{r}"), w.cstr("Character"), -1, 0, fatal=False, ret="void")
+        ai = c + (0x3c8 if w.side == "orig" else w.base_offset("Character", "CharAI"))
+        w.put_u32(ai + 4, c)
+        sm = c + (0x4fc if w.side == "orig" else w.base_offset("Character", "CharStateMachine"))
+        w.call(w.fn("CharStateMachine", "SM_SetIdleState"), sm, 1, ret="void", fatal=False)
+        fl = sm + (0x24 if w.side == "orig" else w.field_offset("CharStateMachine", "m_stateFlags"))
+        w.put_u32(fl, w.u32(fl) | 0x2100)                  # "interactive" flag the idle state's animation start sets
+        w.write(c + (0x2f0 if w.side == "orig" else w.field_offset("GameObject", "m_inZone")), bytes([1]))   # inside a room zone
+        out.append((c, ai, w.sheets[f"a{r}"]))
+    return out
+
+
+def run_melee(w: World):
+    """The enemy attack path: AISDefault::OnAttack -> F_MeleeAttack -> F_ApplyResult -> damage on the target's sheet."""
+    from chains.charprops import table_size as ts
+    n = ts(w, "CharacterTable")
+    rows = list(range(3, n, max(1, n // 8)))[:8]
+    cs = ai_world(w, rows)
+    res = w.alloc_service(64)
+    out = {}
+    for i, (a, aai, aprops) in enumerate(cs):
+        for j, (d, dai, dprops) in enumerate(cs):
+            if i == j or (i + j) % 2:
+                continue
+            for flag in (0, 1):
+                # static in the binary; the reconstruction declares it a member (hidden this = the attacker)
+                pre = (a,) if w.side == "recon" else ()
+                w.call("_ZN9Character13F_MeleeAttackERNS_12AttackResultEPS_S2_bb", *pre, res, a, d, flag, 0, ret="void", fatal=False,
+                       capture=(res, 10))
+                w.call("_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b", res, a, d, 0, ret="void", fatal=False,
+                       capture=(res, 10))
+            out[f"hit{i}.{j}"] = w.words(dprops + 0xa94, 225)
+            out[f"dead{i}.{j}"] = w.call(w.fn("Character", "IsDead"), d, mask=0xFF, fatal=False)
+    return out
+
+
+CHAINS.append(Chain("melee_hit", "pydata", run_melee, "F_MeleeAttack + F_ApplyResult between real Characters: damage on the target sheet", compare_heap=False))
+
+
+def run_targets(w: World):
+    """ObjectSearcher::TargetList over real Characters at fixed positions: range/angle/rect searches, three sort orders,
+    several filter masks; the hits are read back through the backup-results list."""
+    import struct as _s
+    from chains.charprops import table_size as ts
+    n = ts(w, "CharacterTable")
+    rows = list(range(3, n, max(1, n // 12)))[:12]
+    cs = ai_world(w, rows)
+    w.budget = 3_000_000                      # a search that does not finish is a finding, not a wait
+    om = None
+    om = w.u32(w.sym("_ZN9SingletonI11ApplicationE6s_instE") + (0x38 if w.side == "orig" else w.field_offset("Application", "m_objectManager")))
+    posoff = 0x160 if w.side == "orig" else w.field_offset("GameObject", "m_position")
+    for k, (c, ai, props) in enumerate(cs):
+        w.write(c + (0x2f0 if w.side == "orig" else w.field_offset("GameObject", "m_inZone")), bytes([1]))      # the object is in a zone
+        w.write(c + posoff, _s.pack("<3f", 3.0 * (k % 4) - 4.5, 2.0 * (k // 4) - 2.0, 0.0))
+    lst = om + (0x60 if w.side == "orig" else w.field_offset("ObjectManager", "m_characters"))
+    begin = w.u32(lst + (0 if w.side == "orig" else 4))
+    vt = w.sym("_ZTVN14ObjectSearcher13CharacterListE") + 8
+    out = {}
+    for ri, (ref, _ai, _p) in enumerate(cs[:6]):
+        out[f"interactive{ri}"] = [w.call("_ZNK9Character13IsInteractiveEP10GameObject", d, ref, mask=0xFF, fatal=False) for d, _a, _q in cs]
+        for sort in (0, 1, 2):
+            for mask in (0x7FFFFFFF, 1, 0x10):
+                cl = w.alloc_service(0x20, _s.pack("<IIII", vt, lst, begin, lst))
+                out[f"listsize{ri}.{sort}.{mask:x}"] = w.call("_ZN14ObjectSearcher13CharacterList4SizeEv", cl, fatal=False)
+                tl = w.heap(0x100, "@skip")
+                w.call("_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii", tl, ref, mask, 0, sort, ret="void", fatal=False)
+                for rng, ang in ((6.0, 6.3), (3.0, 1.0), (12.0, 0.6)):
+                    pos = w.alloc_service(24, _s.pack("<6f", *_s.unpack("<3f", w.read(ref + posoff, 12)), 1.0, 0.0, 0.0))
+                    w.call("_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+                           tl, pos, ("f32", rng), pos + 12, ("f32", ang), cl, ret="void", fatal=False)
+                    w.call(w.fn("ObjectSearcher::TargetList", "BackupResults"), tl, w.cstr("r"), ret="void", fatal=False)
+                    bl = w.call(w.fn("ObjectSearcher::TargetList", "GetResultsBackup"), tl, w.cstr("r"), fatal=False, norec=True)
+                    hits = []
+                    if bl:
+                        b, e = w.u32(bl + 4), w.u32(bl + 8)
+                        out[f"raw{ri}.{sort}.{mask:x}.{rng}"] = (e - b) // 4
+                        hits = [cs_idx for cs_idx, (c, _a, _q) in enumerate(cs) for p in range(b, e, 4) if w.u32(p) == c]
+                    out[f"t{ri}.{sort}.{mask:x}.{rng}"] = hits
+    return out
+
+
+CHAINS.append(Chain("ai_targets", "pydata", run_targets, "TargetList searches (range/angle, sort orders, filter masks) between positioned real Characters", compare_heap=False))
+
+
+def run_ai_update(w: World):
+    """A monster with the AISMonster script next to a hero: CharAI::Update steps; per step the monster's state, its
+    target and the hero's sheet. This is the path that has to end in OnAttack -> F_MeleeAttack -> damage."""
+    import struct as _s
+    from chains.charprops import table_size as ts
+    # find a monster row (char type 4) and a player row (char type 1) by building the characters
+    probe = ai_world(w, list(range(0, ts(w, "CharacterTable"), 5)))
+    types = {}
+    for (pc, _a, _p), r in zip(probe, range(0, ts(w, "CharacterTable"), 5)):
+        types[r] = w.call(w.fn("Character", "GetCharType"), pc, fatal=False)
+    mrow = next(r for r, ty in types.items() if ty == 4)
+    hrow = next(r for r, ty in types.items() if ty == 1)
+    prow = list(range(0, ts(w, "CharacterTable"), 5))
+    cs = [probe[prow.index(mrow)], probe[prow.index(hrow)]]       # (a second ai_world would not re-register the same names)
+    w.budget = 20_000_000
+    posoff = 0x160 if w.side == "orig" else w.field_offset("GameObject", "m_position")
+    (mon, mai, mprops), (hero, hai, hprops) = cs
+    for c, x in ((mon, 0.0), (hero, 1.5)):
+        w.write(c + (0x2f0 if w.side == "orig" else w.field_offset("GameObject", "m_inZone")), bytes([1]))
+        w.write(c + posoff, _s.pack("<3f", x, 0.0, 0.0))
+    w.call("_ZN6CharAI9SetScriptI10AISMonsterEEvv", mai, ret="void", fatal=False)
+    for _ in range(10):
+        w.call(w.fn("CharAI", "LoadScriptProcess"), mai, ret="void", fatal=False)
+        if w.call(w.fn("CharAI", "IsScriptProcessLoaded"), mai, mask=0xFF, fatal=False):
+            break
+    w.call(w.fn("CharAI", "OnInit"), mai, ret="void", fatal=False)
+    msm = mon + (0x4fc if w.side == "orig" else w.base_offset("Character", "CharStateMachine"))
+    out = {"script": w.u32(mai + 0x1c) != 0 if w.side == "orig" else w.u32(mai + w.field_offset("CharAI", "m_script")) != 0}
+    tgt_off = 0x40 if w.side == "orig" else w.field_offset("CharAI", "m_target")
+    w.call(w.fn("CharAI", "AI_SetTarget"), mai, hero, 1, ret="void", fatal=False)
+    out["target"] = w.u32(mai + tgt_off) == hero
+    # the attack trigger: the animation reaches its hit event while the monster is in the attack state
+    w.call(w.fn("CharStateMachine", "SM_SetAttackState"), msm, 0, 0, ret="void", fatal=False)
+    out["state"] = w.call(w.fn("CharStateMachine", "SM_GetState"), msm, fatal=False)
+    for rep in range(6):
+        for ev in ("attack_mainhand", "attack_offhand", "ev_x", "do_skill"):
+            w.call(w.fn("CharAI", "_OnAnimEvent"), mai, w.cstr(ev), fatal=False, norec=True)
+        out[f"hero{rep}"] = w.words(hprops + 0xa94, 225)
+        out[f"dead{rep}"] = w.call(w.fn("Character", "IsDead"), hero, mask=0xFF, fatal=False)
+    return out
+
+
+CHAINS.append(Chain("ai_update", "pydata", run_ai_update, "AISMonster script: CharAI::Update steps next to a hero (state, target, hero sheet)", compare_heap=False))
+
+
+def run_levelup(w: World):
+    """Character::LevelUp and _GiveXP on a player Character: level, XP, stat/skill points, HP/MP refill."""
+    from chains import services
+    from chains.charprops import table_size as ts
+    prow = list(range(0, ts(w, "CharacterTable"), 5))
+    probe = ai_world(w, prow)
+    types = {r: w.call(w.fn("Character", "GetCharType"), pc, fatal=False) for (pc, _a, _p), r in zip(probe, prow)}
+    hrows = [r for r, ty in types.items() if ty == 1][:3]
+    w.neuter_prefix("_ZN11MenuManager10GetHUDRoot")
+    w.neuter_prefix("_ZN13ScriptManager11StartScript")
+    w.neuter_prefix("_ZN13ScriptManager13GetIDFromName", 0xFF)
+    w.neuter_prefix("_ZN17MenuMessageManager")
+    w.neuter_prefix("_ZN9Character13SG_SetPlayerLevel")
+    out = {}
+    for r in hrows:
+        c, ai, props = probe[prow.index(r)]
+        for step in range(4):
+            w.call(w.fn("Character", "_GiveXP"), c, 256 * 50 * (step + 1), 1, fatal=False, norec=True)
+            out[f"{r}.xp{step}"] = w.words(props + 0xa94, 225)
+        for lv in (1, 2):
+            w.call(w.fn("Character", "LevelUp"), c, lv, ret="void", fatal=False)
+            out[f"{r}.lv{lv}"] = w.words(props + 0xa94, 225)
+    return out
+
+
+CHAINS.append(Chain("char_levelup", "pydata", run_levelup, "Character::_GiveXP / LevelUp on player Characters", compare_heap=False))

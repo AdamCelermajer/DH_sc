@@ -374,10 +374,12 @@ void CBatchSceneNode::postCompile() {
         const CBatchMesh::SBatch& batch = mesh->batches[index];
         running += kEntryWords * (static_cast<std::uint32_t>(batch.endSegmentInfo) - batch.firstSegmentInfo);
 
-        const boost::intrusive_ptr<video::CMaterial> material = mesh->getMaterial(index);
-        const boost::intrusive_ptr<video::CMaterialVertexAttributeMap> attributeMap =
-            mesh->getMaterialVertexAttributeMap(index);
-        const std::uint32_t size = attributeMap ? static_cast<std::uint32_t>(attributeMap->m_maps.size()) : 0;
+        // 0x57ef64 (W2 finding, found by a seeded play session: updateIndices overran the process buffer in renderSolidBatch): the listing
+        // calls mesh vtable +0x14 (getMeshBuffer) and reads the word at +0x20 of the buffer, the element count of its primitive stream, which
+        // is the most indices one batch can draw. The earlier port called the attribute-map getter and took the map count, a number of a few
+        // entries, so the index buffer of the uncached path was far too small for the segments copied into it.
+        const boost::intrusive_ptr<CMeshBuffer> sizingBuffer = mesh->getMeshBuffer(index);
+        const std::uint32_t size = sizingBuffer ? static_cast<std::uint32_t>(sizingBuffer->primitiveStream.m_count) : 0;
         if (index < static_cast<std::uint32_t>(unk_15c)) {
             if (maxSolidIndices < static_cast<std::int32_t>(size)) {
                 maxSolidIndices = static_cast<std::int32_t>(size);
@@ -385,7 +387,6 @@ void CBatchSceneNode::postCompile() {
         } else if (maxTransparentIndices < static_cast<std::int32_t>(size)) {
             maxTransparentIndices = static_cast<std::int32_t>(size);
         }
-        (void)material;
     }
     invalidateVisibleIndexCache(0xFFFFFFFFu);
 }
