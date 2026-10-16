@@ -278,7 +278,7 @@ public:
     virtual int LocalMemberId() const = 0;                   // +0x6c
     virtual int ServerMemberId() const = 0;                  // +0x74
     virtual std::uint32_t MemberBit(int memberId) const = 0; // +0x84
-    virtual std::vector<int> ConnectedMemberIds() const { return {}; } // +0x88 (CMatching::GetMemberIdList() in the vtables)
+    virtual std::vector<int> ConnectedMemberIds() const { return GetMemberIdList(); } // +0x88 (CMatching::GetMemberIdList() in the vtables of CMatchingLocal, CMatchingBluetooth and CMatchingGLLive; the old default returned {} so a LAN host saw no connected member: no room mask bits, no full-update queue)
     virtual CRoomAttributes* GetRoomAttributes() { return nullptr; }// +0xa4
 
     // Non-virtual in the original. The port keeps it virtual so tests can override.

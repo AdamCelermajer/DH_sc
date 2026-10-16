@@ -1219,10 +1219,14 @@ int PlayerManager::_ManageCharacters() {
         if (localCharacter && readyToRoll) {
             dword_99F764->ForceFullUpdate();
             localCharacter->SG_NeedToResendQuestSyncMsg();
-            std::int32_t setup[3];
-            setup[0] = localCharacter->m_savegame->m_playerLevel;
-            setup[1] = localCharacter->m_savegame->m_playerClass;
-            setup[2] = static_cast<std::int32_t>(localCharacter->m_savegame->m_saveDate);
+            // The three words of CMsgInitialSetup (message +0x50, +0x54, +0x58) are the host character's position: x, y, z (Character +0x160, +0x164,
+            // +0x168; Hex-Rays v106 = [c+88], v107 = [c+89], v105 = [c+90]) -- MultiplayerCallback::HandleInitialMessage reads them back as the
+            // Point3D<float> given to PlayerManager::InitialSetup. WHAT THE OLD BODY GOT WRONG: it sent the savegame's level, class and save date
+            // there, so every client placed its character at three integers read as floats (zero, zero, a huge z).
+            float setup[3];
+            setup[0] = localCharacter->m_position.X;
+            setup[1] = localCharacter->m_position.Y;
+            setup[2] = localCharacter->m_position.Z;
             CMessage* message = new CMsgInitialSetup(true);
             std::memcpy(message->GetDataPtr(), setup, sizeof setup);
             GetMessaging()->SendMsg(message);

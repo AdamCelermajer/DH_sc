@@ -68,3 +68,22 @@ std::int32_t CMatchingLocal::GenerateNewMemberId() {
     } while ((static_cast<std::uint32_t>(GetMemberMask(id)) & roomMask) != 0);  // vtable +0x84 = GetMemberMask
     return id;
 }
+
+// CConnectionManager::GetConnMemberIdList(false).
+std::vector<int> CMatchingLocal::ConnectionMemberIdList() const {
+    CConnectionManager* connections = CConnectionManager::GetInstance();
+    return connections != nullptr ? connections->GetConnMemberIdList(false) : std::vector<int>();
+}
+
+// CConnectionManager::IsConnected(int).
+bool CMatchingLocal::IsConnectedMember(int memberId) const {
+    CConnectionManager* connections = CConnectionManager::GetInstance();
+    return connections != nullptr && connections->IsConnected(memberId);
+}
+
+// CConnectionManager::Disconnect(int, false).
+void CMatchingLocal::DisconnectMember(int memberId) {
+    if (CConnectionManager* connections = CConnectionManager::GetInstance()) {
+        connections->Disconnect(memberId, false);
+    }
+}

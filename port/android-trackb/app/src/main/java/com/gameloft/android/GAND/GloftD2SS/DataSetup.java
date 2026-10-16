@@ -12,7 +12,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.content.res.AssetFileDescriptor;
+import android.os.StatFs;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilterInputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -99,26 +108,43 @@ public class DataSetup extends Activity {
             startGame();
             return;
         }
-        if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED
+        final boolean bundled = hasAsset("dh2data.zip");
+        if (!bundled && Build.VERSION.SDK_INT >= 23 && checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED
                 && getSharedPreferences("dh2setup", 0).getInt("asked", 0) == 0) {
             getSharedPreferences("dh2setup", 0).edit().putInt("asked", 1).commit();
-            requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.READ_PHONE_STATE"}, REQ_STORAGE);
+            requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, REQ_STORAGE);
             return;
         }
-        final File src = findArchive();
-        if (src == null) {
+        final File src = bundled ? null : findArchive();
+        if (!bundled && src == null) {
             text.setText("Dungeon Hunter 2 data not found.\n\nCopy Dungeon-Hunter-2-HD-v1-0-2-cache.zip to\n"
                     + getObbDir().getPath() + "/ (as main." + versionCode() + "." + getPackageName() + ".obb)\nor to the Download folder, then come back to this screen.");
             return;
         }
+        final Map<String, String> man = readManifest();
+        long need = 700L * 1024 * 1024;
+        try {
+            if (man.containsKey("bytes")) {
+                need = Long.parseLong(man.get("bytes")) + 64L * 1024 * 1024;
+            }
+            StatFs fs = new StatFs(filesDir().getPath());
+            long free = fs.getAvailableBytes();
+            if (free < need) {
+                text.setText("Not enough free storage.\n\nDungeon Hunter 2 needs about " + (need >> 20) + " MB of free space for its game data,\nbut only "
+                        + (free >> 20) + " MB are available.\n\nFree up space, then come back to this screen.");
+                return;
+            }
+        } catch (Throwable t) {
+            // no free-space info: try anyway
+        }
         working = true;
         bar.setVisibility(View.VISIBLE);
-        text.setText("Preparing game data from\n" + src.getName() + "\n(first start only)");
+        text.setText("Preparing game data (first start only, about a minute)...");
         new Thread(new Runnable() {
             public void run() {
                 String err = null;
                 try {
-                    extract(src, filesDir());
+                    extractStream(src, man, filesDir());
                 } catch (Throwable t) {
                     err = t.toString();
                 }
@@ -127,7 +153,7 @@ public class DataSetup extends Activity {
                     public void run() {
                         working = false;
                         if (e != null) {
-                            text.setText("Could not unpack the game data:\n" + e);
+                            text.setText("Could not unpack the game data:\n" + e + "\n\nCheck free storage, then reopen the game to retry.");
                         } else {
                             startGame();
                         }
@@ -135,6 +161,51 @@ public class DataSetup extends Activity {
                 });
             }
         }).start();
+    }
+
+    private boolean hasAsset(String n) {
+        try {
+            getAssets().openFd(n).close();
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    private Map<String, String> readManifest() {
+        Map<String, String> m = new HashMap<String, String>();
+        try {
+            BufferedReader r = new BufferedReader(new InputStreamReader(getAssets().open("dh2data.txt"), "UTF-8"));
+            String l;
+            while ((l = r.readLine()) != null) {
+                int i = l.indexOf('=');
+                if (i > 0) {
+                    m.put(l.substring(0, i), l.substring(i + 1));
+                }
+            }
+            r.close();
+        } catch (Throwable t) {
+            // no manifest (zip found on the device): no strict verification
+        }
+        return m;
+    }
+
+    /** Counts the compressed bytes consumed from the (stored) asset so the bar can follow without knowing the unpacked size. */
+    private static class Counting extends FilterInputStream {
+        long n;
+        Counting(InputStream in) {
+            super(in);
+        }
+        public int read() throws java.io.IOException {
+            int r = super.read();
+            if (r >= 0) n++;
+            return r;
+        }
+        public int read(byte[] b, int o, int l) throws java.io.IOException {
+            int r = super.read(b, o, l);
+            if (r > 0) n += r;
+            return r;
+        }
     }
 
     private int versionCode() {
@@ -202,31 +273,36 @@ public class DataSetup extends Activity {
         return false;
     }
 
-    private void extract(File archive, File dest) throws Exception {
+    private void extractStream(File archive, Map<String, String> man, File dest) throws Exception {
         File flag = new File(dest, ".dh2_extracting");
         flag.createNewFile();
-        ZipFile z = new ZipFile(archive);
+        // the source: the asset bundled in the APK (stored, streamed, never in memory) or a zip found on the device
+        long rawTotal;
+        InputStream raw;
+        if (archive == null) {
+            AssetFileDescriptor fd = getAssets().openFd("dh2data.zip");
+            rawTotal = Math.max(fd.getLength(), 1);
+            fd.close();
+            raw = getAssets().open("dh2data.zip", android.content.res.AssetManager.ACCESS_STREAMING);
+        } else {
+            rawTotal = Math.max(archive.length(), 1);
+            raw = new FileInputStream(archive);
+        }
+        Counting cin = new Counting(new java.io.BufferedInputStream(raw, 1 << 16));
+        ZipInputStream zin = new ZipInputStream(cin);
+        String prefix = man.containsKey("prefix") ? man.get("prefix") : null;
+        long files = 0, bytes = 0;
         try {
-            String prefix = "";
-            long total = 0;
-            Enumeration<? extends ZipEntry> en = z.entries();
-            while (en.hasMoreElements()) {
-                ZipEntry e = en.nextElement();
-                total += e.getSize();
-                int i = e.getName().indexOf("/files/");
-                if (i >= 0 && prefix.length() == 0 && e.getName().startsWith(e.getName().substring(0, i + 1))) {
-                    prefix = e.getName().substring(0, i + 7);
-                }
-            }
-            final long all = Math.max(total, 1);
-            long done = 0;
             String destCanon = dest.getCanonicalPath() + File.separator;
             byte[] buf = new byte[1 << 16];
-            en = z.entries();
             int lastPct = -1;
-            while (en.hasMoreElements()) {
-                ZipEntry e = en.nextElement();
+            ZipEntry e;
+            while ((e = zin.getNextEntry()) != null) {
                 String name = e.getName();
+                if (prefix == null) {
+                    int i = name.indexOf("/files/");
+                    prefix = i >= 0 ? name.substring(0, i + 7) : "";
+                }
                 if (prefix.length() > 0) {
                     if (!name.startsWith(prefix)) {
                         continue;
@@ -245,23 +321,21 @@ public class DataSetup extends Activity {
                     continue;
                 }
                 if (name.indexOf('/') < 0 && isUserState(name)) {
-                    done += e.getSize();
-                    continue;
+                    continue;   // the repacker's injected save/settings: start with a clean profile
                 }
                 out.getParentFile().mkdirs();
-                InputStream in = z.getInputStream(e);
                 OutputStream os = new FileOutputStream(out);
                 try {
                     int r;
-                    while ((r = in.read(buf)) > 0) {
+                    while ((r = zin.read(buf)) > 0) {
                         os.write(buf, 0, r);
-                        done += r;
+                        bytes += r;
                     }
                 } finally {
                     os.close();
-                    in.close();
                 }
-                final int pct = (int) (done * 1000 / all);
+                files++;
+                final int pct = (int) (cin.n * 1000 / rawTotal);
                 if (pct != lastPct) {
                     lastPct = pct;
                     runOnUiThread(new Runnable() {
@@ -272,7 +346,14 @@ public class DataSetup extends Activity {
                 }
             }
         } finally {
-            z.close();
+            zin.close();
+        }
+        if (man.containsKey("files") && (files != Long.parseLong(man.get("files")) || bytes != Long.parseLong(man.get("bytes")))) {
+            throw new java.io.IOException("verification failed: unpacked " + files + " files / " + bytes + " bytes, expected "
+                    + man.get("files") + " / " + man.get("bytes") + " (storage full?)");
+        }
+        if (!new File(dest, "d_o_w_n_l_o_a_d_e_d.txt").exists() || !new File(dest, "data").isDirectory()) {
+            throw new java.io.IOException("verification failed: data marker missing");
         }
         flag.delete();
     }

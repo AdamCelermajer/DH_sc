@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "glitch-video/programmable_gl_driver.hpp"
 
 #include <cstring>

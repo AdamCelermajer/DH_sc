@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One command: libdh2.so (arm64-v8a Release) -> two signed APKs (and optionally install them).
 
-usage: py -3 tools/trackb/android/build_release.py [--skip-native] [--only origdex|source] [--install [--serial S]] [--apk ORIG.apk]
+usage: py -3 tools/trackb/android/build_release.py [--bundle-data CACHE.zip [--out-root DIR --build-dir DIR]] [--skip-native] [--only origdex|source] [--install [--serial S]] [--apk ORIG.apk]
 
 Outputs (all under build/own-ab, never tracked):
   build/own-ab/out/dh2-trackb-origdex.apk   original v1.0.2 classes.dex + resources + our libdh2.so (+ DataSetup launcher dex)
@@ -29,6 +29,41 @@ OUT = os.path.join(OUTROOT, "out")
 BUILD = os.path.join(ROOT, "build", "own-ab-arm64")
 PROJ = os.path.join(ROOT, "port", "android-trackb", "app", "src", "main")
 DEFAULT_APK = r"C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/Dungeon-Hunter-2-HD-v1-0-2.apk"
+
+
+def bundle_manifest(zpath):
+    """prefix / file count / byte count DataSetup will unpack from the cache zip (user-state files at the top level are skipped)."""
+    z = zipfile.ZipFile(zpath)
+    prefix = None
+    for i in z.infolist():
+        k = i.filename.find("/files/")
+        if k >= 0:
+            prefix = i.filename[:k + 7]
+            break
+    if prefix is None:
+        sys.exit("not a Dungeon Hunter 2 cache zip (no .../files/ entries): " + zpath)
+    files = nbytes = 0
+    for i in z.infolist():
+        n = i.filename
+        if not n.startswith(prefix) or i.is_dir() or len(n) == len(prefix):
+            continue
+        n = n[len(prefix):]
+        if "/" not in n and (n.endswith(".savegame") or n.endswith(".bak") or ".checkpoint" in n or n == "InsTime"):
+            continue
+        files += 1
+        nbytes += i.file_size
+    return "prefix=%s\nfiles=%d\nbytes=%d\n" % (prefix, files, nbytes)
+
+
+def add_bundle(raw_in, raw_out, zpath):
+    """copy the source APK and add the cache zip as a STORED asset (streamed by DataSetup, never deflated again) + its manifest."""
+    with zipfile.ZipFile(raw_in) as zi, zipfile.ZipFile(raw_out, "w", zipfile.ZIP_DEFLATED) as zo:
+        for i in zi.infolist():
+            if i.filename.startswith("META-INF/"):
+                continue
+            zo.writestr(i, zi.read(i.filename), i.compress_type)
+        zo.writestr("assets/dh2data.txt", bundle_manifest(zpath))
+        zo.write(zpath, "assets/dh2data.zip", compress_type=zipfile.ZIP_STORED)
 
 
 def run(*a, **k):
@@ -74,9 +109,20 @@ def main():
     ap.add_argument("--apk", default=DEFAULT_APK, help="your original Dungeon-Hunter-2-HD-v1-0-2.apk")
     ap.add_argument("--install", action="store_true", help="adb install -r -g the origdex APK (the source one with --only source)")
     ap.add_argument("--serial")
+    ap.add_argument("--bundle-data", help="Dungeon-Hunter-2-HD-v1-0-2-cache.zip: embed it (stored) so the APK unpacks its own data on first run; writes dh2-trackb-bundled.apk (source Java only)")
+    ap.add_argument("--out-root", help="output root instead of build/own-ab")
+    ap.add_argument("--build-dir", help="native build dir instead of build/own-ab-arm64")
     ap.add_argument("--min-sdk", type=int, default=26)
     ap.add_argument("--target-sdk", type=int, default=28)
     a = ap.parse_args()
+    global OUTROOT, OUT, BUILD
+    if a.out_root:
+        OUTROOT = os.path.abspath(a.out_root)
+        OUT = os.path.join(OUTROOT, "out")
+    if a.build_dir:
+        BUILD = os.path.abspath(a.build_dir)
+    if a.bundle_data:
+        a.only = "source"
     os.makedirs(OUT, exist_ok=True)
 
     # 1. native library
@@ -103,7 +149,13 @@ def main():
     run(sys.executable, os.path.join(ROOT, "tools", "trackb", "java", "build_apk.py"), "--out", jout,
         "--min-sdk", a.min_sdk, "--target-sdk", a.target_sdk)
     if a.only != "origdex":
-        sign(os.path.join(jout, "dh2-java-raw.apk"), os.path.join(OUT, "dh2-trackb-source.apk"))   # same key as the origdex APK
+        if a.bundle_data:
+            braw = os.path.join(OUTROOT, "dh2-bundled-raw.apk")
+            add_bundle(os.path.join(jout, "dh2-java-raw.apk"), braw, a.bundle_data)
+            sign(braw, os.path.join(OUT, "dh2-trackb-bundled.apk"))
+            os.remove(braw)
+        else:
+            sign(os.path.join(jout, "dh2-java-raw.apk"), os.path.join(OUT, "dh2-trackb-source.apk"))   # same key as the origdex APK
 
     # 3. original-dex APK: the original APK's dex/resources, the manifest compiled from the same source manifest (ids are
     #    pinned identical to the original's resources.arsc), our libs, and DataSetup (the first-run data unpacker) as classes2.dex
@@ -132,11 +184,11 @@ def main():
         sign(raw, os.path.join(OUT, "dh2-trackb-origdex.apk"))
 
     for f in sorted(os.listdir(OUT)):
-        print("%10d  %s" % (os.path.getsize(os.path.join(OUT, f)), os.path.join("build/own-ab/out", f)))
+        print("%10d  %s" % (os.path.getsize(os.path.join(OUT, f)), os.path.relpath(os.path.join(OUT, f), ROOT)))
 
     # 4. optional install
     if a.install:
-        which = "dh2-trackb-source.apk" if a.only == "source" else "dh2-trackb-origdex.apk"
+        which = "dh2-trackb-bundled.apk" if a.bundle_data else "dh2-trackb-source.apk" if a.only == "source" else "dh2-trackb-origdex.apk"
         s = ["-s", a.serial] if a.serial else []
         run(ADB, *s, "install", "-r", "-g", os.path.join(OUT, which))
         # Android 10+ refuses TelephonyManager.getDeviceId to unprivileged apps; the original dex does not catch that

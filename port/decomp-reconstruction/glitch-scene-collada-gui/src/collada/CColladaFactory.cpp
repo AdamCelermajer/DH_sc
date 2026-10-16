@@ -4,6 +4,8 @@
 // A comment `// 0xADDR symbol` precedes each function; PARTIAL in the comment means the ledger row stays partial.
 #include "glitch-scene-collada-gui/collada/CColladaFactory.hpp"
 
+#include <cstdlib>
+#include <cstdio>
 #include <cstring>
 
 #include "glitch-core-io/os/device.hpp"

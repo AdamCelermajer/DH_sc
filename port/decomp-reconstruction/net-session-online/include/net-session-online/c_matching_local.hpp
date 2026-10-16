@@ -194,6 +194,12 @@ public:
     std::int32_t KickMember(std::int32_t memberId) override;
     // 0x80675c _ZN14CMatchingLocal19GenerateNewMemberIdEv (partial: see the .cpp)
     std::int32_t GenerateNewMemberId() override;
+    // The CMatching seams for CConnectionManager (the original calls the manager inline from CMatching::UpdateMemberIdList and ProcessEvents).
+    // WHAT THE OLD CLASS GOT WRONG: it did not forward them, so the base defaults ({} / false / nothing) made UpdateMemberIdList never give a
+    // connected client a slot in the member table (the host saw one member) and ProcessEvents never dropped a disconnected one.
+    std::vector<int> ConnectionMemberIdList() const override;
+    bool IsConnectedMember(int memberId) const override;
+    void DisconnectMember(int memberId) override;
 
     // Servers (c_matching_local_servers.cpp)
     // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes (partial)

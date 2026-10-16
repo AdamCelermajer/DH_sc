@@ -55,6 +55,28 @@ const Matrix* matrixSlot(const CMaterial& m, const SParameterEntry& e, uint32_t 
     return it == slots.end() ? nullptr : it->second;
 }
 
+// Texture (types 12..15) and light (18) parameters hold their 32-bit pointer in the value area of the original, so the material hash
+// (updateParametersHashCode, 0x35364c), the order (compare) and the equality (areParametersEqual) all see which texture a material
+// uses. The port keeps those pointers in SPointerSlots outside the value buffer, which left the value bytes zero: two materials that
+// differed only in their texture hashed and compared equal, and the driver's draw batching (SceneManager SwitchBatching: same material
+// or same material hash) merged them into one draw with the first one's texture (Rene drawn with the swamp environment atlas).
+bool isPointerType(uint8_t type) { return (type >= 12 && type <= 15) || type == 18; }
+
+uint32_t pointerWord(const CMaterial& m, const SParameterEntry& e, uint32_t index) {
+    const detail::part1c::SPointerSlots* slots = const_cast<CMaterial&>(m).parameters.table().pointers;
+    if (!slots) return 0;
+    const uint32_t key = e.valueOffset + 4u * index;
+    const void* pointer = nullptr;
+    if (e.type == 18) {
+        auto it = slots->lights.find(key);
+        if (it != slots->lights.end()) pointer = it->second.get();
+    } else {
+        auto it = slots->textures.find(key);
+        if (it != slots->textures.end()) pointer = it->second.get();
+    }
+    return static_cast<uint32_t>(reinterpret_cast<std::uintptr_t>(pointer));
+}
+
 }  // namespace
 
 // 0x5cbf78 _ZN6glitch5video9CMaterialD1Ev (D0 0x5cc144)
@@ -408,6 +430,13 @@ void CMaterial::updateParametersHashCode(uint8_t technique) const {
             }
         } else if (entry->kind == 11 || entry->kind == 15) {
             continue;
+        } else if (isPointerType(entry->type)) {
+            for (uint32_t e = 0; e < entry->count; ++e) {
+                const uint32_t word = pointerWord(*this, *entry, e);
+                for (int b = 0; b < 4; ++b) {
+                    narrow = ((word >> (8 * b)) & 0xFFu) + 13 * narrow;
+                }
+            }
         } else if (entry->type != kMatrixType) {
             const uint8_t* p = values + entry->valueOffset;
             for (uint32_t i = 0; i < entry->count * kValueTypeSize[entry->type]; ++i) {
@@ -497,6 +526,14 @@ bool CMaterial::areParametersEqual(uint8_t technique, uint8_t passCount, const C
             if (ea->type != eb->type) {
                 return false;
             }
+            if (isPointerType(ea->type)) {
+                for (uint32_t e = 0; e < ea->count; ++e) {
+                    if (pointerWord(*this, *ea, e) != pointerWord(other, *eb, e)) {
+                        return false;
+                    }
+                }
+                continue;
+            }
             if (ea->type != kMatrixType) {
                 if (std::memcmp(m_values.data() + ea->valueOffset, other.m_values.data() + eb->valueOffset,
                                 ea->count * kValueTypeSize[ea->type]) != 0) {
@@ -576,6 +613,13 @@ bool CMaterial::compare(uint8_t technique, uint8_t passCount, const CMaterial& o
                             matrixBytes(sa ? *sa : identityMatrix(), bytesA);
                             matrixBytes(sb ? *sb : identityMatrix(), bytesB);
                             result = std::memcmp(bytesA, bytesB, 68);  // the original keeps the last element's result
+                        }
+                    } else if (isPointerType(ea->type)) {
+                        for (uint32_t e = 0; e < ea->count; ++e) {
+                            const uint32_t wa = pointerWord(*this, *ea, e);
+                            const uint32_t wb = pointerWord(other, *eb, e);
+                            result = wa < wb ? -1 : (wa > wb ? 1 : 0);
+                            if (result != 0) break;
                         }
                     } else {
                         result = std::memcmp(m_values.data() + ea->valueOffset, other.m_values.data() + eb->valueOffset,

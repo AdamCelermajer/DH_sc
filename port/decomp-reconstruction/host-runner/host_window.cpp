@@ -1,7 +1,10 @@
+#include <map>
+#include <algorithm>
 // Windowed host runner: a Win32 window, an EGL/GLES2 context from ANGLE (libEGL.dll / libGLESv2.dll loaded at run time, never linked or committed),
 // the game's GL function table bound to the ANGLE entry points, mouse = touch, F12 / script "shot" = BMP screenshot.
 #include <windows.h>
 
+#include <cstdlib>
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -10,6 +13,7 @@
 #include "glitch-shared/gl_function_table.hpp"
 #include "host_runner.hpp"
 
+namespace dh2host { void rtCharDump(); }
 extern "C" int appOnTouch(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 
 namespace dh2host {
@@ -152,6 +156,133 @@ void bindTable(deps_table& t) {
     };
     t.bufferData = [](uint32_t target, int32_t size, const void* data, uint32_t usage) { s_bufferData(target, size, data, usage); };
     t.bufferSubData = [](uint32_t target, int32_t offset, int32_t size, const void* data) { s_bufferSubData(target, offset, size, data); };
+
+    // RT debug (DH2_SHDUMP=<dir>): every shader source handed to GL is written to <dir>/shader_<id>.glsl; DH2_SHPATCH=<file> applies "FROM=>TO" lines (backslash-n = newline).
+    if (const char* sd = std::getenv("DH2_SHDUMP")) {
+        static std::string s_dir = sd;
+        static decltype(t.shaderSource) o_ss; o_ss = t.shaderSource;
+        t.shaderSource = [](uint32_t sh, int32_t n, const char* const* str, const int32_t* len) {
+            std::string all;
+            for (int i = 0; i < n; ++i) all += (len && len[i] > 0) ? std::string(str[i], len[i]) : std::string(str[i]);
+            if (const char* pf = std::getenv("DH2_SHPATCH")) if (FILE* f = std::fopen(pf, "r")) {
+                char line[2048];
+                while (std::fgets(line, sizeof line, f)) {
+                    std::string l = line;
+                    while (!l.empty() && (l.back() == '\n' || l.back() == '\r')) l.pop_back();
+                    size_t e = l.find("=>");
+                    if (e == std::string::npos) continue;
+                    std::string a = l.substr(0, e), b = l.substr(e + 2);
+                    for (size_t q; (q = b.find("\n")) != std::string::npos;) b.replace(q, 2, "\n");
+                    for (size_t q; (q = a.find("\n")) != std::string::npos;) a.replace(q, 2, "\n");
+                    for (size_t q = 0; !a.empty() && (q = all.find(a, q)) != std::string::npos; q += b.size()) all.replace(q, a.size(), b);
+                }
+                std::fclose(f);
+            }
+            if (FILE* f = std::fopen((s_dir + "/shader_" + std::to_string(sh) + ".glsl").c_str(), "wb")) { std::fwrite(all.data(), 1, all.size(), f); std::fclose(f); }
+            const char* cp = all.c_str();
+            o_ss(sh, 1, &cp, nullptr);
+        };
+    }
+    // RT debug (DH2_DRAWDUMP=<frame>): per-draw texture bindings and UV ranges of client-array draws, for rendering bisects.
+    if (const char* dd = std::getenv("DH2_DRAWDUMP")) {
+        static int s_dumpFrame = std::atoi(dd);
+        static uint32_t s_unit = 0, s_bound[8] = {}, s_curTex = 0, s_arrayBuf = 0, s_elemBuf = 0;
+        struct TI { int w, h; uint32_t fmt; uint32_t h0; };
+        static std::map<uint32_t, TI> s_tex;
+        struct AP { int size; uint32_t type; int stride; const void* ptr; bool buf; bool en; };
+        static AP s_ap[16] = {};
+        static decltype(t.bindTexture) o_bind; static decltype(t.activeTexture) o_act; static decltype(t.compressedTexImage2D) o_cti;
+        static decltype(t.vertexAttribPointer) o_vap; static decltype(t.bindBuffer) o_bb; static decltype(t.drawElements) o_de; static decltype(t.texImage2D) o_ti;
+        static decltype(t.enableVertexAttribArray) o_en; static decltype(t.disableVertexAttribArray) o_dis;
+        o_bind = t.bindTexture; o_act = t.activeTexture; o_cti = t.compressedTexImage2D; o_vap = t.vertexAttribPointer; o_bb = t.bindBuffer; o_de = t.drawElements;
+        o_ti = t.texImage2D; o_en = t.enableVertexAttribArray; o_dis = t.disableVertexAttribArray;
+        t.activeTexture = [](uint32_t u) { s_unit = (u - 0x84C0) & 7; o_act(u); };
+        t.bindTexture = [](uint32_t tg, uint32_t id) { s_bound[s_unit] = id; if (currentFrame() == s_dumpFrame) std::fprintf(g_runnerOut, "[gl] bindTexture unit=%u id=%u\n", s_unit, id); o_bind(tg, id); };
+        t.bindBuffer = [](uint32_t tg, uint32_t b) { if (tg == 0x8892) s_arrayBuf = b; else s_elemBuf = b; o_bb(tg, b); };
+        t.enableVertexAttribArray = [](uint32_t i) { if (i < 16) s_ap[i].en = true; o_en(i); };
+        t.disableVertexAttribArray = [](uint32_t i) { if (i < 16) s_ap[i].en = false; o_dis(i); };
+        t.compressedTexImage2D = [](uint32_t tg, int32_t lv, uint32_t f, int32_t w, int32_t h, int32_t b, int32_t sz, const void* d) {
+            if (lv == 0) { uint32_t hh = 0; if (d) for (int i = 0; i < 64 && i < sz; ++i) hh = hh * 31 + static_cast<const uint8_t*>(d)[i];
+                s_tex[s_bound[s_unit]] = {w, h, f, hh}; std::fprintf(g_runnerOut, "[tex] id=%u %dx%d cfmt=0x%x sz=%d h=%08x\n", s_bound[s_unit], w, h, f, sz, hh); }
+            o_cti(tg, lv, f, w, h, b, sz, d); };
+        t.texImage2D = [](uint32_t tg, int32_t lv, int32_t f, int32_t w, int32_t h, int32_t b, uint32_t fm, uint32_t ty, const void* d) {
+            if (lv == 0) { uint32_t hh = 0; if (d) for (int i = 0; i < 64; ++i) hh = hh * 31 + static_cast<const uint8_t*>(d)[i];
+                s_tex[s_bound[s_unit]] = {w, h, fm, hh}; std::fprintf(g_runnerOut, "[tex] id=%u %dx%d fmt=0x%x type=0x%x h=%08x\n", s_bound[s_unit], w, h, fm, ty, hh); }
+            if (lv == 0 && d && ty == 0x1401 && w >= 256 && std::getenv("DH2_TEXDUMP")) { char nm[512]; std::snprintf(nm, sizeof nm, "%s/tex_%u_%dx%d_%x.raw", std::getenv("DH2_TEXDUMP"), s_bound[s_unit], w, h, fm);
+                if (FILE* fo = std::fopen(nm, "wb")) { std::fwrite(d, 1, size_t(w) * h * 4, fo); std::fclose(fo); } }
+            o_ti(tg, lv, f, w, h, b, fm, ty, d); };
+        t.vertexAttribPointer = [](uint32_t i, int32_t sz, uint32_t ty, uint8_t n, int32_t st, const void* p) {
+            if (i < 16) s_ap[i] = {sz, ty, st, p, s_arrayBuf != 0, s_ap[i].en}; o_vap(i, sz, ty, n, st, p); };
+
+        static uint32_t s_prog = 0; static std::map<uint64_t, std::string> s_uname;
+        static decltype(t.useProgram) o_up = t.useProgram; static decltype(t.getUniformLocation) o_gul = t.getUniformLocation; static decltype(t.uniformMatrix4fv) o_um = t.uniformMatrix4fv;
+        t.useProgram = [](uint32_t p) { s_prog = p; o_up(p); };
+        t.getUniformLocation = [](uint32_t p, const char* n) { int r = o_gul(p, n); s_uname[(uint64_t(p) << 32) | uint32_t(r)] = n; return r; };
+        t.uniformMatrix4fv = [](int32_t loc, int32_t cnt, uint8_t tr, const float* m) {
+            if (currentFrame() == s_dumpFrame) { auto it = s_uname.find((uint64_t(s_prog) << 32) | uint32_t(loc));
+                if (it != s_uname.end() && it->second.find("exture") != std::string::npos || it->second.find("WorldViewIT") != std::string::npos) { std::fprintf(g_runnerOut, "[umat] prog=%u %s:", s_prog, it->second.c_str());
+                    for (int i = 0; i < 16; ++i) std::fprintf(g_runnerOut, " %.3f", m[i]); std::fprintf(g_runnerOut, "\n"); } }
+            o_um(loc, cnt, tr, m); };
+        static decltype(t.uniform1f) o_u1f = t.uniform1f;
+        t.uniform1f = [](int32_t loc, float v) {
+            if (currentFrame() == s_dumpFrame) { auto it = s_uname.find((uint64_t(s_prog) << 32) | uint32_t(loc));
+                if (it != s_uname.end() && it->second.find("envmap") != std::string::npos) std::fprintf(g_runnerOut, "[u1f] prog=%u %s=%g\n", s_prog, it->second.c_str(), v); }
+            o_u1f(loc, v); };
+        static decltype(t.uniform4fv) o_u4fv = t.uniform4fv;
+        t.uniform4fv = [](int32_t loc, int32_t n, const float* v) {
+            { auto it = s_uname.find((uint64_t(s_prog) << 32) | uint32_t(loc));
+                if (it != s_uname.end() && it->second.find("fog") != std::string::npos) std::fprintf(g_runnerOut, "[fog4] f=%d prog=%u %s=%g,%g,%g,%g\n", currentFrame(), s_prog, it->second.c_str(), v[0], v[1], v[2], v[3]); }
+            if (currentFrame() == s_dumpFrame) { auto it = s_uname.find((uint64_t(s_prog) << 32) | uint32_t(loc));
+                if (it != s_uname.end() && n >= 1 && (it->second.find("Color") != std::string::npos || it->second.find("color") != std::string::npos || it->second.find("Ambient") != std::string::npos))
+                    std::fprintf(g_runnerOut, "[u4fv] prog=%u %s=%g,%g,%g,%g\n", s_prog, it->second.c_str(), v[0], v[1], v[2], v[3]); }
+            o_u4fv(loc, n, v); };
+        static decltype(t.uniform2fv) o_u2fv = t.uniform2fv;
+        t.uniform2fv = [](int32_t loc, int32_t n, const float* v) {
+            { auto it = s_uname.find((uint64_t(s_prog) << 32) | uint32_t(loc));
+                if (it != s_uname.end() && it->second.find("fog") != std::string::npos) std::fprintf(g_runnerOut, "[fog2] f=%d prog=%u %s=%g,%g\n", currentFrame(), s_prog, it->second.c_str(), v[0], v[1]); }
+            o_u2fv(loc, n, v); };
+        static decltype(t.uniform1fv) o_u1fv = t.uniform1fv;
+        t.uniform1fv = [](int32_t loc, int32_t n, const float* v) {
+            if (currentFrame() == s_dumpFrame) { auto it = s_uname.find((uint64_t(s_prog) << 32) | uint32_t(loc));
+                if (it != s_uname.end() && it->second.find("nvmap") != std::string::npos) std::fprintf(g_runnerOut, "[u1fv] prog=%u %s=%g\n", s_prog, it->second.c_str(), v[0]); }
+            o_u1fv(loc, n, v); };
+        t.drawElements = [](uint32_t mode, int32_t cnt, uint32_t ty, const void* ind) {
+            if (currentFrame() == s_dumpFrame) {
+                { static int done = -1; if (done != currentFrame()) { done = currentFrame(); rtCharDump(); } }
+                std::fprintf(stderr, "[drawmark] cnt=%d prog=%u tex0=%u\n", cnt, s_prog, s_bound[0]); std::fprintf(g_runnerOut, "[prog] %u\n", s_prog);
+                std::fprintf(g_runnerOut, "[draw] mode=%x cnt=%d ibuf=%u tex0=%u tex1=%u tex2=%u", mode, cnt, s_elemBuf, s_bound[0], s_bound[1], s_bound[2]);
+                for (int u = 0; u < 3; ++u) { auto it = s_tex.find(s_bound[u]); if (it != s_tex.end()) std::fprintf(g_runnerOut, " [u%d %dx%d h=%08x]", u, it->second.w, it->second.h, it->second.h0); }
+                if (!s_elemBuf && ind && ty == 0x1403) {
+                    const uint16_t* ix = static_cast<const uint16_t*>(ind);
+                    for (int a = 0; a < 16; ++a) {
+                        if (!s_ap[a].en || s_ap[a].buf || s_ap[a].type != 0x1406 || !s_ap[a].ptr) continue;
+                        float mn[4] = {1e9f, 1e9f, 1e9f, 1e9f}, mx[4] = {-1e9f, -1e9f, -1e9f, -1e9f};
+                        for (int i = 0; i < cnt; ++i) { const float* v = reinterpret_cast<const float*>(static_cast<const char*>(s_ap[a].ptr) + size_t(ix[i]) * (s_ap[a].stride ? s_ap[a].stride : s_ap[a].size * 4));
+                            for (int c = 0; c < s_ap[a].size && c < 4; ++c) { mn[c] = std::min(mn[c], v[c]); mx[c] = std::max(mx[c], v[c]); } }
+                        std::fprintf(g_runnerOut, " a%d(%d)[", a, s_ap[a].size);
+                        for (int c = 0; c < s_ap[a].size && c < 4; ++c) std::fprintf(g_runnerOut, "%.3f..%.3f ", mn[c], mx[c]);
+                        std::fprintf(g_runnerOut, "]");
+                    }
+                }
+                std::fprintf(g_runnerOut, "\n");
+                if (const char* ud = std::getenv("DH2_UVDUMP")) if (!s_elemBuf && ind && ty == 0x1403 && s_bound[0] == uint32_t(std::atoi(ud))) {
+                    const uint16_t* ix = static_cast<const uint16_t*>(ind);
+                    for (int i = 0; i < cnt; ++i) { std::fprintf(g_runnerOut, "[uv] cnt=%d i=%d", cnt, i);
+                        for (int a = 0; a < 16; ++a) { if (!s_ap[a].en || s_ap[a].buf || s_ap[a].type != 0x1406 || !s_ap[a].ptr) continue;
+                            const float* v = reinterpret_cast<const float*>(static_cast<const char*>(s_ap[a].ptr) + size_t(ix[i]) * (s_ap[a].stride ? s_ap[a].stride : s_ap[a].size * 4));
+                            std::fprintf(g_runnerOut, " a%d:", a); for (int c = 0; c < s_ap[a].size && c < 4; ++c) std::fprintf(g_runnerOut, "%.4f,", v[c]); }
+                        for (int a = 0; a < 16; ++a) { if (!s_ap[a].en || s_ap[a].buf || s_ap[a].type != 0x1401 || !s_ap[a].ptr) continue;
+                            const uint8_t* bv = reinterpret_cast<const uint8_t*>(s_ap[a].ptr) + size_t(ix[i]) * (s_ap[a].stride ? s_ap[a].stride : s_ap[a].size);
+                            std::fprintf(g_runnerOut, " b%d:", a); for (int c = 0; c < s_ap[a].size && c < 4; ++c) std::fprintf(g_runnerOut, "%u,", bv[c]); }
+                        std::fprintf(g_runnerOut, "\n"); }
+                }
+            }
+            { static int skipTex = std::getenv("DH2_SKIPTEX") ? std::atoi(std::getenv("DH2_SKIPTEX")) : -1; static int skipProg = std::getenv("DH2_SKIPPROG") ? std::atoi(std::getenv("DH2_SKIPPROG")) : -1;
+              if ((skipTex >= 0 && int(s_bound[0]) == skipTex) || (skipProg >= 0 && int(s_prog) == skipProg)) return; }
+            { static int rmCnt = std::getenv("DH2_REMAP_CNT") ? std::atoi(std::getenv("DH2_REMAP_CNT")) : -1; static int rmTo = std::getenv("DH2_REMAP_TO") ? std::atoi(std::getenv("DH2_REMAP_TO")) : -1;
+              if (rmCnt == cnt && rmTo > 0 && s_bound[0] != uint32_t(rmTo)) { const uint32_t was = s_bound[0]; o_act(0x84C0); o_bind(0x0DE1, uint32_t(rmTo)); o_de(mode, cnt, ty, ind); o_bind(0x0DE1, was); o_act(0x84C0 + s_unit); return; } }
+            o_de(mode, cnt, ty, ind); };
+    }
 }
 #undef BIND
 
@@ -264,6 +395,7 @@ int runWindowLoop(const Options& opt) {
     }
     logState(currentFrame());
     std::fflush(g_runnerOut);
+    audioClose();
     return 0;
 }
 
