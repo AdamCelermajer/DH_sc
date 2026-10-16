@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-anim-CharAnimator-2af513-1 (CharAnimator, part 2 of 3): the item swoosh helpers, the anim-set helpers,
 // SetAnimationSet and the anim stack (0x3c94b8 to 0x3caccc). Declarations come from dh2/CharAnimator.hpp.
 //

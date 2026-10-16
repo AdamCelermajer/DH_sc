@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // HUDControls bodies, batch g1-game-ui-HUDControls-fd602c-0.
 // Rebuilt from the Hex-Rays pseudocode of libDungeonHunter2.so. Offsets in comments are the original 32-bit
 // ARM offsets. Partial functions say in their comment which part is missing; the ledger notes repeat it.

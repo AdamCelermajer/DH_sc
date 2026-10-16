@@ -90,3 +90,21 @@ poll; avoids the 2 minute tool limit), iterate.sh now stops on a failed ninja ("
 - Now: the level loads to step 36 (100 %), the loading screen shows; the progress bar stays empty and the screen does not advance: step 36 -> 37 is NativeEndLoading, called from the
   loading menu's ActionScript ("continue_text._currentframe is:72", "IS FINISHED" traced every frame); a tap reaches the HUD "BLOCKER" button instead of the loading movie.
   Next: find what the loading movie waits for (a press on its own button, the percent/frame values written through InvokeASCallback, as_value number reads).
+
+## Round 6 (owner R2): loading screen -> first level, hero visible and running
+Furthest point: new game loads, the loading movie finishes, tap-to-continue ends loading (step 36 -> 37 -> 38), the first level renders in 3D with the HUD, the hero is visible and runs with the virtual joystick,
+dead bodies/blood/torches render, the attack button is accepted; no crash. Not verified: enemies fighting back (none met in the first room), the attack hit path, item/monster textures (see remaining).
+Root causes (all against the binary):
+1. Loading never finished: the loading movie calls `loading_anim.gotoAndStop(percent + 1)` and `continue_text.gotoAndPlay(1)` with NUMBERS. The binary's sprite_goto_and_stop (0x7c1adc) converts with
+   as_value::to_string(tu_string&); the upstream gameswf_as_sprite.cpp used to_tu_string(), which in DH2's as_value (0x420a84) does not convert numbers, so the frame was "" and goto never ran: the bar stayed empty
+   and the continue button/text (frames inside loading_anim, sprite 135) never appeared. gotoAndPlay/gotoAndStop in upstream/gameswf-r1714/gameswf/gameswf_as_sprite.cpp now use to_string(buf). Taps then hit btn_loading_continue,
+   whose onRelease calls NativeEndLoading. (The HUD "BLOCKER" button sits below it in the loading movie; the stacking was correct.) Other upstream sites that pass numbers to to_tu_string() may still be wrong (128 uses in upstream/).
+2. 3D never drawn: Application::_Draw called scene->registerSceneNodes(null) for Hex-Rays "vtable +0x3c". The object's vptr is 5 entries into the symbol table, so +0x3c is SceneManager::drawAll(ISceneNode*) (listing +0x50, 0x359338;
+   GSViewer already used it). Now `scene->drawAll(nullptr)`.
+3. Hero invisible and stuck: PlayerManager::_ManageCharacters computed the wanted visibility as `!m_ingame`; the listing (0x373580..0x3735c8) is `ingame && !ScriptManager::m_inCutScene`, and a visibility mismatch
+   resets the state machine to idle (SM_SetIdleState). Inverted, every in-game character was hidden and reset to idle each frame (Move state left after one frame, root-motion walk anim restarted every frame, no movement).
+4. CMakeLists: dh2_vendor_stb_vorbis got `vox-audio/include` (another owner's stb_vorbis.c edit includes vox-audio/vox/stream.hpp; the Android build failed without it).
+Debug aids used and removed again (all were behind DH2_BOOT_DEBUG): per-native logs, goto_frame, HUDControls::OnEvent, state-machine/animation traces. Findings that are still useful: joystick events arrive as RenderFX type 4/5/6 on HUDControls::m_joystickStick;
+movement is root motion (RootSceneNode::_HandleDisplacement, AnimApplicator delta of the "root_camera-node" position track); `adb shell input swipe 420 830 520 720 5000` drives the stick, a tap at (1200,540) ends loading.
+Remaining / next: (a) a green hooded model beside the first torches with a wrong (streaked marble) texture: probably a UV or texture slot fault of a skinned/modular mesh (the hero's own textures are right); (b) the level is very dark (lighting,
+ambient/dynamic lights or fog; compare LevelConfig colours); (c) find an enemy and check attack, hit reaction, enemy AI and damage numbers; (d) the loading "touch to continue" text blinks (frame 1..54 visible) as in the original.

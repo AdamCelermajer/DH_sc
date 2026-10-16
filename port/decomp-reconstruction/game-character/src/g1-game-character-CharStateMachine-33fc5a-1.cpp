@@ -1,3 +1,7 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#include <dlfcn.h>
+#endif
 // Batch g1-game-character-CharStateMachine-33fc5a-1 (part 2 of 3 of CharStateMachine): the state queries and
 // transitions, the state and event lookups, _SetState, the constructor and destructor, Flush, RaiseStateEvent and the
 // revive wrappers. Declarations and layout come from dh2/CharStateMachine.hpp.

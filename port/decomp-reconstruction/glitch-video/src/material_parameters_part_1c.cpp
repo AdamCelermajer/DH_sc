@@ -526,8 +526,9 @@ int setParameterCvt(const SParameterTable& t, std::uint16_t id, std::uint32_t in
 // are exact: uchar accepts 0 and 16, int accepts 1..4, float accepts 5..8, 9, 10, 11 and 17. Codes at
 // or above 19 are refused, where the original reads the 19-word table past its end.
 // Stored code 11 (the 4x4 matrix) keeps its 0x44-byte CMatrix4 behind a pointer written into the
-// value slot, which a 64-bit pointer does not fit; that branch is not ported and returns 0, so the
-// float form is short of the listing there.
+// value slot. decision 2 (host-width pointer): the matrix is held in SPointerSlots::matrices, created as a
+// clone of the identity on first use (0x5cb1c4 GlitchAlloc + CMatrix4 copy from IdentityMatrix), and its flag
+// is cleared before the element store, as the listing does.
 template <class T>
 int setParameterElement(const SParameterTable& t, std::uint16_t id, std::uint32_t index,
                         std::uint8_t component, T value) {
@@ -538,7 +539,20 @@ int setParameterElement(const SParameterTable& t, std::uint16_t id, std::uint32_
         index >= e->count) {
         return 0;
     }
-    if (e->type == 11) return 0;
+    if (e->type == 11) {
+        // 0x5cb1c4 code-11 branch (float only; the gate above admits no other base type here).
+        if (t.pointers == nullptr) return 0;
+        auto it = t.pointers->matrices.find(e->valueOffset);
+        if (it == t.pointers->matrices.end()) {
+            it = t.pointers->matrices.emplace(e->valueOffset, core::CMatrix4<float>(core::CMatrix4<float>::EM4CONST_IDENTITY)).first;
+        }
+        it->second.flag = false;  // the listing clears the matrix flag byte (+0x40) before the element store
+        const std::uint32_t element = static_cast<std::uint32_t>(component) + index;
+        const float old = it->second.M[element];
+        if (!sameValue(old, static_cast<float>(value))) markDirty(t);
+        it->second.M[element] = static_cast<float>(value);
+        return 1;
+    }
     std::uint32_t byteOffset;
     if constexpr (std::is_same_v<T, std::uint8_t>) {
         byteOffset = index + component;

@@ -742,9 +742,11 @@ void Application::_Draw() {
                         scene->setActiveCamera(activeLevel->m_camera->GetCameraNode());
                     }
                 }
-                // The original's slot +0x3c is CSceneManager::registerSceneNodes(ISceneNode*) (0x58b88c), called
-                // with a null node, not a drawAll; the earlier note that called it "drawAll" was wrong.
-                scene->registerSceneNodes(static_cast<glitch::scene::ISceneNode*>(nullptr));  // vtable +0x3c, r1 = 0
+                // Hex-Rays +0x3c on the scene manager object (0x32b0d4) is the virtual drawAll(ISceneNode*) slot (listing +0x50, the
+                // game SceneManager::drawAll 0x359338, which registers the nodes, renders the lists and takes the screenshot). The earlier
+                // reading as registerSceneNodes indexed the vtable from its first entry; the object's vptr is five entries in (GSViewer
+                // calls the same slot drawAll(null)). With registerSceneNodes only, nothing was ever rendered in 3D.
+                scene->drawAll(static_cast<glitch::scene::ISceneNode*>(nullptr));  // vtable +0x3c, r1 = 0
                 const bool boundingBoxes = ReadDebugSwitch("IsRenderingGlitchBoundingBoxes");
                 if (boundingBoxes) {
                     // DebugSwitches::GetSwitch returns a signed char in the original's ABI; the value is only tested

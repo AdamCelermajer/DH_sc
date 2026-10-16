@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Bodies of glitch::collada::CSceneNodeAnimator (canonical class: collada/CSceneNodeAnimator.hpp). This file replaces
 //   src/scene_node_animator.cpp (four accessors over a vector of target records without a base class) and
 //   src/tb_scene-collada-gui-glitch_collada_CSceneNodeAnimator-0.cpp (setTarget, computeAnimationValues, applyAnimationValues,

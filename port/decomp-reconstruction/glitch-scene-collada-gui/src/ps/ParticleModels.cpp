@@ -1412,119 +1412,116 @@ void PRenderDataBillboardModel<P, S, C, N, Pos, T>::applyPRenderData(P* first, P
 }
 
 
-// ---------------------------------------------------------------------------------------------------------------------
-// The bake: video::CParticleSystemBaker<P>::bake<Color, Normal, Position, TexCoords, ShaderParameters> (0x6403f8 / 0x640904 for
-// GNPSParticle, 0x6554a4 / 0x6559b0 for SParticle), reached through getRenderData (0x640804, 0x640fb0, 0x6558b0, 0x65605c). The two
-// shapes are the generic one (null colour baker: the template vertices are carried through the node, spin and rotation matrices) and the
-// billboard one (the quad corners of PSBillboardPositionBaker, the view-matrix normal, the texture coordinates and the colour per vertex).
-// ---------------------------------------------------------------------------------------------------------------------
+}  // namespace glitch::ps
 
-namespace bake_detail {
+namespace glitch::video {
 
-// The first step of both shapes: the template vertices (the mesh buffer's first stream) are copied into the render buffer once per
-// particle (`templateVertices` vertices of the output stream's stride each); the render buffer is mapped for writing and the template
-// for reading around the copy.
+// 0x6403f8 / 0x640904 (GNPSParticle), 0x6554a4 / 0x6559b0 (SParticle). The listing's `this` is unused. The material is referenced and
+// released at once by the listing, which has no net effect, so it is not touched here.
 template <typename P>
-void replicateTemplate(const IParticleContext<P>& context, video::CVertexStreams& templateStreams, video::CVertexStreams& output) {
-    video::SVertexStream& outputStream = output.m_streams[0];
-    video::IBuffer* destination = outputStream.buffer.get();
-    video::IBuffer* source = templateStreams.m_streams[0].buffer.get();
-    const std::size_t chunk = static_cast<std::size_t>(templateStreams.m_field08) * outputStream.field0e;
+template <typename ColorBaker, typename NormalBaker, typename PositionBaker, typename TexCoordsBaker, typename ShaderParametersBaker>
+void CParticleSystemBaker<P>::bake(const ps::IParticleContext<P>* context, const CVertexStreams* templateStreams, CVertexStreams* output,
+                                   const core::CMatrix4<float>* viewMatrix, const boost::intrusive_ptr<CMaterial>& material) {
+    (void)material;
+    constexpr bool kGeneric = std::is_same_v<ColorBaker, ps::PSNullColorBaker<P>>;
+
+    // The listing holds one reference on the destination (output stream 0) and on the source (template stream 0) for the bake.
+    boost::intrusive_ptr<IBuffer> destination = output->m_streams[0].buffer;
+    boost::intrusive_ptr<IBuffer> source = templateStreams->m_streams[0].buffer;
+
+    // Copy the template vertices once per particle: the destination is mapped for writing, the source for reading, then the copies.
+    const std::size_t particleCount = context->particles.size();
+    const std::size_t chunk = static_cast<std::size_t>(templateStreams->m_field08) * output->m_streams[0].field0e;
     std::uint8_t* write = destination->map(2);
-    const std::uint8_t* read = static_cast<const video::IBuffer*>(source)->map(static_cast<video::E_BUFFER_READ_MAP_ACCESS>(0));
-    if (!context.particles.empty() && write != nullptr && read != nullptr) {
-        for (std::size_t i = 0; i < context.particles.size(); ++i) {
-            std::memcpy(write, read, chunk);
-            write += chunk;
-        }
+    const std::uint8_t* read = static_cast<const IBuffer*>(source.get())->map(static_cast<E_BUFFER_READ_MAP_ACCESS>(0));
+    for (std::size_t p = 0; p < particleCount; ++p) {
+        std::memcpy(write, read, chunk);
+        write += chunk;
     }
     destination->unmap();
     source->unmap();
-}
 
-// The three mapped views the bake writes through: positions (stream 0), normals (the stream after the texture coordinates) and texture
-// coordinates (stream 1); released in the order texture coordinates, normals, positions.
-template <typename P>
-struct SOutputMaps {
-    video::SVertexStream::SMapBuffer<core::vector3d<float>> positions;
-    video::SVertexStream::SMapBuffer<core::vector3d<float>> normals;
-    video::SVertexStream::SMapBuffer<core::vector2d<float>> texCoords;
+    // The three mapped views (positions: stream 0, normals: stream m_count0c + 1, texture coordinates: stream 1).
+    SVertexStream::SMapBuffer<core::vector3d<float>> positions;
+    SVertexStream::SMapBuffer<core::vector3d<float>> normals;
+    SVertexStream::SMapBuffer<core::vector2d<float>> texCoords;
+    positions.reset(output->m_streams[0], 5);
+    normals.reset(output->m_streams[static_cast<std::size_t>(output->m_count0c) + 1u], 5);
+    texCoords.reset(output->m_streams[1], 5);
 
-    explicit SOutputMaps(video::CVertexStreams& output) {
-        positions.reset(output.m_streams[0], 5);
-        normals.reset(output.m_streams[static_cast<std::size_t>(output.m_count0c) + 1u], 5);
-        texCoords.reset(output.m_streams[1], 5);
-    }
-    ~SOutputMaps() {
-        texCoords.reset();
-        normals.reset();
-        positions.reset();
-    }
-};
-
-template <typename P>
-void bakeGeneric(IParticleContext<P>& context, video::CVertexStreams& templateStreams, video::CVertexStreams& output) {
-    replicateTemplate(context, templateStreams, output);
-    SOutputMaps<P> maps(output);
-    PSGenericPositionBaker<P>::SceneNodeWorldMat = reinterpret_cast<const core::CMatrix4<float>*>(context.getWorldMatrixPtr());
-    std::uint32_t global = 0;
-    for (const P& particle : context.particles) {
-        PSGenericPositionBaker<P>::getPerParticlePosition(&context, &particle);
-        const std::uint32_t count = templateStreams.m_field08;
-        for (std::uint32_t i = 0; i < count; ++i) {
-            PSGenericPositionBaker<P>::convertVertexPosition(&particle, global + i, i, maps.positions);
+    if constexpr (kGeneric) {
+        PositionBaker::SceneNodeWorldMat = reinterpret_cast<const core::CMatrix4<float>*>(context->getWorldMatrixPtr());
+        std::uint32_t global = 0;
+        for (const P& particle : context->particles) {
+            PositionBaker::getPerParticlePosition(context, &particle);
+            const std::uint32_t count = templateStreams->m_field08;
+            for (std::uint32_t i = 0; i < count; ++i) {
+                PositionBaker::convertVertexPosition(&particle, global + i, i, positions);
+            }
+            global += count;
         }
-        global += count;
-    }
-}
+    } else {
+        // The colour stream (attribute 18) is mapped for writing; the listing does not test it for null.
+        SVertexStream* colorStream =
+            output->getStream(18, output->m_streams.data(), output->m_streams.data() + output->m_streams.size());
+        std::uint8_t* colorBase = colorStream != nullptr ? colorStream->buffer->map(5) : nullptr;
+        std::uint8_t* colorData = colorBase != nullptr ? colorBase + colorStream->offset : nullptr;
 
-template <typename P>
-void bakeBillboard(IParticleContext<P>& context, video::CVertexStreams& templateStreams, video::CVertexStreams& output,
-                   const core::CMatrix4<float>& viewMatrix) {
-    replicateTemplate(context, templateStreams, output);
-    SOutputMaps<P> maps(output);
-    video::SVertexStream* colorStream = output.getStream(18, output.m_streams.data(), output.m_streams.data() + output.m_streams.size());
-    std::uint8_t* colorBase = colorStream != nullptr ? colorStream->buffer->map(5) : nullptr;
-    std::uint8_t* colorData = colorBase != nullptr ? colorBase + colorStream->offset : nullptr;
-    // The quad's normal is the reversed view direction (the third column of the view matrix, negated).
-    PSBillboardNormalBaker<P>::Normal[0] = -viewMatrix.M[2];
-    PSBillboardNormalBaker<P>::Normal[1] = -viewMatrix.M[6];
-    PSBillboardNormalBaker<P>::Normal[2] = -viewMatrix.M[10];
-    PSBillboardPositionBaker<P>::getPerParticleSystemPosition(&context, &viewMatrix);
-    std::uint32_t vertex = 0;
-    for (const P& particle : context.particles) {
-        PSBillboardTexCoordsBaker<P>::getPerParticleTexCoords(&context, &particle);
-        std::memcpy(PSBillboardColorBaker<P>::Color, &particle.color, 4);
-        PSBillboardPositionBaker<P>::getPerParticlePosition(&context, &particle);
-        const std::uint32_t count = templateStreams.m_field08;
-        for (std::uint32_t j = 0; j < count && j < 4; ++j, ++vertex) {
-            const core::vector3d<float>& corner = PSBillboardPositionBaker<P>::Position[4 + j];
-            const float size = particle.size;
-            float* position = reinterpret_cast<float*>(reinterpret_cast<std::uint8_t*>(maps.positions.data) +
-                                                       static_cast<std::size_t>(maps.positions.stream->field0e) * vertex);
-            position[0] = (particle.position.X + PSBillboardPositionBaker<P>::Pivot.X) + size * corner.X;
-            position[1] = (particle.position.Y + PSBillboardPositionBaker<P>::Pivot.Y) + size * corner.Y;
-            position[2] = (particle.position.Z + PSBillboardPositionBaker<P>::Pivot.Z) + size * corner.Z;
-            float* normal = reinterpret_cast<float*>(reinterpret_cast<std::uint8_t*>(maps.normals.data) +
-                                                     static_cast<std::size_t>(maps.normals.stream->field0e) * vertex);
-            normal[0] = PSBillboardNormalBaker<P>::Normal[0];
-            normal[1] = PSBillboardNormalBaker<P>::Normal[1];
-            normal[2] = PSBillboardNormalBaker<P>::Normal[2];
-            float* uv = reinterpret_cast<float*>(reinterpret_cast<std::uint8_t*>(maps.texCoords.data) +
-                                                 static_cast<std::size_t>(maps.texCoords.stream->field0e) * vertex);
-            uv[0] = PSBillboardTexCoordsBaker<P>::TexCoords[2 * j];
-            uv[1] = PSBillboardTexCoordsBaker<P>::TexCoords[2 * j + 1];
-            if (colorData != nullptr) {
-                std::memcpy(colorData + static_cast<std::size_t>(colorStream->field0e) * vertex, PSBillboardColorBaker<P>::Color, 4);
+        // The quad normal: the negated third column of the view matrix (M[2], M[6], M[10]).
+        NormalBaker::Normal[0] = -viewMatrix->M[2];
+        NormalBaker::Normal[1] = -viewMatrix->M[6];
+        NormalBaker::Normal[2] = -viewMatrix->M[10];
+        PositionBaker::getPerParticleSystemPosition(context, viewMatrix);
+
+        std::uint32_t vertex = 0;
+        for (const P& particle : context->particles) {
+            TexCoordsBaker::getPerParticleTexCoords(context, &particle);
+            std::memcpy(ColorBaker::Color, &particle.color, 4);
+            PositionBaker::getPerParticlePosition(context, &particle);
+            const std::uint32_t count = templateStreams->m_field08;
+            for (std::uint32_t j = 0; j < count; ++j, ++vertex) {
+                const core::vector3d<float>& corner = PositionBaker::Position[4 + j];
+                const float size = particle.size;
+                const float x = (particle.position.X + PositionBaker::Pivot.X) + size * corner.X;
+                const float y = (particle.position.Y + PositionBaker::Pivot.Y) + size * corner.Y;
+                const float z = (particle.position.Z + PositionBaker::Pivot.Z) + size * corner.Z;
+
+                float* pos = reinterpret_cast<float*>(reinterpret_cast<std::uint8_t*>(positions.data) +
+                                                      static_cast<std::size_t>(positions.stream->field0e) * vertex);
+                pos[0] = x;
+                pos[1] = y;
+                pos[2] = z;
+
+                float* nrm = reinterpret_cast<float*>(reinterpret_cast<std::uint8_t*>(normals.data) +
+                                                      static_cast<std::size_t>(normals.stream->field0e) * vertex);
+                nrm[0] = NormalBaker::Normal[0];
+                nrm[1] = NormalBaker::Normal[1];
+                nrm[2] = NormalBaker::Normal[2];
+
+                float* uv = reinterpret_cast<float*>(reinterpret_cast<std::uint8_t*>(texCoords.data) +
+                                                     static_cast<std::size_t>(texCoords.stream->field0e) * vertex);
+                uv[0] = TexCoordsBaker::TexCoords[2 * j];
+                uv[1] = TexCoordsBaker::TexCoords[2 * j + 1];
+
+                if (colorData != nullptr) {
+                    std::memcpy(colorData + static_cast<std::size_t>(colorStream->field0e) * vertex, ColorBaker::Color, 4);
+                }
             }
         }
+        if (colorBase != nullptr) {
+            colorStream->buffer->unmap();
+        }
     }
-    if (colorBase != nullptr) {
-        colorStream->buffer->unmap();
-    }
+
+    // Release the views in the listing's order (texture coordinates, normals, positions), then the two buffer references.
+    texCoords.reset();
+    normals.reset();
+    positions.reset();
 }
 
-}  // namespace bake_detail
+}  // namespace glitch::video
+
+namespace glitch::ps {
 
 // 0x6558b0 / 0x65605c (SParticle), 0x640804 / 0x640fb0 (GNPSParticle) getRenderData
 // Bakes the particles into the render streams (generic shape for the null colour baker, billboard shape otherwise), then sets the
@@ -1534,11 +1531,7 @@ template <typename P, typename S, typename C, typename N, typename Pos, typename
 PRenderData* PRenderDataBillboardModel<P, S, C, N, Pos, T>::getRenderData() {
     video::CVertexStreams& templateStreams = *renderMesh->vertexStreams;
     video::CVertexStreams& output = *renderData.streams;
-    if constexpr (std::is_same_v<C, PSNullColorBaker<P>>) {
-        bake_detail::bakeGeneric<P>(*this, templateStreams, output);
-    } else {
-        bake_detail::bakeBillboard<P>(*this, templateStreams, output, viewMatrix);
-    }
+    video::CParticleSystemBaker<P>::template bake<C, N, Pos, T, S>(this, &templateStreams, &output, &viewMatrix, renderMaterial);
     const std::uint32_t particleCount = static_cast<std::uint32_t>(this->particles.size());
     const std::uint32_t vertices = templateStreams.m_field08 * particleCount;
     output.m_field08 = vertices;

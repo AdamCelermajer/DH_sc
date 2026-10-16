@@ -236,6 +236,8 @@ endif()
 # stb_vorbis 0.99996 (2014 initial checkin): compiled as C++ like the binary (its symbols are C++-mangled).
 add_library(dh2_vendor_stb_vorbis STATIC ${DH2_STB_DIR}/stb_vorbis.c)
 set_source_files_properties(${DH2_STB_DIR}/stb_vorbis.c PROPERTIES LANGUAGE CXX)
+# stb_vorbis.c includes vox-audio/vox/stream.hpp and memory.hpp (DH2 additions).
+target_include_directories(dh2_vendor_stb_vorbis PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vox-audio/include)
 if(NOT MSVC)
   target_compile_options(dh2_vendor_stb_vorbis PRIVATE -w)
 endif()

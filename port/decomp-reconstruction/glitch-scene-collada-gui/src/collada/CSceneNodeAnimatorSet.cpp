@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Bodies of glitch::collada::CSceneNodeAnimatorSet (canonical class: collada/CSceneNodeAnimatorSet.hpp). This file replaces
 //   src/tb_scene-collada-gui-glitch_collada_CSceneNodeAnimatorSet-0.cpp (written against the stand-in in collada_scene_accessors.hpp),
 //   the CSceneNodeAnimatorSet accessors of src/collada_scene_accessors.cpp and the recon_22 stubs of the class.
@@ -244,6 +247,7 @@ void CSceneNodeAnimatorSet::getAnimationValue(std::int32_t trackIndex, std::int3
         SAnimationAccessor accessor(binding.animation, data, &cache);
         std::int32_t& hint = streamed ? keyIndices[0] : keyIndices[trackIndex];
         accessor.getValue(time, out, hint, interpolate);
+    } else {
     }
 }
 

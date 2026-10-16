@@ -72,6 +72,8 @@ int main() {
     CHECK(!Device::IsGameCenterSupported());
     Device::Resolution r = Device::GetScreenResolution();
     CHECK(r.width == 960 && r.height == 640);
+    // The stack drivers are the test's: ~IDevice drops its driver (as the binary does), so detach them first.
+    device.videoDriver = nullptr;
     std::printf("%s\n", failures ? "device: FAILED" : "device: ok");
     return failures != 0;
 }

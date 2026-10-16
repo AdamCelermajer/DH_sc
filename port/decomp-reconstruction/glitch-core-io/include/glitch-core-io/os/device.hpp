@@ -48,6 +48,8 @@ class IDevice : public IReferenceCounted {
 public:
     // 0x672040 (C1), 0x67228c (C2): copies the parameters and clears the members.
     explicit IDevice(const SCreationParameters& parameters);
+    // 0x67169c _ZN6glitch7IDeviceD2Ev: releases every member the constructor made or took (see src/device.cpp).
+    ~IDevice() override;
 
     // 0x67142c: the base device never requests exit.
     virtual bool isExitRequested();

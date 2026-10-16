@@ -199,6 +199,7 @@ int main() {
         CHECK(driver.lastStripIndices == 1);
         CHECK(driver.lineCalls == 1);
         driver.m_materialRendererManager = ownedManager;
+        device.videoDriver = nullptr;  // the stack driver is the test's: ~IDevice drops its driver (as the binary does)
     }
 
     std::printf("%s\n", failures ? "perf_counters: FAILED" : "perf_counters: ok");

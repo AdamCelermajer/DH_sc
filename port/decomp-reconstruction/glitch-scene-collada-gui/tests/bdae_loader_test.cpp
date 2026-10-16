@@ -431,6 +431,7 @@ int main() {
         device.fileSystem = &fileSystem;
         video::CNullDriver driver(static_cast<IDevice*>(nullptr));
         device.videoDriver = &driver;
+        struct DeviceDetach { IDevice& d; ~DeviceDetach() { d.fileSystem = nullptr; d.videoDriver = nullptr; } } detach{device};  // ~IDevice drops both; they are stack objects here
         device.referenceCounter = 100;
         RecordingFactory factory;
         {
@@ -489,6 +490,7 @@ int main() {
         device.fileSystem = &fileSystem;
         video::CNullDriver driver(static_cast<IDevice*>(nullptr));
         device.videoDriver = &driver;
+        struct DeviceDetach { IDevice& d; ~DeviceDetach() { d.fileSystem = nullptr; d.videoDriver = nullptr; } } detach{device};  // ~IDevice drops both; they are stack objects here
         device.referenceCounter = 100;
         RecordingFactory factory;
         collada::CResFileManager manager(&device);

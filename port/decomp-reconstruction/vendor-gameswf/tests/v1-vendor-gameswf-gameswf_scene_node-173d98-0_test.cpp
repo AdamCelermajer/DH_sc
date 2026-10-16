@@ -357,6 +357,7 @@ struct Rig {
     ~Rig() {
         // The scene_node's constructor takes a reference on the parent and never gives it back.
         delete parent;
+        device.sceneManager = nullptr;  // ~IDevice drops the scene manager, which is a byte block here
     }
     gameswf::player* player() { return reinterpret_cast<gameswf::player*>(player_box.bytes); }
     CVertexStreams* streams() { return mesh->buffer->vertexStreams.get(); }

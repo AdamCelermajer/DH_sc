@@ -84,11 +84,10 @@ namespace gameswf
 	{
 		if (fn.nargs == 1)  
 		{
-			if (isnan(fn.arg(0).to_number()) == false)
-			{
-				fn.result->set_bool(false);
-				return;
-			}
+			// DH2 0x7a3ffc: the number is converted and the answer is false whatever it is (the binary never tests for NaN)
+			fn.arg(0).to_number();
+			fn.result->set_bool(false);
+			return;
 		}
 		fn.result->set_bool(true);
 	}
@@ -137,11 +136,7 @@ namespace gameswf
 			// @@ Moock says if value is a NAN, then result is "NaN"
 			// INF goes to "Infinity"
 			// -INF goes to "-Infinity"
-			if (isnan(number))
-			{
-				fn.result->set_string("NaN");
-			} 
-			else
+			// DH2 0x7a3d5c: no NaN special case, the %.14g text is used as it is
 			{
 				char buffer[50];
 				snprintf(buffer, 50, "%.14g", number);

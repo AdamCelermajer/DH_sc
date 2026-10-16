@@ -1,3 +1,7 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#include <dlfcn.h>
+#endif
 // Batch g1-game-world-GameObject-5d2019-6 (GameObject, part 7 of 8).
 // Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so. Layout and declarations: dh2/GameObject.hpp.
 // Offsets in comments are the original 32-bit ones.

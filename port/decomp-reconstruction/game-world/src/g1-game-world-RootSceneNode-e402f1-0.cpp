@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Batch g1-game-world-RootSceneNode-e402f1-0 (part 1 of 2): the debug counters, the animation roots and the displacement,
 // the cull gate, the bounding box, the animator hooks, NewAnim and the destructor. The constructors are in
 // g1-game-world-RootSceneNode-e402f1-1 (part 2).

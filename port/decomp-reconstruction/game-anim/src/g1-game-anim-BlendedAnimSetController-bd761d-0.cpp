@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-anim-BlendedAnimSetController-bd761d-0 (game-anim, owner BlendedAnimSetController), rebuilt from the
 // Hex-Rays pseudocode of libDungeonHunter2.so (0x476680 to 0x476ddc).
 //

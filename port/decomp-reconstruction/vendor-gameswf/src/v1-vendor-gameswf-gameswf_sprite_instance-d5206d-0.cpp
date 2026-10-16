@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // v1-vendor-gameswf-gameswf_sprite_instance-d5206d-0.cpp
 //
 // Track B batch v1-vendor-gameswf-gameswf_sprite_instance-d5206d-0: gameswf::sprite_instance, part 1 of 2.
@@ -480,19 +483,16 @@ character* sprite_instance::add_display_object(Uint16 character_id, const tu_str
 
 // 0x77ef6c _ZN7gameswf15sprite_instance10goto_frameERKNS_9tu_stringE
 // A number selects the frame (1-based, from ActionScript), anything else is a label.
-void sprite_instance::goto_frame(const tu_string& target_frame)
+int sprite_instance::goto_frame(const tu_string& target_frame)
 {
 	double number_value;
 
 	// try the string as a number
 	if (string_to_number(&number_value, target_frame.c_str()))
 	{
-		goto_frame((int) number_value - 1);	// vtable +0x14c; convert to 0-based
+		return goto_frame((int) number_value - 1);	// vtable +0x14c; convert to 0-based
 	}
-	else
-	{
-		goto_labeled_frame(target_frame.to_tu_stringi());	// vtable +0x9c
-	}
+	return goto_labeled_frame(target_frame.to_tu_stringi());	// vtable +0x9c
 }
 
 // 0x77efd8 _ZN7gameswf15sprite_instance9constructEv

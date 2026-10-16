@@ -85,6 +85,7 @@ int main() {
     for (FakeShader& shader : shaders) shader.referenceCounter = 10;  // never reaches one, so nothing is deleted
 
     glitch::video::detail::renderpass::SRenderState renderState;
+    const glitch::video::detail::material::SRenderState materialState{};  // unread by addRenderPass (symbol parity)
 
     char techniqueName[] = "technique";
     SState state(techniqueName);
@@ -93,7 +94,7 @@ int main() {
     state.m_passSentinel.prev = &state.m_passSentinel;
 
     // 1. Empty list: the first pass is appended, the cursor points at it, the shader is counted once.
-    state.addRenderPass(&shaders[0], renderState);
+    state.addRenderPass(&shaders[0], renderState, materialState);
     CHECK(passCount(state) == 1);
     CHECK(state.m_passCursor == state.m_passSentinel.next);
     CHECK(state.m_pinkCounter24 == 1);
@@ -104,7 +105,7 @@ int main() {
     CHECK(first->pass.bindings != nullptr && first->pass.bindings[0] == 0 && first->pass.bindings[3] == 0);
 
     // 2. Cursor at the tail: append a second pass.
-    state.addRenderPass(&shaders[1], renderState);
+    state.addRenderPass(&shaders[1], renderState, materialState);
     CHECK(passCount(state) == 2);
     CHECK(state.m_passCursor == state.m_passSentinel.prev);
     CHECK(shaders[1].referenceCounter == 11);
@@ -114,7 +115,7 @@ int main() {
     //    releases the shader it held.
     state.m_pinkCounter24 = 0;
     state.m_passCursor = nullptr;
-    state.addRenderPass(&shaders[2], renderState);
+    state.addRenderPass(&shaders[2], renderState, materialState);
     CHECK(passCount(state) == 2);
     CHECK(first->pass.shader == &shaders[2]);
     CHECK(shaders[0].referenceCounter == 10);
@@ -122,14 +123,14 @@ int main() {
     CHECK(state.m_passCursor == first);
 
     // 4. Cursor is not at the tail: the node after it is reused (node 2 gives up shaders[1]).
-    state.addRenderPass(&shaders[0], renderState);
+    state.addRenderPass(&shaders[0], renderState, materialState);
     CHECK(passCount(state) == 2);
     CHECK(state.m_passCursor == state.m_passSentinel.prev);
     CHECK(shaders[1].referenceCounter == 10);
     CHECK(shaders[0].referenceCounter == 11);
 
     // 5. Cursor at the tail again with count 2: append a third node.
-    state.addRenderPass(&shaders[1], renderState);
+    state.addRenderPass(&shaders[1], renderState, materialState);
     CHECK(passCount(state) == 3);
     CHECK(state.m_passCursor == state.m_passSentinel.prev);
     CHECK(shaders[1].referenceCounter == 11);

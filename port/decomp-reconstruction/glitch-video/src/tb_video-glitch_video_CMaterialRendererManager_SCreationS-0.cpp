@@ -4,17 +4,7 @@
 #include "glitch-video/material_renderer_manager.hpp"
 #include "glitch-video/shader_attributes.hpp"
 
-// glitch-core-io/core/process_buffer.hpp is not on the glitch-video include path, so the three process
-// buffer declarations used here are repeated exactly as that header declares them. Replace this block with
-// the include once the category include paths allow it.
-namespace glitch::core {
-struct SScopedEnableProcessBufferHeapExcess {
-    explicit SScopedEnableProcessBufferHeapExcess(bool enable);
-    bool previous = false;  // +0x00
-};
-int* allocProcessBuffer(int size);            // 0x5345f4
-void setProcessBufferHeapExcessEnabled(bool enabled);  // 0x534268
-}  // namespace glitch::core
+#include "glitch-core-io/core/process_buffer.hpp"
 
 namespace glitch::video {
 
@@ -81,11 +71,11 @@ void appendPass(SCreationState& state, glitch::IReferenceCounted* shader,
 }  // namespace
 
 // 0x5d93e8 _ZN6glitch5video24CMaterialRendererManager14SCreationState13addRenderPassERKN5boost13intrusive_ptrIKNS0_7IShaderEEERKNS0_6detail10renderpass12SRenderStateERKNSA_8material12SRenderStateE
-// The binding count is shaderBindingEntryCount (above) and the constructor links the pass sentinel. The symbol has a
-// third parameter, the material::SRenderState const&, which the body never reads (the entry code loads only the first
-// two arguments), so it is not a parameter here; that keeps the row partial against the original mangled symbol.
+// H1 pass: the third parameter (material::SRenderState const&) is in the symbol and is never read by the body, as in the listing.
+// Deviation (named): pass nodes are allocated with new, not from the process buffer allocator the original's list uses.
 void CMaterialRendererManager::SCreationState::addRenderPass(glitch::IReferenceCounted* shader,
-                                                             const detail::renderpass::SRenderState& state) {
+                                                             const detail::renderpass::SRenderState& state,
+                                                             const detail::material::SRenderState& /*materialState*/) {
     // Binding block for the shader: one SPassBinding per entry (8 bytes in the original; 16 on the host, where the definition pointer is
     // 8 bytes wide: the first boot overflowed the 8-byte-per-entry block in bindParameter), zeroed. A null block is not cleared.
     const uint16_t entryCount = shaderBindingEntryCount(shader);

@@ -233,7 +233,7 @@ namespace gameswf
 		void	set_frame_script(int frame);	// flash9; DH2: 0x77e2a8
 		void	do_init_actions();	// DH2: 0x78069c
 		void	do_actions();	// DH2: 0x781eac
-		void	goto_frame(const tu_string& target_frame);	// DH2: 0x77ef6c (the int overload above is the virtual)
+		int	goto_frame(const tu_string& target_frame);	// DH2: 0x77ef6c, returns the result of the numeric goto (vtable +0x14c) or of the label lookup (+0x9c) (the int overload above is the virtual)
 
 		int	get_id_at_depth(int depth);	// DH2: 0x77ed34
 		int	get_highest_depth();	// DH2: 0x77ed2c

@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-app-global-f216b6-7 (<global>, part 8 of 22): gameswf natives 0x43a758 .. 0x43ac90 for the HUD,
 // minimap, on-screen keyboard, zoom, orientation, iPod, save slot, level pause, menu pop and script skip.
 // Declarations: dh2/global/native_app_hud_level.hpp. The natives return void: gameswf ignores the r0 left by the

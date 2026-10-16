@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-app-global-f216b6-8 (<global>, part 9 of 22): the gameswf natives of the sound and music menu,
 // the menu stack and the settings save and load, and IsNonDebugQuest. ELF 0x43acdc .. 0x43b4f0. Declarations:
 // dh2/global/native_sound_menu.hpp.

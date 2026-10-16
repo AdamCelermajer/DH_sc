@@ -316,25 +316,36 @@ SSharedStringData* getSharedString(SSharedStringHeapTable& table, const char* te
     return holder;
 }
 
+namespace {
+
+// The record test of the chain walk in release (0x6a4d9c, listing 0x6a4e24..0x6a4ec0). The released data is `released`
+// and the chain record's value is `entry`. The released data's form selects the text (committed: the inline text, else
+// the external pointer). A committed released datum against a committed entry is a POINTER test (listing 0x6a4ec0:
+// CMP R6,R3). Every other pairing compares texts with strcmp.
+bool sharedStringRecordMatches(const SSharedStringData* released, const SSharedStringData* entry) {
+    if (released->committed && entry->committed) return released == entry;
+    const char* releasedText = released->committed ? released->inlineText.c_str() : released->external;
+    const char* entryText = entry->committed ? entry->inlineText.c_str() : entry->external;
+    return std::strcmp(releasedText, entryText) == 0;
+}
+
+}  // namespace
+
 // 0x6a4d9c _ZN6glitch4core6detail22SSharedStringHeapEntry5SData7releaseEPS3_
-// The bucket index is the hash of the text selected by release (inline when committed). The chain is walked
-// to the record that holds this data and that record is unlinked and freed. size (+0x20) drops by one. When
-// the removed bucket was the cursor (+0x1c), the cursor moves to the next non-empty bucket, or to the end
-// sentinel when the table is empty. The SData is deleted last (operator delete[] in the listing).
-// PARTIAL. Deviation: the port's chain walk compares the stored `value` pointer with the argument, while
-// the listing's committed case compares the two texts (it reads the record's own text at +0x00/+0x04 and
-// strcmps it with the released record's text). get (0x6a5074) interns by text, so a table holding two
-// records for one text cannot be produced through this port's get; the difference is still a real body
-// difference. The table is passed in: the original reads the anonymous-namespace global through the same
-// ownership the ports' sharedStringHeapTable() provides (see the header). Deleting the SData here is the
-// original's LAST-USE free, which it is in the listing too: this function does not decrement the use count
-// and does not test it. A caller runs it once its own `--data->useCount` read zero (operator= 0x5daf94,
-// getParameterID 0x5d308c); the count itself lives in SSharedStringData::useCount.
+// Transcribed from the listing. The bucket index is the hash of the released text (the inline text when committed; an
+// empty text falls to bucket 0 as in the listing). The chain is walked from that bucket (each link is a record; the
+// test is sharedStringRecordMatches). On a match the record is unlinked and freed, size (+0x20) drops by one, and when
+// the removed bucket was the cursor (+0x1c) the cursor moves to the next non-empty bucket, or to the end sentinel when
+// the table is empty. The SData is deleted in every case (operator delete[] in the listing).
+// This function does not decrement or test the use count: it is the LAST-USE free (a caller's own decrement read zero).
+// Deviations, all host-necessitated: (1) the table is a parameter, because the port reaches the process-wide table through
+// sharedStringHeapTable() (see the header); (2) the bucketCount == 0 guard, which the listing does not have (the table is
+// never created with zero buckets, so the listing's divide would never run there).
 void releaseSharedString(SSharedStringHeapTable& table, SSharedStringData* data) {
     if (table.bucketCount != 0) {
-        const std::size_t index = sharedStringHash(data->text()) % table.bucketCount;
+        const std::size_t index = sharedStringHash(data) % table.bucketCount;
         SSharedStringNode** link = &table.buckets[index];
-        while (*link != nullptr && (*link)->value != data) link = &(*link)->next;
+        while (*link != nullptr && !sharedStringRecordMatches(data, (*link)->value)) link = &(*link)->next;
         if (*link != nullptr) {
             SSharedStringNode* node = *link;
             *link = node->next;

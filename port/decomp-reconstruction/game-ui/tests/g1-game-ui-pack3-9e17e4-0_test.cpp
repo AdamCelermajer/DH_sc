@@ -321,6 +321,7 @@ static void BuildApplicationDevice() {
     static glitch::SCreationParameters parameters{};
     static glitch::IDevice device(parameters);
     static glitch::video::CNullDriver driver(&device);
+    static struct DeviceDetach { ~DeviceDetach() { device.videoDriver = nullptr; } } detach;  // ~IDevice drops the driver, which is a static here
     device.videoDriver = &driver;
     ApplicationGetInstance().m_device = &device;
 }

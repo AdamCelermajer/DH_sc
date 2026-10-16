@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // AnimApplicator functions of libDungeonHunter2.so (game-anim batch g1-game-anim-AnimApplicator-85c725-0).
 // Rebuilt from the Hex-Rays pseudocode in recovered/native/hexrays-all. Class layout and declarations:
 // game/include/dh2/AnimApplicator.hpp.

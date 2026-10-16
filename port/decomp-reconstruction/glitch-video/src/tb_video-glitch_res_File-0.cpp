@@ -83,6 +83,7 @@ namespace glitch {
 namespace res {
 
 // 0x69a40c _ZN6glitch3res4File4InitEv
+// H1 pass: checked against the Hex-Rays body (flag word, both fix-up levels, range searches, no-table tail).
 int File::Init() {
     std::uint8_t* const hdr = header;
     if (Addr(hdr) == 0) {
@@ -148,7 +149,10 @@ int File::Init() {
                 // Offset is past the local block: map it through the range table.
                 const std::int32_t lastRange = static_cast<std::int32_t>(rangeCount) - 1;
                 const std::int32_t rangeCountSigned = static_cast<std::int32_t>(rangeCount);
-                if (rangeCountSigned >= static_cast<std::int32_t>((off - localLimit - 4u) >> 3)) {
+                // The listing shifts a signed value here ((-4 - limit + off) >> 3), so the shift is signed too:
+                // an offset in (limit, limit + 4] gives a negative bound and the entry is skipped.
+                const std::int32_t rangeBound = static_cast<std::int32_t>(off - localLimit - 4u) >> 3;
+                if (rangeCountSigned >= rangeBound) {
                     continue;
                 }
                 const std::int32_t k = FindRange(rangeTable, lastRange, off);

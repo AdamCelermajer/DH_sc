@@ -8,6 +8,7 @@
 
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_render.h"
+#include "vendor-gameswf/gameswf_scene_node.hpp"	// DH2: scene_node::get_world_mouse (_xmouse, _ymouse)
 
 namespace gameswf
 {
@@ -30,11 +31,32 @@ namespace gameswf
 	}
 #endif /* DH2 */
 
+	// DH2 0x75409c: the mouse position of a character. The character's own mouse state (vtable +0x70) is replaced by the world
+	// DH2: mouse of the nearest scene node on the way up the parent chain (a clip drawn through a 3D scene node).
+	static void	get_character_mouse(character* ch, int* x, int* y, int* buttons)
+	{
+		ch->get_mouse_state(x, y, buttons);
+		for (character* c = ch; c != NULL; c = c->get_parent())
+		{
+			if (c->m_custom != NULL && c->m_custom->m_scene_node != NULL)
+			{
+				c->m_custom->m_scene_node->get_world_mouse(*x, *y);
+				break;
+			}
+		}
+	}
+
 	bool	character::get_member(const tu_stringi& name, as_value* val)
 	// Set *val to the value of the named member and
 	// return true, if we have the named member.
 	// Otherwise leave *val alone and return false.
 	{
+		// DH2 0x75409c: the object's own members (the hash and the prototype chain) come first, then the character members
+		if (as_object::get_member(name, val))
+		{
+			return true;
+		}
+
 		// first try character members
 		as_standard_member	std_member = get_standard_member(name);
 		switch (std_member)
@@ -109,7 +131,7 @@ namespace gameswf
 				float	angle = get_matrix().get_rotation();
 
 				// Result is CLOCKWISE DEGREES, [-180,180]
-				angle *= 180.0f / float(M_PI);
+				angle *= 57.296f;	// DH2 0x75409c: the binary multiplies by the constant 57.296
 
 				val->set_double(angle);
 				return true;
@@ -184,7 +206,7 @@ namespace gameswf
 			{
 				// Local coord of mouse IN PIXELS.
 				int	x, y, buttons;
-				get_mouse_state(&x, &y, &buttons);
+				get_character_mouse(this, &x, &y, &buttons);
 
 				matrix	m = *get_world_matrix();	// DH2: returns a pointer
 
@@ -200,7 +222,7 @@ namespace gameswf
 			{
 				// Local coord of mouse IN PIXELS.
 				int	x, y, buttons;
-				get_mouse_state(&x, &y, &buttons);
+				get_character_mouse(this, &x, &y, &buttons);
 
 				matrix	m = *get_world_matrix();	// DH2: returns a pointer
 
@@ -220,7 +242,7 @@ namespace gameswf
 			}
 		}	// end switch
 
-		return as_object::get_member(name, val);
+		return false;
 	}
 
 	// TODO: call_watcher
@@ -235,22 +257,21 @@ namespace gameswf
 
 			case M_X:
 			{
-				if( !isnan( val.to_number() ) )
-				{
-					matrix	m = get_matrix();
-					m.m_[0][2] = (float) PIXELS_TO_TWIPS(val.to_number());
-					set_matrix(m);
-				}
+				// DH2 0x75361c: the value in twips is replaced by 0 when it is infinite (a NaN goes through)
+				matrix	m = get_matrix();
+				float	twips = (float) (val.to_number() * 20.0);
+				if (twips < -FLT_MAX || twips > FLT_MAX) twips = 0.0f;
+				m.m_[0][2] = twips;
+				set_matrix(m);
 				return true;
 			}
 			case M_Y:
 			{
-				if( !isnan( val.to_number() ) )
-				{
-					matrix	m = get_matrix();
-					m.m_[1][2] = (float) PIXELS_TO_TWIPS(val.to_number());
-					set_matrix(m);
-				}
+				matrix	m = get_matrix();
+				float	twips = (float) (val.to_number() * 20.0);
+				if (twips < -FLT_MAX || twips > FLT_MAX) twips = 0.0f;
+				m.m_[1][2] = twips;
+				set_matrix(m);
 				return true;
 			}
 			case M_XSCALE:
@@ -284,6 +305,7 @@ namespace gameswf
 				// Set alpha modulate, in percent.
 				cxform	cx = get_cxform();
 				cx.m_[3][0] = val.to_float() / 100.f;
+				if (cx.m_[3][0] < -FLT_MAX || cx.m_[3][0] > FLT_MAX) cx.m_[3][0] = 0.0f;	// DH2 0x75361c: infinite gives 0
 				set_cxform(cx);
 				return true;
 			}
@@ -343,7 +365,7 @@ namespace gameswf
 				// Decompose matrix and insert the desired value.
 				float	x_scale = m.get_x_scale();
 				float	y_scale = m.get_y_scale();
-				float	rotation = val.to_float() * float(M_PI) / 180.f;	// input is in degrees
+				float	rotation = val.to_float() * 3.1416f / 180.f;	// input is in degrees (DH2 0x75361c: the constant 3.1416)
 				m.set_scale_rotation(x_scale, y_scale, rotation);
 
 				set_matrix(m);

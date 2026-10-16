@@ -5,6 +5,7 @@
 #include "glitch-core-io/io/limit_read_file.hpp"
 #include "glitch-core-io/core/sort.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <cstring>
 
@@ -90,9 +91,17 @@ IReadFile* CPakReader::openFile(int index) {
 }
 
 // 0x56fcec _ZN6glitch2io10CPakReader15extractFilenameEPNS0_13SPakFileEntryE
-// PARTIAL: the separator is searched in a fixed 56-byte window of the path buffer (the pak name
-// field, scanned from index 55 down, with index 56 tested first). The port searches the string's
-// own length. The bytes past the terminator, which the original also reads, are not reproduced.
+// Transcribed from the listing. The name is lower-cased in its own string when ignoreCase is set (the listing's loop covers
+// the string's length). The name's characters and terminator are then copied into nameBuffer, the persistent buffer, and the
+// separator is searched in that buffer's window: index 56 first, then 55 down to 0. A '/' at index 0 counts as none (the
+// listing compares the position with the begin). When a separator is found at k, path takes buffer[0..k] (the bytes up to and
+// including the '/', which can include stale bytes past the terminator when k is past the name's end). simpleFileName is the
+// tail after the separator (a strlen of the buffer from k+1) when ignorePaths is set, else the whole name. With no separator,
+// path is empty and simpleFileName is the whole name.
+// Deviations, host-necessitated and named: (1) the original's buffer is the entry string's allocation, which a new entry gets
+// from the allocator; here the one persistent nameBuffer stands in for it, its growth is zero-filled, so the bytes that the
+// listing reads from allocator memory are zeros. (2) strlen of the tail is bounded by the buffer's end; the original would read
+// on until a terminator. (3) the buffer is at least 64 bytes, so the 57-byte window always exists.
 void CPakReader::extractFilename(SPakFileEntry* entry) {
     std::string& pakFileName = entry->pakFileName;
     if (ignoreCase) {
@@ -100,15 +109,40 @@ void CPakReader::extractFilename(SPakFileEntry* entry) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
         }
     }
-    // Only '/' splits here (the original does not test '\\'). A '/' at index 0 counts as none.
-    const std::size_t sep = pakFileName.rfind('/');
-    if (sep == std::string::npos || sep == 0) {
-        entry->simpleFileName = pakFileName;
+    const std::size_t length = pakFileName.size();
+    const std::size_t wanted = length + 1 > 64 ? length + 1 : 64;
+    if (nameBuffer.size() < wanted) nameBuffer.resize(wanted, '\0');
+    std::memcpy(nameBuffer.data(), pakFileName.data(), length);
+    nameBuffer[length] = '\0';  // the terminator; the bytes after it are left as they were
+    const char* buffer = nameBuffer.data();
+
+    constexpr std::size_t kNone = static_cast<std::size_t>(-1);
+    std::size_t sep = kNone;
+    if (buffer[56] == '/') {
+        sep = 56;
+    } else {
+        for (std::size_t k = 55;; --k) {
+            if (buffer[k] == '/') {
+                sep = k;
+                break;
+            }
+            if (k == 0) break;
+        }
+    }
+    if (sep == kNone || sep == 0) {
         entry->path.clear();
+        entry->simpleFileName = pakFileName;
         return;
     }
-    entry->path = pakFileName.substr(0, sep + 1);
-    entry->simpleFileName = ignorePaths ? pakFileName.substr(sep + 1) : pakFileName;
+    entry->path.assign(buffer, sep + 1);
+    if (ignorePaths) {
+        const char* tail = buffer + sep + 1;
+        const char* bufferEnd = buffer + nameBuffer.size();
+        const char* nul = std::find(tail, bufferEnd, '\0');
+        entry->simpleFileName.assign(tail, nul);
+    } else {
+        entry->simpleFileName = pakFileName;
+    }
 }
 
 // 0x5703b8 _ZN6glitch2io10CPakReader8openFileEPKc

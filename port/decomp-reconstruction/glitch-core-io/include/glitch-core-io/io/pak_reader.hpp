@@ -51,10 +51,9 @@ public:
     // is set, then cut to its base name (deletePathFromFilename) when ignorePaths is set, or -1.
     // A binary search over the sorted entries.
     int findFile(const char* name);
-    // 0x56fcec: PARTIAL. Lower-cases the path when ignoreCase is set, then splits it at the last '/':
-    // the text before and including the '/' goes to path; simpleFileName gets the file name, or the whole
-    // path when ignorePaths is clear. The original scans a fixed 56-byte window of the name buffer (bytes
-    // past the terminator are stale there); the port scans the string's own length.
+    // 0x56fcec: lower-cases the name when ignoreCase is set, copies it into nameBuffer, then finds the separator in the
+    // fixed window of that buffer (index 56 first, then 55 down to 0). The text before and including the '/' goes to
+    // path; simpleFileName gets the file name, or the whole name when ignorePaths is clear.
     void extractFilename(SPakFileEntry* entry);
     // 0x56fe44: reads the 12-byte header (see the members below), then one 64-byte record per
     // entry: a 56-byte name, a 32-bit offset and a 32-bit size. Returns false when the signature
@@ -86,6 +85,9 @@ public:
     // +0x24, +0x25: flags passed to the constructor (their uses are not recovered).
     bool ignoreCase = false;  // +0x24
     bool ignorePaths = false;  // +0x25
+    // The persistent name buffer of extractFilename (the string the original reuses for every entry). Its bytes past the
+    // terminator are kept from one entry to the next, which is where a stale separator comes from. Zero-filled at first.
+    std::vector<char> nameBuffer;
 };
 
 }  // namespace glitch::io

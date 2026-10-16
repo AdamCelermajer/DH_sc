@@ -31,10 +31,13 @@ namespace gameswf
 	{
 		const tu_string& str = fn.this_value.to_tu_string();
 
+		// DH2 0x7a61c0: each argument goes through to_string(tu_string&), which converts numbers and booleans
+		// (to_string() does not: it is the C string of the held text only)
 		tu_string result(str);
+		tu_string arg_buf;
 		for (int i = 0; i < fn.nargs; i++)
 		{
-			result += fn.arg(i).to_string();
+			result += fn.arg(i).to_string(arg_buf);
 		}
 
 		fn.result->set_tu_string(result);
@@ -97,12 +100,14 @@ namespace gameswf
 			{
 				start_index = fn.arg(1).to_int();
 			}
+			// DH2 0x7a57c4: the search starts at the start index and the last hit is kept; there is no upper limit
+			// DH2: (r1714 stopped at hits past the start index)
 			const char* str = sstr.c_str();
 			const char* last_hit = NULL;
-			const char* haystack = str;
+			const char* haystack = str + start_index;
 			for (;;) {
 				const char*	p = strstr(haystack, fn.arg(0).to_string());
-				if (p == NULL || (start_index !=0 && p > str + start_index ) )	// FIXME: not UTF-8 correct!
+				if (p == NULL)
 				{
 					break;
 				}
@@ -179,10 +184,7 @@ namespace gameswf
 				}
 
 				tu_string word(p, (int) (n - p));
-				as_value val;
-				as_value index(i);
-				val.set_tu_string(word);
-				arr->set_member(index.to_tu_string(), val);
+				arr->m_array.push_back(word);	// DH2 0x7a5b5c: array<as_value>::push_back<tu_string> (index.to_tu_string() is empty for numbers)
 				p = n;
 				i++;
 			}
@@ -193,10 +195,7 @@ namespace gameswf
 				{
 					// Emit the previous word.
 					tu_string word(word_start, int(p - word_start));
-					as_value val;
-					as_value index(i);
-					val.set_tu_string(word);
-					arr->set_member(index.to_tu_string(), val);
+					arr->m_array.push_back(word);	// DH2 0x7a5b5c: push_back, as above
 					i++;
 
 					if (match)
@@ -244,12 +243,7 @@ namespace gameswf
 			len = iclamp(len, 0, utf8_len);
 		}
 
-		if (len <= 0)
-		{
-			fn.result->set_tu_string("");
-			return;
-		}
-
+		// DH2 0x7a6678: a zero length leaves the result untouched (undefined); r1714 set an empty string
 		int end = start + len;
 		if (end > utf8_len)
 		{
@@ -329,7 +323,8 @@ namespace gameswf
 	{
 		if (fn.nargs == 1)
 		{
-			fn.result->set_string(fn.arg(0).to_string());
+			tu_string buf;	// DH2 0x7a6408: to_string(tu_string&) converts numbers, booleans and objects
+			fn.result->set_tu_string(fn.arg(0).to_string(buf));
 		}	
 		else
 		{

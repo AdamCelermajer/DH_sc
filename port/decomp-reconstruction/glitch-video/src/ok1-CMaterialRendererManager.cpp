@@ -4,6 +4,7 @@
 // shared-string handles are SSharedStringData* with explicit use counts, and every word that is a pointer in the original is a
 // host pointer. Offsets of the original are in the comments.
 #include <array>
+#include <new>
 #include <cstdio>
 #include <cstring>
 #include <map>
@@ -399,10 +400,10 @@ STechnique* CMaterialRendererManager::endTechnique(bool autoBind, uint16_t light
 // 0x5dcf2c _ZN6glitch5video24CMaterialRendererManager13addRenderPassERKN5boost13intrusive_ptrIKNS0_7IShaderEEERKNS0_6detail10renderpass12SRenderStateERKNS9_8material12SRenderStateE
 int CMaterialRendererManager::addRenderPass(const boost::intrusive_ptr<const IShader>& shader,
                                             const detail::renderpass::SRenderState& state,
-                                            const detail::material::SRenderState& /*materialState*/) {
+                                            const detail::material::SRenderState& materialState) {
     if (!isCreatingTechnique("Adding a renderpass outside of technique definition")) return 0;
     if (shader) {
-        m_creationState->addRenderPass(const_cast<IShader*>(shader.get()), state);
+        m_creationState->addRenderPass(const_cast<IShader*>(shader.get()), state, materialState);
         return 1;
     }
     createPinkWireFrameRenderPass();
@@ -757,7 +758,15 @@ int CMaterialRendererManager::beginMaterialRenderer(const char* name, bool exact
         }
         glitch::core::setProcessBufferHeapExcessEnabled(excess.previous);
     }
-    m_creationState = new SCreationState(buffer);  // allocProcessBuffer(0x58) and the constructor 0x5d7c5c
+    // The listing allocates the state as a process-buffer block (allocProcessBuffer(0x58)) and builds it in place with the
+    // constructor 0x5d7c5c. The block is the port's sizeof(SCreationState) (host width).
+    int* block = glitch::core::allocProcessBuffer(static_cast<int>(sizeof(SCreationState)));
+    if (block == nullptr) {
+        // Deviation (named): the listing does not check the block; the port logs and refuses instead of building in null.
+        os::Printer::log("Could not allocate the material renderer creation state", kError);
+        return 0;
+    }
+    m_creationState = new (block) SCreationState(buffer);
     m_creationState->m_nameOwned = true;
     return 1;
 }

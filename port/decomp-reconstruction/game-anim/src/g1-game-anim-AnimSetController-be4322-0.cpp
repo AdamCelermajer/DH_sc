@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-anim-AnimSetController-be4322-0 (game-anim, owner AnimSetController), rebuilt from libDungeonHunter2.so.
 //
 // AnimSetController plays the clips of one animation set on a root scene node. Its animator is read through

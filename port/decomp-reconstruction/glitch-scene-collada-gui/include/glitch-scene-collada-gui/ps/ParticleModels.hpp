@@ -449,3 +449,21 @@ public:
 };
 
 }  // namespace glitch::ps
+
+namespace glitch::video {
+
+// video::CParticleSystemBaker<P>::bake (0x6403f8 and 0x640904 for GNPSParticle, 0x6554a4 and 0x6559b0 for SParticle): the render
+// bake of a particle model. One member template: a null colour baker selects the generic shape (the template vertices carried
+// through the node matrix, SpinMat and RotMat), any other colour baker the billboard shape (quad corners, view normal, texture
+// coordinates and colour per vertex). Defined in src/ps/ParticleModels.cpp, which is its only user.
+template <typename P>
+class CParticleSystemBaker {
+public:
+    template <typename ColorBaker, typename NormalBaker, typename PositionBaker, typename TexCoordsBaker,
+              typename ShaderParametersBaker>
+    static void bake(const ps::IParticleContext<P>* context, const CVertexStreams* templateStreams, CVertexStreams* output,
+                     const core::CMatrix4<float>* viewMatrix, const boost::intrusive_ptr<CMaterial>& material);
+};
+
+}  // namespace glitch::video
+

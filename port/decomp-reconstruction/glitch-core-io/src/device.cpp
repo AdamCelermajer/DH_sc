@@ -61,6 +61,33 @@ IDevice::IDevice(const SCreationParameters& parameters) {
     if (parameters.version != nullptr) checkVersion(parameters.version);
 }
 
+// 0x67169c _ZN6glitch7IDeviceD2Ev. Releases in the listing's order: the scene manager (+0x1c), the resource file manager (+0x08), the
+// animation streaming manager (+0x0c, freed as an object), the GUI environment (+0x18), the 2D driver (+0x14), the video driver (+0x10),
+// the input-receiving scene manager (+0x38), the cursor control (+0x24), the operator (+0x30), the timer (+0x20), glitch::exit(), the logger
+// (+0x2c; the global Printer::Logger is cleared when that drop deletes it), then the file system (+0x34).
+// Deviations: (1) the timer is `delete`d instead of dropped: the constructor makes it with a single use and the port's CTimer has no count
+// word, so the drop of the original always deletes it; (2) the listing's event-deque and video-mode-list teardown runs after the body (as
+// the members' destructors), so their storage is freed after the file system instead of before it. Neither is observable here.
+IDevice::~IDevice() {
+    // The scene manager object is a CSceneManager (see createGUIAndScene); the port's ISceneManager has no class of its own.
+    if (sceneManager != nullptr) reinterpret_cast<scene::CSceneManager*>(sceneManager)->drop();
+    // CResFileManager is not an IReferenceCounted in the port: its count is the refCount word at +0x04 (set to 1 by its constructor), so the
+    // drop is the same decrement, and the last use deletes it (the listing's drop does the same).
+    if (resFileManager != nullptr && --resFileManager->refCount == 0) delete resFileManager;
+    delete animationStreamingManager;
+    if (guiEnvironment != nullptr) guiEnvironment->drop();
+    if (unk_14 != nullptr) reinterpret_cast<IReferenceCounted*>(unk_14)->drop();
+    if (videoDriver != nullptr) videoDriver->drop();
+    if (inputReceivingSceneManager != nullptr) inputReceivingSceneManager->drop();
+    if (unk_24 != nullptr) reinterpret_cast<IReferenceCounted*>(unk_24)->drop();
+    if (unk_30 != nullptr) reinterpret_cast<IReferenceCounted*>(unk_30)->drop();
+    unk_24 = nullptr;
+    delete timer;
+    glitch::exit();
+    if (logger != nullptr && reinterpret_cast<ILogger*>(logger)->drop()) os::Printer::Logger = nullptr;
+    if (fileSystem != nullptr) fileSystem->drop();
+}
+
 // 0x67142c _ZN6glitch7IDevice15isExitRequestedEv
 bool IDevice::isExitRequested() {
     return false;

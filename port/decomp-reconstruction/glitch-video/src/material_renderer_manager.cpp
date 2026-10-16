@@ -159,9 +159,11 @@ uint16_t CMaterialRendererManager::createMaterialRenderer(E_MATERIAL_TYPE type) 
 // in-progress word at +0x04 = 0, the pink counter byte at +0x24 = 0, the pink sentinel at +0x28/+0x2c linked to
 // itself with the cursor at +0x30 pointing at the sentinel, and now the pending-pass sentinel at +0x10/+0x14
 // linked to itself with the pass cursor at +0x18 = 0 (the header said this was still missing).
-// Still missing: the technique list head at +0x08/+0x0c, the pass-array holder list head at +0x1c/+0x20, the
-// list head at +0x34/+0x38, its tail and cursor at +0x3c/+0x40, and the six zero words/bytes at +0x25, +0x34,
-// +0x38, +0x44, +0x4c, +0x50 and +0x54. None of those members exist in SCreationState yet.
+// H1 pass: the list heads the listing writes are the C++ containers of the port, each self-initialised to the empty
+// state the listing stores: m_techniques (+0x08/+0x0c), m_passArrays (+0x1c/+0x20) and the parameter map with its
+// first/last definitions (+0x34..+0x50). The zero words at +0x25, +0x38, +0x44, +0x4c, +0x50 and +0x54 are the
+// default member initialisers of m_flag25, the map, m_firstParameter, m_lastParameter and m_bindingTotal.
+// Deviation (named): the binary's raw list-head words are not reproduced at their offsets; the containers replace them.
 CMaterialRendererManager::SCreationState::SCreationState(char* name) : m_name(name) {
     m_pinkSentinel.next = &m_pinkSentinel;
     m_pinkSentinel.prev = &m_pinkSentinel;
@@ -320,9 +322,12 @@ boost::intrusive_ptr<CMaterial> CMaterialRendererManager::createMaterialInstance
 }
 
 // 0x5db15c _ZN6glitch5video24CMaterialRendererManager18clearCreationStateEv
-// Partial: the original runs the state destructor and releases the process buffer.
+// H1 pass: the state destructor, then the process buffer release of the same block, then the pointer is cleared.
 void CMaterialRendererManager::clearCreationState() {
-    delete m_creationState;
+    if (SCreationState* state = m_creationState) {
+        state->~SCreationState();
+        glitch::core::releaseProcessBuffer(state);  // the listing: destructor, then releaseProcessBuffer on the same block
+    }
     m_creationState = nullptr;
 }
 

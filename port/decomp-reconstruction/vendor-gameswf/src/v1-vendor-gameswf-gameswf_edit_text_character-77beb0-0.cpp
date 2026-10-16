@@ -779,12 +779,20 @@ bool edit_text_character::set_member(const tu_stringi& name, const as_value& val
 	switch (static_cast<int>(get_standard_member(name)))
 	{
 		case kMemberText:
-			set_text_value(val.to_tu_string(), false);
+		{
+			// 0x790ca4: the value goes through to_string(tu_string&), which turns numbers and booleans into text
+			// (to_tu_string() would give an empty string for them)
+			tu_string text_buf;
+			set_text_value(val.to_string(text_buf), false);
 			break;
+		}
 
 		case kMemberHtmlText:
-			set_text_value(val.to_tu_string(), true);
+		{
+			tu_string text_buf;
+			set_text_value(val.to_string(text_buf), true);
 			break;
+		}
 
 		case kMemberTextColor:
 		{

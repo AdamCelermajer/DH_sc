@@ -66,9 +66,12 @@
 namespace glitch::video::detail::part1c {
 
 // Pointer slots of an owner, keyed by the original byte offset of the slot.
+// decision 2 (host-width pointer): the 4x4 matrix stored behind a code-11 value slot (0x44-byte CMatrix4 in the original,
+// created by 0x5cb1c4 as a clone of the identity) is held here by value, keyed by the same original slot offset.
 struct SPointerSlots {
     std::map<std::uint32_t, boost::intrusive_ptr<ITexture>> textures;
     std::map<std::uint32_t, boost::intrusive_ptr<CLight>> lights;
+    std::map<std::uint32_t, core::CMatrix4<float>> matrices;
 };
 
 // Non-owning view of one owner's parameter table.

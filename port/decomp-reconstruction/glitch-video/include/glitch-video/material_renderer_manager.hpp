@@ -180,7 +180,8 @@ public:
 
         // 0x5d93e8. Partial: see the notes in glitch-video/src/tb_video-glitch_video_CMaterialRendererManager_SCreationS-0.cpp
         // (the shader binding count and the list sentinel setup are not reconstructed yet).
-        void addRenderPass(glitch::IReferenceCounted* shader, const detail::renderpass::SRenderState& state);
+        void addRenderPass(glitch::IReferenceCounted* shader, const detail::renderpass::SRenderState& state,
+                       const detail::material::SRenderState& materialState);  // materialState: unread by the body (symbol parity)
 
         char* m_name = nullptr;      // +0x00
         bool m_nameOwned = false;    // port: the name is a process-buffer block this state releases (beginMaterialRenderer sets it)

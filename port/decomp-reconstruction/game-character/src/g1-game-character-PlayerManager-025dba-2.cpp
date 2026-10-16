@@ -1165,13 +1165,17 @@ int PlayerManager::_ManageCharacters() {
                 MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("menu_HUD_0", "completeRefresh", &number, 1);
             }
         }
-        // The character's own visibility and idle state follow m_ingame: a character whose visibility does not match the
-        // flag is corrected, and one that is in limbus (unless dead) is put back to idle.
-        const bool wantVisible = !player->m_ingame.GetValue();
-        if (character->m_visible != wantVisible) {
-            if (!player->m_ingame.GetValue() || !character->SM_IsInLimbus() || character->IsDead()) {
-                character->SM_SetIdleState(false);
-            }
+        // The character's own visibility and idle state follow m_ingame (listing 0x373580..0x3735c8): it is wanted visible when the
+        // record is in the game and no cut scene runs (ScriptManager +0x30, m_inCutScene), invisible otherwise. A character whose
+        // visibility does not match is put back to idle; a matching one that is in limbus (and not dead) is too. Then SetVisible
+        // (vtable +0x40) takes the wanted value. (The port had the wanted value inverted, so every in-game character was hidden and
+        // reset to idle each frame.)
+        const bool ingame = player->m_ingame.GetValue() != 0;
+        const bool wantVisible = ingame ? !ScriptManager::s_inst.m_inCutScene : false;
+        if ((character->m_visible != 0) != wantVisible) {
+            character->SM_SetIdleState(false);
+        } else if (ingame && character->SM_IsInLimbus() && !character->IsDead()) {
+            character->SM_SetIdleState(false);
         }
         character->SetVisible(wantVisible);
 

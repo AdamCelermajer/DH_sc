@@ -10,9 +10,10 @@ public:
     Mutex() = default;
     ~Mutex() = default;
 
-    // The original copy constructor memberwise-copies the pthread object; a
-    // mutex is not meaningfully copyable, so copying is removed in the port.
-    Mutex(const Mutex&) = delete;
+    // Copy constructor (0x893590 C1, 0x89359c C2). The listing copies the one pthread word, which
+    // makes a copy of an unlocked mutex. DEVIATION: a fresh std::mutex is constructed instead
+    // (unlocked, the same state), since copying std::mutex bytes is undefined behaviour.
+    Mutex(const Mutex&) {}
     Mutex& operator=(const Mutex&) = delete;
 
     void Lock() { mutex_.lock(); }

@@ -17,6 +17,8 @@
 namespace gameswf
 {
 
+	void transform_point(as_object* obj, const matrix& m);	// DH2: 0x7c1574 (src/v1-vendor-gameswf-gameswf-fddef6-7.cpp)
+
 	//
 	// sprite built-in ActionScript methods
 	//
@@ -46,6 +48,13 @@ namespace gameswf
 	{
 		sprite_instance* sprite = sprite_getptr(fn);
 		fn.result->set_bool(false);
+		// DH2 0x7c136c: no arguments is an error (hitTest wrong parameters); with two or three the coordinates are taken
+		// DH2: only when they are numbers (0 otherwise), scaled to twips (x 20), and the shape flag only with exactly three.
+		if (fn.nargs <= 0)
+		{
+			log_error("hitTest() wrong parameters\n");
+			return;
+		}
 		if (fn.nargs == 1) 
 		{
 			// Evaluates the bounding boxes of the target and specified instance,
@@ -61,7 +70,10 @@ namespace gameswf
 		}
 		else
 		{
-			fn.result->set_bool(sprite->hit_test( fn.arg(0).to_number(), fn.arg(1).to_number(), fn.arg(2).to_bool() ) );
+			float hx = fn.arg(0).is_number() ? static_cast<float>(fn.arg(0).to_number() * 20.0) : 0.0f;
+			float hy = fn.arg(1).is_number() ? static_cast<float>(fn.arg(1).to_number() * 20.0) : 0.0f;
+			bool shape = fn.nargs == 3 ? fn.arg(2).to_bool() : false;
+			fn.result->set_bool(sprite->hit_test(hx, hy, shape));
 		}
 	}
 
@@ -134,10 +146,15 @@ namespace gameswf
 		}
 
 		// gotoAndPlay(NaN) will be ignored
-		if (fn.arg(0).is_string() || fn.arg(0).is_number() || fn.arg(0).is_property())
+		// DH2 0x7c198c: only a number or a string (the property type is not accepted); the play state changes only when
+		// DH2: the goto succeeded (goto_frame returns the frame move / label lookup result)
+		if (fn.arg(0).is_string() || fn.arg(0).is_number())
 		{
-			sprite->goto_frame(fn.arg(0).to_tu_string());
-			sprite->set_play_state(character::PLAY);
+			tu_string frame_buf;
+			if (sprite->goto_frame(fn.arg(0).to_string(frame_buf)))
+			{
+				sprite->set_play_state(character::PLAY);
+			}
 		}
 	}
 
@@ -151,9 +168,11 @@ namespace gameswf
 		}
 
 		// gotoAndStop(NaN) will be ignored
-		if (fn.arg(0).is_string() || fn.arg(0).is_number() || fn.arg(0).is_property())
+		// DH2 0x7c1adc: only a number or a string; the play state is set to STOP whatever the goto returned
+		if (fn.arg(0).is_string() || fn.arg(0).is_number())
 		{
-			sprite->goto_frame(fn.arg(0).to_tu_string());
+			tu_string frame_buf;
+			sprite->goto_frame(fn.arg(0).to_string(frame_buf));
 			sprite->set_play_state(character::STOP);
 		}
 	}
@@ -210,6 +229,10 @@ namespace gameswf
 		{ 
 			int target_depth = fn.arg(0).to_int();
 			target_depth += ADJUST_DEPTH_VALUE;
+			if (target_depth == sprite->get_depth())	// DH2 0x7c2028: same depth, nothing to do
+			{
+				return;
+			}
 			sprite_instance* parent = cast_to<sprite_instance>(sprite->get_parent());
 			if (parent == NULL)
 			{
@@ -322,10 +345,7 @@ namespace gameswf
 	{ 
 		if (fn.nargs >= 1)
 		{
-			character* mc = fn.env->load_file(fn.arg(0).to_string(), fn.this_ptr);
-
-			// extension
-			fn.result->set_as_object(mc);
+			fn.env->load_file(fn.arg(0).to_string(), fn.this_ptr);	// DH2 0x7c077c: the result is left alone (r1714 returned the clip)
 		}
 
 	} 
@@ -424,11 +444,9 @@ namespace gameswf
 		sprite_instance* sprite = sprite_getptr(fn);
 		if (fn.nargs == 1)
 		{
-			as_object* pt = fn.arg(0).to_object();
-			if (pt)
-			{
-				sprite->local_to_global(pt);
-			}
+			// DH2 0x7c1938: the point object (type 5 only, may be null) goes through transform_point (0x7c1574) with the world matrix
+			as_object* pt = fn.arg(0).is_object() ? fn.arg(0).to_object() : NULL;
+			transform_point(pt, *sprite->get_world_matrix());
 		}
 	}
 
@@ -438,11 +456,11 @@ namespace gameswf
 		sprite_instance* sprite = sprite_getptr(fn);
 		if (fn.nargs == 1)
 		{
-			as_object* pt = fn.arg(0).to_object();
-			if (pt)
-			{
-				sprite->global_to_local(pt);
-			}
+			// DH2 0x7c18a8: transform_point (0x7c1574) with the inverse of the world matrix
+			as_object* pt = fn.arg(0).is_object() ? fn.arg(0).to_object() : NULL;
+			matrix inv;
+			inv.set_inverse(*sprite->get_world_matrix());
+			transform_point(pt, inv);
 		}
 	}
 
@@ -595,40 +613,48 @@ namespace gameswf
 	// public getBounds(target:Object) : Object
 	void	sprite_get_bounds(const fn_call& fn)
 	{
+		// DH2 0x7c23f4. The target is the argument when it is a character object (null otherwise). With no target argument, or
+		// DH2: when the target is the clip itself, the clip's bound goes straight through the inverse of its own world matrix.
+		// DH2: Otherwise the bound goes through the parent's world matrix and the inverse of the target's world matrix.
 		sprite_instance* sprite = sprite_getptr(fn);
 		character* target = NULL;
-		if (fn.nargs > 0) 
+		if (fn.nargs == 1)
 		{
-			target = cast_to<character>(fn.arg(0).to_object());
+			if (fn.arg(0).is_object())
+			{
+				target = cast_to<character>(fn.arg(0).to_object());
+			}
+			if (target == NULL)
+			{
+				target = sprite;	// the binary dereferences the null target; fall back to the clip
+			}
 		}
-
-		if (target == NULL)
+		else
 		{
 			target = sprite;
 		}
 
-		// bounds in the _parent coords
 		rect bound;
 		sprite->get_bound(&bound);
 
-		// _parent local coords ==> global coords
-		character* parent = sprite->get_parent();
-		matrix m;
-		if (parent)
+		if (target != sprite)
 		{
-			m = *parent->get_world_matrix();	// DH2: pointer to the cached world matrix
-			m.transform(&bound);
+			character* parent = sprite->get_parent();
+			if (parent)
+			{
+				parent->get_world_matrix()->transform(&bound);
+			}
 		}
 
-		// global coords ==> target local coords
-		m.set_inverse(*target->get_world_matrix());	// DH2: pointer to the cached world matrix
+		matrix m;
+		m.set_inverse(*target->get_world_matrix());
 		m.transform(&bound);
 
 		bound.twips_to_pixels();
 		as_object* obj = new as_object(sprite->get_player());
 		obj->set_member("xMin", bound.m_x_min);
-		obj->set_member("xMax", bound.m_x_max);
 		obj->set_member("yMin", bound.m_y_min);
+		obj->set_member("xMax", bound.m_x_max);
 		obj->set_member("yMax", bound.m_y_max);
 
 		fn.result->set_as_object(obj);

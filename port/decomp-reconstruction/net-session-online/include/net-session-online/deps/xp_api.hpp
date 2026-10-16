@@ -5,12 +5,6 @@
 
 #include <cstdio>
 
-// XP_DEBUG_OUT(fmt, ...): debug trace. Prints to stderr in host builds.
-template <typename... Args>
-inline void XP_DEBUG_OUT(const char* fmt, Args... args) {
-    if constexpr (sizeof...(Args) == 0) {
-        std::fputs(fmt, stderr);
-    } else {
-        std::fprintf(stderr, fmt, args...);
-    }
-}
+// 0x82b784 XP_DEBUG_OUT(fmt, ...): the debug trace. The body is src/xp_debug_out.cpp (the listing's 80 KB buffer,
+// the %d and %s expansion and the log call); this header only declares it.
+int XP_DEBUG_OUT(const char* format, ...);

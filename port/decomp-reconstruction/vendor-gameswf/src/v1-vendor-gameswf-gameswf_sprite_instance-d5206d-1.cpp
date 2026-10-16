@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Batch v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1: gameswf::sprite_instance, part 2 of 2 (DH2).
 //
 // The frame machinery of the class: advance, goto_frame, execute_frame_tags (and the reverse walk), do_actions, display, the

@@ -50,6 +50,9 @@
 #define STB_VORBIS_NO_PUSHDATA_API 1
 #endif
 #include <cstddef>
+#include "vox-audio/vox/stream.hpp"  // DH2: Tell() for stb_vorbis_get_stream_offset
+#include "vox-audio/vox/memory.hpp"  // DH2: VoxAlloc/VoxFree
+#define DH2_STB_FILE "..\\..\\lib\\VOX\\project\\vs2005/..\\..\\src\\stb_vorbis.cpp"
 namespace vox { class StreamCursorInterface; }
 int fgetc(vox::StreamCursorInterface* cursor);
 std::size_t fread(void* dst, std::size_t size, std::size_t count, vox::StreamCursorInterface* cursor);
@@ -214,7 +217,7 @@ extern void stb_vorbis_flush_pushdata(stb_vorbis *f);
 #if !defined(STB_VORBIS_NO_STDIO) && !defined(STB_VORBIS_NO_INTEGER_CONVERSION)
 extern int stb_vorbis_decode_filename(char *filename, int *channels, short **output);
 #endif
-extern int stb_vorbis_decode_memory(unsigned char *mem, int len, int *channels, short **output);
+extern int stb_vorbis_decode_memory(unsigned char *mem, int len, int *channels, int *sample_rate, short **output);  // DH2: the binary's 5-parameter form
 // decode an entire file and output the data interleaved into a malloc()ed
 // buffer stored in *output. The return value is the number of samples
 // decoded, or -1 if the file could not be opened or was not an ogg vorbis file.
@@ -881,43 +884,56 @@ static void *make_block_array(void *mem, int count, int size)
    return p;
 }
 
+// DH2: the Gameloft allocators (0x877680 setup_malloc, 0x87777c setup_free, 0x8775f4 setup_temp_malloc,
+// 0x877738 setup_temp_free). With alloc_buffer set, setup memory grows up from its start and temp memory
+// down from its end; anything that does not fit, and every request without a buffer, goes to VoxAlloc/VoxFree.
 static void *setup_malloc(vorb *f, int sz)
 {
+   int v4;
    sz = (sz+3) & ~3;
    f->setup_memory_required += sz;
    if (f->alloc.alloc_buffer) {
-      void *p = (char *) f->alloc.alloc_buffer + f->setup_offset;
-      if (f->setup_offset + sz > f->temp_offset) return NULL;
-      f->setup_offset += sz;
-      return p;
+      v4 = f->setup_offset;
+      if (sz + v4 <= f->temp_offset) {
+         f->setup_offset = sz + v4;
+         return f->alloc.alloc_buffer + v4;
+      }
+      if (!sz) return NULL;
+      return VoxAlloc(sz, DH2_STB_FILE, "setup_malloc", 0x281);
    }
-   return sz ? malloc(sz) : NULL;
+   if (!sz) return NULL;
+   return VoxAlloc(sz, DH2_STB_FILE, "setup_malloc", 0x285);
 }
 
 static void setup_free(vorb *f, void *p)
 {
-   if (f->alloc.alloc_buffer) return; // do nothing; setup mem is not a stack
-   free(p);
+   char *buf = f->alloc.alloc_buffer;
+   if (!buf || (char *) p < buf || (char *) p >= buf + f->alloc.alloc_buffer_length_in_bytes)
+      VoxFree(p);
 }
 
 static void *setup_temp_malloc(vorb *f, int sz)
 {
+   int v4;
    sz = (sz+3) & ~3;
-   if (f->alloc.alloc_buffer) {
-      if (f->temp_offset - sz < f->setup_offset) return NULL;
-      f->temp_offset -= sz;
-      return (char *) f->alloc.alloc_buffer + f->temp_offset;
+   if (!f->alloc.alloc_buffer)
+      return VoxAlloc(sz, DH2_STB_FILE, "setup_temp_malloc", 0x29B);
+   v4 = f->temp_offset - sz;
+   if (v4 < f->setup_offset) {
+      if (sz) return VoxAlloc(sz, DH2_STB_FILE, "setup_temp_malloc", 0x297);
+      return NULL;
    }
-   return malloc(sz);
+   f->temp_offset = v4;
+   return f->alloc.alloc_buffer + v4;
 }
 
-static void setup_temp_free(vorb *f, void *p, size_t sz)
+static void setup_temp_free(vorb *f, void *p, unsigned int sz)
 {
-   if (f->alloc.alloc_buffer) {
-      f->temp_offset += (sz+3)&~3;
-      return;
-   }
-   free(p);
+   char *buf = f->alloc.alloc_buffer;
+   if (buf && buf <= (char *) p && (char *) p < buf + f->alloc.alloc_buffer_length_in_bytes)
+      f->temp_offset += (int) ((sz + 3u) & ~3u);
+   else
+      VoxFree(p);
 }
 
 #define CRC32_POLY    0x04c11db7   // from spec
@@ -1179,23 +1195,28 @@ static void compute_twiddle_factors(int n, float *A, float *B, float *C)
    int n4 = n >> 2, n8 = n >> 3;
    int k,k2;
 
+   // DH2: constants and operation order as the binary's init_blocksize (0x87871c): pi is the
+   // 3.14159265 literal, not M_PI, and the window uses 1.57079633 (see compute_window).
    for (k=k2=0; k < n4; ++k,k2+=2) {
-      A[k2  ] = (float)  cos(4*k*M_PI/n);
-      A[k2+1] = (float) -sin(4*k*M_PI/n);
-      B[k2  ] = (float)  cos((k2+1)*M_PI/n/2) * 0.5f;
-      B[k2+1] = (float)  sin((k2+1)*M_PI/n/2) * 0.5f;
+      A[k2  ] = (float)  cos((double)(4*k) * 3.14159265 / n);
+      A[k2+1] = (float)  sin((double)(4*k) * -3.14159265 / n);
+      B[k2  ] = (float)  cos((double)(k2+1) * 3.14159265 / n * 0.5) * 0.5f;
+      B[k2+1] = (float)  sin((double)(k2+1) * 3.14159265 / n * 0.5) * 0.5f;
    }
    for (k=k2=0; k < n8; ++k,k2+=2) {
-      C[k2  ] = (float)  cos(2*(k2+1)*M_PI/n);
-      C[k2+1] = (float) -sin(2*(k2+1)*M_PI/n);
+      C[k2  ] = (float)  cos((double)(2*(k2+1)) * 3.14159265 / n);
+      C[k2+1] = (float)  sin((double)(2*(k2+1)) * -3.14159265 / n);
    }
 }
 
 static void compute_window(int n, float *window)
 {
    int n2 = n >> 1, i;
-   for (i=0; i < n2; ++i)
-      window[i] = (float) sin(0.5 * M_PI * square((float) sin((i - 0 + 0.5) / n2 * 0.5 * M_PI)));
+   // DH2: as the binary's init_blocksize: the inner sine is a float, squared in float, then scaled by 1.57079633
+   for (i=0; i < n2; ++i) {
+      float s = (float) sin(((double) i + 0.5) / (double) n2 * 0.5 * 3.14159265);
+      window[i] = (float) sin((double) (s * s) * 1.57079633);
+   }
 }
 
 static void compute_bitreverse(int n, uint16 *rev)
@@ -2375,8 +2396,9 @@ static void dct_iv_slow(float *buffer, int n)
    int i,j;
    int n2 = n >> 1, nmask = (n << 3) - 1;
    memcpy(x, buffer, sizeof(*x) * n);
+   // DH2: 0.785398163 (pi/4 as the binary's dct_iv_slow, 0x8784f4), not M_PI / 4
    for (i=0; i < 8*n; ++i)
-      mcos[i] = (float) cos(M_PI / 4 * i / n);
+      mcos[i] = (float) cos((double) i * 0.785398163 / (double) n);
    for (i=0; i < n; ++i) {
       float acc = 0;
       for (j=0; j < n; ++j)
@@ -5008,16 +5030,14 @@ stb_vorbis * stb_vorbis_open_file(vox::StreamCursorInterface *file, /* DH2: vox 
    return stb_vorbis_open_file_section(file, close_on_free, error, alloc, len);
 }
 
-#if 0 /* DH2: fopen() path; the DH2 build reads vox streams only */
+// DH2: the Gameloft build's stb_vorbis_open_filename (0x876e78) opens nothing: it sets *error to
+// VORBIS_file_open_failure when error is non-null and returns NULL.
 stb_vorbis * stb_vorbis_open_filename(char *filename, int *error, stb_vorbis_alloc *alloc)
 {
-   FILE *f = fopen(filename, "rb");
-   if (f) 
-      return stb_vorbis_open_file(f, TRUE, error, alloc);
+   (void) filename; (void) alloc;
    if (error) *error = VORBIS_file_open_failure;
    return NULL;
 }
-#endif
 #endif // STB_VORBIS_NO_STDIO
 
 stb_vorbis * stb_vorbis_open_memory(unsigned char *data, int len, int *error, stb_vorbis_alloc *alloc)
@@ -5266,79 +5286,146 @@ int stb_vorbis_get_samples_short(stb_vorbis *f, int channels, short **buffer, in
 }
 
 #ifndef STB_VORBIS_NO_STDIO
-#if 0 /* DH2: fopen() path */
+// DH2: the Gameloft build's stb_vorbis_decode_filename (0x87e894). The decode loop is the one of
+// stb_vorbis_decode_memory; the source is stb_vorbis_open_filename, which fails in this build.
 int stb_vorbis_decode_filename(char *filename, int *channels, short **output)
 {
-   int data_len, offset, total, limit, error;
-   short *data;
+   int error, total, used, cap, chunk, frames, newcap, ch;
+   short *buf, *nb;
    stb_vorbis *v = stb_vorbis_open_filename(filename, &error, NULL);
    if (v == NULL) return -1;
-   limit = v->channels * 4096;
-   *channels = v->channels;
-   offset = data_len = 0;
-   total = limit;
-   data = (short *) malloc(total * sizeof(*data));
-   if (data == NULL) {
+   ch = v->channels;
+   *channels = ch;
+   buf = (short *) VoxAlloc(ch << 13, DH2_STB_FILE, "stb_vorbis_decode_filename", 0x13AF);
+   chunk = ch << 12;
+   if (!buf) {
       stb_vorbis_close(v);
       return -2;
    }
+   used = 0;
+   total = 0;
+   cap = chunk;
+   ch = v->channels;
    for (;;) {
-      int n = stb_vorbis_get_frame_short_interleaved(v, v->channels, data+offset, total-offset);
-      if (n == 0) break;
-      data_len += n;
-      offset += n * v->channels;
-      if (offset + limit > total) {
-         short *data2;
-         total *= 2;
-         data2 = (short *) realloc(data, total * sizeof(*data));
-         if (data2 == NULL) {
-            free(data);
+      frames = stb_vorbis_get_frame_short_interleaved(v, ch, buf + used, cap - used);
+      if (frames == 0) {
+         *output = buf;
+         stb_vorbis_close(v);
+         return total;
+      }
+      ch = v->channels;
+      used += ch * frames;
+      newcap = cap;
+      if (cap < used + chunk) {
+         nb = (short *) VoxAlloc(4 * cap, DH2_STB_FILE, "stb_vorbis_decode_filename", 0x13BE);
+         newcap = 2 * cap;
+         if (nb) memcpy(nb, buf, 2 * cap);   // DH2: the listing copies before its null check
+         VoxFree(buf);
+         if (!nb) {
             stb_vorbis_close(v);
             return -2;
          }
-         data = data2;
+         buf = nb;
+         ch = v->channels;
       }
+      total += frames;
+      cap = newcap;
    }
-   *output = data;
-   return data_len;
 }
-#endif
 #endif // NO_STDIO
 
-int stb_vorbis_decode_memory(uint8 *mem, int len, int *channels, short **output)
+// DH2: the Gameloft build's stb_vorbis_decode_memory (0x87e750). Its signature is the binary's: channels
+// and sample_rate are both out parameters. The decode loop is that of stb_vorbis_decode_filename.
+int stb_vorbis_decode_memory(unsigned char *mem, int len, int *channels, int *sample_rate, short **output)
 {
-   int data_len, offset, total, limit, error;
-   short *data;
+   int error, total, used, cap, chunk, frames, newcap, ch;
+   short *buf, *nb;
    stb_vorbis *v = stb_vorbis_open_memory(mem, len, &error, NULL);
    if (v == NULL) return -1;
-   limit = v->channels * 4096;
-   *channels = v->channels;
-   offset = data_len = 0;
-   total = limit;
-   data = (short *) malloc(total * sizeof(*data));
-   if (data == NULL) {
+   ch = v->channels;
+   *channels = ch;
+   *sample_rate = v->sample_rate;
+   buf = (short *) VoxAlloc(ch << 13, DH2_STB_FILE, "stb_vorbis_decode_memory", 0x13D9);
+   chunk = ch << 12;
+   if (!buf) {
       stb_vorbis_close(v);
       return -2;
    }
+   used = 0;
+   total = 0;
+   cap = chunk;
+   ch = v->channels;
    for (;;) {
-      int n = stb_vorbis_get_frame_short_interleaved(v, v->channels, data+offset, total-offset);
-      if (n == 0) break;
-      data_len += n;
-      offset += n * v->channels;
-      if (offset + limit > total) {
-         short *data2;
-         total *= 2;
-         data2 = (short *) realloc(data, total * sizeof(*data));
-         if (data2 == NULL) {
-            free(data);
+      frames = stb_vorbis_get_frame_short_interleaved(v, ch, buf + used, cap - used);
+      if (frames == 0) {
+         *output = buf;
+         stb_vorbis_close(v);
+         return total;
+      }
+      ch = v->channels;
+      used += ch * frames;
+      newcap = cap;
+      if (cap < used + chunk) {
+         nb = (short *) VoxAlloc(4 * cap, DH2_STB_FILE, "stb_vorbis_decode_memory", 0x13E8);
+         newcap = 2 * cap;
+         if (nb) memcpy(nb, buf, 2 * cap);   // DH2: the listing copies before its null check
+         VoxFree(buf);
+         if (!nb) {
             stb_vorbis_close(v);
             return -2;
          }
-         data = data2;
+         buf = nb;
+         ch = v->channels;
       }
+      total += frames;
+      cap = newcap;
    }
-   *output = data;
-   return data_len;
+}
+
+// DH2: accessors of the Gameloft build (0x8762a0 .. 0x876354). Offsets are the 32-bit layout.
+int stb_vorbis_get_stream_offset(stb_vorbis *f)
+{
+   if (f && f->f) return f->f->Tell();
+   return 0;
+}
+
+int stb_vorbis_get_channel(stb_vorbis *f)
+{
+   if (f) return f->channels;
+   return 0;
+}
+
+float **stb_vorbis_get_previous_window(stb_vorbis *f, int ch)
+{
+   if (!f) return NULL;
+   if (f->channels <= ch) return NULL;
+   return &f->previous_window[ch];
+}
+
+float **stb_vorbis_get_buffer(stb_vorbis *f, int ch)
+{
+   if (!f) return NULL;
+   if (f->channels <= ch) return NULL;
+   return &f->channel_buffers[ch];
+}
+
+stb_vorbis *stb_vorbis_set_stream(stb_vorbis *f, vox::StreamCursorInterface *s)
+{
+   if (f && s) f->f = s;
+   return f;
+}
+
+int stb_vorbis_get_blocksize_1(stb_vorbis *f)
+{
+   if (f) return f->blocksize_1;
+   return 0;
+}
+
+// DH2: memberwise copy of the decoder state (0x876354). The listing copies 0x5A8 bytes, the 32-bit
+// sizeof(stb_vorbis); the host struct holds pointers and is larger, so sizeof(stb_vorbis) is copied (host width).
+void *stb_vorbis_copy(stb_vorbis *dst, stb_vorbis *src)
+{
+   return memcpy(dst, src, sizeof(stb_vorbis));
 }
 #endif
 
