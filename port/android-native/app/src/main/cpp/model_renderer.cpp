@@ -3580,6 +3580,26 @@ bool native_level_save_read_object_facts_v1(void* raw,
   return false;
  }
 
+ // TimerTrap::Create (0x39d724) spawns the trap through ObjectManager::Spawn and never raises
+ // the ObjectBase +0x28 save byte (ObjectBase::ObjectBase leaves it 0), so __SaveObjects visits
+ // and skips it exactly like a pooled Projectile.
+ if(!record&&active_crypt_room_runtime&&active_crypt_room_runtime->find_timer_trap(row.identity)) {
+  dh2::level_savegame_owner_v1::Object facts{};
+  facts.identity=row.identity;
+  facts.name=row.name;
+  facts.manager_key=row.name;
+  facts.type_word=row.live_fields.module_id_64?
+      *row.live_fields.module_id_64:row.module_id_64;
+  facts.enabled=0;
+  facts.is_character=0;
+  facts.is_player=0;
+  facts.is_local_player=0;
+  facts.source_flag_129=0;
+  *output=std::move(facts);
+  error.clear();
+  return false;
+ }
+
  // TriggerZoneExitLevel is a non-Character GameObject in this same keyed
  // ObjectManager. Its inherited Trigger virtual serializer is dispatched by
  // __SaveObjects even though it has no CharacterList entry.
@@ -3869,7 +3889,10 @@ bool native_level_save_serialize_noncharacter_v1(void* raw,
       [&](const auto& candidate){return candidate&&candidate->object==&row;});
   if(trigger!=active_crypt_room_runtime->source_trigger_zones.end()) {
    if(!row.trigger_save_state_ready||!base_fields(source_for_row("TriggerZone"),base)) {
-    error="TriggerZone::Serialize lacks its exact Trigger and source InitPost receipts";return true;
+    error="TriggerZone::Serialize lacks its exact Trigger and source InitPost receipts | "+row.name+
+        " | trigger_ready "+std::to_string(int(row.trigger_save_state_ready))+" deleted "+std::to_string(int(row.deleted_81))+
+        " init "+std::to_string(int(row.object_init_post_ready))+" facts "+std::to_string(int(row.save_facts_ready))+
+        " prob270 "+std::to_string(int(row.spawn_probability_result_270))+" elig28 "+std::to_string(int(row.save_eligibility_28));return true;
    }
    const dh2::level_savegame_owner_v1::TriggerFields fields{
        base,row.trigger_pending_3b8,row.trigger_max_count_3b4};
@@ -25280,7 +25303,7 @@ bool ensure_source_actor_anim_dictionary(ObjectGroup& group,std::int32_t id,
   if(!playback.load(bytes.data(),bytes.size(),group.resource.rest_scene,error,
                    dh2::animation::MissingTargets::ignore))return false;
   if(playback.end<=playback.start) {
-   error="PlayActorAnim AnimDict has an empty source playback interval";
+   error="PlayActorAnim AnimDict has an empty source playback interval | "+path+" | start "+std::to_string(playback.start)+" end "+std::to_string(playback.end)+" unbound "+std::to_string(playback.unbound);
    return false;
   }
   group.clips.emplace(id,std::move(playback));
@@ -27340,7 +27363,9 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    // the current Level) Level::SG_BlockLevel(false) + Level::QuickSave(false),
    // then the local Player's Character::SG_Block(false) + Character::SG_Save.
    std::string error;
-   return native_level_script_save_game(error)?1:-1;
+   if(native_level_script_save_game(error))return 1;
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script_SaveGame failed | %s",error.c_str());
+   return -1;
   }
   case 79: {
    // Script_FlushMessages::Execute 0x460a58.
@@ -28199,9 +28224,15 @@ int native_retain_aggro_peer(void* raw,std::uint64_t identity,void** output){
    if(!native_monster_deaggro_receiver_ready(*lease->actor))return 1;
   }else{
    if(!native_monster_aggro_callback_ready(*context.owner,*lease->actor))return 1;
+   // CharAI::OnDeAggro (0x3d2014) calls the peer's AIS virtual only when an AIS is active;
+   // the AISExternal slot is an empty leaf (see native_aggro_edge_callback), so a Monster or a
+   // follower Character (PriestGood/Rene fighting beside the Player) is a valid peer, as it is for
+   // OnAggro (native_monster_aggro_callback_ready above accepts both).
    if(lease->projection->state.active_ais_1c&&
       !native_character_classification(*lease->actor,
-        dh2::character_ai_classification::Query::monster))return 1;
+        dh2::character_ai_classification::Query::monster)&&
+      !native_character_classification(*lease->actor,
+        dh2::character_ai_classification::Query::follower))return 1;
   }
  }
  *output=lease.release();return 0;
@@ -38431,7 +38462,7 @@ bool gameplay_faery_snapshot(GameplayFaerySnapshotV1& output,std::string& error)
  }
  output=candidate;error.clear();return true;
 }
-bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
+bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error,bool require_enemy){
  if(!enabled||!world_mode||!native_actor_ready||prince_combat.life.dead){
   error="Gameplay pose snapshot requires a live source Player and world";return false;
  }
@@ -38462,7 +38493,7 @@ bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
   candidate.enemy_max_hp=enemy->properties.resolved[38];
   candidate.enemy_in_melee_range=player_reach(*enemy);
  }
- if(candidate.enemy_index<0){error="No live source enemy is available in the current world";return false;}
+ if(require_enemy&&candidate.enemy_index<0){error="No live source enemy is available in the current world";return false;}
  output=candidate;error.clear();return true;
 }
 bool gameplay_route_snapshot(const std::array<float,3>& target,
@@ -38625,6 +38656,21 @@ bool quest_zone_probe_position(const std::string& exact_name,std::array<float,3>
   error.clear();return true;
  }
  error="No source QuestMoveInZone carries that exact name";return false;
+}
+bool walk_trigger_zones(std::vector<WalkTriggerZoneV1>& zones){
+ zones.clear();
+ if(!enabled||!world_mode||!native_actor_ready||!active_crypt_room_runtime)return false;
+ for(const auto& zone:active_crypt_room_runtime->source_trigger_zones){
+  if(!zone)continue;
+  WalkTriggerZoneV1 row;
+  row.name=zone->source.name;row.script=zone->definition.script;
+  row.move_out_script=zone->definition.script_move_out;
+  row.door=zone->definition.is_door_closed;
+  row.centre={zone->source.world.position[0],zone->source.world.position[1],zone->source.world.position[2]};
+  row.count=zone->object?zone->object->trigger_count_3a8:1;
+  zones.push_back(std::move(row));
+ }
+ return true;
 }
 bool level_script_probe(LevelScriptProbeV1& output,std::string& error){
  LevelScriptProbeV1 candidate;
@@ -44950,9 +44996,11 @@ bool native_level_save_classify_direct_character_restore_v1(void* raw,
  // GameObject::Deserialize 0x38b91c reads +0x270 and only asserts it equals the
  // live spawn-probability cache (the roll is re-made on every Level load), so
  // it is not an admission gate.
- if(state.object_base_flag_80!=actor->visible_80||
-    state.object_base_flag_8a!=std::uint8_t(owner.source_enabled)) {
-  reason="ObjectBase visible/enabled bytes differ from the live Character (SetVisible/Enabled providers are not part of this closure)";
+ // ObjectBase::Deserialize (0x33e0f8) raw-writes +0x80/+0x8a (no SetVisible/SetEnabled
+ // side effects) and GameObject::Deserialize (0x38b91c) then VisualObject::SyncVisibility;
+ // the commit below does the same, so a differing byte is admitted when it is a bool.
+ if(state.object_base_flag_80>1||state.object_base_flag_8a>1) {
+  reason="ObjectBase visible/enabled bytes are not booleans";
   return false;
  }
  if(!native_level_save_direct_vectors_finite_v1(state)) {
@@ -45024,8 +45072,22 @@ bool native_level_save_commit_direct_character_restore_v1(void* raw,
        dh2::character_player_buffs_v1::Status::complete) {
    error="direct Character CharProperties::PROPS_RemoveAllBuffs failed";return true;
   }
-  // GameObject::Deserialize: the two ObjectBase bytes were admitted equal to the
-  // live bytes; it also resets both embedded ConditionData tested bytes.
+  // ObjectBase::Deserialize raw-writes +0x80 (visible) and +0x8a (enabled) from the row, then
+  // GameObject::Deserialize syncs the VisualObject; no Enabled/Disabled side effects run.
+  owner.source_enabled=state.object_base_flag_8a!=0;
+  manager_row->serialized_flag_8a=state.object_base_flag_8a;
+  manager_row->serialized_flag_8a_ready=1;
+  if(manager_row->live_fields.serialized_flag_8a)
+   *manager_row->live_fields.serialized_flag_8a=state.object_base_flag_8a;
+  actor.visible_80=state.object_base_flag_80;
+  manager_row->visible_80=state.object_base_flag_80;
+  owner.source_visible=state.object_base_flag_80!=0;
+  {
+   const bool zonable=native_actor_zonability(actor)!=0;
+   actor.renderer_visible=state.object_base_flag_80!=0&&
+       !(zonable&&actor.zoning_enabled_2ee&&actor.in_zone_2f0==0);
+  }
+  // GameObject::Deserialize also resets both embedded ConditionData tested bytes.
   if(manager_row->condition_tested_ac_ready&&manager_row->condition_tested_d0_ready&&
      source_level_owner.object_manager().publish_condition_tested(actor.identity,0,0)!=
        dh2::object_manager_runtime_owner_v1::Status::ok) {
