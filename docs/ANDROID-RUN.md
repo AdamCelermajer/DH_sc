@@ -47,6 +47,15 @@ root-only way to push extracted files directly; it is not needed any more. Unins
 Start-up differences from the original, on purpose: the launcher is `DataSetup`, not the Samsung DRM activity `Zirconia_DRM` (its licence server is gone;
 offline it ends in an error dialog). `targetSdk` is 28 (no "built for an older version of Android" dialog on Android 14 to 17).
 
+## Bundled APK (one file, no data copy)
+
+```
+py -3 tools/trackb/android/build_release.py --bundle-data C:\path\Dungeon-Hunter-2-HD-v1-0-2-cache.zip [--out-root build/own-x --build-dir build/own-x-arm64] [--skip-native]
+```
+
+Builds the source-Java APK and embeds your cache zip as the STORED asset `assets/dh2data.zip` (plus `assets/dh2data.txt`: prefix, file count, byte count after skipping the repacker's savegames/settings) -> `out/dh2-trackb-bundled.apk` (about 452 MB, debug-signed, zipaligned). `DataSetup` (launcher) streams the asset through `ZipInputStream` (never in memory) into `/sdcard/Android/data/<pkg>/files`, shows a progress bar, refuses to start with a message if free space is below the unpacked size + 64 MB, verifies file/byte counts and the `d_o_w_n_l_o_a_d_e_d.txt` marker, then starts the game; later launches skip straight to the game (an interrupted unpack leaves `.dh2_extracting` and is redone). Without the asset DataSetup falls back to the zip/obb search described above.
+Install: `adb install -r -g dh2-trackb-bundled.apk` or sideload the file; first start takes about a minute. Never commit the APK, the .so or the data.
+
 ## Known issues
 
 - origdex APK: `TelephonyManager.getDeviceId()` in the original dex is not caught and Android 10+ refuses it, so run
