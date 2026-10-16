@@ -19,6 +19,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector / stringc (STLPORT-DECISION.md section 6)
+
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene/ITriangleSelector.hpp"
 
@@ -57,13 +59,13 @@ public:
     // 0x586acc: appends to the result buffer; true when it is full.
     bool AddResult(const core::triangle3d<float>& triangle) const;
     // 0x586ec8: keeps the candidates that overlap the box. The Hex-Rays float return is a register leftover.
-    void TestWithBox(std::vector<core::triangle3d<float>>& candidates) const;
+    void TestWithBox(core::svector<core::triangle3d<float>>& candidates) const;
     // 0x5871c8: keeps the candidates that the stored segment hits (getIntersectionWithLineSegment). The Hex-Rays
     // bool return is the last test's register; the callers discard it.
-    void TestWithLine(std::vector<core::triangle3d<float>>& candidates) const;
+    void TestWithLine(core::svector<core::triangle3d<float>>& candidates) const;
 
     const ISceneNode* node = nullptr;                  // +0x08 the node whose absolute transform the selector uses
-    std::vector<core::triangle3d<float>> triangles;    // +0x0c (begin), +0x10 (end), +0x14 (capacity)
+    core::svector<core::triangle3d<float>> triangles;    // +0x0c (begin), +0x10 (end), +0x14 (capacity)
     bool bakeNodeTransform = false;                    // +0x18 (ctor argument; name from behaviour: set when the node matrix is baked in)
     // +0x1c .. +0x43: the segment of the last getTriangles(line) query, written by Setup(line3d) (0x588984) and read by
     // TestWithLine (0x5871c8): start, end, squared length and normalized direction. The constructors write the

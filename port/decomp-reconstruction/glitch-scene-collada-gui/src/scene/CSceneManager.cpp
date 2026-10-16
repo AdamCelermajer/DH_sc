@@ -156,7 +156,7 @@ ISceneNode* CSceneManager::getSceneNodeFromType(E_SCENE_NODE_TYPE type, ISceneNo
 }
 
 // 0x58c3cc _ZN6glitch5scene13CSceneManager19getSceneNodesFromTypeENS0_17E_SCENE_NODE_TYPEERSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEES5_
-void CSceneManager::getSceneNodesFromType(E_SCENE_NODE_TYPE type, std::vector<ISceneNode*>& out, ISceneNode* start) {
+void CSceneManager::getSceneNodesFromType(E_SCENE_NODE_TYPE type, core::svector<ISceneNode*>& out, ISceneNode* start) {
     ISceneNode* from = start != nullptr ? start : rootNode;
     from->getSceneNodesFromType(type, out);
 }
@@ -308,7 +308,7 @@ void CSceneManager::collectAllNodes() {
 
 // 0x58b6c8 _ZN6glitch5scene13CSceneManager14collectAllNodesERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
 // Rebuilds both lists from the given nodes.
-void CSceneManager::collectAllNodes(const std::vector<ISceneNode*>& nodes) {
+void CSceneManager::collectAllNodes(const core::svector<ISceneNode*>& nodes) {
     renderNodes.clear();
     animatedNodes.clear();
     for (ISceneNode* node : nodes) {

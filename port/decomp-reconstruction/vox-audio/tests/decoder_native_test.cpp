@@ -43,7 +43,7 @@ struct DecoderNativeCursorTestAccess {
     static void PushIndex(DecoderNativeCursor& c, std::int32_t index) {
         c.state_indices_.push_back(index);
     }
-    static void SetStateNames(DecoderNativeCursor& c, const std::map<std::string, int>* names) {
+    static void SetStateNames(DecoderNativeCursor& c, const vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names) {
         c.state_names_ = names;
     }
     static void SetSubDecoder(DecoderNativeCursor& c, VoxNativeSubDecoder* sub) {
@@ -150,7 +150,7 @@ int main() {
     {
         DecoderNative d;
         DecoderNativeCursor c(&d, nullptr);
-        std::map<std::string, int> names = {{"intro", 7}, {"loop", 9}};
+        vox::VoxMap<vox::VoxString, int, vox::StringCompare> names = {{"intro", 7}, {"loop", 9}};
         DecoderNativeCursorTestAccess::SetStateNames(c, &names);
         c.SetInteractiveMusicState("loop");
         c.SetInteractiveMusicState("missing");

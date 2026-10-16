@@ -27,6 +27,8 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector / stringc (STLPORT-DECISION.md section 6)
+
 #include "glitch-core-io/io/interfaces.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
@@ -85,7 +87,7 @@ public:
         std::int32_t patchCount = 0;                        // +0x17c patches per side (createPatches)
         std::int32_t maxLOD = 0;                            // +0x180 number of LOD levels
         core::aabbox3d<float> boundingBox;                  // +0x184
-        std::vector<double> lodDistanceSquared;             // +0x19c squared LOD distance thresholds
+        core::svector<double> lodDistanceSquared;             // +0x19c squared LOD distance thresholds
         STerrainPatch* patches = nullptr;                   // +0x1a8 patchCount squared records (operator new[])
     };
 
@@ -137,9 +139,9 @@ public:
     // 0x6d03f0: sets every patch to one LOD.
     void setCurrentLODOfPatches(std::int32_t lod);
     // 0x6d042c: sets each patch LOD from the vector.
-    void setCurrentLODOfPatches(const std::vector<std::int32_t>& lods);
+    void setCurrentLODOfPatches(const core::svector<std::int32_t>& lods);
     // 0x6d21ac: fills the vector with each patch LOD.
-    void getCurrentLODOfPatches(std::vector<std::int32_t>& lods) const;
+    void getCurrentLODOfPatches(core::svector<std::int32_t>& lods) const;
     // 0x6d0238: stores a squared distance for a LOD index; answers whether the index was inside the table.
     std::int32_t overrideLODDistance(std::int32_t index, double distance);
 
@@ -156,7 +158,7 @@ public:
     std::uint32_t getIndex(std::int32_t i, std::int32_t x, std::int32_t patchIndex, std::uint32_t vx, std::uint32_t vz) const;
     // 0x6d22f0: the triangle list of one patch at a LOD (-1: its current LOD); answers the index count, -1 for a bad patch or LOD, -2
     // for a culled patch.
-    std::int32_t getIndicesForPatch(std::vector<std::uint32_t>& indices, std::int32_t x, std::uint32_t z, std::int32_t lod);
+    std::int32_t getIndicesForPatch(core::svector<std::uint32_t>& indices, std::int32_t x, std::uint32_t z, std::int32_t lod);
     // 0x6d0cfc: allocates the patch table.
     void createPatches();
     // 0x6d2534: the box of every patch, the node box, the centre and (with the default pivot) the pivot.

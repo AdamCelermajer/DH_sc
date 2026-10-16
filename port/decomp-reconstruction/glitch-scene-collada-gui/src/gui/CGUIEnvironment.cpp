@@ -6,6 +6,8 @@
 #include "glitch-scene-collada-gui/gui/CGUIEnvironment.hpp"
 
 #include <algorithm>
+
+#include "glitch-core-io/core/sort.hpp"
 #include <cstring>
 #include <cwchar>
 #include <string>
@@ -55,15 +57,8 @@ namespace {
 // The ordered lists are searched with lower_bound and an equality test, without being sorted (the find of the original, binary_search<> of
 // 0x538314 / 0x538470 / 0x5385cc / 0x539e3c): the index of the entry or -1.
 template <typename T>
-int searchOrdered(const std::vector<T>& list, const T& key) {
-    if (list.empty()) {
-        return -1;
-    }
-    typename std::vector<T>::const_iterator found = std::lower_bound(list.begin(), list.end(), key);
-    if (found == list.end() || *found < key || key < *found) {
-        return -1;
-    }
-    return static_cast<int>(found - list.begin());
+int searchOrdered(const core::svector<T>& list, const T& key) {
+    return glitch::core::binary_search(list, key);  // lower_bound, then the equality test
 }
 
 std::string lowerCase(const char* text) {
@@ -743,7 +738,7 @@ IGUIFont* CGUIEnvironment::getFont(const char* filename) {
         } else {
             CGUIFont* bitmapFont = new CGUIFont(this, filename);
             const std::string workingDirectory = fileSystem->getWorkingDirectory();  // K 0x2c
-            fileSystem->changeWorkingDirectoryTo(fileSystem->getFileDir(key.namedPath).c_str());  // K 0x30, 0x38
+            fileSystem->changeWorkingDirectoryTo(fileSystem->getFileDir(glitch::core::stringc(key.namedPath.c_str())).c_str());  // K 0x30, 0x38
             const bool loaded = bitmapFont->load(reader);
             fileSystem->changeWorkingDirectoryTo(workingDirectory.c_str());
             if (loaded) {

@@ -372,12 +372,12 @@ int OptimizeHierarchy(ISceneNode* node, bool flag) {
 std::string DBG_GetDetailedNodeName(ISceneNode* node) {
     std::string result = "Node Info : ";
     if (node != nullptr) {
-        const std::string path(node->getUID());  // K 0x54
+        const glitch::core::stringc path(node->getUID());  // K 0x54
         glitch::io::IFileSystem* fileSystem = ApplicationGetInstance().m_device->fileSystem;
         ++fileSystem->referenceCounter;  // the listing takes a use (++*(fs + 4)) and drops it at the end
-        const std::string baseName = fileSystem->getFileBasename(path, true);  // K 0x3C
+        const glitch::core::stringc baseName = fileSystem->getFileBasename(path, true);  // K 0x3C
         result += "File: ";
-        result += baseName;
+        result += baseName.c_str();
         result += "\n";
         if (node->children.size() != 0) {
             ISceneNode* object = *node->children.begin();

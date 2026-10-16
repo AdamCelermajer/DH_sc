@@ -59,10 +59,10 @@ int main() {
 
         States states;
         AudioSegments segments(3);
-        std::vector<std::vector<int>> loops;
+        vox::VoxVector<vox::VoxVector<int>> loops;
         TransitionRules rules;
-        std::vector<std::vector<TransitionParams>> transitions;
-        std::map<std::string, int> names;
+        vox::VoxVector<vox::VoxVector<TransitionParams>> transitions;
+        vox::VoxMap<vox::VoxString, int, vox::StringCompare> names;
         NativePlaylistsManager playlists;
 
         vox::PcmProbe pcm(nullptr, header, &states, &segments, &loops, &rules, &transitions,
@@ -89,10 +89,10 @@ int main() {
 
         States states;
         AudioSegments segments;
-        std::vector<std::vector<int>> loops;
+        vox::VoxVector<vox::VoxVector<int>> loops;
         TransitionRules rules;
-        std::vector<std::vector<TransitionParams>> transitions;
-        std::map<std::string, int> names;
+        vox::VoxVector<vox::VoxVector<TransitionParams>> transitions;
+        vox::VoxMap<vox::VoxString, int, vox::StringCompare> names;
         NativePlaylistsManager playlists;
 
         vox::ImaProbe ima(nullptr, header, &states, &segments, &loops, &rules, &transitions,
@@ -111,10 +111,10 @@ int main() {
         header.sample_word = static_cast<std::int32_t>(8u | (16u << 16));
         States states;
         AudioSegments segments;
-        std::vector<std::vector<int>> loops;
+        vox::VoxVector<vox::VoxVector<int>> loops;
         TransitionRules rules;
-        std::vector<std::vector<TransitionParams>> transitions;
-        std::map<std::string, int> names;
+        vox::VoxVector<vox::VoxVector<TransitionParams>> transitions;
+        vox::VoxMap<vox::VoxString, int, vox::StringCompare> names;
         NativePlaylistsManager playlists;
         vox::ImaProbe ima(nullptr, header, &states, &segments, &loops, &rules, &transitions,
                           &names, &playlists);

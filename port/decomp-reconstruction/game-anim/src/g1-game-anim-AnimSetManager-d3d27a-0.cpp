@@ -105,7 +105,7 @@ glitch::collada::ISceneNodeAnimator* AnimSetManager::GetSynchronizedAnimator(int
     if (set.m_animSet->dirty) {
         set.m_animSet->compile();
     }
-    std::vector<std::string> names;
+    glitch::core::svector<std::string> names;
     boost::intrusive_ptr<glitch::collada::CAnimationSet> engineSet(set.m_animSet, true);
     AnimatorSynchronizedSet* animator = new AnimatorSynchronizedSet(engineSet, names);
     engineSet.reset();

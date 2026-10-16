@@ -42,10 +42,10 @@ void InitStoppedSegment(SegmentState& segment, std::int32_t play_mode) {
 VoxNativeSubDecoder::VoxNativeSubDecoder(StreamCursorInterface* stream,
                                          const NativeHeaderWords& header, States* states,
                                          AudioSegments* segments,
-                                         std::vector<std::vector<int>>* loop_lists,
+                                         vox::VoxVector<vox::VoxVector<int>>* loop_lists,
                                          TransitionRules* rules,
-                                         std::vector<std::vector<TransitionParams>>* transitions,
-                                         std::map<std::string, int>* names,
+                                         vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions,
+                                         vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names,
                                          NativePlaylistsManager* playlists) {
     const std::uint32_t format_word = static_cast<std::uint32_t>(header.format_word);
     const std::uint32_t sample_word = static_cast<std::uint32_t>(header.sample_word);
@@ -78,10 +78,10 @@ VoxNativeSubDecoder::VoxNativeSubDecoder(StreamCursorInterface* stream,
 VoxNativeSubDecoderPCM::VoxNativeSubDecoderPCM(StreamCursorInterface* stream,
                                                const NativeHeaderWords& header, States* states,
                                                AudioSegments* segments,
-                                               std::vector<std::vector<int>>* loop_lists,
+                                               vox::VoxVector<vox::VoxVector<int>>* loop_lists,
                                                TransitionRules* rules,
-                                               std::vector<std::vector<TransitionParams>>* transitions,
-                                               std::map<std::string, int>* names,
+                                               vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions,
+                                               vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names,
                                                NativePlaylistsManager* playlists)
     : VoxNativeSubDecoder(stream, header, states, segments, loop_lists, rules, transitions,
                           names, playlists) {}

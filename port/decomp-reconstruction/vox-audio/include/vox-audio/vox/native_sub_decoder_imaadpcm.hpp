@@ -5,6 +5,8 @@
 #pragma once
 
 #include <cstdint>
+#include "vox-audio/vox/allocator.hpp"
+#include "vox-audio/vox/string_compare.hpp"
 
 #include "vox-audio/vox/adpcm_state.hpp"
 #include "vox-audio/vox/native_sub_decoder.hpp"
@@ -25,9 +27,9 @@ public:
     // block and the ADPCM states (see the .cpp).
     VoxNativeSubDecoderIMAADPCM(StreamCursorInterface* stream, const NativeHeaderWords& header,
                                 States* states, AudioSegments* segments,
-                                std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
-                                std::vector<std::vector<TransitionParams>>* transitions,
-                                std::map<std::string, int>* names,
+                                vox::VoxVector<vox::VoxVector<int>>* loop_lists, TransitionRules* rules,
+                                vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions,
+                                vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names,
                                 NativePlaylistsManager* playlists);
     ~VoxNativeSubDecoderIMAADPCM() override;  // D1 0x886a20 (D2 0x886b1c, D0 0x886b00)
 

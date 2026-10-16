@@ -54,7 +54,7 @@ namespace {
 // (V[i + 2], V[i + 1], V[i]). The vertex buffer is mapped for reading for the walk and released after it.
 template <typename T>
 void createTriangles(const std::uint16_t* indices, std::uint32_t count, const video::SVertexStream& stream,
-                     std::vector<core::triangle3d<float>>& out) {
+                     core::svector<core::triangle3d<float>>& out) {
     const std::uint32_t components = stream.field0c;
     if (components < 2 || components > 4 || !stream.buffer) {
         return;
@@ -189,7 +189,7 @@ void CTriangleSelector::getTriangles(core::triangle3d<float>* out, int arraySize
     resultTriangles = out;
     Setup(transformArg);
     Setup(box);
-    TestWithBox(const_cast<std::vector<core::triangle3d<float>>&>(triangles));
+    TestWithBox(const_cast<core::svector<core::triangle3d<float>>&>(triangles));
     outTriangleCount = static_cast<int>(resultCount);
 }
 
@@ -201,7 +201,7 @@ void CTriangleSelector::getTriangles(core::triangle3d<float>* out, int arraySize
     resultTriangles = out;
     Setup(transformArg);
     Setup(line);
-    TestWithLine(const_cast<std::vector<core::triangle3d<float>>&>(triangles));
+    TestWithLine(const_cast<core::svector<core::triangle3d<float>>&>(triangles));
     outTriangleCount = static_cast<int>(resultCount);
 }
 
@@ -272,7 +272,7 @@ bool CTriangleSelector::AddResult(const core::triangle3d<float>& triangle) const
 // 0x586ec8 _ZNK6glitch5scene17CTriangleSelector11TestWithBoxERSt6vectorINS_4core10triangle3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE
 // A candidate is kept when it overlaps the box on each axis: on an axis, not all three corners are below the min, and not all
 // three are above the max. Kept candidates go to AddResult; the loop stops when AddResult reports the buffer full.
-void CTriangleSelector::TestWithBox(std::vector<core::triangle3d<float>>& candidates) const {
+void CTriangleSelector::TestWithBox(core::svector<core::triangle3d<float>>& candidates) const {
     const float minX = boundingBox.MinEdge.X;
     const float minY = boundingBox.MinEdge.Y;
     const float minZ = boundingBox.MinEdge.Z;
@@ -293,7 +293,7 @@ void CTriangleSelector::TestWithBox(std::vector<core::triangle3d<float>>& candid
 // 0x5871c8 _ZNK6glitch5scene17CTriangleSelector12TestWithLineERSt6vectorINS_4core10triangle3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE
 // Every candidate that the stored segment hits (getIntersectionWithLineSegment against the segment box) goes to AddResult;
 // the loop stops when the buffer is full.
-void CTriangleSelector::TestWithLine(std::vector<core::triangle3d<float>>& candidates) const {
+void CTriangleSelector::TestWithLine(core::svector<core::triangle3d<float>>& candidates) const {
     for (const core::triangle3d<float>& t : candidates) {
         core::vector3d<float> hit{0.0f, 0.0f, 0.0f};
         if (t.getIntersectionWithLineSegment(segment, segmentLengthSquared, segmentDirection, boundingBox, hit)) {

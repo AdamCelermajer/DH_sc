@@ -152,3 +152,14 @@ Not fixed, because it is not contained: the string type is part of virtual inter
 game code and into glitch-scene-collada-gui (owner B3 is working there), and `SAllocator` has to move first from core-platform into glitch-core-io so that every engine category can name it.
 Proposed wave: (1) move `SAllocator` and add `glitch::core::stringc`, `stringw` and a vector alias to glitch-core-io; (2) change the interface headers (`file_system.hpp`, `attributes.hpp`,
 `ISceneNode.hpp`, `CSceneManager.hpp`, `CTriangleSelector.hpp`) and their definitions; (3) fix the callers and rerun conformance, where the SAllocator `param_drift` and `param_drift_stl` rows should become exact.
+
+**SAllocator switch (owner SA, 2026-10-17).** Done as proposed. `glitch::core::SAllocator<T, E_MEMORY_HINT>`, `stringc`, `stringw`, `svector<T>` and the `to_std`/`to_stringc` copies live in `glitch-core-io/core/allocator.hpp`
+(`allocate` is `GlitchAlloc(n*sizeof(T), hint)`, `deallocate` is `GlitchFree`, the body of `_String_base::_M_allocate_block` 0x3209a8 / `_M_deallocate_block` 0x56c2bc); `vox::SAllocator<T, VoxMemHint>` with `VoxString`, `VoxVector`, `VoxMap`
+in `vox-audio/vox/allocator.hpp` (`VoxAlloc`/`VoxFree`). The glitch strings and vectors of the virtual interfaces (`IFileSystem`, `ISceneNode::setName`, `IAttribute::setArray`), CSceneManager, CTriangleSelector, the animators,
+CTerrainSceneNode, CGUI*, CMeshCache, SceneManager (game-world) and the vox comparators/decoders/containers now use them; the callers in game, game-world, game-anim, game-ui, net-transport and glitch-video were adjusted.
+Result against the ARM32 conformance run (same checker, decision 12): of the 98 ledger rows whose original symbol names an SAllocator, 61 are now exact or `stl_abi` (before: 0 exact, 87 rows all drifting), 2 `param_drift_stl`, 18 `param_drift`,
+8 `missing`, 7 `unchecked` (header templates), 2 `no_source`. The remaining `param_drift` rows no longer differ in the allocator: they are scoped-enum parameters read as `unsigned int` (renderList, renderCustomList, SearchByType),
+`const&` against `&` (CXMLReaderImpl::replaceSpecialCharacters), `int` against `unsigned` (getIndicesForPatch), the VoxNativeSubDecoder constructors (the original takes `NativeChunks*, States*, AudioSegments*, TransitionRules*`,
+the tree takes `NativeHeaderWords const&` and plain vectors) and CResFileManager::unload (an STLport map iterator). The `missing` rows are the seven anonymous-namespace `createTriangles<T>` templates and `CKdTree::findKNearest`.
+Verification: host build in build/own-sa clean, serial ctest 852/853 (the one failure, `vox-audio/stream_test`, comes from another owner's `StreamCFile` constructor change at 00:09 that now calls `Init()` and breaks the test's `opens_ == 1`);
+arm64 build (build/own-sa-arm64): all 24 libraries build, `android_link_report.py` shows 0 undefined symbols.

@@ -106,7 +106,7 @@ ISceneNodeAnimator* CDefaultSceneNodeAnimatorFactory::createSceneNodeAnimator(E_
             break;
         }
         case ESNAT_FOLLOW_SPLINE: {
-            std::vector<core::vector3d<float>> points;
+            core::svector<core::vector3d<float>> points;
             points.push_back(core::vector3d<float>{});
             points.push_back(core::vector3d<float>{10.0f, 5.0f, 10.0f});
             animator = new CSceneNodeAnimatorFollowSpline(0, points, 1.0f, 0.5f);  // operator new(0x2c)
@@ -120,7 +120,7 @@ ISceneNodeAnimator* CDefaultSceneNodeAnimatorFactory::createSceneNodeAnimator(E_
             break;
         }
         case ESNAT_TEXTURE: {
-            const std::vector<boost::intrusive_ptr<video::ITexture>> textures;
+            const core::svector<boost::intrusive_ptr<video::ITexture>> textures;
             const std::uint32_t now = os::Timer::getTime();
             animator = new CSceneNodeAnimatorTexture(textures, 250, true, now);  // operator new(0x30)
             break;

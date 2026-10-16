@@ -25,18 +25,18 @@ int main() {
     CHECK(cmp("ab", "abc"));     // equal prefix: shorter sorts first
     CHECK(!cmp("abc", "ab"));
     CHECK(!cmp("abc", "abc"));   // equal strings are not less
-    CHECK(cmp(std::string("B"), std::string("a")));  // byte order: 0x42 sorts before 0x61
-    CHECK(cmp(std::string(""), std::string("x")));
+    CHECK(cmp(vox::VoxString("B"), vox::VoxString("a")));  // byte order: 0x42 sorts before 0x61
+    CHECK(cmp(vox::VoxString(""), vox::VoxString("x")));
 
     // The three std::string comparators share the same ordering.
     vox::stringcomp sc;
     vox::StringComp stc;
-    CHECK(sc(std::string("alpha"), std::string("beta")));
-    CHECK(stc(std::string("alpha"), std::string("alphabet")));
-    CHECK(!stc(std::string("alphabet"), std::string("alpha")));
+    CHECK(sc(vox::VoxString("alpha"), vox::VoxString("beta")));
+    CHECK(stc(vox::VoxString("alpha"), vox::VoxString("alphabet")));
+    CHECK(!stc(vox::VoxString("alphabet"), vox::VoxString("alpha")));
 
     // Used as a map ordering, keys come out sorted.
-    std::map<std::string, int, vox::StringCompare> m;
+    std::map<vox::VoxString, int, vox::StringCompare> m;
     m["pear"] = 1;
     m["apple"] = 2;
     m["app"] = 3;

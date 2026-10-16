@@ -322,7 +322,7 @@ AnimatorSynchronizedBlender::AnimatorSynchronizedBlender()
 
 // 0x368ba4 AnimatorSynchronizedBlender::compile(std::vector<unsigned char, glitch::core::SAllocator<unsigned char, ...>>*)
 // The engine compile (buffer unchanged), then the applicator weights are sized to the blender weights, all 0.0f.
-void AnimatorSynchronizedBlender::compile(std::vector<std::uint8_t>* buffer) {
+void AnimatorSynchronizedBlender::compile(glitch::core::svector<std::uint8_t>* buffer) {
     glitch::collada::CSceneNodeAnimatorSynchronizedBlender::compile(buffer);
     m_applicator.m_weights.resize(m_applicator.m_blender->weights.size(), 0.0f);
 }

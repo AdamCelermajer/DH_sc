@@ -76,14 +76,14 @@ struct DecoderNativeTestAccess {
     static int BaseOffset(const DecoderNative& d) { return d.header_words_.base_offset; }
     static int BitsPerSample(const DecoderNative& d) { return static_cast<std::uint32_t>(d.header_words_.sample_word) >> 16; }
     static std::size_t SegmentCues(const DecoderNative& d) { return d.segment_cues_.size(); }
-    static const std::vector<int>& Cues(const DecoderNative& d, std::size_t i) { return d.segment_cues_[i]; }
+    static const vox::VoxVector<int>& Cues(const DecoderNative& d, std::size_t i) { return d.segment_cues_[i]; }
     static std::size_t Transitions(const DecoderNative& d) { return d.transitions_.size(); }
-    static const std::vector<TransitionParams>& Transition(const DecoderNative& d, std::size_t i) {
+    static const vox::VoxVector<TransitionParams>& Transition(const DecoderNative& d, std::size_t i) {
         return d.transitions_[i];
     }
     static std::size_t StatesCount(const DecoderNative& d) { return d.states_.size(); }
     static int State(const DecoderNative& d, int i) { return d.states_[static_cast<std::size_t>(i)]; }
-    static int StateNamed(const DecoderNative& d, const std::string& name) {
+    static int StateNamed(const DecoderNative& d, const vox::VoxString& name) {
         auto it = d.interactive_states_.find(name);
         return it == d.interactive_states_.end() ? -99 : it->second;
     }
@@ -167,9 +167,9 @@ int main() {
     //   {0, 0, 4, 4}
     // Segment 1 = {0 (Segm)} size 1 -> push 0, then 5, 5 -> {0, 0, 5, 5}
     // Segment 2 = {0, 0, 0} size 3 -> one push, 6 -> {0, 0, 0, 6}
-    CHECK((DecoderNativeTestAccess::Cues(decoder, 0) == std::vector<int>{0, 0, 4, 4}));
-    CHECK((DecoderNativeTestAccess::Cues(decoder, 1) == std::vector<int>{0, 0, 5, 5}));
-    CHECK((DecoderNativeTestAccess::Cues(decoder, 2) == std::vector<int>{0, 0, 0, 6}));
+    CHECK((DecoderNativeTestAccess::Cues(decoder, 0) == vox::VoxVector<int>{0, 0, 4, 4}));
+    CHECK((DecoderNativeTestAccess::Cues(decoder, 1) == vox::VoxVector<int>{0, 0, 5, 5}));
+    CHECK((DecoderNativeTestAccess::Cues(decoder, 2) == vox::VoxVector<int>{0, 0, 0, 6}));
 
     CHECK(DecoderNativeTestAccess::StatesCount(decoder) == 2);
     // Word 3 of the body is the total length: the file is 8 header bytes plus the 16-byte body

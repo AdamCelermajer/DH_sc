@@ -116,7 +116,7 @@ bool Zone::IsInside(GameObject* other) {
         return inside;
     }
     VisualObject* visual = m_visualObject;                                // +0x2d8
-    std::vector<glitch::scene::ISceneNode*> meshes;
+    glitch::core::svector<glitch::scene::ISceneNode*> meshes;
     DeviceSceneManager()->SearchByType(m_colZoneNode, meshes, 0x6d656164u);
     if (meshes.size() == 1) {
         if (inside) {
@@ -204,7 +204,7 @@ void Zone::InitPost() {
             m_colZoneNode = m_visualObject->GetSpecificNode("_colzone");
             if (m_colZoneNode) {
                 ++m_colZoneNode->referenceCounter;                                        // a use for the zone
-                std::vector<glitch::scene::ISceneNode*> meshes;
+                glitch::core::svector<glitch::scene::ISceneNode*> meshes;
                 DeviceSceneManager()->SearchByType(m_colZoneNode, meshes, 0x6d656164u);   // 'daem'
                 if (meshes.size() != 1) {
                     ZoneAssertFailed("meshes.size() == 1", 96);

@@ -1,5 +1,6 @@
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
+#include "net-transport/socket_platform.hpp"
 #include "net-transport/transport_manager.hpp"  // GetTransportMgr (the listen id in CreateJoinRoomInternal)
 
 // Room flags: the original writes them through the room-info record's NetStructMemberType<bool> members
@@ -136,9 +137,13 @@ std::int32_t CMatchingLocal::SearchRoomInternal(CRoomSearchFilter& filter, bool 
 std::int32_t CMatchingLocal::JoinRoomInternal(std::uint64_t key) {
     serversMutex_.Lock();
     auto it = servers_.find(key);
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] JoinRoomInternal key %llu found %d servers %zu rank %d threshold %d\n", static_cast<unsigned long long>(key), it != servers_.end() ? 1 : 0, servers_.size(),
+                it != servers_.end() ? it->second.rank : -1, memberCapacity_);
+#endif
     if (it == servers_.end()) {
         MatchingInternalEventQueue().AddEvent(8388620, nullptr, 0);  // 0x80000c
-    } else if (it->second.rank < joinThreshold_) {
+    } else if (it->second.rank < memberCapacity_) {
         serverMemberId_ = it->second.memberId;
         CConnectionManager::GetInstance()->Connect(it->second.memberId, it->second.address);
         roomOperationPending_ = false;

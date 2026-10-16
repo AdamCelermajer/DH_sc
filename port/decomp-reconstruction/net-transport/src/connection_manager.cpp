@@ -1,6 +1,7 @@
 // CConnectionManager. Reconstructed from the Hex-Rays pseudocode, checked against the ARM
 // listing where the pseudocode symbol ranges were noted as misaligned (KeepAliveConnections,
 // sReceiverCallback, Update, TerminateInternal). Offsets in comments are the original 32-bit ones.
+#include "net-transport/socket_platform.hpp"
 #include "net-transport/connection_manager.hpp"
 
 #include <chrono>
@@ -534,6 +535,9 @@ int CConnectionManager::AddConnection(int member_id, CConnection* conn) {
 // 0x7fc930 _ZN18CConnectionManager7ConnectEiR10CNetworkId
 // The original allocates 0x1c0 bytes with a custom operator new; this uses nothrow new.
 int CConnectionManager::Connect(int member_id, CNetworkId& id) {
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] CConnectionManager::Connect member %d flags %u\n", member_id, id.Flags());
+#endif
     CConnection* conn = GetConnectionByMemberId(member_id);
     if (!conn) {
         conn = new (std::nothrow) CConnection();
@@ -556,6 +560,9 @@ int CConnectionManager::Connect(int member_id, CNetworkId& id) {
 // allocated with nothrow new (the original's operator new(0x1c0) is a custom allocator; Connect does the same)
 // and is deleted when AddConnection refuses it.
 int CConnectionManager::Accept(int member_id, CNetworkId& id, std::uint64_t key) {
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] CConnectionManager::Accept member %d\n", member_id);
+#endif
     if (CConnection* existing = GetConnectionByMemberId(member_id)) {
         return existing->Accept(member_id, id, key);
     }

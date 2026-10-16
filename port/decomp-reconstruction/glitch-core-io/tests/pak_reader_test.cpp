@@ -39,7 +39,7 @@ int main() {
     CHECK(reader.getFileInfo(1) == reader.entries.data() + 1);
 
     // deletePathFromFilename keeps the text after the last separator.
-    std::string s = "dir/sub/file.txt";
+    glitch::core::stringc s = "dir/sub/file.txt";
     reader.deletePathFromFilename(s);
     CHECK(s == "file.txt");
     s = "dir\\file.txt";

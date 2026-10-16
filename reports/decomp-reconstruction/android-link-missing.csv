@@ -1,2 +1,1 @@
 symbol,kind,android_category,ledger_category,address,in_host_link_missing,referenced_by,note
-_ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE,function,android-libcxx-mangling-or-new,-,,no,app_entry.cpp:92 (C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/core-platform/src/app_entry.cpp:92),"not in the host link-missing.csv: libc++ (__ndk1) spelling of a host row, or a row that appeared after the host report was written"

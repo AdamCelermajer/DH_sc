@@ -302,7 +302,7 @@ int VoxSoundPackXML::LoadXML(const char* path) {
          e != nullptr; e = e->NextSiblingElement()) {
         const char* label = Attr(e, "label");
         if (query_b(e, "mask") && label != nullptr) {  // the mask value goes into slot B (var_118)
-            group_masks_[std::string(label)] = slot_b;
+            group_masks_[vox::VoxString(label)] = slot_b;
         }
     }
 

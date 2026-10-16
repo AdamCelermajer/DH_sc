@@ -49,9 +49,18 @@ std::map<std::string, std::string*> g_names;
 long long zeroStub(...) { return 0; }
 
 jint getVersion(JNIEnv*) { return JNI_VERSION_1_4; }
+// android.media.AudioTrack, as far as vox::DriverAndroid uses it: the constructor, getMinBufferSize, play, pause, stop, release and write([BII)I.
+// The frames land in the host sink (host_audio.cpp).
+struct FakeTrack {
+    bool playing = false;
+};
+FakeClass g_audioTrackClass{"android/media/AudioTrack"};
+struct FakeNativeArray {  // jbyteArray created by NewByteArray (distinct from the FakeByteArray the Java-array natives read)
+    std::vector<jbyte> bytes;
+};
 jclass findClass(JNIEnv*, const char* name) {
     static FakeClass classes[4] = {{"GLMediaPlayer"}, {"DungeonHunter2"}, {"GLResLoader"}, {"Musicplayer"}};
-    (void)name;
+    if (name && std::strcmp(name, "android/media/AudioTrack") == 0) return std::getenv("DH2_NO_AUDIO_THREAD") ? nullptr : reinterpret_cast<jclass>(&g_audioTrackClass);
     return reinterpret_cast<jclass>(&classes[0]);
 }
 jobject newRef(JNIEnv*, jobject o) { return o; }
@@ -62,6 +71,7 @@ jmethodID getStaticMethodID(JNIEnv*, jclass, const char* name, const char*) {
     if (it == g_names.end()) it = g_names.emplace(name, new std::string(name)).first;
     return reinterpret_cast<jmethodID>(it->second);
 }
+jmethodID getMethodID(JNIEnv* e, jclass c, const char* name, const char* sig) { return getStaticMethodID(e, c, name, sig); }
 const std::string& methodName(jmethodID id) {
     static const std::string none = "<null>";
     return id == nullptr ? none : *reinterpret_cast<const std::string*>(id);
@@ -72,6 +82,7 @@ jint callStaticInt(JNIEnv*, jclass, jmethodID id, ...) {
     if (g_jniLogCalls) std::fprintf(stderr, "[jni] CallStaticInt %s\n", n.c_str());
     if (n == "detectPhoneLang") return g_language;
     if (n == "getWidth") return g_width;
+    if (n == "getMinBufferSize") return 8192;  // bytes; the driver divides by 4 (frames) and mixes 1024-frame chunks
     if (n == "isSoundLoaded" || n == "isSoundLoadedBig") return 1;
     if (n == "loadMovie") {
         videoDone = true;  // the movie is not played; the Java side signals the end through appResume
@@ -79,8 +90,10 @@ jint callStaticInt(JNIEnv*, jclass, jmethodID id, ...) {
     }
     if (n == "Get_PhoneManufacturer") return -1;  // none of the vendor flags
     if (n == "unlockDemo") return 1;
+    if (n == "isWifiAlive") return std::getenv("DH2_NO_WIFI") != nullptr ? 0 : 1;  // the LAN modes need a live network (Application::IsWifiEnabled)
     return 0;  // Get_PhoneLanguage, Get_PhoneModel, isWifiAlive, isSupportMM, DisableLaunchGame, VZ*, isMediaPlaying, GetNumPlaylists
 }
+jint callStaticIntV(JNIEnv* e, jclass c, jmethodID id, va_list) { return callStaticInt(e, c, id); }  // the C++ JNIEnv wrappers call the V forms
 jobject callStaticObject(JNIEnv*, jclass, jmethodID id, ...) {
     const std::string& n = methodName(id);
     if (g_jniLogCalls) std::fprintf(stderr, "[jni] CallStaticObject %s\n", n.c_str());
@@ -92,6 +105,36 @@ void callStaticVoid(JNIEnv*, jclass, jmethodID id, ...) {
     if (g_jniLogCalls) std::fprintf(stderr, "[jni] CallStaticVoid %s\n", methodName(id).c_str());
 }
 float callStaticFloat(JNIEnv*, jclass, jmethodID, ...) { return 0.0f; }
+
+jobject newObjectV(JNIEnv*, jclass c, jmethodID, va_list) {
+    if (c != reinterpret_cast<jclass>(&g_audioTrackClass)) return nullptr;
+    return reinterpret_cast<jobject>(new FakeTrack());
+}
+void callNonvirtualVoidV(JNIEnv*, jobject obj, jclass, jmethodID id, va_list) {
+    const std::string& n = methodName(id);
+    if (g_jniLogCalls) std::fprintf(stderr, "[jni] AudioTrack.%s\n", n.c_str());
+    if (!obj) return;
+    if (n == "play") audioPlay(true);
+    else if (n == "pause" || n == "stop") audioPlay(false);
+}
+jint callNonvirtualIntV(JNIEnv*, jobject, jclass, jmethodID id, va_list ap) {
+    if (methodName(id) != "write") return 0;
+    jbyteArray arr = va_arg(ap, jbyteArray);
+    int off = va_arg(ap, int);
+    int len = va_arg(ap, int);
+    if (!arr) return 0;
+    FakeNativeArray* a = reinterpret_cast<FakeNativeArray*>(arr);
+    if (off < 0 || static_cast<size_t>(off + len) > a->bytes.size()) return 0;
+    return audioWrite(a->bytes.data() + off, len);
+}
+jbyteArray newByteArray(JNIEnv*, jsize n) { return reinterpret_cast<jbyteArray>(new FakeNativeArray{std::vector<jbyte>(n > 0 ? n : 0)}); }
+void* getPrimitiveArrayCritical(JNIEnv*, jarray a, jboolean* isCopy) {
+    if (isCopy) *isCopy = 0;
+    return a ? reinterpret_cast<FakeNativeArray*>(a)->bytes.data() : nullptr;
+}
+void releasePrimitiveArrayCritical(JNIEnv*, jarray, void*, jint) {}
+jint pushLocalFrame(JNIEnv*, jint) { return 0; }
+jobject popLocalFrame(JNIEnv*, jobject r) { return r; }
 
 jstring newStringUTF(JNIEnv*, const char* s) { return reinterpret_cast<jstring>(new FakeString{s ? s : ""}); }
 const char* getStringUTFChars(JNIEnv*, jstring s, jboolean* isCopy) {
@@ -129,6 +172,7 @@ void jniInstall(const Options& opt) {
         if (c == 92) c = '/';
     if (!g_sdFolder.empty() && g_sdFolder.back() != '/') g_sdFolder += '/';
     g_language = opt.language;
+    audioOpen(opt);
     g_width = opt.width;
     g_height = opt.height;
 
@@ -144,9 +188,19 @@ void jniInstall(const Options& opt) {
     g_table.GetStaticMethodID = getStaticMethodID;
     g_table.CallStaticIntMethod = callStaticInt;
     g_table.CallStaticBooleanMethod = reinterpret_cast<jboolean (*)(JNIEnv*, jclass, jmethodID, ...)>(callStaticInt);
+    g_table.CallStaticIntMethodV = callStaticIntV;
     g_table.CallStaticObjectMethod = callStaticObject;
     g_table.CallStaticVoidMethod = callStaticVoid;
     g_table.CallStaticFloatMethod = callStaticFloat;
+    g_table.GetMethodID = getMethodID;
+    g_table.NewObjectV = newObjectV;
+    g_table.CallNonvirtualVoidMethodV = callNonvirtualVoidV;
+    g_table.CallNonvirtualIntMethodV = callNonvirtualIntV;
+    g_table.NewByteArray = newByteArray;
+    g_table.GetPrimitiveArrayCritical = getPrimitiveArrayCritical;
+    g_table.ReleasePrimitiveArrayCritical = releasePrimitiveArrayCritical;
+    g_table.PushLocalFrame = pushLocalFrame;
+    g_table.PopLocalFrame = popLocalFrame;
     g_table.NewStringUTF = newStringUTF;
     g_table.GetStringUTFChars = getStringUTFChars;
     g_table.ReleaseStringUTFChars = releaseStringUTFChars;

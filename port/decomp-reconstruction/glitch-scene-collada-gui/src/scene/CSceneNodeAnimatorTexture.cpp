@@ -28,7 +28,7 @@ std::string textureName(int ordinal) {
 // 0x6cdcd8 _ZN6glitch5scene25CSceneNodeAnimatorTextureC1ERKSt6vectorIN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEibj
 // 0x6ce084 _ZN6glitch5scene25CSceneNodeAnimatorTextureC2ERKSt6vectorIN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEibj
 // The textures are appended one by one (each takes a use); endTime = startTime + timePerFrame * count.
-CSceneNodeAnimatorTexture::CSceneNodeAnimatorTexture(const std::vector<boost::intrusive_ptr<video::ITexture>>& texturesIn,
+CSceneNodeAnimatorTexture::CSceneNodeAnimatorTexture(const core::svector<boost::intrusive_ptr<video::ITexture>>& texturesIn,
                                                      int timePerFrameIn, bool loopIn, std::uint32_t startTimeIn)
     : textures(texturesIn), timePerFrame(timePerFrameIn), startTime(startTimeIn), loop(loopIn) {
     endTime = static_cast<std::uint32_t>(timePerFrame * static_cast<std::int32_t>(textures.size())) + startTime;

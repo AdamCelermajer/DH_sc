@@ -10,8 +10,8 @@ namespace vox {
 
 VoxNativeSubDecoderIMAADPCM::VoxNativeSubDecoderIMAADPCM(
     StreamCursorInterface* stream, const NativeHeaderWords& header, States* states,
-    AudioSegments* segments, std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
-    std::vector<std::vector<TransitionParams>>* transitions, std::map<std::string, int>* names,
+    AudioSegments* segments, vox::VoxVector<vox::VoxVector<int>>* loop_lists, TransitionRules* rules,
+    vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions, vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names,
     NativePlaylistsManager* playlists)
     : VoxNativeSubDecoder(stream, header, states, segments, loop_lists, rules, transitions,
                           names, playlists) {

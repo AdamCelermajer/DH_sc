@@ -97,7 +97,7 @@ void testFlagsAndSmallMembers() {
     check(node->automaticCulling == ECULL_FRUSTUM_BOX, "setAutomaticCulling stores the mode (0x59719c)");
     node->setName("hero");
     check(std::strcmp(node->getName(), "hero") == 0, "setName / getName");
-    node->setName(std::string("villain"));
+    node->setName(glitch::core::stringc("villain"));
     check(std::strcmp(node->getName(), "villain") == 0, "setName(std::string)");
     node->drop();
 }
@@ -236,7 +236,7 @@ void testSearches() {
     check(root->getSceneNodeFromName("child") == child, "the name search is case-insensitive (strcasecmp)");
     check(root->getSceneNodeFromType(ESNT_ANY) != nullptr, "'any_' matches every node (0x596f6c)");
     check(root->getSceneNodeFromType(ESNT_CAMERA) == nullptr, "no camera in the subtree");
-    std::vector<ISceneNode*> found;
+    glitch::core::svector<ISceneNode*> found;
     root->getSceneNodesFromType(ESNT_UNKNOWN, found);
     check(found.size() == 3, "getSceneNodesFromType collects the node and its descendants");
     grandchild->drop();

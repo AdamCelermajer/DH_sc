@@ -1,7 +1,10 @@
 // CTransportManager: transport table, receive pass, packet framing and the singleton.
 // Reconstructed from libDungeonHunter2.so pseudocode.
 #include "net-transport/transport_manager.hpp"
+#include "net-transport/socket_platform.hpp"
 
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <new>
 
@@ -19,6 +22,13 @@ constexpr std::size_t kMaxPayload = 0xFF8;
 // Port and address the broadcast ids use (6776 = 0x1A78, address word -1).
 constexpr std::uint16_t kBroadcastPort = 0x1A78;
 constexpr std::uint32_t kBroadcastHi = 0xFFFFFFFFu;
+
+#ifdef DH2_HOST_RUNNER
+// Host runner only (not in the original): DH2_NET_TRACE=1 prints every packet the manager sends and receives to stderr.
+bool NetTrace() {
+    return net_platform::TraceFile() != nullptr;
+}
+#endif
 
 std::uint16_t ReadU16(const char* p) {
     return static_cast<std::uint16_t>(static_cast<std::uint8_t>(p[0]) |
@@ -302,7 +312,22 @@ int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET
         return -1;
     }
     (void)transport->GetType();  // vtable +0x20; the result only feeds the empty ReportStatistic
-    return transport->Send(to, packet, static_cast<int>(total));
+#ifdef DH2_HOST_RUNNER
+    if (NetTrace()) {
+        std::uint16_t tracePort = 0;
+        std::uint32_t traceAddress = 0;
+        to.GetAddress1(tracePort, traceAddress);
+        DH2_NET_LOG("[net] send type=%d len=%zu transport=%d to=%u.%u.%u.%u:%u%s", static_cast<int>(type), total, transport->GetType(), traceAddress & 255u,
+                     (traceAddress >> 8) & 255u, (traceAddress >> 16) & 255u, traceAddress >> 24, tracePort, "\n");
+    }
+#endif
+    const int sent = transport->Send(to, packet, static_cast<int>(total));
+#ifdef DH2_HOST_RUNNER
+    if (NetTrace()) {
+        DH2_NET_LOG("[net]   send result %d (%d bytes asked)\n", sent, static_cast<int>(total));
+    }
+#endif
+    return sent;
 }
 
 // 0x81b11c _ZN17CTransportManager16ReceiverCallbackEP10CTransportR10CNetworkIdPci
@@ -338,6 +363,15 @@ void CTransportManager::ReceiverCallback(CTransport* transport, CNetworkId& from
             return;
         }
         const int type = packet[6] & 0x7F;
+#ifdef DH2_HOST_RUNNER
+        if (NetTrace()) {
+            std::uint16_t tracePort = 0;
+            std::uint32_t traceAddress = 0;
+            from.GetAddress1(tracePort, traceAddress);
+            DH2_NET_LOG("[net] recv type=%d len=%d from=%u.%u.%u.%u:%u%s", type, length, traceAddress & 255u, (traceAddress >> 8) & 255u, (traceAddress >> 16) & 255u,
+                         traceAddress >> 24, tracePort, "\n");
+        }
+#endif
         if (transport != nullptr) {
             (void)transport->GetType();  // vtable +0x20; the result only feeds the empty ReportStatistic
         }

@@ -258,7 +258,7 @@ void BatchNodeCompiler::Compile(bool quantize) {
         m_batchNode->unk_138 = 2;                                             // +0x138
     }
 
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     for (GameObject* object : m_gameObjects) {
         VisualObject* visual = object->m_visualObject;                        // +0x2d8
         if (!visual) {

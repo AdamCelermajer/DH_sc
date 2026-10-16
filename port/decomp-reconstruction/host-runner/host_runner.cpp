@@ -4,6 +4,8 @@
 #include <windows.h>
 
 #include <cstdarg>
+#include <thread>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -68,7 +70,8 @@ int currentFrame() { return g_frame; }
 void printUsage(const char* exe) {
     std::fprintf(stderr,
                  "usage: %s --data <game files dir> [--script file] [--frames N] [--dt ms] [--log-every N] [--out dir]\n"
-                 "          [--size WxH] [--script-scale f] [--lang N] [--realtime] [--verbose] [--angle dir]\n",
+                 "          [--size WxH] [--script-scale f] [--lang N] [--realtime] [--verbose] [--angle dir]\n"
+                 "          [--audio-wav file] [--audio-out]\n",
                  exe);
 }
 
@@ -96,6 +99,11 @@ bool parseArgs(int argc, char** argv, Options& o) {
             if (!(v = next("--size"))) return false;
             if (std::sscanf(v, "%dx%d", &o.width, &o.height) != 2) return false;
         }
+        else if (a == "--audio-wav") { if (!(v = next("--audio-wav"))) return false; o.audioWav = v; }
+        else if (a == "--audio-selftest") { if (!(v = next("--audio-selftest"))) return false; std::exit(audioSelfTest(v)); }
+        else if (a == "--pace") o.pace = true;
+        else if (a == "--audio-out") o.audioOut = true;
+        else if (a == "--no-audio") o.audioOut = false;
         else if (a == "--realtime") o.realtime = true;
         else if (a == "--fixed") o.realtime = false;
         else if (a == "--verbose") o.verbose = true;
@@ -110,6 +118,7 @@ bool parseArgs(int argc, char** argv, Options& o) {
     char full[MAX_PATH];
     if (GetFullPathNameA(o.dataDir.c_str(), MAX_PATH, full, nullptr) != 0) o.dataDir = full;
     if (GetFullPathNameA(o.outDir.c_str(), MAX_PATH, full, nullptr) != 0) o.outDir = full;
+    if (!o.audioWav.empty() && GetFullPathNameA(o.audioWav.c_str(), MAX_PATH, full, nullptr) != 0) o.audioWav = full;
     if (!o.scriptPath.empty() && GetFullPathNameA(o.scriptPath.c_str(), MAX_PATH, full, nullptr) != 0) o.scriptPath = full;
     return true;
 }
@@ -194,7 +203,7 @@ void runFrame() {
     ++g_frame;
 }
 
-void shutdownGame() { appDestroy(); }
+void shutdownGame() { appDestroy(); audioClose(); }
 
 // Splits the console from the game's own chatter (the game prints through _DEBUG_OUT to stdout and stderr): the chatter goes to <out>/game.log, the
 // runner's lines keep the original stdout. Returns the FILE for runner lines.
@@ -228,14 +237,26 @@ int runHeadlessLoop(const Options& opt) {
     std::fflush(g_runnerOut);
     bool quit = false;
     for (int f = 0; f < opt.frames && !quit; ++f) {
+        const auto frameStart = std::chrono::steady_clock::now();
         scriptApplyFrame(script, f, opt, quit);
         clockAdvance(opt.dtMs);
         runFrame();
+        if (opt.pace) {   // --pace: hold the wall clock to the game clock so the audio thread mixes what the game asked for in time
+            static std::int64_t t0 = GetTickCount64();
+            static std::int64_t f0 = f;
+            std::int64_t due = t0 + (f - f0 + 1) * opt.dtMs, now = GetTickCount64();
+            if (due > now) Sleep(static_cast<DWORD>(due - now));
+        }
         if (opt.logEvery > 0 && f % opt.logEvery == 0) logState(f);
+        // DH2_PACE=1: hold every frame to dtMs of wall time, so two instances talking over real sockets see each other in real time.
+        if (std::getenv("DH2_PACE") != nullptr) {
+            std::this_thread::sleep_until(frameStart + std::chrono::milliseconds(opt.dtMs));
+        }
     }
     logState(g_frame);
     std::fprintf(g_runnerOut, "[runner] done after %d frames\n", g_frame);
     std::fflush(g_runnerOut);
+    audioClose();
     return 0;
 }
 

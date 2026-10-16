@@ -188,7 +188,7 @@ void TestFileBackedStream() {
     CHECK(stream.GetType() == 1);
     stream.Init();
     CHECK(stream.Size() == static_cast<int>(data.size()));
-    CHECK(fs.opens_ == 1 && fs.closes_ == 1);  // Init opens and closes to size
+    CHECK(fs.opens_ == 2 && fs.closes_ == 2);  // the ctor with a path runs Init (0x888c68), then the explicit Init: each opens and closes
 
     vox::StreamCursorInterface* c = stream.CreateNewCursor();
     CHECK(c != nullptr);

@@ -1,5 +1,10 @@
 #include "net-transport/cudp.hpp"
 
+#include <cstdio>
+#include <cstdlib>
+
+#include "net-transport/socket_platform.hpp"
+
 #include "net-transport/deps/transport_manager.hpp"
 
 bool CUdp::s_initialized_ = false;
@@ -27,9 +32,13 @@ int CUdp::TerminateTransport() {
 }
 
 // 0x827544 _ZN4CUdp13IsConnectedToER10CNetworkId
-// Returns the inverse of the field2 presence bit (flags & 4), as the original computes it.
-bool CUdp::IsConnectedTo(const CNetworkId& peer) {
-    return (peer.Flags() & 4) == 0;
+// The peer is not looked at. `LDR R0,[R0,#4]; EOR R0,R0,#4; UBFX R0,R0,#2,#1` reads the TRANSPORT's own create flags
+// (CTransport +0x04) and returns the inverse of bit 2: the 6776 listening socket (flags 4) is never "connected to" a peer,
+// so CTransportManager::GetTransportByPeer picks the broadcast-capable socket (flags 3) for every UDP send.
+// WHAT THE OLD BODY GOT WRONG: it tested bit 2 of the PEER id's presence flags, which made the first UDP transport (the
+// 6776 socket, no SO_BROADCAST) the one every send went through, so no broadcast ever left the machine.
+bool CUdp::IsConnectedTo(const CNetworkId& /*peer*/) {
+    return (create_flags_ & 4u) == 0;
 }
 
 // 0x827554 _ZN4CUdp16GetPeerNetworkIdEv
@@ -103,6 +112,11 @@ int CUdp::OpenSocket(std::uint16_t port, bool broadcast) {
     if (!socket_.IsValid()) {
         unsigned int options = broadcast ? 3u : 2u;
         int result = socket_.OpenUDP(port, options);
+#ifdef DH2_HOST_RUNNER
+        if (net_platform::TraceFile() != nullptr) {
+            DH2_NET_LOG("[net] CUdp::OpenSocket port %u options %u -> %d (socket error %d)\n",static_cast<unsigned>(port), options, result, socket_.GetSocketError());
+        }
+#endif
         if (result < 0) {
             return result;
         }

@@ -76,7 +76,7 @@ IAnimationSetTemplate& IAnimationSetTemplate::setUnAdded() {
 // marked added. The original also calls, per kind (1..13), CVirtualEx<...>::getInstance() of the matching track and discards the result: it only
 // builds function-local statics, so it is not repeated. The two vector arguments are never read. Host guard: a target without a node (the SNode
 // overload stores none) has no UID.
-void IAnimationSetTemplate::addChannels(std::vector<const SChannel*>*, std::vector<const CAnimationTrackEx*>*) {
+void IAnimationSetTemplate::addChannels(core::svector<const SChannel*>*, core::svector<const CAnimationTrackEx*>*) {
     for (STemplateTarget* target : targets) {
         if (target->added) {
             continue;

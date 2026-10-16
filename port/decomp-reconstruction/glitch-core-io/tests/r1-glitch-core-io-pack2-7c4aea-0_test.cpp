@@ -66,8 +66,8 @@ static void checkWriter() {
         mem->bytes.clear();
         w.indent = 0;
         w.flag = true;
-        std::vector<std::wstring> names{L"k"};
-        std::vector<std::wstring> values{L"v"};
+        glitch::core::svector<glitch::core::stringw> names{L"k"};
+        glitch::core::svector<glitch::core::stringw> values{L"v"};
         w.writeElement(L"e", true, names, values);
         CHECK(mem->bytes == enc(L"<e k=\"v\" />"));
         CHECK(w.indent == 0);
@@ -75,7 +75,7 @@ static void checkWriter() {
 
         // Element with children: ">" then one more indent level.
         mem->bytes.clear();
-        std::vector<std::wstring> none;
+        glitch::core::svector<glitch::core::stringw> none;
         w.writeElement(L"p", false, none, none);
         CHECK(mem->bytes == enc(L"<p>"));
         CHECK(w.indent == 1);

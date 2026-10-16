@@ -5,6 +5,8 @@
 #pragma once
 
 #include <cstdint>
+#include "vox-audio/vox/allocator.hpp"
+#include "vox-audio/vox/string_compare.hpp"
 #include <list>
 #include <map>
 #include <string>
@@ -58,9 +60,9 @@ private:
     NativePlaylistsManager playlists_;                      // +0x38
     States states_;                                         // +0x48, +0x4c (32-bit state ids)
     TransitionRules rules_;                                 // +0x50, +0x54 (36-byte records)
-    std::vector<std::vector<int>> segment_cues_;            // +0x58 (word 22)
-    std::vector<std::vector<TransitionParams>> transitions_;  // +0x64 (word 25)
-    std::map<std::string, int> interactive_states_;         // +0x70: the state-name table
+    vox::VoxVector<vox::VoxVector<int>> segment_cues_;            // +0x58 (word 22)
+    vox::VoxVector<vox::VoxVector<TransitionParams>> transitions_;  // +0x64 (word 25)
+    vox::VoxMap<vox::VoxString, int, vox::StringCompare> interactive_states_;         // +0x70: the state-name table
     bool needs_parse_ = true;                               // +0x88 (byte 136)
 };
 
@@ -103,7 +105,7 @@ private:
 
     // params_ (+0x04..+0x13) is inherited from DecoderCursorInterface, as are decoder_ (+0x14),
     // stream_ (+0x18) and loop_ (+0x1c).
-    const std::map<std::string, int>* state_names_ = nullptr;  // +0x38 (word 14)
+    const vox::VoxMap<vox::VoxString, int, vox::StringCompare>* state_names_ = nullptr;  // +0x38 (word 14)
     NativePlaylistsManager* playlists_ = nullptr;          // +0x3c (word 15)
     // Pending state indices. The original is a ring whose sentinel is at +0x40 (next) and
     // +0x44 (prev); a list keeps the same order.

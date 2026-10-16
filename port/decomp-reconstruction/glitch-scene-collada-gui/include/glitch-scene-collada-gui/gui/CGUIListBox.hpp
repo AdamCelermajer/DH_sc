@@ -13,6 +13,8 @@
 
 #include <cstdint>
 #include <string>
+
+#include "glitch-core-io/core/allocator.hpp"  // core::stringc / stringw / svector (STLPORT-DECISION.md section 6)
 #include <vector>
 
 #include "glitch-scene-collada-gui/gui/IGUIElement.hpp"
@@ -128,7 +130,7 @@ public:
     // 0x542400: selects the item at the mouse height and posts the change (not when `onlyHover`).
     void selectNew(int ypos, bool onlyHover = false);
     // 0x5448ac: the attribute names of an override colour kind ("UseColText" / "ColText", ...); false for an unknown kind.
-    bool getSerializationLabels(EGUI_LISTBOX_COLOR colorType, std::string& useColorLabel, std::string& colorLabel) const;
+    bool getSerializationLabels(EGUI_LISTBOX_COLOR colorType, core::stringc& useColorLabel, core::stringc& colorLabel) const;
 
     std::vector<ListItem> items;                  // +0x158
     int selected = -1;                            // +0x164

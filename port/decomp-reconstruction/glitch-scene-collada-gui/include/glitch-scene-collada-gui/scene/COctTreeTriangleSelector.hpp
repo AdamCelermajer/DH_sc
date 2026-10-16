@@ -22,7 +22,7 @@ class COctTreeTriangleSelector : public CTriangleSelector {
 public:
     // One octree node. Size 0x44 in the original: triangle vector, 8 children, box.
     struct SOctTreeNode {
-        std::vector<core::triangle3d<float>> triangles;  // +0x00 (begin, end, capacity words in the original)
+        core::svector<core::triangle3d<float>> triangles;  // +0x00 (begin, end, capacity words in the original)
         SOctTreeNode* children[8] = {};                  // +0x0c .. +0x2b, child k at +0x0c + 4k
         core::aabbox3d<float> box{};                     // +0x2c .. +0x43 (min +0x2c, max +0x38)
 

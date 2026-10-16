@@ -3,7 +3,7 @@
 //
 // Layout (original 32-bit offsets; constructors 0x6be474 C2 / 0x6be4bc C1, created by CSceneManager's constructor with operator new(0x18)):
 //   +0x00 vptr (vtable 0x988118, 104 bytes)   +0x04 reference count (IReferenceCounted; the constructor stores 1)
-//   +0x08 entries: std::vector<MeshEntry> (begin, end and capacity words at +0x08, +0x0c, +0x10; 28-byte elements)
+//   +0x08 entries: core::svector<MeshEntry> (begin, end and capacity words at +0x08, +0x0c, +0x10; 28-byte elements)
 //   +0x14 the video driver (not owned; the mesh generators receive it)
 // MeshEntry (28 bytes): a glitch std::string at +0x00 (16 bytes of inline buffer, the finish pointer at +0x10, the start pointer at +0x14,
 // which is the name's character data) and the mesh at +0x18 (a use is held). The names are kept lower-cased and the list is searched by
@@ -12,6 +12,8 @@
 
 #include <cstdint>
 #include <string>
+
+#include "glitch-core-io/core/allocator.hpp"  // core::stringc / stringw / svector (STLPORT-DECISION.md section 6)
 #include <vector>
 
 #include "glitch-scene-collada-gui/scene/IMeshCache.hpp"
@@ -92,7 +94,7 @@ public:
     boost::intrusive_ptr<IAnimatedMesh> addSphereMesh(std::uint32_t id, const char* name, float radius, std::uint32_t polyCountX,
                                                       std::uint32_t polyCountY) override;
 
-    std::vector<MeshEntry> entries;              // +0x08
+    core::svector<MeshEntry> entries;              // +0x08
     video::IVideoDriver* driver = nullptr;       // +0x14
 };
 

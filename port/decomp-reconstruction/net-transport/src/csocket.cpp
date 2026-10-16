@@ -1,13 +1,14 @@
 #include "net-transport/csocket.hpp"
 
+#include <cstdlib>
 #include <cstring>
 
 #ifndef _WIN32
 #include <net/if.h>
 #include <sys/ioctl.h>
 #else
-#include <cstdio>
 #endif
+#include <cstdio>
 
 using net_platform::NativeSocket;
 
@@ -26,6 +27,7 @@ sockaddr_in MakeAddress(const in_addr& addr, std::uint16_t port) {
 // 0x827bb0 _ZN7CSocketC1Ev
 // 0x827b5c _ZN7CSocketC2Ev
 CSocket::CSocket() {
+    net_platform::EnsureStarted();  // Winsock only (host-necessitated)
     handle_ = -1;
     valid_ = false;
     connected_ = false;
@@ -193,6 +195,9 @@ std::int64_t CSocket::SendTo(const in_addr& to, std::uint16_t port, const void* 
                                          len, 0, reinterpret_cast<const sockaddr*>(&sa), sizeof(sa)));
     if (sent < 0) {
         GetSocketError();
+#ifdef DH2_HOST_RUNNER
+        DH2_NET_LOG("[net] sendto failed, socket error %d (valid %d, port %u)\n",GetSocketError(), static_cast<int>(valid_), static_cast<unsigned>(port));
+#endif
     }
     return sent;
 }
@@ -315,6 +320,14 @@ int CSocket::OpenUDP(std::uint16_t port, unsigned int options) {
     sa.sin_family = AF_INET;
     sa.sin_port = htons(port);
     sa.sin_addr.s_addr = htonl(INADDR_ANY);
+#ifdef DH2_HOST_RUNNER
+    // Host runner only (not in the original): DH2_NET_SHARE_PORT=1 sets SO_REUSEADDR before the bind, so two game instances on one
+    // machine can both listen on the broadcast port 6776 (Winsock delivers a broadcast to every socket that shares the port).
+    if (std::getenv("DH2_NET_SHARE_PORT") != nullptr) {
+        int shareOn = 1;
+        ::setsockopt(static_cast<NativeSocket>(handle_), SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&shareOn), sizeof(shareOn));
+    }
+#endif
     if (::bind(static_cast<NativeSocket>(handle_), reinterpret_cast<sockaddr*>(&sa), sizeof(sa)) < 0) {
         GetSocketError();
         Close();

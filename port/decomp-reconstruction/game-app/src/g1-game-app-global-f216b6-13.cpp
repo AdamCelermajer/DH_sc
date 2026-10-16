@@ -874,7 +874,8 @@ void NativeGetParsedString(const gameswf::fn_call& call) {
             array->get_member(i, &element);
             VarArgs::Variant variant;
             if (element.is_string()) {
-                variant.text = element.to_xstring();
+                numberTexts[static_cast<std::size_t>(i)] = element.to_xstring();  // owned copy: the element dies with this iteration
+                variant.text = numberTexts[static_cast<std::size_t>(i)].c_str();
             } else if (element.is_number()) {
                 variant.integer = static_cast<int>(element.to_number());
                 variant.number = static_cast<float>(element.to_number());

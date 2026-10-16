@@ -27,6 +27,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector (STLPORT-DECISION.md section 6)
+
 #include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
 #include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
 
@@ -59,7 +61,7 @@ public:
     void getAnimationValue(std::int32_t trackIndex, std::int32_t time, void* out) override;  // +0x7c, 0x662290
 
     // vptr+0x88, 0x6623d4: as CSceneNodeAnimatorBlender::compile over the children's animators, then creates the blender's timeline.
-    virtual void compile(std::vector<std::uint8_t>* buffer);
+    virtual void compile(core::svector<std::uint8_t>* buffer);
 
     // The interface.
     std::uint32_t getNumSegments() const override;                                              // 0x367870
@@ -84,17 +86,17 @@ public:
     static bool orderingFunc(const SynchronizationData& a, const SynchronizationData& b);
 
     bool needsCompile = false;                                  // +0x2c (cleared by compile)
-    std::vector<IColladaSceneNodeSynchronizedAnimatorInterface*> children;  // +0x30 (the child animator is the interface's owner)
-    std::vector<float> weights;                                 // +0x3c
-    std::vector<std::uint8_t> valueBuffer;                      // +0x48
-    std::vector<void*> outputs;                                 // +0x54
-    std::vector<void*> targets;                                 // +0x60
-    std::vector<animation_track::CApplicatorInfo*> applicators; // +0x6c owned clones
+    core::svector<IColladaSceneNodeSynchronizedAnimatorInterface*> children;  // +0x30 (the child animator is the interface's owner)
+    core::svector<float> weights;                                 // +0x3c
+    core::svector<std::uint8_t> valueBuffer;                      // +0x48
+    core::svector<void*> outputs;                                 // +0x54
+    core::svector<void*> targets;                                 // +0x60
+    core::svector<animation_track::CApplicatorInfo*> applicators; // +0x6c owned clones
     CTimelineController* syncTimeline = nullptr;                // +0x78
-    std::vector<std::vector<SynchronizationData>> synchronizationData;  // +0x7c
-    std::vector<std::int32_t> unk_88;                           // +0x88 sized to the children by compile; role not mapped
-    std::vector<float> unk_94;                                  // +0x94 sized to the children by compile; role not mapped
-    std::vector<std::int32_t> inputTimes;                       // +0xa0 per-child input time (fillInput*)
+    core::svector<core::svector<SynchronizationData>> synchronizationData;  // +0x7c
+    core::svector<std::int32_t> unk_88;                           // +0x88 sized to the children by compile; role not mapped
+    core::svector<float> unk_94;                                  // +0x94 sized to the children by compile; role not mapped
+    core::svector<std::int32_t> inputTimes;                       // +0xa0 per-child input time (fillInput*)
     std::int32_t lastTime = 0;                                  // +0xac the time of the last update
     bool reachedEnd = false;                                    // +0xb0
     bool weightsDirty = true;                                   // +0xb1

@@ -14,7 +14,7 @@
 namespace vox {
 struct VoxSoundPackXMLTestAccess {
     static std::vector<EventRecordXML>& Events(VoxSoundPackXML& p) { return p.events_; }
-    static std::map<std::string, std::int32_t, StringComp>& GroupMasks(VoxSoundPackXML& p) {
+    static vox::VoxMap<vox::VoxString, std::int32_t, StringComp>& GroupMasks(VoxSoundPackXML& p) {
         return p.group_masks_;
     }
 };

@@ -95,10 +95,10 @@ int main() {
         CHECK(local.ServerMemberIdForTest() == 0x2a);  // other types are ignored
     }
 
-    // The static callbacks route to CMatchingLocal::s_Matching.
+    // The static callbacks route to CMatching::s_Matching.
     {
         CMatchingLocal local;
-        CMatchingLocal::s_Matching = &local;
+        CMatching::s_Matching = &local;
         std::uint8_t buffer[5] = {4, 0x07, 0, 0, 0};
         CMatchingLocal::sPacketReceiverCallback(2, reinterpret_cast<char*>(buffer), sizeof buffer);
         CHECK(local.ServerMemberIdForTest() == 7);
@@ -117,7 +117,7 @@ int main() {
         CMatchingLocal::sBroadcastPacketReceiverCallback(from, reinterpret_cast<char*>(record), sizeof record);
         local.JoinRoomInternal(1);
         CHECK(connection_manager_test::ConnectionRequested(9));
-        CMatchingLocal::s_Matching = nullptr;
+        CMatching::s_Matching = nullptr;
     }
 
     std::printf("%s\n", failures ? "c_matching_local_messages: FAILED" : "c_matching_local_messages: ok");

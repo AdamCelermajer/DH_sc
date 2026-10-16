@@ -6,9 +6,9 @@ namespace vox {
 
 namespace {
 
-// Shared rule of the three std::string comparators (ARM at 0x8715d8, 0x88b778, 0x894bac):
+// Shared rule of the three vox::VoxString comparators (ARM at 0x8715d8, 0x88b778, 0x894bac):
 // compare the common prefix with memcmp; on a tie the shorter string is less.
-bool LessByBytes(const std::string& a, const std::string& b) {
+bool LessByBytes(const vox::VoxString& a, const vox::VoxString& b) {
     const std::size_t common = a.size() < b.size() ? a.size() : b.size();
     const int diff = std::memcmp(a.data(), b.data(), common);
     if (diff != 0) {
@@ -20,17 +20,17 @@ bool LessByBytes(const std::string& a, const std::string& b) {
 }  // namespace
 
 // 0x8715d8 _ZNK3vox13StringCompareclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_
-bool StringCompare::operator()(const std::string& a, const std::string& b) const {
+bool StringCompare::operator()(const vox::VoxString& a, const vox::VoxString& b) const {
     return LessByBytes(a, b);
 }
 
 // 0x88b778 _ZNK3vox10stringcompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_
-bool stringcomp::operator()(const std::string& a, const std::string& b) const {
+bool stringcomp::operator()(const vox::VoxString& a, const vox::VoxString& b) const {
     return LessByBytes(a, b);
 }
 
 // 0x894bac _ZNK3vox10StringCompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_
-bool StringComp::operator()(const std::string& a, const std::string& b) const {
+bool StringComp::operator()(const vox::VoxString& a, const vox::VoxString& b) const {
     return LessByBytes(a, b);
 }
 

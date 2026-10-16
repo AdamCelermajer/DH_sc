@@ -10,7 +10,13 @@ namespace vox {
 
 // 0x888c34 _ZN3vox11StreamCFileC2EPKc and 0x888f18 _ZN3vox11StreamCFileC1EPKc
 // The original copies the path into its own string; std::string does that here.
-StreamCFile::StreamCFile(const char* path) : path_(path != nullptr ? path : "") {}
+// The listing ends with Init() when the path argument is non-null (0x888c68 BL Init after the string assign), which reads the
+// file size; without it size_ stays 0 and CreateNewCursor returns null, so no file source ever loads.
+StreamCFile::StreamCFile(const char* path) : path_(path != nullptr ? path : "") {
+    if (path != nullptr) {
+        Init();
+    }
+}
 
 // 0x8887e4 _ZN3vox11StreamCFileD1Ev, 0x888d64 D0 (deleting).
 // The string storage is owned by std::string; nothing to free explicitly.

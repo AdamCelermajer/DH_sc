@@ -101,8 +101,8 @@ void CSceneNodeAnimatorSynchronizedBlender::getAnimationValue(std::int32_t track
     IAnimationTrackEx* track = primary->getAnimationTrackEx(trackIndex);
     const std::size_t childCount = children.size();
     const std::uint32_t valueSize = track->getValueSize();
-    std::vector<std::uint8_t> buffer(childCount * valueSize, 0);
-    std::vector<void*> values(childCount, nullptr);
+    core::svector<std::uint8_t> buffer(childCount * valueSize, 0);
+    core::svector<void*> values(childCount, nullptr);
     std::size_t offset = 0;
     for (std::size_t i = 0; i < childCount; ++i) {
         values[i] = buffer.data() + offset;
@@ -116,7 +116,7 @@ void CSceneNodeAnimatorSynchronizedBlender::getAnimationValue(std::int32_t track
 // As CSceneNodeAnimatorBlender::compile over the children's animators (the first child writes into its block, every other child gets
 // the matching channel bound to its slot), then clears the byte at +0x2c, forces the bind, creates the blender's timeline controller
 // and installs it, sizes the per-child tables, takes the children off their own timelines and resets the timeline range.
-void CSceneNodeAnimatorSynchronizedBlender::compile(std::vector<std::uint8_t>* buffer) {
+void CSceneNodeAnimatorSynchronizedBlender::compile(core::svector<std::uint8_t>* buffer) {
     const std::size_t childCount = children.size();
     const std::int32_t targetsSize = getTargetsSize();
     const std::int32_t targetCount = getTargetCount();

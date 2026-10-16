@@ -3,6 +3,7 @@
 
 int main(int argc, char** argv) {
     dh2host::Options opt;
+    opt.audioOut = true;   // sound on the default output device unless --no-audio
     opt.realtime = true;   // the window runs on the wall clock unless --fixed is given
     opt.frames = 0;        // 0 = until the window is closed
     opt.logEvery = 120;

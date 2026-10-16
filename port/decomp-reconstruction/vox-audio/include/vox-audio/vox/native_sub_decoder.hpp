@@ -6,6 +6,8 @@
 #pragma once
 
 #include <cstdint>
+#include "vox-audio/vox/allocator.hpp"
+#include "vox-audio/vox/string_compare.hpp"
 #include <vector>
 
 #include <map>
@@ -63,9 +65,9 @@ public:
     // the transition rules, the transition parameters, the state-name table and the playlists.
     VoxNativeSubDecoder(StreamCursorInterface* stream, const NativeHeaderWords& header,
                         States* states, AudioSegments* segments,
-                        std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
-                        std::vector<std::vector<TransitionParams>>* transitions,
-                        std::map<std::string, int>* names, NativePlaylistsManager* playlists);
+                        vox::VoxVector<vox::VoxVector<int>>* loop_lists, TransitionRules* rules,
+                        vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions,
+                        vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names, NativePlaylistsManager* playlists);
     virtual ~VoxNativeSubDecoder();  // D1 0x8841f8 (empty); D0 0x8847d4 is the deleting variant
     virtual bool HasData();          // +0x08, 0x884468: returns the flag at +0x16c
     virtual int Seek(unsigned int sample_offset) = 0;                           // +0x0c
@@ -155,9 +157,9 @@ protected:
     AudioSegments* chunks_ = nullptr;          // +0x18 (the segment table, see native_containers.hpp)
     TransitionRules* transition_rules_ = nullptr;  // +0x1c
     States* states_ = nullptr;                 // +0x20
-    std::vector<std::vector<TransitionParams>>* transitions_ = nullptr;  // +0x24
-    std::map<std::string, int>* state_names_ = nullptr;  // +0x28
-    std::vector<std::vector<std::int32_t>>* loop_lists_ = nullptr;  // +0x2c (12-byte elements)
+    vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions_ = nullptr;  // +0x24
+    vox::VoxMap<vox::VoxString, int, vox::StringCompare>* state_names_ = nullptr;  // +0x28
+    vox::VoxVector<vox::VoxVector<std::int32_t>>* loop_lists_ = nullptr;  // +0x2c (12-byte elements)
     NativePlaylistsManager* playlists_ = nullptr;  // +0x30
     std::int32_t field_34_ = -1;               // +0x34
     std::int32_t field_38_ = -1;               // +0x38
@@ -184,9 +186,9 @@ public:
     // C1 0x888514 and C2 0x888580: the base constructor, then the PCM vtable.
     VoxNativeSubDecoderPCM(StreamCursorInterface* stream, const NativeHeaderWords& header,
                            States* states, AudioSegments* segments,
-                           std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
-                           std::vector<std::vector<TransitionParams>>* transitions,
-                           std::map<std::string, int>* names, NativePlaylistsManager* playlists);
+                           vox::VoxVector<vox::VoxVector<int>>* loop_lists, TransitionRules* rules,
+                           vox::VoxVector<vox::VoxVector<TransitionParams>>* transitions,
+                           vox::VoxMap<vox::VoxString, int, vox::StringCompare>* names, NativePlaylistsManager* playlists);
     ~VoxNativeSubDecoderPCM() override;  // D2 0x887b24 and D1 0x887b28 (both empty)
 
     int Seek(unsigned int sample_offset);                  // 0x887b0c: returns 0

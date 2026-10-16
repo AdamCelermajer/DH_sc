@@ -18,20 +18,20 @@ namespace {
 int DivArm(int numerator, int denominator) { return denominator == 0 ? 0 : numerator / denominator; }
 
 // The loop list of a chunk; an out-of-range index gives an empty list.
-const std::vector<std::int32_t>& ChunkLoopList(const std::vector<std::vector<std::int32_t>>* lists,
+const vox::VoxVector<std::int32_t>& ChunkLoopList(const vox::VoxVector<vox::VoxVector<std::int32_t>>* lists,
                                                int chunk) {
-    static const std::vector<std::int32_t> kEmpty;
+    static const vox::VoxVector<std::int32_t> kEmpty;
     if (lists == nullptr || chunk < 0 || static_cast<std::size_t>(chunk) >= lists->size()) {
         return kEmpty;
     }
     return (*lists)[static_cast<std::size_t>(chunk)];
 }
 
-std::int32_t SecondOf(const std::vector<std::int32_t>& list) {
+std::int32_t SecondOf(const vox::VoxVector<std::int32_t>& list) {
     return list.size() > 1 ? list[1] : 0;
 }
 
-std::int32_t LastOf(const std::vector<std::int32_t>& list) {
+std::int32_t LastOf(const vox::VoxVector<std::int32_t>& list) {
     return list.empty() ? 0 : list.back();
 }
 
@@ -69,7 +69,7 @@ int VoxNativeSubDecoderPCM::DecodeSegment(void* dst, int bytes, SegmentState* se
             const int frame = DivArm(segment->byte_offset, bps);
             segment->sample_position = frame;
             if (frame > segment->end_frame) {
-                const std::vector<std::int32_t>& list = ChunkLoopList(loop_lists_, segment->chunk_index);
+                const vox::VoxVector<std::int32_t>& list = ChunkLoopList(loop_lists_, segment->chunk_index);
                 if (static_cast<std::uint32_t>(segment->entry_count) >> 1 != 0 &&
                     segment->entry_count == segment->entries_left) {
                     segment->loop_start = SecondOf(list);
@@ -160,7 +160,7 @@ int VoxNativeSubDecoderPCM::DecodeCurrentSegmentWithOffset(void* dst, int bytes)
             const int frame = DivArm(segment.byte_offset, bps);
             segment.sample_position = frame;
             if (frame > segment.end_frame) {
-                const std::vector<std::int32_t>& list = ChunkLoopList(loop_lists_, segment.chunk_index);
+                const vox::VoxVector<std::int32_t>& list = ChunkLoopList(loop_lists_, segment.chunk_index);
                 if (static_cast<std::uint32_t>(segment.entry_count) >> 1 != 0 &&
                     segment.entry_count == segment.entries_left) {
                     segment.loop_start = SecondOf(list);

@@ -22,8 +22,12 @@
 #include <string>
 #include <vector>
 
-#include "core-platform/memory.hpp"             // GlitchAlloc / GlitchFree
 #include "glitch-core-io/core/memory_hint.hpp"  // glitch::memory::E_MEMORY_HINT
+
+// The two entry points the allocator calls (core-platform/memory.hpp declares them with the same signatures; that header is not
+// included here because it pulls in the engine's memory-hint and swf types, which some translation units must not see).
+void GlitchFree(void* p);
+void* GlitchAlloc(unsigned size, glitch::memory::E_MEMORY_HINT hint);
 
 namespace glitch::core {
 

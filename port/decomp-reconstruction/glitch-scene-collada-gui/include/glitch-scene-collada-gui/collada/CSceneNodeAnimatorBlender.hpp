@@ -20,6 +20,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector (STLPORT-DECISION.md section 6)
+
 #include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
 
 namespace glitch::collada {
@@ -47,18 +49,18 @@ public:
 
     // vptr+0x88, 0x65ed98: sizes the output blocks (one slot per child and target, in `buffer` or the default value buffer when it is
     // null), binds the first child to the outputs and the other children to the matching channels, and forces the bind.
-    virtual void compile(std::vector<std::uint8_t>* buffer);
+    virtual void compile(core::svector<std::uint8_t>* buffer);
 
     // 0x366594: divides the weights by their sum (a zero sum with at least one weight sets weights[0] to 1.0).
     void normalizeWeights();
 
     bool needsCompile = false;                                  // +0x24 (cleared by compile; never written by the constructor)
-    std::vector<ISceneNodeAnimator*> animators;                 // +0x28 the children (a use each, dropped by the destructor); index 0 is the primary child for track lookups
-    std::vector<float> weights;                                 // +0x34 one blend weight per child
-    std::vector<std::uint8_t> valueBuffer;                      // +0x40 default output buffer for compile
-    std::vector<void*> outputs;                                 // +0x4c one block of child values per target
-    std::vector<void*> targets;                                 // +0x58 one target per target of the first child
-    std::vector<animation_track::CApplicatorInfo*> applicators; // +0x64 owned clones
+    core::svector<ISceneNodeAnimator*> animators;                 // +0x28 the children (a use each, dropped by the destructor); index 0 is the primary child for track lookups
+    core::svector<float> weights;                                 // +0x34 one blend weight per child
+    core::svector<std::uint8_t> valueBuffer;                      // +0x40 default output buffer for compile
+    core::svector<void*> outputs;                                 // +0x4c one block of child values per target
+    core::svector<void*> targets;                                 // +0x58 one target per target of the first child
+    core::svector<animation_track::CApplicatorInfo*> applicators; // +0x64 owned clones
 };
 
 }  // namespace glitch::collada

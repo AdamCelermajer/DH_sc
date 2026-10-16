@@ -158,7 +158,7 @@ int main() {
     // deletePathFromFilename: text after the last separator; a separator at index 0 or none leaves it.
     {
         CPakReader reader;
-        std::string s = "a/b/c.txt";
+        glitch::core::stringc s = "a/b/c.txt";
         reader.deletePathFromFilename(s);
         CHECK(s == "c.txt");
         s = "dir\\file.bin";

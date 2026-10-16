@@ -92,7 +92,7 @@ int main() {
     CHECK(dst.flag);
 
     // CStringWArrayAttribute keeps its name, its flag and a copy of the array argument.
-    CStringWArrayAttribute strings("arr", std::vector<std::wstring>{L"a"}, true);
+    CStringWArrayAttribute strings("arr", glitch::core::svector<glitch::core::stringw>{L"a"}, true);
     CHECK(strings.name == "arr" && strings.flag && strings.array.size() == 1 && strings.array[0] == L"a");
 
     // CVector3DAttribute::getMatrix is a translation: the components at M[12..14].

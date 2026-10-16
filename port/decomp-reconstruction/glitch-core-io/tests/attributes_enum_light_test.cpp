@@ -25,14 +25,14 @@ int main() {
     CHECK(attrs.getEnum("level", choices) == 1);
 
     // The literal table of an enumeration (type 4) is copied out by name or index; other attributes leave the output alone.
-    std::vector<std::string> literals;
+    glitch::core::svector<glitch::core::stringc> literals;
     attrs.getAttributeEnumerationLiteralsOfEnumeration("level", literals);
     CHECK(literals.size() == 2u && literals[0] == "low" && literals[1] == "high");
-    std::vector<std::string> untouched(1, "keep");
+    glitch::core::svector<glitch::core::stringc> untouched(1, "keep");
     attrs.addBool("flagged", true, false);
     attrs.getAttributeEnumerationLiteralsOfEnumeration("flagged", untouched);
     CHECK(untouched.size() == 1u && untouched[0] == "keep");
-    std::vector<std::string> byIndex;
+    glitch::core::svector<glitch::core::stringc> byIndex;
     attrs.getAttributeEnumerationLiteralsOfEnumeration(0, byIndex);
     CHECK(byIndex.size() == 2u);
     attrs.getAttributeEnumerationLiteralsOfEnumeration(99, byIndex);  // past the end: nothing happens
@@ -78,11 +78,11 @@ int main() {
     CHECK(!attrs.getAttributeP("tex2")->flag);
 
     // A missing array is added with its array kept; a second call replaces it.
-    attrs.setAttribute("arr", std::vector<std::wstring>{L"a"});
+    attrs.setAttribute("arr", glitch::core::svector<glitch::core::stringw>{L"a"});
     CHECK(attrs.getAttributeCount() == 11);
     CHECK(!attrs.getAttributeP("arr")->flag);
     CHECK(attrs.getArray("arr").size() == 1);
-    attrs.setAttribute("arr", std::vector<std::wstring>{L"a", L"b"});
+    attrs.setAttribute("arr", glitch::core::svector<glitch::core::stringw>{L"a", L"b"});
     CHECK(attrs.getAttributeCount() == 11);
     CHECK(attrs.getArray("arr").size() == 2);
 

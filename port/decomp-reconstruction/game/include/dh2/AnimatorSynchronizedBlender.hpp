@@ -68,7 +68,7 @@ public:
                       EventCallback eventCallback, void* eventUserData);   // 0x367b74
     void SetScale(float scale);                                            // 0x367c38 scales the cross-fade time
     void BlendPost();                                                      // 0x367ca4
-    void compile(std::vector<std::uint8_t>* buffer) override;              // 0x368ba4 slot 0x88, sizes the output buffer
+    void compile(glitch::core::svector<std::uint8_t>* buffer) override;              // 0x368ba4 slot 0x88, sizes the output buffer
     void Blend(int duration);                                              // 0x3684d8 starts a cross-fade of the given length (ms)
 
     int m_currentIndex;                                                    // +0xb4 index of the child that is fading in, advanced by Blend

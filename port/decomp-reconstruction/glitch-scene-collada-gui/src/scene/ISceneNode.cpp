@@ -167,7 +167,7 @@ void ISceneNode::setName(const char* newName) {
 }
 
 // 0x597f50 _ZN6glitch5scene10ISceneNode7setNameERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
-void ISceneNode::setName(const std::string& newName) {
+void ISceneNode::setName(const core::stringc& newName) {
     if (&name != &newName) {
         name = newName;
     }
@@ -698,7 +698,7 @@ ISceneNode* ISceneNode::getSceneNodeFromType(E_SCENE_NODE_TYPE type) {
 }
 
 // 0x598dd4 _ZN6glitch5scene10ISceneNode21getSceneNodesFromTypeENS0_17E_SCENE_NODE_TYPEERSt6vectorIPS1_NS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-void ISceneNode::getSceneNodesFromType(E_SCENE_NODE_TYPE type, std::vector<ISceneNode*>& out) {
+void ISceneNode::getSceneNodesFromType(E_SCENE_NODE_TYPE type, core::svector<ISceneNode*>& out) {
     if (getType() == type || type == ESNT_ANY) {
         out.push_back(this);
     }

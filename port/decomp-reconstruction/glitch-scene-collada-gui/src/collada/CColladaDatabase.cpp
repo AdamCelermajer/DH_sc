@@ -148,7 +148,7 @@ video::CMaterial* CColladaDatabase::constructMaterial(video::IVideoDriver* drive
     if (fileSystem == nullptr) {
         return factory->createMaterial(*this, driver, material, root);
     }
-    std::string directory = fileSystem->getFileDir(std::string(record != nullptr ? record->fileName : ""));
+    std::string directory = glitch::core::to_std(fileSystem->getFileDir(glitch::core::stringc(record != nullptr ? record->fileName : "")));
     if (directory.empty()) {
         return factory->createMaterial(*this, driver, material, root);
     }

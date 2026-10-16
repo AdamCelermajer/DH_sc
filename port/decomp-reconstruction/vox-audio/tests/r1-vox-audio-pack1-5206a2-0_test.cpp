@@ -37,13 +37,13 @@ public:
 
     vox::SegmentState& Seg(int i) { return segments_[i]; }
     void SetFrameWord(std::int32_t value) { field_0c_ = value; }
-    void SetLoopLists(std::vector<std::vector<std::int32_t>>* lists) { loop_lists_ = lists; }
+    void SetLoopLists(vox::VoxVector<vox::VoxVector<std::int32_t>>* lists) { loop_lists_ = lists; }
 };
 
 // Builds the current record (segments_[2]) and the rule, then runs the update.
 struct Fixture {
     OldSegmentSub sub;
-    std::vector<std::vector<std::int32_t>> lists;
+    vox::VoxVector<vox::VoxVector<std::int32_t>> lists;
     vox::TransitionRule rule;
 
     Fixture() {

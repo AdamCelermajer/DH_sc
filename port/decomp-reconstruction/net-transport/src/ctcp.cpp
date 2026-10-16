@@ -2,6 +2,7 @@
 
 #include <cstring>
 
+#include "net-transport/socket_platform.hpp"
 #include "net-transport/deps/transport_manager.hpp"
 
 bool CTcp::s_initialized_ = false;
@@ -22,7 +23,11 @@ int CTcp::Connect(CNetworkId& peer) {
     }
     in_addr to{};
     to.s_addr = address;
-    return socket_.Connect(to, port);
+    const int connectResult = socket_.Connect(to, port);
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] CTcp::Connect %s:%u -> %d\n", inet_ntoa(to), static_cast<unsigned>(port), connectResult);
+#endif
+    return connectResult;
 }
 
 // 0x82a040 _ZN4CTcp11IsConnectedEv
@@ -134,6 +139,9 @@ int CTcp::CloseSocket() {
 int CTcp::OpenSocket(std::uint16_t port, bool listen) {
     if (!socket_.IsValid()) {
         int result = socket_.OpenTCP(port, 6);
+#ifdef DH2_HOST_RUNNER
+        DH2_NET_LOG("[net] CTcp::OpenSocket port %u listen %d -> %d (socket error %d)\n", static_cast<unsigned>(port), static_cast<int>(listen), result, socket_.GetSocketError());
+#endif
         if (result < 0) {
             return result;
         }
@@ -175,6 +183,11 @@ int CTcp::AcceptConnections() {
         in_addr from{};
         std::uint16_t from_port = 0;
         int handle = socket_.Accept(from, from_port);
+#ifdef DH2_HOST_RUNNER
+        if (handle != 0) {
+            DH2_NET_LOG("[net] CTcp::AcceptConnections accept -> %d\n", handle);
+        }
+#endif
         if (handle > 0) {
             CTcp* accepted = CreateBySocketId(handle, 0);
             CTransportManager::AcceptCallback(2, accepted);

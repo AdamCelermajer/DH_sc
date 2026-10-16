@@ -435,7 +435,7 @@ void MenuCharacterSelect::Show() {
     m_inputEnabled = true;  // +0xfc
     m_classIndex = 0;       // +0xec
 
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     m_sceneRoot->getSceneNodesFromType(glitch::scene::ESNT_DAEN, nodes);
     for (unsigned int i = 0; i < nodes.size(); ++i) {
         const char* nodeName = nodes[i]->getName();  // vtable +0x24

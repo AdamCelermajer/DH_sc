@@ -18,6 +18,7 @@
 #include <map>
 #include <memory>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/material_parameters_typed.hpp"
 
@@ -73,6 +74,9 @@ struct SParameterBlockHeader {
 // .cpp for the identity and pool rules).
 void getMatrixParameter(const core::CMatrix4<float>* slot, core::CMatrix4<float>& out);
 void setMatrixParameter(core::CMatrix4<float>*& slot, const core::CMatrix4<float>& src);
+// 0x5badb8: the original's shape (slot address, matrix, the pool allocator by value); forwards to the overload above.
+void setMatrixParameter(core::CMatrix4<float>** slot, const core::CMatrix4<float>& src,
+                        core::SAllocator<core::CMatrix4<float>> poolAllocator);
 
 // Defined in material_parameters_part_1c.hpp (which includes this header).
 namespace part1c {

@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/image.hpp"
@@ -128,7 +129,7 @@ public:
     STextureLookup getTexture(const char* name, bool exists, core::SScopedProcessArray<char>& buffer) const;
     boost::intrusive_ptr<ITexture> getTexture(io::IReadFile* file, const char* name, bool flag);
     boost::intrusive_ptr<ITexture> getTexture(const char* name, const char* alias);
-    boost::intrusive_ptr<ITexture> getTextureInternal(io::IReadFile* file, const std::string& name, bool flag);
+    boost::intrusive_ptr<ITexture> getTextureInternal(io::IReadFile* file, const core::stringc& name, bool flag);
     uint16_t addTexture(const boost::intrusive_ptr<ITexture>& texture, E_PIXEL_FORMAT format, const char* name)
         asm("_ZN6glitch5video15CTextureManager10addTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_14E_PIXEL_FORMATEPKc");
     boost::intrusive_ptr<ITexture> addTexture(const char* name, const STextureDesc& desc, bool exists);

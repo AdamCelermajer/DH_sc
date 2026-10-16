@@ -189,7 +189,7 @@ void CSceneManager::serializeAttributes(io::IAttributes* attributesOut, io::SAtt
 // Reads "Name", "Id" and "AmbientLight" into the root node and the ambient light, then resets the root's transform (zero
 // position, identity rotation, unit scale), makes it visible, clears culling and the debug flag, and updates its matrix.
 void CSceneManager::deserializeAttributes(io::IAttributes* attributesIn, io::SAttributeReadWriteOptions* /*options*/) {
-    rootNode->setName(attributesIn->getString("Name"));
+    rootNode->setName(core::to_stringc(attributesIn->getString("Name")));
     rootNode->setID(attributesIn->getInt("Id"));
     ambientLight = attributesIn->getColorf("AmbientLight");
     rootNode->setPosition(core::vector3d<float>{0.0f, 0.0f, 0.0f});
@@ -209,7 +209,7 @@ void CSceneManager::deserializeAttributes(io::IAttributes* attributesIn, io::SAt
 // 0x58ff10 / 0x58fccc (segment size) and 0x58fee0 / 0x58fc9c (maximal index count): the four compile overloads. Each stores the
 // segmentation parameters in the batch driver (the vector3d at +0x250 .. +0x258 with the mode byte +0x260 cleared, or the count at
 // +0x25C with the mode byte set) and runs compileInternal (the vector overloads call 0x58fd10, the node overloads 0x58facc).
-CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+CBatchSceneNode* CSceneManager::compile(const core::svector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
                                         ISegmentCompileCallback* compileCallback,
                                         ISplitSegmentChoiceCallback* choiceCallback,
                                         core::vector3d<float> segmentSize) {
@@ -217,7 +217,7 @@ CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& nodes, C
     batchDriver->segmentSizeMode = false;    // +0x260
     return compileInternal(nodes, batch, flag, compileCallback, choiceCallback);
 }
-CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+CBatchSceneNode* CSceneManager::compile(const core::svector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
                                         ISegmentCompileCallback* compileCallback,
                                         ISplitSegmentChoiceCallback* choiceCallback, std::uint32_t maxIndexCount) {
     batchDriver->segmentSizeMode = true;     // +0x260
@@ -248,7 +248,7 @@ CBatchSceneNode* CSceneManager::compile(ISceneNode* node, CBatchSceneNode* batch
 // and the end-of-batch callback (+0x234) the batch driver calls while the nodes are rendered into it. The batch driver becomes the
 // manager's driver for the registration and the render (drawInit, the batch flag raised unless it already is), is flushed, the
 // configurations are finalized, the node's vptr+0xfc runs with the original driver, which is restored.
-CBatchSceneNode* CSceneManager::compileInternal(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+CBatchSceneNode* CSceneManager::compileInternal(const core::svector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
                                                 ISegmentCompileCallback* compileCallback,
                                                 ISplitSegmentChoiceCallback* choiceCallback) {
     CBatchSceneNode* batchNode = batch;

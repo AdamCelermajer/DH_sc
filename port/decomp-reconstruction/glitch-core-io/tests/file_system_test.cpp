@@ -63,11 +63,11 @@ int main() {
     // existFile: a missing name is not found; a file written to the working directory is.
     const char* probe = "glitch_core_io_probe.tmp";
     CHECK(!fs.existFile("glitch_core_io_no_such_file.tmp"));
-    CHECK(!fs.existFile(std::string("glitch_core_io_no_such_file.tmp")));
+    CHECK(!fs.existFile(glitch::core::stringc("glitch_core_io_no_such_file.tmp")));
     if (std::FILE* f = std::fopen(probe, "wb")) {
         std::fclose(f);
         CHECK(fs.existFile(probe));
-        CHECK(fs.existFile(std::string(probe)));
+        CHECK(fs.existFile(glitch::core::stringc(probe)));
         std::remove(probe);
     }
 

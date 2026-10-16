@@ -71,7 +71,7 @@ bool CBatchMesh::save(io::IWriteFile* file, video::IVideoDriver* /*driver*/, std
     }
     std::memcpy(header + 4, &box, 24);
     std::memcpy(header + 28, words, 16);
-    zip.addNewFile(std::string("header.bin"), header, 44);
+    zip.addNewFile(glitch::core::stringc("header.bin"), header, 44);
 
     if (swap) {
         for (std::size_t i = 0; i < segmentInfos.size(); ++i) {
@@ -80,7 +80,7 @@ bool CBatchMesh::save(io::IWriteFile* file, video::IVideoDriver* /*driver*/, std
             file->write(pair, 8);
         }
     } else {
-        zip.addNewFile(std::string("segments_table.bin"), segmentInfos.data(),
+        zip.addNewFile(glitch::core::stringc("segments_table.bin"), segmentInfos.data(),
                        static_cast<unsigned>(segmentInfos.size() * sizeof(SSegmentInfo)));
     }
 
@@ -141,13 +141,13 @@ bool CBatchMesh::save(io::IWriteFile* file, video::IVideoDriver* /*driver*/, std
         dataPosition = nextPosition;
     }
     if (streamingInfo) {
-        zip.addNewFile(std::string("segment_streaming_info.bin"), streaming.getBuffer(),
+        zip.addNewFile(glitch::core::stringc("segment_streaming_info.bin"), streaming.getBuffer(),
                        static_cast<unsigned>(streaming.getBufferSize()));
     }
-    zip.addNewFile(std::string("batch_info.bin"), batchInfo.getBuffer(), static_cast<unsigned>(batchInfo.getBufferSize()));
-    zip.addNewFile(std::string("segments_info.bin"), segmentsInfo.getBuffer(),
+    zip.addNewFile(glitch::core::stringc("batch_info.bin"), batchInfo.getBuffer(), static_cast<unsigned>(batchInfo.getBufferSize()));
+    zip.addNewFile(glitch::core::stringc("segments_info.bin"), segmentsInfo.getBuffer(),
                    static_cast<unsigned>(segmentsInfo.getBufferSize()));
-    zip.addNewFile(std::string("batch_data.bin"), batchData.getBuffer(), static_cast<unsigned>(batchData.getBufferSize()));
+    zip.addNewFile(glitch::core::stringc("batch_data.bin"), batchData.getBuffer(), static_cast<unsigned>(batchData.getBufferSize()));
     return true;
 }
 

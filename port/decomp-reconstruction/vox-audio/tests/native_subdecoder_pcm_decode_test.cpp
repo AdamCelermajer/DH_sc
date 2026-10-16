@@ -49,7 +49,7 @@ private:
 class TestPcm : public vox::VoxNativeSubDecoderPCM {
 public:
     TestPcm(vox::StreamCursorInterface* stream, vox::NativeChunks* chunks,
-            std::vector<std::vector<std::int32_t>>* lists) {
+            vox::VoxVector<vox::VoxVector<std::int32_t>>* lists) {
         stream_ = stream;
         chunks_ = chunks;
         loop_lists_ = lists;
@@ -73,7 +73,7 @@ int main() {
     chunk.byte_size = 40;
     chunk.frame_count = 20;
     chunks.push_back(chunk);
-    std::vector<std::vector<std::int32_t>> lists(1);
+    vox::VoxVector<vox::VoxVector<std::int32_t>> lists(1);
     lists[0] = {0, 0};
 
     TestPcm pcm(&stream, &chunks, &lists);

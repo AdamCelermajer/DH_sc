@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "glitch-core-io/core/allocator.hpp"
+
 // 0x317a04 strrstr: last occurrence of needle in haystack.
 const char* strrstr(const char* haystack, const char* needle);
 
@@ -16,10 +18,6 @@ void LowerCaseRange(char* data, int size, int from, int to);
 // 0x34e024 _Z11ToLowerCaseRSsii
 void ToLowerCase(std::string& s, int from, int to);
 
-// 0x34e090 ToLowerCase over the glitch string type (SAllocator-backed). Partial:
-// the glitch string stand-in is not declared, so this template is only used
-// through the data()/size() interface.
-template <typename StringT>
-void ToLowerCase(StringT& s, int from, int to) {
-    LowerCaseRange(s.data(), static_cast<int>(s.size()), from, to);
-}
+// 0x34e090 _Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEEii: ToLowerCase over the glitch
+// string (SAllocator-backed stringc). The same range rule as the std::string overload.
+void ToLowerCase(glitch::core::stringc& s, int from, int to);

@@ -19,7 +19,7 @@ int main() {
     };
     int failures = 0;
     for (const Case& c : cases) {
-        std::string name = c.in;
+        vox::VoxString name = c.in;
         reader.deletePathFromFilename(name);
         if (name != c.out) {
             std::fprintf(stderr, "deletePathFromFilename(\"%s\") gave \"%s\", want \"%s\"\n",

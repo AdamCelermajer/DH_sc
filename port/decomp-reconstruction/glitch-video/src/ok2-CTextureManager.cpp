@@ -202,7 +202,7 @@ std::string CTextureManager::getHashName(const char* name) const {
         return result;
     }
     if ((options & 4u) == 0) return std::string(name);
-    return fileSystemOf(m_fileSystem)->getAbsolutePath(std::string(name));  // fs vtable +0x34
+    return fileSystemOf(m_fileSystem)->getAbsolutePath(glitch::core::stringc(name)).c_str();  // fs vtable +0x34
 }
 
 // 0x5ebd7c _ZNK6glitch5video15CTextureManager19makeColorKeyTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS_4core10position2dIiEE
@@ -545,7 +545,7 @@ boost::intrusive_ptr<ITexture> CTextureManager::loadTextureFromFile(io::IReadFil
 // Loads the texture from the file (a file that starts with the zip signature is opened as an archive and the member with the
 // file's own name is read instead) and registers it under the file's name with the loader's pixel format. The last parameter
 // is not used.
-boost::intrusive_ptr<ITexture> CTextureManager::getTextureInternal(io::IReadFile* file, const std::string& name, bool /*flag*/) {
+boost::intrusive_ptr<ITexture> CTextureManager::getTextureInternal(io::IReadFile* file, const core::stringc& name, bool /*flag*/) {
     const uint32_t zipSignature = 0x04034b50u;  // 67324752
     uint32_t magic = 0;
     file->read(&magic, 4);  // vtable +0x0c
@@ -577,7 +577,7 @@ boost::intrusive_ptr<ITexture> CTextureManager::getTexture(io::IReadFile* file, 
     if (file != nullptr) {
         const std::string key = name != nullptr ? std::string(name) : getHashName(file->getFileName());
         result = findTexture(key.c_str());
-        if (result.get() == nullptr) result = getTextureInternal(file, key, false);
+        if (result.get() == nullptr) result = getTextureInternal(file, core::stringc(key.c_str()), false);
     }
     return result;
 }
@@ -592,7 +592,7 @@ boost::intrusive_ptr<ITexture> CTextureManager::getTexture(const char* path, con
     if (result.get() == nullptr) {
         io::IReadFile* file = fileSystemOf(m_fileSystem)->createAndOpenFile(path);  // fs vtable +0x0c
         if (file != nullptr) {
-            result = getTextureInternal(file, key, false);
+            result = getTextureInternal(file, core::stringc(key.c_str()), false);
             file->drop();
         } else {
             glitch::os::Printer::log("Could not find texture file", path, glitch::ELL_ERROR);

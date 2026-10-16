@@ -357,7 +357,7 @@ int VoxNativeSubDecoder::UpdateCurrentSegmentState(TransitionRule* rule, bool ex
     if (segments_[2].entries_left == 1) {
         // LABEL_26: the listing copies the chunk's loop list on the stack and reads its last
         // word (rule->flag_0c_ == 1) or word 2 (otherwise); the copy's buffer is VoxFreed.
-        const std::vector<std::int32_t> copy = loops[chunk];
+        const vox::VoxVector<std::int32_t> copy = loops[chunk];
         const std::int32_t word =
             rule->flag_0c_ == 1 ? copy[copy.size() - 1] : loops[chunk][2];
         const std::int32_t candidate = 1 - carried + word;
@@ -624,7 +624,7 @@ void VoxNativeSubDecoder::SetState(int index) {
     const std::int32_t previous = field_38_;
     field_3c_ = index;
     if (previous >= 0) {
-        const std::vector<TransitionParams>& record =
+        const vox::VoxVector<TransitionParams>& record =
             (*transitions_)[static_cast<std::size_t>(previous)];
         const TransitionParams& entry = record[static_cast<std::size_t>(index)];
         field_90_ = entry.value_;

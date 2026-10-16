@@ -1,5 +1,10 @@
 // One line of game state per call: state machine top, level, local player position/HP and the number of live characters.
 #include <typeinfo>
+#include <set>
+#include <string>
+#include <filesystem>
+#include <system_error>
+#include <cstdio>
 
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
@@ -76,6 +81,38 @@ void logProbe(int frame) {
         }
     }
     std::fflush(g_runnerOut);
+}
+
+// ---- Missing-asset log (owner P1, DH2_HOST_RUNNER only): every failed file lookup, with level and caller, to build/own-p1/missing/<level>.txt.
+void recordMissing(const char* kind, const char* name, void* caller) {
+    static std::set<std::string> seen;
+    const char* levelName = "boot";
+    Level* level = GSLevel::s_level;
+    if (level != nullptr && !level->m_levelName.empty()) levelName = level->m_levelName.c_str();
+    std::string key = std::string(levelName) + "|" + kind + "|" + name;
+    if (!seen.insert(key).second) return;
+    std::string lv = levelName;
+    for (char& ch : lv) if (ch == '.' || ch == '/' || ch == '\\') ch = '_';
+    std::error_code ec;
+    std::filesystem::create_directories("build/own-p1/missing", ec);
+    if (std::FILE* f = std::fopen(("build/own-p1/missing/" + lv + ".txt").c_str(), "a")) {
+        std::fprintf(f, "%s\t%s\tcaller=%p\n", kind, name, caller);
+        std::fclose(f);
+    }
+}
+
+// Characters of the loaded level that have no table row or no model (original: RD_Bandit1 etc. are absent from every data set).
+void reportMissingCharacters() {
+    Application& app = ApplicationGetInstance();
+    if (app.m_objectManager == nullptr) return;
+    for (Character* o : app.m_objectManager->m_characters) {
+        if (o == nullptr) continue;
+        const bool noRow = o->m_charPropsId < 0, noVis = o->m_visualObject == nullptr;
+        if (noRow || noVis) {
+            std::string what = o->m_name + " charpropsname=" + o->m_charPropsName + (noRow ? " NO-TABLE-ROW" : "") + (noVis ? " NO-VISUAL" : "");
+            recordMissing("character", what.c_str(), nullptr);
+        }
+    }
 }
 
 }  // namespace dh2host

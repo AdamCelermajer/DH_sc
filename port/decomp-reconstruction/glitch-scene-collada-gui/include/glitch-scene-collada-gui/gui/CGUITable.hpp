@@ -17,6 +17,8 @@
 
 #include <cstdint>
 #include <string>
+
+#include "glitch-core-io/core/allocator.hpp"  // core::stringc / stringw / svector (STLPORT-DECISION.md section 6)
 #include <vector>
 
 #include "glitch-scene-collada-gui/gui/IGUIElement.hpp"
@@ -100,8 +102,8 @@ public:
         // 0x557b90.
         ~Cell();
 
-        std::wstring text;               // +0x00
-        std::wstring brokenText;         // +0x48
+        core::stringw text;               // +0x00
+        core::stringw brokenText;         // +0x48
         video::SColor color{};           // +0x90
         void* data = nullptr;            // +0x94
     };
@@ -178,7 +180,7 @@ public:
     // 0x555cc4: the selectable column under xpos (the event is SELECTED_AGAIN only for the column 1, as in the original).
     void selectColumn(int xpos, bool onlyHover);
     // 0x558e28: cuts the text to the cell width at the first line break, ending in "..." when it was cut.
-    void breakText(const std::wstring& text, std::wstring& brokenText, std::uint32_t cellWidth);
+    void breakText(const core::stringw& text, core::stringw& brokenText, std::uint32_t cellWidth);
 
     std::vector<Column> columns;               // +0x158
     std::vector<Row> rows;                     // +0x164

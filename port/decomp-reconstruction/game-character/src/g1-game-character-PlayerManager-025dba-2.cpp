@@ -1013,20 +1013,22 @@ int PlayerManager::_ManageCharacters() {
                 player->m_ingame.SetValue(levelIngame);
                 forceResendTimer = 2000;
             }
-            // m_inCutscene (+0x525) follows the level step: any step above 35 counts as in-cutscene.
-            const bool inCutscene = level && level->m_loadStep > 35;
-            if (player->m_inCutscene.GetValue() != inCutscene) {
-                player->m_inCutscene.SetValue(inCutscene);
+            // m_doneLoading (member +0x508, value +0x525 = Player+1317 in the Hex-Rays) follows the level step: any step above 35 counts as done loading.
+            // WHAT THE OLD BODY GOT WRONG: it wrote m_inCutscene (+0x505) here and tested "m_inCutscene && !m_doneLoading" below, so m_doneLoading was
+            // never set by anything, AllLoadingDone() stayed false and an online level waited at load step 36 for ever.
+            const bool doneLoading = level && level->m_loadStep > 35;
+            if (player->m_doneLoading.GetValue() != doneLoading) {
+                player->m_doneLoading.SetValue(doneLoading);
             }
             // Online and matching: a record that is not in the game while the hosting player's is marks the pending local
             // transfer; a record that is in the game but not done loading refreshes its ready-to-roll state.
             if (OnlineMatchingReady()) {
-                if (!player->m_inCutscene.GetValue() && GetHostingPlayer()->m_ingame.GetValue() && !unk_71a) {
+                if (!player->m_doneLoading.GetValue() && GetHostingPlayer()->m_ingame.GetValue() && !unk_71a) {
                     unk_71a = true;
                 }
             }
             if (OnlineMatchingReady()) {
-                if (player->m_inCutscene.GetValue() && !player->m_doneLoading.GetValue()) {
+                if (player->m_doneLoading.GetValue() && !player->m_readyToRoll.GetValue()) {
                     player->UpdateReadyToRoll();
                 }
             }

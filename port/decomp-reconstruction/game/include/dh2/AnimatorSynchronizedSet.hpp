@@ -29,7 +29,7 @@ class ISceneNode;
 class AnimatorSynchronizedSet : public glitch::collada::CSceneNodeAnimatorSynchronizedSet {
 public:
     AnimatorSynchronizedSet(const boost::intrusive_ptr<glitch::collada::CAnimationSet>& animationSet,
-                            const std::vector<std::string>& names);     // 0x36904c (C1), 0x3690dc (C2)
+                            const glitch::core::svector<std::string>& names);     // 0x36904c (C1), 0x3690dc (C2)
     virtual ~AnimatorSynchronizedSet();                                 // 0x368f54 (D1), 0x368fcc (D0), 0x368fe8 (D2)
 
     void animateNode(glitch::scene::ISceneNode* node, unsigned int time) override;  // 0x368f24. Calls the base animateNode, then AnimApplicator::AnimateNode on +0x84; returns void

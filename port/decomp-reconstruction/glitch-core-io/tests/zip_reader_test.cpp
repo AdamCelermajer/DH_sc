@@ -16,7 +16,7 @@ using namespace glitch::io;
 // A read file over a string, with working position and size.
 class BufferFile : public glitch::io::testing::StubReadFile {
 public:
-    explicit BufferFile(std::string bytes) : data(std::move(bytes)) {}
+    explicit BufferFile(glitch::core::stringc bytes) : data(std::move(bytes)) {}
     std::int32_t read(void* buffer, std::uint32_t count) override {
         std::size_t n = std::min<std::size_t>(count, data.size() - pos);
         std::memcpy(buffer, data.data() + pos, n);
@@ -32,7 +32,7 @@ public:
     long getSize() const override { return static_cast<long>(data.size()); }
     long getPos() const override { return static_cast<long>(pos); }
 
-    std::string data;
+    glitch::core::stringc data;
     std::size_t pos = 0;
 };
 
@@ -69,28 +69,28 @@ static void testDirectory() {
 
 static void testDeletePath() {
     CZipReader zip;
-    std::string a = "dir/sub\\file.txt";
+    glitch::core::stringc a = "dir/sub\\file.txt";
     zip.deletePathFromFilename(a);
     CHECK(a == "file.txt");
-    std::string b = "/x";
+    glitch::core::stringc b = "/x";
     zip.deletePathFromFilename(b);
     CHECK(b == "/x");
-    std::string c = "plain";
+    glitch::core::stringc c = "plain";
     zip.deletePathFromFilename(c);
     CHECK(c == "plain");
-    std::string d = "trailing/";
+    glitch::core::stringc d = "trailing/";
     zip.deletePathFromFilename(d);
     CHECK(d.empty());
-    std::string e;
+    glitch::core::stringc e;
     zip.deletePathFromFilename(e);
     CHECK(e.empty());
 }
 
 static void testValidSignature() {
-    BufferFile good(std::string("PK\x03\x04rest", 8));
+    BufferFile good(glitch::core::stringc("PK\x03\x04rest", 8));
     CHECK(CZipReader::isValid(&good));
     CHECK(good.pos == 0);  // position restored
-    BufferFile bad(std::string("ZZZZ", 4));
+    BufferFile bad(glitch::core::stringc("ZZZZ", 4));
     CHECK(!CZipReader::isValid(&bad));
     CHECK(!CZipReader::isValid("glitch_zip_missing_file.zip"));
 }

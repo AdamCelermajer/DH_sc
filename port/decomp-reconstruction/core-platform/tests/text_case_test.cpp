@@ -7,12 +7,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// A stand-in for the glitch string type: it exposes data() and size() only.
-struct FakeGlitchString {
-    std::string text;
-    char* data() { return &text[0]; }
-    unsigned size() const { return static_cast<unsigned>(text.size()); }
-};
 
 int main() {
     std::string s = "Hello, WORLD [Z]";
@@ -35,9 +29,9 @@ int main() {
     ToLowerCase(w, 0, -1);  // empty string is a no-op
     CHECK(w.empty());
 
-    FakeGlitchString g{"MiXeD"};
+    glitch::core::stringc g("MiXeD");  // 0x34e090: the SAllocator-backed glitch string
     ToLowerCase(g, 0, -1);
-    CHECK(g.text == "mixed");
+    CHECK(g == "mixed");
 
     std::printf("%s\n", failures ? "text_case: FAILED" : "text_case: ok");
     return failures != 0;

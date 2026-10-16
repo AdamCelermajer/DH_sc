@@ -19,7 +19,7 @@ void DecoderNativeCursor::SetImplicitSegmentCues() {
     auto* native = static_cast<DecoderNative*>(decoder_);
     for (std::size_t index = 0; index < native->segments_.size(); ++index) {
         const std::int32_t implicit = native->segments_[index].frame_count - 1;
-        std::vector<int>& cues = native->segment_cues_[index];
+        vox::VoxVector<int>& cues = native->segment_cues_[index];
         const std::size_t before = cues.size();
         if (before == 1) {
             cues.push_back(0);

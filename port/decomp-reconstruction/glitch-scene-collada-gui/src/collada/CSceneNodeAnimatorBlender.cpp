@@ -145,7 +145,7 @@ void CSceneNodeAnimatorBlender::applyAnimationValues(std::uint32_t timeMs) {
 // target of the first child lays out one block of child values (stride from getTargetSize): the first child writes into the start
 // of the block (setTarget with no applicator), every other child gets the matching channel bound to its slot (setCompatibleTarget).
 // Then the target and applicator vectors are sized, the flag at +0x24 is cleared and the bind is forced when there are children.
-void CSceneNodeAnimatorBlender::compile(std::vector<std::uint8_t>* buffer) {
+void CSceneNodeAnimatorBlender::compile(core::svector<std::uint8_t>* buffer) {
     const std::size_t childCount = animators.size();
     const std::int32_t targetsSize = getTargetsSize();
     const std::int32_t targetCount = getTargetCount();

@@ -54,7 +54,7 @@ int VoxNativeSubDecoderPCM::EmulateDecodeSegment(int sample_bytes, SegmentState*
             segment->sample_position = frame;
 
             if (frame > segment->end_frame) {
-                const std::vector<std::int32_t>& entries =
+                const vox::VoxVector<std::int32_t>& entries =
                     (*loop_lists_)[static_cast<std::size_t>(segment->chunk_index)];
                 if ((segment->entry_count >> 1) != 0 && segment->entry_count == segment->entries_left) {
                     segment->loop_start = entries[1];
@@ -134,7 +134,7 @@ int VoxNativeSubDecoderPCM::EmulateDecodeCurrentSegmentWithOffset(int sample_byt
                            static_cast<std::uint32_t>(frame_bytes)));
 
             if (cur.sample_position > cur.end_frame) {
-                const std::vector<std::int32_t>& entries =
+                const vox::VoxVector<std::int32_t>& entries =
                     (*loop_lists_)[static_cast<std::size_t>(cur.chunk_index)];
                 if ((cur.entry_count >> 1) != 0 && cur.entry_count == cur.entries_left) {
                     cur.loop_start = entries[1];

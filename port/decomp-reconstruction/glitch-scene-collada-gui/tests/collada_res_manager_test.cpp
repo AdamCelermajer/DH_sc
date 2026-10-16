@@ -39,22 +39,22 @@ public:
         return true;
     }
     bool addPakFileArchive(const char*, bool, bool) override { return false; }
-    bool addObfuscationFileMap(const char*, unsigned char, std::string) override { return false; }
+    bool addObfuscationFileMap(const char*, unsigned char, glitch::core::stringc) override { return false; }
     bool removeFileArchive(const char* name) override {
         removed.push_back(name);
         return true;
     }
     const char* getWorkingDirectory() override { return ""; }
     bool changeWorkingDirectoryTo(const char*) override { return false; }
-    std::string getAbsolutePath(const std::string& path) const override { return path.rfind("/abs/", 0) == 0 ? path : "/abs/" + path; }
-    std::string getFileDir(const std::string& path) const override {
+    glitch::core::stringc getAbsolutePath(const glitch::core::stringc& path) const override { return path.rfind("/abs/", 0) == 0 ? path : "/abs/" + path; }
+    glitch::core::stringc getFileDir(const glitch::core::stringc& path) const override {
         const std::size_t slash = path.find_last_of("/\\");
-        return slash == std::string::npos ? std::string() : path.substr(0, slash);
+        return slash == std::string::npos ? glitch::core::stringc() : path.substr(0, slash);
     }
-    std::string getFileBasename(const std::string& path, bool) const override { return path; }
+    glitch::core::stringc getFileBasename(const glitch::core::stringc& path, bool) const override { return path; }
     io::IFileList* createFileList() const override { return nullptr; }
     bool existFile(const char*) const override { return false; }
-    bool existFile(const std::string&) const override { return false; }
+    bool existFile(const glitch::core::stringc&) const override { return false; }
     io::IXMLReader* createXMLReader(const char*) override { return nullptr; }
     io::IXMLReader* createXMLReader(io::IReadFile*) override { return nullptr; }
     io::IXMLReaderUTF8* createXMLReaderUTF8(const char*) override { return nullptr; }
@@ -69,9 +69,9 @@ class RecordingFactory : public collada::CResFactory {
 public:
     std::vector<std::string> directories;
     std::vector<const collada::SImage*> images;
-    boost::intrusive_ptr<video::ITexture> getTexture(collada::CResFile*, const std::string& directory, io::IReadFile*, video::CTextureManager*,
+    boost::intrusive_ptr<video::ITexture> getTexture(collada::CResFile*, const glitch::core::stringc& directory, io::IReadFile*, video::CTextureManager*,
                                                      collada::SImage* image) override {
-        directories.push_back(directory);
+        directories.push_back(directory.c_str());
         images.push_back(image);
         return boost::intrusive_ptr<video::ITexture>();
     }

@@ -1,6 +1,7 @@
 #include "net-session-online/multiplayer_callback.hpp"
 
 #include <cstdio>
+#include "net-transport/socket_platform.hpp"
 #include <cstdlib>
 #include <cstring>
 
@@ -444,6 +445,12 @@ std::int32_t MultiplayerCallback::HandleQuestsSyncMessage(void* /*message*/) {
         }
     } else {
         PlayerManager* players = ApplicationGetInstance().m_playerManager;  // dword_99F76C = s_inst +0x40
+#ifdef DH2_HOST_RUNNER
+        if (std::getenv("DH2_NET_TRACE") != nullptr) {
+            DH2_NET_LOG("[net] HandleQuestsSyncMessage message %p block %p size %d\n", static_cast<void*>(message), static_cast<const void*>(message ? message->BlockData() : nullptr),
+                         message ? message->BlockSizeValue() : -1);
+        }
+#endif
         players->HandleQuestSyncMsg(message->BlockData(), message->BlockSizeValue());
     }
     message->SetFinished();  // +0x3c

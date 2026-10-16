@@ -28,13 +28,13 @@ void* DecoderNative::CreateSegmentsInfoContainers(int count, int extra_bytes) {
     (void)extra_bytes;  // the trailing bytes of the original allocation are not kept
     const std::size_t n = static_cast<std::size_t>(count > 0 ? count : 0);
     segments_.assign(n, NativeChunk{});
-    segment_cues_ = std::vector<std::vector<int>>(n);
+    segment_cues_ = vox::VoxVector<vox::VoxVector<int>>(n);
     return segments_.data();
 }
 
 // 0x872a84. Replaces the transition list with count empty lists.
 void DecoderNative::CreateTransitionsContainer(unsigned int count) {
-    transitions_ = std::vector<std::vector<TransitionParams>>(count);
+    transitions_ = vox::VoxVector<vox::VoxVector<TransitionParams>>(count);
 }
 
 // 0x872ac8. Tail-calls NativePlaylistsManager::Init on the manager at +0x38 and returns its

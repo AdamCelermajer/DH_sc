@@ -21,6 +21,9 @@ struct Options {
     int language = 0;               // GLMediaPlayer.detectPhoneLang result (0 English; the saved "Language" option still overrides it)
     bool realtime = false;          // windowed: use the wall clock instead of the fixed timestep
     bool verbose = false;           // keep the game's own _DEBUG_OUT chatter
+    std::string audioWav;           // --audio-wav <file>: write the mixed output (what the vox driver hands to AudioTrack.write) to a WAV file
+    bool pace = false;              // --pace: headless runs at wall-clock speed (one frame per --dt ms) so audio lines up with the game
+    bool audioOut = false;          // --audio-out: play it on the default Windows output device (the window runner turns it on unless --no-audio)
     std::string angleDir;           // windowed: directory with ANGLE libEGL.dll / libGLESv2.dll (default: next to the exe, then PATH)
 };
 
@@ -31,6 +34,12 @@ void printUsage(const char* exe);
 // Installs a JavaVM/JNIEnv whose GLMediaPlayer / DungeonHunter2 / GLResLoader static methods answer from the host, runs JNI_OnLoad, the three
 // nativeInit natives and nativeSetPhone, in the order the Java classes do.
 void jniInstall(const Options& opt);
+// ---- host audio sink for the fake AudioTrack (host_audio.cpp) ----
+void audioOpen(const Options& opt);
+void audioPlay(bool on);
+int audioWrite(const void* data, int bytes);
+void audioClose();
+int audioSelfTest(const std::string& soundsDir);   // host_audio_selftest.cpp: decode every .wav/.vxn with the vox decoders
 extern bool g_jniLogCalls;  // log every Java static method the natives call
 
 // ---- clock (host_runner.cpp) ----

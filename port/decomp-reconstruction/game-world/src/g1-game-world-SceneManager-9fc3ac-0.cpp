@@ -47,7 +47,7 @@ const char* MaterialName(const glitch::video::CMaterial& material) {
 // 0x350e5c _ZN12SceneManager12SearchByTypeEPN6glitch5scene10ISceneNodeERSt6vectorIS3_NS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEENS1_17E_SCENE_NODE_TYPEE
 // Appends the nodes of the given type below root to out. The original makes a virtual call through vptr+0x20, which is
 // CSceneManager::getSceneNodesFromType(type, out, root). Nothing happens without a root.
-void SceneManager::SearchByType(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+void SceneManager::SearchByType(glitch::scene::ISceneNode* root, glitch::core::svector<glitch::scene::ISceneNode*>& out,
                                 std::uint32_t type) {
     if (root) {
         getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(type), out, root);
@@ -322,7 +322,7 @@ glitch::scene::ISceneNode* SceneManager::SearchByName(glitch::scene::ISceneNode*
 // 0x359fac _ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERSt6vectorIS3_NS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEEPKcb
 // The char* form of the collecting search: with a null root or a null name nothing happens, otherwise the name becomes a std::string
 // and the std::string overload (0x3586ac) runs.
-void SceneManager::SearchByName(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+void SceneManager::SearchByName(glitch::scene::ISceneNode* root, glitch::core::svector<glitch::scene::ISceneNode*>& out,
                                 const char* name, bool flag) {
     if (name == nullptr || root == nullptr) {
         return;
@@ -444,7 +444,7 @@ void SceneManager::SearchByType(glitch::scene::ISceneNode* root, void (*visit)(g
     if (!visit || !root) {
         return;
     }
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(type), nodes, root);
     for (glitch::scene::ISceneNode* node : nodes) {
         visit(node);

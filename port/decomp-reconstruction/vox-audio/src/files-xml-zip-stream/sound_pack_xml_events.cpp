@@ -99,7 +99,7 @@ int VoxSoundPackXML::GetEmitterInfoFromSoundOrEvent(const char* name, EmitterInf
 // 0x88cc14 _ZNK3vox15VoxSoundPackXML12GetGroupMaskEPKcRi: the mask is 0 for a name that
 // is not in the map at +0x48.
 void VoxSoundPackXML::GetGroupMask(const char* name, int& mask) const {
-    const auto it = group_masks_.find(std::string(name));
+    const auto it = group_masks_.find(vox::VoxString(name));
     mask = it == group_masks_.end() ? 0 : it->second;
 }
 

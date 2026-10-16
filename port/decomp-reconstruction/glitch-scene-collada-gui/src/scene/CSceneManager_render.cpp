@@ -49,7 +49,7 @@ bool hasTransparentTechnique(const video::CMaterial& material) {
 // have one, zero for the others). The state the loops leave behind (current and next both the sentinel) is the one the original
 // leaves.
 template <typename Entry, typename OrderOf>
-void renderEntries(CSceneManager& manager, std::vector<Entry>& list, OrderOf orderOf, bool cull) {
+void renderEntries(CSceneManager& manager, core::svector<Entry>& list, OrderOf orderOf, bool cull) {
     const std::size_t count = list.size() - 1;
     manager.currentNode = manager.nextNode;
     manager.currentUserData = manager.nextUserData;
@@ -286,7 +286,7 @@ void CSceneManager::registerSceneNodes(ISceneNode* node) {
 
 // 0x589128 _ZN6glitch5scene13CSceneManager18registerSceneNodesERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
 // Registers each node of the vector through the virtual single-node overload (vptr+0x28).
-void CSceneManager::registerSceneNodes(const std::vector<ISceneNode*>& nodes) {
+void CSceneManager::registerSceneNodes(const core::svector<ISceneNode*>& nodes) {
     for (ISceneNode* node : nodes) {
         registerSceneNodes(node);
     }
@@ -300,7 +300,7 @@ void CSceneManager::registerSceneNodesCompile(ISceneNode* node) {
 }
 
 // 0x589168 _ZN6glitch5scene13CSceneManager24registerSceneNodesCompileERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-void CSceneManager::registerSceneNodesCompile(const std::vector<ISceneNode*>& nodes) {
+void CSceneManager::registerSceneNodesCompile(const core::svector<ISceneNode*>& nodes) {
     for (ISceneNode* node : nodes) {
         registerSceneNodesCompile(node);
     }
@@ -312,7 +312,7 @@ void CSceneManager::registerSceneNodesCompile(const std::vector<ISceneNode*>& no
 // 0x353f50 (.clone.4, the cull test removed), likewise the SRenderDataSortNodeEntry clones 0x353c7c (.clone.10) and 0x58acac (.clone.8,
 // which also always clears the list): one template, the clones are the same body with constant arguments.
 template <typename Entry>
-void CSceneManager::renderList(E_SCENE_NODE_RENDER_PASS pass, std::vector<Entry>& list, bool clearList, bool cull) {
+void CSceneManager::renderList(E_SCENE_NODE_RENDER_PASS pass, core::svector<Entry>& list, bool clearList, bool cull) {
     renderPass = pass;
     list.push_back(Entry());
     renderEntries(*this, list, [](const Entry&) { return 0; }, cull);
@@ -324,9 +324,9 @@ void CSceneManager::renderList(E_SCENE_NODE_RENDER_PASS pass, std::vector<Entry>
 }
 
 template void CSceneManager::renderList<CSceneManager::SUnsortedNodeEntry>(E_SCENE_NODE_RENDER_PASS,
-                                                                           std::vector<SUnsortedNodeEntry>&, bool, bool);
+                                                                           core::svector<SUnsortedNodeEntry>&, bool, bool);
 template void CSceneManager::renderList<CSceneManager::SRenderDataSortNodeEntry>(E_SCENE_NODE_RENDER_PASS,
-                                                                                 std::vector<SRenderDataSortNodeEntry>&, bool, bool);
+                                                                                 core::svector<SRenderDataSortNodeEntry>&, bool, bool);
 
 // 0x590660 _ZN6glitch5scene13CSceneManager11renderListsEPNS_5video12IVideoDriverE
 // Draws what registerSceneNodes collected, in this order: the cameras; the driver's dynamic lights are reset, the ambient light is
@@ -401,7 +401,7 @@ void CSceneManager::renderLists(video::IVideoDriver* videoDriver) {
 // 0x58b728 _ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
 // drawInit(driver), collectAllNodes(nodes), setupCamera, registerSceneNodes(nodes), drawShadowReceivers, renderLists(driver), then
 // the render pass 9 and the statistics reset. The virtual slots are called through the vtable.
-void CSceneManager::drawAll(const std::vector<ISceneNode*>& nodes) {
+void CSceneManager::drawAll(const core::svector<ISceneNode*>& nodes) {
     drawInit(driver);
     collectAllNodes(nodes);
     setupCamera();

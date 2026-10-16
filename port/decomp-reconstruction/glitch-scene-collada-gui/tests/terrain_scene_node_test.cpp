@@ -117,7 +117,7 @@ void testIndices(Fixture& f) {
     check(node.indexCount == 4 * 16 * 6, "index count at LOD 0 (+0x1b8)");
     check(indices16[0] == 9 && indices16[1] == 0 && indices16[2] == 10 && indices16[3] == 10 && indices16[4] == 0 && indices16[5] == 1,
           "first cell: bottom left, top left, bottom right, bottom right, top left, top right");
-    std::vector<std::uint32_t> indices32(4 * 16 * 6, 0xFFFFFFFFu);
+    glitch::core::svector<std::uint32_t> indices32(4 * 16 * 6, 0xFFFFFFFFu);
     node.preRenderIndicesCalculationsDirect<std::uint32_t>(indices32.data());
     check(indices32[0] == 9 && indices32[5] == 1 && node.indexCount == 4 * 16 * 6, "uint32 form matches");
     // LOD 1 halves the grid in each direction: 4 cells per patch.
@@ -130,7 +130,7 @@ void testIndices(Fixture& f) {
     check(node.indexCount == 3 * 4 * 6, "culled patch skipped");
     node.setCurrentLODOfPatches(0);
 
-    std::vector<std::uint32_t> patchIndices;
+    glitch::core::svector<std::uint32_t> patchIndices;
     check(node.getIndicesForPatch(patchIndices, 2, 0, 0) == -1, "patch row out of range");
     check(node.getIndicesForPatch(patchIndices, 0, 0, 7) == -1, "LOD out of range");
     check(node.getIndicesForPatch(patchIndices, 0, 0, 0) == 16 * 6, "indices of one patch at LOD 0");
@@ -144,7 +144,7 @@ void testIndices(Fixture& f) {
     node.setLODOfPatch(1, 1, -1);
     check(node.getIndicesForPatch(patchIndices, 1, 1, -1) == -2, "a culled patch answers -2");
 
-    std::vector<std::int32_t> lods;
+    glitch::core::svector<std::int32_t> lods;
     node.getCurrentLODOfPatches(lods);
     check(lods.size() == 4 && lods[3] == -1, "getCurrentLODOfPatches");
     lods = {3, 2, 1, 0};

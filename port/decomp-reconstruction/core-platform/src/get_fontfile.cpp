@@ -18,7 +18,7 @@ namespace {
 // The path through the file system's getAbsolutePath (device +0x34, vtable +0x34), copied back into the buffer.
 void MakeAbsolute(char* buffer) {
     FileSystemBase* const fileSystem = static_cast<FileSystemBase*>(ApplicationGetInstance().m_device->fileSystem);
-    const std::string absolute = fileSystem->getAbsolutePath(std::string(buffer));
+    const glitch::core::stringc absolute = fileSystem->getAbsolutePath(glitch::core::stringc(buffer));
     std::strcpy(buffer, absolute.c_str());
 }
 

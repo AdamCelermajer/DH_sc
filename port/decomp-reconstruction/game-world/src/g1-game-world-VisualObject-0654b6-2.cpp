@@ -108,7 +108,7 @@ void VisualObject::SetMeshVisible(bool visible) {
     }
     const std::uint32_t tags[3] = {1835360612u, 1936023908u, 1298489700u};
     for (std::uint32_t tag : tags) {
-        std::vector<glitch::scene::ISceneNode*> nodes;
+        glitch::core::svector<glitch::scene::ISceneNode*> nodes;
         m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(tag), nodes);
         for (glitch::scene::ISceneNode* node : nodes) {
             node->setVisible(visible);
@@ -156,7 +156,7 @@ void VisualObject::CalcMeshBox() {
         m_meshBox.MaxEdge.Y = -FLT_MAX;
         m_meshBox.MaxEdge.Z = -FLT_MAX;
         SceneManager* sm = DeviceSceneManager();
-        std::vector<glitch::scene::ISceneNode*> nodes;
+        glitch::core::svector<glitch::scene::ISceneNode*> nodes;
         sm->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1936023908u), nodes, m_node);
         if (nodes.empty()) {
             sm->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1835360612u), nodes, m_node);
@@ -354,7 +354,7 @@ void VisualObject::CreateShadowMesh() {
     }
     m_shadowCreated = true;
     SceneManager* sm = DeviceSceneManager();
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1936023908u), nodes);
     m_shadowSkinned.resize(nodes.size(), nullptr);
     for (std::size_t i = 0; i < nodes.size(); ++i) {
@@ -384,7 +384,7 @@ void VisualObject::CreateXrayMesh() {
     }
     m_xrayCreated = true;
     SceneManager* sm = DeviceSceneManager();
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1298489700u), nodes);
     m_xrayModular.resize(nodes.size(), nullptr);
     for (std::size_t i = 0; i < nodes.size(); ++i) {
@@ -479,7 +479,7 @@ void VisualObject::ApplyXrayMaterial() {
 // of m_node.
 std::string VisualObject::FlushMeshes() {
     SceneManager* sm = DeviceSceneManager();
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     sm->SearchByType(m_node, nodes, 1835360612u);
     sm->SearchByType(m_node, nodes, 1936023908u);
     sm->SearchByType(m_node, nodes, 1298489700u);
@@ -502,7 +502,7 @@ void VisualObject::ApplyMaterialBaseParam() {
     }
     const std::uint32_t tags[3] = {1835360612u, 1936023908u, 1298489700u};
     for (std::uint32_t tag : tags) {
-        std::vector<glitch::scene::ISceneNode*> nodes;
+        glitch::core::svector<glitch::scene::ISceneNode*> nodes;
         sm->SearchByType(m_node, nodes, tag);
         for (glitch::scene::ISceneNode* node : nodes) {
             if (m_rimLight) {

@@ -18,12 +18,14 @@ class CLobbyParameterAndQuery;
 
 // CMatching::Get() and its members used by the connection code.
 namespace matching_calls {
-// CMatching::IsServer(). Stand-in: this device is never the server.
-inline bool IsServer() { return false; }
+// The three calls reach the live CMatching object (src/connection_env.cpp). When no matching object exists (the unit tests of this
+// slice) they keep the old stand-in answers: not the server, local id 0, matching key 0.
+// CMatching::IsServer().
+bool IsServer();
 // CMatching::Get()->(vtable +0x6c): the local id written into the connect handshake.
-inline std::int32_t LocalId() { return 0; }
+std::int32_t LocalId();
 // CMatching::Get()->(vtable +0x74): compared with CConnection::matching_key_ by IsToServer.
-inline std::int32_t MatchingKey() { return 0; }
+std::int32_t MatchingKey();
 }  // namespace matching_calls
 
 // GetOnline() and its members used by the connection code.
@@ -33,29 +35,18 @@ inline std::int32_t Now() {
     auto now = std::chrono::steady_clock::now().time_since_epoch();
     return static_cast<std::int32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
 }
-// GetOnline()->+0x20: reference time read by CConnection::ProcessPing (name not recovered).
-inline std::int32_t PingReference() { return 0; }
-// COnline::ReportDisconnect(reason, detail). Stand-in: nothing reported.
-inline void ReportDisconnect(int reason, int detail) {
-    (void)reason;
-    (void)detail;
-}
+// GetOnline()->+0x20: reference time read by CConnection::ProcessPing (the online start time). 0 without a connection manager.
+std::int32_t PingReference();
+// COnline::ReportDisconnect(reason, detail). Nothing is reported without a connection manager.
+void ReportDisconnect(int reason, int detail);
 }  // namespace online_calls
 
 // GetConnectionMgr() and the event queue at its +0x08.
 namespace connection_manager_calls {
-// CEventQueueBase::AddEvent on GetConnectionMgr()'s queue. Stand-in: the event is not stored.
-inline int AddEvent(int event, const void* data, int size) {
-    (void)event;
-    (void)data;
-    (void)size;
-    return 0;
-}
-// CConnectionManager::GetPacketTransportType(packet_type). Stand-in: always transport 0.
-inline int PacketTransportType(int packet_type) {
-    (void)packet_type;
-    return 0;
-}
+// CEventQueueBase::AddEvent on GetConnectionMgr()'s queue (the event is dropped when there is no connection manager).
+int AddEvent(int event, const void* data, int size);
+// CConnectionManager::GetPacketTransportType(packet_type) (transport 0 without a connection manager).
+int PacketTransportType(int packet_type);
 }  // namespace connection_manager_calls
 
 // GetTransportMgr() and the CTransportManager calls the connection code makes.

@@ -110,9 +110,9 @@ struct SZipFileEntry {
     SZipFileEntry& operator=(const SZipFileEntry& other) = default;  // 0x894a3c
     ~SZipFileEntry() = default;                         // 0x894cec
 
-    std::string path_;                 // +0x00
-    std::string file_name_;            // +0x18
-    std::string directory_;            // +0x30
+    vox::VoxString path_;                 // +0x00
+    vox::VoxString file_name_;            // +0x18
+    vox::VoxString directory_;            // +0x30
     std::int32_t data_offset_ = 0;     // +0x48
     std::uint8_t local_header_[30] = {};  // +0x4c
 };
@@ -124,7 +124,7 @@ public:
     virtual ~CZipReader();  // 0x894da8 (D1), 0x894e60 (D2); D0 is compiler-generated
 
     int getFileCount() const;                                        // 0x8948fc
-    void deletePathFromFilename(std::string& name);                  // 0x894efc
+    void deletePathFromFilename(vox::VoxString& name);                  // 0x894efc
     void extractFilename(SZipFileEntry& entry);                      // 0x894f74
     int getFileInfo(const char* name, int& offset, int& size);       // 0x89544c
     bool scanLocalHeader();                                          // 0x895c64
@@ -137,7 +137,7 @@ private:
     std::string archive_path_;                         // +0x08
     bool lowercase_names_ = false;                     // +0x20
     bool strip_directories_ = false;                   // +0x21
-    std::map<std::string, SZipFileEntry, StringComp> files_;  // +0x24 (StringComp order)
+    vox::VoxMap<vox::VoxString, SZipFileEntry, StringComp> files_;  // +0x24 (StringComp order)
 };
 
 // Test hook: installs the instance returned by GetInstance.

@@ -116,7 +116,7 @@ glitch::core::stringc FileSystemBase::ApplyFilenameHacks(const char* name) const
     const std::size_t workingDirectoryLength = std::strlen(workingDirectory);
     const char* const found = std::strstr(name, workingDirectory);
 
-    std::string result;
+    glitch::core::stringc result;
     if (found != nullptr) {
         result = found + workingDirectoryLength + 1;
     } else {
@@ -150,7 +150,7 @@ glitch::core::stringc FileSystemBase::getAbsolutePath(const glitch::core::string
 // 0x34e688 helper (host runner only). The binary tells a name that already carries the resource root by the "/sdcard/" prefix, because the Android
 // RES_PATH always starts with it. On a host RES_PATH is the data directory (C:/..., or a relative path), so the test is "starts with RES_PATH",
 // ignoring case: ApplyFilenameHacks lower-cases the name. Always false in the Android and unit-test builds.
-static bool alreadyPrefixed(const std::string& name) {
+static bool alreadyPrefixed(const glitch::core::stringc& name) {
 #ifdef DH2_HOST_RUNNER
     const size_t n = std::strlen(RES_PATH);
     if (n == 0 || name.size() < n) return false;
@@ -185,6 +185,9 @@ static bool alreadyPrefixed(const std::string& name) {
 //   * the same qualified call on the path; when it returns null, _DEBUG_OUT("Could not open file :  %s ", path) and
 //     glitch::os::Printer::log("Could not open file : ", path, 3) (ELL_ERROR);
 //   * the opened file is returned.
+#ifdef DH2_HOST_RUNNER
+namespace dh2host { void recordMissing(const char* kind, const char* name, void* caller); }
+#endif
 glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
     const glitch::core::stringc normalised = ApplyFilenameHacks(name);  // +0xb8
 
@@ -192,9 +195,9 @@ glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
     if (std::strstr(normalised.c_str(), ".config") != nullptr ||
         std::strstr(normalised.c_str(), ".glsl") != nullptr ||
         normalised.compare(0, 8, "/sdcard/") == 0 || alreadyPrefixed(normalised)) {
-        path = normalised;
+        path.assign(normalised.data(), normalised.size());
     } else {
-        path = std::string(RES_PATH) + normalised;
+        path = std::string(RES_PATH) + std::string(normalised.data(), normalised.size());
     }
 
     if (ApplicationGetInstance().IsUsingUncompiledData(path.c_str())) {
@@ -211,6 +214,9 @@ glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
     if (file == nullptr) {
         _DEBUG_OUT("Could not open file :  %s ", path.c_str());
         glitch::os::Printer::log("Could not open file : ", path.c_str(), glitch::ELL_ERROR);
+#ifdef DH2_HOST_RUNNER
+        dh2host::recordMissing("file", path.c_str(), __builtin_return_address(0));
+#endif
     }
     return file;
 }

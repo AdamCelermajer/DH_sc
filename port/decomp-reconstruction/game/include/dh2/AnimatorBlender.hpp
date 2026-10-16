@@ -56,7 +56,7 @@ public:
     static void _CBAnim(glitch::scene::ITimelineController* timeline, void* userData);  // 0x3666c8, userData is the blender
     void SetScale(float scale);                                            // 0x3666d8 scales the cross-fade time
     void BlendPost();                                                      // 0x366740 empty
-    void compile(std::vector<std::uint8_t>* buffer) override;              // 0x366764 slot 0x88, sizes the output buffer
+    void compile(glitch::core::svector<std::uint8_t>* buffer) override;              // 0x366764 slot 0x88, sizes the output buffer
     void Blend(int duration);                                              // 0x36679c starts a cross-fade of the given length (ms)
     void onUnbind(glitch::scene::ISceneNode* node) override;               // 0x366c8c clears the applicator's reference node
     void animateNode(glitch::scene::ISceneNode* node, unsigned int time) override;  // 0x366cb4

@@ -99,7 +99,7 @@ glitch::core::vector3d<float> glitch::scene::ISceneNode::getAbsolutePosition() c
     return glitch::core::vector3d<float>();
 }
 
-void SceneManager::SearchByType(glitch::scene::ISceneNode*, std::vector<glitch::scene::ISceneNode*>&, std::uint32_t) {}
+void SceneManager::SearchByType(glitch::scene::ISceneNode*, glitch::core::svector<glitch::scene::ISceneNode*>&, std::uint32_t) {}
 void SceneManager::AddNodeToMap(glitch::scene::ISceneNode*) {}
 
 // ---- Tests ----

@@ -54,7 +54,7 @@ int main() {
         CNetworkId peer;
         peer.Reset();
         peer.SetAddress1(raw_port, htonl(INADDR_LOOPBACK));
-        CHECK(udp->IsConnectedTo(peer));   // field2 presence bit is clear
+        CHECK(udp->IsConnectedTo(peer));   // the transport's own create flags (0 here) have bit 2 clear
         CHECK(udp->Send(peer, "hi", 2) == 2);
 
         char buf[8] = {};

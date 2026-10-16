@@ -191,7 +191,7 @@ void CTerrainSceneNode::setCurrentLODOfPatches(std::int32_t lod) {
 }
 
 // 0x6d042c _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesERKSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-void CTerrainSceneNode::setCurrentLODOfPatches(const std::vector<std::int32_t>& lods) {
+void CTerrainSceneNode::setCurrentLODOfPatches(const core::svector<std::int32_t>& lods) {
     const std::int32_t count = terrain.patchCount * terrain.patchCount;
     for (std::int32_t i = 0; i < count; ++i) {
         terrain.patches[i].lod = lods[static_cast<std::size_t>(i)];
@@ -199,7 +199,7 @@ void CTerrainSceneNode::setCurrentLODOfPatches(const std::vector<std::int32_t>& 
 }
 
 // 0x6d21ac _ZNK6glitch5scene17CTerrainSceneNode22getCurrentLODOfPatchesERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-void CTerrainSceneNode::getCurrentLODOfPatches(std::vector<std::int32_t>& lods) const {
+void CTerrainSceneNode::getCurrentLODOfPatches(core::svector<std::int32_t>& lods) const {
     lods.clear();
     const std::int32_t count = terrain.patchCount * terrain.patchCount;
     for (std::int32_t i = 0; i < count; ++i) {
@@ -615,7 +615,7 @@ float CTerrainSceneNode::getHeight(float x, float z) const {
 // The triangle list of the patch at row x, column z for a LOD (-1: the patch's current one). A given LOD is applied to all patches while
 // the indices are built and the old LODs are restored afterwards. The list has 6 * patchSize^2 slots; the answer is the number of
 // indices written (-1 for an invalid patch or LOD, -2 when the LOD is negative).
-std::int32_t CTerrainSceneNode::getIndicesForPatch(std::vector<std::uint32_t>& indices, std::int32_t x, std::uint32_t z, std::int32_t lod) {
+std::int32_t CTerrainSceneNode::getIndicesForPatch(core::svector<std::uint32_t>& indices, std::int32_t x, std::uint32_t z, std::int32_t lod) {
     if (x < 0) {
         return -1;
     }
@@ -623,7 +623,7 @@ std::int32_t CTerrainSceneNode::getIndicesForPatch(std::vector<std::uint32_t>& i
     if (patchCount <= x || static_cast<std::int32_t>(z) < 0 || patchCount <= static_cast<std::int32_t>(z) || lod < -1 || lod >= terrain.maxLOD) {
         return -1;
     }
-    std::vector<std::int32_t> saved;
+    core::svector<std::int32_t> saved;
     bool restore;
     std::int32_t effectiveLod = lod;
     if (lod == -1) {

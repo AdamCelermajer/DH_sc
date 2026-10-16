@@ -39,6 +39,8 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector / stringc (STLPORT-DECISION.md section 6)
+
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-core-io/io/attributes.hpp"
@@ -130,7 +132,7 @@ public:
     virtual ISceneNode* getSceneNodeFromUID(const char* uid, ISceneNode* start);                        // 0x589d48
     virtual ISceneNode* getSceneNodeFromName(const char* name, ISceneNode* start);                      // 0x589d58
     virtual ISceneNode* getSceneNodeFromType(E_SCENE_NODE_TYPE type, ISceneNode* start);               // 0x589298
-    virtual void getSceneNodesFromType(E_SCENE_NODE_TYPE type, std::vector<ISceneNode*>& out,
+    virtual void getSceneNodesFromType(E_SCENE_NODE_TYPE type, core::svector<ISceneNode*>& out,
                                        ISceneNode* start);                                              // 0x58c3cc
     // K 0x24, 0x58f348: files the node into the list for `pass`; false when it is not registered.
     virtual bool registerNodeForRendering(ISceneNode* node, const boost::intrusive_ptr<video::CMaterial>& material,
@@ -138,11 +140,11 @@ public:
                                           const core::vector3d<float>* position, int sortOrder);
     // K 0x28 .. 0x34: registration of a node tree and of a node vector, for rendering and for compiling.
     virtual void registerSceneNodes(ISceneNode* node);                                                  // 0x58b88c
-    virtual void registerSceneNodes(const std::vector<ISceneNode*>& nodes);                             // 0x589128
+    virtual void registerSceneNodes(const core::svector<ISceneNode*>& nodes);                             // 0x589128
     virtual void registerSceneNodesCompile(ISceneNode* node);                                           // 0x589fa4
-    virtual void registerSceneNodesCompile(const std::vector<ISceneNode*>& nodes);                      // 0x589168
+    virtual void registerSceneNodesCompile(const core::svector<ISceneNode*>& nodes);                      // 0x589168
     // K 0x38 / 0x3c, 0x58b728 and 0x58b7f4: the frame (drawInit, collect, setupCamera, register, shadows, renderLists).
-    virtual void drawAll(const std::vector<ISceneNode*>& nodes);
+    virtual void drawAll(const core::svector<ISceneNode*>& nodes);
     virtual void drawAll(ISceneNode* node);
     // K 0x40 .. 0x4c.
     virtual void drawInit(video::IVideoDriver* driver);                                                 // 0x589e7c
@@ -150,11 +152,11 @@ public:
     virtual void renderLists(video::IVideoDriver* driver);                                              // 0x590660
     virtual void drawShadowReceivers();                                                                 // 0x58b0a8
     // K 0x50 .. 0x5c: the four compile overloads (node vector or node tree; segment size as a vector3d or an unsigned).
-    virtual CBatchSceneNode* compile(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+    virtual CBatchSceneNode* compile(const core::svector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
                                      ISegmentCompileCallback* compileCallback,
                                      ISplitSegmentChoiceCallback* choiceCallback,
                                      core::vector3d<float> segmentSize);                                // 0x58ff10
-    virtual CBatchSceneNode* compile(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+    virtual CBatchSceneNode* compile(const core::svector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
                                      ISegmentCompileCallback* compileCallback,
                                      ISplitSegmentChoiceCallback* choiceCallback,
                                      std::uint32_t maxIndexCount);                                      // 0x58fee0
@@ -208,7 +210,7 @@ public:
     void addToDeletionQueue(ISceneNode* node);                                       // 0x58b4e0
     void collectAllNodes();                                                          // 0x58b7ac
     void collectAllNodes(ISceneNode* node);                                          // 0x58b558
-    void collectAllNodes(const std::vector<ISceneNode*>& nodes);                     // 0x58b6c8
+    void collectAllNodes(const core::svector<ISceneNode*>& nodes);                     // 0x58b6c8
     boost::intrusive_ptr<IAnimatedMesh> getMesh(io::IReadFile* file);                // 0x58bdb0
     boost::intrusive_ptr<IAnimatedMesh> getMesh(const char* fileName);               // 0x58e824
     void readUserData(io::IXMLReader* reader, ISceneNode* node, ISceneUserDataSerializer* userData);  // 0x58c4a4
@@ -216,7 +218,7 @@ public:
     void readMaterials(io::IXMLReader* reader, ISceneNode* node);                    // 0x58c8dc
     void readSceneNode(io::IXMLReader* reader, ISceneNode* parent, ISceneUserDataSerializer* userData);  // 0x58e1e0 (no answer in the original)
     void writeSceneNode(io::IXMLWriter* writer, const ISceneNode* node, ISceneUserDataSerializer* userData);    // 0x58cdd4
-    CBatchSceneNode* compileInternal(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+    CBatchSceneNode* compileInternal(const core::svector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
                                      ISegmentCompileCallback* compileCallback,
                                      ISplitSegmentChoiceCallback* choiceCallback);                       // 0x58fd10
     CBatchSceneNode* compileInternal(ISceneNode* node, CBatchSceneNode* batch, bool flag,
@@ -229,7 +231,7 @@ public:
     // SRenderDataSortNodeEntry instance exists in the binary only as the clones 0x353c7c and 0x58acac (never culls); 0x353f50 is
     // the SUnsortedNodeEntry clone with the cull test removed.
     template <typename Entry>
-    void renderList(E_SCENE_NODE_RENDER_PASS pass, std::vector<Entry>& list, bool clearList, bool cull);
+    void renderList(E_SCENE_NODE_RENDER_PASS pass, core::svector<Entry>& list, bool clearList, bool cull);
 
     // Members, in offset order. The base class occupies +0x00 (its vptr).
     ISceneNode* rootNode = nullptr;                          // +0x04
@@ -241,25 +243,25 @@ public:
     gui::IGUIEnvironment* guiEnvironment = nullptr;          // +0x24 (held)
     gui::ICursorControl* cursorControl = nullptr;            // +0x28 (held)
     CSceneCollisionManager* collisionManager = nullptr;      // +0x2c
-    std::vector<SUnsortedNodeEntry> shadowReceiverNodes;     // +0x30 pass 7 (drawShadowReceivers renders it)
-    std::vector<SUnsortedNodeEntry> cameraNodes;             // +0x3c pass 0 (duplicates are refused)
-    std::vector<SDistanceNodeEntry> lightNodes;              // +0x48 pass 1
-    std::vector<SRenderDataSortNodeEntry> shadowVolumeNodes;  // +0x54 pass 5
-    std::vector<SRenderDataSortNodeEntry> shadowMeshNodes;   // +0x60 pass 6
-    std::vector<SUnsortedNodeEntry> preSolidNodes;           // +0x6c pass 2
-    std::vector<SDefaultNodeEntry> defaultNodes;             // +0x78 passes 3, 4 and 8 (while compiling)
-    std::vector<STransparentNodeEntry> transparentNodes;     // +0x84 passes 3 and 8
-    std::vector<boost::intrusive_ptr<IShadowReceiverTarget>> shadowReceiverTargets;  // +0x90
+    core::svector<SUnsortedNodeEntry> shadowReceiverNodes;     // +0x30 pass 7 (drawShadowReceivers renders it)
+    core::svector<SUnsortedNodeEntry> cameraNodes;             // +0x3c pass 0 (duplicates are refused)
+    core::svector<SDistanceNodeEntry> lightNodes;              // +0x48 pass 1
+    core::svector<SRenderDataSortNodeEntry> shadowVolumeNodes;  // +0x54 pass 5
+    core::svector<SRenderDataSortNodeEntry> shadowMeshNodes;   // +0x60 pass 6
+    core::svector<SUnsortedNodeEntry> preSolidNodes;           // +0x6c pass 2
+    core::svector<SDefaultNodeEntry> defaultNodes;             // +0x78 passes 3, 4 and 8 (while compiling)
+    core::svector<STransparentNodeEntry> transparentNodes;     // +0x84 passes 3 and 8
+    core::svector<boost::intrusive_ptr<IShadowReceiverTarget>> shadowReceiverTargets;  // +0x90
     ISceneNode* currentNode = nullptr;                       // +0x9c (returned by getCurrentRenderedNode)
     void* currentUserData = nullptr;                         // +0xa0
     std::int32_t currentSortOrder = 0;                       // +0xa4
     ISceneNode* nextNode = nullptr;                          // +0xa8 (returned by getNextRenderedNode)
     void* nextUserData = nullptr;                            // +0xac
     std::int32_t nextSortOrder = 0;                          // +0xb0
-    std::vector<IMeshLoader*> externalMeshLoaders;           // +0xb4
-    std::vector<ISceneNode*> deletionQueue;                  // +0xc0
-    std::vector<ISceneNodeFactory*> sceneNodeFactories;      // +0xcc
-    std::vector<ISceneNodeAnimatorFactory*> sceneNodeAnimatorFactories;  // +0xd8
+    core::svector<IMeshLoader*> externalMeshLoaders;           // +0xb4
+    core::svector<ISceneNode*> deletionQueue;                  // +0xc0
+    core::svector<ISceneNodeFactory*> sceneNodeFactories;      // +0xcc
+    core::svector<ISceneNodeAnimatorFactory*> sceneNodeAnimatorFactories;  // +0xd8
     ICameraSceneNode* activeCamera = nullptr;                // +0xe4 (a reference is held)
     core::vector3d<float> cameraPosition;                    // +0xe8 (setupCamera)
     video::SColor shadowColors[4];                           // +0xf4 .. +0x103
@@ -272,10 +274,10 @@ public:
     std::wstring typeAttributeName{L"t"};                    // +0x208 the node element's type attribute
     bool cullingEnabled = true;                              // +0x250 (isCulled returns false when clear)
     float time = 0.0f;                                       // +0x254
-    std::vector<void*> unusedListA;                          // +0x258 (freed by the destructor, never filled by the engine)
-    std::vector<void*> unusedListB;                          // +0x264 (same)
-    std::vector<ISceneNode*> renderNodes;                    // +0x270 begin, +0x274 end, +0x278 capacity (collectAllNodes)
-    std::vector<ISceneNode*> animatedNodes;                  // +0x27c begin, +0x280 end, +0x284 capacity (nodes with animators)
+    core::svector<void*> unusedListA;                          // +0x258 (freed by the destructor, never filled by the engine)
+    core::svector<void*> unusedListB;                          // +0x264 (same)
+    core::svector<ISceneNode*> renderNodes;                    // +0x270 begin, +0x274 end, +0x278 capacity (collectAllNodes)
+    core::svector<ISceneNode*> animatedNodes;                  // +0x27c begin, +0x280 end, +0x284 capacity (nodes with animators)
     bool hierarchyChanged = true;                            // +0x288
     bool visibilityChanged = true;                           // +0x289
     bool batchCompiling = false;                             // +0x28a set while compileInternal runs: transparent passes use the default list

@@ -73,9 +73,9 @@ int CZipReader::getFileCount() const { return static_cast<int>(files_.size()); }
 // The first-byte test reads the char at the end, the terminator, so it never matches. A
 // separator at index 0 is found but not removed, so only a separator at index 1 or later
 // splits the name.
-void CZipReader::deletePathFromFilename(std::string& name) {
+void CZipReader::deletePathFromFilename(vox::VoxString& name) {
     const std::size_t slash = name.find_last_of("/\\");
-    if (slash == std::string::npos || slash == 0) {
+    if (slash == vox::VoxString::npos || slash == 0) {
         return;
     }
     name.erase(0, slash + 1);
@@ -95,10 +95,10 @@ void CZipReader::extractFilename(SZipFileEntry& entry) {
 
     // The separator is looked for from the name length backwards. A separator at the
     // name length itself counts, and one at index 0 does not split the name.
-    const std::string& path = entry.path_;
+    const vox::VoxString& path = entry.path_;
     const std::size_t index = name_length;
     const char at_index = index < path.size() ? path[index] : '\0';
-    std::size_t slash = std::string::npos;
+    std::size_t slash = vox::VoxString::npos;
     if (at_index == '/') {
         slash = index;
     } else {
@@ -111,15 +111,15 @@ void CZipReader::extractFilename(SZipFileEntry& entry) {
         }
     }
 
-    if (slash == std::string::npos || slash == 0) {
+    if (slash == vox::VoxString::npos || slash == 0) {
         entry.directory_.clear();
     } else {
         const std::size_t split = slash + 1;
         entry.directory_ = path.substr(0, std::min(split, path.size()));
         // The basename of the whole path, as the original copies it.
-        entry.file_name_ = split < path.size() ? path.substr(split) : std::string();
+        entry.file_name_ = split < path.size() ? path.substr(split) : vox::VoxString();
     }
-    if (slash == std::string::npos || slash == 0) {
+    if (slash == vox::VoxString::npos || slash == 0) {
         entry.file_name_ = path;
     }
     // Directories kept: the key is the full path. Directories stripped: the basename.
@@ -132,7 +132,7 @@ void CZipReader::extractFilename(SZipFileEntry& entry) {
 // optional directory strip (flag +0x21) and the optional ASCII fold (flag +0x20). Only
 // stored members (method 0) are reported, with their data offset and uncompressed size.
 int CZipReader::getFileInfo(const char* name, int& offset, int& size) {
-    std::string key(name);
+    vox::VoxString key(name);
     if (strip_directories_) {
         deletePathFromFilename(key);
     }

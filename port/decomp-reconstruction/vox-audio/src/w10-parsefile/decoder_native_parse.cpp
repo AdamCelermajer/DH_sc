@@ -328,7 +328,7 @@ bool DecoderNativeCursor::ParseFile() {
                     while (length < limit && text[length] != '\0') {
                         ++length;
                     }
-                    native->interactive_states_[std::string(text, length)] = i;
+                    native->interactive_states_[vox::VoxString(text, length)] = i;
                 }
                 pos = NextAfterRecords(pos, rec, count);
                 break;

@@ -570,8 +570,8 @@ void CGUITable::orderRows(int columnIndex, EGUI_ORDERING_MODE mode) {
     const int last = static_cast<int>(rows.size()) - 1;
     for (int outer = 0; outer < last; ++outer) {
         for (int inner = 0; inner < last - outer; ++inner) {
-            const std::wstring& current = rows[static_cast<std::size_t>(inner)][column].text;
-            const std::wstring& next = rows[static_cast<std::size_t>(inner) + 1][column].text;
+            const core::stringw& current = rows[static_cast<std::size_t>(inner)][column].text;
+            const core::stringw& next = rows[static_cast<std::size_t>(inner) + 1][column].text;
             const bool swapNeeded = mode == EGOM_ASCENDING ? next < current : current < next;
             if (swapNeeded) {
                 Row swap = rows[static_cast<std::size_t>(inner)];
@@ -590,7 +590,7 @@ void CGUITable::orderRows(int columnIndex, EGUI_ORDERING_MODE mode) {
 // 0x558e28 _ZN6glitch3gui9CGUITable9breakTextERKNSt...basic_stringIwSt11char_traitsIwEN6glitch4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEEEERS8_j
 // The text is taken char by char while it fits; the first line break or a char that no longer fits ends it. The result is the whole text when
 // it fits, else the text up to the last char that left room for the three dots, followed by the dots.
-void CGUITable::breakText(const std::wstring& text, std::wstring& brokenText, std::uint32_t cellWidth) {
+void CGUITable::breakText(const core::stringw& text, core::stringw& brokenText, std::uint32_t cellWidth) {
     IGUISkin* skin = environment->getSkin();  // K 0x38
     if (skin == nullptr || font == nullptr) {
         return;

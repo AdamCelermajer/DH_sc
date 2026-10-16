@@ -6,6 +6,7 @@
 #include <cstring>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/tb/glitch_scene.hpp"
 
@@ -18,7 +19,7 @@ using glitch::core::vector3d;
 using glitch::video::IBuffer;
 using glitch::video::SVertexStream;
 
-using TriangleVector = std::vector<triangle3d<float>>;
+using TriangleVector = core::svector<triangle3d<float>>;
 
 // Reads component k of one vertex and converts it to float. The original converts integer components
 // with the ARM helpers (__aeabi_ui2f for unsigned, the signed variant otherwise) and copies float

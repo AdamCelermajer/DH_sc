@@ -219,6 +219,14 @@ void setMatrixParameter(core::CMatrix4<float>*& slot, const core::CMatrix4<float
     }
 }
 
+// 0x5badb8 _ZN6glitch5video6detail18setMatrixParameterEPPNS_4core8CMatrix4IfEERKS4_NS2_10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEE
+// The original's entry takes the slot's address and the (empty) allocator of the matrix pool by value; the tree keeps the
+// slot as a reference and the pool as the file-local matrixPool(), so this overload only adapts the call.
+void setMatrixParameter(core::CMatrix4<float>** slot, const core::CMatrix4<float>& src,
+                        core::SAllocator<core::CMatrix4<float>> /*poolAllocator*/) {
+    setMatrixParameter(*slot, src);
+}
+
 // ---------------------------------------------------------------------------
 // CMaterial (kTrackDirty = true). The table is reached through the block pointer.
 // ---------------------------------------------------------------------------

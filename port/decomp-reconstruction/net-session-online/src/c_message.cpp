@@ -1,4 +1,5 @@
 #include "net-session-online/c_message.hpp"
+#include "net-transport/socket_platform.hpp"
 
 #include <cstring>
 
@@ -125,7 +126,7 @@ std::uint32_t CMessage::ReadHeader(NetBitStream& stream) {
 
 // 0x809b80 _ZN8CMessage9SerializeER12NetBitStream
 void CMessage::Serialize(NetBitStream& stream) {
-    stream.WriteByte(static_cast<std::uint8_t>(header_.type), 8);
+    stream.WriteByte(WireTypeId(), 8);  // LDRB [this,#0x10]: the type id byte, not the serial at +0x04 (the old body wrote header_.type, so a receiver built the wrong message class)
     WriteHeader(stream);
     WriteData(stream);
 }
@@ -245,6 +246,9 @@ CMessage* CMessage::CreateMessage(int typeId, bool arg) {
 CMessage* CMessage::Unserialize(NetBitStream& stream) {
     const int typeId = static_cast<std::int8_t>(stream.ReadByte(8));
     CMessage* message = CreateMessage(typeId, false);
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] CMessage::Unserialize type %d (%s) -> %p\n", typeId, typeId >= 0 && typeId < kMaxTypes ? messageTypeArray_[typeId] : "?", static_cast<void*>(message));
+#endif
     if (message == nullptr) {
         return nullptr;
     }

@@ -135,7 +135,7 @@ int main() {
         CHECK(stripped.getFileInfo("Data/Hello.txt", offset, size) == 1);
     }
     {
-        std::string name = "a/b/c.txt";
+        vox::VoxString name = "a/b/c.txt";
         vox::CZipReader reader(kZipName, false, false);
         reader.deletePathFromFilename(name);
         CHECK(name == "c.txt");

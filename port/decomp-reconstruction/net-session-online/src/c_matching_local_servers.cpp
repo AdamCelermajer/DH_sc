@@ -83,7 +83,7 @@ void CMatchingLocal::ProcessServerMessage(const CNetworkId& /*from*/, NetBitStre
         stream.ReadByteArray(&header, sizeof header);
         CRoomAttributes attributes;
         attributes.Unserialize(stream);
-        if (CConnectionManager::GetInstance()->IsConnected(header.memberId) && header.memberCount > joinThreshold_) {
+        if (CConnectionManager::GetInstance()->IsConnected(header.memberId) && header.memberCount > memberCapacity_) {
             CConnectionManager::GetInstance()->Disconnect(header.memberId, false);
             MatchingInternalEventQueue().AddEvent(8388621, nullptr, 0);  // 0x80000d
         }

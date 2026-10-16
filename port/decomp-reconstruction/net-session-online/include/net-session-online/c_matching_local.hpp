@@ -233,8 +233,9 @@ public:
     // 0x801b54 _ZN16CMatchingLocal17GetRoomAttributesEv: the room attributes at +0x4660.
     CRoomAttributes* GetRoomAttributes() { return &roomAttributes_; }
 
-    // The matching object the static callbacks route to (CMatching::s_Matching in the original).
-    static CMatchingLocal* s_Matching;
+    // The static callbacks route to CMatching::s_Matching (the base class's global, set by CMatching::Get). WHAT THE OLD CODE GOT
+    // WRONG: this class declared its own `static CMatchingLocal* s_Matching` that nothing ever set, so the first broadcast packet
+    // (a room announcement from a host) dereferenced null and the LAN lobby crashed on the joiner.
 
     // Test seams. Not in the original. The two room flags are the room-info record's bool members now, so
     // the seam drives those members (and therefore their SetChanged notifications) instead of the two
@@ -244,7 +245,7 @@ public:
     std::int32_t ServerMemberIdForTest() const { return serverMemberId_; }
     void SetInitializedForTest(bool value) { initialized_ = value; }
     void SetBaseRoomClosedForTest(bool value) { baseRoomClosed_ = value; }
-    void SetJoinThresholdForTest(std::int32_t value) { joinThreshold_ = value; }
+    void SetJoinThresholdForTest(std::int32_t value) { memberCapacity_ = value; }
     void SetRoomOperationPendingForTest(bool value) { roomOperationPending_ = value; }
     void SetServerPollTimeForTest(std::int32_t value) { serverPollTime_ = value; }
     std::int32_t ServerPollTimeForTest() const { return serverPollTime_; }
@@ -261,7 +262,8 @@ public:  // members are public (Track B decision 9)
 
     // Base-class fields of the original (CMatching). Their writers are not in this port yet.
     // (+0x0c initialized_, +0x0d roomHidden_, +0x0e baseRoomClosed_ are the CMatching base fields.)
-    std::int32_t joinThreshold_ = 0;       // +0x08 (rank limit used by JoinRoomInternal and ProcessServerMessage)
+    // +0x08 is the CMatching base memberCapacity_ (the Initialize argument): the rank limit of JoinRoomInternal / ProcessServerMessage.
+    // WHAT THE OLD BODY GOT WRONG: a separate joinThreshold_ field shadowed it and stayed 0, so every join answered "room full" (0x80000d).
 
     bool roomOperationPending_ = false;    // +0x3630
     std::int32_t nextPeerKey_ = 1;         // +0x3634 (key of the next server entry)

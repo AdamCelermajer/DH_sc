@@ -213,7 +213,7 @@ void VisualObject::_FindModularSkinnedMeshNode() {
     if (sm == nullptr) {
         return;
     }
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     sm->getSceneNodesFromType(kTypeModular, nodes, m_node);
     for (glitch::scene::ISceneNode* node : nodes) {
         m_modularNode = static_cast<glitch::collada::CModularSkinnedMeshSceneNode*>(node);
@@ -232,7 +232,7 @@ void VisualObject::ResetSkinning() {
     if (sm == nullptr) {
         return;
     }
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     sm->getSceneNodesFromType(kTypeModular, nodes, m_node);
     const int categories = GetModularCategoryCount();
     for (glitch::scene::ISceneNode* node : nodes) {
@@ -268,7 +268,7 @@ void VisualObject::ApplyMaterialEffect(glitch::core::vector3d<float> color, floa
         if (m_node != nullptr) {
             const std::uint32_t types[3] = {0x6D656164, 0x73656164, 0x4D656164};
             for (std::uint32_t type : types) {
-                std::vector<glitch::scene::ISceneNode*> nodes;
+                glitch::core::svector<glitch::scene::ISceneNode*> nodes;
                 sm->SearchByType(m_node, nodes, type);
                 for (glitch::scene::ISceneNode* node : nodes) {
                     sm->SetMaterialEffects(node, color, a, b);
@@ -291,7 +291,7 @@ void VisualObject::ApplyUnlitColorMaterial() {
     if (sm == nullptr) {
         return;
     }
-    std::vector<glitch::scene::ISceneNode*> nodes;
+    glitch::core::svector<glitch::scene::ISceneNode*> nodes;
     sm->SearchByType(m_node, nodes, static_cast<std::uint32_t>(0x73656164));
     for (glitch::scene::ISceneNode* node : nodes) {
         glitch::scene::ISceneNode* parent = node->getParent();

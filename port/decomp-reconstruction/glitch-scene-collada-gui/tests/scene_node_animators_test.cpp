@@ -177,7 +177,7 @@ int main() {
     // ---- FollowSpline -------------------------------------------------------------------------------------------------
     {
         auto* node = new CEmptySceneNode(1);
-        const std::vector<vector3d<float>> points = {{0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {2.0f, 0.0f, 0.0f}, {3.0f, 0.0f, 0.0f}};
+        const glitch::core::svector<vector3d<float>> points = {{0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {2.0f, 0.0f, 0.0f}, {3.0f, 0.0f, 0.0f}};
         CSceneNodeAnimatorFollowSpline animator(0, points, 1.0f, 0.5f);
         CHECK(animator.getType() == ESNAT_FOLLOW_SPLINE && static_cast<int>(animator.getType()) == 2);
         animator.animateNode(node, 0);

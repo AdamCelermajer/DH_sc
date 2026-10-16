@@ -49,8 +49,8 @@ constexpr std::uint32_t kMaterialNodeTypes[3] = {0x6d656164u, 0x73656164u, 0x4d6
 constexpr std::size_t kMaxBatchEntries = std::numeric_limits<unsigned>::max() / sizeof(void*);
 
 // Every node the material walkers visit: the three searches of the original, appended to one list in order.
-std::vector<ISceneNode*> SearchMaterialNodes(SceneManager& manager, ISceneNode* root) {
-    std::vector<ISceneNode*> nodes;
+glitch::core::svector<ISceneNode*> SearchMaterialNodes(SceneManager& manager, ISceneNode* root) {
+    glitch::core::svector<ISceneNode*> nodes;
     for (std::uint32_t type : kMaterialNodeTypes) {
         manager.SearchByType(root, nodes, type);
     }
@@ -124,19 +124,19 @@ void SceneManager::_RegisterAutomacticLights() {
 }
 
 // 0x353dec SceneManager::renderCustomList<glitch::scene::CSceneManager::SUnsortedNodeEntry>(
-//          E_SCENE_NODE_CUSTOM_RENDER_PASS, std::vector<SUnsortedNodeEntry>&)
+//          E_SCENE_NODE_CUSTOM_RENDER_PASS, glitch::core::svector<SUnsortedNodeEntry>&)
 // renderPass (+0x174) takes the pass clamped to 9, and m_customRenderPass (+0x488) keeps the pass. The walk is the engine's
 // renderList over the list: a zeroed sentinel is appended, ISceneNode::render(userData) (vtable +0x1c) runs on each entry while
 // the current and next rendered-node words (+0x9c..+0xb0) slide over the entries, and the list ends empty (resize to 0).
 template <typename Entry>
-void SceneManager::renderCustomList(std::uint32_t pass, std::vector<Entry>& list) {
+void SceneManager::renderCustomList(std::uint32_t pass, glitch::core::svector<Entry>& list) {
     renderPass = static_cast<glitch::scene::E_SCENE_NODE_RENDER_PASS>(pass <= 8 ? pass : 9);
     m_customRenderPass = pass;
     renderList(renderPass, list, true, false);
 }
 
 template void SceneManager::renderCustomList<glitch::scene::CSceneManager::SUnsortedNodeEntry>(
-    std::uint32_t, std::vector<glitch::scene::CSceneManager::SUnsortedNodeEntry>&);
+    std::uint32_t, glitch::core::svector<glitch::scene::CSceneManager::SUnsortedNodeEntry>&);
 
 // 0x354468 SceneManager::clear(void)
 // In the original's order: the loaded scene roots are dropped and the list emptied, the base clear runs, the light set manager is

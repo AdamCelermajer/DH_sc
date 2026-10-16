@@ -105,7 +105,7 @@ void AnimatorBlender::BlendPost() {}
 
 // 0x366764 AnimatorBlender::compile(std::vector<unsigned char, glitch::core::SAllocator<unsigned char, ...>>*)
 // Thunk: the original tail-branches to the engine base with the buffer argument unchanged (asm checked).
-void AnimatorBlender::compile(std::vector<std::uint8_t>* buffer) {
+void AnimatorBlender::compile(glitch::core::svector<std::uint8_t>* buffer) {
     glitch::collada::CSceneNodeAnimatorBlender::compile(buffer);
 }
 

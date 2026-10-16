@@ -76,12 +76,12 @@ void testPakOrder() {
     // The name is compared as signed chars: 0xff is -1, below 'a' (0x61).
     std::vector<glitch::io::SPakFileEntry> entries(4);
     entries[0].simpleFileName = "b";
-    entries[1].simpleFileName = std::string("\xff", 1);
+    entries[1].simpleFileName = glitch::core::stringc("\xff", 1);
     entries[2].simpleFileName = "a";
     entries[3].simpleFileName = "ab";
     CHECK(entries[1] < entries[2]);
     glitch::core::heapsort(entries.data(), static_cast<int>(entries.size()));
-    CHECK(entries[0].simpleFileName == std::string("\xff", 1));
+    CHECK(entries[0].simpleFileName == glitch::core::stringc("\xff", 1));
     CHECK(entries[1].simpleFileName == "a");
     CHECK(entries[2].simpleFileName == "ab");
     CHECK(entries[3].simpleFileName == "b");

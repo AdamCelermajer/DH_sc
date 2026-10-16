@@ -18,6 +18,8 @@
 #pragma once
 
 #include <string>
+
+#include "glitch-core-io/core/allocator.hpp"  // core::stringc / stringw / svector (STLPORT-DECISION.md section 6)
 #include <vector>
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
@@ -190,10 +192,10 @@ public:
     };
     SToolTip toolTip;                                       // +0x160
     std::vector<IGUIElementFactory*> factories;             // +0x16c
-    std::vector<SFont> fonts;                               // +0x178
-    std::vector<STTFont> ttFonts;                           // +0x184
-    std::vector<SFace> faces;                               // +0x190
-    std::vector<SSpriteBank> spriteBanks;                   // +0x19c
+    core::svector<SFont> fonts;                               // +0x178
+    core::svector<STTFont> ttFonts;                           // +0x184
+    core::svector<SFace> faces;                               // +0x190
+    core::svector<SSpriteBank> spriteBanks;                   // +0x19c
     video::IVideoDriver* driver = nullptr;                  // +0x1a8
     IGUIElement* hovered = nullptr;                         // +0x1ac
     IGUIElement* focus = nullptr;                           // +0x1b0

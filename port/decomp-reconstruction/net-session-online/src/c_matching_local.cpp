@@ -67,9 +67,6 @@ void CMatchingLocal::ProcessChangeServerMessage(std::int32_t /*from*/, NetBitStr
     MatchingInternalEventQueue().AddEvent(0x80000b, &serverId, sizeof serverId);
 }
 
-// The matching object the static packet callbacks use (CMatching::s_Matching in the original).
-CMatchingLocal* CMatchingLocal::s_Matching = nullptr;
-
 // 0x807e44 _ZN14CMatchingLocalC2Ev
 // Reconstructed against the 0x807e44 pseudocode, in its order:
 //   CMatching::CMatching(this)                       [implicit: the base constructor runs first]

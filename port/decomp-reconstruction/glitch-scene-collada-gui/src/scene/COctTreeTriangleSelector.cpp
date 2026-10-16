@@ -148,7 +148,7 @@ void COctTreeTriangleSelector::getTriangles(core::triangle3d<float>* out, int ar
 void COctTreeTriangleSelector::constructOctTree(SOctTreeNode* node) {
     ++nodeCount;
 
-    std::vector<core::triangle3d<float>>& tris = node->triangles;
+    core::svector<core::triangle3d<float>>& tris = node->triangles;
     core::aabbox3d<float>& box = node->box;
 
     // Node box: min and max over every corner of every triangle (strict compares per axis).
@@ -181,7 +181,7 @@ void COctTreeTriangleSelector::constructOctTree(SOctTreeNode* node) {
     }
 
     // Triangles that do not fit wholly inside a child stay in this node (the original's temporary vector).
-    std::vector<core::triangle3d<float>> remaining;
+    core::svector<core::triangle3d<float>> remaining;
 
     for (int k = 0; k < 8; ++k) {
         const core::vector3d<float>& corner = corners[k];

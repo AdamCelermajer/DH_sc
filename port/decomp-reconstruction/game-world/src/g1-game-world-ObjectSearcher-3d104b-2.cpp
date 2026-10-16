@@ -1,11 +1,12 @@
+#include <cstdlib>
 // Batch g1-game-world-ObjectSearcher-3d104b-2 (ObjectSearcher, part 3): the backup and room list helpers, the
 // TargetList constructor, the Search and SearchRect families, Resort and BackupResults. Declarations come from
 // dh2/ObjectSearcher.hpp. Offsets in comments are the original 32-bit ones.
 //
 // Skipped: the two deleting destructors (0x4a19c4 RoomObjectList, 0x4a1fcc BackupObjectList). The compiler emits
 // them for `delete`; each is the complete-object destructor followed by CustomFree(this).
-// Partial: none. 0x4a1ab8 _IsCharacterValid now applies the level gate (refChar CharProperties::m_props.m_w207 =
-// Character +0x1314 against the candidate's m_w208 = +0x1310, both signed), and 0x4a2858 SearchRect and 0x4a2f34
+// Partial: none. 0x4a1ab8 _IsCharacterValid applies the sneak gate (the searcher's Special_Sneak_Detection = Character +0x1314
+// against the candidate's Special_Sneak = +0x1310, both signed), and 0x4a2858 SearchRect and 0x4a2f34
 // Search use the real Point3D<float>::normalize and ::angle members (0x34d0b0 / 0x313058), which dh2/Point3D.hpp
 // declares and g1-game-world-Point3D-3d74ab-0.cpp defines. The old "cannot share a TU with game_types.hpp" note is
 // STALE: the stand-in includes Point3D.hpp now and this translation unit compiles.
@@ -193,8 +194,10 @@ bool ObjectSearcher::TargetList::_IsCharacterValid(Character* character) {
     if (!refChar) {
         return true;
     }
-    // m_props.m_w207 is Character +0x1314, m_props.m_w208 is +0x1310 (both signed).
-    if (refChar->CharProperties::m_props.Threat_PerDamageToFriendly < character->CharProperties::m_props.Menu_Average_Melee_To_Hit) {
+    // Sneak gate: the searcher's Special_Sneak_Detection (Character +0x1314 = m_props +0x320) against the candidate's Special_Sneak
+    // (+0x1310 = m_props +0x31c), both signed. m_props sits at Character +0xff4 (AIFaction, the first word, is at +0xff8).
+    // This gate used to read Threat_PerDamageToFriendly / Menu_Average_Melee_To_Hit (+0x1330 / +0x1334), words 0x1c apart.
+    if (refChar->CharProperties::m_props.Special_Sneak_Detection < character->CharProperties::m_props.Special_Sneak) {
         return false;
     }
     const int mask = m_filterMask;

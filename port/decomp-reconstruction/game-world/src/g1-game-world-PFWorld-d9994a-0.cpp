@@ -315,7 +315,7 @@ PFRoom* PFWorld::LoadRoom(glitch::scene::ISceneNode* node, unsigned int flags, c
     m_rooms.push_back(room);
 
     SceneManager* sceneManager = DeviceSceneManager();
-    std::vector<glitch::scene::ISceneNode*> found;
+    glitch::core::svector<glitch::scene::ISceneNode*> found;
     // Node type tag 1835360612 = 0x6d656164, the fourcc "daem". scene_types.hpp has no enumerator for it.
     sceneManager->SearchByType(node, found, 0x6d656164u);
 

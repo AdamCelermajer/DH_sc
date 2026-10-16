@@ -108,7 +108,7 @@ io::IReadFile* CResFileManager::getReadFile(io::IReadFile* file) {
 // no texture clears it.
 void CResFileManager::updateExternalResources(CResFile* file, io::IReadFile* reader) {
     SDatabaseTables* tables = file->data->tables;
-    const std::string directory = device->fileSystem->getFileDir(file->name);
+    const core::stringc directory = device->fileSystem->getFileDir(core::stringc(file->name.c_str()));
     video::CTextureManager* textures = device->videoDriver->m_textureManager;
     for (SImage* image : tables->images) {
         const ELOG_LEVEL level = os::Printer::getLogLevel();
@@ -173,7 +173,7 @@ int CResFileManager::postLoadProcess(CResFile* file, io::IReadFile* reader) {
     for (SAnimation* animation : tables->animations) {
         animation->trackEx = CColladaDatabase::getAnimationTrackEx(animation);
     }
-    const std::string directory = device->fileSystem->getFileDir(file->name);
+    const core::stringc directory = device->fileSystem->getFileDir(core::stringc(file->name.c_str()));
     video::CTextureManager* textures = device->videoDriver->m_textureManager;
     for (SImage* image : tables->images) {
         if (image->external != 0) {
@@ -296,7 +296,7 @@ std::int32_t CResFileManager::unload(std::map<std::string, CResFile*>::iterator 
 // 0x659b60 _ZN6glitch7collada15CResFileManager6unloadEPKcb
 // The name is made absolute by the file system and looked up.
 std::int32_t CResFileManager::unload(const char* fileName, bool flag) {
-    const std::string absolute = device->fileSystem->getAbsolutePath(std::string(fileName));
+    const std::string absolute = core::to_std(device->fileSystem->getAbsolutePath(core::stringc(fileName)));
     return unload(files.find(absolute), flag);
 }
 
@@ -333,7 +333,7 @@ std::int32_t CResFileManager::unloadAll() {
 CResFile* CResFileManager::get(io::IReadFile* file, bool create, bool flag) {
     const bool savedAutoUnload = Inst->autoUnloadEnabled;
     Inst->autoUnloadEnabled = false;
-    const std::string absolute = device->fileSystem->getAbsolutePath(std::string(file->getFileName()));
+    const std::string absolute = core::to_std(device->fileSystem->getAbsolutePath(core::stringc(file->getFileName())));
     CResFile* record = nullptr;
     auto found = files.find(absolute);
     if (found == files.end()) {
@@ -369,7 +369,7 @@ CResFile* CResFileManager::get(io::IReadFile* file, bool create, bool flag) {
 CResFile* CResFileManager::get(const char* fileName, bool create) {
     const bool savedAutoUnload = Inst->autoUnloadEnabled;
     Inst->autoUnloadEnabled = false;
-    const std::string absolute = device->fileSystem->getAbsolutePath(std::string(fileName));
+    const std::string absolute = core::to_std(device->fileSystem->getAbsolutePath(core::stringc(fileName)));
     CResFile* record = nullptr;
     auto found = files.find(absolute);
     if (found == files.end()) {
@@ -412,7 +412,7 @@ CResFile* CResFileManager::get(const char* fileName, bool create) {
 // A name relative to a record: the record's directory is added to the file system as a folder archive (with a closing slash) for the duration
 // of the lookup; a record in no directory is looked up by name alone.
 CResFile* CResFileManager::get(CResFile* relativeTo, const char* fileName, bool create) {
-    std::string directory = device->fileSystem->getFileDir(relativeTo->name);
+    std::string directory = core::to_std(device->fileSystem->getFileDir(core::stringc(relativeTo->name.c_str())));
     if (directory.empty()) {
         return get(fileName, create);
     }
@@ -447,7 +447,7 @@ CResFile* CResFileManager::load(const char* fileName, bool flag, void (*)(const 
 // 0x659704 _ZN6glitch7collada11CResFactory10getTextureEPNS0_8CResFileERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEPNS_2io9IReadFileEPNS_5video15CTextureManagerEPNS0_6SImageE
 // The image's path (+0x08) looked up in the texture manager; the image's name (+0x00) is the alias handed along only when the manager's
 // flag_0x29 is set.
-boost::intrusive_ptr<video::ITexture> CResFactory::getTexture(CResFile*, const std::string& directory, io::IReadFile* file,
+boost::intrusive_ptr<video::ITexture> CResFactory::getTexture(CResFile*, const core::stringc& directory, io::IReadFile* file,
                                                               video::CTextureManager* manager, SImage* image) {
     const char* alias = (CResFileManager::Inst != nullptr && CResFileManager::Inst->flag_0x29) ? image->name : nullptr;
     return getTextureImpl(directory, file, manager, image->path, alias);
@@ -456,7 +456,7 @@ boost::intrusive_ptr<video::ITexture> CResFactory::getTexture(CResFile*, const s
 // 0x6594a0 _ZN6glitch7collada11CResFactory14getTextureImplERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEPNS_2io9IReadFileEPNS_5video15CTextureManagerEPKcSJ_
 // The manager is asked for "directory/name" (with the alias), then for the name alone; failing that, the file is asked for an external buffer of
 // that name (slot +0x34) and, when it has one, the texture is made from it as a memory file called "directory/name".
-boost::intrusive_ptr<video::ITexture> CResFactory::getTextureImpl(const std::string& directory, io::IReadFile* file,
+boost::intrusive_ptr<video::ITexture> CResFactory::getTextureImpl(const core::stringc& directory, io::IReadFile* file,
                                                                   video::CTextureManager* manager, const char* name, const char* alias) {
     boost::intrusive_ptr<video::ITexture> texture = manager->getTexture((directory + "/" + name).c_str(), alias);
     if (!texture) {
@@ -465,7 +465,7 @@ boost::intrusive_ptr<video::ITexture> CResFactory::getTextureImpl(const std::str
             long size = 0;
             void* buffer = file->getExternalBuffer(name, &size);
             if (buffer != nullptr) {
-                const std::string memoryName = directory + "/" + name;
+                const core::stringc memoryName = directory + "/" + name;
                 io::CMemoryReadFile memory(buffer, size, memoryName.c_str(), false);
                 texture = manager->getTexture(&memory, alias, false);
             }

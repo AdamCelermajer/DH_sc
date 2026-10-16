@@ -91,7 +91,7 @@ int main() {
     {
         FileSystemUnderTest fs;
         CHECK(fs.existFile("glitch_core_io_no_such_file_cfs.tmp") == 0);
-        CHECK(fs.existFile(std::string("glitch_core_io_no_such_file_cfs.tmp")) == 0);
+        CHECK(fs.existFile(glitch::core::stringc("glitch_core_io_no_such_file_cfs.tmp")) == 0);
 
         CPakReader* pak = new CPakReader();
         pak->ignoreCase = false;

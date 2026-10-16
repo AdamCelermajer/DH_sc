@@ -37,7 +37,7 @@ std::int32_t wrapIndex(std::int32_t index, std::int32_t count) {
 // 0x6cccc0 _ZN6glitch5scene30CSceneNodeAnimatorFollowSplineC1EjRKSt6vectorINS_4core8vector3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEEff
 // 0x6ccdd8 _ZN6glitch5scene30CSceneNodeAnimatorFollowSplineC2EjRKSt6vectorINS_4core8vector3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEEff
 CSceneNodeAnimatorFollowSpline::CSceneNodeAnimatorFollowSpline(std::uint32_t startTimeIn,
-                                                               const std::vector<core::vector3d<float>>& pointsIn,
+                                                               const core::svector<core::vector3d<float>>& pointsIn,
                                                                float speedIn, float tightnessIn)
     : points(pointsIn), speed(speedIn), tightness(tightnessIn), startTime(startTimeIn) {}
 

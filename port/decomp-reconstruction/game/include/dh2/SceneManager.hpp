@@ -59,12 +59,12 @@ public:
     int m_registerCounter;                                          // +0x440 incremented by _registerSceneNodes, reset when the nodes are registered
     int m_registerInterval;                                         // +0x444 set to 4 by the ctor; _registerSceneNodes registers when the counter is a multiple of it
     bool m_forceRegister;                                           // +0x448 set by ForceRegister, cleared after a registration
-    std::vector<glitch::scene::ISceneNode*> m_loadedScenes;         // +0x44c .. +0x457 (begin, end, cap) scene roots appended by PreloadScene, dropped and emptied by clear()
+    glitch::core::svector<glitch::scene::ISceneNode*> m_loadedScenes;         // +0x44c .. +0x457 (begin, end, cap) scene roots appended by PreloadScene, dropped and emptied by clear()
     float unk_458;                                                  // +0x458 cleared by the ctor; Level::_LoadProcess copies LevelConfig fog_direction_mask X here, Level::Update scales the fog distance by it
     float unk_45c;                                                  // +0x45c cleared by the ctor; fog_direction_mask Y
     float unk_460;                                                  // +0x460 set to 1.0f by the ctor
-    std::vector<glitch::scene::CSceneManager::SDefaultNodeEntry> m_gameNodes464;   // +0x464 (begin, end, cap) game render list of pass 9 (registerNodeForCustomRendering); destroyed by ~SceneManager
-    std::vector<glitch::scene::CSceneManager::SDefaultNodeEntry> m_gameNodes470;   // +0x470 (begin, end, cap) game render list of pass 10; destroyed by ~SceneManager
+    glitch::core::svector<glitch::scene::CSceneManager::SDefaultNodeEntry> m_gameNodes464;   // +0x464 (begin, end, cap) game render list of pass 9 (registerNodeForCustomRendering); destroyed by ~SceneManager
+    glitch::core::svector<glitch::scene::CSceneManager::SDefaultNodeEntry> m_gameNodes470;   // +0x470 (begin, end, cap) game render list of pass 10; destroyed by ~SceneManager
     void** m_batchBegin;                                            // +0x47c begin of a GlitchAlloc block of batch node pointers, freed by ~SceneManager
     void** m_batchEnd;                                              // +0x480 end of the batch list, walked by _registerSceneNodes
     void** m_batchCap;                                              // +0x484 end of storage of the batch list
@@ -90,7 +90,7 @@ public:
     virtual void renderCustomLists(glitch::video::IVideoDriver* driver);   // slot 0x9c: 0x358008
 
     // Scene search and debug.
-    void SearchByType(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+    void SearchByType(glitch::scene::ISceneNode* root, glitch::core::svector<glitch::scene::ISceneNode*>& out,
                       std::uint32_t type);                          // 0x350e5c
     void SearchByType(glitch::scene::ISceneNode* root, void (*visit)(glitch::scene::ISceneNode*),
                       std::uint32_t type);                          // 0x3535d0
@@ -103,9 +103,9 @@ public:
                       const std::string& name, bool flag);          // 0x352aa4
     glitch::scene::ISceneNode* SearchByName(glitch::scene::ISceneNode* root, const std::string& name,
                                             bool flag);             // 0x352b74
-    void SearchByName(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+    void SearchByName(glitch::scene::ISceneNode* root, glitch::core::svector<glitch::scene::ISceneNode*>& out,
                       const std::string& name, bool flag);          // 0x3586ac
-    void SearchByName(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+    void SearchByName(glitch::scene::ISceneNode* root, glitch::core::svector<glitch::scene::ISceneNode*>& out,
                       const char* name, bool flag);                 // 0x359fac
     void SearchByName(glitch::scene::ISceneNode* root, void (*visit)(glitch::scene::ISceneNode*),
                       const char* name, bool flag);                 // 0x35a044
@@ -131,7 +131,7 @@ public:
     void _drawAll(glitch::scene::ISceneNode* node);                 // 0x3592b0
     void clearRenderLists();                                        // 0x357dc0
     template <typename Entry>
-    void renderCustomList(std::uint32_t pass, std::vector<Entry>& list);   // 0x353dec (unsorted entries), 0x357780 (default entries)
+    void renderCustomList(std::uint32_t pass, glitch::core::svector<Entry>& list);   // 0x353dec (unsorted entries), 0x357780 (default entries)
 
     // Materials and techniques. Return types of the material helpers are not recovered and are void here.
     void SetMaterialTexture(boost::intrusive_ptr<glitch::video::CMaterial> target,

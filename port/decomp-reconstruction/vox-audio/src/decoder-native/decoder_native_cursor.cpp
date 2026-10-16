@@ -255,7 +255,7 @@ void DecoderNativeCursor::SetLoop(bool on) {
 void DecoderNativeCursor::SetInteractiveMusicState(const char* name) {
     mutex_.Lock();
     if (state_names_ != nullptr && name != nullptr) {
-        const auto found = state_names_->find(std::string(name));
+        const auto found = state_names_->find(vox::VoxString(name));
         if (found != state_names_->end()) {
             state_indices_.push_back(found->second);
         }

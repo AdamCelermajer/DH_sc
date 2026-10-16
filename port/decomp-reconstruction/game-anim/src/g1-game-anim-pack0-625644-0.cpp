@@ -202,17 +202,17 @@ AnimatorSynchronizedSet::~AnimatorSynchronizedSet() {}
 // No separate C++ form. The VTT variant resets the vptrs of the base sub-object, runs ~AnimApplicator on +0x84
 // and the base destructor. It is covered by the D1 definition above and has the same blockers.
 
-// 0x36904c AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::string> const&) (C1)
+// 0x36904c AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, glitch::core::svector<std::string> const&) (C1)
 // The original calls the CSceneNodeAnimatorSynchronizedSet base constructor with the animation set and the names
 // (through the VTT), then builds the AnimApplicator at +0x84 with this as its animator. The base constructor runs with
 // the arguments forwarded here. The stores of the original's secondary words (+0xc0, +0xc4) are not written, as those
 // words are part of the base. The vptr stores are compiler-generated.
 AnimatorSynchronizedSet::AnimatorSynchronizedSet(
         const boost::intrusive_ptr<glitch::collada::CAnimationSet>& animationSet,
-        const std::vector<std::string>& names)
+        const glitch::core::svector<std::string>& names)
     : glitch::collada::CSceneNodeAnimatorSynchronizedSet(animationSet, names), m_applicator(this) {}
 
-// 0x3690dc AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::string> const&) (C2, VTT base-object variant)
+// 0x3690dc AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, glitch::core::svector<std::string> const&) (C2, VTT base-object variant)
 // No separate C++ form. The VTT variant passes the VTT entry (+4) and the arguments to the base constructor, then
 // builds the AnimApplicator. It is the same as C1 except that it does not store 1 at +0xc4. The C1 definition above covers
 // it, with the same blockers.

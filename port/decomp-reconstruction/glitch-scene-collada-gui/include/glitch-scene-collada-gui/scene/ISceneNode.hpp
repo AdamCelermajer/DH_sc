@@ -38,6 +38,8 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector / stringc (STLPORT-DECISION.md section 6)
+
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-core-io/io/interfaces.hpp"
@@ -126,7 +128,7 @@ public:
     virtual const char* getName() const;
     // K 0x28 / 0x2c, 0x598a04 and 0x597f50.
     virtual void setName(const char* name);
-    virtual void setName(const std::string& name);
+    virtual void setName(const core::stringc& name);
     // K 0x30: pure. The local bounding box.
     virtual const core::aabbox3d<float>& getBoundingBox() const = 0;
     // K 0x34, 0x59770c: the local box transformed by the absolute matrix, recomputed when ESNF_BOX_DIRTY is set.
@@ -231,7 +233,7 @@ public:
     bool isDebugObject() const;
     // The type-, name-, uid- and scope-id searches of the subtree (0x596f6c, 0x598398 .. 0x5985e4, 0x598dd4).
     ISceneNode* getSceneNodeFromType(E_SCENE_NODE_TYPE type);
-    void getSceneNodesFromType(E_SCENE_NODE_TYPE type, std::vector<ISceneNode*>& out);
+    void getSceneNodesFromType(E_SCENE_NODE_TYPE type, core::svector<ISceneNode*>& out);
     const ISceneNode* getSceneNodeFromName(const char* name) const;   // 0x598480
     ISceneNode* getSceneNodeFromName(const char* name);               // 0x5984f4
     const ISceneNode* getSceneNodeFromUID(const char* uid) const;     // 0x598568
@@ -244,7 +246,7 @@ public:
     void logTree(int depth, int maxDepth);
 
     // Members, in offset order. The base classes occupy +0x00 .. +0x08 (vptr and the sibling link).
-    std::string name;                                        // +0x0c
+    core::stringc name;                                      // +0x0c
     core::CMatrix4<float> absoluteTransform{core::CMatrix4<float>::EM4CONST_IDENTITY};          // +0x24
     mutable core::CMatrix4<float> relativeTransform{core::CMatrix4<float>::EM4CONST_IDENTITY};  // +0x68
     core::vector3d<float> position;                          // +0xac

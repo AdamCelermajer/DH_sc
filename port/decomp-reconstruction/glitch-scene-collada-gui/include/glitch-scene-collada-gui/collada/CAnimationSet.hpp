@@ -30,6 +30,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::svector (STLPORT-DECISION.md section 6)
+
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "glitch-scene-collada-gui/collada/SAnimation.hpp"
@@ -66,9 +68,9 @@ public:
     // 0x667320: clears the added flag and the record pointer of every target. Returns this.
     IAnimationSetTemplate& setUnAdded();
     // 0x667384: allocates the record of every target that was not added yet.
-    void addChannels(std::vector<const SChannel*>* channels, std::vector<const CAnimationTrackEx*>* tracks);
+    void addChannels(core::svector<const SChannel*>* channels, core::svector<const CAnimationTrackEx*>* tracks);
 
-    std::vector<STemplateTarget*> targets;  // +0x04 / +0x08 / +0x0c (owned: the template does not delete the targets, as the original)
+    core::svector<STemplateTarget*> targets;  // +0x04 / +0x08 / +0x0c (owned: the template does not delete the targets, as the original)
 };
 
 class CAnimationSetTransformationTemplate : public IAnimationSetTemplate {
@@ -152,14 +154,14 @@ public:
     void CompileInternal();
 
     E_MISMATCH_BEHAVIOR mismatchBehavior = E_MISMATCH_BEHAVIOR(0);  // +0x08
-    std::vector<const SChannel*> channels;              // +0x0c
-    std::vector<const CAnimationTrackEx*> tracks;       // +0x18
-    std::vector<CColladaDatabase> databases;            // +0x24
-    std::vector<SBinding> bindings;                     // +0x30
+    core::svector<const SChannel*> channels;              // +0x0c
+    core::svector<const CAnimationTrackEx*> tracks;       // +0x18
+    core::svector<CColladaDatabase> databases;            // +0x24
+    core::svector<SBinding> bindings;                     // +0x30
     std::uint32_t animatedTrackCount = 0;               // +0x3c
-    std::vector<std::int32_t> starts;                   // +0x40
-    std::vector<std::int32_t> ends;                     // +0x4c
-    std::vector<std::int32_t> lengths;                  // +0x58
+    core::svector<std::int32_t> starts;                   // +0x40
+    core::svector<std::int32_t> ends;                     // +0x4c
+    core::svector<std::int32_t> lengths;                  // +0x58
     IAnimationSetTemplate* animationTemplate = nullptr; // +0x64 owned
 };
 

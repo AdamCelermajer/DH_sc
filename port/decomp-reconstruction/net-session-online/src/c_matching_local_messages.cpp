@@ -83,7 +83,7 @@ void CMatchingLocal::PacketReceiverCallback(std::int32_t from, char* data, std::
 // 0x80601c _ZN14CMatchingLocal23sPacketReceiverCallbackEiPci
 // Routes to the matching object. The original does not check for a missing object either.
 void CMatchingLocal::sPacketReceiverCallback(std::int32_t from, char* data, int size) {
-    s_Matching->PacketReceiverCallback(from, data, static_cast<std::uint32_t>(size));
+    static_cast<CMatchingLocal*>(CMatching::s_Matching)->PacketReceiverCallback(from, data, static_cast<std::uint32_t>(size));
 }
 
 // 0x8098cc _ZN14CMatchingLocal31BroadcastPacketReceiverCallbackER10CNetworkIdPci
@@ -101,5 +101,5 @@ void CMatchingLocal::BroadcastPacketReceiverCallback(CNetworkId& from, char* dat
 
 // 0x80995c _ZN14CMatchingLocal32sBroadcastPacketReceiverCallbackER10CNetworkIdPci
 void CMatchingLocal::sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size) {
-    s_Matching->BroadcastPacketReceiverCallback(from, data, static_cast<std::uint32_t>(size));
+    static_cast<CMatchingLocal*>(CMatching::s_Matching)->BroadcastPacketReceiverCallback(from, data, static_cast<std::uint32_t>(size));
 }

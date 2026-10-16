@@ -23,6 +23,8 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::stringc / svector (STLPORT-DECISION.md section 6)
+
 #include "glitch-scene-collada-gui/collada/SAnimation.hpp"
 #include "glitch-scene-collada-gui/collada/SLibraryAnimationClips.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
@@ -711,11 +713,11 @@ public:
     virtual ~CResFactory() = default;
     // K 0x08, 0x659704: the texture of the image record `image` of `resFile`, looked up in the texture manager `manager` with `directory` as the
     // directory of the file; the name is the image's name (+0x00), or when CResFileManager::flag_0x29 is set the image's first word.
-    virtual boost::intrusive_ptr<video::ITexture> getTexture(CResFile* resFile, const std::string& directory, glitch::io::IReadFile* file,
+    virtual boost::intrusive_ptr<video::ITexture> getTexture(CResFile* resFile, const glitch::core::stringc& directory, glitch::io::IReadFile* file,
                                                              glitch::video::CTextureManager* manager, SImage* image);
     // 0x6594a0: the texture `fallback` as "directory/name" (or by name alone) from the manager; failing that, the file's external buffer of
     // that name (slot +0x34) as a memory file of the same name.
-    boost::intrusive_ptr<video::ITexture> getTextureImpl(const std::string& directory, glitch::io::IReadFile* file,
+    boost::intrusive_ptr<video::ITexture> getTextureImpl(const glitch::core::stringc& directory, glitch::io::IReadFile* file,
                                                          glitch::video::CTextureManager* manager, const char* name, const char* fallback);
 };
 

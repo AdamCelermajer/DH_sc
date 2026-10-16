@@ -305,7 +305,7 @@ private:
     std::vector<BankRecordXML> banks_;                              // +0x18
     std::vector<EventRecordXML> events_;                            // +0x24
     std::map<const char*, std::int32_t, c8stringcomp> sound_uids_;  // +0x30
-    std::map<std::string, std::int32_t, StringComp> group_masks_;   // +0x48
+    vox::VoxMap<vox::VoxString, std::int32_t, StringComp> group_masks_;   // +0x48
     std::shared_ptr<const XmlLoadedTables> loaded_;                 // port: keeps the loader strings alive
 };
 

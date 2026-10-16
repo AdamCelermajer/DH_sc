@@ -205,7 +205,7 @@ int main() {
 
     boost::intrusive_ptr<glitch::collada::CAnimationSet> animationSet(new glitch::collada::CAnimationSet());
     animationSet->databases.push_back(database);
-    AnimatorSynchronizedSet set(animationSet, std::vector<std::string>());
+    AnimatorSynchronizedSet set(animationSet, glitch::core::svector<std::string>());
 
     Check(set.AnimatorSynchronizedSet::getType() == 15, "getType returns 15");
 

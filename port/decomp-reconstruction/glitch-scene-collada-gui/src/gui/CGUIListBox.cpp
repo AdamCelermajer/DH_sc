@@ -360,7 +360,7 @@ void CGUIListBox::selectNew(int ypos, bool onlyHover) {
 }
 
 // 0x5448ac _ZNK6glitch3gui10CGUIListBox22getSerializationLabelsENS0_18EGUI_LISTBOX_COLOREERNSt...
-bool CGUIListBox::getSerializationLabels(EGUI_LISTBOX_COLOR colorType, std::string& useColorLabel, std::string& colorLabel) const {
+bool CGUIListBox::getSerializationLabels(EGUI_LISTBOX_COLOR colorType, core::stringc& useColorLabel, core::stringc& colorLabel) const {
     switch (colorType) {
         case EGUI_LBC_TEXT:
             useColorLabel = "UseColText";
@@ -393,15 +393,15 @@ void CGUIListBox::serializeAttributes(io::IAttributes* attributes, io::SAttribut
     for (std::uint32_t i = 0; i < items.size(); ++i) {
         attributes->addString(itemAttributeName("", i).c_str(), items[i].text.c_str(), false);  // K 0x94
         for (int c = 0; c < EGUI_LBC_COUNT; ++c) {
-            std::string useLabel;
-            std::string colorLabel;
+            core::stringc useLabel;
+            core::stringc colorLabel;
             if (!getSerializationLabels(static_cast<EGUI_LISTBOX_COLOR>(c), useLabel, colorLabel)) {
                 return;
             }
             const SOverrideColor& entry = items[i].overrideColors[c];
-            attributes->addBool(itemAttributeName(useLabel, i).c_str(), entry.use, false);
+            attributes->addBool(itemAttributeName(useLabel.c_str(), i).c_str(), entry.use, false);
             if (entry.use) {
-                attributes->addColor(itemAttributeName(colorLabel, i).c_str(), entry.color, false);  // K 0x118
+                attributes->addColor(itemAttributeName(colorLabel.c_str(), i).c_str(), entry.color, false);  // K 0x118
             }
         }
     }
@@ -419,15 +419,15 @@ void CGUIListBox::deserializeAttributes(io::IAttributes* attributes, io::SAttrib
         const std::wstring text = attributes->getStringW(itemAttributeName("", static_cast<std::uint32_t>(i)).c_str());  // K 0x9c
         addItem(text.c_str(), -1);  // K 0x88
         for (int c = 0; c < EGUI_LBC_COUNT; ++c) {
-            std::string useLabel;
-            std::string colorLabel;
+            core::stringc useLabel;
+            core::stringc colorLabel;
             if (!getSerializationLabels(static_cast<EGUI_LISTBOX_COLOR>(c), useLabel, colorLabel)) {
                 return;
             }
             SOverrideColor& entry = items[static_cast<std::size_t>(i)].overrideColors[c];
-            entry.use = attributes->getBool(itemAttributeName(useLabel, static_cast<std::uint32_t>(i)).c_str());
+            entry.use = attributes->getBool(itemAttributeName(useLabel.c_str(), static_cast<std::uint32_t>(i)).c_str());
             if (entry.use) {
-                entry.color = attributes->getColor(itemAttributeName(colorLabel, static_cast<std::uint32_t>(i)).c_str());  // K 0x124
+                entry.color = attributes->getColor(itemAttributeName(colorLabel.c_str(), static_cast<std::uint32_t>(i)).c_str());  // K 0x124
             }
         }
     }

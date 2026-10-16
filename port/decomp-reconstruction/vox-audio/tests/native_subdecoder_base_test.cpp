@@ -54,7 +54,7 @@ public:
     vox::SegmentState& Seg(int i) { return segments_[i]; }
     void SetField38(int value) { field_38_ = value; }
     void SetStates(vox::States* states) { states_ = states; }
-    void SetTransitions(std::vector<std::vector<vox::TransitionParams>>* transitions) {
+    void SetTransitions(vox::VoxVector<vox::VoxVector<vox::TransitionParams>>* transitions) {
         transitions_ = transitions;
     }
     int Field3c() const { return field_3c_; }
@@ -184,7 +184,7 @@ int main() {
     vox::TransitionParams params;
     params.value_ = -1;
     params.flag_ = 1;
-    std::vector<std::vector<vox::TransitionParams>> transitions(1);
+    vox::VoxVector<vox::VoxVector<vox::TransitionParams>> transitions(1);
     transitions[0].assign(5, params);
     indexed.SetStates(&states);
     indexed.SetTransitions(&transitions);

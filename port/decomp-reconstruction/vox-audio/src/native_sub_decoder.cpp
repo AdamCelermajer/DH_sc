@@ -93,16 +93,16 @@ int DivArm(int numerator, int denominator) {
 
 // The loop list of a chunk. An index outside the table gives an empty list, where the
 // original reads whatever the word holds.
-const std::vector<std::int32_t>& ChunkLoopList(const std::vector<std::vector<std::int32_t>>* lists,
+const vox::VoxVector<std::int32_t>& ChunkLoopList(const vox::VoxVector<vox::VoxVector<std::int32_t>>* lists,
                                                int chunk) {
-    static const std::vector<std::int32_t> kEmpty;
+    static const vox::VoxVector<std::int32_t> kEmpty;
     if (lists == nullptr || chunk < 0 || static_cast<std::size_t>(chunk) >= lists->size()) {
         return kEmpty;
     }
     return (*lists)[static_cast<std::size_t>(chunk)];
 }
 
-std::int32_t ListAt(const std::vector<std::int32_t>& list, int index) {
+std::int32_t ListAt(const vox::VoxVector<std::int32_t>& list, int index) {
     if (index < 0 || static_cast<std::size_t>(index) >= list.size()) {
         return 0;
     }
@@ -217,7 +217,7 @@ namespace {
 // The first loop-list element past the position for the rule types 4 and 5 (v14 of the
 // original). Type 4 looks at every element from the first; type 5 starts at the fourth
 // (index 3) and needs more than three. Zero when no element is past the position.
-std::int32_t LoopElementAfter(int type, const std::vector<std::int32_t>& list, std::int32_t position) {
+std::int32_t LoopElementAfter(int type, const vox::VoxVector<std::int32_t>& list, std::int32_t position) {
     const int count = static_cast<int>(list.size());
     if (type == 5) {
         if (count > 3) {
@@ -292,7 +292,7 @@ void VoxNativeSubDecoder::UpdateOldSegmentState(TransitionRule* rule) {
     std::int32_t remaining = static_cast<std::int32_t>(static_cast<float>(field_0c_) * rule->field_1c_);
 
     // The loop list of the old segment's chunk (the copy the original makes is only read here).
-    const std::vector<std::int32_t>& list = ChunkLoopList(loop_lists_, segments_[1].chunk_index);
+    const vox::VoxVector<std::int32_t>& list = ChunkLoopList(loop_lists_, segments_[1].chunk_index);
     const std::int32_t count = static_cast<std::int32_t>(list.size());
     const std::int32_t sample_position = segments_[1].sample_position;  // v18, +0xe8
 
@@ -376,7 +376,7 @@ void VoxNativeSubDecoder::UpdateDyingSegmentState(TransitionRule* rule) {
     segments_[0].play_mode = 3;
     segments_[0].state = 4;
 
-    const std::vector<std::int32_t>& own_list = ChunkLoopList(loop_lists_, segments_[0].chunk_index);
+    const vox::VoxVector<std::int32_t>& own_list = ChunkLoopList(loop_lists_, segments_[0].chunk_index);
     const int count = static_cast<int>(own_list.size());
 
     int ramp = 0;
@@ -390,7 +390,7 @@ void VoxNativeSubDecoder::UpdateDyingSegmentState(TransitionRule* rule) {
         ramp = static_cast<int>(static_cast<float>(field_0c_) * rule->length_);
     }
 
-    const std::vector<std::int32_t>& chunk_list = ChunkLoopList(loop_lists_, segments_[1].chunk_index);
+    const vox::VoxVector<std::int32_t>& chunk_list = ChunkLoopList(loop_lists_, segments_[1].chunk_index);
     const int list_value = segments_[0].restart_at_end == 1 ? ListAt(chunk_list, count - 1)
                                                             : ListAt(chunk_list, 2);
     const int headroom = 1 - segments_[0].sample_position + list_value;

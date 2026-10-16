@@ -21,7 +21,7 @@ namespace glitch::collada {
 // runs last. The port's declaration order is segments (+0x60), segmentCount (+0x6c), names (+0x70), elapsedTime (+0x7c),
 // reachedEnd (+0x80), so the two initialisers run in the original's order and only the owner store is in the body.
 CSceneNodeAnimatorSynchronizedSet::CSceneNodeAnimatorSynchronizedSet(const boost::intrusive_ptr<CAnimationSet>& set,
-                                                                     const std::vector<std::string>& eventNames)
+                                                                     const core::svector<std::string>& eventNames)
     : segmentCount(static_cast<std::uint32_t>(eventNames.size())), names(eventNames) {
     owner = this;  // interface +0x04
     init(set);

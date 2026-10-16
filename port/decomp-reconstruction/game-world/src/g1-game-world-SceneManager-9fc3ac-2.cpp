@@ -77,7 +77,7 @@ const char* MaterialName(const glitch::video::CMaterial& material) {
 // order for the entries that have one, zero for the others); `before(i)` runs ahead of the render of entry i - 1, with entry i
 // being its successor. The state the loops leave behind (current and next both the sentinel) is the one the original leaves.
 template <typename Entry, typename OrderOf, typename Before>
-void RunEntries(CSceneManager& manager, std::vector<Entry>& list, OrderOf orderOf, Before before) {
+void RunEntries(CSceneManager& manager, glitch::core::svector<Entry>& list, OrderOf orderOf, Before before) {
     const std::size_t count = list.size() - 1;
     manager.currentNode = manager.nextNode;
     manager.currentUserData = manager.nextUserData;
@@ -144,13 +144,13 @@ void SwitchBatching(glitch::video::IVideoDriver* videoDriver, const Entry& curre
 }  // namespace
 
 // 0x357780 void SceneManager::renderCustomList<glitch::scene::CSceneManager::SDefaultNodeEntry>(
-//              E_SCENE_NODE_CUSTOM_RENDER_PASS, std::vector<SDefaultNodeEntry, SAllocator>&)
+//              E_SCENE_NODE_CUSTOM_RENDER_PASS, glitch::core::svector<SDefaultNodeEntry, SAllocator>&)
 // renderPass (+0x174) is the pass when it is 8 or less, otherwise 9; m_customRenderPass (+0x488) is the pass. A sentinel entry is
 // appended and the walk slides the current / next rendered-node words over the entries (the sort order of an entry is the third word),
 // calling ISceneNode::render(userData) on each; the list ends empty (resize to zero).
 template <>
 void SceneManager::renderCustomList<glitch::scene::CSceneManager::SDefaultNodeEntry>(
-        std::uint32_t pass, std::vector<glitch::scene::CSceneManager::SDefaultNodeEntry>& list) {
+        std::uint32_t pass, glitch::core::svector<glitch::scene::CSceneManager::SDefaultNodeEntry>& list) {
     renderPass = static_cast<glitch::scene::E_SCENE_NODE_RENDER_PASS>(pass <= 8 ? pass : 9);   // +0x174
     m_customRenderPass = pass;                                                                  // +0x488
     list.push_back(SDefaultNodeEntry(nullptr, boost::intrusive_ptr<glitch::video::CMaterial>(), nullptr, 0));
@@ -271,10 +271,10 @@ void SceneManager::renderCustomLists(glitch::video::IVideoDriver* videoDriver) {
     clearDeletionList();
 }
 
-// 0x3586ac SceneManager::SearchByName(glitch::scene::ISceneNode*, std::vector<ISceneNode*>&, std::string const&, bool)
+// 0x3586ac SceneManager::SearchByName(glitch::scene::ISceneNode*, glitch::core::svector<ISceneNode*>&, std::string const&, bool)
 // Preorder search of the subtree under root. A node whose name matches is appended to out before its children are
 // searched. The flag selects a prefix match (strncmp over the length of name) or an exact match (strcmp).
-void SceneManager::SearchByName(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+void SceneManager::SearchByName(glitch::scene::ISceneNode* root, glitch::core::svector<glitch::scene::ISceneNode*>& out,
                                 const std::string& name, bool flag) {
     if (!root) {
         return;
@@ -483,7 +483,7 @@ glitch::scene::ISceneNode* SceneManager::LoadScene(const char* file, const char*
         if (nodeName && !root->getChildren().empty()) {
             ISceneNode* first = *root->getChildren().begin();
             if (std::strstr(first->getName(), "_module")) {
-                std::vector<ISceneNode*> grandChildren;       // the next link is taken before a removal, so the list is copied first
+                glitch::core::svector<ISceneNode*> grandChildren;       // the next link is taken before a removal, so the list is copied first
                 for (ISceneNode* grandChild : first->getChildren()) {
                     grandChildren.push_back(grandChild);
                 }
@@ -590,7 +590,7 @@ void SceneManager::SetMaterialRimLightEffects(boost::intrusive_ptr<glitch::video
 // null). The type tags are 'daem' (0x6d656164), 'daes' (0x73656164) and 'daeM' (0x4d656164), packed as fourcc values.
 void SceneManager::SetMaterialRimLightEffects(glitch::scene::ISceneNode* node, float power, std::string tag) {
     glitch::scene::ISceneNode* root = node ? node : rootNode;             // +0x04 when node is null
-    std::vector<glitch::scene::ISceneNode*> found;
+    glitch::core::svector<glitch::scene::ISceneNode*> found;
     SearchByType(root, found, 0x6D656164u);
     SearchByType(root, found, 0x73656164u);
     SearchByType(root, found, 0x4D656164u);

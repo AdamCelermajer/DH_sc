@@ -75,12 +75,12 @@ void CXMLAttributesReader::readAttributeFromXML(IAttributes* attributes) {
         attributes->addStringAsLine3d(nameText, reader->getAttributeValue(L"value"), false);
     } else if (tag == L"stringwarray") {
         // "c" (+0x2c getAttributeValueAsInt) entries named "value0" .. "value<c-1>".
-        std::vector<std::wstring> values;
+        glitch::core::svector<glitch::core::stringw> values;
         const int count = reader->getAttributeValueAsInt(L"c");
         const std::wstring prefix(L"value");
         for (int i = 0; i < count; ++i) {
             const std::wstring key = prefix + glitch::core::int2stringw(i);
-            values.push_back(std::wstring(reader->getAttributeValue(key.c_str())));
+            values.push_back(glitch::core::stringw(reader->getAttributeValue(key.c_str())));
         }
         attributes->addArray(nameText, values, false);
     } else {
@@ -154,16 +154,16 @@ void CXMLAttributesWriter::writeGroup(IAttributes* attributes) {
     // other type "n" and "value" (the attribute's text through getStringW).
     for (int index = 0; index < attributes->getAttributeCount(); ++index) {
         if (attributes->getAttributeType(index) == 22) {
-            const std::vector<std::wstring> array = attributes->getArray(index);
-            std::vector<std::wstring> names;
-            std::vector<std::wstring> values;
+            const glitch::core::svector<glitch::core::stringw> array = attributes->getArray(index);
+            glitch::core::svector<glitch::core::stringw> names;
+            glitch::core::svector<glitch::core::stringw> values;
             names.push_back(L"n");
-            values.push_back(glitch::core::stringc2stringw(attributes->getAttributeName(index)));
+            values.push_back(glitch::core::to_stringw(glitch::core::stringc2stringw(attributes->getAttributeName(index))));
             names.push_back(L"c");
-            values.push_back(glitch::core::int2stringw(static_cast<int>(array.size())));
+            values.push_back(glitch::core::to_stringw(glitch::core::int2stringw(static_cast<int>(array.size()))));
             const std::wstring prefix(L"value");
             for (unsigned i = 0; i < array.size(); ++i) {
-                names.push_back(prefix + glitch::core::int2stringw(static_cast<int>(i)));
+                names.push_back(glitch::core::stringw((prefix + glitch::core::int2stringw(static_cast<int>(i))).c_str()));
                 values.push_back(array[i]);
             }
             writer->writeElement(attributes->getAttributeTypeString(index), true, names, values);

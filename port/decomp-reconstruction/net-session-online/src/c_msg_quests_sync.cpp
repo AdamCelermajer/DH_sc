@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstring>
 
+#include "net-transport/socket_platform.hpp"
+
 namespace {
 constexpr std::size_t kHeaderBytes = 8;
 }  // namespace
@@ -53,11 +55,17 @@ std::uint32_t CMsgQuestsSync::ReadData(NetBitStream& stream) {
     const auto length = static_cast<std::size_t>(std::max<std::int32_t>(BlockLength(), 0));
     block_.reset(new std::uint8_t[length]);
     stream.ReadByteArray(block_.get(), static_cast<std::uint32_t>(length));
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] CMsgQuestsSync::ReadData this %p length %zu block %p\n", static_cast<void*>(this), length, static_cast<void*>(block_.get()));
+#endif
     return size;
 }
 
 // 0x3204fc _ZN14CMsgQuestsSync9WriteDataER12NetBitStream
 std::uint32_t CMsgQuestsSync::WriteData(NetBitStream& stream) {
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_LOG("[net] CMsgQuestsSync::WriteData this %p block %p length %d\n", static_cast<void*>(this), static_cast<void*>(block_.get()), BlockLength());
+#endif
     if (block_ == nullptr) {
         return 0;
     }
