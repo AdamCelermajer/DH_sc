@@ -113,6 +113,7 @@ class Image:
         self.syms: dict[str, int] = {}           # name -> absolute address (functions and objects)
         self.sym_kind: dict[str, int] = {}
         self.sym_size: dict[str, int] = {}
+        self.thumb: set[str] = set()                 # names of Thumb functions (a jump to them must keep bit 0 set)
         starts: list[tuple[int, int, str]] = []
         seen_global: set[str] = set()
         tables = [elf.symbols(".symtab"), elf.symbols(".dynsym")]
@@ -125,6 +126,8 @@ class Image:
                 if s.name.startswith("$"):
                     continue
                 addr = base + (s.value & ~1 if s.kind == elf32.STT_FUNC else s.value)
+                if s.kind == elf32.STT_FUNC and s.value & 1:
+                    self.thumb.add(s.name)
                 is_global = s.bind != elf32.STB_LOCAL
                 if s.name in self.syms and (s.name in seen_global or not is_global):
                     continue
@@ -179,7 +182,8 @@ class RunResult:
 
 
 class Machine:
-    def __init__(self, orig_path: str | Path, callee: str = "original", rt_path: str | Path | None = None):
+    def __init__(self, orig_path: str | Path, callee: str = "original", rt_path: str | Path | None = None,
+                 track_writes: bool = True):
         self.callee = callee                     # 'original' | 'recon': who answers calls that leave the unit
         self.uc = Uc(UC_ARCH_ARM, UC_MODE_ARM)
         uc = self.uc
@@ -235,7 +239,8 @@ class Machine:
         self._install_overrides()
 
         uc.hook_add(UC_HOOK_CODE, self._on_stub, begin=STUB_BASE, end=STUB_BASE + STUB_SIZE - 1)
-        uc.hook_add(UC_HOOK_MEM_WRITE, self._on_write)
+        if track_writes:                          # the chain harness restores memory itself and runs without this per-store callback
+            uc.hook_add(UC_HOOK_MEM_WRITE, self._on_write)
         uc.hook_add(UC_HOOK_MEM_READ_UNMAPPED | UC_HOOK_MEM_WRITE_UNMAPPED | UC_HOOK_MEM_FETCH_UNMAPPED, self._on_unmapped)
         uc.hook_add(UC_HOOK_INTR, self._on_intr)
         uc.hook_add(UC_HOOK_INSN_INVALID, self._on_invalid)
@@ -315,15 +320,15 @@ class Machine:
     def _resolve(self, img: Image, sym: elf32.Symbol, rtype: int) -> int:
         """Address a relocation against `sym` should receive."""
         name = sym.name
-        if sym.defined and (img.name != "recon" or self.callee == "recon" or name not in self.orig.syms):
-            return img.base + (sym.value & ~1 if sym.kind == elf32.STT_FUNC else sym.value)
+        if sym.defined and (img.name != "recon" or self.callee in ("recon", "chain") or name not in self.orig.syms):
+            return img.base + sym.value
         # undefined, or a reconstructed symbol that exists in the original and callee == original
-        if img.name == "recon" and self.callee == "original":
+        if img.name == "recon" and self.callee in ("original", "chain"):
             if name in self.orig.syms:
-                return self.orig.syms[name]
+                return self.orig.syms[name] | (1 if name in self.orig.thumb else 0)
             for alt in _variant_names(name):
                 if alt in self.orig.syms:
-                    return self.orig.syms[alt]
+                    return self.orig.syms[alt] | (1 if alt in self.orig.thumb else 0)
         if name in stubs.MODELS:
             return self.stub_for(name)
         if name in stubs.DATA_SYMBOLS:
@@ -332,7 +337,7 @@ class Machine:
         if img is not self.rt and name in self.rt.syms and self.rt.sym_kind.get(name) == elf32.STT_FUNC:
             return self.rt.syms[name]
         if sym.defined:
-            return img.base + (sym.value & ~1 if sym.kind == elf32.STT_FUNC else sym.value)
+            return img.base + sym.value
         if rtype == elf32.R_ARM_JUMP_SLOT or sym.kind == elf32.STT_FUNC:
             return self.stub_for(name)
         if sym.kind == elf32.STT_OBJECT or rtype in (elf32.R_ARM_GLOB_DAT, elf32.R_ARM_ABS32):

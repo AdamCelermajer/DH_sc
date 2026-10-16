@@ -538,9 +538,13 @@ void NativeGetBuffs(const gameswf::fn_call& call) {
 // 0x44bb94 NativeInvGetItemsListForSlot(gameswf::fn_call const&)
 // Exactly three arguments: the equipment slot (a number), the output array (an object) and the player index (a number). For a
 // character the original lists the items for the slot (ItemInventory::GetValuableItems when the slot is the EquipmentSlots "Count"
-// constant, else GetItemListForSlot) and sorts the list with SortByEquipability(character, slot) (STLport introsort), but it never
-// pushes the entries: the pseudocode has no push after the sort, so the array is returned as it was passed. (The original also
-// evaluates the EquipmentSlots LeftHand/RightHand/LeftHandRingFinger/RightHandRingFinger constants and drops them.)
+// constant, else GetItemListForSlot), sorts the list with SortByEquipability(character, slot) (STLport introsort) and then, per
+// entry that has an item (listing 0x44be5c..0x44c1a8; the Hex-Rays text dropped this loop), pushes an object onto the array with
+// ItemName ("<font color='#%000000X'>name</font>", the item's GetColor), ItemIndex (the entry's index), ItemEquippable (count mode
+// or IsEquippableBy the character), ItemEquipped (not count mode and the item is the character's equipped item for the slot),
+// ItemEquippedOtherHand (not count mode: for a hand slot the item is the equipped item of the other hand, for a ring-finger slot
+// the equipped item of the other finger) and ItemQuantity (the stack size in decimal in count mode, a space otherwise).
+// The result is the array.
 void NativeInvGetItemsListForSlot(const gameswf::fn_call& call) {
     if (call.nargs != 3 || !call.arg(0).is_number() || !call.arg(1).is_object() || !call.arg(2).is_number()) {
         return;
@@ -551,7 +555,8 @@ void NativeInvGetItemsListForSlot(const gameswf::fn_call& call) {
     if (ch) {
         std::vector<ItemInventory::Item> items;
         ItemInventory& inventory = *ch;
-        if (slot == ApplicationGetPyDataConstants()->getConstant("EquipmentSlots", "Count")) {
+        const bool countMode = slot == ApplicationGetPyDataConstants()->getConstant("EquipmentSlots", "Count");
+        if (countMode) {
             inventory.GetValuableItems(&items);
         } else {
             inventory.GetItemListForSlot(static_cast<unsigned int>(slot), &items);
@@ -560,6 +565,47 @@ void NativeInvGetItemsListForSlot(const gameswf::fn_call& call) {
         comparator.m_character = ch;
         comparator.m_equipSlot = slot;
         stlport::Sort(items.begin(), items.end(), comparator);
+
+        // The "other" slot of a pair: LeftHand<->RightHand and LeftHandRingFinger<->RightHandRingFinger (the original evaluates the
+        // four constants for every slot).
+        PyDataConstants* constants = ApplicationGetPyDataConstants();
+        const int leftHand = constants->getConstant("EquipmentSlots", "LeftHand");
+        const int rightHand = constants->getConstant("EquipmentSlots", "RightHand");
+        const int leftRing = constants->getConstant("EquipmentSlots", "LeftHandRingFinger");
+        const int rightRing = constants->getConstant("EquipmentSlots", "RightHandRingFinger");
+        const bool pairedSlot = slot == leftHand || slot == rightHand || slot == leftRing || slot == rightRing;
+        int otherSlot = 0;
+        if (slot == leftHand || slot == rightHand) {
+            otherSlot = slot == leftHand ? rightHand : leftHand;
+        } else if (slot == leftRing || slot == rightRing) {
+            otherSlot = slot == leftRing ? rightRing : leftRing;
+        }
+
+        for (const ItemInventory::Item& entry : items) {
+            ItemInstance* item = entry.m_item;
+            if (!item) {
+                continue;
+            }
+            char text[1024];
+            std::snprintf(text, sizeof text, "<font color='#%000000X'>%s</font>", static_cast<unsigned int>(item->GetColor()),
+                          item->m_name.c_str());
+            gameswf::as_object* object = nativeobj::NewObject(call);
+            nativeobj::SetString(object, "ItemName", text);
+            nativeobj::SetNumber(object, "ItemIndex", static_cast<double>(static_cast<int>(entry.m_index)));
+            nativeobj::SetBool(object, "ItemEquippable", countMode || item->IsEquippableBy(ch));
+            nativeobj::SetBool(object, "ItemEquipped", !countMode && item == inventory.GetEquippedItem(static_cast<unsigned int>(slot)));
+            nativeobj::SetBool(object, "ItemEquippedOtherHand",
+                               !countMode && pairedSlot && item == inventory.GetEquippedItem(static_cast<unsigned int>(otherSlot)));
+            char quantity[16];
+            if (countMode) {
+                std::snprintf(quantity, sizeof quantity, "%d", static_cast<int>(item->m_qty));
+            } else {
+                quantity[0] = ' ';
+                quantity[1] = '\0';
+            }
+            nativeobj::SetString(object, "ItemQuantity", quantity);
+            nativeobj::PushObject(array, object);
+        }
         call.result->set_as_object(array);
     }
 }

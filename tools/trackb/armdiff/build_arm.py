@@ -80,10 +80,10 @@ def include_flags(cat: str) -> list[str]:
         d = DR / c / "include"
         if d.is_dir():
             out.append(f"-I{d}")
-    out += ["-DNOMINMAX", "-DTU_CONFIG_LINK_TO_JPEGLIB=0", "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+    out += ["-DNOMINMAX", "-DTIXML_USE_STL", "-DTU_CONFIG_LINK_TO_JPEGLIB=0", "-DTU_CONFIG_LINK_TO_LIBPNG=0",
             "-DTU_CONFIG_LINK_TO_FREETYPE=0", "-DTU_CONFIG_LINK_TO_THREAD=0"]
     for v in ("vendor-lua/upstream/lua-5.1.4/src", "vendor-box2d/upstream/box2d-2.0.1/Include",
-              "vendor-box2d/upstream/box2d-2.0.1/Source", "vendor-gameswf/upstream/gameswf-r1714"):
+              "vendor-box2d/upstream/box2d-2.0.1/Source", "vendor-gameswf/upstream/gameswf-r1714", "tinyxml-and-c-libs/upstream/tinyxml-2.5.3"):
         out += ["-isystem", str(DR / v)]
     return out
 

@@ -179,7 +179,10 @@ void overrideVertexStreams<true, false, true>(const unsigned char* sourceMap,
             if (!colorFetched) {
                 const unsigned id = material->m_renderer->getParameterID(6, 0);
                 if (id != 0xFFFFu) {
+                    // The listing keeps the four colour bytes as -1 and getParameter<SColor> only overwrites them when it succeeds, so a material whose
+                    // diffuse colour is not stored as a byte colour leaves the vertices white (the port had zero-initialised the value: black vertices).
                     glitch::video::SColor value{};
+                    std::memcpy(&value, color, 4);
                     material->parameters.getParameter<glitch::video::SColor>(static_cast<std::uint16_t>(id), 0, value);
                     std::memcpy(color, &value, 4);
                 }

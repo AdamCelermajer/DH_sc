@@ -289,11 +289,19 @@ MenuBase::~MenuBase() {
         CustomFree(m_dragAndDrop);
         m_dragAndDrop = nullptr;
     }
+    // Host-found double release (guard-page heap run of the new-game path): the C++ State base destructor (~State, MenuFX batch 0) runs after this body
+    // and releases the same two weak_ptr<character> members again (operator=(nullptr) drops the proxy a member still holds), so the proxy count went
+    // below zero and the proxy was freed while other weak_ptrs still pointed at it. The members are cleared after the release, as the binary's inlined
+    // copy of ~State leaves them, so the base destructor finds nothing left to release.
     if (m_savedFocusProxy != nullptr) {
         static_cast<weak_proxy*>(m_savedFocusProxy)->drop_ref();
+        m_savedFocusProxy = nullptr;
+        m_savedFocus = nullptr;
     }
     if (m_characterProxy != nullptr) {
         static_cast<weak_proxy*>(m_characterProxy)->drop_ref();
+        m_characterProxy = nullptr;
+        m_character = nullptr;
     }
 }
 

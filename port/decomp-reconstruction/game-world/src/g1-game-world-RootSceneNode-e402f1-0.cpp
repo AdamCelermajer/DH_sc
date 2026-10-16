@@ -138,9 +138,13 @@ bool RootSceneNode::IsVisibleFastTest() const {
 }
 
 // 0x35c854 _ZN13RootSceneNode18RefreshBoundingBoxEv
-// computeBoundingBox, then the node position (getPosition, vptr+0xa0) is subtracted from both corners of the box at +0x130.
+// The listing (0x35c854) calls the const overload CSceneNode::computeBoundingBox(aabbox3d&) with the box at +0x130 (R1 = this + 0x130),
+// not the parameterless virtual (K 0xf4): the union of the mesh children's absolute (transformed) boxes. Then the node position
+// (getPosition, vptr+0xa0) is subtracted from both corners of the box. The parameterless version unions relative transforms, which
+// OptimizeStatic (VisualObject::SetParent of a static owner) has baked to absolute positions, so module boxes picked up the module's
+// own offset one more time and the generated RoomZones of every module away from the origin sat in the wrong place.
 void RootSceneNode::RefreshBoundingBox() {
-    computeBoundingBox();
+    glitch::collada::CSceneNode::computeBoundingBox(boundingBox);
     glitch::core::aabbox3d<float>& box = boundingBox;   // +0x130
     box.MinEdge.X = box.MinEdge.X - getPosition().X;
     box.MinEdge.Y = box.MinEdge.Y - getPosition().Y;

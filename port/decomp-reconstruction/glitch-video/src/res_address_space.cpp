@@ -20,9 +20,12 @@ struct Registry {
     std::map<const std::uint8_t*, std::uint32_t> byHost;    // host start -> virtual base
 };
 
+// Never destroyed: static destructors of other translation units (VisualFXManager's animation dictionary, the singletons) still free .bdae blocks
+// while the process exits, and a function-local static that is already gone made that lookup read freed map nodes (guard-page heap run, exit of a
+// 2500 frame session).
 Registry& registry() {
-    static Registry instance;
-    return instance;
+    static Registry* instance = new Registry;
+    return *instance;
 }
 
 constexpr std::uint32_t kFirstAddress = 0x00100000u;  // addresses below it are never handed out (null stays null)

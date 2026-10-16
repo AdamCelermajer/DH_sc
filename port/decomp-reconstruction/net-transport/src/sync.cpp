@@ -1,6 +1,11 @@
 #include "net-transport/sync.hpp"
 
+#include <thread>
+#if defined(_WIN32) && defined(_LIBCPP_VERSION)
+#include <windows.h>  // libc++ on Windows (llvm-mingw): the native handle is a HANDLE
+#else
 #include <pthread.h>  // pthread_kill: winpthreads (the MinGW std::thread) implements the same liveness probe
+#endif
 
 #include <cerrno>
 #include <cstdio>
@@ -85,8 +90,12 @@ Thread::~Thread() {
 // std::thread native handle is the pthread_t on both the POSIX and the MinGW (winpthreads) hosts, and winpthreads answers ESRCH
 // for a thread that has exited and is not yet joined, as the original expects (checked on the host).
 bool Thread::IsCurrectThreadRunning() {
+#if defined(_WIN32) && defined(_LIBCPP_VERSION)
+    return WaitForSingleObject(static_cast<HANDLE>(handle_.native_handle()), 0) == WAIT_TIMEOUT;
+#else
     const int result = pthread_kill(handle_.native_handle(), 0);
     return result != EINVAL && result != ESRCH;
+#endif
 }
 
 // 0x8455c0 _ZN6Thread3RunEv

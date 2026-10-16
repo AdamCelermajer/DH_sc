@@ -147,6 +147,28 @@ std::string FileSystemBase::getAbsolutePath(const std::string& path) const {
     return glitch::io::CFileSystem::getAbsolutePath(normalised);
 }
 
+// 0x34e688 helper (host runner only). The binary tells a name that already carries the resource root by the "/sdcard/" prefix, because the Android
+// RES_PATH always starts with it. On a host RES_PATH is the data directory (C:/..., or a relative path), so the test is "starts with RES_PATH",
+// ignoring case: ApplyFilenameHacks lower-cases the name. Always false in the Android and unit-test builds.
+static bool alreadyPrefixed(const std::string& name) {
+#ifdef DH2_HOST_RUNNER
+    const size_t n = std::strlen(RES_PATH);
+    if (n == 0 || name.size() < n) return false;
+    for (size_t i = 0; i < n; ++i) {
+        char a = name[i], b = RES_PATH[i];
+        if (a >= 'A' && a <= 'Z') a = static_cast<char>(a + 32);
+        if (b >= 'A' && b <= 'Z') b = static_cast<char>(b + 32);
+        if (a == 92) a = '/';
+        if (b == 92) b = '/';
+        if (a != b) return false;
+    }
+    return true;
+#else
+    (void)name;
+    return false;
+#endif
+}
+
 // 0x34e688 _ZN14FileSystemBase17createAndOpenFileEPKc
 // Slot +0x0c. The listing, line by line:
 //   * the name through the virtual at +0xb8 (ApplyFilenameHacks);
@@ -169,7 +191,7 @@ glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
     std::string path;
     if (std::strstr(normalised.c_str(), ".config") != nullptr ||
         std::strstr(normalised.c_str(), ".glsl") != nullptr ||
-        normalised.compare(0, 8, "/sdcard/") == 0) {
+        normalised.compare(0, 8, "/sdcard/") == 0 || alreadyPrefixed(normalised)) {
         path = normalised;
     } else {
         path = std::string(RES_PATH) + normalised;

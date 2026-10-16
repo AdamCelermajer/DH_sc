@@ -10,6 +10,9 @@ std::uint32_t Timer::StartRealTime = 0;
 std::uint32_t Timer::LastVirtualTime = 0;
 std::uint32_t Timer::TickCount = 0;
 
+// Host runner seam (host-runner/, not in the original): when set, the wall clock is replaced by this clock so a runner can drive a fixed timestep.
+std::int64_t (*g_dh2HostMicrosecondsOverride)() = nullptr;
+
 // 0x60b0cc _ZN6glitch2os5Timer11getRealTimeEv
 // gettimeofday split into seconds and microseconds, then tv_sec * 1000 + tv_usec / 1000.
 // Not in the queue: a helper used by the functions below.
@@ -23,6 +26,7 @@ std::uint32_t Timer::getRealTime() {
 // 0x60b094 _ZN6glitch2os5Timer15getMicroSecondsEv
 // The original is gettimeofday(); the same wall-clock value comes from system_clock.
 std::int64_t Timer::getMicroSeconds() {
+    if (g_dh2HostMicrosecondsOverride != nullptr) return g_dh2HostMicrosecondsOverride();
     using namespace std::chrono;
     return duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
 }

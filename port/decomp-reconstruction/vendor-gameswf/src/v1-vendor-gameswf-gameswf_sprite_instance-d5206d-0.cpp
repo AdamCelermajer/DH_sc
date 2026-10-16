@@ -490,7 +490,13 @@ int sprite_instance::goto_frame(const tu_string& target_frame)
 	// try the string as a number
 	if (string_to_number(&number_value, target_frame.c_str()))
 	{
-		return goto_frame((int) number_value - 1);	// vtable +0x14c; convert to 0-based
+		// DH2 host: the binary converts with __aeabi_d2iz, which saturates (NaN gives 0). A plain (int) cast of NaN or a huge value is undefined and on
+		// x86-64 gives INT_MIN (float-cast-overflow trap in the host runner, from the loading movie's gotoAndStop).
+		int frame_number = 0;
+		if (number_value >= 2147483647.0) frame_number = 2147483647;
+		else if (number_value <= -2147483648.0) frame_number = (-2147483647 - 1);
+		else if (number_value == number_value) frame_number = (int) number_value;
+		return goto_frame(frame_number - 1);	// vtable +0x14c; convert to 0-based
 	}
 	return goto_labeled_frame(target_frame.to_tu_stringi());	// vtable +0x9c
 }

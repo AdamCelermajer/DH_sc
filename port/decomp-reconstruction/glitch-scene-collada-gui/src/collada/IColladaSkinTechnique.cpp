@@ -848,7 +848,7 @@ int CColladaSoftwareSkinTechnique::skin(SSkinBuffer& buffer, scene::CMeshBuffer*
         return palette[index].M;
     };
 #if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
-    { static int n = 0; if (n++ < 6 || last * outStride > outPositions.buffer->m_size) __android_log_print(ANDROID_LOG_INFO, "DH2SKIN", "skin first=%u last=%u srcStride=%u srcOff=%u srcSize=%u outStride=%u outOff=%u outSize=%u skinStride=%u skinOff=%u skinSize=%u elem=%u wpv=%u palette=%zu joints=%d", first, last, sourceStride, (unsigned)sourcePositions.offset, (unsigned)sourcePositionBuffer->m_size, outStride, (unsigned)outPositions.offset, (unsigned)outPositions.buffer->m_size, (unsigned)skinStream.field0e, (unsigned)skinStream.offset, (unsigned)skinStreamBuffer->m_size, elementSize, (unsigned)weightsPerVertex, palette.size(), (int)skinRecord->jointCount); }
+    { static int n = 0; if (n++ < 6 || last * outStride > outPositions.buffer->m_size) __android_log_print(ANDROID_LOG_INFO, "DH2SKIN", "skin first=%u last=%u srcStride=%u srcOff=%d srcSize=%u outStride=%u outOff=%d outSize=%u skinStride=%u skinOff=%d skinSize=%u elem=%u wpv=%u palette=%zu joints=%d", first, last, sourceStride, (int)sourcePositions.offset, (unsigned)sourcePositionBuffer->m_size, outStride, (int)outPositions.offset, (unsigned)outPositions.buffer->m_size, (unsigned)skinStream.field0e, (int)skinStream.offset, (unsigned)skinStreamBuffer->m_size, elementSize, (unsigned)weightsPerVertex, palette.size(), (int)skinRecord->jointCount); }
 #endif
 
     std::uint8_t* mappedSourceNormals = nullptr;

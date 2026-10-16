@@ -7,7 +7,8 @@
 
 // The priority step of the constructors is pthread code. pthreads is the same API on POSIX and
 // on the MinGW posix-threads toolchain (winpthreads), so the step is compiled on both hosts.
-#if defined(__unix__) || defined(__APPLE__) || defined(_WIN32)
+// (libc++ on Windows, e.g. llvm-mingw, has a std::thread whose native handle is a Win32 HANDLE, not a pthread_t: skipped there.)
+#if defined(__unix__) || defined(__APPLE__) || (defined(_WIN32) && !defined(_LIBCPP_VERSION))
 #include <pthread.h>
 #include <sched.h>
 #define VOX_THREAD_HAS_PTHREAD_PRIORITY 1

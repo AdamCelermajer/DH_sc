@@ -83,6 +83,11 @@ extern "C" int appOnTouch(int a1, int a2, int a3, int a4, int a5, int a6, int a7
     if (app != nullptr && !InterLoad) {
         const Point2D<short> p{static_cast<short>(a2), static_cast<short>(a3)};
         TouchScreenBase* touch = app->m_touchScreen;
+        // Deviation (CHAOS-BUGS M1): nativeOnTouch runs on the Java UI thread while the GL thread can be inside Application's
+        // teardown (m_touchScreen deleted and zeroed); the listing dereferences it unchecked and crashes in that window.
+        if (touch == nullptr) {
+            return 0;
+        }
         switch (a1) {
             case 1:
                 touch->touchBegan(p, a8);

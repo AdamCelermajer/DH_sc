@@ -40,8 +40,14 @@ Value::Value(float value) {
 }
 
 // 0x38d798 sfc::script::lua::Value::getUInteger() const: the number, converted to unsigned int.
+// The binary converts with __aeabi_f2uiz / fcvtzu, which saturate (negative and NaN give 0, 2^32 and above give 0xffffffff). A plain C++ cast of an
+// out-of-range float is undefined and on x86-64 wraps (-1.0f gave 0xffffffff): found by the float-cast-overflow check on the host runner, the first hit
+// was Character::_SetProp from a skill script.
 unsigned int Value::getUInteger() const {
-    return static_cast<unsigned int>(getNumber());
+    const float number = getNumber();
+    if (!(number > 0.0f)) return 0u;
+    if (number >= 4294967296.0f) return 0xffffffffu;
+    return static_cast<unsigned int>(number);
 }
 
 }  // namespace lua

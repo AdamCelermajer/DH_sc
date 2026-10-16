@@ -39,7 +39,7 @@ namespace {
 // so on Android (where the working directory is not the data directory) the prefix is applied here.
 ::tu_file* file_opener(const char* name) {
     std::string path;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(DH2_HOST_RUNNER)
     if (name != nullptr && name[0] != '/' && RES_PATH != nullptr) path = std::string(RES_PATH) + name;
     else
 #endif

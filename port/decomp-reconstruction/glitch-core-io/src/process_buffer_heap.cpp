@@ -21,6 +21,7 @@ struct CProcessBufferHeap {
     int* end = nullptr;          // +0x04: bound (start plus the data words)
     int* top = nullptr;          // +0x08: first unused word
     int defaultSize = 0;         // +0x0c: size the heap is created with by allocProcessBuffer
+    void* rawBase = nullptr;     // host: the malloc block; start is placed so every payload is 16-byte aligned (see setSize)
     // +0x10: allocations may fall back to the allocator when full. The static initializer sets it
     // to 1 at startup (0x534584, byte_9F65C4 = 1), so it starts enabled.
     bool excessEnabled = true;
@@ -46,16 +47,24 @@ int CProcessBufferHeap::setSize(int bytes, bool force) {
     if (start) {
         if (words == static_cast<std::uint32_t>(end - start)) return 0;
         if (start < top && !force) return 1;
-        std::free(start - 1);
+        std::free(rawBase);
+        rawBase = nullptr;
         start = nullptr;
         end = nullptr;
         top = nullptr;
     }
     if (words == 0) return 0;
-    auto* raw = static_cast<int*>(std::malloc((static_cast<std::size_t>(words) + 1) * sizeof(int)));
+    // Deviation (W2 sanitizer finding 6): the original (32-bit ARM) hands out blocks on 4-byte words. On a 64-bit host the objects placed in the
+    // heap (SCreationState, CMaterial heap copies) have 8-byte members, and ldxr/atomics or vector stores on a misaligned address fault on arm64.
+    // The first block word is placed so that header + 4 bytes (the payload) is 16-byte aligned, and every block is a multiple of 4 words, so all
+    // payloads stay aligned. The word before start is still the zero sentinel; the heap logic is otherwise unchanged.
+    auto* raw = static_cast<int*>(std::malloc((static_cast<std::size_t>(words) + 8) * sizeof(int)));
     if (!raw) return 2;
-    raw[0] = 0;
-    start = raw + 1;
+    rawBase = raw;
+    int* aligned = raw + 1;
+    while ((reinterpret_cast<std::uintptr_t>(aligned + 1) & 15u) != 0) ++aligned;
+    aligned[-1] = 0;
+    start = aligned;
     end = start + words;
     top = start;
     return 0;
@@ -88,7 +97,7 @@ CProcessBufferHeap::~CProcessBufferHeap() {
     if (setSize(0, false) == 1) {
         os::Printer::log("Destroying process buffer heap with allocated blocks:", os::ELL_ERROR);
         dump(os::Printer::Logger, os::ELL_ERROR);
-        if (start) std::free(start - 1);
+        if (start) std::free(rawBase);
     }
 }
 
@@ -144,7 +153,7 @@ void processBufferHeapInit(bool atStartup) {
 // only created by an explicit setProcessBufferHeapSize call. Block/footer arithmetic matches the listing.
 int* allocProcessBuffer(int size) {
     if (!heap.start) heap.setSize(heap.defaultSize, false);
-    const auto words = static_cast<std::ptrdiff_t>(((static_cast<std::uint32_t>(size) + 3u) >> 2) + 2u);
+    const auto words = static_cast<std::ptrdiff_t>((((static_cast<std::uint32_t>(size) + 3u) >> 2) + 2u + 3u) & ~3u);  // multiple of 4 words (16 bytes), see setSize
     if (words <= heap.end - heap.top) {
         int* block = heap.top;
         *block = static_cast<int>(words);

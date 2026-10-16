@@ -1,0 +1,29 @@
+# Title screen -> main menu -> Start -> Single player -> loading screen -> first level (coordinates for a 2400x1080 surface, the emulator's)
+60 log tap the title screen
+60 tap 1000 700
+200 log Start
+200 tap 2148 322
+300 log Single player
+300 tap 2136 368
+# loading finished (the movie waits for a tap on its continue button), then walk with the virtual stick
+420 log tap to continue loading
+420 tap 1200 540
+520 log stick up-right for 3 s
+520 drag 420 830 520 720 10 90
+520 log dir 0
+520 drag 420 830 530 830 6 50
+590 log dir 45
+590 drag 420 830 497 753 6 50
+660 log dir 90
+660 drag 420 830 420 720 6 50
+730 log dir 135
+730 drag 420 830 343 753 6 50
+800 log dir 180
+800 drag 420 830 310 830 6 50
+870 log dir 225
+870 drag 420 830 343 907 6 50
+940 log dir 270
+940 drag 420 830 420 940 6 50
+1010 log dir 315
+1010 drag 420 830 497 907 6 50
+1080 quit

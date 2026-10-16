@@ -15,8 +15,12 @@ endif()
 # MinGW: link the C++ runtime statically. Otherwise test executables pick up whichever
 # libstdc++-6.dll is first on PATH (Git's msvcrt-based copy on this machine), which gave
 # 0xc0000139 and heap errors that were not in the code.
-if(MINGW)
+# DH2_HOST_ASAN (llvm-mingw clang with -fsanitize=address, see HOST-RUNNER.md): the ASan runtime is a DLL, so no -static; libc++ and winpthreads are linked normally.
+option(DH2_HOST_ASAN "Windows host runner built with clang -fsanitize=address (dynamic runtime)" OFF)
+if(MINGW AND NOT DH2_HOST_ASAN)
   add_link_options(-static-libgcc -static-libstdc++ -static)
+elseif(MINGW)
+  add_link_options(-lpthread)
 endif()
 
 # Android (NDK toolchain, ANDROID_ABI=arm64-v8a): see ANDROID-BUILD.md. The NDK adds -Werror=format-security; the
@@ -25,6 +29,12 @@ endif()
 option(DH2_BOOT_DEBUG "Android first-boot debug logging" OFF)
 if(DH2_BOOT_DEBUG)
   add_compile_definitions(DH2_BOOT_DEBUG=1)
+endif()
+# Windows host runner (host-runner/): also lets appInit size the device from Width_Screen/Height_Screen as the Android build does.
+option(DH2_HOST_RUNNER "Build the Windows host runner executables (host-runner/)" OFF)
+if(DH2_HOST_RUNNER)
+  add_compile_definitions(DH2_HOST_RUNNER=1)
+  include_directories(AFTER ${CMAKE_CURRENT_SOURCE_DIR}/host-runner/compat)  # <android/log.h> shim for sources with Android-only debug logging
 endif()
 if(ANDROID)
   add_compile_options(-Wno-format-security)
@@ -288,6 +298,12 @@ if(WIN32)
   target_link_libraries(dh2_all INTERFACE ws2_32)
 endif()
 
+# Windows host runner (host-runner/, see reports/decomp-reconstruction/HOST-RUNNER.md): dh2_win_headless boots the reconstructed game on the
+# host with a fake JNI layer, fixed timestep and scripted input; dh2_win_window adds a real window and GLES2 (ANGLE). Off by default.
+if(DH2_HOST_RUNNER AND WIN32)
+  add_subdirectory(host-runner)
+endif()
+
 # Link stubs for the tests (link-1). Symbols that some library object references and no library defines yet (the rows of
 # reports/decomp-reconstruction/link-missing.csv that tests reach) are defined here as aborting stubs, one object per
 # symbol, in a static library that only the TESTS link, after dh2_all. A real definition in any library therefore wins
@@ -461,5 +477,20 @@ extern \"C\" void dh2_android_fn_${android_n}() { std::fputs(\"DH2 android link 
     target_link_libraries(dh2 PRIVATE dh2_android_residual_stubs)   # one object per symbol: only the ones still needed are pulled
   else()
     target_link_options(dh2 PRIVATE -Wl,--no-undefined)
+  endif()
+endif()
+
+# Android: libStormGLOFT.so, the GL compatibility shim of the original APK (storm-gloft/, reports/decomp-reconstruction/STORMGLOFT.md).
+# Not part of DH2_DECOMP_CATEGORIES: the host build and libdh2.so never see it. Build with `cmake --build <dir> --target StormGLOFT`.
+if(ANDROID)
+  add_library(StormGLOFT SHARED storm-gloft/src/storm_hook.cpp storm-gloft/src/storm_gl.cpp storm-gloft/src/storm_texture.cpp)
+  target_include_directories(StormGLOFT PRIVATE storm-gloft/include)
+  target_compile_options(StormGLOFT PRIVATE -Wall -Wno-unused-function)
+  target_link_libraries(StormGLOFT PRIVATE log GLESv2 dl)
+  target_link_options(StormGLOFT PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
+  # -DDH2_STORM_GLSLOPT=ON once glsl-optimizer is vendored (links its glslopt_* API and enables shader optimisation)
+  option(DH2_STORM_GLSLOPT "Enable glsl-optimizer in StormGLOFT" OFF)
+  if(DH2_STORM_GLSLOPT)
+    target_compile_definitions(StormGLOFT PRIVATE STORM_HAVE_GLSLOPT=1)
   endif()
 endif()

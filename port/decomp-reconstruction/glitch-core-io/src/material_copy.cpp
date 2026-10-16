@@ -125,7 +125,11 @@ void copyMaterialParameters(const boost::intrusive_ptr<CMaterial>& destination,
     const unsigned short* sourceIds = reinterpret_cast<const unsigned short*>(sourceTechnique.passes->bindings);
     const auto* shader = static_cast<const glitch::video::IShader*>(destinationPass.shader);
     for (int stage = 0; stage < 2; ++stage) {
-        const unsigned short count = shader->m_stageParameters[stage].count;
+        // Host-found overrun (guard-page heap run of the level load): the listing (0x6a1d9c) walks the stage's whole `count` of ids, but a pass keeps
+        // only count - field04 ids per stage (the first field04 parameters of the stage are the automatic ones, as CGenericBaker::initParameters
+        // already reads it; the renderer allocates exactly that many, 8 of 12 in the first batch of the first level). The binary therefore reads
+        // field04 ids past the list (the next heap block) and, for the second stage, starts it field04 ids late. Here the walk stops at the list.
+        const unsigned short count = static_cast<unsigned short>(shader->m_stageParameters[stage].count - shader->m_stageParameters[stage].field04);
         if (count != 0) {
             for (unsigned short k = 0; k < count; ++k) {
                 const unsigned short destinationId = destinationIds[k];

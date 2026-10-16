@@ -8,6 +8,8 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <utility>
+#include <vector>
 #include <string>
 
 #include "glitch-core-io/core/process_buffer.hpp"
@@ -80,6 +82,39 @@ CGLSLShaderCode::~CGLSLShaderCode() {
 void CGLSLShaderCode::createShader(int type, const char** sources, int count) {
     auto& t = deps::activeGLFunctionTable();
     if (m_glShader == 0 && t.createShader) m_glShader = t.createShader(static_cast<uint32_t>(type));
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    // V1 debug: GLSL text patches from /sdcard/Android/data/<pkg>/files/dh2_shpatch.txt (lines "FROM=>TO"), to bisect shading problems without rebuilding.
+    if (t.shaderSource && count > 0) {
+        static std::vector<std::pair<std::string, std::string>> patches;
+        static bool loaded = false;
+        if (!loaded) {
+            loaded = true;
+            if (FILE* f = std::fopen("/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_shpatch.txt", "r")) {
+                char line[512];
+                while (std::fgets(line, sizeof line, f)) {
+                    std::string l(line);
+                    while (!l.empty() && (l.back() == 10 || l.back() == 13)) l.pop_back();
+                    const size_t at = l.find("=>");
+                    if (at != std::string::npos) patches.emplace_back(l.substr(0, at), l.substr(at + 2));
+                }
+                std::fclose(f);
+                __android_log_print(ANDROID_LOG_INFO, "DH2SHP", "%d shader patches loaded", (int)patches.size());
+            }
+        }
+        if (!patches.empty()) {
+            std::vector<std::string> text(sources, sources + count);
+            for (auto& tx : text)
+                for (auto& pt : patches) {
+                    size_t pos = 0;
+                    while ((pos = tx.find(pt.first, pos)) != std::string::npos) { tx.replace(pos, pt.first.size(), pt.second); pos += pt.second.size(); __android_log_print(ANDROID_LOG_INFO, "DH2SHP", "patched '%s'", pt.first.c_str()); }
+                }
+            std::vector<const char*> ptrs;
+            for (auto& tx : text) ptrs.push_back(tx.c_str());
+            t.shaderSource(m_glShader, count, ptrs.data(), nullptr);
+            return;
+        }
+    }
+#endif
     if (t.shaderSource) t.shaderSource(m_glShader, count, sources, nullptr);
 }
 

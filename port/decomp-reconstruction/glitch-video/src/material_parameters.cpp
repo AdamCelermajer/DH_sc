@@ -139,9 +139,11 @@ const Matrix& identityMatrix() {
 
 // Matrix4Pool: matrices released by setMatrixParameter are kept here and reused. The
 // original pool grows through boost::pool; when the list is empty this port uses new.
+// Never destroyed: materials held by static-lifetime objects (the VisualFXManager animation dictionary) are released during static destruction and
+// push their matrices here; a function-local static vector that was already gone made that a use after free at exit (host runner, guard-page heap).
 std::vector<Matrix*>& matrixPool() {
-    static std::vector<Matrix*> pool;
-    return pool;
+    static std::vector<Matrix*>* pool = new std::vector<Matrix*>;
+    return *pool;
 }
 
 // Entry for id in a table with count entries, or null when id is out of range.

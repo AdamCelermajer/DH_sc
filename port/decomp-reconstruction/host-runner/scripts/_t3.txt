@@ -1,0 +1,11 @@
+# fresh data folder (no savegames): title -> Start -> Single player -> name entry -> class select -> loading -> level
+60 tap 1000 700
+200 tap 2148 322
+300 tap 2136 368
+400 tap 220 750
+420 tap 1200 350
+520 tap 1200 956
+600 tap 160 90
+640 tap 160 90
+1000 explore 3000
+4100 quit

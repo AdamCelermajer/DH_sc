@@ -12,6 +12,9 @@
 // Globals the original reads. Their definitions belong to the globals batch.
 // The unnamed IDA globals (dword_99F7F8, dword_99F7FC, byte_99F819, byte_99FC31, dword_9A247C, dword_9A24C0)
 // have no symbol in the ELF table and are not declared here; the PARTIAL comments name them.
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <unistd.h>
+#endif
 #include <cstdlib>
 
 #include "core-platform/debug_out.hpp"
@@ -243,6 +246,10 @@ void GSInit::Update(StateMachine*, double) {
             return;
 
         case 5: {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+            // V1 debug aid: a file named dh2_skipvideo in the data dir skips the intro movie (the Java video activity is not started)
+            if (access("/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_skipvideo", 0) == 0) { videoDone = true; ++m_step; return; }
+#endif
             const int language = app.m_savegameManager->getLanguage();
             if (language == 4) {
                 nativeLoadMovie("intro_jp.mp4", language);

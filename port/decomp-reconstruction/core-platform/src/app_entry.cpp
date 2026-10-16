@@ -87,7 +87,7 @@ extern "C" int appInit() {
             break;
         default:
             g_windowDimensions = g_windowDimensions4;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(DH2_HOST_RUNNER)
             // Port deviation (first boot): the original only knew 800/854/960 wide screens and 1280x720 otherwise. On a modern surface that size
             // draws the UI into a corner of the surface and the touch coordinates (surface pixels) no longer match it; use the real surface.
             if (Width_Screen > 0 && Height_Screen > 0) {

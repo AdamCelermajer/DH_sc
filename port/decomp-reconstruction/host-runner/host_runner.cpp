@@ -1,0 +1,228 @@
+// Host runner core: argument parsing, the fixed clock, the boot sequence (the Java classes' order) and the frame loop.
+#include "host_runner.hpp"
+
+#include <windows.h>
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <io.h>
+#include <fcntl.h>
+
+extern "C" {
+int appInit();
+int appUpdate();
+int appDestroy();
+}
+namespace glitch::os {
+extern std::int64_t (*g_dh2HostMicrosecondsOverride)();
+}
+
+// ---- the game's wall-clock reads, replaced by the fixed clock ----
+// time_util.cpp (TimeNow, _GetTime, OS_GetTime) read gettimeofday directly; the runner's definitions come first on the link line.
+namespace {
+bool g_fixedClock = false;
+std::int64_t g_micros = 0;
+}  // namespace
+
+unsigned int TimeNow() {
+    if (!g_fixedClock) return static_cast<unsigned int>(GetTickCount64());
+    return static_cast<unsigned int>(g_micros / 1000);
+}
+double _GetTime() {
+    if (!g_fixedClock) return static_cast<double>(GetTickCount64()) / 1000.0;
+    return static_cast<double>(g_micros) / 1000000.0;
+}
+int OS_GetTime() { return static_cast<int>(TimeNow()); }
+
+namespace dh2host {
+
+static int g_frame = 0;
+void (*g_screenshotHook)(const char* path) = nullptr;
+
+void clockUseFixed(std::int64_t startMicros) {
+    g_fixedClock = true;
+    g_micros = startMicros;
+    glitch::os::g_dh2HostMicrosecondsOverride = []() -> std::int64_t { return g_micros; };
+}
+void clockAdvance(int ms) { g_micros += static_cast<std::int64_t>(ms) * 1000; }
+std::int64_t clockNowMicros() { return g_micros; }
+int currentFrame() { return g_frame; }
+
+void printUsage(const char* exe) {
+    std::fprintf(stderr,
+                 "usage: %s --data <game files dir> [--script file] [--frames N] [--dt ms] [--log-every N] [--out dir]\n"
+                 "          [--size WxH] [--script-scale f] [--lang N] [--realtime] [--verbose] [--angle dir]\n",
+                 exe);
+}
+
+bool parseArgs(int argc, char** argv, Options& o) {
+    for (int i = 1; i < argc; ++i) {
+        std::string a = argv[i];
+        auto next = [&](const char* what) -> const char* {
+            if (i + 1 >= argc) {
+                std::fprintf(stderr, "missing value for %s\n", what);
+                return nullptr;
+            }
+            return argv[++i];
+        };
+        const char* v = nullptr;
+        if (a == "--data") { if (!(v = next("--data"))) return false; o.dataDir = v; }
+        else if (a == "--script") { if (!(v = next("--script"))) return false; o.scriptPath = v; }
+        else if (a == "--out") { if (!(v = next("--out"))) return false; o.outDir = v; }
+        else if (a == "--frames") { if (!(v = next("--frames"))) return false; o.frames = std::atoi(v); }
+        else if (a == "--dt") { if (!(v = next("--dt"))) return false; o.dtMs = std::atoi(v); }
+        else if (a == "--log-every") { if (!(v = next("--log-every"))) return false; o.logEvery = std::atoi(v); }
+        else if (a == "--script-scale") { if (!(v = next("--script-scale"))) return false; o.scriptScale = static_cast<float>(std::atof(v)); }
+        else if (a == "--lang") { if (!(v = next("--lang"))) return false; o.language = std::atoi(v); }
+        else if (a == "--angle") { if (!(v = next("--angle"))) return false; o.angleDir = v; }
+        else if (a == "--size") {
+            if (!(v = next("--size"))) return false;
+            if (std::sscanf(v, "%dx%d", &o.width, &o.height) != 2) return false;
+        }
+        else if (a == "--realtime") o.realtime = true;
+        else if (a == "--fixed") o.realtime = false;
+        else if (a == "--verbose") o.verbose = true;
+        else if (a == "--jni-log") g_jniLogCalls = true;
+        else { std::fprintf(stderr, "unknown argument %s\n", a.c_str()); return false; }
+    }
+    if (o.dataDir.empty()) {
+        std::fprintf(stderr, "--data is required\n");
+        return false;
+    }
+    // The game may change directory, so every path the runner is given becomes absolute.
+    char full[MAX_PATH];
+    if (GetFullPathNameA(o.dataDir.c_str(), MAX_PATH, full, nullptr) != 0) o.dataDir = full;
+    if (GetFullPathNameA(o.outDir.c_str(), MAX_PATH, full, nullptr) != 0) o.outDir = full;
+    if (!o.scriptPath.empty() && GetFullPathNameA(o.scriptPath.c_str(), MAX_PATH, full, nullptr) != 0) o.scriptPath = full;
+    return true;
+}
+
+// A crash report: exception code, faulting address and a raw backtrace as RVAs (symbolize with host-runner/symbolize.py <exe> <log>), written to
+// the console and to the game log.
+static void crashPrint(const char* fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    if (g_runnerOut != nullptr) {
+        va_list cp;
+        va_copy(cp, ap);
+        std::vfprintf(g_runnerOut, fmt, cp);
+        std::fflush(g_runnerOut);
+        va_end(cp);
+    }
+    std::vfprintf(stderr, fmt, ap);
+    va_end(ap);
+}
+
+extern "C" void dh2_pageheap_report(unsigned long long addr, void (*print)(const char*, ...), unsigned long long moduleBase) __attribute__((weak));
+
+static LONG WINAPI crashFilter(EXCEPTION_POINTERS* info) {
+    const unsigned long long loaded = reinterpret_cast<unsigned long long>(GetModuleHandleA(nullptr));
+    const EXCEPTION_RECORD* r = info->ExceptionRecord;
+    crashPrint("\n[crash] exception 0x%08lx at rva 0x%llx, frame %d\n", r->ExceptionCode, (unsigned long long)r->ExceptionAddress - loaded, g_frame);
+    if (r->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && r->NumberParameters >= 2) {
+        crashPrint("[crash] access violation %s address 0x%llx\n", r->ExceptionInformation[0] ? "writing" : "reading",
+                   (unsigned long long)r->ExceptionInformation[1]);
+    }
+    if (r->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && r->NumberParameters >= 2 && dh2_pageheap_report != nullptr) {
+        dh2_pageheap_report(r->ExceptionInformation[1], crashPrint, loaded);
+    }
+    void* frames[64];
+    // Walk from the faulting context, not from this handler: RtlCaptureStackBackTrace would start in the filter.
+    CONTEXT* ctx = info->ContextRecord;
+    unsigned long long pc = ctx->Rip;
+    unsigned long long sp = ctx->Rsp;
+    int n = 0;
+    frames[n++] = reinterpret_cast<void*>(pc);
+    // Unwind with the exception tables (x64 SEH data is in every MinGW-w64 image).
+    for (; n < 64; ++n) {
+        DWORD64 imageBase = 0;
+        PRUNTIME_FUNCTION fn = RtlLookupFunctionEntry(pc, &imageBase, nullptr);
+        if (fn == nullptr) break;
+        void* handlerData = nullptr;
+        DWORD64 frameBase = 0;
+        RtlVirtualUnwind(UNW_FLAG_NHANDLER, imageBase, pc, fn, ctx, &handlerData, &frameBase, nullptr);
+        pc = ctx->Rip;
+        sp = ctx->Rsp;
+        if (pc == 0) break;
+        frames[n] = reinterpret_cast<void*>(pc);
+    }
+    (void)sp;
+    for (int i = 0; i < n; ++i) {
+        const unsigned long long a = reinterpret_cast<unsigned long long>(frames[i]);
+        if (a >= loaded && a < loaded + 0x10000000ull) crashPrint("[crash] #%d rva 0x%llx\n", i, a - loaded);
+        else crashPrint("[crash] #%d abs 0x%llx\n", i, a);
+    }
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+
+bool bootGame(const Options& opt) {
+    SetUnhandledExceptionFilter(crashFilter);
+    if (!opt.realtime) clockUseFixed(100000LL * 1000000LL);
+    jniInstall(opt);
+    // GameRenderer.nativeInit: g_appAlive == 0 -> appInit()
+    if (appInit() != 0) return false;
+    return true;
+}
+
+void runFrame() {
+    appUpdate();
+    ++g_frame;
+}
+
+void shutdownGame() { appDestroy(); }
+
+// Splits the console from the game's own chatter (the game prints through _DEBUG_OUT to stdout and stderr): the chatter goes to <out>/game.log, the
+// runner's lines keep the original stdout. Returns the FILE for runner lines.
+FILE* splitConsole(const Options& opt) {
+    CreateDirectoryA(opt.outDir.c_str(), nullptr);
+    int saved = _dup(1);
+    FILE* console = _fdopen(saved, "w");
+    if (!opt.verbose) {
+        std::string path = opt.outDir + "/game.log";
+        std::freopen(path.c_str(), "w", stdout);
+        std::freopen(path.c_str(), "a", stderr);
+    }
+    return console;
+}
+
+FILE* g_runnerOut = nullptr;
+
+int runHeadlessLoop(const Options& opt) {
+    g_runnerOut = splitConsole(opt);
+    std::vector<ScriptEvent> script;
+    if (!opt.scriptPath.empty() && !loadScript(opt.scriptPath, script)) {
+        std::fprintf(g_runnerOut, "cannot read script %s\n", opt.scriptPath.c_str());
+        return 2;
+    }
+    installNullGL();
+    if (!bootGame(opt)) {
+        std::fprintf(g_runnerOut, "boot failed\n");
+        return 3;
+    }
+    std::fprintf(g_runnerOut, "[runner] booted; running %d frames at %d ms\n", opt.frames, opt.dtMs);
+    std::fflush(g_runnerOut);
+    bool quit = false;
+    for (int f = 0; f < opt.frames && !quit; ++f) {
+        scriptApplyFrame(script, f, opt, quit);
+        clockAdvance(opt.dtMs);
+        runFrame();
+        if (opt.logEvery > 0 && f % opt.logEvery == 0) logState(f);
+    }
+    logState(g_frame);
+    std::fprintf(g_runnerOut, "[runner] done after %d frames\n", g_frame);
+    std::fflush(g_runnerOut);
+    return 0;
+}
+
+}  // namespace dh2host
+
+// ---- POSIX functions the reconstruction calls that the Windows C runtime lacks ----
+// lrand48 (ok2-Clustering.cpp, the k-means seeding): the POSIX drand48 family, X(n+1) = (0x5DEECE66D * X(n) + 0xB) mod 2^48 with the default seed
+// 0x1234ABCD330E; it returns the high 31 bits.
+extern "C" long lrand48(void) {
+    static unsigned long long x = 0x1234ABCD330EULL;
+    x = (0x5DEECE66DULL * x + 0xBULL) & 0xFFFFFFFFFFFFULL;
+    return static_cast<long>(x >> 17);
+}
