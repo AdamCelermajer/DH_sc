@@ -12,6 +12,7 @@
 //   glitch::collada::COnDemandReader (collada/COnDemandReader.hpp).
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 
 namespace glitch::res {

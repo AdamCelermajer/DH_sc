@@ -485,6 +485,20 @@ E_DRIVER_ALLOCATION_RESULT IVideoDriver::getProcessBuffer(E_PROCESS_BUFFER_TYPE 
     return 5;
 }
 
+// 0x5d8624 _ZN6glitch5video12IVideoDriver16removeBatchBakerEv
+// Drops the baker and the batch material, then destroys the heap copy of the batched material (if any), releases its
+// storage and clears the copy and its source.
+void IVideoDriver::removeBatchBaker() {
+    m_batchBaker = nullptr;    // +0x128
+    m_batchMaterial = nullptr; // +0x124
+    if (m_batchMaterialHeap != nullptr) {  // +0x12c
+        m_batchMaterialHeap->~CMaterial();
+        glitch::core::releaseProcessBuffer(m_batchMaterialHeap);
+        m_batchSourceMaterial = nullptr;   // +0x130
+        m_batchMaterialHeap = nullptr;
+    }
+}
+
 // 0x6498a0 _ZN6glitch5video12IVideoDriver16getProcessBufferENS0_21E_PROCESS_BUFFER_TYPEEjRKN5boost13intrusive_ptrINS_5scene11CMeshBufferEEEb
 // The mesh buffer's own stream table, first and last vertex and driver binding word go to the general slot (vtable +0x1f0).
 E_DRIVER_ALLOCATION_RESULT IVideoDriver::getProcessBuffer(E_PROCESS_BUFFER_TYPE type, uint32_t flags,

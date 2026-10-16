@@ -1,0 +1,2 @@
+0x334764,_ZN7Console20_setMenuDebugModulesEv,reconstructed,port/decomp-reconstruction/core-platform/src/ok3-Console.cpp,"Same page as _setMenuDebugSwitches under the title GAME MODULES: walks a copy of the map at DebugSwitches::s_inst +0x18 (0x9A1D30), green when on, red when off."
+0x52f0d8,Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit,reconstructed,core-platform/src/p1-core-platform-ADevice-127f54-0.cpp,"Single B to ADevice::Init(JNIEnv*, jclass); exported extern ""C""."

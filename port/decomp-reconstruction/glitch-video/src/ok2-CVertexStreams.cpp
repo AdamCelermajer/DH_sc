@@ -68,6 +68,19 @@ uint32_t CVertexStreams::copyStreams(const boost::intrusive_ptr<const CVertexStr
     return result;
 }
 
+// 0x5abb58 / 0x647ee0 _ZN6glitch5video14CVertexStreams9setStreamEPNS0_13SVertexStreamERKS2_ib
+// Takes the source stream's buffer, offset, value type, component count and stride; the offset gets delta added. The
+// binary only has clones with the flag folded to true (updateHomogeneityInternal(1)); every caller passes true.
+void CVertexStreams::setStream(SVertexStream* stream, const SVertexStream& source, int32_t delta, bool flag) {
+    stream->buffer = source.buffer;
+    stream->offset = source.offset;
+    stream->field0a = source.field0a;
+    stream->field0c = source.field0c;
+    stream->offset = source.offset + static_cast<uint32_t>(delta);
+    stream->field0e = source.field0e;
+    updateHomogeneityInternal(flag);
+}
+
 // 0x5a15c0 is elsewhere. The three setStreamBuffer bodies below are the same code: the buffer pointer is taken (one use added),
 // the old buffer of the stream is dropped, and the homogeneity flag is recomputed with flag = true.
 // 0x663ca8 / 0x6dc848 are the compiler's clones of the general function with the flag argument folded to true; the clone

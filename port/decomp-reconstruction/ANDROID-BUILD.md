@@ -68,31 +68,43 @@ ninja dh2                                    # -Wl,--no-undefined: fails, listin
 cmake -DDH2_ANDROID_ABORT_STUBS=ON . && ninja dh2    # aborting stubs for those symbols: libdh2.so links
 ```
 
-The first form is the honest one: with `--no-undefined` the link stops with the undefined symbols of the CSV (160 at 2026-10-15 22:56, 92 after owner F), listed with the
+The first form is the honest one: with `--no-undefined` the link stops with the undefined symbols of the CSV (160 at 2026-10-15 22:56, 92 after owner F, 1 after owner E2), listed with the
 library object that references each one in `reports/decomp-reconstruction/android-link-missing.csv`. The second form
 defines them (functions that print `DH2 android link stub called (not reconstructed yet): <symbol>` and abort, zeroed
 4 KiB for data) from that same CSV, and produces a 105 MB (unstripped,
 `-g`) `libdh2.so` that is a valid AArch64 ELF exporting `JNI_OnLoad` and the 35 `Java_com_gameloft_android_GAND_GloftD2SS_*`
 natives. It is a link proof, not a runnable game: calling any stubbed row aborts.
 
-### What is still missing (160 symbols, see the CSV)
+### What is still missing (1 symbol, see the CSV)
 
-| Category (`android_category`) | Rows | Meaning |
-| --- | ---: | --- |
-| `original-not-reconstructed` | 64 | ledger rows still `skipped`: `Console::*` (debug console menu), `DBG_*` tracing helpers, `VoxSoundManager`, `CResFileManager`, `CTextureManager`, `C2DDriver::draw2D*`, `IVideoDriver::draw/setMaterial/...`, `get_fontfile`, `read_filter_list`, `fillLeaderBoard`, `TouchScreenBase::isRegionPressed`, `CMatrix4::operator*`, `CNullDriver` ctor |
-| `port-seam-placeholder` | 49 | `glitch::collada::recon_v2_10::*`, `recon_v2_04::*`, `recon_31::*`: seams of the collada layout recovery that stand in for a layout-dependent original body. They have no ELF symbol; they go away when the layout owner replaces the call |
-| `port-stand-in` | 13 | names the port invented (no ELF symbol) |
-| `third-party-source-not-linked` | 9 | `gluTessCallback`, `gluTessProperty` (the binary's references are C++-mangled, while the vendored libtess C units, built as C++, do not provide these two names) and Musepack `mpc_demux_*`, `mpc_crc32`, `vox::DecoderMPC8Factory`. The vendored `mpc_demux.c` is compiled as C, so its symbols are unmangled; the binary's references are C++-mangled |
-| `jni-app-entry-glue` | 9 | `appInit appUpdate appPause appResume appDestroy appOnTouch appKeyPressed appKeyReleased appTrackBall`: the C entry points the `Java_..._nativeXxx` natives forward to (owned by the app/menu session) |
-| `original-partial-row` | 7 | rows reconstructed only in part, no symbol-compatible body yet (`CLight` attribute (de)serialisation, `CMaterialVertexAttributeMap::allocate`, `CVertexStreams::setStreamBuffer`, ...) |
-| `other` | 3 | no ledger row |
-| `android-libcxx-mangling-or-new` | 5 | two are rows of the host report spelled with libc++ (`__ndk1`) instead of libstdc++ (`AlgoAStar::findNode`, `setParameter<intrusive_ptr<CLight>>`); three appeared after the host report was written (`CMaterialRendererManager::clearUnusedInstances`, `CResFileManager::unloadAll`, `core::createQuantizedBuffer`) |
-| `android-key-function` | 1 | `typeinfo for RenderFX::EventListener`: clang emits it only in the unit that defines the key function (`OnEvent`), which no unit defines (only a test stand-in does). GCC on the host leaves it a weak symbol. Reconstruct `EventListener::OnEvent`/`OnFSCommand` (or make them inline) |
+Result on 2026-10-16 (HEAD 1b5e588b plus owner E2): all libraries compile for arm64-v8a (one arm64-only fix: `<cstddef>` in
+`glitch-scene-collada-gui/.../res/onDemand.hpp`, which used `std::size_t` and only worked on the host through transitive
+includes) and the `--no-undefined` link is down from 92 (and 160 at first) to **1**:
 
-The list changes as the owners finish rows. `py -3 tools/trackb/android_link_report.py build/own-arm64` relinks the built
-libraries and rewrites the CSV (classified with the host `link-missing.csv`). Only the toolchain-specific rows
-(`AlgoAStar::findNode`, `setParameter<CLight>`, the `RenderFX::EventListener` typeinfo) differ from the host's gaps. Everything the Android shared object needs from the platform links against the NDK
-(`log`, `android`, `EGL`, `GLESv2`, `OpenSLES`); no other system library is undefined.
+| Symbol | Why |
+| --- | --- |
+| `glitch::createDevice(E_DRIVER_TYPE, dimension2d<int> const&, unsigned, bool, bool, bool, IEventReceiver*)` (0x5340ac) | `core-platform/src/app_entry.cpp:92` references it through an asm label; the body (a wrapper that builds `SCreationParameters` and calls `createDeviceEx`, 0x6a0748, already in `CAndroidOSDevice.cpp`) belongs to owner B3 (glitch-scene .bdae loader / createDevice) |
+
+Closed in this pass: `Console::_setMenuDebugModules` (0x334764), `IVideoDriver::removeBatchBaker` (0x5d8624),
+`CVertexStreams::setStream(SVertexStream*, const SVertexStream&, int, bool)` (clones 0x5abb58 / 0x647ee0) and the
+`Java_..._GLUtils_Device_nativeInit` export (0x52f0d8, a `B ADevice::Init`). Everything else of the earlier lists
+(Console, VoxSoundManager, CResFileManager, CTextureManager, the `app*` glue, ...) was reconstructed by the owners in
+between. With `createDevice` provided (or a one-line stub defining that mangled name) the shared object links with no
+other undefined symbol: `llvm-nm -D --undefined-only` shows only Bionic libc/libm (`@LIBC`) and liblog symbols
+(`__android_log_*`); libc++ is linked statically, and no GLES, EGL or OpenSL symbol is undefined (the original resolves
+them at run time too).
+
+`cmake -DDH2_ANDROID_ABORT_STUBS=ON` still exists to link a runnable-shaped `.so` while symbols are missing; leave it OFF
+to get the honest list. `py -3 tools/trackb/android_link_report.py build/own-arm64` regenerates the CSV.
+
+### JNI export comparison
+
+The original (IDA database of `libDungeonHunter2.so`, package `GloftD2SS`) exports `JNI_OnLoad` and 32
+`Java_com_gameloft_android_GAND_GloftD2SS_*` natives (GameRenderer, GLMediaPlayer, GLResLoader, DungeonHunter2,
+GameGLSurfaceView, Musicplayer, GLUtils_Device). The rebuilt `.so` exports all 32 and `JNI_OnLoad`, with the same names.
+It also exports the four `Java_com_samsung_zirconia_NativeInterface_*` functions, which in the original live in the
+separate `libnativeinterface.so`, and the reference-binaries copy (`...-1.0.4-armeabi-v7a-dwarf.so`) is the different
+`GloftD2HP` package build, so it is not the comparison target.
 
 ### Entry points
 

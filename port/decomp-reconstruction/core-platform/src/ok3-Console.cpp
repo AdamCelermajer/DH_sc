@@ -523,6 +523,27 @@ void Console::_setMenuDebugSwitches() {
     }
 }
 
+// 0x334764 Console::_setMenuDebugModules(void)
+// The same page as _setMenuDebugSwitches under the title "GAME MODULES": the binary walks a copy of the map at
+// DebugSwitches::s_inst +0x18 (0x9A1D30), one row per entry, green when on and red when off.
+void Console::_setMenuDebugModules() {
+    std::vector<std::string> none;
+    _createList(none, const_cast<char*>("GAME MODULES"));
+    if (menu_ != nullptr) {
+        menu_->clear();
+    }
+    DebugSwitches::s_inst.load();
+    wchar_t buffer[2048] = {};
+    const std::map<std::string, bool> switches(DebugSwitches::s_inst.m_switches);
+    for (const auto& entry : switches) {
+        const std::uint32_t color = entry.second ? 0xFF00FF00u : 0xFFFF0000u;
+        const int index = menu_ != nullptr ? static_cast<int>(menu_->addItem(buffer)) : -1;
+        if (menu_ != nullptr) {
+            menu_->setItemOverrideColor(static_cast<std::uint32_t>(index), glitch::gui::EGUI_LBC_TEXT, ItemColor(color));
+        }
+    }
+}
+
 // 0x3320ec Console::_setMenuQuestList(void)
 // "<quest name> - <current state name>" for every quest of the local character (nothing without one).
 void Console::_setMenuQuestList() {

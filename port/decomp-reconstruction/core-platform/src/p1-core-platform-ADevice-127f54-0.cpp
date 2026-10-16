@@ -140,3 +140,10 @@ void ADevice::Init(JNIEnv* env, jclass cls) {
     mSetUniqueCode = env->GetStaticMethodID(cDevice, "e", "(I)V");
     mUserAgent = env->GetStaticMethodID(cDevice, "f", "()[B");
 }
+
+// 0x52f0d8 Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit
+// One instruction in the binary: B ADevice::Init (the JNIEnv and jclass arguments pass straight through).
+extern "C" JNIEXPORT void JNICALL Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit(JNIEnv* env,
+                                                                                                   jclass cls) {
+    ADevice::Init(env, cls);
+}
