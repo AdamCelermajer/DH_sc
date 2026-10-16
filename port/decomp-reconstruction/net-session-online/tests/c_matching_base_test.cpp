@@ -24,7 +24,8 @@ public:
     std::uint32_t MemberBit(int memberId) const override {
         return (memberId >= 0 && memberId < 32) ? (1u << memberId) : 0u;
     }
-    bool UnknownGate() const override { return gate; }
+    bool IsInRoom() override { return gate; }  // vtable +0x64 (was UnknownGate)
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     std::vector<int> ConnectedMemberIds() const override { return connectedPeers; }
     CRoomAttributes* GetRoomAttributes() override { return &room; }
     bool IsServer() const override { return server; }

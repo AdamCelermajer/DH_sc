@@ -79,7 +79,7 @@ public:
     void SetValueForTest(const std::string& key, const std::string& value);
     void SetDatesForTest(GameDate* server, GameDate* local);
 
-private:
+public:  // members are public (Track B decision 9)
     GameDate* serverDate_ = nullptr;  // +0x3c
     GameDate* localDate_ = nullptr;   // +0x40
 

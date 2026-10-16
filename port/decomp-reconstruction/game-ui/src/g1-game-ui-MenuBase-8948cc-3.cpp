@@ -202,7 +202,7 @@ bool MenuBase::FS_StartGame(const char*, const char* args, void* menu) {
     if (closeMenus) {
         const auto* levels =
             static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
-        const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].m_w8);
+        const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].LevelFile);
         ApplicationGetInstance().LoadLevel(levelName, save.m_levelEntryPoint[difficulty], save.m_slot, false, true, 0,
                                            false, 0, 0);
     }

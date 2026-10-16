@@ -44,11 +44,11 @@ void ReportAssert(const char* condition, const char* file, int line) {
 // Word of property `propId` in a sheet: property i is m_w(i+1). The caller checks the range first.
 // Relies on m_w1..m_w224 being consecutive int32 members; the test checks their addresses.
 std::int32_t& PropertyWord(Structs::CharacterProperties& sheet, int propId) {
-    return (&sheet.m_w1)[propId];
+    return (&sheet.AIFaction)[propId];
 }
 
 const std::int32_t& PropertyWord(const Structs::CharacterProperties& sheet, int propId) {
-    return (&sheet.m_w1)[propId];
+    return (&sheet.AIFaction)[propId];
 }
 
 // The original returns a float in r0 (soft-float ABI), and the header keeps the int shape of these
@@ -113,7 +113,7 @@ int CharProperties::PROPS_GetFromSheet(int propId, Structs::CharacterProperties*
 
 // 0x3de6c4 CharProperties::PROPS_GetWalkSpeed(void) const
 int CharProperties::PROPS_GetWalkSpeed() const {
-    float v = SpeedScale(m_props.m_w47);
+    float v = SpeedScale(m_props.Speed_Modifier_Walk);
     if (!(v > 0.0f)) {
         v = 0.0f;
     }
@@ -122,7 +122,7 @@ int CharProperties::PROPS_GetWalkSpeed() const {
 
 // 0x3de708 CharProperties::PROPS_GetRotationSpeed(void) const
 int CharProperties::PROPS_GetRotationSpeed() const {
-    float v = SpeedScale(m_props.m_w48);
+    float v = SpeedScale(m_props.Speed_Modifier_Rotation);
     if (!(v > 0.0f)) {
         v = 0.0f;
     }
@@ -131,7 +131,7 @@ int CharProperties::PROPS_GetRotationSpeed() const {
 
 // 0x3de74c CharProperties::PROPS_GetAttackSpeed(void) const
 int CharProperties::PROPS_GetAttackSpeed() const {
-    float v = SpeedScale(m_props.m_w49);
+    float v = SpeedScale(m_props.Speed_Modifier_Attack);
     if (!(v > 0.0f)) {
         v = 0.0f;
     }
@@ -141,7 +141,7 @@ int CharProperties::PROPS_GetAttackSpeed() const {
 // 0x3de790 CharProperties::PROPS_GetOpacity(void) const
 // Clamped to [0, 1]: a value at or above 1 becomes 1, and a value not above 0 becomes 0.
 int CharProperties::PROPS_GetOpacity() const {
-    float v = SpeedScale(m_props.m_w50);
+    float v = SpeedScale(m_props.Opacity_Modifier);
     if (v > 0.0f) {
         if (v >= 1.0f) {
             v = 1.0f;
@@ -154,12 +154,12 @@ int CharProperties::PROPS_GetOpacity() const {
 
 // 0x3de7ec CharProperties::PROPS_GetModifiedXP(int) const
 int CharProperties::PROPS_GetModifiedXP(int xp) const {
-    return ScaleByBonus(m_props.m_w201, xp);
+    return ScaleByBonus(m_props.Special_Bonus_To_XP, xp);
 }
 
 // 0x3de814 CharProperties::PROPS_GetModifiedPrice(int) const
 int CharProperties::PROPS_GetModifiedPrice(int price) const {
-    return ScaleByBonus(m_props.m_w202, price);
+    return ScaleByBonus(m_props.Special_Merchant_Price, price);
 }
 
 // 0x3de83c CharProperties::PROPS_RemoveDot(int) (empty in the shipped build)

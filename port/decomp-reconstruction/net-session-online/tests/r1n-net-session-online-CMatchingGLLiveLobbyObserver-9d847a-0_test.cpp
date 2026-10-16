@@ -1,9 +1,10 @@
 // Tests for the CMatchingGLLiveLobbyObserver list and state bodies (batch
-// r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-0). Packet-reading bodies are not
-// exercised here because the DataPacket reads they need are not declared yet.
+// r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-0). The packet-reading handlers get an empty
+// DefaultDataPacket: its string reads are the original stubs (they return 0), so the strings stay empty.
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/t_member_info.hpp"
 #include "net-session-online/tb/t_gl_room_info.hpp"
+#include "net-transport/default_data_packet.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -120,22 +121,24 @@ int main() {
         tMemberInfo filler(id);
         lobby.PushMemberForTest(filler);
     }
-    CHECK(lobby.OnMPProcessPushJoinLobbyLaunched(nullptr) == -1);
+    DefaultDataPacket packet;
+    CHECK(lobby.OnMPProcessPushJoinLobbyLaunched(&packet) == -1);
     CHECK(lobby.MemberCountForTest() == 16);
     lobby.OnMPLeaveSessionSuccess();
-    CHECK(lobby.OnMPProcessPushJoinLobbyLaunched(nullptr) == 0);
+    CHECK(lobby.OnMPProcessPushJoinLobbyLaunched(&packet) == 0);
+    CHECK(lobby.MemberCountForTest() == 1);  // the joined entry (launched)
 
-    // Session handlers that do not read a packet in this port.
-    lobby.OnMPCreateSessionSuccess(nullptr);
+    // Session handlers (an empty packet: the reads give nothing).
+    lobby.OnMPCreateSessionSuccess(&packet);
     CHECK(lobby.StateForTest() == 4);
     CHECK(lobby.GameStartedForTest());
     CHECK(lobby.LastResultForTest() == 0);
 
-    lobby.OnMPJoinSessionSuccess(nullptr);
+    lobby.OnMPJoinSessionSuccess(&packet);
     CHECK(lobby.StateForTest() == 5);
     CHECK(lobby.GameStartedForTest());
 
-    lobby.OnMPListSessionSuccess(nullptr);
+    lobby.OnMPListSessionSuccess(&packet);
     CHECK(lobby.StateForTest() == 7);
     CHECK(lobby.Flag07ForTest());
     CHECK(lobby.LastResultForTest() == 0);

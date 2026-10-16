@@ -65,7 +65,7 @@ int failures = 0;
     } while (0)
 
 // Word of property id in a sheet (property i is m_w(i+1)).
-int& W(Structs::CharacterProperties& s, int id) { return (&s.m_w1)[id]; }
+int& W(Structs::CharacterProperties& s, int id) { return (&s.AIFaction)[id]; }
 
 void ClearTables() {
     std::memset(g_type, 0, sizeof g_type);
@@ -130,10 +130,10 @@ Structs::CharacterProperties CharProperties::s_temp;
 int CharProperties::_GetType(int propId) const { return g_type[propId]; }
 int CharProperties::_GetDefault(int propId) const { return g_default[propId]; }
 int CharProperties::_GetProperty(const Structs::CharacterProperties& sheet, int propId) const {
-    return (&sheet.m_w1)[propId];
+    return (&sheet.AIFaction)[propId];
 }
 void CharProperties::_SetProperty(Structs::CharacterProperties& sheet, int propId, int value) {
-    (&sheet.m_w1)[propId] = value;
+    (&sheet.AIFaction)[propId] = value;
 }
 bool CharProperties::_IsPropertySet(const Structs::CharacterProperties& sheet, int propId) const {
     return _GetProperty(sheet, propId) != _GetDefault(propId);
@@ -409,7 +409,7 @@ int main() {
         ClearTables();
         CharProperties& o = Fresh();
         Structs::Item* item = reinterpret_cast<Structs::Item*>(g_itemRaw);
-        item->m_w37 = 0;                // property base 0, so property 83 is the weapon's
+        item->Param3 = 0;                // property base 0, so property 83 is the weapon's
         g_equipped[1] = reinterpret_cast<ItemInstance*>(g_itemRaw);
         W(o.m_props, 83) = 100;
         CHECK(o.PROPS_GetBonusDamage(false) == 100);
@@ -419,9 +419,9 @@ int main() {
         g_dual = true;
         W(o.m_props, 90) = 3;
         CHECK(o.PROPS_GetBonusDamage(false) == 123);
-        item->m_w37 = -1;               // no property base: no bonus
+        item->Param3 = -1;               // no property base: no bonus
         CHECK(o.PROPS_GetBonusDamage(false) == 0);
-        item->m_w37 = 0;
+        item->Param3 = 0;
         g_equipped[2] = nullptr;        // the off hand is empty
         CHECK(o.PROPS_GetBonusDamage(true) == 0);
     }
@@ -430,7 +430,7 @@ int main() {
     {
         ClearTables();
         CharProperties& o = Fresh();  // reuse slot 0 (object is re-created)
-        o.m_baseProps.m_w27 = 42;
+        o.m_baseProps.ClassID = 42;
         o.RecalcProperties(false);
         CHECK(g_calls.empty());
         o.RecalcProperties(true);
@@ -506,7 +506,7 @@ int main() {
         AddInst(o, 5, NewInst(1, 32, 0));
         AddInst(o, 5, NewInst(2, 32, 0));
         AddInst(o, 9, NewInst(3, 32, 0));
-        o.m_baseProps.m_w27 = 42;
+        o.m_baseProps.ClassID = 42;
         o.PROPS_RemoveAllBuffs();
         CHECK(g_stopped.size() == 3 && g_stopped[0] == 1 && g_stopped[1] == 2 && g_stopped[2] == 3);
         CHECK(o.m_buffs.empty());

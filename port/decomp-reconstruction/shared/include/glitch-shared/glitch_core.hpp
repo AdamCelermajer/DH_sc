@@ -24,24 +24,25 @@ template <typename T>
 struct vector2d {
     T X{}, Y{};  // +0x00, +0x04
 
-    // 0x420060 vector2d<float>::getAngle: the angle in degrees of the vector, measured as the
-    // original does (0 when Y or X is zero; quadrant offsets of 90 and 270 degrees). The
-    // original returns the float bits through an int register; here it returns a float.
-    float getAngle() const {
+    // 0x420060 vector2d<float>::getAngle (Irrlicht's f64 getAngle): the angle in degrees of the vector. The original returns a
+    // double in r0:r1 (Hex-Rays shows only the low word and drops the two early returns, which the listing has as double constants):
+    // Y == 0 gives 180 for X < 0 and 0 otherwise, X == 0 gives 90 for Y < 0 and 270 otherwise. The length is the double sqrt of the
+    // float sum of squares rounded to float, ratio = Y / length (float); 1 - ratio * ratio, sqrt, the division and atan are double.
+    double getAngle() const {
         const float x = static_cast<float>(X);
         const float y = static_cast<float>(Y);
-        if (y == 0.f) return 0.f;
-        if (x == 0.f) return 0.f;
-        const float len = std::sqrt(x * x + y * y);
-        const float ratio = y / len;
-        float angle = std::atan(std::sqrt(1.f - ratio * ratio) / ratio) * 57.2957795f;
+        if (y == 0.f) return x < 0.f ? 180.0 : 0.0;
+        if (x == 0.f) return y < 0.f ? 90.0 : 270.0;
+        const float len = static_cast<float>(std::sqrt(static_cast<double>(static_cast<float>(static_cast<float>(x * x) + static_cast<float>(y * y)))));
+        const double ratio = static_cast<double>(static_cast<float>(y / len));
+        double angle = std::atan(std::sqrt(1.0 - ratio * ratio) / ratio) * 57.29577951308232;  // 0x404ca5dc1a63c1f8 = 180 / pi
         if (x > 0.f) {
-            if (y > 0.f) return angle + 270.f;
-            if (y < 0.f) return angle + 90.f;
+            if (y > 0.f) return angle + 270.0;
+            if (y < 0.f) return angle + 90.0;
         }
         if (x < 0.f) {
-            if (y < 0.f) return 90.f - angle;
-            if (y > 0.f) return 270.f - angle;
+            if (y < 0.f) return 90.0 - angle;
+            if (y > 0.f) return 270.0 - angle;
         }
         return angle;
     }
@@ -515,20 +516,25 @@ struct CMatrix4 {
 
     // 0x6c7cf0 setRotationRadians: writes the rotation part from angles (x, y, z) in radians. Elements
     // 3, 7, 11 and 12..15 are not written by the listing and keep their values; the flag is cleared.
+    // The products and sums are done in double (the listing converts the cosf/sinf results with __aeabi_f2d, uses __aeabi_dmul and
+    // __aeabi_dsub / dadd, and rounds each element with __aeabi_d2f); sin(y) stays a float, so element 2 is its negation.
     void setRotationRadians(const vector3d<T>& angles) {
-        const T cx = std::cos(angles.X), sx = std::sin(angles.X);
-        const T cy = std::cos(angles.Y), sy = std::sin(angles.Y);
-        const T cz = std::cos(angles.Z), sz = std::sin(angles.Z);
+        const double cx = std::cos(angles.X), sx = std::sin(angles.X);
+        const T sy = std::sin(angles.Y);
+        const double cy = std::cos(angles.Y);
+        const double cz = std::cos(angles.Z), sz = std::sin(angles.Z);
         flag = false;
-        M[0] = cy * cz;
-        M[1] = cy * sz;
+        M[0] = static_cast<T>(cy * cz);
+        M[1] = static_cast<T>(cy * sz);
         M[2] = -sy;
-        M[4] = sx * sy * cz - cx * sz;
-        M[5] = sx * sy * sz + cx * cz;
-        M[6] = sx * cy;
-        M[8] = cx * sy * cz + sx * sz;
-        M[9] = cx * sy * sz - sx * cz;
-        M[10] = cx * cy;
+        const double sxsy = sx * static_cast<double>(sy);
+        const double cxsy = cx * static_cast<double>(sy);
+        M[4] = static_cast<T>(sxsy * cz - cx * sz);
+        M[5] = static_cast<T>(sxsy * sz + cx * cz);
+        M[6] = static_cast<T>(sx * cy);
+        M[8] = static_cast<T>(cxsy * cz + sx * sz);
+        M[9] = static_cast<T>(cxsy * sz - sx * cz);
+        M[10] = static_cast<T>(cx * cy);
     }
 };
 // Float specialisations of the CMatrix4 members declared above (defined in tb_core-io-glitch_core_CMatrix4_float-0.cpp).

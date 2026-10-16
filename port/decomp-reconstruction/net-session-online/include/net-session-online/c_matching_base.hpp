@@ -1,5 +1,5 @@
 // CMatching: the room and member layer, the binary's base class of CMatchingLocal and CMatchingGLLive
-// (CMatchingBluetooth is not derived; see NOTES.md, integrator ruling). This header is the one definition
+// (CMatchingBluetooth derives from CMatchingLocal). This header is the one definition
 // of the class; deps/matching.hpp includes it. It records the layout recovered from the bodies below.
 //
 // Source addresses (32-bit ARM, Hex-Rays bodies):
@@ -60,9 +60,12 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "net-session-online/c_room_attributes.hpp"
+#include "net-session-online/t_room_info.hpp"
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (SearchRoomInternal, vtable +0x08)
 #include "net-transport/net_bit_stream.hpp"
 // The member element is a real NetStruct record: the per-element calls in UpdateMemberIdList,
 // SetTeamId, JoinRoom/CreateJoinRoom/Initialize, ProcessLostPacket/ProcessAcknowledgedPacket and
@@ -150,18 +153,44 @@ public:
     // (the binary's mangled name takes a non-const reference; the integrator should fix that header).
     // The base has no room backend, so the defaults return 0.
     virtual std::int32_t JoinRoomInternal(std::uint64_t roomId) { (void)roomId; return 0; }
+    // vtable +0x08: CMatchingLocal::SearchRoomInternal (0x807bec) / CMatchingGLLive::SearchRoomInternal (0x81fadc).
+    // CMatching::SearchRoom (0x7feb40) tail-calls it. Not pure in the port: the base has no search backend.
+    virtual std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode) {
+        (void)filter; (void)flag; (void)mode;
+        return 0;
+    }
+    // vtable +0x90: CMatchingGLLive::GetRoomList (0x82051c), the lobby room list by value. The base has none
+    // (the binary's slot is a pure/empty one for the other providers); the port answers an empty list.
+    virtual std::vector<tRoomInfo> GetRoomList() { return {}; }
     // vtable +0x3c: CMatchingLocal / CMatchingGLLive / CMatchingBluetooth::LeaveRoom (Level::_LoadProcess calls it through CMatching::Get()).
     virtual std::int32_t LeaveRoom() { return 0; }
+    // vtable +0x40 .. +0x58, the room-control block every derived vtable fills (_ZTV14CMatchingLocal 0x992230,
+    // _ZTV15CMatchingGLLive 0x992828). The binary's base leaves them pure; the port keeps inert defaults so
+    // the test doubles that derive from CMatching need not declare them. None is const in the binary.
+    virtual std::int32_t PingRooms() { return 0; }                            // +0x38
+    virtual std::int32_t KickMember(std::int32_t /*memberId*/) { return 0; }  // +0x40
+    virtual std::int32_t OpenRoom(bool /*open*/) { return 0; }                // +0x44
+    virtual std::int32_t CloseRoom() { return 0; }                            // +0x48, LockRoom calls it
+    virtual std::int32_t ShowRoom() { return 0; }                             // +0x4c
+    virtual std::int32_t HideRoom() { return 0; }                             // +0x50
+    virtual bool IsRoomClosed() { return false; }                             // +0x54
+    virtual bool IsRoomHidden() { return false; }                             // +0x58
+    // +0x5c: CMatchingLocal::GetMemberName (0x808538) / CMatchingGLLive::GetMemberName (0x81df90). Not const.
+    virtual std::string GetMemberName(std::int32_t /*memberId*/) { return {}; }
+    // +0x60: CMatchingLocal::GetMemberCount (0x805c04) / CMatchingGLLive::GetMemberCount (0x81c524), both const.
+    virtual std::int32_t GetMemberCount() const { return 0; }
     virtual std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes) {
         (void)flag;
         (void)attributes;
         return 0;
     }
-    // Vtable slots +0x10, +0x14, +0x18 (names not identified). Slot +0x0c is WritePacketData, below. No production
-    // class overrides these three; the forwarders in src/glx_320e98.cpp reach only test overrides (layout request).
-    virtual std::int32_t vtReadPacketData(std::int32_t, std::int32_t, NetBitStream&) { return 0; }
-    virtual std::int32_t vtProcessAcknowledgedPacket(std::int32_t, std::int32_t) { return 0; }
-    virtual std::int32_t vtProcessLostPacket(std::int32_t, std::int32_t) { return 0; }
+    // Vtable slots +0x10, +0x14, +0x18: ReadPacketData (0x7fea14), ProcessAcknowledgedPacket (0x7fed08) and
+    // ProcessLostPacket (0x7fed84), overridden by CMatchingLocal and CMatchingGLLive. The static forwarders
+    // (sReadPacketData ...) dispatch through them. The ints they return are the r0 left by the last element
+    // slot call, which is a void slot of NetStruct: the port returns 0 (CMatchingLocal: 1 once an element ran).
+    virtual std::int32_t ProcessAcknowledgedPacket(int a2, int a3);
+    virtual std::int32_t ProcessLostPacket(int a2, int a3);
+    virtual std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
     // 0x8010a4 CMatching::WritePacketData(int,int,NetBitStream&). Virtual in the original (CMatchingLocal and
     // CMatchingGLLive override it). Partial, see src/r1n-net-session-online-CMatching-9acceb-1.cpp.
     virtual std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
@@ -169,11 +198,15 @@ public:
     // TransportTypeForProtocol because the derived classes keep their table lookups as statics named
     // GetTransportType. Base: 0 for an unknown protocol.
     virtual int TransportTypeForProtocol(int protocol) { (void)protocol; return 0; }
-    // vtable +0x64/+0x68: IsInRoom(int), whether the member index is in the room. Default: false.
-    virtual bool IsInRoom(int memberIndex) { (void)memberIndex; return false; }
+    // Binary vtable +0x64 / +0x68: both PURE slots of _ZTV9CMatching (0x991f40). CMatchingLocal implements
+    // them at 0x805cc8 / 0x805c1c, CMatchingGLLive at 0x81c4ac / 0x81ded4; none is const. (Settled from
+    // the -Woverloaded-virtual audit; this replaces the port's earlier `UnknownGate() const` stand-in.)
+    virtual bool IsInRoom() = 0;
+    virtual bool IsInRoom(int memberIndex) = 0;
     // vtable +0x70: CMatchingLocal::SetMemberId(int), the local member id. Default: no-op.
     virtual void SetMemberId(int memberId) { (void)memberId; }
-    // vtable +0xac: CMatchingLocal::GenerateNewMemberId(). Default: 0.
+    // vtable +0xac: CMatchingLocal::GenerateNewMemberId() (0x80675c) and CMatchingGLLive's (0x81bbf4); both
+    // NON-const in the binary (_ZN..19GenerateNewMemberIdEv). Default: 0.
     virtual int GenerateNewMemberId() { return 0; }
     // Not in the original's base, kept virtual so tests and the game can fake the room mask. Default: GetRoomMask.
     // Alpha-server switch and SetGCState: not in the port's base; defaults.
@@ -245,7 +278,6 @@ public:
     virtual int LocalMemberId() const = 0;                   // +0x6c
     virtual int ServerMemberId() const = 0;                  // +0x74
     virtual std::uint32_t MemberBit(int memberId) const = 0; // +0x84
-    virtual bool UnknownGate() const { return false; }                    // +0x64 (IsInRoom() in the derived classes)
     virtual std::vector<int> ConnectedMemberIds() const { return {}; } // +0x88 (CMatching::GetMemberIdList() in the vtables)
     virtual CRoomAttributes* GetRoomAttributes() { return nullptr; }// +0xa4
 
@@ -286,12 +318,9 @@ public:
     // 0x7fe574 CMatching::LockRoom(bool). Partial: the virtual slot +0x48 call is not ported (see the
     // KNOWN DEFECT block at the top of this header).
     int LockRoom(bool callSlot);
-    // 0x7fed84 CMatching::ProcessLostPacket(int,int). The room attributes receive the call; then every
-    // member element's NetStruct slot +0x44 (net-transport NetStruct::ProcessLostPacket) does.
-    void ProcessLostPacket(int a2, int a3);
-    // 0x7fed08 CMatching::ProcessAcknowledgedPacket(int,int). Room attributes, then every element's
-    // NetStruct slot +0x40.
-    void ProcessAcknowledgedPacket(int a2, int a3);
+    // 0x7fed84 CMatching::ProcessLostPacket(int,int) and 0x7fed08 ProcessAcknowledgedPacket(int,int) are the
+    // virtual slots +0x18 / +0x14 declared above: the room attributes receive the call, then every member
+    // element NetStruct slot (+0x44 lost, +0x40 acknowledged).
     // 0x7ff008 CMatching::SetRoomMemberAttibute(int,void const*,int). The value is copied into the
     // element's NetStructByteArray<64> member through its SetBuffer (+0x1c slot).
     void SetRoomMemberAttibute(int memberId, const void* data, int size);
@@ -317,40 +346,51 @@ public:
     // 0x8018fc CMatching::Update() (vtable +0x30, the vtables of CMatchingLocal and CMatchingGLLive replace
     // it). Partial: the initialized branch is not ported.
     virtual int Update();
-    // 0x7ff85c CMatching::Initialize(int) (vtable +0x28). Partial, see src/tb_session-online-CMatching-0.cpp.
+    // 0x7ff85c CMatching::Initialize(int) (vtable +0x28).
     virtual int Initialize(int memberCapacity);
-    // 0x7ff5a0 CMatching::Terminate() (vtable +0x2c). The base has no body; CMatchingLocal and CMatchingGLLive
-    // override it. Destroy calls it through the pointer.
-    virtual std::int32_t Terminate() { return 0; }
+    // 0x7ff5a0 CMatching::Terminate() (vtable +0x2c). CMatchingLocal and CMatchingGLLive override it and call this.
+    virtual std::int32_t Terminate();
     // 0x7ff120 CMatching::JoinRoom(unsigned long long). Partial: the NetStruct SetEnabled(element, 0) loop is
     // not ported (see src/tb_session-online-CMatching-0.cpp). Returns the JoinRoomInternal result.
     std::int32_t JoinRoom(std::uint64_t roomId);
+    // 0x7feb40 CMatching::SearchRoom(CRoomSearchFilter, bool, unsigned char): stamps the filter's attribute 0 with
+    // 0xB000BEE5, then tail-calls SearchRoomInternal (vtable +0x08). The filter is a by-value copy, as the symbol says.
+    std::int32_t SearchRoom(CRoomSearchFilter filter, bool flag, std::uint8_t mode);
     // 0x7ff350 CMatching::CreateJoinRoom(bool, CRoomAttributes). Partial: the SetEnabled(element, 1) loop is not
     // ported. The attributes are passed by value, as the binary's copy is.
     std::int32_t CreateJoinRoom(bool flag, CRoomAttributes attributes);
     // 0x7feac4 CMatching::ResendMemberData(). NetStruct::Resend() on every element, so the packet
     // history of each element's members is re-sent. Body in src/c_matching_base.cpp.
     void ResendMemberData();
-    // 0x7fea14 CMatching::ReadPacketData(int,int,NetBitStream&). The room attributes unserialize, then
-    // NetStructArray<MemberInfoNetStruct,32>::Load on the element array. Body in
-    // src/r1n-net-session-online-CMatching-9acceb-1.cpp. NOT virtual here: the derived classes declare
-    // ReadPacketData with the binary's own signature (CMatchingGLLive returns void), so a virtual base
-    // declaration would not be overridden and would insert one more wrong slot; the slot is reached
-    // through vtReadPacketData instead (see the KNOWN DEFECT block).
-    std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    // NetStructArray<CMatching::MemberInfoNetStruct,32>::Load (0x7fe964) and ::Serialize (0x7fe894) over the
+    // element array at +0x18, shared by CMatching and CMatchingGLLive ReadPacketData / WritePacketData (the port
+    // keeps the elements in a plain array, so the template is inlined here). Load returns whether an element
+    // loaded; Serialize returns whether an element wrote.
+    bool LoadMemberArray(NetBitStream& stream, std::int32_t a2, std::int32_t a3);
+    bool SerializeMemberArray(NetBitStream& stream, std::int32_t a2, std::int32_t a3);
+    // 0x7fea14 CMatching::ReadPacketData(int,int,NetBitStream&) is the virtual slot +0x10 declared above: the
+    // room attributes unserialize, then NetStructArray<MemberInfoNetStruct,32>::Load on the element array. Body
+    // in src/r1n-net-session-online-CMatching-9acceb-1.cpp.
 
     // 0x7feb8c CMatching::Destroy(). Non-static: the binary's Destroy takes this and does not use it.
     // Partial: the CSignIn::Get() result is checked for null, the original dereferences it.
     void Destroy();
 
 protected:
+    // Initialize/Terminate share this reset of the 32 elements (not a function of the original).
+    void ResetMemberElements();
+
+    std::uint32_t unk_04_ = 0;                   // +0x04 not accessed by any recovered function
     std::int32_t memberCapacity_ = 0;            // +0x08 (Initialize(int) argument)
     bool initialized_ = false;                   // +0x0c (IsServer requires it; same field as CMatchingLocal::initialized_)
     bool roomHidden_ = false;                    // +0x0d (IsRoomHidden of CMatchingGLLive; CMatchingLocal saves the hidden state here)
     bool baseRoomClosed_ = false;                // +0x0e (set by LockRoom)
     std::uint8_t unk_0f = 0;                     // +0x0f (cleared by the constructor; CMatchingGLLive sets 3)
     mutable bool roomMaskDirty_ = false;         // +0x10 (cleared by GetRoomMask, which is const)
+    std::uint8_t pad_11_[7] = {};                // +0x11 .. +0x17
+    std::uint32_t arrayVptr_ = 0;                // +0x18 the NetStructArray header's vptr (not modelled)
     int memberCount_ = 0;                        // +0x1c (32 from the constructor; the NetStructArray count)
+    std::uint32_t unk_20_ = 0;                   // +0x20 not accessed by any recovered function
     // The element array. The header it sits in (the NetStructArray at +0x18: its vptr at +0x18 and its
     // count at +0x1c) is represented by memberCount_ above rather than by net-transport's NetStructArray
     // template, because the port's element type is declared inside CMatching and the template's count_ is
@@ -358,4 +398,8 @@ protected:
     // Element 0's id word is at this+0x170 either way (0x1c + 4 + 0x150 = 0x170, the `432*i + 0x170`
     // UpdateMemberIdList uses).
     MemberInfoNetStruct members_[kMaxMembers];   // +0x24, stride 432
+    // +0x3620 begin, +0x3624 end, +0x3628 end of storage: an empty vector in the constructor, freed by the destructor
+    // (node allocator up to 0x80 bytes, else CustomFree). No recovered function reads or writes it, so the element
+    // type is not identified; 32-bit words are a placeholder.
+    std::vector<std::int32_t> unk_3620_;
 };

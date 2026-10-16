@@ -94,11 +94,11 @@ void CharAnimator::Update() {
         m_character->RaiseEvent(39, nullptr);
 
         bool loopPath = false;                                  // the original's goto LABEL_13
-        if (record.m_w4 != 1) {                                 // +0x10 sequence flag
+        if (record.Type != 1) {                                 // +0x10 sequence flag
             m_character->RaiseEvent(37, nullptr);
             loopPath = true;
         } else {
-            const int stepCount = static_cast<int>(record.m_w2);  // +0x08 StepsSize
+            const int stepCount = static_cast<int>(record.StepsSize);  // +0x08 StepsSize
             if (m_animStack[stackIdx].m_stepIndex + 1 == stepCount) {
                 m_character->RaiseEvent(37, nullptr);
             }

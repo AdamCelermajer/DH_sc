@@ -16,6 +16,9 @@
 #include "glitch-shared/glitch_core.hpp"
 #include "vox-audio/vox/sound_pack_xml.hpp"
 
+template <typename T>
+struct Point3D;  // dh2/Point3D.hpp (the world-space position; Stop3D takes a pointer to one)
+
 namespace vox {
 class DataHandle;
 class VoxEngine;
@@ -51,8 +54,7 @@ void nativePauseSoundBig(int sound_id);                           // 0x531420
 
 class VoxSoundManager {
 public:
-    // VoxSoundManager::s_instance (0x9a238c, .bss pointer): the process-wide sound manager, null until CreateInstance (0x36ca88,
-    // not reconstructed) sets it. Defined in src/link1_VoxSoundManager_statics.cpp.
+    // VoxSoundManager::s_instance (0x9a238c, .bss pointer): the process-wide sound manager, null until CreateInstance (0x36ca88) sets it. Defined in src/link1_VoxSoundManager_statics.cpp.
     static VoxSoundManager* s_instance;
 
     VoxSoundManager();                                                          // 0x36c7b0 C1 and 0x36cad0 C2
@@ -114,10 +116,9 @@ public:
                         int a5, int a6, float a7);                          // 0x369f50
     void Stop(int sound, int fade_ms);                                      // 0x369fec
     void StopMusic(int fade_ms);                                            // 0x36a1a0
-    // The third parameter deviates from the original mangled symbol (Point3D<float>*): the two
-    // game-world callers pass a float* (&Point3D::X), so the signature stays const float* until
-    // they are updated.
-    void Stop3D(int sound, int fade_ms, const float* pos, float radius);    // 0x36a218
+    // Stop3D takes the listener position as the original does (Point3D<float>*); the two game-world callers
+    // (GameObject, SoundEmitter) pass one.
+    void Stop3D(int sound, int fade_ms, Point3D<float>* pos, float radius);  // 0x36a218 _ZN15VoxSoundManager6Stop3DEiiP7Point3DIfEf
     void Resume(int sound);                                                 // 0x36a470
     void ResumeAllSounds();                                                 // 0x36a590
     void PauseAllSounds();                                                  // 0x36a624
@@ -143,20 +144,21 @@ public:
     void SetInSafeZoneMusic(bool in_zone);                                  // 0x36c014
 
     // Layout: the 32-bit offsets from the listings are the comments; pointers are host width.
-    // Only the fields the rebuilt bodies touch are named. The constructor (0x36c7b0, not ported)
-    // is expected to set engine_ from VoxEngine::GetVoxEngine() and to allocate sounds_.
+    // Only the fields the rebuilt bodies touch are named. The constructor (0x36c7b0) sets engine_ from
+    // VoxEngine::GetVoxEngine(), initialises it, and allocates sounds_.
     vox::VoxEngine* engine_ = nullptr;      // +0x00 (*this in the binary)
     void* unk_04 = nullptr;                 // +0x04, freed by the destructor (CustomFree); allocated outside this batch
     vox::DataHandle** sounds_ = nullptr;    // +0x08, one DataHandle* per sound id (LoadSound)
     std::vector<int> preload_ids_;          // +0x0c..+0x17 (begin, end, end of storage); ids ReleaseLvlSounds keeps
-    std::uint8_t pad_18[4];                 // +0x18..+0x1b
+    bool unk_18 = true;                     // +0x18, the constructor stores 1; no reader recovered
+    std::uint8_t pad_19[3];                 // +0x19..+0x1b
     int sound_count_ = 0;                   // +0x1c, sound ids run 0 .. sound_count_
     bool initial_volume_set_ = false;       // +0x20, SetInitialVolume has run
     std::uint8_t pad_21[3];                 // +0x21..+0x23
     int music_id_ = -1;                     // +0x24, current music sound id, -1 when none
     int prev_music_id_ = -1;                // +0x28, music id stopped last (StopAllMusic, StopMusic)
     int beat_id_ = -1;                      // +0x2c, sound id of the beat track (PlayBeat, StopBeat); -1 when none
-    bool music_loop_ = false;               // +0x30, loop flag of the current music (PlayMusic stores it)
+    bool music_loop_ = true;                // +0x30, loop flag of the current music (PlayMusic stores it; the constructor stores 1)
     bool music_slot_ = false;               // +0x31, toggled by CrossfadeMusic; SetInSafeZoneMusic tests it
     bool in_safe_zone_ = false;             // +0x32, SetInSafeZoneMusic
     bool ipod_playlist_set_ = false;        // +0x33, a playlist was chosen (SetIPodPlaylist, IPodControl "Play")

@@ -91,7 +91,7 @@ void ConditionData::Init() {
     void* block = CustomAlloc(static_cast<unsigned int>(sizeof(ConditionList)));  // operator new(0xc, 0) in the original
     ConditionList* list = new (block) ConditionList();
     m_list = list;  // +0x1c
-    list->AssignPyData(static_cast<Structs::v2ConditionStub*>(row.m_w2), static_cast<int>(row.m_w1));
+    list->AssignPyData(static_cast<Structs::v2ConditionStub*>(row.Conds), static_cast<int>(row.CondsSize));
 }
 
 // 0x33ed7c _ZN13ConditionDataC1Ev (complete-object constructor)

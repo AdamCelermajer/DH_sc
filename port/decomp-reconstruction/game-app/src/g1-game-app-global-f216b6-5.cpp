@@ -94,18 +94,18 @@ bool GetDialogMsgListById(int dialogId, std::vector<DialogMsg>& out) {
         return false;
     }
     const Structs::DialogStepList& row = reinterpret_cast<const Structs::DialogStepList*>(Arrays::Dialogs::members)[dialogId];
-    if (row.m_w1 == 0) {
+    if (row.stepsSize == 0) {
         ReportDialogAssert("Arrays::Dialogs::members[dialogId].stepsSize > 0", 133);
         return false;
     }
     StringManager* strings = ApplicationGetStringManager();
     DialogMsg message(std::string(), std::string(), -1, -1);
-    const Structs::DialogStep* steps = static_cast<const Structs::DialogStep*>(row.m_w2);
-    for (std::uint32_t i = 0; i < row.m_w1; ++i) {
-        static_cast<std::string&>(message) = ParsePlayerName(std::string(strings->getString(steps[i].m_w4)));
-        message.m_text = ParsePlayerName(std::string(strings->getString(steps[i].m_w3)));
-        message.m_style = steps[i].m_w2;
-        message.m_actorName.assign(1, static_cast<char>(steps[i].m_w1));
+    const Structs::DialogStep* steps = static_cast<const Structs::DialogStep*>(row.steps);
+    for (std::uint32_t i = 0; i < row.stepsSize; ++i) {
+        static_cast<std::string&>(message) = ParsePlayerName(std::string(strings->getString(steps[i].TitleText)));
+        message.m_text = ParsePlayerName(std::string(strings->getString(steps[i].Text)));
+        message.m_style = steps[i].Style;
+        message.m_actorName.assign(1, static_cast<char>(steps[i].Actor));
         out.push_back(message);
     }
     return true;

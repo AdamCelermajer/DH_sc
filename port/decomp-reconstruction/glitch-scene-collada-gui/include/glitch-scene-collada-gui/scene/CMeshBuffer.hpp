@@ -20,6 +20,7 @@
 #include <cstdint>
 
 #include "glitch-core-io/core/reference_counted.hpp"
+#include "glitch-scene-collada-gui/res/onDemand.hpp"
 #include "glitch-scene-collada-gui/scene/scene_types.hpp"
 #include "glitch-video/driver_binding.hpp"
 #include "glitch-video/primitive_stream.hpp"
@@ -41,7 +42,10 @@ public:
     // `stream`. The count starts at 0, so the first holder adds the use (clone() and the append buffer do). The last argument is
     // stored in the flag byte at +0x34 (createMeshCopy's inlined copy stores false, CAppendMeshBuffer passes true).
     CMeshBuffer(std::uint32_t attributeMask, const video::CPrimitiveStream& stream, bool flag = true);
-    // 0x6bcf80 (C2) and 0x6bd9f8 (C1, skipped): from a Collada mesh record. PARTIAL, see src.
+    // 0x6bcf80 (C2) and 0x6bd9f8 (C1, same body): the mesh buffer `primitiveIndex` of a Collada mesh record: the primitive stream over the record's
+    // index buffer (made from the record's index data when it has none), the vertex stream table over the record's streams (and, for an
+    // interleaved mesh, the vertex buffer), the quantisation ranges of the streams, the on-demand blocks the buffer keeps. `onDemand` selects the
+    // on-demand blocks of the file over the loaded arrays.
     CMeshBuffer(video::IVideoDriver* driver, collada::SMesh& mesh, std::uint32_t primitiveIndex,
                 const collada::SBufferConfig& vertexConfig, const collada::SBufferConfig& indexConfig, bool onDemand);
     // 0x6bc8c4 (D1), 0x6bca38 (D2), 0x6bca1c (D0, skipped): deletes the owner, then the streams and the blocks.
@@ -53,9 +57,9 @@ public:
     // shared. The copy is returned with one use.
     boost::intrusive_ptr<CMeshBuffer> clone() const;
 
-    void* block_08 = nullptr;                                    // +0x08
-    void* block_0c = nullptr;                                    // +0x0c
-    void* block_10 = nullptr;                                    // +0x10
+    res::onDemandPointer<std::uint16_t> indexData16;             // +0x08 the on-demand index bytes of a mesh buffer record (indices that fit 0x10000 bytes)
+    res::onDemandPointer<std::uint32_t> indexData32;             // +0x0c the on-demand index bytes of a larger record
+    res::onDemandPointer<char> vertexData;                       // +0x10 the on-demand interleaved vertex bytes
     boost::intrusive_ptr<video::CVertexStreams> vertexStreams;   // +0x14
     video::CPrimitiveStream primitiveStream;                     // +0x18 .. +0x2f
     video::CDriverBinding* owner = nullptr;                      // +0x30 the driver binding of the buffer's process buffer (CDriverBinding: vtable with the deleting destructor at +0x04 and onDelete at +0x08, +0x18 a word CSkinnedMesh tests)

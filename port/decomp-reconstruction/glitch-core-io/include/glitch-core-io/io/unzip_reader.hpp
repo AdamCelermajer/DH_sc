@@ -14,7 +14,7 @@ class CUnZipReader : public CZipReader {
 public:
     // 0x5780fc (C1), 0x5781b4 (C2): PARTIAL. The base is opened without a file, so the directory is
     // empty; the name is kept as the folder name.
-    CUnZipReader(IFileSystem* fileSystem, const char* name, bool flagA, bool flagB);
+    CUnZipReader(IFileSystem* fileSystem, const char* name, bool ignoreCase, bool ignorePaths);
     ~CUnZipReader() override;  // 0x577534 (D1): PARTIAL, see the source; 0x577588 is the deleting thunk
 
     // 0x576dc0: nothing to read ahead; the folder is looked up when a file is asked for.

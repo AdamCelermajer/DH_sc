@@ -94,11 +94,11 @@ int main() {
         CHECK(fs.existFile(std::string("glitch_core_io_no_such_file_cfs.tmp")) == 0);
 
         CPakReader* pak = new CPakReader();
-        pak->flagA = false;
+        pak->ignoreCase = false;
         SPakFileEntry entry;
-        entry.name = "pak_only_cfs.txt";
-        entry.offset = 0;
-        entry.size = 1;
+        entry.simpleFileName = "pak_only_cfs.txt";
+        entry.pos = 0;
+        entry.length = 1;
         pak->entries.push_back(entry);
         fs.addPak(pak);
         CHECK(fs.existFile("pak_only_cfs.txt") == 1);

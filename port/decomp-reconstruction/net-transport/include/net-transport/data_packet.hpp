@@ -38,12 +38,12 @@ public:
     virtual int getShortLenWideString(wchar_t*& text, unsigned char& length) = 0;      // +0x48
     virtual int addBlob(char* data, std::int16_t length);        // +0x4c, 0x8491d0 _ZN10DataPacket7addBlobEPcs
     virtual int getBlob(char*& data, std::int16_t& length);      // +0x50, 0x8491d8 _ZN10DataPacket7getBlobERPcRs
-    virtual void addPacket(DataPacket* packet) = 0;              // +0x54
+    virtual void* addPacket(DataPacket* packet) = 0;             // +0x54 (returns the memcpy destination)
     virtual int getPacket(DataPacket*& packet) = 0;              // +0x58
     virtual void packMessage() = 0;                              // +0x5c
     virtual int getMessageLen() = 0;                             // +0x60 (message length in bytes)
     virtual char* getMessageBody() = 0;                          // +0x64 (message bytes)
-    virtual void setMessageBody(const unsigned char* data, int length) = 0;  // +0x68
+    virtual void* setMessageBody(const unsigned char* data, int length) = 0;  // +0x68 (returns the memcpy destination)
     virtual DataPacket* getNextPacket() = 0;                     // +0x6c
     virtual void setNextPacket(DataPacket* next) = 0;            // +0x70
     virtual int getDataType() = 0;                               // +0x74
@@ -54,7 +54,7 @@ public:
     virtual char* setIP(const char* ip) = 0;                     // +0x88
     virtual bool IsSendByTcp() = 0;                              // +0x8c
     virtual bool IsSendByUdp() = 0;                              // +0x90
-    virtual void Packet2String(char* out, int& out_size) = 0;    // +0x94
+    virtual void* Packet2String(char* out, int& out_size) = 0;   // +0x94 (returns the memcpy destination)
     virtual int String2Packet(char* data, int size) = 0;         // +0x98
 
     virtual void InitMessage(int type);                 // +0x9c, 0x8491e0 _ZN10DataPacket11InitMessageEi (empty)

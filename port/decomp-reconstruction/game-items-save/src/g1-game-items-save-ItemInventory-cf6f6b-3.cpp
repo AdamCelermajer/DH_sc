@@ -127,8 +127,8 @@ int ItemInventory::_EquipItemToSlot(unsigned int slot, unsigned int itemIdx, boo
     }
     const int curSet = GetCurrentEquipSet(static_cast<int>(slot));
     const Structs::Item* row = entry->m_item->GetItem();
-    int category = row->m_w26;  // +0x68 equipment category, -4 = both hands
-    if (row->m_w22 != 5 && row->m_w22 != 4 && category == -4 && m_character->m_props.m_w204 != 0) {
+    int category = row->EquipmentSlottingType;  // +0x68 equipment category, -4 = both hands
+    if (row->Type != 5 && row->Type != 4 && category == -4 && m_character->m_props.Special_Equip_2H_In_One != 0) {
         category = 1;  // Character +0x1324 set: a two-hander of another item type is equipped as category 1
     }
     if (!entry->m_item->IsEquippable()) {
@@ -195,10 +195,10 @@ int ItemInventory::_EquipItemAuto(unsigned int itemIdx) {
         return 0;
     }
     const Structs::Item* row = entry->m_item->GetItem();
-    int category = row->m_w26;
-    const bool plainType = row->m_w22 != 5 && row->m_w22 != 4;
-    const bool gate1320 = m_character->m_props.m_w203 != 0;  // Character +0x1320
-    const bool gate1324 = m_character->m_props.m_w204 != 0;  // Character +0x1324
+    int category = row->EquipmentSlottingType;
+    const bool plainType = row->Type != 5 && row->Type != 4;
+    const bool gate1320 = m_character->m_props.Special_Equip_Main_In_Offhand != 0;  // Character +0x1320
+    const bool gate1324 = m_character->m_props.Special_Equip_2H_In_One != 0;  // Character +0x1324
 
     auto twoHand = [this, itemIdx]() {
         _UnEquipItemFromSlot(2u, -1);
@@ -309,11 +309,11 @@ int ItemInventory::_GetProbQuantity(int numProbId, int bonus) {
         return 0;  // the original reads the row past the table here (undefined)
     }
     const Structs::NumProbList* row = TableRow<Structs::NumProbList>(Arrays::NumProbArray::members, numProbId);
-    const auto* entries = static_cast<const Structs::NumProb*>(row->m_w2);
-    const std::uint32_t count = row->m_w1;
+    const auto* entries = static_cast<const Structs::NumProb*>(row->list_entries);
+    const std::uint32_t count = row->list_entriesSize;
     std::uint32_t total = 0;
     for (std::uint32_t i = 0; i < count; ++i) {
-        total += UnsignedOf(entries[i].m_off6);
+        total += UnsignedOf(entries[i].Prob);
     }
     if (count != 0 && total != 0) {
         std::uint32_t v13 = Random::GetRandom(static_cast<int>(total), false) + static_cast<std::uint32_t>(bonus);
@@ -321,9 +321,9 @@ int ItemInventory::_GetProbQuantity(int numProbId, int bonus) {
             v13 = total - 1;
         }
         for (std::uint32_t i = 0; i < count; ++i) {
-            const std::uint32_t prob = UnsignedOf(entries[i].m_off6);
+            const std::uint32_t prob = UnsignedOf(entries[i].Prob);
             if (v13 < prob) {
-                return entries[i].m_w1;
+                return entries[i].Num;
             }
             v13 -= prob;
         }
@@ -338,18 +338,18 @@ int ItemInventory::_GetProbQuantity(int numProbId, int bonus) {
 // Weighted pick over an item list. Each ItemListEntry carries its probability in m_w2 (int16). Returns the index of the
 // chosen entry.
 int ItemInventory::_GetRandomItem(const Structs::ItemListEntryList& list) {
-    const auto* entries = static_cast<const Structs::ItemListEntry*>(list.m_w2);
-    const std::uint32_t count = list.m_w1;
+    const auto* entries = static_cast<const Structs::ItemListEntry*>(list.list_entries);
+    const std::uint32_t count = list.list_entriesSize;
     std::uint32_t total = 0;
     for (std::uint32_t i = 0; i < count; ++i) {
-        total += UnsignedOf(entries[i].m_w2);
+        total += UnsignedOf(entries[i].Prob);
     }
     if (count == 0 || total == 0) {
         ReportAssert(kLootsSource, "!\"Invalid probabilities (_GetRandomItem)\"", 382);
         return 0;
     }
     std::uint32_t v12 = Random::GetRandom(static_cast<int>(total), false);
-    std::uint32_t v13 = UnsignedOf(entries[0].m_w2);
+    std::uint32_t v13 = UnsignedOf(entries[0].Prob);
     if (v12 < v13) {
         return 0;
     }
@@ -360,7 +360,7 @@ int ItemInventory::_GetRandomItem(const Structs::ItemListEntryList& list) {
         if (static_cast<std::uint32_t>(result) == count) {
             break;
         }
-        v13 = UnsignedOf(entries[result].m_w2);
+        v13 = UnsignedOf(entries[result].Prob);
         if (v13 > v12) {
             return result;
         }
@@ -372,18 +372,18 @@ int ItemInventory::_GetRandomItem(const Structs::ItemListEntryList& list) {
 // 0x401f38 ItemInventory::_GetRandomItemPowerEntry(Structs::ItemPowerEntryList const&)
 // Weighted pick over a power list. Each ItemPowerEntry carries its probability in m_w2 (int8). Returns the index.
 int ItemInventory::_GetRandomItemPowerEntry(const Structs::ItemPowerEntryList& list) {
-    const auto* entries = static_cast<const Structs::ItemPowerEntry*>(list.m_w2);
-    const std::uint32_t count = list.m_w1;
+    const auto* entries = static_cast<const Structs::ItemPowerEntry*>(list.list_entries);
+    const std::uint32_t count = list.list_entriesSize;
     std::uint32_t total = 0;
     for (std::uint32_t i = 0; i < count; ++i) {
-        total += UnsignedOf(entries[i].m_w2);
+        total += UnsignedOf(entries[i].Prob);
     }
     if (count == 0 || total == 0) {
         ReportAssert(kLootsSource, "!\"Invalid probabilities (_GetRandomItemPowerEntry)\"", 543);
         return 0;
     }
     std::uint32_t v12 = Random::GetRandom(static_cast<int>(total), false);
-    std::uint32_t v13 = UnsignedOf(entries[0].m_w2);
+    std::uint32_t v13 = UnsignedOf(entries[0].Prob);
     if (v12 < v13) {
         return 0;
     }
@@ -394,7 +394,7 @@ int ItemInventory::_GetRandomItemPowerEntry(const Structs::ItemPowerEntryList& l
         if (static_cast<std::uint32_t>(result) == count) {
             break;
         }
-        v13 = UnsignedOf(entries[result].m_w2);
+        v13 = UnsignedOf(entries[result].Prob);
         if (v13 > v12) {
             return result;
         }
@@ -410,20 +410,20 @@ int ItemInventory::_GetRandomItemPowerEntry(const Structs::ItemPowerEntryList& l
 void ItemInventory::CalcLootItemValue(ItemInstance* item, int level) {
     const Structs::Item* row = item->GetItem();
     int value = 0;
-    if (row->m_w22 == 13) {
-        const std::int32_t base = row->m_w27;
-        const int rolled = static_cast<int>(Random::GetRandom(row->m_w28 + 1 - base, false) +
+    if (row->Type == 13) {
+        const std::int32_t base = row->Value;
+        const int rolled = static_cast<int>(Random::GetRandom(row->GoldValueMultiplier + 1 - base, false) +
                                             static_cast<std::uint32_t>(base));
         const float scale = (static_cast<float>(level >> 8) + 100.0f) / 100.0f;
         value = static_cast<int>(static_cast<float>(rolled) * scale);
     } else {
-        value = static_cast<int>(static_cast<std::uint32_t>(row->m_w27) * static_cast<std::uint32_t>(row->m_w28));
+        value = static_cast<int>(static_cast<std::uint32_t>(row->Value) * static_cast<std::uint32_t>(row->GoldValueMultiplier));
         const int powers = item->GetNumPowers();
         for (int i = 0; i < powers; ++i) {
             const auto* power = reinterpret_cast<const Structs::ItemPowerRef*>(
                 item->GetPower(static_cast<unsigned int>(i)));
             value = static_cast<int>(static_cast<std::uint32_t>(value) +
-                                     static_cast<std::uint32_t>(power->m_w6) * static_cast<std::uint32_t>(power->m_w8));
+                                     static_cast<std::uint32_t>(power->GoldBonusMultiplier) * static_cast<std::uint32_t>(power->GoldBonus));
         }
     }
     item->SetValue(value);
@@ -433,7 +433,7 @@ void ItemInventory::CalcLootItemValue(ItemInstance* item, int level) {
 // True when the debug switch InfiniteLootDrops is set, or when the entry's percentage (m_w5) is 100 or less.
 bool ItemInventory::_IsLootEntryUsingPct(const Structs::LootEntry& entry) {
     const bool infinite = ReadDebugSwitch("InfiniteLootDrops");
-    return infinite || static_cast<std::uint32_t>(entry.m_w5) <= 0x64u;
+    return infinite || static_cast<std::uint32_t>(entry.Pct) <= 0x64u;
 }
 
 // 0x402854 ItemInventory::_GetEffectiveProb(Structs::LootEntry const&)
@@ -447,7 +447,7 @@ int ItemInventory::_GetEffectiveProb(const Structs::LootEntry& entry) {
     int rogue = 0;
     int warrior = 0;
     ItemInventoryLootPlayers::Counts(mage, rogue, warrior);
-    return entry.m_w7 * rogue + entry.m_w3 * mage + entry.m_w6 + entry.m_w8 * warrior;
+    return entry.RProb * rogue + entry.MProb * mage + entry.Prob + entry.WProb * warrior;
 }
 
 // 0x4028d0 ItemInventory::_GetRandomLootEntry(std::vector<Structs::LootEntry const*> const&)
@@ -487,11 +487,11 @@ unsigned int ItemInventory::_GetRandomLootEntry(const std::vector<const Structs:
 // The same weighted pick over the entries of a Loot record (m_w3 entries at m_w4). Returns the index of the chosen
 // entry, or 0 after the ASSERT.
 unsigned int ItemInventory::_GetRandomLootEntry(const Structs::Loot& loot) {
-    const std::uint32_t count = loot.m_w3;
+    const std::uint32_t count = loot.RandomLootEntriesSize;
     if (count == 0) {
         return 0;
     }
-    const auto* entries = static_cast<const Structs::LootEntry*>(loot.m_w4);
+    const auto* entries = static_cast<const Structs::LootEntry*>(loot.RandomLootEntries);
     std::uint32_t total = 0;
     for (std::uint32_t i = 0; i < count; ++i) {
         if (_IsLootEntryUsingPct(entries[i])) {
@@ -524,7 +524,7 @@ bool ItemInventory::_DoPctRoll(const Structs::LootEntry& entry) {
     if (ReadDebugSwitch("InfiniteLootDrops")) {
         return true;
     }
-    if (_IsLootEntryUsingPct(entry) && static_cast<int>(Random::GetRandom(100, false)) <= entry.m_w5) {
+    if (_IsLootEntryUsingPct(entry) && static_cast<int>(Random::GetRandom(100, false)) <= entry.Pct) {
         (void)ReadDebugSwitch("isTracingItemPctRoll");
         return true;
     }
@@ -566,7 +566,7 @@ void ItemInventory::_AddLootItems(const std::vector<const Structs::LootEntry*>& 
             ReportAssert(kLootsSource, "lootEntry", 339);
             continue;  // the original dereferences the null entry here
         }
-        const int listId = entry->m_w1;
+        const int listId = entry->ItemListID;
         if (listId < 0 || static_cast<std::uint32_t>(listId) >= Arrays::ItemList::size) {
             ReportAssert(kLootsSource,
                          "lootEntry->ItemListID >= 0 && lootEntry->ItemListID < (int)Arrays::ItemList::size", 340);
@@ -574,27 +574,27 @@ void ItemInventory::_AddLootItems(const std::vector<const Structs::LootEntry*>& 
         }
         const Structs::ItemListEntryList* list =
             TableRow<Structs::ItemListEntryList>(Arrays::ItemList::members, listId);
-        const auto* elements = static_cast<const Structs::ItemListEntry*>(list->m_w2);
+        const auto* elements = static_cast<const Structs::ItemListEntry*>(list->list_entries);
         if (!all) {
             const int index = _GetRandomItem(*list);
             const Structs::ItemListEntry& elem = elements[index];
-            const int itemId = elem.m_w1;
+            const int itemId = elem.ItemID;
             if (itemId < 0 || static_cast<std::uint32_t>(itemId) >= Arrays::ItemTable::size) {
                 ReportAssert(kLootsSource,
                              "itemEntry.ItemID >= 0 && itemEntry.ItemID < (int)Arrays::ItemTable::size", 361);
             }
             (void)ReadDebugSwitch("isTracingItemInventory_Loot");
-            out.push_back(MakeLootInfo(itemId, entry, elem.m_off10));
+            out.push_back(MakeLootInfo(itemId, entry, elem.Qty));
         } else {
-            for (std::uint32_t j = 0; j < list->m_w1; ++j) {
+            for (std::uint32_t j = 0; j < list->list_entriesSize; ++j) {
                 const Structs::ItemListEntry& elem = elements[j];
-                const int itemId = elem.m_w1;
+                const int itemId = elem.ItemID;
                 if (itemId < 0 || static_cast<std::uint32_t>(itemId) >= Arrays::ItemTable::size) {
                     ReportAssert(kLootsSource,
                                  "itemEntry.ItemID >= 0 && itemEntry.ItemID < (int)Arrays::ItemTable::size", 350);
                 }
                 (void)ReadDebugSwitch("isTracingItemInventory_Loot");
-                out.push_back(MakeLootInfo(itemId, entry, elem.m_off10));
+                out.push_back(MakeLootInfo(itemId, entry, elem.Qty));
             }
         }
     }
@@ -609,7 +609,7 @@ void ItemInventory::_AddLootItems(const std::vector<const Structs::LootEntry*>& 
 // Deviations: an out-of-range power list, power id or monopoly id (after its ASSERT) ends the call; the original reads
 // past the end.
 void ItemInventory::_AddLootItemPowers(const Structs::LootEntry* entry, ItemInstance* item, int a, int b, int c) {
-    const int powerListId = entry->m_w2;
+    const int powerListId = entry->ItemPowerList;
     if (powerListId == -1) {
         return;
     }
@@ -619,18 +619,18 @@ void ItemInventory::_AddLootItemPowers(const Structs::LootEntry* entry, ItemInst
                      408);
         return;
     }
-    const std::uint32_t probQuantity = (b == -1) ? static_cast<std::uint32_t>(_GetProbQuantity(entry->m_w4, a >> 8))
+    const std::uint32_t probQuantity = (b == -1) ? static_cast<std::uint32_t>(_GetProbQuantity(entry->NumPowerProbs, a >> 8))
                                                  : static_cast<std::uint32_t>(b);
     const Structs::ItemPowerEntryList* list =
         TableRow<Structs::ItemPowerEntryList>(Arrays::ItemPowerList::members, powerListId);
-    const auto* elements = static_cast<const Structs::ItemPowerEntry*>(list->m_w2);
-    const std::uint32_t count = list->m_w1;
+    const auto* elements = static_cast<const Structs::ItemPowerEntry*>(list->list_entries);
+    const std::uint32_t count = list->list_entriesSize;
     (void)ReadDebugSwitch("isTracingItemInventory_Loot");
     (void)ReadDebugSwitch("isTracingItemInventory_Loot");
 
     if (probQuantity >= count) {
         for (std::uint32_t j = 0; j < count; ++j) {
-            item->AddPower(elements[j].m_w1, c);
+            item->AddPower(elements[j].Power, c);
         }
         return;
     }
@@ -640,24 +640,24 @@ void ItemInventory::_AddLootItemPowers(const Structs::LootEntry* entry, ItemInst
     std::uint32_t clashes = 0;
     while (probQuantity > static_cast<std::uint32_t>(item->GetNumPowers())) {
         const int pick = _GetRandomItemPowerEntry(*list);
-        const int powerId = elements[pick].m_w1;
+        const int powerId = elements[pick].Power;
         if (powerId < 0 || static_cast<std::uint32_t>(powerId) >= Arrays::ItemPowerTable::size) {
             ReportAssert(kLootsSource,
                          "powerEntry.Power >= 0 && powerEntry.Power < (int)Arrays::ItemPowerTable::size", 443);
             return;
         }
         const Structs::ItemPowerRef* power = TableRow<Structs::ItemPowerRef>(Arrays::ItemPowerTable::members, powerId);
-        if (power->m_w9 < 0 || static_cast<std::uint32_t>(power->m_w9) >= Arrays::ItemBonusAttrMonopoly::size) {
+        if (power->AttrMonopoly < 0 || static_cast<std::uint32_t>(power->AttrMonopoly) >= Arrays::ItemBonusAttrMonopoly::size) {
             ReportAssert(kLootsSource,
                          "power.AttrMonopoly >= 0 && power.AttrMonopoly < (int)Arrays::ItemBonusAttrMonopoly::size",
                          446);
             return;
         }
         const Structs::ItemBonusAttrList* monopoly =
-            TableRow<Structs::ItemBonusAttrList>(Arrays::ItemBonusAttrMonopoly::members, power->m_w9);
-        const auto* monopolyIds = static_cast<const std::int32_t*>(monopoly->m_w2);
+            TableRow<Structs::ItemBonusAttrList>(Arrays::ItemBonusAttrMonopoly::members, power->AttrMonopoly);
+        const auto* monopolyIds = static_cast<const std::int32_t*>(monopoly->list_entries);
         bool clash = false;
-        for (std::uint32_t k = 0; k < monopoly->m_w1; ++k) {
+        for (std::uint32_t k = 0; k < monopoly->list_entriesSize; ++k) {
             if (used.count(monopolyIds[k]) != 0) {
                 clash = true;
                 break;
@@ -672,23 +672,23 @@ void ItemInventory::_AddLootItemPowers(const Structs::LootEntry* entry, ItemInst
             continue;
         }
         item->AddPower(powerId, c);
-        const auto* attrs = static_cast<const Structs::AttrBonusEntry*>(power->m_w4);
-        for (std::uint32_t k = 0; k < power->m_w3; ++k) {
-            used.insert(attrs[k].m_w1);
+        const auto* attrs = static_cast<const Structs::AttrBonusEntry*>(power->AttrBonusList);
+        for (std::uint32_t k = 0; k < power->AttrBonusListSize; ++k) {
+            used.insert(attrs[k].Attr);
         }
         clashes = 0;
     }
 
     if (probQuantity > static_cast<std::uint32_t>(item->GetNumPowers())) {
         for (std::uint32_t i = 0; i < count; ++i) {
-            const int powerId = elements[i].m_w1;
+            const int powerId = elements[i].Power;
             const Structs::ItemPowerRef* power =
                 TableRow<Structs::ItemPowerRef>(Arrays::ItemPowerTable::members, powerId);
             const Structs::ItemBonusAttrList* monopoly =
-                TableRow<Structs::ItemBonusAttrList>(Arrays::ItemBonusAttrMonopoly::members, power->m_w9);
-            const auto* monopolyIds = static_cast<const std::int32_t*>(monopoly->m_w2);
+                TableRow<Structs::ItemBonusAttrList>(Arrays::ItemBonusAttrMonopoly::members, power->AttrMonopoly);
+            const auto* monopolyIds = static_cast<const std::int32_t*>(monopoly->list_entries);
             bool clash = false;
-            for (std::uint32_t k = 0; k < monopoly->m_w1; ++k) {
+            for (std::uint32_t k = 0; k < monopoly->list_entriesSize; ++k) {
                 if (used.count(monopolyIds[k]) != 0) {
                     clash = true;
                     break;
@@ -701,9 +701,9 @@ void ItemInventory::_AddLootItemPowers(const Structs::LootEntry* entry, ItemInst
             if (probQuantity <= static_cast<std::uint32_t>(item->GetNumPowers())) {
                 break;
             }
-            const auto* attrs = static_cast<const Structs::AttrBonusEntry*>(power->m_w4);
-            for (std::uint32_t k = 0; k < power->m_w3; ++k) {
-                used.insert(attrs[k].m_w1);
+            const auto* attrs = static_cast<const Structs::AttrBonusEntry*>(power->AttrBonusList);
+            for (std::uint32_t k = 0; k < power->AttrBonusListSize; ++k) {
+                used.insert(attrs[k].Attr);
             }
         }
     }

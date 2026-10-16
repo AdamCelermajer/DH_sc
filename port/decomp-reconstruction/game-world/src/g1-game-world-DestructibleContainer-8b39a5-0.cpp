@@ -79,14 +79,14 @@ const char* DestructibleContainer::GetScript() const {
     if (m_dataId == -1) {  // +0x374
         return nullptr;
     }
-    return TableRow(m_dataId).m_w12;
+    return TableRow(m_dataId).Script;
 }
 
 // 0x3a0d28 _ZNK21DestructibleContainer9GetVisualEv
 // The visual index is the row's m_w15 (+0x3c). Without a row the original returns m_dataId itself, which is -1.
 int DestructibleContainer::GetVisual() const {
     if (m_dataId != -1) {  // +0x374
-        return TableRow(m_dataId).m_w15;
+        return TableRow(m_dataId).Visual;
     }
     return m_dataId;
 }
@@ -171,7 +171,7 @@ bool DestructibleContainer::KeepPhysics() const {
     if (row == -1) {
         return false;
     }
-    return TableRow(row).m_w8;  // +0x20
+    return TableRow(row).KeepSolid;  // +0x20
 }
 
 // 0x3a1140 _ZNK21DestructibleContainer8GetSoundEv
@@ -179,7 +179,7 @@ bool DestructibleContainer::KeepPhysics() const {
 int DestructibleContainer::GetSound() const {
     const int row = Arrays::GetMemberIDByString<Arrays::DestructibleContainers>(m_dataDesc.c_str());
     if (row != -1) {
-        return TableRow(row).m_w7;  // +0x1c
+        return TableRow(row).InteractSound;  // +0x1c
     }
     return row;
 }
@@ -189,7 +189,7 @@ int DestructibleContainer::GetSound() const {
 int DestructibleContainer::GetLoot() const {
     const int row = Arrays::GetMemberIDByString<Arrays::DestructibleContainers>(m_dataDesc.c_str());
     if (row != -1) {
-        return TableRow(row).m_w10;  // +0x28
+        return TableRow(row).Loot;  // +0x28
     }
     return row;
 }

@@ -3,6 +3,7 @@
 // cxplayer_manager.cpp); the blocked rows are listed in the ledger fragment.
 #include <cstdint>
 
+#include "net-session-online/c_matching_bluetooth.hpp"
 #include "net-session-online/c_matching_gl_live.hpp"
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching.hpp"
@@ -33,7 +34,7 @@ void CMatching::SetMatchingProvider(MATCHING_PROVIDERS provider) {
 // Partial: forwards to vtable +0x10 (vtReadPacketData, the base ReadPacketData slot). The original
 // dereferences s_Matching without a check; this port returns 0 when none is set.
 std::int32_t CMatching::sReadPacketData(std::int32_t a1, std::int32_t a2, NetBitStream& stream) {
-    return s_Matching != nullptr ? s_Matching->vtReadPacketData(a1, a2, stream) : 0;
+    return s_Matching != nullptr ? s_Matching->ReadPacketData(a1, a2, stream) : 0;
 }
 
 // 0x7fe66c _ZN9CMatching16sWritePacketDataEiiR12NetBitStream
@@ -47,25 +48,22 @@ std::int32_t CMatching::sWritePacketData(std::int32_t a1, std::int32_t a2, NetBi
 // Partial: forwards to vtable +0x14 with (a1, a2). The Hex-Rays signature has a third argument
 // that the body never forwards; the mangled name has two. Null handling as above.
 std::int32_t CMatching::sProcessAcknowledgedPacket(std::int32_t a1, std::int32_t a2) {
-    return s_Matching != nullptr ? s_Matching->vtProcessAcknowledgedPacket(a1, a2) : 0;
+    return s_Matching != nullptr ? s_Matching->ProcessAcknowledgedPacket(a1, a2) : 0;
 }
 
 // 0x7fe6ec _ZN9CMatching18sProcessLostPacketEii
 // Partial: forwards to vtable +0x18 (vtProcessLostPacket). Same note as sProcessAcknowledgedPacket.
 std::int32_t CMatching::sProcessLostPacket(std::int32_t a1, std::int32_t a2) {
-    return s_Matching != nullptr ? s_Matching->vtProcessLostPacket(a1, a2) : 0;
+    return s_Matching != nullptr ? s_Matching->ProcessLostPacket(a1, a2) : 0;
 }
 
 // CMatching::s_Matching: the matching object. The binary's CMatching::Get() assigns it on first use (the
-// constructors do not), from s_matchingProvider: 0 or 1 CMatchingLocal, 3 CMatchingGLLive(false), 4
-// CMatchingGLLive(true). Provider 2 (CMatchingBluetooth) is not ported: CMatchingBluetooth is a static-only
-// stub that does not derive from CMatching, so Get() returns null for it.
+// constructors do not), from s_matchingProvider: 0 or 1 CMatchingLocal, 2 CMatchingBluetooth, 3
+// CMatchingGLLive(false), 4 CMatchingGLLive(true).
 CMatching* CMatching::s_Matching = nullptr;
 
 // 0x800f8c _ZN9CMatching3GetEv
-// Partial. Reviewed against the Hex-Rays body: provider 0 becomes 1, then 1, 3 and 4 construct the
-// matching object and the instance is returned. Not reproduced: provider 2 (CMatchingBluetooth, 0xabb8
-// bytes), which returns null here because the Bluetooth class does not derive from CMatching.
+// Provider 0 becomes 1, then 1, 2, 3 and 4 construct the matching object and the instance is returned.
 CMatching* CMatching::Get() {
     if (s_Matching != nullptr) {
         return s_Matching;
@@ -75,6 +73,8 @@ CMatching* CMatching::Get() {
     }
     if (s_matchingProvider == 1) {
         s_Matching = new CMatchingLocal();
+    } else if (s_matchingProvider == 2) {
+        s_Matching = new CMatchingBluetooth();
     } else if (s_matchingProvider == 3) {
         s_Matching = new CMatchingGLLive(false);
     } else if (s_matchingProvider == 4) {

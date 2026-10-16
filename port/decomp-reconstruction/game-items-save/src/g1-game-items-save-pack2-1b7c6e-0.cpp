@@ -79,14 +79,14 @@ template <typename TStruct, typename TEvent, typename TTest, typename TBase>
 void ObjectiveTemplate_KillEnemies<TStruct, TEvent, TTest, TBase>::Compile() {
     const Structs::v2QuestObjectiveStub& row = *this->m_pyData;     // +0x0c
     this->m_questRow = reinterpret_cast<TStruct*>(this->m_pyData);  // +0x24 <- +0x0c
-    this->m_requiredQty = row.m_w10;                                // +0x2c <- row +0x28
+    this->m_requiredQty = row.Value;                                // +0x2c <- row +0x28
 
     // The second argument of the original is an unset register here (see the notes at the top of this file). HasEnemyOfTypeLoaded
     // never reads it, so -1 is passed.
-    const int enemyCount = Objective_EventReceiver::HasEnemyOfTypeLoaded<TTest>(row.m_w8, -1);  // row +0x20, the enemy id
+    const int enemyCount = Objective_EventReceiver::HasEnemyOfTypeLoaded<TTest>(row.OID1, -1);  // row +0x20, the enemy id
 
     Level* level = ApplicationGetInstance().GetCurrentLevel();
-    if (row.m_w9 != -1 && row.m_w9 != level->m_levelListIndex) {  // row +0x24 is the level id; Level +0x3c is the current index
+    if (row.OID2 != -1 && row.OID2 != level->m_levelListIndex) {  // row +0x24 is the level id; Level +0x3c is the current index
         this->m_valid = false;                                    // +0x08
         return;
     }
@@ -131,7 +131,7 @@ int Objective_Automatic::DBG_TraceDetailedObjectiveInformation(__sFILE* stream) 
     static_cast<void>(std::fwrite("\t  v2QuestAutomatic\n", 1, 0x14, out));
     const Structs::v2QuestObjectiveStub* row = m_pyData;  // +0x0c
     const char* typeName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->m_w1);  // row +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->Type);  // row +0x04
     return std::fprintf(out, "\t    Type : %s\n\n", typeName);
 }
 

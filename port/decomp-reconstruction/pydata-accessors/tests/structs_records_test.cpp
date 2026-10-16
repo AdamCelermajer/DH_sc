@@ -34,35 +34,35 @@ int main() {
     Structs::SimpleAnim simple;
     ByteStream in1(sa, sizeof sa);
     simple.read(&in1);
-    CHECK(simple.m_w1 == 0x1234);
-    CHECK(simple.m_off6 == -2);
+    CHECK(simple.AnimID == 0x1234);
+    CHECK(simple.ResID == -2);
 
     // Anim::read calls SimpleAnim::read first, then two int16 words at +0x8 and +0xa.
     const unsigned char an[] = {0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x04, 0x00};
     Structs::Anim anim;
     ByteStream in2(an, sizeof an);
     anim.read(&in2);
-    CHECK(anim.m_w1 == 1);
-    CHECK(anim.m_off6 == 2);
-    CHECK(anim.m_w2 == 3);
-    CHECK(anim.m_off10 == 4);
+    CHECK(anim.AnimID == 1);
+    CHECK(anim.ResID == 2);
+    CHECK(anim.OffsetX == 3);
+    CHECK(anim.OffsetY == 4);
 
     // A short stream stops the reads; the fields already read keep their values.
     const unsigned char shortbuf[] = {0x05, 0x00};
     Structs::SimpleAnim partial;
     ByteStream in3(shortbuf, sizeof shortbuf);
     partial.read(&in3);
-    CHECK(partial.m_w1 == 5);
-    CHECK(partial.m_off6 == 0);
+    CHECK(partial.AnimID == 5);
+    CHECK(partial.ResID == 0);
 
     // AnimStep::finalize (Hex-Rays 0x4db590): frees the pointer at +0x24 and clears it with its count at +0x20,
     // so the destructor that runs next finds nothing to free.
     Structs::AnimStep step;
-    step.m_w8 = 4;
-    step.m_w9 = std::malloc(16);
-    CHECK(step.m_w9 != nullptr);
+    step.RandomCamSize = 4;
+    step.RandomCam = std::malloc(16);
+    CHECK(step.RandomCam != nullptr);
     step.finalize();
-    CHECK(step.m_w9 == nullptr && step.m_w8 == 0);
+    CHECK(step.RandomCam == nullptr && step.RandomCamSize == 0);
 
     // Deleting destructor: runs ~AIFaction, then frees the block (placement new over malloc).
     void* mem = std::malloc(sizeof(Structs::AIFaction));
@@ -78,8 +78,8 @@ int main() {
         Structs::ItemPowerEntry entry;
         ByteStream in(ipe, sizeof ipe);
         entry.read(&in);
-        CHECK(entry.m_w1 == 7);
-        CHECK(entry.m_w2 == -1);
+        CHECK(entry.Power == 7);
+        CHECK(entry.Prob == -1);
     }
 
     // RepeatableSprite::read (Hex-Rays): int16 at +0x4, bool at +0x6, int16 at +0x8, bool at +0xa, and so on.
@@ -90,11 +90,11 @@ int main() {
         Structs::RepeatableSprite sprite;
         ByteStream in(rs, sizeof rs);
         sprite.read(&in);
-        CHECK(sprite.m_w1 == -2);
-        CHECK(sprite.m_off6 == true);
-        CHECK(sprite.m_w2 == 0x1234);
-        CHECK(sprite.m_off10 == false);
-        CHECK(sprite.m_w3 == 5);
+        CHECK(sprite.AnimID == -2);
+        CHECK(sprite.Clip == true);
+        CHECK(sprite.Height == 0x1234);
+        CHECK(sprite.LeftAlign == false);
+        CHECK(sprite.PosX == 5);
     }
 
     std::printf("%s\n", failures ? "structs_records: FAILED" : "structs_records: ok");

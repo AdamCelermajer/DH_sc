@@ -191,7 +191,7 @@ void ItemObject::InitOnce(int audioVisualIndex) {
     // Row stride is the host size of Structs::ItemAudioVisual (decision 3); the mesh name is the row's m_w4 (+0x10).
     const Structs::ItemAudioVisual* row =
         reinterpret_cast<const Structs::ItemAudioVisual*>(Arrays::ItemAudioVisualTable::members) + audioVisualIndex;
-    const char* name = static_cast<const char*>(row->m_w4);
+    const char* name = static_cast<const char*>(row->Visual);
     m_xrefObject.assign(name, std::strlen(name));                     // +0x2a8
     GameObject::InitPost();
     if (m_visualObject != nullptr) {
@@ -436,8 +436,8 @@ void ItemObject::Interact(GameObject* interactor) {
     ItemInstance* item = ItemInventory::GetItem(0);
     const int savedOption = Singleton<Application>::s_inst.GetSavedOption("AutoTransmute");
     const Structs::Item* row = item->GetItem();
-    const bool pickUpTypeUnset = row->m_w26 == -1;   // Structs::Item +0x68
-    const int itemType = row->m_w22;                 // Structs::Item +0x58
+    const bool pickUpTypeUnset = row->EquipmentSlottingType == -1;   // Structs::Item +0x68
+    const int itemType = row->Type;                 // Structs::Item +0x58
 
     // The pick-up step of the original (the LABEL_14 block). The potion stack is only taken while it has room.
     auto pickUp = [&]() {
@@ -445,14 +445,14 @@ void ItemObject::Interact(GameObject* interactor) {
             // The coloured name: the Arrays::FontPalette colour of the item's power count, printed with %x (no padding).
             const int fontDef = item->GetFontDef();
             char colour[16];
-            std::sprintf(colour, "%x", TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, fontDef)->m_w2);
+            std::sprintf(colour, "%x", TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, fontDef)->textcolor);
             const std::string text = std::string("<font color=\"#") + colour + "\">" + item->m_name.c_str() + "</font>";
             if (ItemObjectPlayers::IsLocalPlayerCharacter(character)) {
                 MenuMessageManager<StatusMsg, 4>::s_inst.EnqueueMessage(StatusMsg(text), 0, true);  // clone 0x3ecff8: queue 0, flag
             }
 
             // The inventory tutorial: the first pick-up of an item that is not of type 13, offline, on difficulty 0.
-            if (item->GetItem()->m_w22 != kNoTutorialItemType && !GetOnlineGameFlag() && character->SG_GetGameDifficulty() == 0) {
+            if (item->GetItem()->Type != kNoTutorialItemType && !GetOnlineGameFlag() && character->SG_GetGameDifficulty() == 0) {
                 if (Singleton<Application>::s_inst.m_savegameManager->m_tutorials[1] != 0) {  // SavegameManager +0x2a
                     const int scriptId = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_menuInvSheet", true);
                     if (scriptId != -1) {
@@ -487,7 +487,7 @@ void ItemObject::Interact(GameObject* interactor) {
         const int gold = character->INV_TransmuteItem(item, true);
         if (format != nullptr) {
             char colour[16];
-            std::sprintf(colour, "#%06X", TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, fontDef)->m_w2 & 0xFFFFFF);
+            std::sprintf(colour, "#%06X", TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, fontDef)->textcolor & 0xFFFFFF);
             ApplicationGetStringManager()->parse(text, format, colour, item->m_name.c_str(), gold);
         }
         MenuMessageManager<StatusMsg, 4>::s_inst.EnqueueMessage(StatusMsg(text), 0, true);

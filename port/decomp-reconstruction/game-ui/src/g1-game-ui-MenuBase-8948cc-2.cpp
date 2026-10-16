@@ -122,7 +122,7 @@ bool MenuBase::FS_ContinueGame(const char*, const char* args, void* menu) {
     PlayerSavegame save(static_cast<std::uint32_t>(slot), 1, false);
     const int difficulty = PlayerSavegame::m_difficultyLevel;
     const auto* levels = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
-    const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].m_w8);
+    const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].LevelFile);
     ApplicationGetInstance().LoadLevel(levelName, save.m_levelEntryPoint[difficulty], save.m_slot, save.m_seeds[difficulty] != 0,
                                        Random::s_syncedSeed != 0, 1, false, 0, 0);
     return true;
@@ -138,7 +138,7 @@ bool MenuBase::FS_ReturnToGame(const char*, const char*, void* menu) {
         static_cast<MenuBase*>(menu)->m_menu->PopAll();
         const int difficulty = PlayerSavegame::m_difficultyLevel;
         const auto* levels = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
-        const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].m_w8);
+        const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].LevelFile);
         ApplicationGetInstance().LoadLevel(levelName, save.m_levelEntryPoint[difficulty], save.m_slot, false, true, 0, false, 0, 0);
     }
     return true;

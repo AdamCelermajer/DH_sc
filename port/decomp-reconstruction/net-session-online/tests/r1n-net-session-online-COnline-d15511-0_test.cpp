@@ -31,6 +31,8 @@ public:
     }
     int LocalMemberId() const override { return 6; }
     int ServerMemberId() const override { return 0; }
+    bool IsInRoom() override { return false; }  // vtable +0x64
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     bool IsServer() const override { return server; }
     std::uint32_t GetRoomMask() const override { return 0; }
     int Update() override { return 0; }  // the base update reads the room and member state, not under test

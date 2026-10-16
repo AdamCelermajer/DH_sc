@@ -172,10 +172,10 @@ void TestPoint3DBytesAndRoundTrip() {
 void TestCharacterPropertiesRoundTrip() {
     MemoryStream s;
     Structs::CharacterProperties sheet;
-    sheet.m_w1 = 0x01020304;
-    sheet.m_w2 = -2;
-    sheet.m_w100 = 100;
-    sheet.m_w224 = static_cast<std::int32_t>(0x80000001u);
+    sheet.AIFaction = 0x01020304;
+    sheet.AI = -2;
+    sheet.Damage_Elemental_Max_Off_Hand = 100;
+    sheet.Achievement_PickUp_Count = static_cast<std::int32_t>(0x80000001u);
     s.writeAs(sheet);
     EXPECT(s.bytes.size() == 900);
     EXPECT(s.cursor == 900);
@@ -188,11 +188,11 @@ void TestCharacterPropertiesRoundTrip() {
 
     s.seek(0);
     Structs::CharacterProperties back;
-    back.m_w3 = 77;  // overwritten by the file
+    back.AnimTable = 77;  // overwritten by the file
     s.readAs(back);
     EXPECT(s.cursor == 900);
-    EXPECT(back.m_w1 == 0x01020304 && back.m_w2 == -2 && back.m_w3 == 0 && back.m_w100 == 100);
-    EXPECT(back.m_w224 == static_cast<std::int32_t>(0x80000001u));
+    EXPECT(back.AIFaction == 0x01020304 && back.AI == -2 && back.AnimTable == 0 && back.Damage_Elemental_Max_Off_Hand == 100);
+    EXPECT(back.Achievement_PickUp_Count == static_cast<std::int32_t>(0x80000001u));
 }
 
 void TestCharacterPropertiesShortReadKeepsWords() {
@@ -200,12 +200,12 @@ void TestCharacterPropertiesShortReadKeepsWords() {
     MemoryStream s;
     Load(s, {0, 0, 0, 0, 9, 0, 0, 0});
     Structs::CharacterProperties sheet;
-    sheet.m_w1 = 1;
-    sheet.m_w2 = 42;
-    sheet.m_w224 = 7;
+    sheet.AIFaction = 1;
+    sheet.AI = 42;
+    sheet.Achievement_PickUp_Count = 7;
     s.readAs(sheet);
     EXPECT(s.cursor == 8);
-    EXPECT(sheet.m_w1 == 9 && sheet.m_w2 == 42 && sheet.m_w224 == 7);
+    EXPECT(sheet.AIFaction == 9 && sheet.AI == 42 && sheet.Achievement_PickUp_Count == 7);
 }
 
 void TestBitsetBitOrder() {

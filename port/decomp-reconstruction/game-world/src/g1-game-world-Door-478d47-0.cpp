@@ -275,7 +275,7 @@ void Door::InitPost() {
         if (m_doorIndex != -1) {
             const std::int32_t dictionaryIndex = DoorTableWord(m_doorIndex, 20);
             if (dictionaryIndex != -1) {
-                m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[dictionaryIndex].m_w2;  // +0x290
+                m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[dictionaryIndex].Name;  // +0x290
             }
         }
         Zone::InitPost();

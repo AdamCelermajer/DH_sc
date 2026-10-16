@@ -9,6 +9,7 @@
 #include "glitch-video/material.hpp"
 #include "glitch-video/texture.hpp"
 #include "glitch-scene-collada-gui/recon/slice_31.hpp"
+#include "recon_src/slice_31.cpp"  // the recon body is compiled into this test only: it is a superseded stand-in layer whose placeholders have no definition
 
 using namespace glitch::collada::recon_31;
 

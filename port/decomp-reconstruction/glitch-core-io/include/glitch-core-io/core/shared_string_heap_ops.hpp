@@ -39,6 +39,12 @@ SSharedStringData* getSharedString(SSharedStringHeapTable& table, const char* te
 // SShaderParameterDef entries) must do that drop first.
 void releaseSharedString(SSharedStringHeapTable& table, SSharedStringData* data);
 
+// The two operations above on the process-wide table, emitted under the original symbols (the binary's are static members of the nested
+// class SSharedStringHeapEntry::SData: get(const char*, bool create) and release(SData*)). The port's record type is
+// SSharedStringData, so the original names are given by assembler labels on these free functions (decision 10).
+SSharedStringData* sharedStringDataGet(const char* text, bool create) asm("_ZN6glitch4core6detail22SSharedStringHeapEntry5SData3getEPKcb");
+void sharedStringDataRelease(SSharedStringData* data) asm("_ZN6glitch4core6detail22SSharedStringHeapEntry5SData7releaseEPS3_");
+
 // 0x6a5538 _ZN6glitch4core6detail12_GLOBAL__N_120initSharedStringHeapEb
 //
 // The original's init step in both directions over the process-wide table: true creates the table at

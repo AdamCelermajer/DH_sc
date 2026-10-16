@@ -2,9 +2,9 @@
 // method ids, the device id (IMEI), the key (KEY), the encrypted config values (EKEY, EPID,
 // SERVER), the response code (UCODE), the RMS directory (RMS_PATH) and the HTTP client.
 //
-// The JNI bridge and the config decoder are stand-ins (deps/), so the functions that call them
-// run but produce empty results on Windows. The SSEncDec blob codec is the real one
-// (tinyxml-and-c-libs), and LC_API_PARSE_DATA is core-platform's.
+// The JNI calls go through the real JNIEnv (shared/include/jni.h) of the calling thread (NVThreadGetCurrentJNIEnv);
+// without a JVM (the host builds) the functions that need one leave their output empty. ConfigFile is core-platform's, the
+// SSEncDec blob codec is tinyxml-and-c-libs', and LC_API_PARSE_DATA is core-platform's.
 //
 // Static data layout: the binary keeps these in .bss (ALicenseCheck::KEY, IMEI, ...).
 // Sizes follow the symbol sizes: EKEY, EPID, KEY and IMEI are 255 bytes, SERVER 512.
@@ -12,7 +12,7 @@
 
 #include <cstdint>
 
-#include "net-session-online/deps/jni_stand_in.hpp"
+#include <jni.h>
 
 class LCXPlayerHttp;
 

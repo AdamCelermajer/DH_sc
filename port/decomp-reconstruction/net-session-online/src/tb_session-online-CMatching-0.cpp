@@ -7,6 +7,7 @@
 #include "net-session-online/c_messaging.hpp"    // CMessaging::GetInstance, ResetQueues
 #include "net-session-online/c_sign_in.hpp"      // CSignIn::Get, Destroy
 #include "net-transport/connection_manager.hpp"  // CConnectionManager::Initialize
+#include "net-transport/packet_manager.hpp"
 #include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager::GetInstance, ResetPlayers
 
 #include "net-session-online/deps/matching_queue.hpp"
@@ -22,24 +23,18 @@ bool CMatching::IsServer() const {
 }
 
 // 0x7fe574 _ZN9CMatching8LockRoomEb
-// Asm/Hex-Rays: when the argument is true the binary calls the CMatching virtual at byte offset +0x48 and
-// passes its result back; the +0x0e base room-closed byte is set unconditionally afterwards; the return is
-// the slot result when the argument was true, else the object pointer.
-// Reproduced: the unconditional +0x0e store and, this pass, the else-branch return value (`this`; the binary
-// returns that same address in r0, so the port's `this` is the identical value).
-// Still partial, concrete missing item: the +0x48 call. That slot is CloseRoom in every derived vtable
-// (CMatchingLocal 0x806e4c, CMatchingBluetooth the same, CMatchingGLLive 0x81bc1c), and CloseRoom (0x806e4c)
-// is NOT reachable there: in this port it is a non-virtual CMatchingLocal method and the base's virtual
-// declarations are in a different order from the binary's vtable (the port's slot +0x48 is a different
-// function). So the local close -- roomHidden_ = IsRoomHidden(), the room-closed flag, the hidden flag and
-// internal event 0x80000a -- does not run. Fixing that needs the CMatching vtable order corrected, which is a
-// category-level change, not a local one.
+// `if (a2) this = (*(this+72))(this); *(BYTE*)(v2+14) = 1; return this;` The +0x48 slot is CloseRoom in every
+// derived vtable (CMatchingLocal 0x806e4c, CMatchingBluetooth the same, CMatchingGLLive 0x81bc1c); the base
+// now declares it as a virtual (c_matching_base.hpp), so the call reaches the derived close. The +0x0e store
+// follows the call, unconditionally. The return value is the slot's result when the argument was true and
+// the object pointer otherwise (the binary leaves the same address in r0; the port returns it as int).
 int CMatching::LockRoom(bool callSlot) {
-    baseRoomClosed_ = true;  // +0x0e
+    std::int32_t result = static_cast<std::int32_t>(reinterpret_cast<std::uintptr_t>(this));
     if (callSlot) {
-        return 0;  // the +0x48 CloseRoom call is not ported (see above); its reconstituted result is 0
+        result = CloseRoom();  // vtable +0x48
     }
-    return static_cast<int>(reinterpret_cast<std::uintptr_t>(this));
+    baseRoomClosed_ = true;  // +0x0e
+    return result;
 }
 
 // 0x7fe5e0 _ZN9CMatching9GetTeamIdEi
@@ -70,15 +65,10 @@ std::int32_t CMatching::GetMemberIdByIndex(std::uint32_t index) const {
 }
 
 // 0x7fff9c _ZN9CMatchingC1Ev and 0x80003c _ZN9CMatchingC2Ev
-// Partial. Both bodies are the same. Reproduced after the re-derivation against the 0x80003c pseudocode:
-// roomMaskDirty_ = 1 (+0x10), the NetStructArray header's vptr word (+0x18; the port has no slot for it),
-// memberCount_ = 32 (+0x1c = the array's count), memberCapacity_ = 0 (+0x08), the four flags at
-// +0x0c..+0x0f cleared, the 32 member elements constructed in place (element base +0x20, stride 432;
-// the real CMatching::MemberInfoNetStruct constructor runs for each), and the three words at
-// +0x3620..+0x3628 cleared. NOT ported: the NetStructArray vptr at +0x18 (the port keeps the count as a
-// plain int, see the header) and the node-allocated container at +0x3620 (its element type is not
-// identified; the binary's destructor frees it). The old note said "element NetStruct constructors" were
-// not ported -- they are now: the element type is a real NetStruct record.
+// Both bodies are the same. Sets the vptr, the NetStructArray header's vptr (+0x18, no slot in the port: the count is
+// the plain int memberCount_), the room mask dirty flag (+0x10 = 1), the count (+0x1c = 32), the capacity (+0x08 = 0),
+// clears the four flags at +0x0c..+0x0f, constructs the 32 member elements in place (element base +0x20, stride 432) and
+// clears the three words of the container at +0x3620 (an empty vector). All of it is member initialisation here.
 CMatching::CMatching() {
     memberCapacity_ = 0;       // +0x08
     initialized_ = false;      // +0x0c
@@ -90,14 +80,10 @@ CMatching::CMatching() {
 }
 
 // 0x800a68 _ZN9CMatchingD2Ev, 0x800b00 _ZN9CMatchingD1Ev
-// Partial, no body (the port's destructor is the implicit `virtual ~CMatching() = default`). Binary body,
-// from the Hex-Rays pseudocode: the vptr is set to the base table, the container at +0x3620 (begin pointer,
-// end pointer at +0x3628) is freed through the node allocator when at most 0x80 bytes, else CustomFree, then
-// the vptr at +0x18 is set and the 32 member elements are destroyed from element 31 down to 0 through their
-// vtable slot 0 (NetStruct destructor). Not ported: the container free (its element type is not identified in
-// the port) and the element NetStruct destructors (MemberInfo is a plain struct, so the port destroys its
-// vector members implicitly).
-// 0x800b98 _ZN9CMatchingD0Ev is the deleting destructor and is compiler-generated (see ledger).
+// The implicit `virtual ~CMatching() = default`: the container at +0x3620 is freed by the vector, the NetStructArray
+// vptr is reset (no slot here) and the 32 member elements are destroyed from element 31 down to 0 through their
+// destructor, which is the order of the array member's destruction. 0x800b98 _ZN9CMatchingD0Ev is the deleting
+// destructor, generated by the compiler.
 
 // Functions below have no body yet. Each one needs callees or layout that are not in this category
 // (see the ledger notes and the layout requests in the batch report).
@@ -108,8 +94,12 @@ CMatching::CMatching() {
 // 0x7feac4 _ZN9CMatching16ResendMemberDataEv: the body is in src/c_matching_base.cpp (reconstructed).
 
 // 0x7feb40 _ZN9CMatching10SearchRoomE17CRoomSearchFilterbh
-// Partial, no body. Needs CRoomSearchFilter::SetSearchAttributeInt (not in the port) and the virtual
-// slot +0x08 of the search object, which is not identified.
+// CRoomSearchFilter::SetSearchAttributeInt(filter, 0, 0, -1342128411 = 0xB000BEE5), then the tail call to
+// vtable +0x08 (SearchRoomInternal) with the same filter, flag and mode; its result is returned.
+std::int32_t CMatching::SearchRoom(CRoomSearchFilter filter, bool flag, std::uint8_t mode) {
+    filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_0, static_cast<ROOM_SEARCH_OPERATOR>(0), -1342128411);
+    return SearchRoomInternal(filter, flag, mode);  // vtable +0x08
+}
 
 // 0x7feb8c _ZN9CMatching7DestroyEv
 // Partial. When s_Matching is set: Terminate() on it (vtable +0x2c, its result is discarded by the
@@ -147,9 +137,8 @@ void CMatching::Destroy() {
 //        - the cached id (element +0x1a8) is set to -1 without a NetStruct call.
 //   3. Then, for every element, NetStruct::SetEnabled(element, 0) (the +0x20 address is the element
 //      base: 432*i + 32).
-//   4. Tail call to vtable +0x00 (JoinRoomInternal). Still the base default here: CMatchingLocal::
-//      JoinRoomInternal (0x808774) is declared without `override`, so it holds no slot. That is
-//      consequence 2 of the KNOWN DEFECT block in c_matching_base.hpp (scheduled, not this batch).
+//   4. Tail call to vtable +0x00 (JoinRoomInternal). CMatchingLocal::JoinRoomInternal (0x808774) now carries
+//      `override`, so the call reaches it (it used to reach the base default).
 std::int32_t CMatching::JoinRoom(std::uint64_t roomId) {
     CMessaging::GetInstance()->ResetQueues(true);
     CNetPlayerManager::GetInstance()->ResetPlayers();
@@ -191,50 +180,83 @@ std::int32_t CMatching::CreateJoinRoom(bool flag, CRoomAttributes attributes) {
 }
 
 // 0x7ff5a0 _ZN9CMatching9TerminateEv
-// Partial, no body. Needs CPacketManager::UnregisterPacketSlot and Terminate, CNetPlayerManager::Terminate,
-// CMessaging::Terminate, CConnectionManager::Terminate, CSignIn::Get and its vtable +0x20, the virtual
-// slots +0x3c, +0x64 and +0xa4 of CMatching and slot +0x10 of the room attributes (names not identified),
-// and the AddEvent code 4194306.
+// Leaves the room when in one (IsInRoom() then LeaveRoom(), vtable +0x64 and +0x3c), unregisters packet slot 0,
+// clears the initialized flag and terminates the player manager, messaging, packet manager, connection manager and
+// the sign-in (CSignIn vtable +0x20). Both matching queues are cleared, the room attributes are cleared (CRoomAttributes
+// slot +0x10, Clear), every member element is reset (id -1, team 0, empty attribute buffer, cached id -1) and disabled,
+// and the output event 0x400002 is posted. Returns 0.
+// The Hex-Rays' stack NetStructInt/NetStructUInt temporaries are the SetValue calls of the element members.
+std::int32_t CMatching::Terminate() {
+    if (IsInRoom()) {
+        LeaveRoom();
+    }
+    CPacketManager::UnregisterPacketSlot(0);
+    initialized_ = false;  // +0x0c
+    CNetPlayerManager::Terminate();
+    CMessaging::Terminate();
+    CPacketManager::Terminate();
+    CConnectionManager::Terminate();
+    // Unchecked in the original: Get() is null only for a provider other than 0 or 1.
+    if (CSignIn* signIn = CSignIn::Get()) {
+        signIn->Terminate();  // vtable +0x20
+    }
+    MatchingOutputEventQueue().Clear();    // CMatching::m_eventQueue
+    MatchingInternalEventQueue().Clear();  // CMatching::m_eventQueueInternal
+    if (CRoomAttributes* attributes = GetRoomAttributes()) {
+        attributes->Clear();  // vtable +0x10
+    }
+    ResetMemberElements();
+    MatchingOutputEventQueue().AddEvent(0x400002, nullptr, 0);  // 4194306
+    return 0;
+}
+
+// The per-element reset shared by Initialize and Terminate: id member -1, team member 0, attribute member
+// SetBuffer(nullptr, 0), cached id -1 (element +0x1a8); then NetStruct::SetEnabled(element, false) on each.
+void CMatching::ResetMemberElements() {
+    for (std::int32_t i = 0; i < memberCount_; ++i) {
+        MemberInfoNetStruct& element = members_[i];
+        element.setId(-1);                     // id member SetValue, element +0x150
+        element.setTeam(0);                    // team member SetValue, element +0x178
+        element.setRoomAttribute(nullptr, 0);  // attribute member SetBuffer, element +0x1a0
+        element.setPreviousMemberId(-1);       // element +0x1a8
+    }
+    for (std::int32_t i = 0; i < memberCount_; ++i) {
+        members_[i].SetEnabled(false);  // NetStruct::SetEnabled(element, 0)
+    }
+}
 
 // 0x7ff85c _ZN9CMatching10InitializeEi
-// Partial. Reproduced in the original order: when the matching object is already initialized (+0x0c) it posts
-// 0x400001 on the output queue (CMatching::m_eventQueue) and returns 0. Otherwise it stores the capacity
-// (+0x08), clears the room hidden (+0x0d) and room closed (+0x0e) flags, clears both matching queues, calls
-// CSignIn::Get()->Initialize() (the CSignIn vtable +0x08 slot, which sets the sign-in active flag), calls
-// CConnectionManager::Initialize() unconditionally, then resets every member element and calls
-// NetStruct::SetEnabled(element, false) on each. The original returns 0 on both paths.
-// Not reproduced: CPacketManager::RegisterPacketSlot with the four static forwarders, and the room
-// attributes' calls (GetRoomAttributes() at vtable +0xa4, then the result's vtable +0x10, not identified)
-// that the binary makes between the connection manager init and the member reset.
-// Correction of the earlier note: it said the reset loop was a DO-WHILE whose index was the +0x0c byte it
-// had just read; the assembly at 0x7ff908 shows `LDR R3,[R7,#0x1C]; CMP R3,#0; BLE` and a `v2 = 0` index,
-// so the loop count is memberCount_ (+0x1c = the NetStructArray count, 32 from the constructor) and the
-// loop is a plain for. What is still missing is the capacity store's effect on the count: the binary's
-// `*((_DWORD *)this + 2) = a2` writes memberCapacity_ and the net-transport array constructor has already
-// set count 32, so the loop walks 32 elements regardless of the argument -- the port does the same.
+// When the object is already initialized (+0x0c) it posts 0x400001 on the output queue and returns 0. Otherwise it
+// registers packet slot 0 with the four static forwarders (write, read, acknowledged, lost), stores the capacity (+0x08),
+// clears the room hidden (+0x0d) and room closed (+0x0e) flags, clears both matching queues, initializes the sign-in
+// (CSignIn vtable +0x08) and the connection manager, clears the room attributes (GetRoomAttributes() at vtable +0xa4,
+// then CRoomAttributes slot +0x10, Clear) and resets and disables every member element. Returns 0 on both paths.
+// The element loop count is memberCount_ (+0x1c, 32 from the constructor), not the capacity argument.
 int CMatching::Initialize(int memberCapacity) {
     if (initialized_) {
         MatchingOutputEventQueue().AddEvent(0x400001, nullptr, 0);  // 4194305
         return 0;
     }
+    CPacketManager::RegisterPacketSlot(
+        0,
+        [](int a, int b, NetBitStream& stream) -> bool { return CMatching::sWritePacketData(a, b, stream) != 0; },
+        [](int a, int b, NetBitStream& stream) { (void)CMatching::sReadPacketData(a, b, stream); },
+        [](int a, int b) { (void)CMatching::sProcessAcknowledgedPacket(a, b); },
+        [](int a, int b) { (void)CMatching::sProcessLostPacket(a, b); });
     memberCapacity_ = memberCapacity;  // +0x08
     baseRoomClosed_ = false;           // +0x0e
     roomHidden_ = false;               // +0x0d
     MatchingOutputEventQueue().Clear();    // CMatching::m_eventQueue
     MatchingInternalEventQueue().Clear();  // CMatching::m_eventQueueInternal
-    // Unchecked, as in the binary: Get() returns null only for a provider other than 0 or 1.
-    CSignIn::Get()->Initialize();  // CSignIn vtable +0x08: sets the active flag
-    CConnectionManager::Initialize();  // unconditional
-    for (std::int32_t i = 0; i < memberCount_; ++i) {
-        MemberInfoNetStruct& element = members_[i];
-        element.setId(-1);                        // id member SetValue, element +0x150
-        element.setTeam(0);                       // team member SetValue, element +0x178
-        element.setRoomAttribute(nullptr, 0);     // attribute member SetBuffer, element +0x1a0
-        element.setPreviousMemberId(-1);          // element +0x1a8
+    // Unchecked in the binary: Get() returns null only for a provider other than 0 or 1.
+    if (CSignIn* signIn = CSignIn::Get()) {
+        signIn->Initialize();  // CSignIn vtable +0x08: sets the active flag
     }
-    for (std::int32_t i = 0; i < memberCount_; ++i) {
-        members_[i].SetEnabled(false);            // NetStruct::SetEnabled(element, 0)
+    CConnectionManager::Initialize();
+    if (CRoomAttributes* attributes = GetRoomAttributes()) {
+        attributes->Clear();  // vtable +0x10
     }
+    ResetMemberElements();
     return 0;
 }
 

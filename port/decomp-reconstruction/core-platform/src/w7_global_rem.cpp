@@ -15,6 +15,7 @@
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/StringManager.hpp"
+#include "dh2/global/debug_trace.hpp"  // DBG_GetLoadingStepName
 #include "glitch-core-io/os/device.hpp"
 #include "glitch-video/video_driver.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
@@ -164,4 +165,55 @@ int NatvieResumeAllSounds(const gameswf::fn_call& call) {
         instance->ResumeAllSounds();
     }
     return 0;
+}
+
+// 0x957434 s_LoadingStepsNames (file-local, 36 string pointers in .data.rel.ro): the names of the loading steps,
+// indexed by the step number. The first entry is the literal "LS__FirstLS__ThreadFirst" (two enum names glued by the
+// stringising macro in the original source). The last, "LS__Count", is the one-past-the-end step.
+static const char* const s_LoadingStepsNames[36] = {
+    "LS__FirstLS__ThreadFirst",
+    "LS_LoadingScreen",
+    "LS_LevelProperties",
+    "LS_SavegameCheck",
+    "LS_VisualFX",
+    "LS_PhysicalWorld",
+    "LS_File",
+    "LS_ScriptsLoad",
+    "LS_PlayerInit",
+    "LS_ObjectsInit",
+    "LS_ResumeGame",
+    "LS_Floor",
+    "LS_Quests",
+    "LS_ScriptsInit",
+    "LS_Player",
+    "LS_LevelInit",
+    "LS_FinalInit",
+    "LS_CharStates",
+    "LS_TextureBias",
+    "LS_Camera",
+    "LS_InitBatch",
+    "LS_ListBatch",
+    "LS_MapBatch",
+    "LS_CompileBatch",
+    "LS_CleanBatch",
+    "LS_AssignBatchToRooms",
+    "LS_PreloadGlyphs",
+    "LS_PreCacheObjects",
+    "LS_CompileQuests",
+    "LS_UpdateLevel",
+    "LS_Final",
+    "LS_ThreadJoin",
+    "LS_MultiplayerWait",
+    "LS_Wait",
+    "LS_HUD",
+    "LS__Count",
+};
+
+// 0x3ef18c _Z22DBG_GetLoadingStepNamei
+// "unknown" for a negative step, else the table entry (no upper bound check, as in the original).
+const char* DBG_GetLoadingStepName(int step) {
+    if (step < 0) {
+        return "unknown";
+    }
+    return s_LoadingStepsNames[step];
 }

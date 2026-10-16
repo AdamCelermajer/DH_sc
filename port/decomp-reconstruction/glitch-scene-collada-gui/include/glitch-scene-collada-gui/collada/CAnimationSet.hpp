@@ -42,7 +42,7 @@ class CSceneNode;
 // One target of an animation-set template: a 16-byte record in the original.
 struct STemplateRecord {
     std::uint32_t reserved00 = 0;  // +0x00 not written by addChannels
-    std::uint32_t value04 = 0;     // +0x04 set from virtual slot +0x54 of the target's source (interface not mapped)
+    const char* uid = nullptr;     // +0x04 the node's UID (virtual slot +0x54 of the target's node)
     std::uint32_t kind08 = 0;      // +0x08 copied from STemplateTarget::kind
     std::uint32_t reserved0c = 0;  // +0x0c not written by addChannels
 };
@@ -65,7 +65,7 @@ public:
 
     // 0x667320: clears the added flag and the record pointer of every target. Returns this.
     IAnimationSetTemplate& setUnAdded();
-    // 0x667384: allocates the record of every target that was not added yet. PARTIAL: see the source.
+    // 0x667384: allocates the record of every target that was not added yet.
     void addChannels(std::vector<const SChannel*>* channels, std::vector<const CAnimationTrackEx*>* tracks);
 
     std::vector<STemplateTarget*> targets;  // +0x04 / +0x08 / +0x0c (owned: the template does not delete the targets, as the original)
@@ -75,7 +75,7 @@ class CAnimationSetTransformationTemplate : public IAnimationSetTemplate {
 public:
     // 0x6e21c0 (C2) and 0x6e21f4 (C1): the name argument is not stored in the original.
     explicit CAnimationSetTransformationTemplate(const char* name);
-    // 0x6e264c (C2) and 0x6e2690 (C1): targets for the node and its children. PARTIAL: see addTransformationTargets.
+    // 0x6e264c (C2) and 0x6e2690 (C1): targets for the node and its children.
     explicit CAnimationSetTransformationTemplate(CSceneNode* node);
     // 0x6e2830 (C2) and 0x6e28f0 (C1): targets for every root node of every visual scene of the database.
     explicit CAnimationSetTransformationTemplate(CColladaDatabase* database);
@@ -110,7 +110,7 @@ public:
     ~CAnimationSet() override;
 
     // vptr+0x0c, 0x6601fc: adds the animation's channel and track unless a compatible channel of the same name exists (then its
-    // index is returned); -1 when the animation has no track. PARTIAL: the track is the one the loader stored at SAnimation +0x14.
+    // index is returned); -1 when the animation has no track (CColladaDatabase::getAnimationTrackEx).
     virtual int addAnimation(const SAnimation* animation);
     // vptr+0x10, 0x65f004: returns 0.
     virtual int remAnimation(const SAnimation* animation);
@@ -123,7 +123,7 @@ public:
     virtual const SChannel* getAnimationTrack(int index) const;
     // vptr+0x24, 0x65f038.
     virtual const CAnimationTrackEx* getAnimationTrackEx(int index);
-    // vptr+0x28, 0x6600fc. PARTIAL: CResFileManager::load is not reconstructed, so the url never loads (the error path is taken).
+    // vptr+0x28, 0x6600fc: loads the file through the manager and adds it as a library; prints an error and answers the last index when it does not load.
     virtual int addAnimationLibrary(const char* url);
     // vptr+0x2c, 0x6601d4: appends the database handle; returns its index.
     virtual int addAnimationLibrary(const CColladaDatabase& database);

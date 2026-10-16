@@ -11,12 +11,12 @@ namespace {
 // Records the observer calls made by the web component.
 class RecordingObserver : public GLXPlayerObserver {
 public:
-    void OnResponseText(std::int32_t arg, const char* text, std::int32_t length) override {
+    void OnRequestSuccess(std::int32_t arg, char* text, std::int32_t length) override {
         textArg = arg;
         text_ = text;
         textLength = length;
     }
-    void OnResponseError(std::int32_t code, std::int32_t detail) override {
+    void OnRequestFailure(std::int32_t code, std::int32_t detail) override {
         errorCode = code;
         errorDetail = detail;
     }

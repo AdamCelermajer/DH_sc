@@ -28,6 +28,10 @@ namespace glitch::core {
 
 class SSharedString {
 public:
+    SSharedString() = default;
+    // Wraps a record the caller already holds a use on (the original copies the handle word and takes no use: see above).
+    explicit SSharedString(detail::SSharedStringData* data) : m_data(data) {}
+
     // 0x5daf94 _ZN6glitch4core13SSharedStringaSEPKc
     //
     // Interns `text` (create form: get-or-create plus commit 0x6a4cb8) and installs it as this

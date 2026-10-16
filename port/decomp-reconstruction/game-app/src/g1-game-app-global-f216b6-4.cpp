@@ -116,7 +116,7 @@ namespace {
 // row through ItemInstance::GetItem(). The original dereferences both without a null check. Its callers
 // (ItemInventory::TrophyCheckArmorSet) first require IsEquipmentSlotTaken for slots 3, 4, 8, 0 and 7.
 int TrophyArmorSlotClass(ItemInventory* inventory, unsigned int slot) {
-    return inventory->GetEquippedItem(slot)->GetItem()->m_w34;
+    return inventory->GetEquippedItem(slot)->GetItem()->ClassRequirement;
 }
 
 }  // namespace

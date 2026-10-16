@@ -12,5 +12,5 @@ public:
 
 inline void ThreadStop() {}
 
-// XP_API_GET_TIME(): platform clock in seconds, stored in ConnectionLobby::requestTimeMs.
-inline std::uint32_t XP_API_GET_TIME() { return 0; }
+// XP_API_GET_TIME (0x82b138): the platform clock in milliseconds, declared in xp_api.hpp.
+#include "net-session-online/xp_api.hpp"

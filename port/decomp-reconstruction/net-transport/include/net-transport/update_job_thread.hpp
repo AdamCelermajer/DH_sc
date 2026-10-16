@@ -1,8 +1,7 @@
 // updateJob_thread: a job object that runs on its own thread. Reconstructed from
-// libDungeonHunter2.so pseudocode. The original worker entry points threadfun2 (0x317fbc) and
-// threadfun3 (0x317f90) live in another category and do real work (Savegame::UpdateJobs,
-// SavegameManager::saveSettings); the port's worker calls Run(), which is empty in the original
-// (0x317e7c) and therefore only a stand-in for those two entry points.
+// libDungeonHunter2.so pseudocode. The worker entry points threadfun2 (0x317fbc, Savegame::UpdateJobs)
+// and threadfun3 (0x317f90, SavegameManager::saveSettings) are defined in update_job_thread.cpp;
+// Start and Start2 run them on a detached thread (the original never stores or joins the pthread_t).
 //
 // Original layout (32-bit offsets):
 //   +0x00 vptr
@@ -24,7 +23,7 @@ public:
     virtual int Kernel();                             // +0x0c, 0x317e80 _ZN16updateJob_thread6KernelEv
     virtual int Finish();                             // +0x10, 0x317f74 _ZN16updateJob_thread6FinishEv
     void Run();                                       // 0x317e7c _ZN16updateJob_thread3RunEv
-    bool IsCurrectThreadRunning() const;              // 0x317e90 _ZN16updateJob_thread22IsCurrectThreadRunningEv
+    bool IsCurrectThreadRunning();              // 0x317e90 _ZN16updateJob_thread22IsCurrectThreadRunningEv
     int Start();                                      // 0x317ef8 _ZN16updateJob_thread5StartEv
     int Start2();                                     // 0x317e98 _ZN16updateJob_thread6Start2Ev
     int Stop();                                       // 0x317f58 _ZN16updateJob_thread4StopEv

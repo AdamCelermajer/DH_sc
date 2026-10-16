@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "glitch-core-io/core/strings.hpp"
+#include "glitch-core-io/tb/glitch_io.hpp"
 
 namespace glitch::io {
 
@@ -71,6 +72,25 @@ int CMatrixAttribute::getType() const { return 0xf; }
 int CQuaternionAttribute::getType() const { return 0x10; }
 // 0x56051c _ZNK6glitch2io20CQuaternionAttribute13getTypeStringEv
 const wchar_t* CQuaternionAttribute::getTypeString() const { return L"quaternion"; }
+
+// 0x561da0 _ZN6glitch2io16CMatrixAttribute13getQuaternionEv
+// The result slot is the quaternion; it is assigned from the matrix the attribute's getMatrix (vtable +0x44) returns.
+glitch::core::quaternion CMatrixAttribute::getQuaternion() const {
+    glitch::core::quaternion q;
+    q = getMatrix();
+    return q;
+}
+
+// 0x563bc4 _ZN6glitch2io20CQuaternionAttribute9getMatrixEv
+// The quaternion comes from getQuaternion (vtable +0x40); the result's flag byte (+0x40) is cleared and the matrix is filled by
+// quaternion::getMatrix_transposed (0x5602d0), which writes every element.
+glitch::core::CMatrix4<float> CQuaternionAttribute::getMatrix() const {
+    const glitch::core::quaternion q = getQuaternion();
+    glitch::core::CMatrix4<float> m;
+    m.flag = false;
+    q.getMatrix_transposed(m);
+    return m;
+}
 
 // 0x56052c _ZNK6glitch2io14CBBoxAttribute7getTypeEv
 int CBBoxAttribute::getType() const { return 0x11; }
@@ -452,6 +472,42 @@ boost::intrusive_ptr<glitch::video::ITexture> CTextureAttribute::getTexture() co
 // The new reference is taken before the old one is dropped (intrusive_ptr assignment).
 void CTextureAttribute::setTexture(const boost::intrusive_ptr<glitch::video::ITexture>& value) {
     texture = value;
+}
+
+// 0x561e00 _ZN6glitch2io17CTextureAttribute9getStringEv
+std::string CTextureAttribute::getString() const { return toString(texture, driver); }
+
+// 0x564834 _ZN6glitch2io17CTextureAttribute10getStringWEv
+// With a texture, getString (vtable +0x1c) widened byte by byte with sign extension; without one stringc2stringw("").
+std::wstring CTextureAttribute::getStringW() const {
+    if (texture.get() == nullptr) return std::wstring();
+    const std::string text = getString();
+    std::wstring wide;
+    wide.reserve(text.size());
+    for (char c : text) wide.push_back(static_cast<wchar_t>(c));
+    return wide;
+}
+
+// 0x564a20 _ZN6glitch2io17CTextureAttribute9getStringEPc
+// With a texture the string (vtable +0x1c) is strcpy-ed into the buffer, otherwise the first byte is cleared.
+void CTextureAttribute::getString(char* buf) {
+    if (texture.get() == nullptr) {
+        *buf = 0;
+        return;
+    }
+    const std::string text = getString();
+    std::strcpy(buf, text.c_str());
+}
+
+// 0x56522c _ZN6glitch2io17CTextureAttribute9setStringEPKc
+// A non-empty text is converted by fromString (the driver is the attribute's, +0x28) into a temporary handle; an empty or null
+// text leaves it empty. Either way the handle is passed to setTexture (vtable +0xfc).
+void CTextureAttribute::setString(const char* value) {
+    boost::intrusive_ptr<glitch::video::ITexture> created;
+    if (value != nullptr && *value != 0) {
+        created = fromString(std::string(value), driver);
+    }
+    setTexture(created);
 }
 
 // 0x560620 _ZNK6glitch2io16CBinaryAttribute7getTypeEv

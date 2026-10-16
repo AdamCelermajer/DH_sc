@@ -58,7 +58,7 @@ void GLXPlayerUser::sendSetUserState(std::int32_t state) {
         XP_DEBUG_OUT("GLXPlayerUser::sendSetUserState -> buffer = %s\n", buf);
         SendByGet(buf);
     } else if (observer_ != nullptr) {
-        observer_->OnResponseError(0x61, kInvalidArgument);
+        observer_->OnRequestFailure(0x61, kInvalidArgument);
     }
 }
 
@@ -122,7 +122,7 @@ void GLXPlayerUser::sendGetTrophyIcon(std::int32_t trophy, std::int32_t mode) {
 // 0x83d4d0 _ZN13GLXPlayerUser20sendDelUserStoreDataEPc
 void GLXPlayerUser::sendDelUserStoreData(char* key) {
     if (key == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x48, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x48, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -143,7 +143,7 @@ void GLXPlayerUser::sendGetUserAvatarList() {
 // 0x83d67c _ZN13GLXPlayerUser17sendDelUserAvatarEPc
 void GLXPlayerUser::sendDelUserAvatar(char* avatarKey) {
     if (avatarKey == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x66, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x66, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -160,7 +160,7 @@ void GLXPlayerUser::sendDelUserAvatar(char* avatarKey) {
 void GLXPlayerUser::sendUploadUserAvatar(char* path) {
     if (path == nullptr) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(0x47, kInvalidArgument);
+            observer_->OnRequestFailure(0x47, kInvalidArgument);
         }
         return;
     }
@@ -178,7 +178,7 @@ void GLXPlayerUser::sendUploadUserAvatar(char* path) {
 void GLXPlayerUser::sendAwardTrophy(std::int32_t* ids, std::int32_t count) {
     if (ids == nullptr || count <= 0) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(85, kInvalidArgument);
+            observer_->OnRequestFailure(85, kInvalidArgument);
         }
         return;
     }
@@ -209,7 +209,7 @@ void GLXPlayerUser::sendUpdateUserInfo(char* email, std::int32_t emailFlag, char
                                birthday == nullptr;
     if (nothingToSend) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(82, kInvalidArgument);
+            observer_->OnRequestFailure(82, kInvalidArgument);
         }
         return;
     }
@@ -254,7 +254,7 @@ void GLXPlayerUser::sendDownloadUserAvatar(char* avatarKey) {
 // The bool selects the "un" key (true) or the "n" key (false).
 void GLXPlayerUser::sendGetUserUID(char* name, bool byUserName) {
     if (name == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x3a, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x3a, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -268,7 +268,7 @@ void GLXPlayerUser::sendGetUserUID(char* name, bool byUserName) {
 // The points must be 1 or 5. The bool selects the "un" key (true) or "n" (false).
 void GLXPlayerUser::sendPointUserReputation(char* name, std::int32_t points, bool byUserName) {
     if (name == nullptr || (points != 5 && points != 1)) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x44, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x44, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -282,7 +282,7 @@ void GLXPlayerUser::sendPointUserReputation(char* name, std::int32_t points, boo
 // Sent by POST. Without a key the observer gets (0x42, -100) and nothing is sent.
 void GLXPlayerUser::sendSetUserStoreData(char* key, char* value) {
     if (key == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x42, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x42, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -296,7 +296,7 @@ void GLXPlayerUser::sendSetUserStoreData(char* key, char* value) {
 // 0x83dc4c _ZN13GLXPlayerUser21sendRetrievalPasswordEPc
 void GLXPlayerUser::sendRetrievalPassword(char* name) {
     if (name == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x34, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x34, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -308,7 +308,7 @@ void GLXPlayerUser::sendRetrievalPassword(char* name) {
 // 0x83dd34 _ZN13GLXPlayerUser15sendChangeEmailEPcS0_S0_
 void GLXPlayerUser::sendChangeEmail(char* name, char* password, char* newEmail) {
     if (name == nullptr || password == nullptr || newEmail == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x33, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x33, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -323,7 +323,7 @@ void GLXPlayerUser::sendChangeEmail(char* name, char* password, char* newEmail) 
 void GLXPlayerUser::sendChangePassword(char* name, char* password, char* newPassword, char* repeat) {
     if (name == nullptr || password == nullptr || newPassword == nullptr || repeat == nullptr ||
         std::strcmp(newPassword, repeat) != 0) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x32, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x32, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -336,7 +336,7 @@ void GLXPlayerUser::sendChangePassword(char* name, char* password, char* newPass
 // 0x83df58 _ZN13GLXPlayerUser18sendChangeUserNameEPcS0_S0_b
 void GLXPlayerUser::sendChangeUserName(char* name, char* password, char* newName, bool keepOther) {
     if (name == nullptr || password == nullptr || newName == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x0e, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x0e, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -359,7 +359,7 @@ void GLXPlayerUser::sendGetUsedApp(char* name) {
 // 0x83e260 _ZN13GLXPlayerUser14sendGetCountryEPcS0_b
 void GLXPlayerUser::sendGetCountry(char* name, char* name2, bool flag) {
     if (name == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x36, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x36, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -377,7 +377,7 @@ void GLXPlayerUser::sendGetCountry(char* name, char* name2, bool flag) {
 // 0x83e158 _ZN13GLXPlayerUser17sendChangeCountryEPcS0_S0_
 void GLXPlayerUser::sendChangeCountry(char* name, char* password, char* country) {
     if (name == nullptr || password == nullptr || country == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x36, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x36, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -508,7 +508,7 @@ void GLXPlayerUser::sendGetUserState(char* name, bool byUserName) {
 // 0x83f2e0 _ZN13GLXPlayerUser20sendGetUserStoreDataEPcS0_b
 void GLXPlayerUser::sendGetUserStoreData(char* key, char* name, bool byUserName) {
     if (key == nullptr) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x40, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x40, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};
@@ -523,7 +523,7 @@ void GLXPlayerUser::sendGetUserStoreData(char* key, char* name, bool byUserName)
 // Both numbers must be non-negative (the original tests their OR).
 void GLXPlayerUser::sendGetUserGameList(char* name, std::int32_t first, std::int32_t count, bool byUserName) {
     if ((first | count) < 0) {
-        if (observer_ != nullptr) observer_->OnResponseError(0x3f, kInvalidArgument);
+        if (observer_ != nullptr) observer_->OnRequestFailure(0x3f, kInvalidArgument);
         return;
     }
     char buf[kRequestBytes] = {};

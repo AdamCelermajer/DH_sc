@@ -567,8 +567,8 @@ void TestCSSpawnEventsAndBlur() {
 void TestCSSpawnFocus() {
     CSSpawn spawn;
     Structs::CharAnim* row = AnimRow();
-    row->m_w32 = 42;
-    row->m_w35 = 43;
+    row->Spawn = 42;
+    row->Stunned = 43;
 
     // Focus from another state: flags become 0x241, the interactive bit is dropped, no stance (constant 0).
     Character* c = MakeCharacter(0x2000u);

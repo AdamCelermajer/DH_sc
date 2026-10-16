@@ -21,7 +21,7 @@ public:
 
     // K 0x34, 0x60cb24: when the box is dirty, the local box moved by the PARENT's absolute transformation.
     const core::aabbox3d<float>& getTransformedBoundingBox() const override;
-    // K 0xb8, 0x60cf88: builds the billboard's absolute transformation from the camera's. PARTIAL: see the source.
+    // K 0xb8, 0x60cf88: builds the billboard's absolute transformation from the camera's.
     void updateAbsolutePosition(bool includeChildren) override;
     // K 0xf4, 0x60cbb0: CSceneNode's box, then widened to a cube of the corners' larger radius on the axes the billboard turns about.
     void computeBoundingBox() override;

@@ -53,16 +53,17 @@ template <>
 struct MixinBackend<SGlobalParameterOwner> {
     using Owner = SGlobalParameterOwner;
 
-    // No dispatcher instances for G (see the file header).
-    static constexpr bool kPointerRows = false;
-    static constexpr bool kMatrixPtrGet = false;
-    static constexpr bool kMatrixPtrSet = false;
-    static constexpr bool kMatrixPtrGetCvt = false;
-    static constexpr bool kMatrixPtrSetCvt = false;
-    static constexpr bool kMatrixIdxGet = false;
-    static constexpr bool kMatrixIdxSet = false;
-    static constexpr bool kMatrixIdxGetCvt = false;
-    static constexpr bool kMatrixIdxSetCvt = false;
+    // The eight dispatchers handle every code: the pointer rows (12..15, 18) and the matrix code 11, which goes to the owner's matrix
+    // accessors in all of them (the Cvt dispatchers call the plain accessor, see the typed_impl header).
+    static constexpr bool kPointerRows = true;
+    static constexpr bool kMatrixPtrGet = true;
+    static constexpr bool kMatrixPtrSet = true;
+    static constexpr bool kMatrixPtrGetCvt = true;
+    static constexpr bool kMatrixPtrSetCvt = true;
+    static constexpr bool kMatrixIdxGet = true;
+    static constexpr bool kMatrixIdxSet = true;
+    static constexpr bool kMatrixIdxGetCvt = true;
+    static constexpr bool kMatrixIdxSetCvt = true;
 
     // ---- Pointer forms (T* out / const T* src, stride in bytes). Value types of part 1a.
 
@@ -132,24 +133,58 @@ struct MixinBackend<SGlobalParameterOwner> {
         return part1b::setParameterCvt(g.store(), id, index, src);
     }
 
-    // Intrusive index rows bound through part 1b: 0x5c48a0, 0x5c5be0, 0x5c5a40, 0x5c58ec.
+    // Intrusive index rows bound through part 1b: 0x5c48a0, 0x5c5be0, 0x5c5a40, 0x5c58ec (earlier) and 0x5be68c, 0x5bf7dc, 0x5beaa4,
+    // 0x5c3f40 (K1b). A getter takes the counted value into a null raw pointer and hands that use to the caller's pointer.
     static int indexSet(Owner& g, std::uint16_t id, std::uint32_t index, const boost::intrusive_ptr<ITexture>& src) {
+        return part1b::setParameter(g.store(), id, index, src.get());
+    }
+    static int indexSet(Owner& g, std::uint16_t id, std::uint32_t index, const boost::intrusive_ptr<CLight>& src) {
         return part1b::setParameter(g.store(), id, index, src.get());
     }
     static int indexSetCvt(Owner& g, std::uint16_t id, std::uint32_t index, const boost::intrusive_ptr<CLight>& src) {
         return part1b::setParameterCvt(g.store(), id, index, src.get());
     }
+    static int indexSetCvt(Owner& g, std::uint16_t id, std::uint32_t index, const boost::intrusive_ptr<ITexture>& src) {
+        ITexture* raw = src.get();
+        return part1b::setParameterCvt(g.store(), id, index, raw);
+    }
     static int indexGet(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<CLight>& out) {
-        CLight* p = out.get();
+        CLight* p = nullptr;
         const int ok = part1b::getParameter(g.store(), id, index, p);
-        out = boost::intrusive_ptr<CLight>(p);
+        if (ok != 0) out = boost::intrusive_ptr<CLight>(p);
         return ok;
     }
     static int indexGetCvt(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<CLight>& out) {
-        CLight* p = out.get();
+        CLight* p = nullptr;
         const int ok = part1b::getParameterCvt(g.store(), id, index, p);
-        out = boost::intrusive_ptr<CLight>(p);
+        if (ok != 0) out = boost::intrusive_ptr<CLight>(p);
         return ok;
+    }
+    static int indexGet(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<ITexture>& out) {
+        ITexture* p = nullptr;
+        const int ok = part1b::getParameter(g.store(), id, index, p);
+        if (ok != 0) out = boost::intrusive_ptr<ITexture>(p);
+        return ok;
+    }
+    static int indexGetCvt(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<ITexture>& out) {
+        ITexture* p = nullptr;
+        const int ok = part1b::getParameterCvt(g.store(), id, index, p);
+        if (ok != 0) out = boost::intrusive_ptr<ITexture>(p);
+        return ok;
+    }
+
+    // Pointer forms of the texture rows and the light getter (0x5c24d8, 0x5c2198, 0x5c0c94, 0x5c0bd4).
+    static int arrayGet(const Owner& g, std::uint16_t id, boost::intrusive_ptr<ITexture>* out, int stride) {
+        return part1b::getParameterArray(g.store(), id, reinterpret_cast<ITexture**>(out), stride);
+    }
+    static int arrayGet(const Owner& g, std::uint16_t id, boost::intrusive_ptr<CLight>* out, int stride) {
+        return part1b::getParameterArray(g.store(), id, reinterpret_cast<CLight**>(out), stride);
+    }
+    static int arraySet(Owner& g, std::uint16_t id, const boost::intrusive_ptr<ITexture>* src, int stride) {
+        return part1b::setParameterArray(g.store(), id, reinterpret_cast<ITexture* const*>(src), stride);
+    }
+    static int arraySetCvt(Owner& g, std::uint16_t id, const boost::intrusive_ptr<ITexture>* src, int stride) {
+        return part1b::setParameterArrayCvt(g.store(), id, reinterpret_cast<ITexture* const*>(src), stride);
     }
 };
 
@@ -179,17 +214,46 @@ GLITCH_BIND_G_INSTANTIATE_VALUE(vector4d<float>)
 GLITCH_BIND_G_INSTANTIATE_VALUE(SColor)
 GLITCH_BIND_G_INSTANTIATE_VALUE(SColorf)
 
-// Intrusive rows bound through part 1b (8 of the 16 G intrusive rows).
-template bool GLITCH_BIND_G_MIXIN::getParameterCvt<intrusive_ptr<ITexture>>(uint16_t, intrusive_ptr<ITexture>*, int) const;  // 0x5c4fa8
-template bool GLITCH_BIND_G_MIXIN::getParameterCvt<intrusive_ptr<CLight>>(uint16_t, intrusive_ptr<CLight>*, int) const;      // 0x5c518c
-template bool GLITCH_BIND_G_MIXIN::setParameter<intrusive_ptr<CLight>>(uint16_t, const intrusive_ptr<CLight>*, int);         // 0x5c568c
-template bool GLITCH_BIND_G_MIXIN::setParameterCvt<intrusive_ptr<CLight>>(uint16_t, const intrusive_ptr<CLight>*, int);      // 0x5c540c
-template bool GLITCH_BIND_G_MIXIN::setParameter<intrusive_ptr<ITexture>>(uint16_t, uint32_t, const intrusive_ptr<ITexture>&);  // 0x5c48a0
-template bool GLITCH_BIND_G_MIXIN::setParameterCvt<intrusive_ptr<CLight>>(uint16_t, uint32_t, const intrusive_ptr<CLight>&);   // 0x5c5be0
-template bool GLITCH_BIND_G_MIXIN::getParameter<intrusive_ptr<CLight>>(uint16_t, uint32_t, intrusive_ptr<CLight>&) const;      // 0x5c5a40
-template bool GLITCH_BIND_G_MIXIN::getParameterCvt<intrusive_ptr<CLight>>(uint16_t, uint32_t, intrusive_ptr<CLight>&) const;   // 0x5c58ec
+// The pointer rows: the sixteen forms of the typed table for intrusive_ptr<ITexture> and intrusive_ptr<CLight>.
+#define GLITCH_BIND_G_INSTANTIATE_POINTER(P)                                                    \
+    template bool GLITCH_BIND_G_MIXIN::getParameter<P>(uint16_t, P*, int) const;                \
+    template bool GLITCH_BIND_G_MIXIN::getParameterCvt<P>(uint16_t, P*, int) const;             \
+    template bool GLITCH_BIND_G_MIXIN::setParameter<P>(uint16_t, const P*, int);                \
+    template bool GLITCH_BIND_G_MIXIN::setParameterCvt<P>(uint16_t, const P*, int);             \
+    template bool GLITCH_BIND_G_MIXIN::getParameter<P>(uint16_t, uint32_t, P&) const;           \
+    template bool GLITCH_BIND_G_MIXIN::getParameterCvt<P>(uint16_t, uint32_t, P&) const;        \
+    template bool GLITCH_BIND_G_MIXIN::setParameter<P>(uint16_t, uint32_t, const P&);           \
+    template bool GLITCH_BIND_G_MIXIN::setParameterCvt<P>(uint16_t, uint32_t, const P&);
+
+GLITCH_BIND_G_INSTANTIATE_POINTER(intrusive_ptr<ITexture>)
+GLITCH_BIND_G_INSTANTIATE_POINTER(intrusive_ptr<CLight>)
+
+// The eight dispatchers (value-type codes 1..18).
+template class GLITCH_BIND_G_MIXIN;
+
+// Matrix accessors of the owner (0x5c091c, 0x5c09ec, 0x5bee04, 0x5beed8) and the three setParameterElement rows.
+bool SGlobalParameterOwner::getParameter(std::uint16_t id, core::CMatrix4<float>* out, int stride) const {
+    return part1b::getParameterArray(m_store, id, out, stride) != 0;
+}
+bool SGlobalParameterOwner::getParameter(std::uint16_t id, std::uint32_t index, core::CMatrix4<float>& out) const {
+    return part1b::getParameter(m_store, id, index, out) != 0;
+}
+bool SGlobalParameterOwner::setParameter(std::uint16_t id, const core::CMatrix4<float>* src, int stride) {
+    return part1b::setParameterArray(m_store, id, src, stride) != 0;
+}
+bool SGlobalParameterOwner::setParameter(std::uint16_t id, std::uint32_t index, const core::CMatrix4<float>& src) {
+    return part1b::setParameter(m_store, id, index, src) != 0;
+}
+template <typename T>
+bool SGlobalParameterOwner::setParameterElement(std::uint16_t id, std::uint32_t index, std::uint32_t component, T value) {
+    return part1b::setParameterElement(m_store, id, index, component, value) != 0;
+}
+template bool SGlobalParameterOwner::setParameterElement<std::uint8_t>(std::uint16_t, std::uint32_t, std::uint32_t, std::uint8_t);  // 0x5becc4
+template bool SGlobalParameterOwner::setParameterElement<int>(std::uint16_t, std::uint32_t, std::uint32_t, int);                    // 0x5beb84
+template bool SGlobalParameterOwner::setParameterElement<float>(std::uint16_t, std::uint32_t, std::uint32_t, float);                // 0x5c0aa8
 
 #undef GLITCH_BIND_G_INSTANTIATE_VALUE
+#undef GLITCH_BIND_G_INSTANTIATE_POINTER
 #undef GLITCH_BIND_G_MIXIN
 
 }  // namespace glitch::video::detail

@@ -831,8 +831,8 @@ void Level::Update(bool forceUpdate) {
             const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
             while (picked == nullptr || std::strcmp(picked, m_levelName.c_str()) == 0) {
                 const unsigned int row = count != 0 ? Random::GetRandom(static_cast<int>(count), false) : 0;
-                if (levels[row].m_w1) {  // row +0x04
-                    picked = static_cast<const char*>(levels[row].m_w8);  // row +0x20
+                if (levels[row].Dbg_IsStable) {  // row +0x04
+                    picked = static_cast<const char*>(levels[row].LevelFile);  // row +0x20
                 }
             }
             DBG_DisplayLoadLevelStats(picked);
@@ -934,16 +934,16 @@ bool Level::CanMoveTowards(const Point3D<float>& from, const Point3D<float>& dir
             }
         }
     };
-    assertNonNegative(settings.m_w7, "settings.CoopCamLimits_Sides >= 0.0f", 96);
-    assertNonNegative(settings.m_w8, "settings.CoopCamLimits_Top >= 0.0f", 97);
-    assertNonNegative(settings.m_w6, "settings.CoopCamLimits_Bottom >= 0.0f", 98);
+    assertNonNegative(settings.CoopCamLimits_Sides, "settings.CoopCamLimits_Sides >= 0.0f", 96);
+    assertNonNegative(settings.CoopCamLimits_Top, "settings.CoopCamLimits_Top >= 0.0f", 97);
+    assertNonNegative(settings.CoopCamLimits_Bottom, "settings.CoopCamLimits_Bottom >= 0.0f", 98);
     for (int index = 0; index < 4; ++index) {
         Character* character = playerManager->GetPlayer(index, false)->unk_660;      // PlayerInfo +0x660
         if (character && !character->IsDead()) {
             Point2D<float> screen{};
             CameraBase::GetScreenCoord(character->m_position, screen);                // Character +0x160
-            if (-settings.m_w7 >= screen.X || settings.m_w7 <= screen.X || -settings.m_w6 >= screen.Y ||
-                screen.Y >= settings.m_w8) {
+            if (-settings.CoopCamLimits_Sides >= screen.X || settings.CoopCamLimits_Sides <= screen.X || -settings.CoopCamLimits_Bottom >= screen.Y ||
+                screen.Y >= settings.CoopCamLimits_Top) {
                 return false;
             }
         }
@@ -966,15 +966,15 @@ void Level::UpdateCameraZoom() {
     }
     const auto* settings = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
     // Level_Players.cpp:36..38 asserts. gAssertLevel 2 traps in the original; only the message is reproduced here.
-    if (settings->m_w7 < 0.0f && gAssertLevel == 1) {
+    if (settings->CoopCamLimits_Sides < 0.0f && gAssertLevel == 1) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "settings.CoopCamLimits_Sides >= 0.0f",
                      "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level_Players.cpp", 36);
     }
-    if (settings->m_w8 < 0.0f && gAssertLevel == 1) {
+    if (settings->CoopCamLimits_Top < 0.0f && gAssertLevel == 1) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "settings.CoopCamLimits_Top >= 0.0f",
                      "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level_Players.cpp", 37);
     }
-    if (settings->m_w6 < 0.0f && gAssertLevel == 1) {
+    if (settings->CoopCamLimits_Bottom < 0.0f && gAssertLevel == 1) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "settings.CoopCamLimits_Bottom >= 0.0f",
                      "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level_Players.cpp", 38);
     }
@@ -985,23 +985,23 @@ void Level::UpdateCameraZoom() {
         if (character && !character->IsDead()) {
             Point2D<float> screen;
             CameraBase::GetScreenCoord(character->m_position, screen);
-            if (settings->m_w7 - std::fabs(screen.X) < headroom) {
-                headroom = settings->m_w7 - std::fabs(screen.X);
+            if (settings->CoopCamLimits_Sides - std::fabs(screen.X) < headroom) {
+                headroom = settings->CoopCamLimits_Sides - std::fabs(screen.X);
             }
-            if (headroom > settings->m_w8 - screen.Y) {
-                headroom = settings->m_w8 - screen.Y;
+            if (headroom > settings->CoopCamLimits_Top - screen.Y) {
+                headroom = settings->CoopCamLimits_Top - screen.Y;
             }
-            if (headroom > screen.Y + settings->m_w6) {
-                headroom = screen.Y + settings->m_w6;
+            if (headroom > screen.Y + settings->CoopCamLimits_Bottom) {
+                headroom = screen.Y + settings->CoopCamLimits_Bottom;
             }
         }
     }
-    const float current = settings->m_w3;
+    const float current = settings->AutoZoomRefPoint;
     const float delta = std::fabs(current - headroom);
     if (current > headroom) {
-        m_camera->m_zoomTarget -= delta * settings->m_w4;
+        m_camera->m_zoomTarget -= delta * settings->AutoZoomStep;
     } else if (current < headroom) {
-        m_camera->m_zoomTarget += delta * settings->m_w4;
+        m_camera->m_zoomTarget += delta * settings->AutoZoomStep;
     }
 }
 

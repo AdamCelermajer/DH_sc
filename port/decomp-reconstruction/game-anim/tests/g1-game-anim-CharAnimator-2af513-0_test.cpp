@@ -147,14 +147,14 @@ int main() {
         std::vector<Structs::AnimStep> steps0(5);
         std::vector<Structs::AnimStep> steps1(3);
         std::vector<Structs::AnimStep> steps2(2);
-        for (std::size_t i = 0; i < steps0.size(); ++i) steps0[i].m_w2 = 100 + static_cast<std::int32_t>(i);
-        for (std::size_t i = 0; i < steps1.size(); ++i) steps1[i].m_w2 = 200 + static_cast<std::int32_t>(i);
-        for (std::size_t i = 0; i < steps2.size(); ++i) steps2[i].m_w2 = 300 + static_cast<std::int32_t>(i);
+        for (std::size_t i = 0; i < steps0.size(); ++i) steps0[i].Anim = 100 + static_cast<std::int32_t>(i);
+        for (std::size_t i = 0; i < steps1.size(); ++i) steps1[i].Anim = 200 + static_cast<std::int32_t>(i);
+        for (std::size_t i = 0; i < steps2.size(); ++i) steps2[i].Anim = 300 + static_cast<std::int32_t>(i);
 
         std::vector<Structs::AnimTpl> records(3);
-        records[0].m_w2 = 5;  records[0].m_w3 = steps0.data(); records[0].m_w4 = 0;  // unique, 5 steps
-        records[1].m_w2 = 3;  records[1].m_w3 = steps1.data(); records[1].m_w4 = 1;  // sequence, 3 steps
-        records[2].m_w2 = 2;  records[2].m_w3 = steps2.data(); records[2].m_w4 = 2;  // random, 2 steps
+        records[0].StepsSize = 5;  records[0].Steps = steps0.data(); records[0].Type = 0;  // unique, 5 steps
+        records[1].StepsSize = 3;  records[1].Steps = steps1.data(); records[1].Type = 1;  // sequence, 3 steps
+        records[2].StepsSize = 2;  records[2].Steps = steps2.data(); records[2].Type = 2;  // random, 2 steps
         Arrays::AnimTable::members = reinterpret_cast<std::uint8_t*>(records.data());
 
         CharAnimator a;

@@ -81,13 +81,13 @@ public:
 
     // The platform slots, all pure in the original base. Names and signatures are LCAndroidSocket's
     // overrides, shifted to this class's vptr.
-    virtual hostent* GetHostByName(const char* name) = 0;                              // +0x20
+    virtual hostent* GetHostByName(char* name) = 0;                              // +0x20
     virtual void* GetHostName(char** out) = 0;                                         // +0x24
     virtual bool CreateSocket() = 0;                                                   // +0x28
     virtual int GetLastError() = 0;                                                    // +0x2c
     virtual bool SetNonBlocking() = 0;                                                 // +0x30
     virtual bool Connect() = 0;                                                        // +0x34
-    virtual bool ConnectByName(const char* name) = 0;                                  // +0x38
+    virtual bool ConnectByName(char* name) = 0;                                  // +0x38
     virtual bool CloseSocket() = 0;                                                    // +0x3c
     virtual int Select(XSocketSelectFlag flag) = 0;                                    // +0x40
     virtual int Send(const char* data, int length) = 0;                                // +0x44

@@ -81,36 +81,35 @@ DecoderMPC8Cursor::~DecoderMPC8Cursor() {
 }
 
 // 0x86fe00 _ZN3vox17DecoderMPC8Cursor4SeekEj
-// Sample 0 is refused. A demuxer seek that fails is reported as -1. A successful seek resets
-// the position inside the buffer's count (sample_pos_), as the original does.
+// Sample 0 is refused. Any other value seeks the demuxer to sample 0: the listing loads r2 = r3 = 0 (the 64-bit destsample of
+// mpc_demux_seek_sample, which takes it in r2:r3) and never reads the requested sample again. A demuxer seek that fails is
+// reported as -1. A successful seek resets sample_pos_, as the original does.
 int DecoderMPC8Cursor::Seek(unsigned int sample) {
     if (sample == 0) {
         return -1;
     }
-    if (mpc_demux_seek_sample(demux_, sample, 0, 0) != 0) {
+    if (mpc_demux_seek_sample(demux_, 0) != 0) {
         return -1;
     }
     sample_pos_ = 0;
     return 0;
 }
 
-// 0x86fe38 _ZN3vox17DecoderMPC8Cursor6DecodeEPvi (partial: two items)
+// 0x86fe38 _ZN3vox17DecoderMPC8Cursor6DecodeEPvi
 // Verified against the ARM listing (0x86FE38..0x8700A0): wanted = bytes / (channels * (bits >> 3))
 // with the idiv-by-zero result 0; the buffered part copies through ConvertFloatToShort (or memcpy
 // when bits is 32) either min(wanted, avail) frames or all avail frames; the demuxer loop stores
 // the PCM buffer in the frame block, calls mpc_demux_decode, reads the sample count from the frame
-// block, sets buffer_pos_ = 0 and buffer_frames_ = the count, keeps the pre-update sample_pos_ in
-// r1 (which is the restart seek's argument), advances buffer_pos_ and sample_pos_ by the frame
+// block, sets buffer_pos_ = 0 and buffer_frames_ = the count, advances buffer_pos_ and sample_pos_ by the frame
 // count or by the remaining count when the block overruns, subtracts that count from remaining,
 // compares the new sample position with length_frames (+0x10) and continues while it differs and
-// remaining is positive; at the length it tests the loop byte (+0x1c), seeks and clears
-// sample_pos_. The return is (wanted - remaining) * channels * (bits >> 3).
-// Deviation 1 (partial): on the block-overrun path the restart seek's r1 is clobbered by the
-// ConvertFloatToShort/memcpy call before it, so the listing has no recoverable value there; the
-// port passes the pre-update sample position.
-// Deviation 2 (partial): the listing's loop test is on the remaining count alone, so a demuxer
-// that returns 0 samples with frames left is called again for ever (a truncated stream spins);
-// the port breaks out when the sample count is not positive.
+// remaining is positive; at the length it tests the loop byte (+0x1c), seeks the demuxer back to sample 0
+// (mpc_demux_seek_sample takes its 64-bit destsample in r2:r3 = 0; the decompiler's "r1" argument is the ABI padding
+// register, so the clobbered r1 of the overrun path is not an input) and clears sample_pos_. The return is
+// (wanted - remaining) * channels * (bits >> 3).
+// Deviation (undefined behaviour): the listing's loop test is on the remaining count alone, so a demuxer that returns 0
+// samples with frames left is called again for ever (a truncated stream spins); the port breaks out when the sample
+// count is not positive.
 int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
     const std::int32_t channels = params_.channels;
     const std::int32_t bits = params_.bits_per_sample;
@@ -166,7 +165,7 @@ int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
         }
 
         // The stream has ended.
-        if (!loop_ || mpc_demux_seek_sample(demux_, prev, 0, 0) != 0) {
+        if (!loop_ || mpc_demux_seek_sample(demux_, 0) != 0) {
             break;
         }
         sample_pos_ = 0;

@@ -110,8 +110,8 @@ void ResetRecords() {
     Ch()->CharStateMachine::m_stateFlags = 0x100u;
 
     // CharAnim row for GetCharAnimTableId: m_w25 (+0x64) is the plain anim, m_w32 (+0x80) the -1 anim.
-    Row()->m_w25 = 7;
-    Row()->m_w32 = 9;
+    Row()->PreSpawn = 7;
+    Row()->Spawn = 9;
 
     Group()->m_allMembersDead = 2;
 }
@@ -275,7 +275,7 @@ void TestFocusPlainAnim() {
 // OnFocus with m_w25 == -1 and the stance bit set: ANIM_Set(m_w32 + GetAnimStance()) and ANIM_SetSpeed(0.0).
 void TestFocusMinusOneStance() {
     ResetRecords();
-    Row()->m_w25 = -1;
+    Row()->PreSpawn = -1;
     g_constBits = 1;
     g_stance = 100;
     CSPreSpawn state;
@@ -287,7 +287,7 @@ void TestFocusMinusOneStance() {
 // OnFocus with m_w25 == -1 and the stance bit clear: ANIM_Set(m_w32) with no stance offset.
 void TestFocusMinusOneNoStance() {
     ResetRecords();
-    Row()->m_w25 = -1;
+    Row()->PreSpawn = -1;
     g_constBits = 0;
     g_stance = 100;
     CSPreSpawn state;

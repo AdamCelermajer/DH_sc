@@ -224,7 +224,7 @@ void NativeGoToZone(const gameswf::fn_call& call) {
         return;
     }
     const auto* rows = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
-    const char* levelFile = static_cast<const char*>(rows[levelIndex].m_w8);
+    const char* levelFile = static_cast<const char*>(rows[levelIndex].LevelFile);
     const int difficulty = app.m_playerManager->GetLocalPlayer(0, true)->unk_660->SG_GetGameDifficulty();
     gameswf::as_value args[4];
     args[0].set_bool(false);
@@ -436,11 +436,11 @@ void NativeGetWorldMapLocations(const gameswf::fn_call& call) {
         for (std::uint32_t index = 0; index < Arrays::FastTravelList::size; ++index) {
             const Structs::FastTravelDestination& row = rows[index];
             gameswf::as_object* object = nativeobj::NewObject(call);
-            nativeobj::SetString(object, "Name", strings->getString(row.m_w6));
-            nativeobj::SetNumber(object, "Importance", static_cast<double>(row.m_w5));
-            nativeobj::SetString(object, "LevelName", static_cast<const char*>(row.m_w4));
-            nativeobj::SetNumber(object, "EntryPointId", static_cast<double>(row.m_w2));
-            nativeobj::SetString(object, "Description", strings->getString(row.m_w1));
+            nativeobj::SetString(object, "Name", strings->getString(row.StringId));
+            nativeobj::SetNumber(object, "Importance", static_cast<double>(row.LocationType));
+            nativeobj::SetString(object, "LevelName", static_cast<const char*>(row.LevelName));
+            nativeobj::SetNumber(object, "EntryPointId", static_cast<double>(row.EntryPointId));
+            nativeobj::SetString(object, "Description", strings->getString(row.DescriptionId));
             nativeobj::SetBool(object, "Visible", ch->SG_GetFastTravelIdUnlocked(static_cast<int>(index), -1));
             nativeobj::PushObject(array, object);
         }
@@ -693,7 +693,7 @@ void NativeGetMultiplayerGameRooms(const gameswf::fn_call& call) {
             StringManager* strings = ApplicationGetStringManager();
             std::string actText;
             strings->parse(actText, strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "MENU_ACT")), act);
-            actText += std::string(" ") + strings->getString(quest->m_w1);
+            actText += std::string(" ") + strings->getString(quest->Name);
             char roomName[32] = {};
             const unsigned int mode = static_cast<unsigned int>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_) - 3u;
             if (mode <= 1u) {
@@ -748,21 +748,21 @@ void NativeGetSkillDetails(const gameswf::fn_call& call) {
         const Structs::Skill* row = static_cast<const Structs::Skill*>(ch->GetCharSkill(skill));
         // The row's text id (with the current faery's offset for a faery skill), or the empty string for an id below 0.
         auto rowText = [&](int textId) -> const char* {
-            if (row->m_w6) {  // +0x18: the text depends on the current faery
+            if (row->FairieDependantText) {  // +0x18: the text depends on the current faery
                 if (textId == -1) {
                     return "";
                 }
                 const int faeryId = ch->SG_GetCurrentFaerieId(-1);
-                textId += static_cast<const Structs::Faery*>(ch->GetCharFaery(faeryId))->m_w2;
+                textId += static_cast<const Structs::Faery*>(ch->GetCharFaery(faeryId))->Elemental;
             }
             return textId >= 0 ? strings->getString(textId) : "";
         };
         bool unlocked;
-        if (ch->GetLevel() >= row->m_w8) {  // +0x20
+        if (ch->GetLevel() >= row->Level) {  // +0x20
             if (ch->SG_GetSkillLevel(static_cast<unsigned int>(skill)) <= 0) {
                 currentFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_NEEDS_SKILL_POINTS"));
             } else {
-                currentFormat = rowText(row->m_w12);  // +0x30
+                currentFormat = rowText(row->SkillCurrLevel);  // +0x30
             }
             int maxLevel = constants->getConstant("CharacterDesign", "MaxSkillLevelBNormal");
             if (ch->SG_GetGameDifficultyUnlocked() == 1) {
@@ -775,15 +775,15 @@ void NativeGetSkillDetails(const gameswf::fn_call& call) {
             } else if (!ch->CanIncrementSkill(skill)) {
                 nextFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING"));
             } else {
-                nextFormat = rowText(row->m_w17);  // +0x44
+                nextFormat = rowText(row->SkillNextLevel);  // +0x44
             }
             VarArgs* lists[2] = {&currentArgs, &nextArgs};
             for (int step = 0; step < 2; ++step) {
                 float info = 0.0f;
                 ch->AI_SkillInfo(static_cast<unsigned int>(skill),
                                  static_cast<unsigned int>(step + ch->SG_GetSkillLevel(static_cast<unsigned int>(skill))), info);
-                const std::uint32_t count = row->m_w3;  // +0x0c
-                const std::int32_t* ids = static_cast<const std::int32_t*>(row->m_w4);  // +0x10
+                const std::uint32_t count = row->DisplayPropsSize;  // +0x0c
+                const std::int32_t* ids = static_cast<const std::int32_t*>(row->DisplayProps);  // +0x10
                 for (std::uint32_t i = 0; i < count; ++i) {
                     const int value = ch->CharProperties::_GetProperty(CharProperties::s_temp, ids[i]);
                     VarArgs::Variant variant;
@@ -797,20 +797,20 @@ void NativeGetSkillDetails(const gameswf::fn_call& call) {
         } else {
             currentFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL"));
             VarArgs::Variant variant;
-            variant.number = static_cast<float>(row->m_w8);
-            variant.integer = row->m_w8;
+            variant.number = static_cast<float>(row->Level);
+            variant.integer = row->Level;
             variant.text = nullptr;
             currentArgs.m_variants.push_back(variant);
             unlocked = false;
         }
         strings->parseEx(currentText, currentFormat.c_str(), currentArgs);
         strings->parseEx(nextText, nextFormat.c_str(), nextArgs);
-        nativeobj::SetString(object, "SkillName", row->m_w16 >= 0 ? strings->getString(row->m_w16) : "");
-        nativeobj::SetString(object, "SkillDescription", row->m_w13 >= 0 ? strings->getString(row->m_w13) : "");
+        nativeobj::SetString(object, "SkillName", row->SkillName >= 0 ? strings->getString(row->SkillName) : "");
+        nativeobj::SetString(object, "SkillDescription", row->SkillDescription >= 0 ? strings->getString(row->SkillDescription) : "");
         nativeobj::SetString(object, "SkillCurrLevel", currentText.c_str());
         nativeobj::SetString(object, "SkillNextLevel", nextText.c_str());
-        nativeobj::SetBool(object, "SkillAssignable", row->m_w11);
-        nativeobj::SetString(object, "SkillIcon", static_cast<const char*>(row->m_w15));
+        nativeobj::SetBool(object, "SkillAssignable", row->SkillAssignable);
+        nativeobj::SetString(object, "SkillIcon", static_cast<const char*>(row->SkillIcon));
         nativeobj::SetNumber(object, "SkillLevel", static_cast<double>(ch->SG_GetSkillLevel(static_cast<unsigned int>(skill))));
         nativeobj::SetNumber(object, "SkillAssignedToSlot", static_cast<double>(ch->SG_GetSkillSlot(static_cast<unsigned int>(skill))));
         nativeobj::SetBool(object, "SkillUnlocked", unlocked);

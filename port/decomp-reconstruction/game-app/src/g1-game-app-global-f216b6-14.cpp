@@ -147,11 +147,11 @@ void NativeGetPlayerHUDInfos(const gameswf::fn_call& call) {
         auto percent = [](int value, int maximum) { return maximum != 0 ? 100 * value / maximum : 0; };
         nativeobj::SetBool(object, "PlayerActive", true);
         nativeobj::SetNumber(object, "LEVEL", static_cast<double>(ch->PROPS_GetInt(19, false)));
-        nativeobj::SetNumber(object, "HP_PCT", static_cast<double>(percent(sheet.m_w37, sheet.m_w39)));
+        nativeobj::SetNumber(object, "HP_PCT", static_cast<double>(percent(sheet.HP, sheet.Max_HP)));
         nativeobj::SetNumber(object, "HP_LOWPCT",
                              static_cast<double>(ApplicationGetPyDataConstants()->getConstant("CharacterDesign", "LowHealthPercentage")));
-        nativeobj::SetNumber(object, "MP_PCT", static_cast<double>(percent(sheet.m_w42, sheet.m_w44)));
-        nativeobj::SetNumber(object, "XP_PCT", static_cast<double>(percent(sheet.m_w34, sheet.m_w35)));
+        nativeobj::SetNumber(object, "MP_PCT", static_cast<double>(percent(sheet.MP, sheet.Max_MP)));
+        nativeobj::SetNumber(object, "XP_PCT", static_cast<double>(percent(sheet.XP, sheet.Max_XP)));
         nativeobj::SetNumber(object, "SPELL_PCT", static_cast<double>(static_cast<int>(spellInfo * 100.0f)));
         nativeobj::SetBool(object, "SPELL_MP", ch->AI_IsSpellUsable());
         nativeobj::SetNumber(object, "SKILL1_PCT", static_cast<double>(static_cast<int>(skillInfo[0] * 100.0f)));
@@ -207,7 +207,7 @@ void NativeGetSaveIDsList(const gameswf::fn_call& call) {
         PlayerSavegame save(static_cast<std::uint32_t>(slot), 1, false);
         if (save.m_playerClass >= 0 && static_cast<std::uint32_t>(save.m_playerClass) < Arrays::CharacterTable::size) {
             const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
-            const std::string className = strings->getString(rows[save.m_playerClass].m_w6);
+            const std::string className = strings->getString(rows[save.m_playerClass].ClassString);
             char level[16];
             std::snprintf(level, sizeof level, "%d", save.m_playerLevel);
             std::string classLevel = className + " ";
@@ -236,7 +236,7 @@ void NativeGetSaveIDsList(const gameswf::fn_call& call) {
             const char* location = "invalid";
             if (levelId != -1) {
                 const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
-                location = strings->getString(levels[levelId].m_w9);
+                location = strings->getString(levels[levelId].LevelName);
             }
             nativeobj::SetString(object, "PlayerLocation", location);
             nativeobj::SetString(object, "PlayerLastSave", lastSave);
@@ -327,8 +327,8 @@ void NativeGetMultiplayerQuestInfo(const gameswf::fn_call& call) {
             strings->parse(actText, strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "MENU_ACT")), act);
             const Structs::v2Quest* row = reinterpret_cast<const Structs::v2Quest*>(Arrays::v2Quests::members) + (questRow < 0 ? 50 : questRow);
             nativeobj::SetString(object, "act", actText.c_str());
-            nativeobj::SetString(object, "questName", strings->getString(row->m_w1));
-            nativeobj::SetString(object, "questDesc", strings->getString(row->m_w2));
+            nativeobj::SetString(object, "questName", strings->getString(row->Name));
+            nativeobj::SetString(object, "questDesc", strings->getString(row->Description));
         }
     } else {
         nativeobj::SetString(object, "act", "");
@@ -379,7 +379,7 @@ void NativeGetMultiplayerRoomInfo(const gameswf::fn_call& call) {
                 return "";
             }
             const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
-            return strings->getString(rows[classIndex].m_w6);
+            return strings->getString(rows[classIndex].ClassString);
         };
         if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
             CMatchingGLLive* matching = static_cast<CMatchingGLLive*>(CMatching::Get());

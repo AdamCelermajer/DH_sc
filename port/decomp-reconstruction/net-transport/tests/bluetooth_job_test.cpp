@@ -26,7 +26,7 @@ int main() {
     CHECK(job.Stop() == 1);
     CHECK(job.IsCurrectThreadRunning());
     CHECK(job.Start() == 0);
-    CHECK(job.Start() == -1);  // already running
+    CHECK(job.Start() == 0);  // a second start runs another detached worker, as the original does
     std::printf("%s\n", failures ? "bluetooth_job: FAILED" : "bluetooth_job: ok");
     return failures != 0;
 }

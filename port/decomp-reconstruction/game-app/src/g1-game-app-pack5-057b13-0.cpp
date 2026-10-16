@@ -199,7 +199,7 @@ bool Script_AwardTrophy::IsBlocking() const {
 void Script_AwardTrophy::Execute(bool /*skipping*/, int /*module*/) {
     const Structs::AwardTrophy* record = static_cast<const Structs::AwardTrophy*>(m_args);
     if (record != nullptr) {
-        TrophyManager::s_instance->UnlockTrophy(record->m_w2);
+        TrophyManager::s_instance->UnlockTrophy(record->Trophy);
     }
 }
 
@@ -247,9 +247,9 @@ void Script_CONSOLE::Execute(bool /*skipping*/, int /*module*/) {
     const Structs::CONSOLE* record = static_cast<const Structs::CONSOLE*>(m_args);
     TraceScriptCmd();
     const bool displayAsDialog = ReadScriptSwitch("DisplayScriptConsoleAsDialog");
-    if (displayAsDialog && record->m_w3 != nullptr) {
+    if (displayAsDialog && record->Text != nullptr) {
         const int style = ApplicationGetInstance().m_pyDataConstants->getConstant("DialogStyles", "BottomBubbleAvatarLeft");
-        DialogMsg message(std::string("Console Text"), std::string(record->m_w3), style, -1);
+        DialogMsg message(std::string("Console Text"), std::string(record->Text), style, -1);
         MenuMessageManager<DialogMsg, 1>::s_inst.EnqueueMessage(message, 0, true);
     }
 }
@@ -284,7 +284,7 @@ void Script_ChangeLevel::Execute(bool /*skipping*/, int /*module*/) {
     }
     int levelIndex = -1;
     for (int i = 0; i < static_cast<int>(Arrays::LevelList::size); ++i) {
-        if (std::strcmp(record->m_w4, Arrays::LevelList::m_memberNames.names[i]) == 0) {
+        if (std::strcmp(record->Level, Arrays::LevelList::m_memberNames.names[i]) == 0) {
             levelIndex = i;
             break;
         }
@@ -294,9 +294,9 @@ void Script_ChangeLevel::Execute(bool /*skipping*/, int /*module*/) {
     if (!GetOnlineGameFlag() || dword_99F76C->GetLocalPlayer(0, true)->unk_660 == dword_99F76C->GetHostingPlayer()->unk_660) {
         if (levelIndex >= 0) {
             const auto* rows = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
-            const char* levelFile = static_cast<const char*>(rows[levelIndex].m_w8);
+            const char* levelFile = static_cast<const char*>(rows[levelIndex].LevelFile);
             const int slot = dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_GetSlot();
-            app.LoadLevel(levelFile, record->m_w2, static_cast<std::uint32_t>(slot), true, true, difficulty, false, 0, 0);
+            app.LoadLevel(levelFile, record->Entrypoint, static_cast<std::uint32_t>(slot), true, true, difficulty, false, 0, 0);
         }
     }
 }
@@ -324,11 +324,11 @@ bool Script_CloseDoor::IsBlocking() const {
 void Script_CloseDoor::Execute(bool skipping, int module) {
     TraceScriptCmd();
     const Structs::CloseDoor* record = static_cast<const Structs::CloseDoor*>(m_args);
-    ObjectHandle doorHandle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle doorHandle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = doorHandle.GetObject(false);
     if (object != nullptr && object->m_goId == ObjectBase::GO_DOOR) {
         m_door = static_cast<Door*>(object);
-        m_instant = record->m_w4;
+        m_instant = record->Wait;
         m_door->Close(skipping);
     } else {
         m_door = nullptr;
@@ -352,7 +352,7 @@ bool Script_DeactivateTriggerPlate::IsBlocking() const {
 void Script_DeactivateTriggerPlate::Execute(bool /*skipping*/, int module) {
     TraceScriptCmd();
     const Structs::DeactivateTriggerPlate* record = static_cast<const Structs::DeactivateTriggerPlate*>(m_args);
-    ObjectHandle plateHandle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle plateHandle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = plateHandle.GetObject(false);
     if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == 18) {
         m_plate = static_cast<GameObject*>(object);
@@ -392,14 +392,14 @@ void Script_DoTutorial::Execute(bool /*skipping*/, int /*module*/) {
         return;
     }
     SavegameManager* savegame = dword_99F778;
-    const std::int32_t index = record->m_w4;
+    const std::int32_t index = record->Tutorial;
     if (savegame->m_tutorials[index] == 0) {
         return;
     }
     if (GetOnlineGameFlag()) {
         return;
     }
-    const int scriptId = ScriptManager::s_inst.GetIDFromName(record->m_w3, true);
+    const int scriptId = ScriptManager::s_inst.GetIDFromName(record->ScriptName, true);
     if (scriptId != -1) {
         ScriptManager::s_inst.StartScript(scriptId, -1, true);
     }
@@ -429,12 +429,12 @@ bool Script_DropLoot::IsBlocking() const {
 void Script_DropLoot::Execute(bool /*skipping*/, int module) {
     TraceScriptCmd();
     const Structs::DropLoot* record = static_cast<const Structs::DropLoot*>(m_args);
-    ObjectHandle characterHandle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle characterHandle = dword_99F764->GetObjectByName(record->From, module, false, nullptr);
     Character* character = nullptr;
     if (characterHandle.GetObject(false) != nullptr) {
         character = static_cast<Character*>(characterHandle);
     }
-    ObjectHandle sourceHandle = dword_99F764->GetObjectByName(record->m_w5, module, false, nullptr);
+    ObjectHandle sourceHandle = dword_99F764->GetObjectByName(record->To, module, false, nullptr);
     GameObject* source = nullptr;
     if (sourceHandle.GetObject(false) != nullptr) {
         source = static_cast<GameObject*>(sourceHandle);

@@ -2,44 +2,34 @@
 
 #include <algorithm>
 #include <cstring>
+#include <new>
+
+#include <zlib.h>
 
 #include "glitch-core-io/core/sort.hpp"
 #include "glitch-core-io/io/limit_read_file.hpp"
+#include "glitch-core-io/io/memory_read_file.hpp"
 #include "glitch-core-io/os/logging.hpp"
 
 namespace glitch::io {
 
 // 0x576e78 _ZN6glitch2io13SZipFileEntryC1ERKS1_
 SZipFileEntry::SZipFileEntry(const SZipFileEntry& other)
-    : path(other.path),
-      name(other.name),
-      extra(other.extra),
-      f48(other.f48),
-      f4c(other.f4c),
-      f50(other.f50),
-      f54(other.f54),
-      f58(other.f58),
-      f5c(other.f5c),
-      f60(other.f60),
-      f64(other.f64),
-      f68(other.f68) {}
+    : zipFileName(other.zipFileName),
+      simpleFileName(other.simpleFileName),
+      path(other.path),
+      fileDataPosition(other.fileDataPosition),
+      header(other.header) {}
 
 // 0x577284 _ZN6glitch2io13SZipFileEntryaSERKS1_
 SZipFileEntry& SZipFileEntry::operator=(const SZipFileEntry& other) {
     if (this != &other) {
+        zipFileName = other.zipFileName;
+        simpleFileName = other.simpleFileName;
         path = other.path;
-        name = other.name;
-        extra = other.extra;
     }
-    f48 = other.f48;
-    f4c = other.f4c;
-    f50 = other.f50;
-    f54 = other.f54;
-    f58 = other.f58;
-    f5c = other.f5c;
-    f60 = other.f60;
-    f64 = other.f64;
-    f68 = other.f68;
+    fileDataPosition = other.fileDataPosition;
+    header = other.header;
     return *this;
 }
 
@@ -55,7 +45,7 @@ void sortEntries(std::vector<SZipFileEntry>& entries) {
 
 // 0x577fa4 _ZN6glitch2io10CZipReaderC1EPNS0_9IReadFileEbb (C2 at 0x578050 is the same body)
 // Scans the local headers until scanLocalHeader reports the end, then sorts the entries by name.
-CZipReader::CZipReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(a), flagB(b) {
+CZipReader::CZipReader(IReadFile* file, bool a, bool b) : readFile(file), ignoreCase(a), ignorePaths(b) {
     if (readFile) {
         ++readFile->referenceCounter;
         while (scanLocalHeader()) {
@@ -67,7 +57,7 @@ CZipReader::CZipReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(
 // 0x57826c _ZN6glitch2io10CZipReaderC1EPKcbb (C2 at 0x578318 is the same body)
 // As the file form; the file is opened by name (createReadFile) and owned by the reader. A null
 // file leaves the directory empty.
-CZipReader::CZipReader(const char* fileName, bool a, bool b) : flagA(a), flagB(b) {
+CZipReader::CZipReader(const char* fileName, bool a, bool b) : ignoreCase(a), ignorePaths(b) {
     readFile = createReadFile(fileName);
     if (readFile) {
         while (scanLocalHeader()) {
@@ -81,65 +71,48 @@ CZipReader::~CZipReader() {
     if (readFile) readFile->drop();
 }
 
-namespace {
-std::uint16_t readU16(const std::uint8_t* p) {
-    return static_cast<std::uint16_t>(p[0] | (p[1] << 8));
-}
-std::uint32_t readU32(const std::uint8_t* p) {
-    return static_cast<std::uint32_t>(p[0]) | (static_cast<std::uint32_t>(p[1]) << 8) |
-           (static_cast<std::uint32_t>(p[2]) << 16) | (static_cast<std::uint32_t>(p[3]) << 24);
-}
-}  // namespace
-
 // 0x577bc8 _ZN6glitch2io10CZipReader15extractFilenameEPNS0_13SZipFileEntryE
-// The raw name is entry.path (+0x00). The pseudocode tests '/' only. A '/' at index 0 is not a split
+// The raw name is entry.zipFileName (+0x00); the directory part goes to entry.path (+0x30). The pseudocode tests '/' only. A '/' at index 0 is not a split
 // (the whole name stays, as in the original's LABEL_23 path).
 void CZipReader::extractFilename(SZipFileEntry& entry) {
-    if (entry.path.empty()) return;
-    if (flagA) {
-        for (char& c : entry.path) {
+    if (entry.zipFileName.empty()) return;
+    if (ignoreCase) {
+        for (char& c : entry.zipFileName) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + 32);
         }
     }
-    const std::size_t sep = entry.path.find_last_of('/');
+    const std::size_t sep = entry.zipFileName.find_last_of('/');
     if (sep == std::string::npos || sep == 0) {
-        entry.name = entry.path;
-        entry.extra.clear();
+        entry.simpleFileName = entry.zipFileName;
+        entry.path.clear();
     } else {
-        entry.name = entry.path.substr(sep + 1);
-        entry.extra = entry.path.substr(0, sep + 1);
+        entry.simpleFileName = entry.zipFileName.substr(sep + 1);
+        entry.path = entry.zipFileName.substr(0, sep + 1);
     }
-    if (!flagB) entry.name = entry.path;
+    if (!ignorePaths) entry.simpleFileName = entry.zipFileName;
 }
 
 // 0x577db4 _ZN6glitch2io10CZipReader15scanLocalHeaderEv
-// The header is the 30-byte local file header. The original reads the name into a 1024-byte stack
-// buffer, so longer names overflow there; this port reads any length. The name is cut at its first
-// NUL, as the original's strlen does.
+// The packed 30-byte local file header is read straight into the entry (+0x4c). The original reads the name into a
+// 1024-byte stack buffer, so longer names overflow there; this port reads any length. The name is cut at its first
+// NUL, as the original's strlen does. The data-descriptor case (GeneralBitFlag bit 3) reads 12 more bytes over
+// CRC32, CompressedSize and UncompressedSize (+0x5a).
 bool CZipReader::scanLocalHeader() {
     if (!readFile) return false;
-    std::uint8_t header[30] = {};
-    readFile->read(header, 30);
-    if (readU32(header) != 0x04034b50u) return false;
-
     SZipFileEntry entry;
-    const std::uint16_t flags = readU16(header + 6);
-    const std::uint16_t nameLength = readU16(header + 26);
-    const std::uint16_t extraLength = readU16(header + 28);
+    readFile->read(&entry.header, sizeof(SZIPFileHeader));
+    if (entry.header.Sig != 0x04034b50u) return false;
 
-    std::string raw(nameLength, '\0');
-    if (nameLength) readFile->read(&raw[0], nameLength);
+    std::string raw(entry.header.FilenameLength, '\0');
+    if (entry.header.FilenameLength) readFile->read(&raw[0], entry.header.FilenameLength);
     raw.resize(std::strlen(raw.c_str()));
-    entry.path = raw;
+    entry.zipFileName = raw;
     extractFilename(entry);
-    if (extraLength) readFile->seek(extraLength, true);
-    if (flags & 0x0008) readFile->read(header + 14, 12);
+    if (entry.header.ExtraFieldLength) readFile->seek(entry.header.ExtraFieldLength, true);
+    if (entry.header.GeneralBitFlag & 0x0008) readFile->read(&entry.header.CRC32, 12);
 
-    entry.f48 = static_cast<std::int32_t>(readFile->getPos());
-    entry.f54 = readU16(header + 8);
-    entry.f58 = static_cast<std::int32_t>(readU32(header + 18));
-    entry.f5c = static_cast<std::int32_t>(readU32(header + 22));
-    readFile->seek(entry.f58, true);
+    entry.fileDataPosition = static_cast<std::int32_t>(readFile->getPos());
+    readFile->seek(static_cast<long>(entry.header.CompressedSize), true);
     entries.push_back(entry);
     return true;
 }
@@ -155,23 +128,52 @@ const SZipFileEntry* CZipReader::getFileInfo(int index) const {
 }
 
 // 0x576f18 _ZN6glitch2io10CZipReader8openFileEi
-// PARTIAL: deflate entries (method 8) need zlib, which is not vendored in this tree, so they log and
-// give null here; the original inflates them into a memory file (its fifth argument to
-// createMemoryReadFile is never set in the pseudocode). Other methods log the name and give null.
+// Stored entries (method 0) are a limit reader over the zip's file at the entry's data offset (named with the entry's
+// name; with the +0x10 flag the name is passed twice). Deflated entries (method 8): the compressed bytes (CompressedSize) are read
+// from the entry's data offset, raw-inflated (window bits -15, Z_FINISH) into a block of the uncompressed size (UncompressedSize) and
+// returned as a memory file named with the raw entry path that owns the block; a failed allocation logs "Not enough memory
+// for decompressing" and a failed inflateInit2 logs "Error decompressing" (both with the entry name), result null. Any
+// other method logs the name and gives null.
 IReadFile* CZipReader::openFile(int index) {
     const SZipFileEntry& entry = entries[static_cast<std::size_t>(index)];
-    if (entry.f54 != 0) {
-        if (entry.f54 == 8) {
-            glitch::os::Printer::log("deflated zip entries are not supported by this port", glitch::os::ELL_ERROR);
-            return nullptr;
+    if (entry.header.CompressionMethod != 0) {
+        if (entry.header.CompressionMethod == 8) {
+            const std::uint32_t outSize = static_cast<std::uint32_t>(entry.header.UncompressedSize);
+            const std::uint32_t inSize = static_cast<std::uint32_t>(entry.header.CompressedSize);
+            unsigned char* out = new (std::nothrow) unsigned char[outSize];
+            unsigned char* in = out != nullptr ? new (std::nothrow) unsigned char[inSize] : nullptr;
+            if (out == nullptr || in == nullptr) {
+                delete[] out;
+                glitch::os::Printer::log("Not enough memory for decompressing", entry.simpleFileName.c_str(), glitch::os::ELL_ERROR);
+                return nullptr;
+            }
+            readFile->seek(entry.fileDataPosition, false);
+            readFile->read(in, inSize);
+            z_stream stream;
+            std::memset(&stream, 0, sizeof stream);
+            stream.next_in = in;
+            stream.avail_in = inSize;
+            stream.next_out = out;
+            stream.avail_out = outSize;
+            if (inflateInit2(&stream, -15) != Z_OK) {
+                delete[] in;
+                glitch::os::Printer::log("Error decompressing", entry.simpleFileName.c_str(), glitch::os::ELL_ERROR);
+                delete[] out;
+                return nullptr;
+            }
+            inflate(&stream, Z_FINISH);
+            inflateEnd(&stream);
+            inflateEnd(&stream);  // the listing ends the stream twice
+            delete[] in;
+            return createMemoryReadFile(out, static_cast<long>(outSize), entry.zipFileName.c_str(), true);
         }
-        glitch::os::Printer::log("file has unsupported compression method.", entry.name.c_str(),
+        glitch::os::Printer::log("file has unsupported compression method.", entry.simpleFileName.c_str(),
                                  glitch::os::ELL_ERROR);
         return nullptr;
     }
-    readFile->seek(entry.f48, false);
-    if (unk_10 & 1) return new CLimitReadFile(readFile, entry.f5c, entry.name.c_str(), entry.name.c_str());
-    return new CLimitReadFile(readFile, entry.f5c, entry.name.c_str());
+    readFile->seek(entry.fileDataPosition, false);
+    if (unk_10 & 1) return new CLimitReadFile(readFile, entry.header.UncompressedSize, entry.simpleFileName.c_str(), entry.simpleFileName.c_str());
+    return new CLimitReadFile(readFile, entry.header.UncompressedSize, entry.simpleFileName.c_str());
 }
 
 // 0x578624 _ZN6glitch2io10CZipReader8openFileEPKc
@@ -192,8 +194,8 @@ bool CZipReader::isValid(IReadFile* file) {
 }
 
 // 0x576ef4 _ZN6glitch2io10CZipReader7isValidEPKc
-// PARTIAL: the original passes the opened file to isValid(IReadFile*) and drops it with no null
-// test, so a missing file reads through a null pointer there. This port gives false instead.
+// The opened file goes to isValid(IReadFile*) and is dropped. The original has no null test, so a missing file reads
+// through a null pointer there (a crash); this port gives false instead.
 bool CZipReader::isValid(const char* fileName) {
     IReadFile* file = createReadFile(fileName);
     if (!file) return false;
@@ -229,21 +231,21 @@ bool signedCharNameLess(const std::string& a, const std::string& b) {
 }
 }  // namespace
 
-bool operator<(const SZipFileEntry& a, const SZipFileEntry& b) { return signedCharNameLess(a.name, b.name); }
+bool operator<(const SZipFileEntry& a, const SZipFileEntry& b) { return signedCharNameLess(a.simpleFileName, b.simpleFileName); }
 
 // 0x578520 _ZN6glitch2io10CZipReader8findFileEPKc
-// The key's name (+0x18) is the argument: lower-cased with flagA, then cut to its base name with
-// flagB, in that order as the pseudocode does. A null name is treated as empty (the original would
+// The key's name (+0x18) is the argument: lower-cased with ignoreCase, then cut to its base name with
+// ignorePaths, in that order as the pseudocode does. A null name is treated as empty (the original would
 // call strlen on it). The search is glitch::core::binary_search (lower_bound, then an equality test).
 int CZipReader::findFile(const char* name) {
     SZipFileEntry key;
-    key.name = name != nullptr ? name : "";
-    if (flagA) {
-        for (char& c : key.name) {
+    key.simpleFileName = name != nullptr ? name : "";
+    if (ignoreCase) {
+        for (char& c : key.simpleFileName) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
         }
     }
-    if (flagB) deletePathFromFilename(key.name);
+    if (ignorePaths) deletePathFromFilename(key.simpleFileName);
     return glitch::core::binary_search(entries, key);
 }
 

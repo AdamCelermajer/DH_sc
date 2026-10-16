@@ -93,7 +93,7 @@ void MenuMinimap::CreateMapCamera() {
     m_mapCam->SetData(0.42963f, 1.7778f, 0.0f, 100000.0f, false);      // CameraBase::SetData; aspect 1.7778 (HUDMinimap uses 1.0)
     m_mapCam->m_zoomTarget = 1.0f;                                     // +0x8c
     m_mapCam->m_zoomCurrent = 0.0f;                                    // +0x88
-    m_mapCam->PlayAnim(reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[m_mapCam->m_camTableIndex].m_w4, 0,
+    m_mapCam->PlayAnim(reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[m_mapCam->m_camTableIndex].Idle, 0,
                        false);
 }
 

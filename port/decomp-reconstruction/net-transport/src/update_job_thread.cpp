@@ -1,17 +1,17 @@
 #include "net-transport/update_job_thread.hpp"
 
+#include "dh2/Application.hpp"      // ApplicationGetInstance().m_savegameManager (dword_99F778)
+#include "dh2/Savegame.hpp"         // Savegame::UpdateJobs
+#include "dh2/SavegameManager.hpp"  // SavegameManager::saveSettings
+
 // 0x317e44 _ZN16updateJob_threadC1Ei
 // 0x317e14 _ZN16updateJob_threadC2Ei
 updateJob_thread::updateJob_thread(int argument) : flag_(true), argument_(argument) {}
 
 // 0x317e78 _ZN16updateJob_threadD1Ev
 // 0x317e74 _ZN16updateJob_threadD2Ev
-// Deviation: a worker still running is joined here. The original never joins.
-updateJob_thread::~updateJob_thread() {
-    if (thread_.joinable()) {
-        thread_.join();
-    }
-}
+// The original does nothing here and never joins a worker (Start and Start2 detach in this port).
+updateJob_thread::~updateJob_thread() {}
 
 // 0x317e88 _ZN16updateJob_thread7PrepareEv
 int updateJob_thread::Prepare() {
@@ -34,34 +34,47 @@ int updateJob_thread::Finish() {
 void updateJob_thread::Run() {}
 
 // 0x317e90 _ZN16updateJob_thread22IsCurrectThreadRunningEv
-bool updateJob_thread::IsCurrectThreadRunning() const {
+bool updateJob_thread::IsCurrectThreadRunning() {
     return true;
 }
 
+// 0x317fbc _Z10threadfun2Pv: the worker of Start. Runs one Savegame::UpdateJobs step and returns 0.
+int threadfun2(void* /*argument*/) {
+    Savegame::UpdateJobs();
+    return 0;
+}
+
+// 0x317f90 _Z10threadfun3Pv: the worker of Start2. Saves the settings of the application savegame manager
+// (dword_99F778, Application +0x4c) and returns 0.
+int threadfun3(void* /*argument*/) {
+    ApplicationGetInstance().m_savegameManager->saveSettings();
+    return 0;
+}
+
 // 0x317e98 _ZN16updateJob_thread6Start2Ev
-// Partial: the listing is `pthread_create(&scratch_tid, nullptr, threadfun3, this)` and returns -1
-// (after the "\n\n Not Created2222 \n\n" trace) when pthread_create fails. threadfun3 is the worker
-// at 0x317f90 and calls SavegameManager::saveSettings; it is outside this category, so the port
-// starts Run(), which is an empty stand-in for it. The -1 return for an already-running worker is a
-// guard this port adds; the original has none.
+// The listing is `pthread_create(&scratch_tid, nullptr, threadfun3, this)`; it returns -1 (after the "Not Created2222"
+// trace) when the thread cannot be created and 0 otherwise. The thread id lives in a stack scratch word in the original,
+// the std::thread member here. A second start while a worker is still held is a misuse (the original would start another
+// thread and lose the first id); the port does the same: each call starts a new worker, and the worker is detached because
+// the original keeps the pthread_t only in a stack word and never joins or stores it (thread_ at +0x04 is not written).
 int updateJob_thread::Start2() {
-    if (thread_.joinable()) {
+    try {
+        std::thread([this] { threadfun3(this); }).detach();
+    } catch (...) {
         return -1;
     }
-    thread_ = std::thread([this] { Run(); });
     return 0;
 }
 
 // 0x317ef8 _ZN16updateJob_thread5StartEv
-// Partial: the listing is pthread_create(threadfun2, this) and returns -1 after the
-// "\n\n Not Created \n\n" trace when it fails. threadfun2 (the worker that calls Savegame::UpdateJobs)
-// is outside this category, so the worker here is the same empty Run() stand-in as Start2. The
-// already-running guard is an addition, as in Start2.
+// The listing is pthread_create(threadfun2, this) and returns -1 (after the "Not Created" trace) when the thread cannot be
+// created, 0 otherwise. Detached workers, no second-start refusal, as in Start2.
 int updateJob_thread::Start() {
-    if (thread_.joinable()) {
+    try {
+        std::thread([this] { threadfun2(this); }).detach();
+    } catch (...) {
         return -1;
     }
-    thread_ = std::thread([this] { Run(); });
     return 0;
 }
 

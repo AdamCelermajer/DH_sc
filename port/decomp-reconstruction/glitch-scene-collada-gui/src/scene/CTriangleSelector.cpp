@@ -8,7 +8,11 @@
 #include <cmath>
 
 #include "glitch-core-io/core/matrix4_base.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
+#include "glitch-video/buffer.hpp"
+#include "glitch-video/primitive_stream.hpp"
+#include "glitch-video/vertex_streams.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 namespace glitch::scene {
@@ -41,15 +45,95 @@ CTriangleSelector::CTriangleSelector(const ISceneNode* sceneNode, bool bake) : n
     referenceCounter = 1;
 }
 
-// 0x596598 _ZN6glitch5scene17CTriangleSelectorC1ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEPKNS0_10ISceneNodeEb (and 0x595ec8)
-// PARTIAL. Done: the member initialisation (the words the original writes), the identity transform, the default box, and the
-// bake step (every triangle through the node's absolute matrix when `bake` is set). Missing: the mesh-buffer traversal. The
-// original counts the indices of every mesh buffer (IMesh vtable +0x10 and +0x14), reserves total / 3 triangles, and calls
-// createTriangles<T> for the seven index types (anonymous namespace, not in this batch); the vertex streams and the index map
-// come from CMeshBuffer and CPrimitiveStream layouts that are glitch-video's.
-CTriangleSelector::CTriangleSelector(const boost::intrusive_ptr<const IMesh>& /*mesh*/, const ISceneNode* sceneNode, bool bake)
+namespace {
+
+// The createTriangles<T> family (0x592e58 signed char, 0x593808 unsigned char, 0x5941b8 short, 0x594b68 unsigned short, 0x595518 int,
+// 0x5924a8 unsigned int, 0x591d38 float): the triangles of one mesh buffer from the position stream, converting the T components to
+// float. A stream of two components has z = 0; three and four components use the first three; any other count adds nothing. With an index
+// array every group of three indices gives the triangle (V[i2], V[i1], V[i0]); without one every three consecutive vertices give
+// (V[i + 2], V[i + 1], V[i]). The vertex buffer is mapped for reading for the walk and released after it.
+template <typename T>
+void createTriangles(const std::uint16_t* indices, std::uint32_t count, const video::SVertexStream& stream,
+                     std::vector<core::triangle3d<float>>& out) {
+    const std::uint32_t components = stream.field0c;
+    if (components < 2 || components > 4 || !stream.buffer) {
+        return;
+    }
+    const std::uint8_t* base = stream.buffer->map(static_cast<video::E_BUFFER_READ_MAP_ACCESS>(1));
+    if (base == nullptr) {
+        return;
+    }
+    const std::uint8_t* data = base + stream.offset;
+    const std::uint32_t stride = stream.field0e;
+    const auto vertex = [&](std::uint32_t index) {
+        const T* element = reinterpret_cast<const T*>(data + static_cast<std::size_t>(index) * stride);
+        return core::vector3d<float>{static_cast<float>(element[0]), static_cast<float>(element[1]),
+                                     components >= 3 ? static_cast<float>(element[2]) : 0.0f};
+    };
+    core::triangle3d<float> triangle;
+    if (indices != nullptr) {
+        for (const std::uint16_t* p = indices; static_cast<std::uint32_t>(indices + count - p) >= 3 && p < indices + count; p += 3) {
+            triangle.A = vertex(p[2]);
+            triangle.B = vertex(p[1]);
+            triangle.C = vertex(p[0]);
+            out.push_back(triangle);
+        }
+    } else {
+        for (std::uint32_t i = 0; i + 3 <= count; i += 3) {
+            triangle.A = vertex(i + 2);
+            triangle.B = vertex(i + 1);
+            triangle.C = vertex(i);
+            out.push_back(triangle);
+        }
+    }
+    stream.buffer->unmap();
+}
+
+}  // namespace
+
+// 0x595ec8 _ZN6glitch5scene17CTriangleSelectorC1ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEPKNS0_10ISceneNodeEb (C2 0x596598: the same body)
+// The triangle list is reserved for the index count of all buffers / 3; each triangle-list buffer (primitive type 6) is walked with the
+// element type of its first position stream (codes 0..6: signed char, unsigned char, short, unsigned short, int, unsigned int, float; other
+// codes add nothing); its index buffer, when it has one, is mapped for the walk and released after it. Then, when the node's transform
+// is baked, every triangle goes through the node's absolute matrix.
+CTriangleSelector::CTriangleSelector(const boost::intrusive_ptr<const IMesh>& mesh, const ISceneNode* sceneNode, bool bake)
     : node(sceneNode), bakeNodeTransform(bake) {
     referenceCounter = 1;
+    const std::uint32_t bufferCount = mesh->getMeshBufferCount();
+    std::uint32_t total = 0;
+    for (std::uint32_t i = 0; i < bufferCount; ++i) {
+        total += mesh->getMeshBuffer(i)->primitiveStream.m_count;
+    }
+    triangles.reserve(total / 3);
+    for (std::uint32_t i = 0; i < bufferCount; ++i) {
+        const boost::intrusive_ptr<CMeshBuffer> buffer = mesh->getMeshBuffer(i);
+        const boost::intrusive_ptr<const video::CVertexStreams> streams = buffer->vertexStreams;
+        if (buffer->primitiveStream.m_primitiveType != 6) {
+            continue;
+        }
+        video::CPrimitiveStream::SMapBuffer<const std::uint16_t> mapped;
+        const std::uint16_t* indices = nullptr;
+        if (buffer->primitiveStream.m_indexBuffer) {
+            mapped.reset(buffer->primitiveStream, static_cast<video::E_BUFFER_READ_MAP_ACCESS>(1));
+            indices = mapped.data;
+        }
+        const std::uint32_t count = buffer->primitiveStream.m_count;
+        const video::SVertexStream& stream = streams->m_streams[0];
+        switch (stream.field0a) {
+            case 0: createTriangles<signed char>(indices, count, stream, triangles); break;
+            case 1: createTriangles<unsigned char>(indices, count, stream, triangles); break;
+            case 2: createTriangles<short>(indices, count, stream, triangles); break;
+            case 3: createTriangles<unsigned short>(indices, count, stream, triangles); break;
+            case 4: createTriangles<int>(indices, count, stream, triangles); break;
+            case 5: createTriangles<unsigned int>(indices, count, stream, triangles); break;
+            case 6: createTriangles<float>(indices, count, stream, triangles); break;
+            default: break;
+        }
+        if (mapped.data != nullptr) {
+            buffer->primitiveStream.m_indexBuffer->unmap();
+            mapped.data = nullptr;
+        }
+    }
     if (node != nullptr && bakeNodeTransform) {
         const core::CMatrix4<float> local = node->getAbsoluteTransformation();
         for (core::triangle3d<float>& t : triangles) {

@@ -116,16 +116,16 @@ ItemInstance::ItemInstance(int itemId, unsigned int qty) : m_itemId(itemId) {
 
 int main() {
     // Item rows: id 3 is the item under test, id 4 an item with a different row.
-    ItemRow(3)->m_w2 = const_cast<char*>("sword_icon");  // icon name string buffer (+0x08)
-    ItemRow(3)->m_w3 = 7;                               // pick-up type (+0x0c)
-    ItemRow(3)->m_w7 = true;                            // stackable (+0x1c)
-    ItemRow(3)->m_w26 = 5;                              // equipment category (+0x68)
-    ItemRow(4)->m_w7 = false;
-    ItemRow(4)->m_w26 = -1;
+    ItemRow(3)->IconName = const_cast<char*>("sword_icon");  // icon name string buffer (+0x08)
+    ItemRow(3)->PickUpType = 7;                               // pick-up type (+0x0c)
+    ItemRow(3)->Stackable = true;                            // stackable (+0x1c)
+    ItemRow(3)->EquipmentSlottingType = 5;                              // equipment category (+0x68)
+    ItemRow(4)->Stackable = false;
+    ItemRow(4)->EquipmentSlottingType = -1;
 
     // FontPalette rows 0..3 carry 100 + index in their colour word (+0x08).
     for (int i = 0; i < 4; ++i) {
-        FontRow(i)->m_w2 = 100 + i;
+        FontRow(i)->textcolor = 100 + i;
     }
 
     // ---- construction, sizes and rows ----

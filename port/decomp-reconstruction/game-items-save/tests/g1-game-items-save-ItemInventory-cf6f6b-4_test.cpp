@@ -184,8 +184,8 @@ void TestAddLootTableDirectEntries() {
     // Table 0: two direct entries (m_w6, count m_w5), no table B, no sub-tables.
     ResetLootTables();
     Structs::Loot* t0 = LootAt(0);
-    t0->m_w5 = 2;
-    t0->m_w6 = const_cast<Structs::LootEntry*>(EntryAt(0));
+    t0->FixedLootEntriesSize = 2;
+    t0->FixedLootEntries = const_cast<Structs::LootEntry*>(EntryAt(0));
 
     std::vector<const Structs::LootEntry*> out;
     CHECK(g_switches.m_switches.count("isTracingItemInventory_Loot") == 0);
@@ -205,10 +205,10 @@ void TestAddLootTableExtraList() {
     // Table 1: one direct entry (entry 4) and table B of two entries (entries 2 and 3).
     ResetLootTables();
     Structs::Loot* t1 = LootAt(1);
-    t1->m_w5 = 1;
-    t1->m_w6 = const_cast<Structs::LootEntry*>(EntryAt(4));
-    t1->m_w3 = 2;
-    t1->m_w4 = const_cast<Structs::LootEntry*>(EntryAt(2));
+    t1->FixedLootEntriesSize = 1;
+    t1->FixedLootEntries = const_cast<Structs::LootEntry*>(EntryAt(4));
+    t1->RandomLootEntriesSize = 2;
+    t1->RandomLootEntries = const_cast<Structs::LootEntry*>(EntryAt(2));
 
     std::vector<const Structs::LootEntry*> out;
     std::vector<const Structs::LootEntry*> extra;
@@ -225,10 +225,10 @@ void TestAddLootTablePercentRoll() {
     // entry. Then the percentages of table B are rolled on m_w4 with count m_w3.
     ResetLootTables();
     Structs::Loot* t1 = LootAt(1);
-    t1->m_w5 = 1;
-    t1->m_w6 = const_cast<Structs::LootEntry*>(EntryAt(4));
-    t1->m_w3 = 2;
-    t1->m_w4 = const_cast<Structs::LootEntry*>(EntryAt(2));
+    t1->FixedLootEntriesSize = 1;
+    t1->FixedLootEntries = const_cast<Structs::LootEntry*>(EntryAt(4));
+    t1->RandomLootEntriesSize = 2;
+    t1->RandomLootEntries = const_cast<Structs::LootEntry*>(EntryAt(2));
     g_probCount = 1;
     g_picks = {1};
 
@@ -252,21 +252,21 @@ void TestAddLootTableSubTables() {
     // local list (2 entries).
     ResetLootTables();
     Structs::Loot* t0 = LootAt(0);
-    t0->m_w5 = 2;
-    t0->m_w6 = const_cast<Structs::LootEntry*>(EntryAt(0));
+    t0->FixedLootEntriesSize = 2;
+    t0->FixedLootEntries = const_cast<Structs::LootEntry*>(EntryAt(0));
 
     Structs::Loot* t1 = LootAt(1);
-    t1->m_w5 = 1;
-    t1->m_w6 = const_cast<Structs::LootEntry*>(EntryAt(4));
-    t1->m_w3 = 2;
-    t1->m_w4 = const_cast<Structs::LootEntry*>(EntryAt(2));
+    t1->FixedLootEntriesSize = 1;
+    t1->FixedLootEntries = const_cast<Structs::LootEntry*>(EntryAt(4));
+    t1->RandomLootEntriesSize = 2;
+    t1->RandomLootEntries = const_cast<Structs::LootEntry*>(EntryAt(2));
 
     std::int32_t subIds[2] = {0, 1};
     Structs::Loot* t2 = LootAt(2);
-    t2->m_w5 = 1;
-    t2->m_w6 = const_cast<Structs::LootEntry*>(EntryAt(5));
-    t2->m_w7 = 2;
-    t2->m_w8 = subIds;
+    t2->FixedLootEntriesSize = 1;
+    t2->FixedLootEntries = const_cast<Structs::LootEntry*>(EntryAt(5));
+    t2->SubLootsSize = 2;
+    t2->SubLoots = subIds;
     g_probCount = 1;
     g_picks = {0};
 

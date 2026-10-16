@@ -85,7 +85,7 @@ const Structs::AnimTpl& AnimTableRecord(int animId) {
 // m_w7 flag (+0x1c), m_w8 and m_w9 camera anim array (+0x20, +0x24), m_w10 Redir (+0x28), m_w11 sound (+0x2c),
 // m_w12 step speed (+0x30), m_w13 swoosh flag (+0x34).
 const Structs::AnimStep* StepTable(const Structs::AnimTpl& record) {
-    return static_cast<const Structs::AnimStep*>(record.m_w3);
+    return static_cast<const Structs::AnimStep*>(record.Steps);
 }
 
 // The debug switch read in the original: DebugSwitches::load(&s_inst), then GetSwitch(&s_inst, name).
@@ -110,7 +110,7 @@ bool CharAnimator::_PlayItemSwooshSFX(ItemInstance* item) {
     if (item == nullptr) {
         return false;
     }
-    const int soundId = item->GetItem()->m_w5;  // Item +0x14
+    const int soundId = item->GetItem()->SwooshSoundFX;  // Item +0x14
     if (soundId == -1) {
         return false;
     }
@@ -130,7 +130,7 @@ bool CharAnimator::_PlayItemSwooshFX(ItemInstance* item, bool attached) {
     if (item == nullptr) {
         return false;
     }
-    const int fxId = item->GetItem()->m_w6;  // Item +0x18
+    const int fxId = item->GetItem()->SwooshFX;  // Item +0x18
     if (fxId == -1) {
         return false;
     }
@@ -154,7 +154,7 @@ bool CharAnimator::ANIM_IsSequence(unsigned int stackIdx) const {
     if (m_animStackIdx < stackIdx) {
         ReportAssert("stackIdx <= m_animStackIdx", 745);
     }
-    return AnimTableRecord(m_animStack[stackIdx].m_animId).m_w4 == 1;
+    return AnimTableRecord(m_animStack[stackIdx].m_animId).Type == 1;
 }
 
 // 0x3c96dc _ZNK12CharAnimator13ANIM_IsRandomEj
@@ -166,7 +166,7 @@ bool CharAnimator::ANIM_IsRandom(unsigned int stackIdx) const {
     if (m_animStackIdx < stackIdx) {
         ReportAssert("stackIdx <= m_animStackIdx", 726);
     }
-    return AnimTableRecord(m_animStack[stackIdx].m_animId).m_w4 == 2;
+    return AnimTableRecord(m_animStack[stackIdx].m_animId).Type == 2;
 }
 
 // 0x3c97b8 _ZNK12CharAnimator13ANIM_IsUniqueEj
@@ -178,7 +178,7 @@ bool CharAnimator::ANIM_IsUnique(unsigned int stackIdx) const {
     if (m_animStackIdx < stackIdx) {
         ReportAssert("stackIdx <= m_animStackIdx", 707);
     }
-    return AnimTableRecord(m_animStack[stackIdx].m_animId).m_w4 == 0;
+    return AnimTableRecord(m_animStack[stackIdx].m_animId).Type == 0;
 }
 
 // 0x3c9890 _ZN12CharAnimator12SetCharacterEP9Character
@@ -291,16 +291,16 @@ void CharAnimator::_AddTemplateAnimTable(int animSetId, int animTable, unsigned 
         return;
     }
     const Structs::AnimTpl& record = AnimTableRecord(static_cast<int>(index));
-    if (record.m_w2 != 1) {
+    if (record.StepsSize != 1) {
         ReportAssert("anim.StepsSize == 1", 200);
     }
-    if (record.m_w3 == nullptr) {
+    if (record.Steps == nullptr) {
         // Not reached with StepsSize 1. The original would read the null step table here and fault.
         return;
     }
     const Structs::AnimStep& first = StepTable(record)[0];
-    if (first.m_w10 == 0) {  // Redir (+0x28) clear
-        AnimSetManager::s_inst.AddTemplateAnim(animSetId, first.m_w2);  // +0x08
+    if (first.Redir == 0) {  // Redir (+0x28) clear
+        AnimSetManager::s_inst.AddTemplateAnim(animSetId, first.Anim);  // +0x08
     }
 }
 
@@ -325,17 +325,17 @@ void CharAnimator::_AddAnimTable(int animSetId, int animTable, unsigned int offs
     const Structs::AnimTpl& record = AnimTableRecord(static_cast<int>(index));
     (void)DebugSwitchSet("isTracingChar_Init");
     const Structs::AnimStep* steps = StepTable(record);
-    for (std::uint32_t i = 0; i < record.m_w2; ++i) {
+    for (std::uint32_t i = 0; i < record.StepsSize; ++i) {
         const Structs::AnimStep& step = steps[i];
-        if (step.m_w10 != 0) {  // Redir (+0x28)
-            _AddAnimTable(animSetId, step.m_w2, 0, 0, 0);
+        if (step.Redir != 0) {  // Redir (+0x28)
+            _AddAnimTable(animSetId, step.Anim, 0, 0, 0);
         } else {
-            AnimSetManager::s_inst.AddAnim(animSetId, step.m_w2);
+            AnimSetManager::s_inst.AddAnim(animSetId, step.Anim);
             if (VoxSoundManager::s_instance != nullptr) {
-                VoxSoundManager::s_instance->LoadSound(step.m_w11);  // +0x2c
+                VoxSoundManager::s_instance->LoadSound(step.Sound);  // +0x2c
             }
-            if (step.m_w6 >= 0) {  // FX set (+0x18)
-                VisualFXManager::s_inst.RegisterFXSetToLoad(step.m_w6);
+            if (step.FX >= 0) {  // FX set (+0x18)
+                VisualFXManager::s_inst.RegisterFXSetToLoad(step.FX);
             }
         }
     }
@@ -359,53 +359,53 @@ void CharAnimator::SetAnimationSet() {
     const Structs::CharAnim* table = m_character->GetCharAnimTable();
     const auto* skillList = static_cast<const std::int32_t*>(m_character->GetCharSkillList());  // Structs::SkillList, count at +0x04
 
-    int templateId = table->m_w36;  // +0x90
+    int templateId = table->Template;  // +0x90
     if (templateId == -1) {
         (void)m_character->GetCharAnimTableId();
-        templateId = table->m_w36;
+        templateId = table->Template;
     }
     _AddTemplateAnimTable(setId, templateId, 0);
-    _AddAnimTable(setId, table->m_w22, 0, 0, 0);
-    _AddAnimTable(setId, table->m_w25, 0, 0, 0);
-    _AddAnimTable(setId, table->m_w32, 0, 0, 0);
-    _AddAnimTable(setId, table->m_w23, 0, 0, 0);
+    _AddAnimTable(setId, table->Limbus, 0, 0, 0);
+    _AddAnimTable(setId, table->PreSpawn, 0, 0, 0);
+    _AddAnimTable(setId, table->Spawn, 0, 0, 0);
+    _AddAnimTable(setId, table->MenuIdle, 0, 0, 0);
     if (stanceCount != 0) {
         std::uint32_t stance = 0;
         do {
-            _AddAnimTable(setId, table->m_w10, stance, 0x2u, stanceList);
-            _AddAnimTable(setId, table->m_w37, stance, 0x10u, stanceList);
-            _AddAnimTable(setId, table->m_w28, stance, 0x20u, stanceList);
-            _AddAnimTable(setId, table->m_w1, stance, 0x40u, stanceList);
-            _AddAnimTable(setId, table->m_w2, stance, 0x80u, stanceList);
-            _AddAnimTable(setId, table->m_w31, stance, 0x100u, stanceList);
-            _AddAnimTable(setId, table->m_w35, stance, 0x200u, stanceList);
-            _AddAnimTable(setId, table->m_w18, stance, 0x400u, stanceList);
-            _AddAnimTable(setId, table->m_w9, stance, 0x800u, stanceList);
-            _AddAnimTable(setId, table->m_w15, stance, 0x1000u, stanceList);
-            _AddAnimTable(setId, table->m_w3, stance, 0x2000u, stanceList);
-            _AddAnimTable(setId, table->m_w8, stance, 0x4000u, stanceList);
-            _AddAnimTable(setId, table->m_w7, stance, 0x8000u, stanceList);
-            _AddAnimTable(setId, table->m_w5, stance, 0x10000u, stanceList);
-            _AddAnimTable(setId, table->m_w4, stance, 0x20000u, stanceList);
-            _AddAnimTable(setId, table->m_w6, stance, 0x40000u, stanceList);
-            _AddAnimTable(setId, table->m_w26, stance, 0x100000u, stanceList);
-            _AddAnimTable(setId, table->m_w27, stance, 0x80000u, stanceList);
-            _AddAnimTable(setId, table->m_w38, stance, 0u, stanceList);
-            _AddAnimTable(setId, table->m_w29, stance, 0u, stanceList);
-            _AddAnimTable(setId, table->m_w12, stance, 0x4u, stanceList);
-            _AddAnimTable(setId, table->m_w14, stance, 0x8u, stanceList);
-            _AddAnimTable(setId, table->m_w11, stance, 0x8u, stanceList);
-            _AddAnimTable(setId, table->m_w13, stance, 0u, stanceList);
-            _AddAnimTable(setId, table->m_w39, stance, 0u, stanceList);
-            _AddAnimTable(setId, table->m_w30, stance, 0u, stanceList);
-            _AddAnimTable(setId, table->m_w20, stance, 0x1000000u, stanceList);
-            _AddAnimTable(setId, table->m_w21, stance, 0x1000000u, stanceList);
-            const auto* group = static_cast<const std::int32_t*>(table->m_w17);  // +0x44 int32 array, m_w16 entries
-            for (std::uint32_t i = 0; i < table->m_w16; ++i) {
+            _AddAnimTable(setId, table->Idle, stance, 0x2u, stanceList);
+            _AddAnimTable(setId, table->Walk, stance, 0x10u, stanceList);
+            _AddAnimTable(setId, table->Run, stance, 0x20u, stanceList);
+            _AddAnimTable(setId, table->Attack, stance, 0x40u, stanceList);
+            _AddAnimTable(setId, table->AttackStatic, stance, 0x80u, stanceList);
+            _AddAnimTable(setId, table->Scared, stance, 0x100u, stanceList);
+            _AddAnimTable(setId, table->Stunned, stance, 0x200u, stanceList);
+            _AddAnimTable(setId, table->KnockedBack, stance, 0x400u, stanceList);
+            _AddAnimTable(setId, table->GreatKnockedBack, stance, 0x800u, stanceList);
+            _AddAnimTable(setId, table->Injured, stance, 0x1000u, stanceList);
+            _AddAnimTable(setId, table->Blocking, stance, 0x2000u, stanceList);
+            _AddAnimTable(setId, table->Dodging, stance, 0x4000u, stanceList);
+            _AddAnimTable(setId, table->Died, stance, 0x8000u, stanceList);
+            _AddAnimTable(setId, table->Despawn, stance, 0x10000u, stanceList);
+            _AddAnimTable(setId, table->DeadlyGreatKB, stance, 0x20000u, stanceList);
+            _AddAnimTable(setId, table->DespawnGreatKB, stance, 0x40000u, stanceList);
+            _AddAnimTable(setId, table->Revived, stance, 0x100000u, stanceList);
+            _AddAnimTable(setId, table->Reviving, stance, 0x80000u, stanceList);
+            _AddAnimTable(setId, table->Walk180, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->Run180, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->IdleOOC, stance, 0x4u, stanceList);
+            _AddAnimTable(setId, table->IdleToOOC, stance, 0x8u, stanceList);
+            _AddAnimTable(setId, table->IdleFromOOC, stance, 0x8u, stanceList);
+            _AddAnimTable(setId, table->IdleSneak, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->WalkSneak, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->RunSneak, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->LiftIdle, stance, 0x1000000u, stanceList);
+            _AddAnimTable(setId, table->LiftMove, stance, 0x1000000u, stanceList);
+            const auto* group = static_cast<const std::int32_t*>(table->Interact);  // +0x44 int32 array, m_w16 entries
+            for (std::uint32_t i = 0; i < table->InteractSize; ++i) {
                 _AddAnimTable(setId, group[i], stance, 0x800000u, stanceList);
             }
-            const auto* extra = static_cast<const std::int32_t*>(table->m_w34);  // +0x88 int32 array, m_w33 entries
-            for (std::uint32_t i = 0; i < table->m_w33; ++i) {
+            const auto* extra = static_cast<const std::int32_t*>(table->Spells);  // +0x88 int32 array, m_w33 entries
+            for (std::uint32_t i = 0; i < table->SpellsSize; ++i) {
                 _AddAnimTable(setId, extra[i], stance, 0x400000u, stanceList);
             }
             for (std::int32_t i = 0; i < skillList[1]; ++i) {
@@ -438,67 +438,67 @@ void CharAnimator::RequestAnimPurge() {
 void CharAnimator::_SetAnimStep(unsigned int step) {
     StackEntry& top = m_animStack[m_animStackIdx];                     // +0x08 + 12 * m_animStackIdx
     const Structs::AnimTpl& record = AnimTableRecord(top.m_animId);
-    if (static_cast<unsigned int>(record.m_w2) <= step) {               // StepsSize <= step
+    if (static_cast<unsigned int>(record.StepsSize) <= step) {               // StepsSize <= step
         return;
     }
     top.m_stepIndex = static_cast<int>(step);                           // +0x10 + 12 * m_animStackIdx
     m_character->RaiseEvent(38, nullptr);
     const Structs::AnimStep& s = StepTable(record)[step];
 
-    if (s.m_w10 == 1) {                                                 // Redir: push the redirect one level up
-        _SetAnim(s.m_w2, m_animStackIdx + 1);
+    if (s.Redir == 1) {                                                 // Redir: push the redirect one level up
+        _SetAnim(s.Anim, m_animStackIdx + 1);
         return;
     }
 
-    if (s.m_w4 != -1 || s.m_w8 != 0) {                                  // camera shake anim, or a random set of them
+    if (s.Cam != -1 || s.RandomCamSize != 0) {                                  // camera shake anim, or a random set of them
         Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
         CameraLevel* camera = (level != nullptr) ? level->m_camera : nullptr;  // Level +0x128
         if (camera != nullptr && camera->CanPlayShakeAnim(m_character)) {
-            if (s.m_w4 != -1) {
-                camera->PlayAnim(s.m_w4, 0, true);
-            } else if (s.m_w8 != 0) {
-                const auto* clips = static_cast<const std::int32_t*>(s.m_w9);
-                camera->PlayAnim(clips[Random::GetRandom(static_cast<int>(s.m_w8), true)], 0, true);
+            if (s.Cam != -1) {
+                camera->PlayAnim(s.Cam, 0, true);
+            } else if (s.RandomCamSize != 0) {
+                const auto* clips = static_cast<const std::int32_t*>(s.RandomCam);
+                camera->PlayAnim(clips[Random::GetRandom(static_cast<int>(s.RandomCamSize), true)], 0, true);
             }
         }
     }
 
-    m_swooshActive = s.m_w13;                                           // +0x30, copy of the step's swoosh flag
+    m_swooshActive = s.Swoosh;                                           // +0x30, copy of the step's swoosh flag
     bool playStepSound = true;                                          // a clear swoosh flag falls through to the sound
     bool playStepFx = true;                                             // v12 in the original
-    if (s.m_w13) {
+    if (s.Swoosh) {
         ItemInstance* mainHand = m_character->GetEquippedItem(1u);
         ItemInstance* offHand = m_character->GetEquippedItem(2u);
         const bool mainSfxMissing = !_PlayItemSwooshSFX(mainHand);
-        const bool mainFxPlayed = _PlayItemSwooshFX(mainHand, s.m_w1);
+        const bool mainFxPlayed = _PlayItemSwooshFX(mainHand, s.AnchorFX);
         playStepFx = !mainFxPlayed;
         playStepSound = mainSfxMissing;
         if (mainSfxMissing) {
             playStepSound = !_PlayItemSwooshSFX(offHand);
         }
         if (playStepFx) {
-            playStepSound = !_PlayItemSwooshFX(offHand, s.m_w1);
+            playStepSound = !_PlayItemSwooshFX(offHand, s.AnchorFX);
         }
     }
 
     if (playStepSound && VoxSoundManager::s_instance != nullptr) {
         const Point3D<float>& target = m_character->GetTargetPosition();
         const glitch::core::vector3d<float> at{target.X, target.Y, target.Z};
-        VoxSoundManager::s_instance->Play3D(s.m_w11, at, false, 1, -1.0f, -1.0f);  // +0x2c
+        VoxSoundManager::s_instance->Play3D(s.Sound, at, false, 1, -1.0f, -1.0f);  // +0x2c
     }
 
-    if (playStepFx && s.m_w6 != -1) {                                   // FX set (+0x18)
+    if (playStepFx && s.FX != -1) {                                   // FX set (+0x18)
         VisualFXManager& fx = VisualFXManager::s_inst;
-        if (s.m_w1) {
-            fx.PlayAnimFXSet(s.m_w6, m_character, nullptr);
+        if (s.AnchorFX) {
+            fx.PlayAnimFXSet(s.FX, m_character, nullptr);
         } else {
-            fx.PlayAnimFXSet(s.m_w6, m_character->GetTargetPosition(), m_character->m_rotation, nullptr, nullptr);
+            fx.PlayAnimFXSet(s.FX, m_character->GetTargetPosition(), m_character->m_rotation, nullptr, nullptr);
         }
     }
 
-    m_stepSpeed = s.m_w12;                                              // +0x34, step speed (+0x30)
+    m_stepSpeed = s.Speed;                                              // +0x34, step speed (+0x30)
     VisualObject* visual = m_character->m_visualObject;                 // Character +0x2d8
-    if (visual == nullptr || s.m_w2 == -1) {
+    if (visual == nullptr || s.Anim == -1) {
         ANIM_Stop();
         return;
     }
@@ -507,15 +507,15 @@ void CharAnimator::_SetAnimStep(unsigned int step) {
     AnimController* controller = visual->m_animController;              // VisualObject +0x38
     if (m_blended) {
         auto* blended = static_cast<BlendedAnimSetController*>(controller);
-        blended->unk_14 = (m_animFinished || m_stopLoop) ? 0 : s.m_w3;  // +0x14 cross-fade, zero while finishing
+        blended->unk_14 = (m_animFinished || m_stopLoop) ? 0 : s.BlendOut;  // +0x14 cross-fade, zero while finishing
         blended->unk_0c = 0;                                            // +0x0c
-        blended->unk_10 = s.m_w7;                                       // +0x10
+        blended->unk_10 = s.MoveGO;                                       // +0x10
     } else {
         auto* animSet = static_cast<AnimSetController*>(controller);
         animSet->unk_0c = static_cast<int>(m_blended);                  // +0x0c, m_blended is 0 on this path
-        animSet->unk_10 = s.m_w7;                                       // +0x10
+        animSet->unk_10 = s.MoveGO;                                       // +0x10
     }
-    controller->PlayClip(static_cast<unsigned int>(s.m_w2), false, m_extraTime, 0u);  // vtable +0x1c, loop 0
+    controller->PlayClip(static_cast<unsigned int>(s.Anim), false, m_extraTime, 0u);  // vtable +0x1c, loop 0
     controller->SetScale(m_speed * m_stepSpeed, 0u);                                  // vtable +0x28
 }
 
@@ -539,15 +539,15 @@ void CharAnimator::_SetAnim(int animId, unsigned int stackIdx) {
     const Structs::AnimTpl& record = AnimTableRecord(animId);
     StackEntry& entry = m_animStack[stackIdx];
     entry.m_animId = animId;                                // +0x08 + 12 * stackIdx
-    entry.m_loopCount = record.m_w1;                        // +0x0c + 12 * stackIdx (Loop, +0x04 of the record)
+    entry.m_loopCount = record.Loop;                        // +0x0c + 12 * stackIdx (Loop, +0x04 of the record)
     (void)DebugSwitchSet("isTracingCharAnimator");
     m_character->RaiseEvent(36, nullptr);
     bool randomPick = false;
-    if (record.m_w4 == 2) {
+    if (record.Type == 2) {
         randomPick = !DebugSwitchSet("MP_MinimalRandoms");
     }
     if (randomPick) {
-        const int stepsSize = static_cast<int>(record.m_w2);
+        const int stepsSize = static_cast<int>(record.StepsSize);
         // The original passes r1 here without ever setting it (see the note above); a host port must pass
         // something, so it passes false.
         const bool syncedUndefinedInOriginal = false;
@@ -594,22 +594,22 @@ void CharAnimator::ANIM_Swap(int newAnimId, int oldAnimId) {
         m_animStack[level].m_animId = newId;                 // +0x08 + 12 * level
         const Structs::AnimTpl& newRecord = AnimTableRecord(newId);
         const Structs::AnimTpl& oldRecord = AnimTableRecord(oldId);
-        if (newRecord.m_w1 != oldRecord.m_w1) {
+        if (newRecord.Loop != oldRecord.Loop) {
             ReportAssert("newAnim.Loop == oldAnim.Loop && \"New anim sequence does not match in format (Loop)\"", 899);
         }
-        if (newRecord.m_w2 != oldRecord.m_w2) {
+        if (newRecord.StepsSize != oldRecord.StepsSize) {
             ReportAssert("newAnim.StepsSize == oldAnim.StepsSize && \"New anim sequence does not match in format (Length)\"",
                          900);
         }
         const unsigned int top = m_animStackIdx;             // +0x2c
         if (top > level) {
             const Structs::AnimStep& step = StepTable(newRecord)[m_animStack[level].m_stepIndex];
-            if (step.m_w10 != 1) {                           // Redir (+0x28)
+            if (step.Redir != 1) {                           // Redir (+0x28)
                 ReportAssert("newAnim.Steps[info.stepIdx].Redir == Constants::AnimRedir::IsRedir && "
                              "\"New anim sequence does not match in format (Depth)\"",
                              907);
             }
-            newId = step.m_w2;
+            newId = step.Anim;
         } else {
             m_currentAnim = newId;                           // +0x4c
         }

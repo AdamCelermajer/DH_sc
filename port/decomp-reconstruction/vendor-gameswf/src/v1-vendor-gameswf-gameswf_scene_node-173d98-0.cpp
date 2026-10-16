@@ -65,7 +65,10 @@
 #include "gameswf/gameswf_root.h"
 #include "gameswf/gameswf_sprite.h"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
+#include "glitch-core-io/os/device.hpp"                              // IDevice::sceneManager (the collision manager chain)
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/CTriangleSelector.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-video/material.hpp"
@@ -293,22 +296,28 @@ bool scene_node::get_collision_uv(glitch::core::line3d<float>& ray, gameswf::poi
 // (player context +0x28), its device (driver +0xd4, m_device), the device's scene manager (+0x1c), the manager's collision
 // manager (+0x2c) and calls the collision manager's vtable +0x14 (getRayFromScreenCoordinates(position2d<int> const&,
 // ICameraSceneNode* = 0)) with the pointer position truncated to ints and a null camera; the line3d comes back through the
-// result pointer. PARTIAL: glitch::IDevice has no scene manager member (device.hpp stops at +0x5c), CSceneManager's
-// collisionManager (+0x2c) is a CSceneCollisionManager without a vtable, and the interface with that slot does not exist.
-// The stand-in finds no ray.
-bool scene_node::screen_ray(int /*x*/, int /*y*/, glitch::core::line3d<float>& /*ray*/) const {
-    return false;
+// result pointer. The call always yields a ray (get_collision_uv decides whether it hits the node).
+bool scene_node::screen_ray(int x, int y, glitch::core::line3d<float>& ray) const {
+    glitch::IDevice* device = m_player->m_context->m_video_driver->m_device;
+    // The device keeps its scene manager as the interface pointer (ISceneManager is only forward-declared in the tree); the
+    // object is the CSceneManager whose collisionManager is at +0x2c.
+    glitch::scene::CSceneManager* manager = reinterpret_cast<glitch::scene::CSceneManager*>(device->sceneManager);
+    glitch::core::position2d<std::int32_t> position;
+    position.X = x;
+    position.Y = y;
+    ray = manager->collisionManager->getRayFromScreenCoordinates(position, nullptr);
+    return true;
 }
 
 // ---------------------------------------------------------------------------------------------------------------
 // 0x777350 _ZN7gameswf10scene_node24update_inverse_transformEv
-// PARTIAL, see screen_ray. The root's pointer position (root +0x48, +0x4c) is compared with the position of the last update
+// The root's pointer position (root +0x48, +0x4c) is compared with the position of the last update
 // (m_last_pointer_x/y), and so is the parent's absolute matrix (CMatrix4 equality: equal when both flags say identity,
 // otherwise all 16 elements equal) with m_parent_transform. When anything changed a ray is cast through the pointer
 // (screen_ray); with a hit, get_collision_uv gives the uv, which is scaled by the root's viewport width and height (root
 // +0x1c, +0x20) and converted with root::screen_to_logical into m_mouse_x/y; with no hit the mouse position is -100000.0
 // (the bit pattern -943501312) in x and y. Every path ends by copying the parent matrix into m_parent_transform and the
-// pointer position into m_last_pointer_x/y. Only the stand-in ray differs from the binary.
+// pointer position into m_last_pointer_x/y.
 void scene_node::update_inverse_transform() {
     gameswf::root* root = m_player->get_root();
     const float pointer_x = root->m_pointer_x;
@@ -535,7 +544,6 @@ void scene_node::assign_corner_indices(const float* uv, unsigned int count, std:
 
 // ---------------------------------------------------------------------------------------------------------------
 // 0x778840 _ZN7gameswf10scene_nodeC1EPNS_6playerEPN6glitch5scene10ISceneNodeENS3_4core11dimension2dIiEE
-// PARTIAL, see the head of the file: the last step (binding the texture to the material parameter) is not written.
 // In the binary's order: the virtual base (count 1) and the ISceneNode constructor (id -1, position 0, rotation (0,0,0,1),
 // scale 1); the members (zero, identity matrix with its flag, box (-1,-1,-1)..(1,1,1), texture parameter id 0xffff, player);
 // setName(NODE_NAME); a reference on the parent (the binary increments the count inline; D1 does not drop it);
@@ -544,7 +552,7 @@ void scene_node::assign_corner_indices(const float* uv, unsigned int count, std:
 // target of the texture is made (driver K 0x84, flags 0). Then the parent's mesh (IMeshSceneNode K 0xf8) is asked for material 0
 // (IMesh K 0x18) and the mesh released; with a material, the parameter id of the first texture parameter of its renderer
 // (CMaterialRenderer::getParameterID(2, 0)) is kept in m_texture_param_id and, unless it is 0xffff, the texture is set as the
-// parameter value [NOT WRITTEN]. The last pointer position (+0x258, +0x25c) is set to -1.
+// parameter value (IMaterialParameters<CMaterial>::setParameter<intrusive_ptr<ITexture>>). The last pointer position (+0x258, +0x25c) is set to -1.
 scene_node::scene_node(gameswf::player* player, glitch::scene::ISceneNode* parent, glitch::core::dimension2d<int> size)
     : glitch::scene::ISceneNode(-1, glitch::core::vector3d<float>{0.f, 0.f, 0.f},
                                 glitch::core::quaternion{0.f, 0.f, 0.f, 1.f},
@@ -570,8 +578,7 @@ scene_node::scene_node(gameswf::player* player, glitch::scene::ISceneNode* paren
         boost::intrusive_ptr<glitch::video::CMaterialRenderer> renderer = material->m_renderer;
         m_texture_param_id = renderer->getParameterID(2, 0);
         if (m_texture_param_id != 0xffff) {
-            // NOT WRITTEN: material->setParameter<boost::intrusive_ptr<ITexture>>(m_texture_param_id, 0, m_texture)
-            // (IMaterialParameters<CMaterial, ...>::setParameter, 0x5cd324 for the M instance). See the head of the file.
+            material->parameters.setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(m_texture_param_id, 0, m_texture);
         }
     }
     m_last_pointer_y = -1.0f;

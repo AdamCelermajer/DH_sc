@@ -95,7 +95,8 @@ public:
     bool checkDriverReset() override;  // +0x64  0x5a20b4
     E_PIXEL_FORMAT getColorFormat() const override;  // +0x68  0x5b90a4
     void setTransform(E_TRANSFORMATION_STATE state, const core::CMatrix4<float>& matrix) override;  // +0x6c  0x5b93d0
-    const core::CMatrix4<float>& getTransform(E_TRANSFORMATION_STATE state) const override;  // +0x70  0x5b9064
+    const core::CMatrix4<float>& getTransform(E_TRANSFORMATION_STATE state) const override  // +0x70  0x5b9064
+        asm("_ZNK6glitch5video11CNullDriver12getTransformENS0_22E_TRANSFORMATION_STATEE");
     void restoreShadowState() override;  // +0x74  0x5b90f0
     boost::intrusive_ptr<IBuffer> createBuffer(E_BUFFER_TYPE type, E_BUFFER_USAGE usage, uint32_t size, void* data, bool flag) override;  // +0x78  0x5b92cc
     boost::intrusive_ptr<IRenderBuffer> createRenderBuffer(const core::dimension2d<int32_t>& size, E_PIXEL_FORMAT format) override;  // +0x80  0x5b90cc

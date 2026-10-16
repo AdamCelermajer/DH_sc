@@ -348,7 +348,7 @@ void Character::_GetEquippedFaeryElement([[maybe_unused]] const sfc::script::lua
                                          sfc::script::lua::ReturnValues& ret, void* self) {
     Character* character = static_cast<Character*>(self);
     const int faeryId = character->SG_GetCurrentFaerieId(-1);
-    ret.pushInteger(static_cast<const Structs::Faery*>(character->GetCharFaery(faeryId))->m_w2);
+    ret.pushInteger(static_cast<const Structs::Faery*>(character->GetCharFaery(faeryId))->Elemental);
 }
 
 // 0x3b6df8 Character::_GetCurrentEquippedFaeryLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
@@ -380,7 +380,7 @@ void Character::_GetCurrentSpellInfo([[maybe_unused]] const sfc::script::lua::Ar
 void Character::_GetCharAIFlags([[maybe_unused]] const sfc::script::lua::Arguments& args,
                                 sfc::script::lua::ReturnValues& ret, void* self) {
     Character* character = static_cast<Character*>(self);
-    ret.pushInteger(static_cast<int>(character->GetCharAI()->m_w5));
+    ret.pushInteger(static_cast<int>(character->GetCharAI()->Flags));
 }
 
 // 0x3b6ec4 Character::_IsConnected(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)

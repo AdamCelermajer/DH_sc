@@ -95,13 +95,13 @@ struct KillCharacterRowOrder<Structs::v2QuestKillEnemies> {
 // The level id of the row: m_w8 (+0x20) or m_w9 (+0x24), by TStruct.
 template <typename TStruct>
 std::int32_t RowLevelId(const Structs::v2QuestObjectiveStub& row) {
-    return KillCharacterRowOrder<TStruct>::kLevelAtW8 ? row.m_w8 : row.m_w9;
+    return KillCharacterRowOrder<TStruct>::kLevelAtW8 ? row.OID1 : row.OID2;
 }
 
 // The enemy id of the row: the other of m_w8 and m_w9, by TStruct.
 template <typename TStruct>
 std::int32_t RowEnemyId(const Structs::v2QuestObjectiveStub& row) {
-    return KillCharacterRowOrder<TStruct>::kLevelAtW8 ? row.m_w9 : row.m_w8;
+    return KillCharacterRowOrder<TStruct>::kLevelAtW8 ? row.OID2 : row.OID1;
 }
 
 // The key a character is matched by, for the character test TTest. Used by GetPositions.
@@ -162,7 +162,7 @@ int ObjectiveTemplate_KillCharacter<TStruct, TEvent, TTest, TBase>::DBG_TraceDet
 
     static_cast<void>(std::fwrite("\t  ObjectiveTemplate_KillEnemies\n", 1, 0x21, out));
     const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->m_w1);  // row +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->Type);  // row +0x04
     std::fprintf(out, "\t    Type      : %s\n", constantName);
     // The level is row +0x20 for the Clear rows and +0x24 for the Kill rows (m_w8 and m_w9), the enemy the other one.
     std::fprintf(out, "\t    Level     : %s\n",

@@ -48,16 +48,6 @@
 #include "glitch-shared/sid_collection.hpp"
 
 namespace glitch::core::detail {
-
-namespace sidedcollection {
-// Value traits for boost::intrusive_ptr values: a value is set when the pointer is not null, and its use
-// count is the reference count at +0x04.
-using SValueTraits = sid_layout::SValueTraits;
-// Property record used by the collections without per-entry properties.
-using SEmptyProperties = sid_layout::SEmptyProperties;
-}  // namespace sidedcollection
-
-template <class T, class IdT, bool Flag, class Props, class Traits = sidedcollection::SValueTraits>
-using SIDedCollection = sid_layout::SIDedCollection<T, Props, Traits>;
-
+// glitch::core::detail::SIDedCollection<T, IdT, Flag, Props, Traits> and sidedcollection::SValueTraits / SEmptyProperties are the
+// shared header's own names now (no alias layer).
 }  // namespace glitch::core::detail

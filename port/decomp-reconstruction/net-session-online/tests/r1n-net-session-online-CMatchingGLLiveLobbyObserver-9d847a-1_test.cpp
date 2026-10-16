@@ -1,6 +1,8 @@
 // Checks for the lobby observer's message dispatch (0x823fd8) and the member-count guard of the
 // join handlers (0x8235f8, 0x822db4). Batch r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-1.
 
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager (GameserverAddr connects through the singleton)
+
 #include <cstdint>
 #include <cstdio>
 #include <limits>
@@ -47,6 +49,7 @@ public:
 }  // namespace
 
 int main() {
+    connection_manager_test::Initialize();
     CMatchingGLLiveLobbyObserver observer;
 
     // A type with no case returns the PrintDatapacket result: the packet length, after one body read.
@@ -63,7 +66,7 @@ int main() {
     CHECK(observer.OnMPProcessPushMessages(&lowest, std::numeric_limits<std::int32_t>::min()) == 42);
     CHECK(lowest.bodyCalls == 1 && lowest.lenCalls == 1);
 
-    // Cases whose handlers read nothing and return 0.
+    // Cases whose handlers return 0 (an empty packet).
     CountingPacket p24;
     CHECK(observer.OnMPProcessPushMessages(&p24, 17 + 24) == 0);   // OnMPProcessPushSetUserStatus
     CHECK(p24.bodyCalls == 1 && p24.lenCalls == 1);                 // the dump runs before the case
@@ -74,7 +77,8 @@ int main() {
     CountingPacket p18;
     CHECK(observer.OnMPProcessPushMessages(&p18, 17 + 18) == 0);   // OnMPProcessPushSetGameParameter
 
-    // Case 33 (OnMPProcessPushGameserverAddr) sets the game-starting flag and reads no packet.
+    // Case 33 (OnMPProcessPushGameserverAddr) reads the dedicated server record (empty here), sets the game-starting flag and
+    // connects member 1 through the connection manager.
     CMatchingGLLive::s_IsGameStarting = false;
     CountingPacket p33;
     CHECK(observer.OnMPProcessPushMessages(&p33, 17 + 33) == 0);
@@ -90,7 +94,7 @@ int main() {
     CHECK(guard0.bodyCalls == 1 && guard0.lenCalls == 1);
     CountingPacket guard1;
     CHECK(observer.OnMPProcessPushMessages(&guard1, 18) == -1);
-    CHECK(observer.OnMPProcessPushJoinLobbyUnlaunched(nullptr) == -1);
+    CHECK(observer.OnMPProcessPushJoinLobbyUnlaunched(&guard0) == -1);
     CHECK(observer.MemberCountForTest() == 16);
 
     std::printf("%s\n", failures ? "r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-1: FAILED"

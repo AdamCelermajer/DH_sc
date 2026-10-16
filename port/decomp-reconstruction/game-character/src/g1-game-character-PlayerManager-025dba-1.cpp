@@ -4,7 +4,7 @@
 // (PlayerManager.cpp in the original).
 //
 // Online gates. The online bodies test, in order: COnline +0x05 (the online-game flag), the OnlineGameState byte at
-// +0x24 and the state word at +0x34, CMatching::UnknownGate() (vtable +0x64) and CNetPlayerManager::IsInitialized().
+// +0x24 and the state word at +0x34, CMatching::IsInRoom() (vtable +0x64) and CNetPlayerManager::IsInitialized().
 // The gates read the real fields (GetOnlineGameFlag, OnlineGameState::flag24_ and mode_).
 //
 // Layout facts used here (dh2/PlayerInfo.hpp, dh2/Gamepad.hpp):
@@ -100,7 +100,7 @@ bool OnlineMatchingReady() {
     if (!OnlineMatchingFlag()) {
         return false;
     }
-    if (!CMatching::Get()->UnknownGate()) {
+    if (!CMatching::Get()->IsInRoom()) {
         return false;
     }
     (void)GetNetPlayerMgr();

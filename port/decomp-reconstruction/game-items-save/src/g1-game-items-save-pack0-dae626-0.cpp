@@ -121,7 +121,7 @@ void ConditionList::AssignPyData(Structs::v2ConditionStub* stubs, int count) {
         m_conditions = static_cast<Condition**>(CustomAlloc(static_cast<unsigned int>(bytes)));  // +0x04
         for (int i = 0; i < count; ++i) {
             Structs::v2ConditionStub* stub = &stubs[i];
-            Condition* cond = s_conditionImplDataMap[stub->m_w1]();
+            Condition* cond = s_conditionImplDataMap[stub->Op]();
             m_conditions[i] = cond;
             cond->m_stub = stub;
         }
@@ -169,8 +169,8 @@ bool Condition_IsEventInState::Eval() {
     GameEventManager* manager = level->m_gameEventManager;  // +0x194
     if (manager != nullptr) {
         // The original dereferences the result without a null test, so an id outside the table crashes there too.
-        GameEvent* ev = manager->GetEventByID(stub->m_w2);
-        return stub->m_w3 == ev->m_state;
+        GameEvent* ev = manager->GetEventByID(stub->Op1);
+        return stub->Op2 == ev->m_state;
     }
     if (gAssertLevel == 2) {
         std::abort();  // the original stores 0 to address 0 here
@@ -188,12 +188,12 @@ bool Condition_IsEventInState::Eval() {
 // original returns fprintf's int).
 std::size_t Condition_IsEventInState::DBG_TraceDetailedConditionInformation(__sFILE* stream) {
     std::FILE* out = reinterpret_cast<std::FILE*>(stream);
-    const std::int32_t eventId = m_stub->m_w2;
+    const std::int32_t eventId = m_stub->Op1;
     const char* eventName = (eventId < 0 || static_cast<std::uint32_t>(eventId) >= Arrays::v2Events::size)
                                 ? "na"
                                 : Arrays::v2Events::m_memberNames.names[eventId];
     std::fprintf(out, "\t    Event       : %s\n", eventName);
     PyDataConstants* constants = Singleton<Application>::s_inst.m_pyDataConstants;  // dword_99F758, Application +0x2c
-    const char* stateName = constants->getConstantName("v2EventState", m_stub->m_w3);
+    const char* stateName = constants->getConstantName("v2EventState", m_stub->Op2);
     return static_cast<std::size_t>(std::fprintf(out, "\t    State       : %s\n\n", stateName));
 }

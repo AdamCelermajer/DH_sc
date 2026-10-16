@@ -21,7 +21,7 @@ int main() {
 
     ProbeImpl probe;
     CHECK(probe.StartReceiverThread() == 0);
-    CHECK(probe.StartReceiverThread() == -1);  // already running
+    CHECK(probe.StartReceiverThread() == 0);  // the first thread is detached, a second one starts
     probe.RequestTermination();
     CHECK(probe.StopReceiverThread() == 0);
     CHECK(probe.StopReceiverThread() == -1);  // not joinable any more

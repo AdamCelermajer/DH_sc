@@ -202,15 +202,15 @@ void CSAttack::OnEvent(int stateId, Character* character, CharStateMachine* sm, 
         const Structs::CharAnim* entry = character->GetCharAnimTable();
         CharAnimator& animator = *character;
         if (character->m_hasHeading) {
-            const int newAnim = AnimStanceOffset(character, 0x40) + entry->m_w1;
-            const int oldAnim = AnimStanceOffset(character, 0x80) + entry->m_w2;
+            const int newAnim = AnimStanceOffset(character, 0x40) + entry->Attack;
+            const int oldAnim = AnimStanceOffset(character, 0x80) + entry->AttackStatic;
             animator.ANIM_Swap(newAnim, oldAnim);
             if (PhysicalObject* physical = character->m_physicalObject) {
                 physical->unpin();
             }
         } else {
-            const int newAnim = AnimStanceOffset(character, 0x80) + entry->m_w2;
-            const int oldAnim = AnimStanceOffset(character, 0x40) + entry->m_w1;
+            const int newAnim = AnimStanceOffset(character, 0x80) + entry->AttackStatic;
+            const int oldAnim = AnimStanceOffset(character, 0x40) + entry->Attack;
             animator.ANIM_Swap(newAnim, oldAnim);
             if (PhysicalObject* physical = character->m_physicalObject) {
                 physical->pin();
@@ -282,16 +282,16 @@ void CSAttack::OnFocus(int stateId, Character* character, CharStateMachine* sm, 
             pinAnim = true;
         }
     } else {
-        pinAnim = entry->m_w2 != -1;
+        pinAnim = entry->AttackStatic != -1;
     }
 
     if (pinAnim) {
-        animator.ANIM_Set(AnimStanceOffset(character, 0x80) + entry->m_w2);
+        animator.ANIM_Set(AnimStanceOffset(character, 0x80) + entry->AttackStatic);
         if (PhysicalObject* physical = character->m_physicalObject) {
             physical->pin();
         }
     } else {
-        animator.ANIM_Set(AnimStanceOffset(character, 0x40) + entry->m_w1);
+        animator.ANIM_Set(AnimStanceOffset(character, 0x40) + entry->Attack);
         if (PhysicalObject* physical = character->m_physicalObject) {
             physical->unpin();
         }

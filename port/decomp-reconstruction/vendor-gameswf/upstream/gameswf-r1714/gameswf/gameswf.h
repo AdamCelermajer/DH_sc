@@ -795,6 +795,10 @@ namespace gameswf
 	{
 		virtual ~render_handler() {}	// DH2: +0x00 (D1), +0x04 (D0)
 
+		// DH2: +0x04, the pixel rounding flag. render_handler_glitch::draw_bitmap snaps the quad corners to whole pixels
+		// when it is set (the constructor sets it to 1); edit_text_character::display writes it before drawing text.
+		unsigned char	unk_04 = 0;
+
 		// Your handler should return these with a ref-count of 0.  (@@ is that the right policy?)
 		virtual bitmap_info*	create_bitmap_info_empty() = 0;	// +0x08; used when DO_NOT_LOAD_BITMAPS is set
 		virtual bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data) = 0;	// +0x0c

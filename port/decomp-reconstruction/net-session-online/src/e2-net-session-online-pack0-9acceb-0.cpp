@@ -1,53 +1,30 @@
 // Track B batch e2-net-session-online-pack0-9acceb-0 (owner CMatching, ported as CMatching).
-// Both functions are partial. The demangled owner in each comment is the original CMatching.
+// The demangled owner in each comment is the original CMatching.
 #include "net-session-online/c_matching_base.hpp"
 
 #include <cstdint>
 
+#include "dh2/global/net_singletons.hpp"
 #include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_online.hpp"
 #include "net-session-online/c_sign_in.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-transport/connection_manager.hpp"       // CConnectionManager (Update, vtable +0x08)
-#include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager (Update(int), vtable +0x08)
+#include "net-transport/packet_manager.hpp"
+#include "net-transport/tb/c_net_player_manager.hpp"
+#include "net-transport/tb/cnet_player_info.hpp"  // CNetPlayerManager (Update(int), vtable +0x08)
 
 // 0x801120 _ZN9CMatching13ProcessEventsEv
-// Partial. Reproduced, in the original order:
-//   - internal 0x800000 is forwarded to the output queue as 0x400000 with its payload;
-//   - internal 0x800001 sets initialized_ (+0x0c) and posts 0x400001;
-//   - 0x800017 or 0x800015 posts 0x400014, and 0x800014 or 0x800016 posts 0x400013;
-//   - in the initialized branch: 0x800003 is consumed, 0x80000c/0x80000d/0x800012/0x80000e/0x80000f
-//     post 0x400010/0x400011/0x400007/0x400003/0x400004, 0x800004/0x800005/0x800009 post
-//     0x400009/0x40000a/0x40000b, 0x800011 and 0x800010 are consumed, 0x800006 is forwarded as
-//     0x40000c with its payload, 0x80000b posts 0x400012, and 0x800007 disconnects a connected member
-//     or posts 0x40000d.
-// Not reproduced (each branch below is named where it sits in the body):
-//   - CPacketManager::Initialize, CMessaging::Initialize and CNetPlayerManager::Initialize (this+8)
-//     on 0x800001. The output event 0x400001 is still posted.
-//   - The player-manager calls on 0x800003 (AddPlayer and COnline::SyncTime), and on the reset events
-//     0x800004, 0x800005 and 0x800009 (CNetPlayerManager::ResetPlayers, CConnectionManager::DisconnectAll,
-//     CMessaging::Get()->ResetQueues) and on 0x800009 (COnline::ReportDisconnect with reason 3).
-//     Their output events are posted, the calls are not.
-//   - The room-attribute predicate (vtable +0x14 on GetRoomAttributes()) with its +0x18 call, and
-//     the event 0x40000f it gates, together with the server-or-local-member check.
-//   - The CNetPlayerManager event queue at +0x180 (event 0x300001) and its 0x400008 and SyncTime.
-//   - The disconnect of 0x800007 goes through the DisconnectMember seam, which CMatchingLocal and the
-//     other derived classes do not forward yet, so the member stays connected in those classes.
-//   - Why the reset calls and the 0x800003 AddPlayer stay out: ResetPlayers, DisconnectAll, ResetQueues and
-//     COnline::ReportDisconnect now exist, but the body calls them on the CNetPlayerManager, CConnectionManager
-//     and CMessaging singletons without a check, and it reads CNetPlayerManager's queue (+0x180) and
-//     CConnectionManager's queue (+0x08, private in the port) on every call. CNetPlayerManager::AddPlayer(int, int)
-//     is not declared (the port has the stream overload only). The singletons are not installed by this
-//     category's tests, so the calls are left for the integrator.
-//   - NetStruct::SetEnabled on each member element for 0x80000b. Only the flag read (IsServer) is done.
-//   - The CConnectionManager event queue at +0x08 (event 0x600004) and its member-id branch
-//     (posts 0x40000a with COnline::ReportDisconnect(6), or 0x40000e), which is the last block of the body.
-// Deviation: the original returns the last callee's pointer. The port returns void.
+// Transcribed in the original order. Internal events (CMatching::m_eventQueueInternal) are turned into output events
+// (CMatching::m_eventQueue). Calls the original makes on the CNetPlayerManager, CConnectionManager and COnline
+// singletons without a check are guarded here: a missing singleton skips the call (the original would fault).
+// The original returns the last callee's pointer; the port returns void.
 void CMatching::ProcessEvents() {
     CEventQueueBase& internal = MatchingInternalEventQueue();
     CEventQueueBase& output = MatchingOutputEventQueue();
     std::int32_t payload = 0;
 
-    // 0x800000: forward the payload to the output queue (peek, then read, then consume).
+    // 0x800000: forward the payload to the output queue as 0x400000 (peek, read, post, consume).
     if (internal.HasEventOccured(0x800000, false)) {
         payload = 0;
         internal.GetEventData(0x800000, &payload, 4);
@@ -55,10 +32,12 @@ void CMatching::ProcessEvents() {
         internal.ConsumeEvent(0x800000);
     }
 
-    // 0x800001: initialize. The flag is set before the (not ported) initializers run.
+    // 0x800001: initialize the packet manager, the messaging layer and the player manager (slot count this+8).
     if (internal.HasEventOccured(0x800001, true)) {
         initialized_ = true;  // +0x0c
-        // Not ported: CPacketManager::Initialize, CMessaging::Initialize, CNetPlayerManager::Initialize(this+8).
+        CPacketManager::Initialize();
+        CMessaging::Initialize();
+        CNetPlayerManager::Initialize(memberCapacity_);  // *((int *)this + 2)
         output.AddEvent(0x400001, nullptr, 0);
     }
 
@@ -67,126 +46,177 @@ void CMatching::ProcessEvents() {
         output.AddEvent(0x400014, nullptr, 0);
     }
 
-    // 0x800014 or 0x800016 (the second is read only when the first has not fired).
+    // 0x800014 or 0x800016.
     if (internal.HasEventOccured(0x800014, true) || internal.HasEventOccured(0x800016, true)) {
         output.AddEvent(0x400013, nullptr, 0);
     }
 
-    if (initialized_) {
-        // 0x800003: AddPlayer(GetNetPlayerMgr(), LocalMemberId(), 0) and SyncTime. Not ported.
-        if (internal.HasEventOccured(0x800003, true)) {
-        }
+    if (!initialized_) {
+        return;
+    }
 
-        // 0x80000c and 0x80000d are forwarded as they are.
-        if (internal.HasEventOccured(0x80000c, true)) {
-            output.AddEvent(0x400010, nullptr, 0);
+    // 0x800003: the local member joins the player list and the clock is synced.
+    if (internal.HasEventOccured(0x800003, true)) {
+        if (CNetPlayerManager* players = GetNetPlayerMgr()) {
+            players->AddPlayer(LocalMemberId(), 0);  // vtable +0x6c
         }
-        if (internal.HasEventOccured(0x80000d, true)) {
-            output.AddEvent(0x400011, nullptr, 0);
+        if (COnline* online = GetOnline()) {
+            online->SyncTime();
         }
+    }
 
-        // 0x800004: ResetPlayers, DisconnectAll and ResetQueues(true) not ported; 0x400009 is posted.
-        if (internal.HasEventOccured(0x800004, true)) {
-            output.AddEvent(0x400009, nullptr, 0);
-        }
-        // 0x800005: same reset set not ported; 0x40000a is posted.
-        if (internal.HasEventOccured(0x800005, true)) {
-            output.AddEvent(0x40000a, nullptr, 0);
-        }
-        // 0x800009: same reset set not ported; 0x40000b is posted. COnline::ReportDisconnect(3, 0) not ported.
-        if (internal.HasEventOccured(0x800009, true)) {
-            output.AddEvent(0x40000b, nullptr, 0);
-        }
+    if (internal.HasEventOccured(0x80000c, true)) {
+        output.AddEvent(0x400010, nullptr, 0);
+    }
+    if (internal.HasEventOccured(0x80000d, true)) {
+        output.AddEvent(0x400011, nullptr, 0);
+    }
 
-        // 0x800011 and 0x800010: consumed, nothing forwarded.
-        if (internal.HasEventOccured(0x800011, true)) {
-            internal.ConsumeEvent(0x800011);
+    // The three reset events share the reset set: players, connections, messaging queues (resetMaps = true).
+    auto resetNetwork = []() {
+        if (CNetPlayerManager* players = GetNetPlayerMgr()) {
+            players->ResetPlayers();
         }
-        if (internal.HasEventOccured(0x800010, true)) {
-            internal.ConsumeEvent(0x800010);
+        if (CConnectionManager* connections = GetConnectionMgr()) {
+            connections->DisconnectAll();
         }
+        if (CMessaging* messaging = GetMessaging()) {
+            messaging->ResetQueues(true);
+        }
+    };
+    // 0x800004 -> 0x400009.
+    if (internal.HasEventOccured(0x800004, true)) {
+        resetNetwork();
+        output.AddEvent(0x400009, nullptr, 0);
+    }
+    // 0x800005 -> 0x40000a.
+    if (internal.HasEventOccured(0x800005, true)) {
+        resetNetwork();
+        output.AddEvent(0x40000a, nullptr, 0);
+    }
+    // 0x800009 -> 0x40000b, then COnline::ReportDisconnect(3, 0).
+    if (internal.HasEventOccured(0x800009, true)) {
+        resetNetwork();
+        output.AddEvent(0x40000b, nullptr, 0);
+        if (COnline* online = GetOnline()) {
+            online->ReportDisconnect(static_cast<COnline::tDisconnectCause>(3), 0);
+        }
+    }
 
-        if (internal.HasEventOccured(0x800012, true)) {
-            output.AddEvent(0x400007, nullptr, 0);
-        }
-        if (internal.HasEventOccured(0x80000e, true)) {
-            output.AddEvent(0x400003, nullptr, 0);
-        }
-        if (internal.HasEventOccured(0x80000f, true)) {
-            output.AddEvent(0x400004, nullptr, 0);
-        }
+    // 0x800011 and 0x800010: consumed, nothing forwarded.
+    if (internal.HasEventOccured(0x800011, true)) {
+        internal.ConsumeEvent(0x800011);
+    }
+    if (internal.HasEventOccured(0x800010, true)) {
+        internal.ConsumeEvent(0x800010);
+    }
 
-        // Not ported: the room-attribute predicate (vtable +0x14 on GetRoomAttributes()), the vtable +0x18
-        // call on the same object, and the event 0x40000f with its server-or-local-member check.
+    if (internal.HasEventOccured(0x800012, true)) {
+        output.AddEvent(0x400007, nullptr, 0);
+    }
+    if (internal.HasEventOccured(0x80000e, true)) {
+        output.AddEvent(0x400003, nullptr, 0);
+    }
+    if (internal.HasEventOccured(0x80000f, true)) {
+        output.AddEvent(0x400004, nullptr, 0);
+    }
 
-        // Not ported: the player-manager queue (CNetPlayerManager+0x180, event 0x300001), which posts 0x400008
-        // and calls COnline::SyncTime.
-
-        // 0x800006: forwarded to 0x40000c with its payload (peek, read, consume).
-        if (internal.HasEventOccured(0x800006, false)) {
-            internal.GetEventData(0x800006, &payload, 4);
-            internal.ConsumeEvent(0x800006);
-            output.AddEvent(0x40000c, &payload, 4);
-        }
-
-        // 0x80000b: the member flags are set from IsServer(). The NetStruct::SetEnabled loop over the
-        // member elements is not ported. 0x400012 is posted.
-        if (internal.HasEventOccured(0x80000b, true)) {
-            const bool isServer = IsServer();
-            (void)isServer;  // read by the skipped SetEnabled loop
-            output.AddEvent(0x400012, nullptr, 0);
-        }
-
-        // 0x800007: a connected member is disconnected; any other member id posts 0x40000d with its payload.
-        if (internal.HasEventOccured(0x800007, false)) {
-            internal.GetEventData(0x800007, &payload, 4);
-            internal.ConsumeEvent(0x800007);
-            if (IsConnectedMember(payload)) {
-                DisconnectMember(payload);
-            } else {
-                output.AddEvent(0x40000d, &payload, 4);
+    // The room attributes (vtable +0xa4): when they changed (CRoomAttributes slot +0x14, HasChanged) the output event
+    // 0x40000f is posted, and the server, or the member that hosts the first player, resends them (slot +0x18).
+    if (CRoomAttributes* attributes = GetRoomAttributes()) {
+        if (attributes->HasChanged()) {
+            output.AddEvent(0x40000f, nullptr, 0);
+            bool resend = IsServer();
+            if (!resend) {
+                const std::int32_t localMember = CMatching::Get()->LocalMemberId();  // vtable +0x6c
+                CNetPlayerManager* players = GetNetPlayerMgr();
+                CNetPlayerInfo* host = players != nullptr
+                                           ? players->GetPlayer(players->net_struct_.host_member_id_.GetValue(), false)
+                                           : nullptr;  // original: no check
+                resend = host != nullptr && localMember == host->matching_member_id_.GetValue();  // +0x1a0
+            }
+            if (resend) {
+                GetRoomAttributes()->Resend();
             }
         }
+    }
 
-        // Not ported: the connection-manager queue (event 0x600004) and its member-id branch, the last
-        // block of the body.
+    // The player manager's internal queue (CNetPlayerManager +0x180): 0x300001 posts 0x400008 and syncs the clock.
+    if (CNetPlayerManager* players = GetNetPlayerMgr();
+        players != nullptr && players->internal_events_.HasEventOccured(0x300001, true)) {
+        output.AddEvent(0x400008, nullptr, 0);
+        if (COnline* online = GetOnline()) {
+            online->SyncTime();
+        }
+    }
+
+    // 0x800006: forwarded to 0x40000c with its payload (peek, read, consume).
+    if (internal.HasEventOccured(0x800006, false)) {
+        internal.GetEventData(0x800006, &payload, 4);
+        internal.ConsumeEvent(0x800006);
+        output.AddEvent(0x40000c, &payload, 4);
+    }
+
+    // 0x80000b: every member element gets NetStruct::SetEnabled(IsServer()), then 0x400012 is posted.
+    if (internal.HasEventOccured(0x80000b, true)) {
+        const bool isServer = IsServer();
+        for (std::int32_t i = 0; i < memberCount_; ++i) {  // +0x1c, element stride 432
+            members_[i].SetEnabled(isServer);
+        }
+        output.AddEvent(0x400012, nullptr, 0);
+    }
+
+    // 0x800007: a connected member is disconnected (notify = false); any other member id posts 0x40000d.
+    if (internal.HasEventOccured(0x800007, false)) {
+        internal.GetEventData(0x800007, &payload, 4);
+        internal.ConsumeEvent(0x800007);
+        if (CConnectionManager* connections = GetConnectionMgr();
+            connections != nullptr && connections->IsConnected(payload)) {
+            connections->Disconnect(payload, false);
+        } else {
+            output.AddEvent(0x40000d, &payload, 4);
+        }
+    }
+
+    // The connection manager's own queue (CConnectionManager +0x08): 0x600004 carries a member id. The local member
+    // reports a disconnect with cause 6 after 0x40000a; any other posts 0x40000e.
+    if (CConnectionManager* connections = GetConnectionMgr();
+        connections != nullptr && connections->event_queue_.HasEventOccured(0x600004, false)) {
+        connections->event_queue_.GetEventData(0x600004, &payload, 4);
+        connections->event_queue_.ConsumeEvent(0x600004);
+        if (LocalMemberId() == payload) {  // vtable +0x6c
+            output.AddEvent(0x40000a, &payload, 4);
+            if (COnline* online = GetOnline()) {
+                online->ReportDisconnect(static_cast<COnline::tDisconnectCause>(6), 0);
+            }
+        } else {
+            output.AddEvent(0x40000e, &payload, 4);
+        }
     }
 }
 
 // 0x8018fc _ZN9CMatching6UpdateEv
-// Re-verified against the 0x8018fc Hex-Rays and the vtable dumps. The binary: ProcessEvents(); then, when the
-// initialized byte (+0x0c) is set: CMessaging::Get()->Update(); GetConnectionMgr()->(vtable +0x08) =
-// CConnectionManager::Update; GetNetPlayerMgr()->(vtable +0x08) = CNetPlayerManager::Update(0);
-// CSignIn::Get()->(vtable +0x1c) = CSignIn::Update; this->(vtable +0x1c) = CMatching::UpdateMemberIdList.
-// Then the room-mask dirty flag (+0x10) is set and 0 returns.
-// FIXED this pass: the whole initialized branch was missing. Every slot is now called through its named
-// method (the port's own virtual order differs from the binary's, see the category finding), so the calls
-// are the same methods at the same points even though the slot indices differ.
-// Deviation (host-necessitated in this port's tests): the binary dereferences the connection, player and
-// sign-in singletons unconditionally; the category's tests do not install them, so the branch would fault.
-// The branch is therefore taken only when the connection manager actually answers, which is the same
-// condition as "a manager exists" and cannot change behaviour where one does.
+// ProcessEvents; then, when the initialized byte (+0x0c) is set: CMessaging::Get()->Update(); the connection manager's
+// Update (vtable +0x08); the player manager's Update(0) (vtable +0x08); the sign-in's Update (CSignIn vtable +0x1c); and this
+// object's UpdateMemberIdList (vtable +0x1c). The room mask dirty flag (+0x10) is set and 0 returned.
+// Deviation: the original dereferences the connection, player and sign-in singletons unconditionally; each is tested
+// here, so a missing one skips only its own call.
 int CMatching::Update() {
     ProcessEvents();
     if (initialized_) {
-        // The guard was incomplete before this pass: only CConnectionManager was tested, while the very next
-        // statements dereferenced CNetPlayerManager::GetInstance() and CSignIn::Get(). With the managers not
-        // installed - which is how net-session-online's own tests run - CNetPlayerManager::GetInstance()
-        // returns null and the call faulted (gdb: CMatching::Update+73, `mov (%rax),%r8` with rax=0). Each
-        // singleton is tested individually now, so the branch runs exactly when the objects exist.
         if (CMessaging* messaging = CMessaging::GetInstance()) {
             messaging->Update();
         }
         if (CConnectionManager* connections = CConnectionManager::GetInstance()) {
             connections->Update();
-            if (CNetPlayerManager* players = CNetPlayerManager::GetInstance()) {
-                players->Update(0);
-            }
-            if (CSignIn* signIn = CSignIn::Get()) {
-                signIn->Update();
-            }
-            UpdateMemberIdList();
         }
+        if (CNetPlayerManager* players = CNetPlayerManager::GetInstance()) {
+            players->Update(0);
+        }
+        if (CSignIn* signIn = CSignIn::Get()) {
+            signIn->Update();
+        }
+        UpdateMemberIdList();
     }
     roomMaskDirty_ = true;  // +0x10
     return 0;

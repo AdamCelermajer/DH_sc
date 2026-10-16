@@ -1,6 +1,6 @@
 // XP_API_*: the thin platform wrappers that the GLX and lobby code calls instead of
 // libc. Most forward one call to the libc function of the same role. Each comment
-// names the target. The XP_API_GET_TIME and XP_DEBUG_OUT stand-ins live in deps/.
+// names the target. The XP_DEBUG_OUT stand-in lives in deps/.
 //
 // The pseudocode of several wrappers shows void or a truncated body because the call
 // they end in is a tail call. Where the ARM listing passes the callee's r0 back, the
@@ -9,6 +9,9 @@
 
 #include <cstddef>
 #include <cstdint>
+
+// 0x82b138 XP_API_GET_TIME (C symbol): gettimeofday as milliseconds, tv_usec / 1000 + 1000 * tv_sec, 32-bit wrap.
+extern "C" int XP_API_GET_TIME();
 
 void XP_DEBUG_INIT();       // 0x82a664, no-op
 void XP_DEBUG_FINALIZE();   // 0x82a668, no-op

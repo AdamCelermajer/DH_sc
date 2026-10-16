@@ -66,7 +66,7 @@ std::int32_t GLXPlayerLogin::SendLogin(char* user, char* password, char* udid, s
                                        char* dValue, char* lValue, bool gllive) {
     if (user == nullptr || password == nullptr) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(15, -100);
+            observer_->OnRequestFailure(15, -100);
         }
         return 0;
     }
@@ -117,7 +117,7 @@ std::int32_t GLXPlayerLogin::sendRegister(char* user, char* password, char* emai
                                           bool gllive) {
     if (user == nullptr || password == nullptr || email == nullptr || country == nullptr) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(11, -100);
+            observer_->OnRequestFailure(11, -100);
         }
         return 0;
     }

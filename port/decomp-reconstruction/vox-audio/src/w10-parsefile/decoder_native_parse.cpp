@@ -96,10 +96,13 @@ bool IsKnownChunk(std::uint32_t id) {
 // the body (+0x0c, the decoder's base offset at +0x18) is the total length of the file, so
 // the data after the body is total - 16 - body size bytes. The data is read into one buffer
 // and then walked.
-// Partial, one item: the Stat case is the only writer of the stack slot the Trsn case passes to
+// Reconstructed, compared with the Hex-Rays body chunk by chunk (Afmt, Segm, Cues, Grps, Grpe, Rule, Plst, Stat,
+// Trsn, the skipped ids, the record-size and position arithmetic, the initial -1 / 0 / 1 values of the record
+// scratch words). The Stat case is the only writer of the stack slot the Trsn case passes to
 // CreateTransitionsContainer (verified in the ARM listing: STR R4,[SP,var_9C] at 0x873F74 and
-// LDR R1,[SP,var_9C] at 0x8740D0), so a Trsn chunk that no Stat chunk precedes passes an
-// uninitialised word as the transition count. The port passes state_count, which is 0 there.
+// LDR R1,[SP,var_9C] at 0x8740D0), so a Trsn chunk that no Stat chunk precedes passes an uninitialised word as
+// the transition count (undefined in the binary, a malformed-file case); the port passes state_count, which is
+// 0 there.
 bool DecoderNativeCursor::ParseFile() {
     if (stream_ == nullptr) {
         return false;

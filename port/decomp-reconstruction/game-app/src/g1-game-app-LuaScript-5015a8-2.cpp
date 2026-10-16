@@ -238,8 +238,8 @@ void LuaScript::_GetCurrentLevelRange(const sfc::script::lua::Arguments& args, s
     const auto* rows =
         static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
     const Structs::LevelDeclaration& row = rows[levelIndex];
-    const auto range = luascript_g1::LevelRangeFor(selector, row.m_w12, row.m_w13, row.m_w14, row.m_w15, row.m_w16,
-                                                   row.m_w17);
+    const auto range = luascript_g1::LevelRangeFor(selector, row.MonsterLvlMax, row.MonsterLvlMaxHard, row.MonsterLvlMaxNightmare, row.MonsterLvlMin, row.MonsterLvlMinHard,
+                                                   row.MonsterLvlMinNightmare);
     if (range) {
         ret.pushInteger(range->first);
         ret.pushInteger(range->second);

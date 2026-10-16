@@ -567,7 +567,7 @@ int CAndroidSocket::FinishConnect() {
 // The original never reads its port argument; the connect uses the port_ member. Returns 1
 // when the connection completes and 0 otherwise. Reconstructed: the XP_DEBUG_OUT logging is dropped and
 // those calls are statements in the binary (their result is discarded).
-int CAndroidSocket::ConnectByName(const char* name, std::uint16_t port) {
+int CAndroidSocket::ConnectByName(char* name, std::uint16_t port) {
     (void)port;
     if (nonBlockConnectState_ == kConnectIdle) {
         hostEntry_ = GetHostByName(name);
@@ -632,7 +632,7 @@ int CAndroidSocket::GetLastError() {
 // port stores the 4-byte address. Once the cache is full (4 entries) the last cached entry is
 // returned in place of the new lookup, as in the original. A null slot there (Startup clears the
 // slots but not the count) returns nullptr, where the original returns its null slot.
-hostent* CAndroidSocket::GetHostByName(const char* name) {
+hostent* CAndroidSocket::GetHostByName(char* name) {
     if (name == nullptr || std::strlen(name) > kHostNameMax) {
         return nullptr;
     }
@@ -664,7 +664,7 @@ hostent* CAndroidSocket::GetHostByName(const char* name) {
 // system hostent and stores a copy only while a cache slot is free.
 // Partial: the "GetHostByName() Existed/Add" debug lines are dropped. The stored address is the
 // first one only (4 bytes here, h_length bytes in the original).
-hostent* CAndroidSocket::GetHostIP(const char* name) {
+hostent* CAndroidSocket::GetHostIP(char* name) {
     for (int i = 0; i < g_host_count; ++i) {
         HostCacheEntry* entry = g_host_cache[i].get();
         if (entry != nullptr && std::strcmp(name, entry->view.h_name) == 0) {

@@ -399,12 +399,16 @@ const SVertexAttributeTypeInspection::SDefault SVertexAttributeTypeInspection::D
 }  // namespace detail
 
 // 0x5a2b18 _ZN6glitch5video10copyVertexEtRKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS2_IS3_EEPKhRPhb
-// Partial: only the per-stream branch (wholeVertex false) is written. See the header.
+// Both branches written. The per-stream branch's add-ref/map/drop of each buffer nets to zero use count here.
 void copyVertex(uint16_t vertex, const boost::intrusive_ptr<const CVertexStreams>& src,
-                const boost::intrusive_ptr<CVertexStreams>& /*dst*/, const uint8_t* /*base*/, uint8_t*& out,
+                const boost::intrusive_ptr<CVertexStreams>& /*dst*/, const uint8_t* base, uint8_t*& out,
                 bool wholeVertex) {
     if (wholeVertex) {
-        // Not written: the original copies the table's vertex size (word at +0x22) from base.
+        // 0x5a2bf4: n = *(u16*)(*src + 0x22) (the vertex stride, entry 0's field0e); memcpy(*out, base + n * vertex, n);
+        // *out += n.
+        const size_t stride = src->getVertexStride();
+        std::memcpy(out, base + stride * vertex, stride);
+        out += stride;
         return;
     }
     for (const SVertexStream& stream : src->m_streams) {

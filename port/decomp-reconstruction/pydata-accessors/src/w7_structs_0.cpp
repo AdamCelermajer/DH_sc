@@ -26,8 +26,8 @@ void v2IsQuestInState::finalize() {
 // below is the listing's. Was partial while that body was believed missing; it exists.
 void v2IsQuestInState::read(IStreamBase* stream) {
     v2Condition::read(stream);                          // +0x4, base read first
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Quest = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c7da0 _ZN7Structs19v2IsQuestStateLowerD2Ev
@@ -52,8 +52,8 @@ void v2IsQuestStateLower::finalize() {
 // four roots. Was partial while v2Condition::read was believed missing; it is defined at 0x505b28.
 void v2IsQuestStateLower::read(IStreamBase* stream) {
     v2Condition::read(stream);                          // +0x4, base read first
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Quest = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c7e0c _ZN7Structs20v2IsQuestStateHigherD2Ev
@@ -78,8 +78,8 @@ void v2IsQuestStateHigher::finalize() {
 // four roots. Was partial while v2Condition::read was believed missing; it is defined at 0x505b28.
 void v2IsQuestStateHigher::read(IStreamBase* stream) {
     v2Condition::read(stream);                          // +0x4, base read first
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Quest = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c7e78 _ZN7Structs17v2IsPlayerInLevelD2Ev
@@ -104,8 +104,8 @@ void v2IsPlayerInLevel::finalize() {
 // four roots. Was partial while v2Condition::read was believed missing; it is defined at 0x505b28.
 void v2IsPlayerInLevel::read(IStreamBase* stream) {
     v2Condition::read(stream);                          // +0x4, base read first
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Level = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    NotUsed1 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c8610 _ZN7Structs16v2IsEventInStateD2Ev
@@ -130,8 +130,8 @@ void v2IsEventInState::finalize() {
 // body at this address: v2Condition::read(this, a2); readAs<int>(a2, this + 8); readAs<int>(a2, this + 12).
 void v2IsEventInState::read(IStreamBase* stream) {
     v2Condition::read(stream);                          // +0x4, base read first
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Event = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c7ee4 _ZN7Structs15v2IsQuestLockedD2Ev

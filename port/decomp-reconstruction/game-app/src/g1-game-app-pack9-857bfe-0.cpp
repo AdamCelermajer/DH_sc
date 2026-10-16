@@ -96,7 +96,7 @@ void Script_PutCharacterInIdle::Execute(bool skipping, int module) {
     auto* args = static_cast<Structs::PutCharacterInIdle*>(m_args);
     TraceScriptCmdSwitch();
     waitForAnim = !skipping;
-    Script_CharacterState_Callback(args->m_w3, module, &Script_PutCharacterInIdle::SetState);
+    Script_CharacterState_Callback(args->Target, module, &Script_PutCharacterInIdle::SetState);
 }
 
 // ---- Script_PutCharacterInLimbus ----
@@ -112,11 +112,11 @@ void Script_PutCharacterInLimbus::Execute(bool /*skipping*/, int module) {
     auto* args = static_cast<Structs::PutCharacterInLimbus*>(m_args);
     TraceScriptCmdSwitch();
     ObjectHandle handle =
-        ApplicationGetInstance().m_objectManager->GetObjectByName(args->m_w4, module, false, nullptr);
+        ApplicationGetInstance().m_objectManager->GetObjectByName(args->Target, module, false, nullptr);
     Character* character = handle;
     if (character) {
         CharStateMachine& machine = *character;
-        machine.SM_SetLimbusState(args->m_w2);
+        machine.SM_SetLimbusState(args->AutoSpawn);
     }
 }
 
@@ -136,7 +136,7 @@ void Script_ReEquipHands::Execute(bool /*skipping*/, int module) {
     auto* args = static_cast<Structs::ReEquipHands*>(m_args);
     TraceScriptCmdSwitch();
     ObjectHandle handle =
-        ApplicationGetInstance().m_objectManager->GetObjectByName(args->m_w3, module, false, nullptr);
+        ApplicationGetInstance().m_objectManager->GetObjectByName(args->Target, module, false, nullptr);
     if (!handle.GetObject(false)) {
         return;
     }
@@ -210,9 +210,9 @@ void Script_SetActorMaster::Execute(bool /*skipping*/, int module) {
     auto* args = static_cast<Structs::SetActorMaster*>(m_args);
     TraceScriptCmdSwitch();
     ObjectManager* objects = ApplicationGetInstance().m_objectManager;
-    ObjectHandle actorHandle = objects->GetObjectByName(args->m_w7, module, false, nullptr);
+    ObjectHandle actorHandle = objects->GetObjectByName(args->Target, module, false, nullptr);
     Character* actor = actorHandle;
-    ObjectHandle masterHandle = objects->GetObjectByName(args->m_w4, module, false, nullptr);
+    ObjectHandle masterHandle = objects->GetObjectByName(args->Master, module, false, nullptr);
     Character* master = masterHandle;
     if (master && actor) {
         actor->CharAI::AI_SetMaster(master);
@@ -253,9 +253,9 @@ void Script_SetActorPosition::Execute(bool /*skipping*/, int module) {
     auto* args = static_cast<Structs::SetActorPosition*>(m_args);
     TraceScriptCmdSwitch();
     ObjectManager* objects = ApplicationGetInstance().m_objectManager;
-    ObjectHandle targetHandle = objects->GetObjectByName(args->m_w5, module, false, nullptr);
+    ObjectHandle targetHandle = objects->GetObjectByName(args->Target, module, false, nullptr);
     GameObject* target = targetHandle;
-    ObjectHandle referenceHandle = objects->GetObjectByName(args->m_w3, module, false, nullptr);
+    ObjectHandle referenceHandle = objects->GetObjectByName(args->Position, module, false, nullptr);
     GameObject* reference = referenceHandle;
     if (!reference || !target) {
         return;
@@ -318,8 +318,8 @@ void Script_SetCameraClip::Execute(bool /*skipping*/, int /*module*/) {
         return;
     }
     glitch::scene::ICameraSceneNode* node = camera->m_camera;
-    const std::int32_t nearValue = args->m_w3;
-    const std::int32_t farValue = args->m_w2;
+    const std::int32_t nearValue = args->Near;
+    const std::int32_t farValue = args->Far;
     if (nearValue > 0) {
         node->setNearValue(static_cast<float>(nearValue));
     } else if (nearValue == -2) {

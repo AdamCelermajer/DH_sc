@@ -75,6 +75,63 @@ struct GLFunctionTable {
     // Buffer objects (CCommonGLDriver::ReloadbufferMap, the CBuffer slots).
     void (*bindBuffer)(uint32_t target, uint32_t buffer) = nullptr;
     void (*bufferData)(uint32_t target, int32_t size, const void* data, uint32_t usage) = nullptr;
+    void (*genBuffers)(int32_t count, uint32_t* names) = nullptr;                                       // glGenBuffers
+    void (*deleteBuffers)(int32_t count, const uint32_t* names) = nullptr;                              // glDeleteBuffers
+    void (*bufferSubData)(uint32_t target, int32_t offset, int32_t size, const void* data) = nullptr;  // glBufferSubData
+    void (*vertexAttribPointer)(uint32_t index, int32_t size, uint32_t type, uint8_t normalized, int32_t stride,
+                                const void* pointer) = nullptr;                                         // glVertexAttribPointer
+    void (*vertexAttrib4f)(uint32_t index, float x, float y, float z, float w) = nullptr;              // glVertexAttrib4f
+
+    // Viewport, texture units, pixel read-back, framebuffers, vertex attribute arrays and draw calls (CCommonGLDriver:
+    // setViewportImpl, setTexture, createScreenShot, CFramebuffer::bind, restoreShadowState, drawPrimitives).
+    void (*viewport)(int32_t x, int32_t y, int32_t width, int32_t height) = nullptr;
+    void (*activeTexture)(uint32_t texture) = nullptr;
+    void (*bindTexture)(uint32_t target, uint32_t texture) = nullptr;
+    void (*readPixels)(int32_t x, int32_t y, int32_t width, int32_t height, uint32_t format, uint32_t type,
+                       void* pixels) = nullptr;
+    void (*bindFramebuffer)(uint32_t target, uint32_t framebuffer) = nullptr;
+    void (*enableVertexAttribArray)(uint32_t index) = nullptr;
+    void (*disableVertexAttribArray)(uint32_t index) = nullptr;
+    void (*drawElements)(uint32_t mode, int32_t count, uint32_t type, const void* indices) = nullptr;
+    void (*drawArrays)(uint32_t mode, int32_t first, int32_t count) = nullptr;
+    void (*genRenderbuffers)(int32_t count, uint32_t* names) = nullptr;
+    void (*deleteRenderbuffers)(int32_t count, const uint32_t* names) = nullptr;
+
+    // Textures and framebuffer objects (CCommonGLDriver::CTexture bind / update / unbind, CRenderTarget bind, CRenderBuffer bind).
+    void (*genTextures)(int32_t count, uint32_t* names) = nullptr;
+    void (*deleteTextures)(int32_t count, const uint32_t* names) = nullptr;
+    void (*texParameteri)(uint32_t target, uint32_t pname, int32_t param) = nullptr;
+    void (*texParameterf)(uint32_t target, uint32_t pname, float param) = nullptr;
+    void (*texImage2D)(uint32_t target, int32_t level, int32_t internalFormat, int32_t width, int32_t height, int32_t border,
+                       uint32_t format, uint32_t type, const void* pixels) = nullptr;
+    void (*texSubImage2D)(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height,
+                          uint32_t format, uint32_t type, const void* pixels) = nullptr;
+    void (*compressedTexImage2D)(uint32_t target, int32_t level, uint32_t internalFormat, int32_t width, int32_t height,
+                                 int32_t border, int32_t imageSize, const void* data) = nullptr;
+    void (*compressedTexSubImage2D)(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width,
+                                    int32_t height, uint32_t format, int32_t imageSize, const void* data) = nullptr;
+    void (*generateMipmap)(uint32_t target) = nullptr;
+    void (*copyTexSubImage2D)(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t x, int32_t y,
+                              int32_t width, int32_t height) = nullptr;
+    void (*genFramebuffers)(int32_t count, uint32_t* names) = nullptr;
+    void (*framebufferTexture2D)(uint32_t target, uint32_t attachment, uint32_t textarget, uint32_t texture, int32_t level) = nullptr;
+    void (*framebufferRenderbuffer)(uint32_t target, uint32_t attachment, uint32_t renderbufferTarget, uint32_t renderbuffer) = nullptr;
+    uint32_t (*checkFramebufferStatus)(uint32_t target) = nullptr;
+    void (*bindRenderbuffer)(uint32_t target, uint32_t renderbuffer) = nullptr;
+    void (*renderbufferStorage)(uint32_t target, uint32_t internalFormat, int32_t width, int32_t height) = nullptr;
+
+    // Uniforms (CProgrammableGLDriver::commitCurrentMaterialParametersAux, commitLightParameter).
+    void (*uniform1f)(int32_t location, float value) = nullptr;
+    void (*uniform1i)(int32_t location, int32_t value) = nullptr;
+    void (*uniform1iv)(int32_t location, int32_t count, const int32_t* values) = nullptr;
+    void (*uniform2iv)(int32_t location, int32_t count, const int32_t* values) = nullptr;
+    void (*uniform3iv)(int32_t location, int32_t count, const int32_t* values) = nullptr;
+    void (*uniform4iv)(int32_t location, int32_t count, const int32_t* values) = nullptr;
+    void (*uniform1fv)(int32_t location, int32_t count, const float* values) = nullptr;
+    void (*uniform2fv)(int32_t location, int32_t count, const float* values) = nullptr;
+    void (*uniform3fv)(int32_t location, int32_t count, const float* values) = nullptr;
+    void (*uniform4fv)(int32_t location, int32_t count, const float* values) = nullptr;
+    void (*uniformMatrix4fv)(int32_t location, int32_t count, uint8_t transpose, const float* values) = nullptr;
 };
 
 // Active table. Entries that are still null are skipped by the callers.

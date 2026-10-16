@@ -1417,6 +1417,9 @@ public:
 		file location. Streaming may be added in the future.
 	*/
 	bool LoadFile( FILE*, TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING );
+	/// DH2: the binary's TiXmlDocument::LoadFromBuffer (0x5164a8): parses `length` bytes at `buffer` the way LoadFile( FILE* ) parses a file
+	/// (line breaks normalised, the buffer need not be null terminated). Returns true if successful.
+	bool LoadFromBuffer( const void* buffer, int length, TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING );
 	/// Save a file using the given FILE*. Returns true if successful.
 	bool SaveFile( FILE* ) const;
 

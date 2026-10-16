@@ -1,4 +1,5 @@
 #include "net-session-online/c_matching_gl_live_observers.hpp"
+#include "net-transport/data_packet.hpp"
 
 #include <ctime>
 
@@ -19,7 +20,7 @@ void CMatchingGLLiveFriendObserver::OnNetworkError() {}
 void CMatchingGLLiveFriendObserver::OnRequestTimeout(std::int32_t /*requestId*/) {}
 
 // 0x8212bc _ZN29CMatchingGLLiveFriendObserver16OnRequestSuccessEiPci
-void CMatchingGLLiveFriendObserver::OnRequestSuccess(std::int32_t code, const char* /*text*/,
+void CMatchingGLLiveFriendObserver::OnRequestSuccess(std::int32_t code, char* /*text*/,
                                                     std::int32_t /*length*/) {
     if (code == 0x3d) {
         flag_ = true;
@@ -46,7 +47,7 @@ void CMatchingGLLiveMessageObserver::OnRequestFailure(std::int32_t /*code*/, std
 // CMatchingGLLive that owns this observer (the observer is its messageObserver_). The port
 // checks that the singleton exists and is a CMatchingGLLive, the original does not: with another provider the
 // byte would lie outside the object.
-void CMatchingGLLiveMessageObserver::OnRequestSuccess(std::int32_t code, const char* /*text*/,
+void CMatchingGLLiveMessageObserver::OnRequestSuccess(std::int32_t code, char* /*text*/,
                                                      std::int32_t /*length*/) {
     if (static_cast<std::uint32_t>(code - 111) <= 1u) {
         if (auto* live = dynamic_cast<CMatchingGLLive*>(CMatching::Get())) {
@@ -92,18 +93,16 @@ void CMatchingGLLiveLobbyObserver::OnMPStartGameSuccess(DataPacket* /*packet*/) 
 }
 
 // 0x82134c _ZN28CMatchingGLLiveLobbyObserver16OnMPGetLobbyInfoEP10DataPacket
-// Partial: when the game-started flag is set, the original also calls PrintDatapacket (0x8212d0) on
-// the packet and returns its value. That helper is defined file-local in
-// tb_session-online-CMatchingGLLiveLobbyObserver-0.cpp, so this file cannot call it without a second
-// copy of the same address. CORRECTION: the helper is not a log. Its whole body is
-// `(*(vt+0x64))(packet); return (*(vt+0x60))(packet);` -- two unnamed DataPacket virtual calls whose
-// result this body returns -- so what is missing is those calls, and they cannot be written until slots
-// +0x60 and +0x64 are named (whether they have side effects decides whether omitting them matters).
-void CMatchingGLLiveLobbyObserver::OnMPGetLobbyInfo(DataPacket* /*packet*/) {
+// When the game-started flag is set: state (+0x14) = 6, then PrintDatapacket (0x8212d0, file-local in the original, so
+// each user has its own copy), whose body is getMessageBody (DataPacket vtable +0x64) then getMessageLen (+0x60); the
+// original returns that length as a register leftover, the interface here is void.
+void CMatchingGLLiveLobbyObserver::OnMPGetLobbyInfo(DataPacket* packet) {
     if (!gameStarted_) {
         return;
     }
     state_ = 6;
+    (void)packet->getMessageBody();
+    (void)packet->getMessageLen();
 }
 
 // 0x821368 _ZN28CMatchingGLLiveLobbyObserver19OnMPSetParamSuccessEi

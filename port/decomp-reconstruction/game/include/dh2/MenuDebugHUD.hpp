@@ -20,6 +20,7 @@ public:
     ~MenuDebugHUD() override;                                           // +0x00, +0x04 (0x42a33c, 0x42a3c8); D2 0x42a3e4
 
     static MenuDebugHUD* GetInstance();                                 // 0x42a4fc
+    static const char* s_statsStrings[22];                              // ELF _ZN12MenuDebugHUD14s_statsStringsE (.data 0x9997b0, 88 bytes): the 22 debug stat labels; Console::_setMenuStats lists them. Defined in core-platform/src/ok3-Console.cpp
 
     // Overrides of MenuBase slots, in vtable order.
     void Update() override;                                             // +0x1c 0x429c18: empty (bx lr)

@@ -98,7 +98,7 @@ void CMatchingLocal::ProcessServerMessage(const CNetworkId& /*from*/, NetBitStre
 // 0x808538 _ZN14CMatchingLocal13GetMemberNameEi
 // The local member gets the local host name whole (transport manager vtable +0x20); a remote member gets the
 // part of the host name (vtable +0x1c, asked with the member network id) before the first '.'.
-std::string CMatchingLocal::GetMemberName(std::int32_t memberId) const {
+std::string CMatchingLocal::GetMemberName(std::int32_t memberId) {
     if (memberId == memberId_) {
         return GetTransportMgr()->GetLocalhostname();
     }
@@ -106,4 +106,24 @@ std::string CMatchingLocal::GetMemberName(std::int32_t memberId) const {
     const std::string full = GetTransportMgr()->GetHostname(memberNetworkId);
     const std::size_t dot = full.find('.');
     return dot == std::string::npos ? full : full.substr(0, dot);
+}
+
+// 0x80838c _ZN14CMatchingLocal11GetRoomListEv
+// Under the servers mutex (+0x463c), each server of the map (key order) becomes one tRoomInfo: the room id is the map key,
+// the name the peer's transport name, +0x20 the peer's rank, the attributes a copy of the peer's room attributes and
+// +0x3c0 the peer's +0x40 word (the time offset).
+std::vector<tRoomInfo> CMatchingLocal::GetRoomList() {
+    std::vector<tRoomInfo> rooms;
+    serversMutex_.Lock();
+    for (const auto& entry : servers_) {
+        tRoomInfo info;
+        info.roomId = static_cast<std::int64_t>(entry.first);
+        info.name = entry.second.name;
+        info.unk_20 = entry.second.rank;
+        info.attributes = entry.second.roomAttributes;
+        info.unk_3c0 = entry.second.timeOffset;
+        rooms.push_back(info);
+    }
+    serversMutex_.Unlock();
+    return rooms;
 }

@@ -17,6 +17,9 @@ namespace glitch::video {
 
 struct STextureLoadInfo;
 struct STextureDataInfo;
+namespace {
+struct SLoadInfo;  // IImageLoader::loadData's local record (the anonymous-namespace type of the original, src/texture_loaders.cpp)
+}  // namespace
 
 // IImageLoader (engine unification wave u1-video: canonical definition). Layout: vptr, reference count at +0x04, which
 // every loader constructor stores as 1 (object size 8). Vtable (tools/decomp_vtable.py glitch::video::IImageLoader, 11
@@ -45,21 +48,16 @@ public:
         virtual uint32_t getFilePitch(uint8_t mip) const = 0;    // +0x0c
         virtual bool isLittleEndian() const = 0;                 // +0x10
         virtual bool needsFlip() const = 0;                      // +0x14
+
+        // The data-info objects are 16 bytes (vptr, two words, then the data size of the derived class at +0x0c). The DDS
+        // loader keeps the pointer to its header words at +0x04 (CImageLoaderDDS::CDataInfo::getFilePitch 0x604234 reads it);
+        // the word at +0x08 is never accessed.
+        const uint32_t* m_header = nullptr;  // +0x04
+        uint32_t m_unk08 = 0;                // +0x08
     };
     // 0x6083d0: reads the texture data through an IDataInfo and an ITextureDataLoading into the texture. Declared only.
-    bool loadData(io::IReadFile* file, const IDataInfo& info, const STextureDesc& desc,
-                  const boost::intrusive_ptr<ITexture>& texture) const;
-
-    // Stand-in for the object at +0x08 of ITextureDataLoading. Its vtable is not
-    // identified; the default answers are the no-special-case values.
-    class ITextureDataSource {
-    public:
-        virtual ~ITextureDataSource() = default;
-        // Vtable +0x0c. Non-zero makes getFilePitch skip the pitch computation.
-        virtual int32_t unidentifiedSlot0c() const { return 0; }
-        // Vtable +0x10. Destination pointer for the byte swap in read.
-        virtual void* unidentifiedSlot10() const { return nullptr; }
-    };
+    static bool loadData(io::IReadFile* file, const IDataInfo& info, const STextureDesc& desc,
+                         const boost::intrusive_ptr<ITexture>& texture);
 
     // Texture data reader used by the loaders (0x607654 / 0x6076a8 constructors).
     // Only the fields that the reconstructed paths touch are named; the source
@@ -72,25 +70,29 @@ public:
         virtual int32_t preprocess() = 0;
         virtual int32_t process(E_TEXTURE_CUBE_MAP_FACE face, uint8_t mip) = 0;
 
-        // 0x6077c4 (void in the original): the pitch value is computed and discarded
-        // by the original, so only the flag at +0x22 is kept. Partial.
-        void getFilePitch(uint8_t mip);
-        // 0x607898: bytes of one mip level, from the file or the in-memory descriptor. Partial.
-        int32_t getSourceStep(uint8_t mip) const;
-        // 0x607d1c: reads size bytes and checks the count. The byte-swap path (pixel_format::swapBytes)
-        // is not reconstructed. Partial.
-        uint32_t read(void* buffer, int32_t size);
+        // 0x6077c4: the data info's pitch of the mip (vtable +0x0c); when it is zero the pitch is computed from the
+        // descriptor (computePitch of the format and the mip's width) and +0x22 is set, otherwise +0x22 is cleared.
+        uint32_t getFilePitch(uint8_t mip) const;
+        // 0x607898: bytes of one mip level, from the descriptor (+0x22 set) or from the texture's dimensions.
+        uint32_t getSourceStep(uint8_t mip) const;
+        // 0x607d1c: reads size bytes from the file; a short read sets +0x20 and logs "loading %s: read error" at
+        // level 3; a full read byte-swaps the data in place when the info's +0x0d byte is set.
+        uint32_t read(void* buffer, uint32_t size);
+
+        // 0x607a64: reads the file data into the mapped texture, level by level and face by face, through process() and
+        // converting every level with pixel_format::convert when the info says so. Returns 1 unless a read or a conversion failed.
+        int32_t load(io::IReadFile* file, const IDataInfo& source, const STextureDesc& desc, SLoadInfo& info);
 
         io::IReadFile* m_file = nullptr;              // +0x04
-        ITextureDataSource* m_source = nullptr;       // +0x08
+        IDataInfo* m_source = nullptr;                // +0x08
         STextureLoadInfo* m_desc = nullptr;           // +0x0c
-        const STextureDataInfo* m_info = nullptr;     // +0x10
-        int32_t m_unknown14 = 0;                      // +0x14, zeroed by the constructors
-        int32_t m_unknown18 = 0;                      // +0x18, zeroed by the constructors
-        int32_t m_sourceStep = 0;                     // +0x1c, multiplier used by getSourceStep
+        STextureDataInfo* m_info = nullptr;           // +0x10
+        uint8_t* m_unknown14 = nullptr;               // +0x14, the destination of the next read (zeroed by the constructors)
+        uint8_t* m_unknown18 = nullptr;               // +0x18, the position in the data (zeroed by the constructors)
+        uint32_t m_sourceStep = 0;                    // +0x1c, the pitch of the current mip
         bool m_flag20 = false;                        // +0x20, set when a read fails
-        bool m_flag21 = true;                         // +0x21, set by the constructors
-        bool m_pitchKnown = false;                    // +0x22, set by getFilePitch
+        uint8_t m_flag21 = 1;                         // +0x21, set to 1 by the constructors; load() makes it the number of mip levels to read
+        mutable bool m_pitchKnown = false;            // +0x22, set by getFilePitch (a const member in the binary)
     };
 
     // 0x602d74 / 0x602db0: the loader constructors set the count (+0x04) to 1.
@@ -109,17 +111,26 @@ struct STextureLoadInfo {
     uint32_t depth = 0;                   // +0x18
 };
 
-// Header block reached through the first word of STextureDataInfo.
-struct STextureHeaderBlock {
-    uint8_t unknown00[0x24] = {};         // +0x00..+0x23
-    uint32_t width = 0;                   // +0x24
-    uint32_t height = 0;                  // +0x28
+struct STextureDataInfo {
+    ITexture* texture = nullptr;          // +0x00, the texture being filled
+    uint8_t* base = nullptr;              // +0x04, the start of the data being read
+    int32_t hasFileInfo = 0;              // +0x08, non-zero when the data info describes the file (selects the step path)
+    void* owner = nullptr;                // port: the SLoadInfo record this view belongs to (CPerLevelRemapLoading::process maps through it)
+    uint8_t* fileBuffer = nullptr;        // +0x08 of the original: the buffer the file data is read into first (hasFileInfo is its non-null test)
+    uint8_t result = 0;                   // +0x0c, the value preprocess returns
+    bool swapBytes = false;               // +0x0d, read uses it to choose the swap path
 };
 
-struct STextureDataInfo {
-    const STextureHeaderBlock* header = nullptr;  // +0x00
-    uint8_t unknown04[9] = {};            // +0x04..+0x0c
-    bool swapBytes = false;               // +0x0d, read uses it to choose the swap path
+// SMapTextureWrite: a texture handle with the pointer its mip level was mapped for writing at (the destructor unmaps it).
+struct SMapTextureWrite {
+    boost::intrusive_ptr<ITexture> texture;  // +0x00
+    uint8_t* mapped = nullptr;               // +0x04
+    ~SMapTextureWrite() {
+        if (mapped != nullptr) texture->unmap();
+    }
+    // 0x607824: unmaps the old texture, takes the new one and maps its level / face for the access.
+    void reset(const boost::intrusive_ptr<ITexture>& newTexture, uint8_t level, E_TEXTURE_CUBE_MAP_FACE face, E_BUFFER_MAP_ACCESS access)
+        asm("_ZN6glitch5video16SMapTextureWrite5resetERKN5boost13intrusive_ptrINS0_8ITextureEEEhNS0_23E_TEXTURE_CUBE_MAP_FACEENS0_19E_BUFFER_MAP_ACCESSE");
 };
 
 // DDS_HEADER as read after the "DDS " magic (0x7c bytes, first word is the size).
@@ -148,6 +159,7 @@ public:
     ~CImageLoaderATC() override = default;  // 0x602d78 (D1) / 0x602d9c (D0)
     class CDataInfo : public IDataInfo {
     public:
+        explicit CDataInfo(int32_t fileDataSize = 0) : m_fileDataSize(fileDataSize) {}  // built on the stack by loadTextureData
         ~CDataInfo() override = default;              // 0x602e00 / 0x6032a0
         int32_t getFileDataSize() const override;     // 0x602ca4
         uint32_t getFilePitch(uint8_t) const override;  // 0x602cac
@@ -177,6 +189,7 @@ public:
     ~CImageLoaderDDS() override = default;  // 0x60430c (D1) / 0x604330 (D0)
     class CDataInfo : public IDataInfo {
     public:
+        CDataInfo(const uint32_t* header, int32_t fileDataSize) : m_fileDataSize(fileDataSize), m_header(header) {}  // loadTextureData
         ~CDataInfo() override = default;              // 0x604364 / 0x604930
         int32_t getFileDataSize() const override;     // 0x60422c
         // 0x604234: pitch from the DDS header when mip 0 is asked and the pitch flag is set.
@@ -240,6 +253,7 @@ public:
     bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const override;
     class CDataInfo : public IDataInfo {
     public:
+        explicit CDataInfo(int32_t fileDataSize = 0) : m_fileDataSize(fileDataSize) {}  // built on the stack by loadTextureData
         ~CDataInfo() override = default;              // 0x605f4c / 0x606200
         int32_t getFileDataSize() const override;     // 0x605720
         uint32_t getFilePitch(uint8_t) const override;  // 0x605728

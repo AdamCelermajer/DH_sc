@@ -4,13 +4,56 @@
 // (the void* functions of the append buffer) and scene_simple_accessors.cpp (clear).
 #include "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp"
 
+#include <cstdio>
 #include <cstring>
+#include <string>
 
+#include "glitch-core-io/core/material_copy.hpp"
+#include "glitch-core-io/core/strings.hpp"
+#include "glitch-scene-collada-gui/scene/CBatchSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene_simple_accessors.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/shader_attributes.hpp"
 #include "glitch-video/video_driver.hpp"
+
+extern int g_bigV;  // 0x9f688c (game-app Globals.cpp)
+extern int g_bigI;  // 0x9f6890
 
 namespace glitch::scene {
 
 namespace {
+
+// 0x5d5b88 IMaterialParameters<CMaterialRenderer, ISharedMemoryBlockHeader<CMaterialRenderer>>::initParametersToIdentity: walks the
+// parameter entries and resets each value slot by its value type: 0 one byte, 1 a word, 2 .. 7 two to four words of zero (by type),
+// 8 and 17 four words of 1.0, 16 four 0xff bytes. The pointer-like types (11 matrix pool slot, 12 .. 15 counted objects, 18 a shared
+// object) are returned to their pool or dropped in the original; the port keeps those slots outside the byte buffer
+// (SPointerSlots), where a renderer fresh from endMaterialRenderer has none, so they are left alone.
+void initRendererParametersToIdentity(video::CMaterialRenderer& renderer) {
+    const video::detail::SParameterBlockHeader& header = renderer.parameters.headerForTest();
+    std::uint8_t* values = renderer.parameters.valueBuffer();
+    const std::uint32_t one = 0x3f800000u;
+    for (std::uint16_t i = 0; i < header.count; ++i) {
+        const video::detail::SParameterEntry& entry = header.entries[i];
+        std::uint8_t* slot = values + entry.valueOffset;
+        auto fill = [&](int words, std::uint32_t value) {
+            for (int w = 0; w < words; ++w) std::memcpy(slot + 4 * w, &value, 4);
+        };
+        switch (entry.type) {
+            case 0: *slot = 0; break;
+            case 1: fill(1, 0); break;
+            case 2: fill(2, 0); break;
+            case 3: fill(3, 0); break;
+            case 4: fill(4, 0); break;
+            case 5: fill(1, 0); break;
+            case 6: fill(2, 0); break;
+            case 7: fill(3, 0); break;
+            case 8: fill(4, one); break;
+            case 16: fill(1, 0xffffffffu); break;
+            case 17: fill(4, one); break;
+            default: break;
+        }
+    }
+}
 
 // The CPU copy a freshly created buffer gets when the driver gave it none (ctor 0x6b8cb4): the original calls the unbind slot
 // (vtable +0x0c) before and after replacing the data. Returns true when a copy was made.
@@ -216,21 +259,101 @@ SBatchConfig& SBatchConfig::operator=(const SBatchConfig& other) {
 SDefaultEndOfBatchCallback::~SDefaultEndOfBatchCallback() = default;
 
 // 0x59013c _ZN6glitch5scene26SDefaultEndOfBatchCallbackclERKNS0_17CAppendMeshBufferERKN5boost13intrusive_ptrINS_5video9CMaterialEEE
-// SKIPPED, not reconstructed (7208 bytes; the member is defined empty so the vtable links): the original raises the largest-buffer counters g_bigV / g_bigI and prints them,
-// creates a vertex and an index buffer through the driver (type 0 with the usage member, type 1 with usage 4) and copies the
-// appended bytes into them (copyVertexData / copyIndexData), builds the vertex stream table with
-// allocateConfiguredVertexStreams and wraps both in a new mesh buffer (index count, vertex count, 16-bit indices, triangles,
-// flag byte 0), clones the material under a random name, copies the first eight render-state words of the material's first pass
-// into an SBatchConfig, and stores it in the map under the key at compileState + 0x10 (then sets that key to -1). The material
-// clone, the render-pass state and the compile-state type are video / compiler internals that are not in this tree.
-void SDefaultEndOfBatchCallback::operator()(const CAppendMeshBuffer& /*buffer*/,
-                                            const boost::intrusive_ptr<video::CMaterial>& /*material*/) {}
+// Called by CBatchDriver::flush with a full append buffer. It raises the largest-buffer counters (g_bigV / g_bigI, the buffer's used byte
+// counts) and prints them, copies the vertex and the index bytes into two new driver buffers (vertex usage = the callback's usage,
+// index usage 4), builds the vertex stream table over the new vertex buffer and wraps both in a mesh buffer (16-bit triangle indices,
+// flag byte 0). The material is cloned under a random 14 character name and the first eight render-state words of its first pass are
+// copied (the ninth stays as the SBatchConfig constructor left it: the original leaves that stack word untouched too). The
+// configuration is stored under the key at compileState + 0x10, which is then reset to -1.
+void SDefaultEndOfBatchCallback::operator()(const CAppendMeshBuffer& buffer, const boost::intrusive_ptr<video::CMaterial>& material) {
+    if (static_cast<std::int32_t>(buffer.vertexUsedBytes) > g_bigV) {  // +0x3c
+        g_bigV = static_cast<std::int32_t>(buffer.vertexUsedBytes);
+    }
+    if (static_cast<std::int32_t>(buffer.indexUsedBytes) > g_bigI) {  // +0x44
+        g_bigI = static_cast<std::int32_t>(buffer.indexUsedBytes);
+    }
+    std::puts("-------------------------------------------------------");
+    std::printf("VERTEX: %d INDEX: %d\n", g_bigV, g_bigI);
+
+    boost::intrusive_ptr<video::IBuffer> vertexBuffer =
+        driver->createBuffer(0, usage, buffer.vertexUsedBytes, new std::uint8_t[buffer.vertexUsedBytes], true);  // vptr+0x78
+    boost::intrusive_ptr<video::IBuffer> indexBuffer =
+        driver->createBuffer(1, 4, buffer.indexUsedBytes, new std::uint8_t[buffer.indexUsedBytes], true);
+    void* vertexData = vertexBuffer->map(4);
+    void* indexData = indexBuffer->map(4);
+    buffer.copyVertexData(vertexData);
+    buffer.copyIndexData(indexData);
+    vertexBuffer->unmap();  // the inlined unmap: one map reference less, unmapImpl() on the last one
+    indexBuffer->unmap();
+
+    boost::intrusive_ptr<video::CVertexStreams> streams = buffer.allocateConfiguredVertexStreams(vertexBuffer);
+    const std::uint32_t indexCount = buffer.indexUsedBytes / buffer.indexStride;     // +0x44 / +0x4c
+    const std::uint32_t vertexCount = buffer.vertexUsedBytes / buffer.vertexStride;  // +0x3c / +0x48
+
+    // operator new(0x38): a CMeshBuffer built by hand (0x590338 .. 0x5903c0), vtable off_988098.
+    boost::intrusive_ptr<CMeshBuffer> meshBuffer(new CMeshBuffer());
+    meshBuffer->vertexStreams = streams;                          // +0x14
+    meshBuffer->primitiveStream.m_indexBuffer = indexBuffer;      // +0x18
+    meshBuffer->primitiveStream.m_offset = 0;                     // +0x1c
+    meshBuffer->primitiveStream.m_count = indexCount;             // +0x20
+    meshBuffer->primitiveStream.m_vertexStart = 0;                // +0x24
+    meshBuffer->primitiveStream.m_vertexEnd = vertexCount;        // +0x28
+    meshBuffer->primitiveStream.m_indexType = 1;                  // +0x2c
+    meshBuffer->primitiveStream.m_primitiveType = 6;              // +0x2e
+    meshBuffer->owner = nullptr;                                  // +0x30
+    meshBuffer->flag_34 = 0;                                      // +0x34
+
+    SBatchConfig config;
+    const std::string cloneName = core::randomString(14);
+    config.material = material->clone(cloneName.c_str());
+    // renderState words 0 .. 7 are the first pass of the original material's current technique (renderer +0x18 table, entry +8).
+    const video::SRenderPass* pass = material->m_renderer->m_techniques[material->getTechnique()].passes;
+    for (int i = 0; i < 8; ++i) {
+        config.renderState[i] = pass->stateWords[i];
+    }
+    config.meshBuffer = meshBuffer;
+
+    SBatchConfig& slot = configs[static_cast<std::uint32_t>(compileState->batchIndex)];
+    slot = config;
+    compileState->batchIndex = -1;
+}
 
 // 0x58d3d4 _ZN6glitch5scene26SDefaultEndOfBatchCallback8finalizeEv
-// SKIPPED, not reconstructed (5560 bytes; defined empty): for every stored configuration the original registers a material renderer with the
-// driver's CMaterialRendererManager (begin/endMaterialRenderer, beginTechnique("ZeTechnique"), addRenderPass, endTechnique),
-// builds a material instance from it, copies the old material's parameters into it and hands the finished mesh buffer to
-// CBatchMesh::setBuffer. The renderer manager's builder interface is not exercised here.
-void SDefaultEndOfBatchCallback::finalize() {}
+// For every configuration (in key order) a new material renderer is registered with the driver's CMaterialRendererManager: a random
+// 20 character name, one technique "ZeTechnique" with a single pass copied from the first pass of the old material's current
+// technique (its shader, the stored render state and a material render state), the light count of the old renderer, then the new
+// renderer's parameters are reset to identity, a material is made on it, the old material's parameters are copied across, and the
+// finished material and the mesh buffer become a batch of the node's mesh (CBatchMesh::setBuffer, index = the key).
+void SDefaultEndOfBatchCallback::finalize() {
+    video::CMaterialRendererManager* manager = driver->m_materialRendererManager;  // driver +0xdc
+    for (auto& entry : configs) {
+        const std::uint32_t key = entry.first;
+        SBatchConfig& config = entry.second;
+        boost::intrusive_ptr<video::CMaterialRenderer> oldRenderer = config.material->m_renderer;  // material +0x04, a use is taken
+        const video::SRenderPass* pass = oldRenderer->m_techniques[config.material->getTechnique()].passes;
+        const std::string name = core::randomString(20);
+        manager->beginMaterialRenderer(name.c_str(), true);
+        manager->beginTechnique("ZeTechnique", true);
+        boost::intrusive_ptr<const video::IShader> shader(static_cast<const video::IShader*>(pass->shader));  // pass +0x20
+        video::detail::renderpass::SRenderState passState;
+        std::memcpy(&passState, config.renderState, sizeof(config.renderState[0]) * 8);  // config +0x04 .. +0x23
+        const video::detail::material::SRenderState materialState{};                    // the ninth word (config +0x24)
+        manager->addRenderPass(shader, passState, materialState);
+        const std::uint32_t lightCount = oldRenderer->getBindedLightCount(
+            static_cast<std::uint8_t>(config.material->getTechnique()), 0);
+        manager->endTechnique(true, static_cast<std::uint16_t>(lightCount));
+        manager->endMaterialRenderer();
+        const std::uint16_t id = manager->getId(name.c_str());
+        boost::intrusive_ptr<video::CMaterialRenderer> newRenderer = manager->getMaterialRenderer(id);
+        if (newRenderer != nullptr) {
+            initRendererParametersToIdentity(*newRenderer);
+        }
+        boost::intrusive_ptr<video::CMaterial> instance = manager->getMaterialInstance(id, id != 0);
+        // The listing calls getTechnique on the old material and on the new instance and drops both results.
+        boost::intrusive_ptr<const video::CMaterial> source(config.material.get());
+        core::copyMaterialParameters(instance, source);
+        node->mesh->setBuffer(key, config.meshBuffer, instance);  // node +0x130
+    }
+}
 
 }  // namespace glitch::scene

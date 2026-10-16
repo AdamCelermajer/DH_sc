@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <string>
 
+#include "core-platform/filesystem_base.hpp"
+
 namespace {
 
 // Load() cases 0..26, in order. Case k opens "pydata/<name>", calls reloadData(stream, "<name>") when the
@@ -54,8 +56,8 @@ static_assert(sizeof(kConstantsLoadFiles) / sizeof(kConstantsLoadFiles[0]) == kC
 // 0x4c3708 _ZN15PyDataConstants4LoadEv
 // Loads one file per call. The listing is a switch on this+32 (the state). States 0..26 open, reload and
 // release one pydata file, then advance. State 27 returns 1 without advancing. Any other state only
-// advances. The loader is g_pyDataLoader, the stand-in shared with PyDataArrays::Load (dword_99F73C + 52
-// in the listing); the port has no definition of that global.
+// advances. The loader is PyDataFileSystem(), shared with PyDataArrays::Load (dword_99F73C + 52
+// in the listing).
 int PyDataConstants::Load() {
     const int state = m_state;
     if (state == kConstantsLoadDoneState) return 1;
@@ -63,11 +65,11 @@ int PyDataConstants::Load() {
     if (state >= 0 && state < kConstantsLoadDoneState) {
         const char* const name = kConstantsLoadFiles[state];
         const std::string path = std::string("pydata/") + name;
-        PyDataFileLoader* const loader = g_pyDataLoader;
-        IStreamBase* stream = loader->OpenFile(path.c_str());
+        FileSystemBase* const loader = PyDataFileSystem();
+        IFileStream* stream = loader != nullptr ? loader->openResource(path.c_str()) : nullptr;  // vtable +144; host guard
         if (stream != nullptr) {
             reloadData(stream, name);  // vtable +8 in the listing
-            loader->ReleaseFile(&stream);  // vtable +120 in the listing; clears the slot
+            loader->closeFile(stream);  // vtable +120 in the listing; clears the slot
         } else {
             std::printf("[PyData Arrays] : ERROR LOADING \"%s\"\n", path.c_str());
         }

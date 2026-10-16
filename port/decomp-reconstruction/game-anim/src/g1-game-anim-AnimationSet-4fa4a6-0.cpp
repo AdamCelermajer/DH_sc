@@ -211,7 +211,7 @@ Animation* AnimationSet::LoadAnimation(int animId) {
     Animation* result = &s_invalidAnim;
     if (animId >= 0 && animId < static_cast<int>(Arrays::AnimDict::size)) {
         Animation entry;
-        entry.m_fileName = reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members)[animId].m_w2;
+        entry.m_fileName = reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members)[animId].Name;
         entry.m_database = glitch::collada::CColladaDatabase(entry.m_fileName.c_str(), nullptr);
         entry.m_useCount = 0;
         entry.m_lastUseTime = glitch::os::Timer::getRealTime();
@@ -247,7 +247,7 @@ Animation* AnimationSet::ReplaceAnimation(int animId, int cacheSlot) {
     auto node = m_animations.find(cacheSlot);
     if (node != m_animations.end() && animId >= 0 && animId < static_cast<int>(Arrays::AnimDict::size)) {
         Animation entry;
-        entry.m_fileName = reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members)[animId].m_w2;
+        entry.m_fileName = reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members)[animId].Name;
         entry.m_database = glitch::collada::CColladaDatabase(entry.m_fileName.c_str(), nullptr);
         entry.m_useCount = 0;
         entry.m_lastUseTime = glitch::os::Timer::getRealTime();

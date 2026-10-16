@@ -6,8 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "net-session-online/deps/connection_transport.hpp"
-#include "net-session-online/deps/glx_stand_ins.hpp"
+#include "net-session-online/xp_api.hpp"
 #include "net-session-online/glx_player_mp_base.hpp"
 #include "net-session-online/lc_api_net.hpp"
 #include "net-session-online/lcx_player_http.hpp"
@@ -21,21 +20,23 @@ constexpr std::size_t kIpPartMax = 15;
 }  // namespace
 
 // 0x84ae28 _ZN15GLXPlayerMPBase16mpSendDisconnectEv
-// Partial. Recovered: the connected branch (state -1, connection slot 5, flag at +0x71,
-// time stamp at Connection+0x08). Not recovered: the else branch calls this object's
-// unnamed virtual slot 6 (+0x18) and the observer's slot 3 (+0x0c), both with no
-// arguments in the listing; they are left out, and the state is still set to 0.
+// With a connection (+0x54): a connected one gets the result -1, the finish package (Connection vtable +0x14), +0x71 set and
+// its +0x08 time stamped with XP_API_GET_TIME; an unconnected one is disconnected through mpDisconnect (vtable +0x18), the
+// result becomes 0 and OnMPDisconnectSuccess (observer +0x0c) runs. Without a connection nothing happens. The original
+// returns the observer call's or the time's leftover; the port returns void.
 void GLXPlayerMPBase::mpSendDisconnect() {
-    if (transport_ == nullptr) {
+    if (!baseConnection_) {
         return;
     }
-    if (ConnectionIsConnected(transport_)) {
-        field50_ = -1;
-        transport_->VirtualSlot5();
+    if (baseConnection_->isConnected()) {
+        lastResult_ = -1;
+        baseConnection_->sendFinishConnectionPackage();
         field71_ = 1;
-        transport_->timeMs = static_cast<std::uint32_t>(XP_API_GET_TIME());
+        baseConnection_->handshake_time_ = XP_API_GET_TIME();
     } else {
-        field50_ = 0;
+        mpDisconnect();
+        lastResult_ = 0;
+        observer_->OnMPDisconnectSuccess();
     }
 }
 

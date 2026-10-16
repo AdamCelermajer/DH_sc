@@ -11,7 +11,7 @@ namespace {
 
 class RecordingObserver : public GLXPlayerObserver {
 public:
-    void OnResponseError(std::int32_t code, std::int32_t detail) override {
+    void OnRequestFailure(std::int32_t code, std::int32_t detail) override {
         lastCode = code;
         lastDetail = detail;
     }

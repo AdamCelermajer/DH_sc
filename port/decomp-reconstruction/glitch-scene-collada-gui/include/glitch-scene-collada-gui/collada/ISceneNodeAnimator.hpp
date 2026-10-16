@@ -115,7 +115,7 @@ public:
     virtual void onUnbindAll();
 
     // Non-virtual members.
-    // 0x667f18 (30320 bytes): binds every target to the scene object the bind URI names. PARTIAL: not reconstructed.
+    // 0x667f18 (30320 bytes): binds every target to the scene object the bind URI names.
     void forceBind();
     // 0x667d18: clears the target of every track whose bind URI equals `name`.
     void forceUnbind(const char* name);

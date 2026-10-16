@@ -83,7 +83,8 @@ struct SVertexStream {
             reset();
             stream = &s;
             uint8_t* base = s.buffer->map(access);
-            data = (base != nullptr) ? reinterpret_cast<T*>(base + s.offset) : nullptr;
+            // 0x6d6fe0: the original stores map() + stream offset with no null test (a1[1] = result + a2[1]).
+            data = reinterpret_cast<T*>(base + s.offset);
             return base;
         }
     };
@@ -248,6 +249,17 @@ struct SVertexAttributeTypeInspection {
     };
     static const SDefault Defaults[30];
 };
+
+// 0x6dc688: lays the streams of `mask` out one after the other (each stream's offset becomes the running size, the
+// stream's component count times its value type size) and returns the stride of one vertex.
+uint32_t getStrides(uint32_t mask, const boost::intrusive_ptr<CVertexStreams>& streams);
+// 0x6dc888: points every stream of `mask` at `buffer`, sets its stride and adds `offsetDelta` to its offset.
+void assignBuffer(const boost::intrusive_ptr<IBuffer>& buffer, uint32_t stride, int32_t offsetDelta, uint32_t mask,
+                  const boost::intrusive_ptr<CVertexStreams>& streams);
+// 0x6dc900: removes the buffer from the streams of `mask` (stride 0, offset moved back by the first stream's stride times
+// `vertexCount`) and returns the buffer the first of them held.
+boost::intrusive_ptr<IBuffer> clearBuffer(uint32_t vertexCount, uint32_t mask,
+                                          const boost::intrusive_ptr<CVertexStreams>& streams);
 
 }  // namespace detail
 

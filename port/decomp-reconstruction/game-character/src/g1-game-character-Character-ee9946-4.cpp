@@ -48,7 +48,7 @@ namespace {
 
 // The name pointer (+8) of Arrays::ModelDict row `row` (Structs::ColladaFile, 12-byte records in the original).
 const char* ModelDictName(int row) {
-    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ModelDict::members)[row].m_w2;
+    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ModelDict::members)[row].Name;
 }
 
 // The id of a trophy by name (the first match in Arrays::TrophyTable's names, -1 when absent).
@@ -87,7 +87,7 @@ const char* Character::GetCharModelName() const {
     if (IsFaerie()) {
         if (Character* master = CharAI::m_master) {
             const int faeryId = master->SG_GetCurrentFaerieId(-1);
-            charModelId = static_cast<const Structs::Faery*>(master->GetCharFaery(faeryId))->m_w3;
+            charModelId = static_cast<const Structs::Faery*>(master->GetCharFaery(faeryId))->ModelFile;
         }
         return byId(charModelId);
     }
@@ -117,10 +117,10 @@ const char* Character::GetClassName() const {
     StringManager* strings = ApplicationGetStringManager();
     const int playerClass = SG_GetPlayerClass();
     if (playerClass == -1) {
-        return strings->getString(m_props.m_w6);
+        return strings->getString(m_props.ClassString);
     }
     const auto* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
-    return strings->getString(rows[playerClass].m_w6);
+    return strings->getString(rows[playerClass].ClassString);
 }
 
 // 0x3a5784 Character::GetPreSetAIState() const
@@ -573,18 +573,18 @@ void Character::PopulateOutgoingNetStruct(bool force) {
         m_netOut.m_dirY.SetValue(headingY);
     }
     bool statePending = true;
-    if (CharProperties::m_props.m_w37 <= 0 || IsDead()) {
+    if (CharProperties::m_props.HP <= 0 || IsDead()) {
         m_netOut.m_hp.SetValue(0);
         if (m_killer != nullptr) {
             m_netOut.m_mpOrKillerId.SetValue(m_killer->unk_108);
             m_netOut.m_killerIsPlayer.SetValue(m_killer->IsCharacter() && m_killer->IsPlayer());
         }
     } else {
-        m_netOut.m_hp.SetValue(CharProperties::m_savedProps.m_w37 + 1);
-        if (CharProperties::m_props.m_w42 <= 0) {
+        m_netOut.m_hp.SetValue(CharProperties::m_savedProps.HP + 1);
+        if (CharProperties::m_props.MP <= 0) {
             m_netOut.m_mpOrKillerId.SetValue(0);
         } else {
-            m_netOut.m_mpOrKillerId.SetValue(CharProperties::m_savedProps.m_w42 + 1);
+            m_netOut.m_mpOrKillerId.SetValue(CharProperties::m_savedProps.MP + 1);
         }
     }
     (void)statePending;

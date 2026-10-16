@@ -427,8 +427,8 @@ void Character::HitFor(unsigned int damage, GameObject* attacker) {
     if (IsDead()) {
         return;
     }
-    const int hpBefore = m_props.m_w37;
-    const int totalHp = m_props.m_w39;
+    const int hpBefore = m_props.HP;
+    const int totalHp = m_props.Max_HP;
     Character* localCharacter = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
     int appliedDisplay = 0;
     int appliedHp = 0;
@@ -463,7 +463,7 @@ void Character::HitFor(unsigned int damage, GameObject* attacker) {
         }
     }
     bool killed;
-    if (m_props.m_w37 <= 0) {
+    if (m_props.HP <= 0) {
         CharProperties::PROPS_Set(36, 0);
         m_controller->Cmd_Kill(attacker, false);
         if (!IsRemotelyUpdated()) {
@@ -473,7 +473,7 @@ void Character::HitFor(unsigned int damage, GameObject* attacker) {
     } else {
         killed = false;
     }
-    if (IsPlayer() && m_props.m_w37 <= m_props.m_w39 / 2) {
+    if (IsPlayer() && m_props.HP <= m_props.Max_HP / 2) {
         if (!GetOnlineGameFlag() && SG_GetGameDifficulty() == 0 && dword_99F778->m_tutorials[4] != 0) {
             const int script = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_potionUse", true);
             if (script != -1) {
@@ -489,7 +489,7 @@ void Character::HitFor(unsigned int damage, GameObject* attacker) {
             VoxSoundManager::s_instance->Play(sound, false, 0, 0, false);
         }
     } else if (IsPlayer() && m_lowHpSoundArmed == 0 &&
-               static_cast<float>(m_props.m_w37) >= static_cast<float>(m_props.m_w39) * 0.75f) {
+               static_cast<float>(m_props.HP) >= static_cast<float>(m_props.Max_HP) * 0.75f) {
         m_lowHpSoundArmed = 1;
     }
     ObjectHandle attackerHandle = attacker->GetHandle();
@@ -552,7 +552,7 @@ void Character::INV_UpdateSkin() {
             m_visualObject->SetModularSkin(categoryId, moduleId);
             continue;
         }
-        name = static_cast<const char*>(equipped->GetItem()->m_w20);
+        name = static_cast<const char*>(equipped->GetItem()->ModularModule);
         if (!weaponSlot) {
             const int categoryId = m_visualObject->GetModularCategoryId(category);
             int moduleId = m_visualObject->GetModularModuleId(categoryId, name.c_str());
@@ -727,10 +727,10 @@ void Character::AddCharOIDToCache(int oid, unsigned int flags) {
     }
     s_cachedCharOIDs[oid] = flags;
     const auto* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
-    const int modelId = rows[oid].m_w4;
+    const int modelId = rows[oid].ModelFile;
     if (modelId >= 0 && static_cast<std::uint32_t>(modelId) < Arrays::ModelDict::size) {
         const auto* models = reinterpret_cast<const Structs::ColladaFile*>(Arrays::ModelDict::members);
-        AssetManager::GetAssetManager()->preloadSceneNode(models[modelId].m_w2, nullptr, false, 0x7FFFFFFF);
+        AssetManager::GetAssetManager()->preloadSceneNode(models[modelId].Name, nullptr, false, 0x7FFFFFFF);
     }
 }
 

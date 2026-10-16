@@ -176,57 +176,57 @@ int GetMemberIDByString<CharacterTable>(const char* name) {
 
 int main() {
     // Item rows. Row 3 is stackable and carries no name, stats or requirements.
-    ItemRow(3)->m_w7 = 1;
-    ItemRow(3)->m_w17 = -1;
-    ItemRow(3)->m_w18 = -1;
-    ItemRow(3)->m_w22 = 11;  // item type 11: no stats line
+    ItemRow(3)->Stackable = 1;
+    ItemRow(3)->Name = -1;
+    ItemRow(3)->Material = -1;
+    ItemRow(3)->Type = 11;  // item type 11: no stats line
 
     // Row 4: armour and block rating (type 6) and a non-stackable item.
-    ItemRow(4)->m_w17 = -1;
-    ItemRow(4)->m_w18 = -1;
-    ItemRow(4)->m_w22 = 6;
-    ItemRow(4)->m_w35 = 5 << 8;
-    ItemRow(4)->m_w36 = 3 << 8;
+    ItemRow(4)->Name = -1;
+    ItemRow(4)->Material = -1;
+    ItemRow(4)->Type = 6;
+    ItemRow(4)->Param1 = 5 << 8;
+    ItemRow(4)->Param2 = 3 << 8;
 
     // Row 5: damage description (type 2).
-    ItemRow(5)->m_w17 = -1;
-    ItemRow(5)->m_w18 = -1;
-    ItemRow(5)->m_w22 = 2;
-    ItemRow(5)->m_w35 = 2 << 8;
-    ItemRow(5)->m_w36 = 7 << 8;
+    ItemRow(5)->Name = -1;
+    ItemRow(5)->Material = -1;
+    ItemRow(5)->Type = 2;
+    ItemRow(5)->Param1 = 2 << 8;
+    ItemRow(5)->Param2 = 7 << 8;
 
     // Row 7: requirements level 10, dexterity 4 and class 3 (CharacterTable row 265).
-    ItemRow(7)->m_w17 = -1;
-    ItemRow(7)->m_w18 = -1;
-    ItemRow(7)->m_w22 = 1;
-    ItemRow(7)->m_w29 = 10;
-    ItemRow(7)->m_w31 = 4;
-    ItemRow(7)->m_w34 = 3;
-    CharacterRow(265)->m_w6 = 42;
+    ItemRow(7)->Name = -1;
+    ItemRow(7)->Material = -1;
+    ItemRow(7)->Type = 1;
+    ItemRow(7)->LevelRequirement = 10;
+    ItemRow(7)->DexterityRequirement = 4;
+    ItemRow(7)->ClassRequirement = 3;
+    CharacterRow(265)->ClassString = 42;
 
     // Names: 8 plain, 9 female tag with a second text, 10 male plural tag with a second text.
     for (int id : {8, 9, 10}) {
-        ItemRow(id)->m_w22 = 11;
+        ItemRow(id)->Type = 11;
     }
-    ItemRow(8)->m_w17 = 200;
-    ItemRow(8)->m_w18 = -1;
-    ItemRow(9)->m_w17 = 203;
-    ItemRow(9)->m_w18 = 300;
-    ItemRow(10)->m_w17 = 202;
-    ItemRow(10)->m_w18 = 300;
+    ItemRow(8)->Name = 200;
+    ItemRow(8)->Material = -1;
+    ItemRow(9)->Name = 203;
+    ItemRow(9)->Material = 300;
+    ItemRow(10)->Name = 202;
+    ItemRow(10)->Material = 300;
 
     // Row 11: plain name with a second text that has no isAfter tag (the segment goes before the name).
-    ItemRow(11)->m_w17 = 200;
-    ItemRow(11)->m_w18 = 301;
-    ItemRow(11)->m_w22 = 11;
+    ItemRow(11)->Name = 200;
+    ItemRow(11)->Material = 301;
+    ItemRow(11)->Type = 11;
 
     // Power rows: value 30 (id 2) and 10 (id 1), both without values, description 77.
-    PowerRow(2)->m_w7 = 30;
-    PowerRow(2)->m_w3 = 0;
-    PowerRow(2)->m_w5 = 77;
-    PowerRow(1)->m_w7 = 10;
-    PowerRow(1)->m_w3 = 0;
-    PowerRow(1)->m_w5 = 77;
+    PowerRow(2)->SortingOrder = 30;
+    PowerRow(2)->AttrBonusListSize = 0;
+    PowerRow(2)->Description = 77;
+    PowerRow(1)->SortingOrder = 10;
+    PowerRow(1)->AttrBonusListSize = 0;
+    PowerRow(1)->Description = 77;
 
     // ---- PowerInfo::swap: ids and descriptions swap, the value stays in place ----
     {

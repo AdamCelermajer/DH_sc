@@ -165,7 +165,7 @@ void CharAI::OnFriendSpotted(Character* c) {
 // sound (VoxSoundManager::Play3D(sound, position, false, 1, -1.0f, -1.0f)); finally the script hook (slot 19, +0x4c).
 void CharAI::OnTargetInSight() {
     ProbeTracingCharAIEvents();
-    const int soundId = m_character->GetCharAI()->m_w9;
+    const int soundId = m_character->GetCharAI()->OnAggroSFX;
     const Point3D<float>& target = m_character->GetTargetPosition();
     const glitch::core::vector3d<float> position{target.X, target.Y, target.Z};
     VoxSoundManager::s_instance->Play3D(soundId, position, false, 1, -1.0f, -1.0f);

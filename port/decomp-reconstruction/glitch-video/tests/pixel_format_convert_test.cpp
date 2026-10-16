@@ -101,16 +101,66 @@ int main() {
         CHECK(buf[1] == 0x2188);
     }
 
-    // Coverage: branches the port does not model return 0 and leave the destination untouched.
+    // Refusals: a compressed destination is "Compressed destination format not supported" and leaves the destination untouched.
     {
         uint32_t src[1] = {0x11223344u};
         uint32_t dst[1] = {0xdeadbeefu};
-        // Same packed type, no alpha flag change: the same-type arm of 0x5f95ac (not modelled).
-        CHECK(pf::convert(14, src, 4, 12, dst, 4, 1, 1, false) == 0);
-        CHECK(dst[0] == 0xdeadbeefu);
-        // Compressed destination: "Compressed destination format not supported".
         CHECK(pf::convert(kARGB8888, src, 4, kCompressed, dst, 4, 1, 1, false) == 0);
         CHECK(dst[0] == 0xdeadbeefu);
+    }
+
+    // The channel-swizzle arm of 0x5f95ac (same packed type, no alpha fill): RGBA8888 (format 14, bytes R G B A) to ARGB8888
+    // (format 12, bytes A R G B) takes the source channel computeRelativeSwizzleTable names for each destination channel.
+    {
+        uint8_t src[4] = {0x44, 0x33, 0x22, 0x11};
+        uint8_t dst[4] = {0, 0, 0, 0};
+        CHECK(pf::convert(14, src, 4, 12, dst, 4, 1, 1, false) == 1);
+        CHECK(dst[0] == 0x11 && dst[1] == 0x44 && dst[2] == 0x33 && dst[3] == 0x22);
+        // Three channels out (R8G8B8, format 10): the alpha byte is dropped.
+        uint8_t rgb[3] = {0, 0, 0};
+        CHECK(pf::convert(14, src, 4, 10, rgb, 3, 1, 1, false) == 1);
+        CHECK(rgb[0] == 0x44 && rgb[1] == 0x33 && rgb[2] == 0x22);
+        // In place with a flip swaps the two rows while swizzling them.
+        uint8_t two[8] = {0x44, 0x33, 0x22, 0x11, 0x88, 0x77, 0x66, 0x55};
+        CHECK(pf::convert(14, two, 4, 12, two, 4, 1, 2, true) == 1);
+        const uint8_t expectedTwo[8] = {0x55, 0x88, 0x77, 0x66, 0x11, 0x44, 0x33, 0x22};
+        CHECK(std::memcmp(two, expectedTwo, 8) == 0);
+    }
+
+    // A 24-bit source (R8G8B8, format 10, the 0x5f9ebc arm): three bytes per pixel in, the alpha channel of the 32-bit destination
+    // filled with ones. Format 14 stores R in the low byte, so the word is A B G R = ff 33 22 11.
+    {
+        uint8_t src[3] = {0x11, 0x22, 0x33};
+        uint32_t dst[1] = {0};
+        CHECK(pf::convert(10, src, 3, 14, dst, 4, 1, 1, false) == 1);
+        CHECK(dst[0] == 0xff332211u);
+    }
+
+    // Alpha widening, the two converters the green-wider-than-source branch adds:
+    //   ARGB4444 (6) -> RGBA8888 (14): every channel doubles, so the alpha is replicated (SAlphaUpscalePackedConverter).
+    //   0xA5C3: A=A R=5 G=C B=3 -> A=AA R=55 G=CC B=33 -> word aa 33 cc 55.
+    //   A1R5G5B5 (8) -> RGBA8888 (14): the 1-bit alpha goes through the table (SAlphaIndexedPackedConverter), the colours replicate.
+    //   0xfc00: A=1 R=1f G=0 B=0 -> word ff 00 00 ff; 0x8320: A=1 R=0 G=19 B=0 -> G=ce, word ff 00 ce 00.
+    {
+        uint16_t src[1] = {0xA5C3};
+        uint32_t dst[1] = {0};
+        CHECK(pf::convert(kARGB4444, src, 2, 14, dst, 4, 1, 1, false) == 1);
+        CHECK(dst[0] == 0xaa33cc55u);
+        uint16_t src2[2] = {0xfc00, 0x8320};
+        uint32_t dst2[2] = {0, 0};
+        CHECK(pf::convert(kA1R5G5B5, src2, 4, 14, dst2, 8, 2, 1, false) == 1);
+        CHECK(dst2[0] == 0xff0000ffu);
+        CHECK(dst2[1] == 0xff00ce00u);
+    }
+
+    // The luminance arm (destination L8 with the luminance flag, source without it): RGB565 is a 16-bit source (class 1, key 4), the
+    // weighted sum of the channels scaled by 255 and truncated: pure red 0xf800 is 0.3 * 255 = 76.
+    {
+        uint16_t src[2] = {0xf800, 0x0000};
+        uint8_t dst[2] = {0xee, 0xee};
+        CHECK(pf::convert(kRGB565, src, 4, kL8, dst, 2, 2, 1, false) == 1);
+        CHECK(dst[0] == 76);
+        CHECK(dst[1] == 0);
     }
 
     // The srcFormat == dstFormat branch of convert is copy() (0x5ee40c). Every expectation below is the
@@ -178,6 +228,15 @@ int main() {
         CHECK(to[0] == 0);
         CHECK(pf::convert(kCompressed, from, 8, kCompressed, to, 8, 4, 4, false) == 1);
         CHECK(std::memcmp(from, to, sizeof from) == 0);
+    }
+
+    // 24-bit to 24-bit (format 11 to 10: the BMP loader's conversion) with a flip: two pixels, one row.
+    {
+        const unsigned char from[8] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0, 0};
+        unsigned char to[6] = {};
+        CHECK(pf::convert(11, from, 8, 10, to, 6, 2, 1, true) == 1);
+        const unsigned char expected[6] = {0x33, 0x22, 0x11, 0x66, 0x55, 0x44};  // red and blue swapped
+        CHECK(std::memcmp(to, expected, sizeof to) == 0);
     }
 
     if (failures == 0) {

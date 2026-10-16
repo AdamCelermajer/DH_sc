@@ -74,11 +74,13 @@ public:
 protected:
     NetStructMember* members_[kMaxMembers] = {};    // +0x04
     int member_count_ = 0;                          // +0x104
+    bool unk_108_ = false;                          // +0x108 unidentified byte, cleared by the constructor
+    // +0x10c: packet history, member id -> (packet id -> tPacketHistory). The STLport map is 24 bytes (+0x10c .. +0x123); the node count is at +0x11c.
+    std::map<int, std::map<int, tPacketHistory>> packetHistory_;
     bool enabled_ = false;                          // +0x124
     bool post_load_pending_ = false;                // +0x125
     std::uint32_t post_load_arg_ = 0;               // +0x128
-    // +0x10c: packet history, member id -> (packet id -> tPacketHistory). Header is 0x14 bytes in 32-bit (size at +0x11c).
-    std::map<int, std::map<int, tPacketHistory>> packetHistory_;
+    std::uint32_t unk_12c_ = 0;                     // +0x12c (the object is 0x130 bytes; no recovered function accesses this word)
 };
 
 class NetStructMember {

@@ -132,7 +132,7 @@ static void testCFileBaseName() {
         CHECK(f.baseNameOffset == 8);
         CHECK(f.obfuscated);
         CHECK(f.name == "dir/sub\\file.txt");
-        CHECK(f.unk_00 == 0);
+        CHECK(f.m_refCount == 0);
     }
     {
         // Mixed separators: the forward slash at index 6 is the last one, so the base name is at 7.

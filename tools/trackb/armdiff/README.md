@@ -185,3 +185,14 @@ py -3 tools/trackb/armdiff/run.py --address 0x56ec3c --cases 12 -v --no-csv
 prints one line per case with the register and stack inputs (`desc`), the buffers' style (`b3s2` is buffer style 3,
 scalar style 2, see `cases.py`) and both sides' status. `build/tb-arm32/<category>/<stem>.so` is the reconstruction
 exactly as it was run, and can be inspected with `llvm-objdump -d` from the NDK.
+
+## Changes of 2026-10-16 (verification owner V, `reports/decomp-reconstruction/armdiff/SWEEP-2026-10-16.md`)
+
+- `cases.py`: the typed fill now descends into fixed arrays of records and of bools (`T[N]`, `std::array<T, N>`), so a bool inside an
+  array element holds 0 or 1 (clang assumes it does).
+- `run.py`: the STLport/libc++ size table counts `std::wstring` as 72 against 12 bytes (not 24 against 12), `std::map`/`set` as 24 against 12
+  (20 plus the comparator word; a `pad_` member right after the map in a header gives the 4 bytes back), and `std::vector<bool>` as 20 against 12.
+  `stl_expected_delta()` is what the layout audit and the triage use.
+- `build_arm.py`: `DH2_ARMDIFF_OUT=<dir>` redirects the build tree, `DH2_ARMDIFF_PACK=<n>` adds `-fpack-struct=<n>`. The binary aligns the double of
+  `gameswf::as_value` to 4, so a pack-4 build was tried; it lowered the number of matches (2,701 against 2,863 on the no-call run) and is not the default.
+- Header-function results (`_hdr` units) are rebuilt only when a run builds: run `--shape default` without `--no-build` after editing a shared header.

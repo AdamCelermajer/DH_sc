@@ -10,7 +10,7 @@ class Counter : public Thread {
 public:
     std::atomic<int> steps{0};
 protected:
-    void Step() override { ++steps; std::this_thread::yield(); }
+    int Kernel() override { ++steps; std::this_thread::yield(); return 0; }
 };
 }  // namespace
 

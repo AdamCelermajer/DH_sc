@@ -88,7 +88,7 @@ bool CharAI::AI_IsSpellUsable() const {
 bool CharAI::AI_BeginSpell(bool flag) {
     const int faeryId = m_character->SG_GetCurrentFaerieId(-1);
     const auto* faery = static_cast<const Structs::Faery*>(m_character->GetCharFaery(faeryId));
-    if (faery->m_w7 == 1 && AI_IsSpellActive()) {
+    if (faery->SpellType == 1 && AI_IsSpellActive()) {
         m_spellScripts[static_cast<std::size_t>(faeryId)]->OnPreSkill();  // no range check, as in the original
         if (GetOnlineGameFlag() && !flag) {
             SendControllerAction(m_character, 3, static_cast<std::uint16_t>(faeryId));
@@ -147,7 +147,7 @@ void CharAI::AI_EndSkill(unsigned int skill) {
         return;
     }
     const auto* record = static_cast<const Structs::Skill*>(m_character->GetCharSkill(static_cast<int>(skill)));
-    if (record->m_w18 != 2) {
+    if (record->Type != 2) {
         return;
     }
     if (m_skillStepBegun) {
@@ -170,7 +170,7 @@ void CharAI::AI_CancelSkill(unsigned int skill) {
         return;
     }
     const auto* record = static_cast<const Structs::Skill*>(m_character->GetCharSkill(static_cast<int>(skill)));
-    if (record->m_w18 != 1) {
+    if (record->Type != 1) {
         return;
     }
     if (script->OnSkillCheck_Active()) {
@@ -206,7 +206,7 @@ bool CharAI::AI_IsSkillActive(unsigned int skill) const {
 // The result is whether the character is using a skill.
 bool CharAI::AI_BeginSkill(unsigned int skill) {
     const auto* record = static_cast<const Structs::Skill*>(m_character->GetCharSkill(static_cast<int>(skill)));
-    if (record->m_w18 == 1 && AI_IsSkillActive(skill)) {
+    if (record->Type == 1 && AI_IsSkillActive(skill)) {
         m_skillScripts[skill]->OnPreSkill();  // no range check, as in the original
         return true;
     }
@@ -216,7 +216,7 @@ bool CharAI::AI_BeginSkill(unsigned int skill) {
     m_curSkill = static_cast<int>(skill);
     m_skillStepBegun = false;
     m_skillStepEnded = false;
-    m_character->SM_SetSkillState(skill, record->m_w2, nullptr, false);
+    m_character->SM_SetSkillState(skill, record->AnimIsMoving, nullptr, false);
     if (m_character->IsPlayer()) {
         m_character->PROPS_AddInt(216, 1);
         TrophyManager* trophies = TrophyManager::s_instance;

@@ -268,7 +268,7 @@ Projectile* ProjectileManager::Spawn(int tableIndex, GameObject* owner, GameObje
         return nullptr;
     }
     // The row's +0x1c byte selects the laser pool; the spawned entry is in use.
-    Projectile* projectile = _Create(true, ProjectileRow(tableIndex).m_w7);
+    Projectile* projectile = _Create(true, ProjectileRow(tableIndex).IsLaser);
     if (projectile != nullptr) {
         projectile->SetVisible(true);                               // vtable +0x40 with 1
         projectile->SetInfo(tableIndex, owner, target, callbackA, callbackB, userData, angleDegrees);  // vtable +0xcc
@@ -287,7 +287,7 @@ Projectile* ProjectileManager::Spawn(int tableIndex, GameObject* owner, GameObje
     if (tableIndex < 0 || static_cast<std::uint32_t>(tableIndex) >= Arrays::ProjectileTable::size) {
         return nullptr;
     }
-    Projectile* projectile = _Create(true, ProjectileRow(tableIndex).m_w7);
+    Projectile* projectile = _Create(true, ProjectileRow(tableIndex).IsLaser);
     if (projectile != nullptr) {
         projectile->SetVisible(true);                               // vtable +0x40 with 1
         projectile->SetInfo(tableIndex, owner, target, callbackA, callbackB, userData, useProjectileNode);  // vtable +0xc8
@@ -324,6 +324,6 @@ void ProjectileManager::PreCache() {
     const std::uint32_t tableSize = Arrays::ProjectileTable::size;
     for (std::uint32_t k = 0; k < tableSize; ++k) {
         // +0x14 of the row: the FX set id.
-        Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(ProjectileRow(static_cast<int>(k)).m_w5);
+        Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(ProjectileRow(static_cast<int>(k)).ImpactFX);
     }
 }

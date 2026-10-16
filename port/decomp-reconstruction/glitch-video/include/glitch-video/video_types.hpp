@@ -62,6 +62,7 @@ using E_LIGHT_TYPE = int32_t;
 using E_VERTEX_ATTRIBUTE = int32_t;
 using E_SHADER_PARAMETER_TYPE = int32_t;
 using E_SHADER_PARAMETER_VALUE_TYPE = int32_t;
+using E_SHADER_TYPE = int32_t;  // 4 = vertex shader, 14 = fragment shader (CGLSLShaderManager::createShader 0x6e01b4)
 using E_TEXTURE_CLAMP = int32_t;
 using E_TEXTURE_TYPE = int32_t;
 using E_TEXTURE_LAYOUT = int32_t;
@@ -115,12 +116,26 @@ struct STextureDesc {
     uint32_t depth = 0;         // +0x18, 1 unless the type is 1
     uint8_t flag = 0;           // +0x1c, set to 1 by the ATC reader; non-zero requests a full mip chain
     uint8_t flag1d = 0;         // +0x1d, non-zero sets bit 2 of ITexture +0x3f
+    uint8_t unloadable = 0;     // +0x1e, non-zero makes CTextureManager::addTexture list the texture as unloadable (addTexture 0x5ea7f8)
 };
 
 namespace detail::driver {
-// Placeholder for the driver render-state block (IVideoDriver::getRenderState / setRenderState).
-// Layout not reconstructed.
-struct SRenderState {};
+// The driver render-state block that IVideoDriver::getRenderState (vtable +0x1e0) fills and setRenderState (+0x1e4)
+// applies, 0x24 bytes. Layout from CCommonGLDriverBase::SShadowRenderState::getRenderState (0x6dcfb4):
+//   +0x00 word: bits 0-7 stencil mask, bits 8-15 clear stencil, bits 16-19 the colour-mask channels (r, g, b, a), bit 20 dither,
+//         bit 21 scissor test
+//   +0x04 clear colour (four bytes)   +0x08 clear depth   +0x0c depth range near   +0x10 depth range far
+//   +0x14 scissor rectangle (four ints)
+// The only holder recovered besides the drivers is gameswf's render_handler_glitch (+0x14..+0x1b): its constructor stores the word
+// 0x001f00ff and a zero word there, begin_display saves the driver state into it and end_display gives it back.
+struct SRenderState {
+    uint32_t m_word00 = 0x001f00ffu;  // +0x00
+    uint32_t m_word04 = 0;            // +0x04
+    float m_clearDepth = 0.0f;        // +0x08
+    float m_depthRangeNear = 0.0f;    // +0x0c
+    float m_depthRangeFar = 0.0f;     // +0x10
+    int32_t m_scissor[4] = {};        // +0x14, upper-left x, y, lower-right x, y
+};
 }  // namespace detail::driver
 
 // Light type of the dynamic-light parameter pool and of CLight +0x58 (values not recovered).

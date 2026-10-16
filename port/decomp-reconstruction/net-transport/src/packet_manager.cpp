@@ -6,6 +6,10 @@
 #include "net-transport/connection_manager.hpp"
 #include "net-transport/net_network_emulation.hpp"  // CNetworkEmulation::Initialize / Terminate (static)
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
+#include "core-platform/memory.hpp"                // MemoryHintState
+
+// 0x310570 _Znwj15MemoryHintState (defined in game-app, a thunk to CustomAlloc; the hint is not used).
+void* operator new(std::size_t size, MemoryHintState hint);
 
 namespace {
 
@@ -72,21 +76,18 @@ bool CPacketManager::IsInitialized() {
 }
 
 // 0x8164e8 _ZN14CPacketManager10InitializeEv
-// Partial: the ARM listing IS `LDR s_packetManager / CMP #0 / BEQ 0x816510 / MOV R0,#0; POP` - an
-// already-created early return, contrary to an earlier note in this file. Only on the null path does it
-// run operator new(0x118, 2), CPacketManager::CPacketManager(v2) (0x8162a4) unconditionally, then store
-// the pointer and test v2 for the -1 result; CMP R5,#0 is after the call, so a null allocation would
-// have been constructed through anyway. The port's guard and its store match.
-// Missing: the allocator tag. The original allocates with _Znwj15MemoryHintState(the hint 2), a tag
-// nothing observes (the object is released with a plain delete), and the port's plain new cannot return
-// null, so the post-store -1 branch is unreachable here. Reproducing the tag needs the MemoryHintState
-// allocation hook, which is outside this category.
+// The ARM listing is `LDR s_packetManager / CMP #0 / BEQ 0x816510 / MOV R0,#0; POP` - an already-created
+// early return. Only on the null path does it run operator new(0x118, MemoryHintState 2)
+// (_Znwj15MemoryHintState, game-app's CustomAlloc thunk), CPacketManager::CPacketManager(v2) (0x8162a4)
+// unconditionally, then store the pointer and test v2 for the -1 result (CMP R5,#0 is after the call, so a
+// null allocation would have been constructed through anyway).
 int CPacketManager::Initialize() {
     if (s_packetManager != nullptr) {
         return 0;
     }
-    s_packetManager = new CPacketManager();
-    return s_packetManager != nullptr ? 0 : -1;
+    CPacketManager* const created = new (static_cast<MemoryHintState>(2)) CPacketManager();
+    s_packetManager = created;
+    return created != nullptr ? 0 : -1;
 }
 
 // 0x815214 _ZN14CPacketManager9TerminateEv

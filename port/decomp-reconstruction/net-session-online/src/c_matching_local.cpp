@@ -11,7 +11,7 @@
 // roomHiddenFlag_/roomClosed_ plain fields, which were the same two values as bytes. They are the record's
 // members now (roomInfo_->roomHidden() / roomInfo_->roomClosed()), so the reads go through the real
 // NetStructMemberType<bool> objects.
-bool CMatchingLocal::IsRoomHidden() const {
+bool CMatchingLocal::IsRoomHidden() {
     if (roomInfo_->roomHidden()) {
         return true;
     }
@@ -21,7 +21,7 @@ bool CMatchingLocal::IsRoomHidden() const {
 // 0x801b08 _ZN14CMatchingLocal12IsRoomClosedEv
 // Reconstructed: the room-info record's first bool (value byte +0x4B6D). What the old inline body got
 // wrong is in the header comment.
-bool CMatchingLocal::IsRoomClosed() const {
+bool CMatchingLocal::IsRoomClosed() {
     return roomInfo_->roomClosed();
 }
 

@@ -342,14 +342,14 @@ void CharProperties::_ApplyGroupOnlyIf(Structs::CharacterProperties& /*sheet*/, 
 // 0x3e2bd0 CharProperties::_SetOID(Structs::CharacterProperties &,Structs::ClassFunc *)
 // Sets property fn.m_w1 in the sheet to fn.m_w3.
 void CharProperties::_SetOID(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn) {
-    _SetProperty(sheet, fn->m_w1, fn->m_w3);
+    _SetProperty(sheet, fn->DestProp, fn->Param1);
 }
 
 // 0x3e2bdc CharProperties::_AddValue(Structs::CharacterProperties &,Structs::ClassFunc *)
 // Adds fn.m_w3 to property fn.m_w1 of the sheet (32-bit wrapping).
 void CharProperties::_AddValue(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn) {
-    const int property = _GetProperty(sheet, fn->m_w1);
-    _SetProperty(sheet, fn->m_w1, WrapAdd(property, fn->m_w3));
+    const int property = _GetProperty(sheet, fn->DestProp);
+    _SetProperty(sheet, fn->DestProp, WrapAdd(property, fn->Param1));
 }
 
 // 0x3e2c10 CharProperties::_ScaleWithPercentageForBuff(Structs::CharacterProperties &,Structs::ClassFunc *,bool)
@@ -357,44 +357,44 @@ void CharProperties::_AddValue(Structs::CharacterProperties& sheet, Structs::Cla
 // when useFinal is set.
 void CharProperties::_ScaleWithPercentageForBuff(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn,
                                                  bool useFinal) {
-    const int percentage = _GetProperty(sheet, fn->m_w3);
-    int base = _GetProperty(sheet, fn->m_w1);
+    const int percentage = _GetProperty(sheet, fn->Param1);
+    int base = _GetProperty(sheet, fn->DestProp);
     if (useFinal) {
-        base = _GetProperty(m_props, fn->m_w1);
+        base = _GetProperty(m_props, fn->DestProp);
     }
-    _SetProperty(sheet, fn->m_w1, WrapMul(percentage, base) >> 8);
+    _SetProperty(sheet, fn->DestProp, WrapMul(percentage, base) >> 8);
 }
 
 // 0x3e2c78 CharProperties::_ScaleWithPercentage(Structs::CharacterProperties &,Structs::ClassFunc *,bool)
 // Property fn.m_w1 becomes (sheet[fn.m_w3] * sheet[fn.m_w1]) >> 8. The original binary does not read the bool argument.
 void CharProperties::_ScaleWithPercentage(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn,
                                           bool /*useFinal*/) {
-    const int percentage = _GetProperty(sheet, fn->m_w3);
-    const int base = _GetProperty(sheet, fn->m_w1);
-    _SetProperty(sheet, fn->m_w1, WrapMul(percentage, base) >> 8);
+    const int percentage = _GetProperty(sheet, fn->Param1);
+    const int base = _GetProperty(sheet, fn->DestProp);
+    _SetProperty(sheet, fn->DestProp, WrapMul(percentage, base) >> 8);
 }
 
 // 0x3e2cc0 CharProperties::_AddOtherProp(Structs::CharacterProperties &,Structs::ClassFunc *)
 // Property fn.m_w1 becomes its value plus the value of property fn.m_w3 (32-bit wrapping).
 void CharProperties::_AddOtherProp(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn) {
-    const int property = _GetProperty(sheet, fn->m_w1);
-    const int other = _GetProperty(sheet, fn->m_w3);
-    _SetProperty(sheet, fn->m_w1, WrapAdd(other, property));
+    const int property = _GetProperty(sheet, fn->DestProp);
+    const int other = _GetProperty(sheet, fn->Param1);
+    _SetProperty(sheet, fn->DestProp, WrapAdd(other, property));
 }
 
 // 0x3e2d04 CharProperties::_MinMax(Structs::CharacterProperties &,Structs::ClassFunc *)
 // Property fn.m_w1 is clamped to [fn.m_w3, fn.m_w4] as the original does it: below the minimum it becomes the minimum;
 // otherwise it is the property value, capped at the maximum.
 void CharProperties::_MinMax(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn) {
-    const int property = _GetProperty(sheet, fn->m_w1);
-    int result = fn->m_w3;
-    if (property >= fn->m_w3) {
-        result = fn->m_w4;
-        if (property < fn->m_w4) {
+    const int property = _GetProperty(sheet, fn->DestProp);
+    int result = fn->Param1;
+    if (property >= fn->Param1) {
+        result = fn->Param2;
+        if (property < fn->Param2) {
             result = property;
         }
     }
-    _SetProperty(sheet, fn->m_w1, result);
+    _SetProperty(sheet, fn->DestProp, result);
 }
 
 // 0x3e2d4c CharProperties::_LinearWithPropPlusBaseValue(Structs::CharacterProperties &,Structs::ClassFunc *,bool)
@@ -404,25 +404,25 @@ void CharProperties::_MinMax(Structs::CharacterProperties& sheet, Structs::Class
 // RecalcProperty returns the m_props word of the property it recalculated, so the value is read from m_props after it.
 void CharProperties::_LinearWithPropPlusBaseValue(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn,
                                                   bool useFinal) {
-    int base = fn->m_w3;
-    int source = _GetProperty(sheet, fn->m_w4);
-    const int multiplier = fn->m_w5;
+    int base = fn->Param1;
+    int source = _GetProperty(sheet, fn->Param2);
+    const int multiplier = fn->Param3;
     if (base == -666) {
-        base = _GetProperty(sheet, fn->m_w1);
+        base = _GetProperty(sheet, fn->DestProp);
     }
     if (&sheet == &s_temp) {
         if (!useFinal) {
-            _SetProperty(sheet, fn->m_w1, WrapAdd(base, WrapMul(multiplier, source >> 8)));
+            _SetProperty(sheet, fn->DestProp, WrapAdd(base, WrapMul(multiplier, source >> 8)));
             return;
         }
     } else if (!useFinal) {
-        RecalcProperty(fn->m_w4);
-        source = _GetProperty(m_props, fn->m_w4);
-        _SetProperty(sheet, fn->m_w1, WrapAdd(base, WrapMul(multiplier, source >> 8)));
+        RecalcProperty(fn->Param2);
+        source = _GetProperty(m_props, fn->Param2);
+        _SetProperty(sheet, fn->DestProp, WrapAdd(base, WrapMul(multiplier, source >> 8)));
         return;
     }
-    source = _GetProperty(m_props, fn->m_w4);
-    _SetProperty(sheet, fn->m_w1, WrapAdd(base, WrapMul(multiplier, source >> 8)));
+    source = _GetProperty(m_props, fn->Param2);
+    _SetProperty(sheet, fn->DestProp, WrapAdd(base, WrapMul(multiplier, source >> 8)));
 }
 
 // 0x3e2e20 CharProperties::_LoadClass(Structs::CharacterProperties &,int,bool)
@@ -437,14 +437,14 @@ void CharProperties::_LoadClass(Structs::CharacterProperties& sheet, int classId
         return;
     }
     const auto* row = reinterpret_cast<const Structs::ClassFuncList*>(Arrays::ClassTable::members) + classId;
-    const std::uint32_t count = row->m_w1;
+    const std::uint32_t count = row->list_entriesSize;
     if (count == 0) {
         return;
     }
-    auto* functions = static_cast<Structs::ClassFunc*>(row->m_w2);
+    auto* functions = static_cast<Structs::ClassFunc*>(row->list_entries);
     for (std::uint32_t i = 0; i < count; ++i) {
         Structs::ClassFunc* fn = &functions[i];
-        switch (fn->m_w2) {
+        switch (fn->Formula) {
             case 0:
                 _Group(sheet, fn, useTemp);
                 break;
@@ -484,14 +484,14 @@ void CharProperties::_LoadClass(Structs::CharacterProperties& sheet, int classId
 // 0x3e3014 CharProperties::_Group(Structs::CharacterProperties &,Structs::ClassFunc *,bool)
 // Loads the classes named by fn.m_w3, fn.m_w4 and fn.m_w5 into the sheet, in that order. A value of -1 names no class.
 void CharProperties::_Group(Structs::CharacterProperties& sheet, Structs::ClassFunc* fn, bool useFinal) {
-    if (fn->m_w3 != -1) {
-        _LoadClass(sheet, fn->m_w3, useFinal);
+    if (fn->Param1 != -1) {
+        _LoadClass(sheet, fn->Param1, useFinal);
     }
-    if (fn->m_w4 != -1) {
-        _LoadClass(sheet, fn->m_w4, useFinal);
+    if (fn->Param2 != -1) {
+        _LoadClass(sheet, fn->Param2, useFinal);
     }
-    if (fn->m_w5 != -1) {
-        _LoadClass(sheet, fn->m_w5, useFinal);
+    if (fn->Param3 != -1) {
+        _LoadClass(sheet, fn->Param3, useFinal);
     }
 }
 
@@ -504,41 +504,41 @@ void CharProperties::_Group(Structs::CharacterProperties& sheet, Structs::ClassF
 void CharProperties::_LoadGearStats(int itemId, bool leftHand) {
     const Structs::Item& row = reinterpret_cast<const Structs::Item*>(Arrays::ItemTable::members)[itemId];
     Structs::CharacterProperties& gear = m_gearProps;
-    switch (row.m_w22) {
+    switch (row.Type) {
         case 0:
         case 3:
             if (leftHand) {
-                _AddProperty(gear, 81, row.m_w35);
-                _AddProperty(gear, 82, row.m_w36);
+                _AddProperty(gear, 81, row.Param1);
+                _AddProperty(gear, 82, row.Param2);
             } else {
-                _AddProperty(gear, 79, row.m_w35);
-                _AddProperty(gear, 80, row.m_w36);
+                _AddProperty(gear, 79, row.Param1);
+                _AddProperty(gear, 80, row.Param2);
             }
             break;
         case 1:
-            _AddProperty(gear, 81, row.m_w35);
-            _AddProperty(gear, 82, row.m_w36);
+            _AddProperty(gear, 81, row.Param1);
+            _AddProperty(gear, 82, row.Param2);
             break;
         case 2:
-            _AddProperty(gear, 79, row.m_w35);
-            _AddProperty(gear, 80, row.m_w36);
+            _AddProperty(gear, 79, row.Param1);
+            _AddProperty(gear, 80, row.Param2);
             break;
         case 4:
         case 5:
-            _AddProperty(gear, 79, row.m_w35);
-            _AddProperty(gear, 80, row.m_w36);
-            _AddProperty(gear, 97, ShiftLeft8(row.m_w25));
+            _AddProperty(gear, 79, row.Param1);
+            _AddProperty(gear, 80, row.Param2);
+            _AddProperty(gear, 97, ShiftLeft8(row.BaseElement));
             break;
         case 6:
-            _AddProperty(gear, 71, row.m_w35);
-            _AddProperty(gear, 61, row.m_w36);
+            _AddProperty(gear, 71, row.Param1);
+            _AddProperty(gear, 61, row.Param2);
             break;
         case 7:
         case 8:
         case 9:
         case 0xA:
         case 0xC:
-            _AddProperty(gear, 71, row.m_w35);
+            _AddProperty(gear, 71, row.Param1);
             break;
         default:
             break;
@@ -552,17 +552,17 @@ void CharProperties::_LoadGearStats(int itemId, bool leftHand) {
 // Types 0, 0x11, 0x24 and 0x29 add several properties. Unknown types do nothing.
 void CharProperties::_LoadGearPower(int powerId, bool leftHand) {
     const Structs::ItemPowerRef& row = reinterpret_cast<const Structs::ItemPowerRef*>(Arrays::ItemPowerTable::members)[powerId];
-    const std::uint32_t count = row.m_w3;
+    const std::uint32_t count = row.AttrBonusListSize;
     if (count == 0) {
         return;
     }
-    const auto* effects = static_cast<const Structs::AttrBonusEntry*>(row.m_w4);
+    const auto* effects = static_cast<const Structs::AttrBonusEntry*>(row.AttrBonusList);
     // Adds `amount` to the gear property `propId`.
     auto add = [this](int propId, int amount) { _AddProperty(m_gearProps, propId, amount); };
     for (std::uint32_t i = 0; i < count; ++i) {
         const Structs::AttrBonusEntry& effect = effects[i];
-        const int value = effect.m_w2;
-        switch (effect.m_w1) {
+        const int value = effect.Bonus;
+        switch (effect.Attr) {
             case 0:
                 add(149, value);
                 add(150, value);

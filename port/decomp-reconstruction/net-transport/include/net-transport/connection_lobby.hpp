@@ -40,7 +40,7 @@ public:
     int sendEstablishConnectionPackage() override;     // 0x848c34 _ZN15ConnectionLobby30sendEstablishConnectionPackageEv
     int sendFinishConnectionPackage() override;        // 0x848bbc _ZN15ConnectionLobby27sendFinishConnectionPackageEv
 
-    void sendRetryData();                              // 0x846eb4 _ZN15ConnectionLobby13sendRetryDataEv
+    int sendRetryData();                               // 0x846eb4 _ZN15ConnectionLobby13sendRetryDataEv
     bool keepConnectionAlive();                        // 0x846f3c _ZN15ConnectionLobby19keepConnectionAliveEv
     void saveRetryData(DataPacket* packet);            // 0x846fb0 _ZN15ConnectionLobby13saveRetryDataEP10DataPacket
     int sendGetPlayerCounter();                        // 0x847028 _ZN15ConnectionLobby20sendGetPlayerCounterEv

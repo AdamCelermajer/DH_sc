@@ -5,6 +5,22 @@
 #include <cstring>
 
 #include "core-platform/memory.hpp"            // gAssertLevel
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/GSLevel.hpp"
+#include "core-platform/gc_singleton.hpp"
+#include "dh2/global/gc_invite_flags.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "net-session-online/c_sign_in.hpp"
+#include "net-session-online/game_center.hpp"
+#include "net-session-online/deps/time_of_day.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "dh2/Application.hpp"                // ApplicationGetInstance
 #include "dh2/Character.hpp"                  // Character::IsDead, Kill, CreateNPC, F_ApplyResult
 #include "dh2/GSLevel.hpp"                    // GSLevel::s_level (the +0x130 load step)
@@ -18,12 +34,18 @@
 #include "dh2/Point3D.hpp"                    // Point3D<float>, PlayerManager::InitialSetup
 #include "dh2/PlayerInfo.hpp"                 // PlayerInfo::unk_660 (the local Character)
 #include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"            // searchRoom: PlayerSavegame, SG_GetQuestSG, m_difficultyLevel
+#include "dh2/QuestSavegame.hpp"             // QuestSavegame::m_act (the level id)
+#include "dh2/SavegameManager.hpp"           // m_lastSlot, unk_0c (Application +0x4c)
+#include "dh2/CRoomSearchFilter.hpp"
 #include "dh2/RoomZone.hpp"                   // RoomZone::AddInitialObject (0x396a90)
 #include "dh2/ScriptManager.hpp"              // ScriptManager::s_inst
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764
 #include "dh2/global/net_singletons.hpp"      // GetOnline
 #include "net-session-online/c_event_queue_base.hpp"  // CEventQueueBase (internal_events_)
 #include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/gl_friend_info.hpp"
 #include "net-session-online/c_messaging.hpp"
 #include "net-session-online/c_msg_attack_result.hpp"  // CMsgAttackResult (the typed AttackResult payload)
 #include "net-session-online/c_msg_fixed.hpp"          // CMsgSpawnObject
@@ -40,20 +62,17 @@ std::int32_t MultiplayerCallback::idleState(void* /*context*/) { return 100; }
 // 0x49a0cc _ZN19MultiplayerCallback11ingameStateEPv
 std::int32_t MultiplayerCallback::ingameState(void* /*context*/) { return 300; }
 
-// Redo pass (2026-10-13, batch r1n). Bodies are written in place. Every message handler ends by
-// setting the consumed flag, the byte at CMessage +0x3c (CMessage::SetFinished; net structure pass: the field and its
-// setter are declared now). Handlers that depend on the unrecovered
-// OnlineGameState flags, on ObjectManager lookups (declared, but no definition in the tree), on
-// RenderFX::InvokeASCallback (no definition), on CMatching::SearchRoom or JoinRoom (no definition),
-// or on private CNetPlayerManager fields (the host member id at +0x170) stay stubs that keep the
-// original return code where the pseudocode returns one unconditionally, and 0 otherwise.
+// Every message handler ends by setting the consumed flag, the byte at CMessage +0x3c (CMessage::SetFinished). All the
+// handlers and state callbacks of the class are transcribed from their listings (residue owner D2 finished the last ones:
+// HandleMenuReadyMessage, HandleStartGameMessage, HandleMenuBackButton, HandleScriptCmd case 3, createRoom,
+// HandlePlayerJoined, LoadGLLiveFriends, HandleAskResendAttributesMessage). Undefined-behaviour paths are named in each
+// comment as deviations.
 
 // 0x49a0d4 _ZN19MultiplayerCallback32HandleAskResendAttributesMessageEPv
 // On the server, or on a client whose local member id is the member of the host player (the player at the host
 // member id, manager +0x170; its CNetPlayerInfo +0x1a0 value), the original asks the matching object's room attributes
 // (vtable +0xa4) to resend (their vtable +0x18, CRoomAttributes::Resend). The message is then marked consumed.
-// Partial: CRoomAttributes does not declare Resend (the NetStruct wire format is not ported), so the resend itself is
-// not made; the condition and the consumed flag are.
+// Deviation: the host player lookup is not null-checked in the original; the port dereferences it likewise.
 std::int32_t MultiplayerCallback::HandleAskResendAttributesMessage(void* /*message*/) {
     CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgAskResendAttributes");
     bool resend = CMatching::Get()->IsServer();
@@ -64,7 +83,7 @@ std::int32_t MultiplayerCallback::HandleAskResendAttributesMessage(void* /*messa
         resend = local == host->matching_member_id_.GetValue();  // +0x1a0
     }
     if (resend) {
-        // Not made: CMatching::Get()->GetRoomAttributes()->Resend() (CRoomAttributes vtable +0x18).
+        CMatching::Get()->GetRoomAttributes()->Resend();  // vtable +0xa4, then CRoomAttributes vtable +0x18
     }
     message->SetFinished();  // +0x3c
     return 0;
@@ -105,12 +124,29 @@ std::int32_t MultiplayerCallback::HandleRaisedEventMessage(void* /*message*/) {
 }
 
 // 0x49a75c _ZN19MultiplayerCallback17LoadGLLiveFriendsEv
-// Partial: the friend list calls are all declared now (GLFriendsListLoaded, GetGLFriendsCount, GetGLFriendsName,
-// GetGLFriendState, AddFriendInGameList with GLFriendInfo), but CMatchingGLLive::GetGLFriendsNumber is declared to
-// return std::int32_t, while the pseudocode strdups its result as a string. It follows GLXPlayerUserFriend::GetUserNumber,
-// which the port declares as uint32_t. Until that owner type is settled the number cannot be copied. The original
-// returns the loaded flag, or after loading the object pointer the setter leaves in r0; the stub returns 0.
-std::int32_t MultiplayerCallback::LoadGLLiveFriends() { return 0; }
+// Once per session (GLFriendsListLoaded() false), every GL Live friend (count from GetGLFriendsCount) is copied into the game
+// friend list: its name and number text, and the online flag (state 2). The loaded flag is then set. The original returns the
+// loaded flag, or the object the setter leaves in r0; 1 is returned after loading and the flag value otherwise.
+// Deviation: strdup of a null name or number (out-of-range index, an absent friend list) gives an empty string here.
+std::int32_t MultiplayerCallback::LoadGLLiveFriends() {
+    CMatchingGLLive* live = static_cast<CMatchingGLLive*>(CMatching::Get());
+    if (live->GLFriendsListLoaded()) {
+        return 1;
+    }
+    const std::int32_t count = live->GetGLFriendsCount();
+    for (std::int32_t index = 0; index < count; ++index) {
+        const char* name = live->GetGLFriendsName(index);
+        GLFriendInfo info;
+        info.name = name != nullptr ? name : "";
+        const char* number = live->GetGLFriendsNumber(index);
+        info.number = number != nullptr ? number : "";
+        info.online = live->GetGLFriendState(index) == 2;
+        info.invited = false;
+        live->AddFriendInGameList(std::move(info));
+    }
+    live->GLFriendsListLoaded(true);
+    return 1;
+}
 
 // 0x49a808 _ZN19MultiplayerCallback16HandlePlayerLeftEPv
 // While the current Level is loaded (m_loadStep > 35), the internal player-left event (3145731 = 0x300003) is read
@@ -172,10 +208,15 @@ std::int32_t MultiplayerCallback::HandlePlayerLeft(void* /*message*/) {
 }
 
 // 0x49a960 _ZN19MultiplayerCallback22HandleMenuReadyMessageEPv
-// Partial: the body is gated on OnlineGameState's state being 200, and the state has no accessor (the
-// MultiplayerStateMachine state is test-only). The as_value pair the pseudocode builds is never passed to a
-// call, so it has no effect. The stub returns 0 (and does not mark the message consumed).
-std::int32_t MultiplayerCallback::HandleMenuReadyMessage(void* /*message*/) { return 0; }
+// Only while the online state machine is in state 200 (lobby): the message is fetched and marked consumed (+0x3c). The
+// original also builds two as_value numbers from the payload (+0x50 int, +0x54 byte) and drops them again without passing
+// them to any call, so they have no effect and are not built here.
+std::int32_t MultiplayerCallback::HandleMenuReadyMessage(void* /*message*/) {
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->GetState() == 200) {
+        CMessaging::GetInstance()->GetMessageFromQueue("CMsgMenuReady")->SetFinished();  // +0x3c
+    }
+    return 0;
+}
 
 // 0x49a9fc _ZN19MultiplayerCallback19HandleIsHostMessageEPv
 // The sender (CMessage header +0x0c) names the new host: its player (GetPlayerByMemberId(sender, 0, false)) gives the
@@ -430,11 +471,83 @@ std::int32_t MultiplayerCallback::HandleInitialMessage(void* /*message*/) {
 }
 
 // 0x49b0d8 _ZN19MultiplayerCallback22HandleStartGameMessageEPv
-// Partial: the body reads OnlineGameState fields that the class does not declare (+0x24, +0x34, +0x4c), the
-// CMsgStartGame payload (no named fields), and the Arrays::LevelList table (level name at element +0x20), which is not in the tree.
-// Application::LoadLevel, Level::SG_SaveAllPlayer, Character::ReloadSkills and PlayerSavegame::SG_GetNextFreeSlot
-// are declared and defined. The stub returns 0 (and does not mark the message consumed).
-std::int32_t MultiplayerCallback::HandleStartGameMessage(void* /*message*/) { return 0; }
+// While the current Level is not loaded (m_loadStep != 38): a message for the level that is loading is consumed; otherwise
+// a local player that has finished loading moves load step 36 on to 37 and PlayerManager::Update runs (+0x6c9 cleared);
+// the handler leaves until the level is loaded. A loaded level out of the game view pops the multi-menu once and reloads
+// the local character's skills, and every loaded level saves all players. The payload (levelListIndex, entryPointId,
+// resume, useSpawnPoint, difficulty, seed, syncedSeed, host matching id) then selects the start: a host id of -1 starts for
+// everybody; otherwise only the player whose matching id is the host id starts (the message is consumed once the local
+// member id is known). The state machine goes to 300, the save slot is the local player's (a Game Center game at or past
+// the next free slot falls back to 0), +0x4c is cleared and Application::LoadLevel runs with the level file of
+// Arrays::LevelList row levelListIndex (element +0x20).
+// Deviation: the original asserts "levelID >= 0" (MultiplayerCallbacks.cpp:397) and then indexes the table with a negative
+// index (at gAssertLevel 2 it stores to address 0 first); here the assert text is printed at level 1 and the handler returns
+// without loading.
+std::int32_t MultiplayerCallback::HandleStartGameMessage(void* /*message*/) {
+    auto* message = static_cast<CMsgStartGame*>(CMessaging::GetInstance()->GetMessageFromQueue("CMsgStartGame"));
+    Application& app = ApplicationGetInstance();
+    Level* level = app.GetCurrentLevel();
+    if (level != nullptr) {
+        PlayerManager* players = app.m_playerManager;
+        if (level->m_loadStep != 38) {
+            if (message->Payload().levelListIndex == level->m_levelListIndex) {  // +0x50 against Level +0x3c
+                message->SetFinished();  // +0x3c
+            } else if (players->GetLocalPlayer(0, false)->m_doneLoading.GetValue()) {  // +0x525
+                if (level->m_loadStep == 36) {
+                    ++level->m_loadStep;
+                }
+                players->unk_6c9 = 0;  // +0x6c9
+                players->Update();
+            }
+            if (level->m_loadStep != 38) {
+                return 0;
+            }
+        }
+        if (!level->m_isInGameView && level->m_loadStep == 38) {  // Level +0x198
+            app.m_menuManager->m_multiMenuManager->PopMenu(true);  // MenuManager +0xf4, vtable +0x38
+            if (Character* character = players->GetLocalPlayer(0, true)->unk_660) {
+                character->ReloadSkills();
+            }
+        }
+        if (level->m_loadStep == 38) {
+            level->SG_SaveAllPlayer(false);
+        }
+    }
+    const CMsgStartGame::Fields fields = message->Payload();
+    if (fields.hostMatchingId == -1) {
+        message->SetFinished();  // +0x3c
+    } else {
+        if (CMatching::Get()->LocalMemberId() == -1) {  // vtable +0x6c
+            return 0;
+        }
+        message->SetFinished();
+        if (fields.hostMatchingId != GetNetPlayerMgr()->GetLocalPlayer(0)->matching_member_id_.GetValue()) {  // +0x1a0
+            return 0;
+        }
+    }
+    if (fields.levelListIndex < 0) {
+        if (gAssertLevel == 1) {
+            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "levelID >= 0",
+                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Multiplayer\\MultiplayerCallbacks.cpp", 397);
+        }
+        return 0;
+    }
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    state->SetState(300);
+    std::int32_t slot = app.m_playerManager->GetLocalPlayer(0, false)->unk_664;  // +0x664
+    if (state->mode_ == 4) {
+        if (slot < 0 || static_cast<std::int32_t>(PlayerSavegame::SG_GetNextFreeSlot()) <= slot) {
+            slot = 0;
+        }
+    }
+    state->flag4c_ = false;  // +0x4c
+    const auto* rows = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+    const char* levelFile = static_cast<const char*>(rows[fields.levelListIndex].LevelFile);  // element +0x20
+    app.LoadLevel(levelFile, fields.entryPointId, static_cast<std::uint32_t>(slot), fields.resume != 0,
+                  fields.useSpawnPoint != 0, fields.difficulty, true, static_cast<std::uint32_t>(fields.seed),
+                  static_cast<std::uint32_t>(fields.syncedSeed));
+    return 0;
+}
 
 // 0x49b3c8 _ZN19MultiplayerCallback15roomLobbyUpdateEPv
 // Re-verified against the 0x49b3c8 disassembly (39 instructions) and rebuilt in full. The blockers the previous
@@ -479,8 +592,7 @@ std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) {
 // NetStructBool PlayerInfo::m_ingame (block +0x4c8, value at +0x4e5; PlayerInfo.hpp:83).
 // Order: CMatching::Get()->GetRoomAttributes() (vtable +0xA4) -> GetAttributeInt(7) (asm 0x49b484..0x49b498);
 // with COnline's +0x05 set the attribute must be zero, else return 200 (asm 0x49b4a0..0x49b4c8); flag28_ (+0x28)
-// must be clear (asm 0x49b4cc..0x49b4d8); CMatching::Get()'s IsInRoom() -- binary vtable +0x64, which the port
-// reaches through the base slot it names UnknownGate() (the derived classes override it as IsInRoom) -- must be
+// must be clear (asm 0x49b4cc..0x49b4d8); CMatching::Get()'s IsInRoom() -- binary vtable +0x64, must be
 // true (asm 0x49b4dc..0x49b4f0); the local player's m_ingame must be clear (asm 0x49b4f4..0x49b514); then
 // MenuManager::GetMenuByName("menu_MultiplayerLobby") with its m_character (+0x4C, after the +0x48 proxy check)
 // and a non-null GetMenuByName(menu->m_name) (asm 0x49b518..0x49b54c); and the menu's RenderFX (+0x04) invokes
@@ -494,7 +606,7 @@ std::int32_t MultiplayerCallback::lobbyUpdate(void* /*context*/) {
     if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {  // +0x28
         return 200;
     }
-    if (!CMatching::Get()->UnknownGate()) {  // binary vtable +0x64 IsInRoom(); the port names the base slot UnknownGate
+    if (!CMatching::Get()->IsInRoom()) {  // binary vtable +0x64
         return 200;
     }
     PlayerInfo* local = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, false);
@@ -514,61 +626,155 @@ std::int32_t MultiplayerCallback::lobbyUpdate(void* /*context*/) {
 }
 
 // 0x49b580 _ZN19MultiplayerCallback19searchRoomPushNotifEPv
-// Partial, and the note it carried was WRONG about three of its four blockers. Re-read against the 0x49b580
-// disassembly (36 instructions):
-//  - CRoomSearchFilter IS defined: the class is dh2/CRoomSearchFilter.hpp with bodies in
-//    game-world/src/g1-game-world-CRoomSearchFilter-434a1f-0.cpp (ctor 0x8191fc, SetSearchAttributeInt
-//    0x819cf8 at line 164).
-//  - The OnlineGameState bytes at +0x24 and +0x25 ARE declared: online_game_state.hpp flag24_ / flag25_.
-//  - Application::GetVersionNumber IS declared and defined.
-//  - CMatching::SearchRoom (0x7feb40) has NO definition in the tree, and this time that is the one real
-//    blocker: its listing tail calls the search object's vtable +0x08 (CMatchingLocal::SearchRoomInternal
-//    0x807bec / CMatchingGLLive::SearchRoomInternal 0x81fadc), and the port's CMatching has no declaration at
-//    that slot. See consequence 4 of the KNOWN DEFECT block in c_matching_base.hpp. Reconstructing
-//    CMatching::SearchRoom would add a virtual slot to CMatching, which is exactly the integrator decision
-//    that block reserves.
-// The rest of the body is now fully recovered, so the next worker needs only the SearchRoom slot:
-//   if (!OnlineGameState::flag24_) return 100;                     // asm 0x49b588..0x49b5a8
-//   flag25_ = false;                                               // +0x25, asm 0x49b5b8
-//   CRoomSearchFilter filter;                                      // ctor 0x8191fc, asm 0x49b5c0
-//   filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_1, kOpEqual, 0xFEEDABBA);        // asm 0x49b5c4..0x49b5d8
-//   filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_2, kOpEqual, Application::GetVersionNumber());  // 0x49b5e4
-//   CMatching::Get()->SearchRoom(filter-copy, true, 0);            // asm 0x49b600..0x49b624
-//   if (mode_ (+0x34) != 3) return 100;                            // asm 0x49b630..0x49b648
-//   LoadGLLiveFriends(); return 100;                               // asm 0x49b650
-// Returns 100 in every reachable case here, as the stub does.
-std::int32_t MultiplayerCallback::searchRoomPushNotif(void* /*context*/) { return 100; }
+// 0x66 when the online gate (+0x24) is clear; +0x25 cleared; a filter with attribute 1 = 0xFEEDABBA and attribute 2 =
+// Application::GetVersionNumber() (both operator equal) goes, as a copy, to CMatching::SearchRoom(copy, true, 0); in mode 3
+// (+0x34) the GL Live friends are loaded. Returns 0x64.
+std::int32_t MultiplayerCallback::searchRoomPushNotif(void* /*context*/) {
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    if (!state->flag24_) {
+        return 0x66;
+    }
+    state->flag25_ = false;  // +0x25
+    CRoomSearchFilter filter;
+    filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_1, kOpEqual, static_cast<std::int32_t>(0xFEEDABBAu));
+    filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_2, kOpEqual, ApplicationGetInstance().GetVersionNumber());
+    CMatching::Get()->SearchRoom(filter, true, 0);
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+        LoadGLLiveFriends();
+    }
+    return 0x64;
+}
 
 // 0x49b660 _ZN19MultiplayerCallback10searchRoomEPv
-// Partial, and the note it carried was WRONG about three of its four blockers; re-read against the 0x49b660
-// disassembly (86 instructions):
-//  - CRoomSearchFilter IS defined (see the row above).
-//  - The OnlineGameState bytes at +0x24 and +0x25 and the int at +0x34 ARE declared: flag24_, flag25_, mode_.
-//  - RenderFX::GetRoot (0x7a7cac), gameswf::root::get_root_movie and RenderFX::InvokeASCallback (0x7abe0c)
-//    are all declared and defined.
-//  - CMatching::SearchRoom (0x7feb40) has NO definition, which is the one real blocker and the same
-//    integrator decision as the row above (consequence 4 of the KNOWN DEFECT block in c_matching_base.hpp).
-// Recovered body, for the next worker: flag24_ must be set (else 100); flag25_ = false; PlayerSavegame built
-// with GetLocalPlayer(0, false)->unk_664 (+0x664, -1 falls back to dword_99F778+8); difficulty =
-// PlayerSavegame::m_difficultyLevel; the level id is SG_GetQuestSG()[4 * difficulty + 0x44] (asm
-// 0x49b70c..0x49b718); MenuManager::GetRoot()->GetRoot()->get_root_movie() feeds
-// RenderFX::InvokeASCallback("GetCurrentDifficulty") whose result the listing DISCARDS (asm 0x49b750 leaves it
-// in r0 and r0 is overwritten); when mode_ == 2 only attribute 4 is set (to dword_99F778+0x0C), otherwise
-// attributes 1 (0xFEEDABBA), 2 (GetVersionNumber) and then 4; attribute 5 is always set to the level id, copy
-// the filter and call CMatching::SearchRoom(copy, true, 0); then if mode_ == 3, LoadGLLiveFriends(). Returns 100.
-std::int32_t MultiplayerCallback::searchRoom(void* /*context*/) { return 100; }
+// Reconstructed from the 86-instruction listing. 0x66 when the gate (+0x24) is clear; +0x25 cleared; the local
+// player's save slot (PlayerInfo +0x664, -1 falls back to SavegameManager +0x08) builds a PlayerSavegame
+// (load mode 0x11); difficulty = PlayerSavegame::m_difficultyLevel; the level id is the quest log word at
+// +0x44 + 4 * difficulty (QuestSavegame::m_act). MenuManager::GetRoot() invokes the "GetCurrentDifficulty"
+// callback on its root movie (the result is discarded: the listing overwrites r0). The filter: when mode_
+// (+0x34) == 2 only attribute 4 (SavegameManager +0x0c, operator 0); otherwise attributes 1 (0xFEEDABBA) and 2
+// (GetVersionNumber) and then attribute 4. Attribute 5 is always the level id with operator 3. The filter copy
+// goes to CMatching::SearchRoom(copy, true, 0); mode_ == 3 then calls LoadGLLiveFriends(). Returns 0x64.
+std::int32_t MultiplayerCallback::searchRoom(void* /*context*/) {
+    if (!OnlineSingleton<OnlineGameState>::GetInstance()->flag24_) {
+        return 0x66;
+    }
+    OnlineSingleton<OnlineGameState>::GetInstance()->flag25_ = false;  // +0x25
+    Application& app = ApplicationGetInstance();
+    PlayerInfo* local = app.m_playerManager->GetLocalPlayer(0, false);
+    std::uint32_t slot = static_cast<std::uint32_t>(local->unk_664);  // +0x664 save slot
+    if (local->unk_664 == -1) {
+        slot = static_cast<std::uint32_t>(app.m_savegameManager->m_lastSlot);  // dword_99F778 + 8
+    }
+    PlayerSavegame savegame(slot, 0x11, false);
+    const std::int32_t difficulty = PlayerSavegame::m_difficultyLevel;
+    const std::int32_t levelId = savegame.SG_GetQuestSG()->m_act[difficulty];  // quest log +0x44 + 4 * difficulty
+    if (MenuFX* root = app.m_menuManager->GetRoot()) {
+        root->InvokeASCallback(root->RenderFX::GetRoot()->get_root_movie(), "GetCurrentDifficulty", nullptr, 0);
+    }
+    const std::int32_t partyValue = app.m_savegameManager->unk_0c;  // dword_99F778 + 0x0c
+    CRoomSearchFilter filter;
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 2) {
+        filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_1, kOpEqual, static_cast<std::int32_t>(0xFEEDABBAu));
+        filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_2, kOpEqual, app.GetVersionNumber());
+    }
+    filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_4, kOpEqual, partyValue);
+    filter.SetSearchAttributeInt(ROOM_INT_ATTRIBUTE_5, kOpLessEqual, levelId);
+    CMatching::Get()->SearchRoom(filter, true, 0);
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+        LoadGLLiveFriends();
+    }
+    return 0x64;
+}
 
 // 0x49b990 _ZN19MultiplayerCallback20HandleMenuBackButtonEPv
-// Partial: the body is a dispatch over the menu name stored at OnlineGameState +0x30 (LC_API_STRCMP_0 chain over
-// menu_* names). The OnlineGameState fields it reads (+0x24, +0x26..+0x28, +0x30, +0x34, +0x38, +0x40, +0x4c, +0x4d)
-// are not declared, and the branches use CMatching::SetMatchingProvider (defined), GameCenter (defined) and
-// Application::GoToMainMenu (defined), but the menu-name strings and state flags are unrecovered. Returns 0 as the original does.
-std::int32_t MultiplayerCallback::HandleMenuBackButton(void* /*message*/) { return 0; }
+// The menu name at OnlineGameState +0x30 moves to +0x38 and +0x30 is cleared; with a name set, the leaving menu decides:
+//  - menu_Multiplayer_Game_Type, menu_Multiplayer, menu_Multiplayer2, menu_MultiLogin, menu_GameCenter: mode 1 (local)
+//    returns to the default provider (Terminate, online game off); mode 2 or 4 does the same; mode 3 (GL Live) cancels the
+//    login and, with +0x26 clear, clears +0x26/+0x27.
+//  - menu_MultiplayerLobby: unless a GL Live/Game Center lobby is already starting (mode 3 or 4 with +0x28 set) the
+//    server closes the room, leaves it, goes to state 100 (and clears +0x4d in mode 3); a client leaves the room and goes to
+//    state 100 (mode 2) or 102.
+//  - menu_MultiLogin: default provider, online game off, +0x26/+0x27 cleared.
+//  - menu_VerificationLoading: a login still in progress is cancelled and the main menu event 0 is raised; a matching object
+//    in a room leaves it; a Game Center game with the feature gate resets the player list; the Game Center start flag
+//    raises main menu event 0.
+// Both invitation flags are cleared at the end. Returns 0.
+std::int32_t MultiplayerCallback::HandleMenuBackButton(void* /*message*/) {
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    const char* menu = state->menuName30_;
+    state->menuName38_ = menu;
+    state->menuName30_ = nullptr;
+    if (menu == nullptr) {
+        return 0;
+    }
+    auto is = [menu](const char* name) { return std::strcmp(menu, name) == 0; };
+    Application& app = ApplicationGetInstance();
+    auto resetProvider = []() {
+        CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(0));
+        CMatching::Get()->Terminate();  // vtable +0x2c
+        GetOnline()->SetIsOnlineGame(false);
+    };
+    if (is("menu_Multiplayer_Game_Type") || is("menu_Multiplayer") || is("menu_Multiplayer2") || is("menu_MultiLogin") ||
+        is("menu_GameCenter")) {
+        if (state->mode_ == 1) {
+            CMatching::Get();
+            resetProvider();
+        }
+        if (state->mode_ == 2 || state->mode_ == 4) {
+            CMatching::Get();
+            resetProvider();
+        } else if (state->mode_ == 3) {
+            CSignIn::Get()->CancelLogin();  // vtable +0x18
+            if (!state->flag26_) {
+                state->flag26_ = false;
+                state->flag27_ = false;
+            }
+        }
+    }
+    if (is("menu_MultiplayerLobby")) {
+        if ((state->mode_ != 3 && state->mode_ != 4) || !state->flag28_) {
+            if (CMatching::Get()->IsServer()) {
+                CMatching::Get()->LeaveRoom();  // vtable +0x3c
+                CMatching::Get()->CloseRoom();  // vtable +0x48
+                state->SetState(100);
+                if (state->mode_ == 3) {
+                    state->flag4d_ = false;
+                }
+            } else {
+                CMatching::Get()->LeaveRoom();
+                state->SetState(state->mode_ == 2 ? 100 : 102);
+            }
+        }
+    }
+    if (is("menu_MultiLogin")) {
+        CMatching::Get();
+        resetProvider();
+        state->flag26_ = false;
+        state->flag27_ = false;
+    }
+    if (is("menu_VerificationLoading")) {
+        if (!CSignIn::Get()->LoggedIn()) {  // +0x11
+            CSignIn::Get()->CancelLogin();
+            app.GoToMainMenu(static_cast<GoToMainMenuEvent>(0));
+        }
+        if (CMatching::Get()->IsInRoom()) {  // vtable +0x64
+            CMatching::Get()->LeaveRoom();
+        }
+        GameCenter* center = GCSingleton<GameCenter>::GetInstance();
+        if (state->mode_ == 4 && center->gateFlag_ && center->featuresEnabled_) {  // +0x05, +0x07
+            center->ResetPlayerList();
+        }
+        if (GCSingleton<GameCenter>::GetInstance()->startFlag_) {  // +0x11
+            app.GoToMainMenu(static_cast<GoToMainMenuEvent>(0));
+        }
+    }
+    byte_99F81A = 0;
+    byte_99F83A = 0;
+    return 0;
+}
 
 // 0x49c5e4 _ZN19MultiplayerCallback15HandleScriptCmdEPv
-// Partial: case 3 (the dialog message queue
-// at dword_99FB8C and dword_99FB9C, DialogMsg::s_SkipFuncName and MenuMessageManager<DialogMsg,1>::Invoke) is not
-// reconstructed and does nothing here. The other cases are complete. The command and its two arguments are the
+// All cases (case 3 is the dialog skip on the MenuMessageManager<DialogMsg, 1> queue). The command and its two arguments are the
 // three payload words (original +0x50, +0x54, +0x58), read through GetDataPtr since CMsgScriptCmd has no named fields.
 std::int32_t MultiplayerCallback::HandleScriptCmd(void* /*message*/) {
     CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgScriptCmd");
@@ -593,8 +799,20 @@ std::int32_t MultiplayerCallback::HandleScriptCmd(void* /*message*/) {
         case 2:
             ScriptManager::s_inst.StopScript(arg1, true);
             break;
-        case 3:
-            break;  // dialog queue: not reconstructed (see above)
+        case 3: {
+            // A client skips the current dialog line: pop it, run the skip function, and start the next line if any.
+            MenuMessageManager<DialogMsg, 1>& dialogs = MenuMessageManager<DialogMsg, 1>::s_inst;
+            if (!ApplicationGetInstance().m_playerManager->IsLocalPlayerHosting() && !dialogs.m_queues[0].empty()) {
+                dialogs.m_queues[0].pop_front();
+                if (DialogMsg::s_SkipFuncName != nullptr) {
+                    dialogs.Invoke(DialogMsg::s_SkipFuncName, 0);
+                }
+                if (!dialogs.m_queues[0].empty()) {
+                    dialogs.Invoke(DialogMsg::s_StartFuncName[0], 0);
+                }
+            }
+            break;
+        }
         case 4:
             if (!GetOnline()->IsServer() && ApplicationGetInstance().m_playerManager->unk_71a) {
                 ScriptManager::s_inst.StartScript(arg1, arg2, true);
@@ -609,69 +827,163 @@ std::int32_t MultiplayerCallback::HandleScriptCmd(void* /*message*/) {
 }
 
 // 0x49c7b4 _ZN19MultiplayerCallback8joinRoomEPv
-// Partial, and the note it carried was WRONG: CMatching::JoinRoom HAS a definition in the tree
-// (net-session-online/src/tb_session-online-CMatching-0.cpp:153, row 0x7ff120, itself partial on the
-// SetEnabled(element, 0) loop), the tRoomInfo vector at OnlineGameState +0x50 IS modelled (roomInfos_, a
-// std::vector<tRoomInfo> member, with tRoomInfo 0x3c8 bytes as the binary has it), and the online-state gate at +0x24 IS
-// declared (flag24_). Re-read against the 0x49c7b4 disassembly (42 instructions):
-//   menuName30_ = state->menuName30_;                                                   // +0x30, asm 0x49c7dc
-//   if (state->flag24_ == 0) return 0x67;                                               // asm 0x49c7c0..0x49c7d4
-//   if (CMatching::Get()->UnknownGate()) { CMatching::Get()->LeaveRoom(); }             // asm 0x49c7ec, 0x49c860
-//   std::vector<tRoomInfo> rooms = state->roomInfos_;                                   // operator=, asm 0x49c828
-//   if (mode_ (+0x34) == 2) { CMatching::Get()->GetRoomList(&rooms); }                  // asm 0x49c8a0, slot +0x90
-//   const std::uint64_t roomId = *reinterpret_cast<const std::uint64_t*>(                 // asm 0x49c834..0x49c83c
-//       reinterpret_cast<const std::uint8_t*>(rooms.data()) + 0x3C8 * menuName30_);
-//   CMatching::Get()->JoinRoom(roomId);                                                 // asm 0x49c840
-//   return 0xC8;
-// The two remaining blockers are NOT missing definitions:
-//  1. the mode-2 branch. Vtable +0x90 is CMatchingGLLive::GetRoomList (0x82051c, returns
-//     std::vector<tRoomInfo> by value), which is a queued `skipped` row (see c_matching_gl_live.hpp:212), and
-//     the port's CMatching has no declaration at +0x90 -- the same integrator decision as consequence 4 of the
-//     KNOWN DEFECT block in c_matching_base.hpp. Without that branch's body the room id source differs from
-//     the binary's whenever mode_ == 2.
-//  2. the room id is read as the int64 at the head of the 0x3C8-byte element at index menuName30_; the port's
-//     tRoomInfo has roomId at +0x00, so this arithmetic is reproducible, but the vector it indexes cannot be
-//     filled on the mode-2 path (1). The mode != 2 path itself is ready.
-// Returns 200, which is the value the binary leaves in r0 on the path that reaches JoinRoom.
-std::int32_t MultiplayerCallback::joinRoom(void* /*context*/) { return 200; }
+// Reconstructed from the 42-instruction listing. 0x67 when the online gate (+0x24) is clear. The word at +0x30 is
+// read first (here the index of the chosen room). When CMatching::Get()->IsInRoom() (vtable +0x64) the current
+// room is left (LeaveRoom, vtable +0x3c). The room list is the tRoomInfo vector at +0x50, or, when mode_ (+0x34)
+// is 2, the matching object GetRoomList (vtable +0x90, CMatchingGLLive::GetRoomList). The room id is the int64 at
+// the head of the 0x3c8-byte element at the chosen index, and CMatching::JoinRoom(roomId) is called. Returns 0xC8.
+// Host-necessitated deviation: the original indexes the list without a range check; an index outside it joins id 0.
+std::int32_t MultiplayerCallback::joinRoom(void* /*context*/) {
+    if (!OnlineSingleton<OnlineGameState>::GetInstance()->flag24_) {
+        return 0x67;
+    }
+    const std::int32_t roomIndex = OnlineSingleton<OnlineGameState>::GetInstance()->roomIndex30();
+    if (CMatching::Get()->IsInRoom()) {
+        CMatching::Get()->LeaveRoom();
+    }
+    std::vector<tRoomInfo> rooms;
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 2) {
+        rooms = CMatching::Get()->GetRoomList();
+    } else {
+        rooms = OnlineSingleton<OnlineGameState>::GetInstance()->RoomInfos();
+    }
+    std::uint64_t roomId = 0;
+    if (roomIndex >= 0 && static_cast<std::size_t>(roomIndex) < rooms.size()) {
+        roomId = static_cast<std::uint64_t>(rooms[static_cast<std::size_t>(roomIndex)].roomId);
+    }
+    CMatching::Get()->JoinRoom(roomId);
+    return 0xC8;
+}
 
 // 0x49c8c0 _ZN19MultiplayerCallback10createRoomEPv
-// Partial (redo 2026-10-13). Declared now: PlayerSavegame (ctor, SG_Load, SG_GetCurrentPrimaryQuest,
-// static m_difficultyLevel), DebugSwitches, Application::GetVersionNumber, the engine CRoomAttributes
-// setters, CMatching::Get. Still missing, so the body is not written:
-//  - OnlineGameState flags: the byte at +0x24 (the gate; the original returns 101 when it is clear), the
-//    byte at +0x25 (set to 1 after the join call), the int at +0x34 (2 and 3 pick the attribute branch and
-//    the GL Live path) and the byte at +0x4d (set to 1 on the GL Live path). OnlineGameState declares none
-//    of them. Only the room-creation timeval at +0x44 (roomCreation_) is declared.
-//  - CMatching::CreateJoinRoom(int, CRoomAttributes&) is not declared. CMatching::Get() takes no argument.
-//  - Garbled reads in the pseudocode: RealTime and v24 are read from &v35[4*difficulty + 28] (a
-//    stack-relative address past the local string), and v22 from SG_GetQuestSG()[4*difficulty + 68].
-//    The assembly is needed for the element types and offsets.
-//  - dword_99F778 (+8 player id fallback, +12 difficulty) and the PlayerManager instance dword_99F76C have
-//    no recovered names. The GetLocalPlayer(...)[1].unknown_000 access has no declared type.
-//  - The GetCurrentDifficulty callback result (the stack slot read as v29) has no declared return value.
-//  - The timeval write to OnlineGameState+0x44 needs gettimeofday and the OnlineGameState accessor above.
-// Returns 100 in every case. The original returns 101 when the online-state flag is clear.
-std::int32_t MultiplayerCallback::createRoom(void* /*context*/) { return 100; }
+// 101 while the online gate (+0x24) is clear. Otherwise: the local player's save slot (PlayerInfo +0x664, -1 falls back to
+// SavegameManager +0x08) is loaded as a PlayerSavegame (mode 1); the menu root's "GetCurrentDifficulty" callback runs
+// (result discarded); the chosen difficulty (SavegameManager +0x0c) becomes the current difficulty when it is not above
+// the unlocked one. The host name is the GL Live user name (mode 3) or the savegame's player name; the seed is the saved
+// seed of the difficulty, or the real-time clock when it is zero or the DontUsePlayerSeed switch is on (and is saved back);
+// "<seed> <seed>" becomes the seed text. The savegame is reloaded (mode 16) and the quest of the difficulty read. Mode 2
+// sets the int attributes 5, 6, 4 and the name (bin 3); the other modes set attributes 1 (0xFEEDABBA), 2 (the version),
+// 3 (the saved level id), 4, 5, 6, 7 (0), the name (bin 3, 32 bytes) and the seed text (bin 4). CMatching::CreateJoinRoom(true,
+// attributes) runs, +0x25 is set, and in mode 3 the creation time (+0x44) and +0x4d are set and the GL Live friends loaded.
+// Returns 100.
+// Deviation: the host name is copied into the 32-byte attribute buffer with a bounded copy (the original strcpy overflows
+// it for a name of 32 or more characters).
+std::int32_t MultiplayerCallback::createRoom(void* /*context*/) {
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    if (!state->flag24_) {
+        return 101;
+    }
+    CRoomAttributes attributes;
+    Application& app = ApplicationGetInstance();
+    PlayerInfo* local = app.m_playerManager->GetLocalPlayer(0, false);
+    std::uint32_t slot = static_cast<std::uint32_t>(local->unk_664);  // +0x664
+    if (local->unk_664 == -1) {
+        slot = static_cast<std::uint32_t>(app.m_savegameManager->m_lastSlot);  // dword_99F778 + 8
+    }
+    PlayerSavegame savegame(slot, 1, false);
+    std::string hostName;
+    if (MenuFX* root = app.m_menuManager->GetRoot()) {
+        root->InvokeASCallback(root->RenderFX::GetRoot()->get_root_movie(), "GetCurrentDifficulty", nullptr, 0);
+    }
+    const std::int32_t chosenDifficulty = app.m_savegameManager->unk_0c;  // dword_99F778 + 0x0c
+    if (chosenDifficulty <= savegame.m_unlockedDifficulty) {               // PlayerSavegame +0x3c
+        PlayerSavegame::m_difficultyLevel = chosenDifficulty;
+    }
+    const char* name = state->mode_ == 3 ? CSignIn::Get()->CredentialsName() : savegame.m_name.c_str();
+    hostName.assign(name != nullptr ? name : "");
+    const std::int32_t difficulty = PlayerSavegame::m_difficultyLevel;
+    std::int32_t seed = savegame.m_seeds[difficulty];            // PlayerSavegame +0x5c + 4 * difficulty
+    const std::int32_t savedLevelId = savegame.unk_50[difficulty];  // PlayerSavegame +0x50 + 4 * difficulty
+    if (seed == 0 || (DebugSwitches::s_inst.load(), DebugSwitches::s_inst.GetSwitch("DontUsePlayerSeed"))) {
+        seed = static_cast<std::int32_t>(glitch::os::Timer::getRealTime());
+        savegame.m_seeds[difficulty] = seed;
+    }
+    char seedText[60];
+    std::snprintf(seedText, sizeof seedText, "%d %d", seed, seed);
+    const std::string seedString(seedText);
+    savegame.SG_Load(16);
+    const std::int32_t primaryQuest = savegame.SG_GetCurrentPrimaryQuest(difficulty);
+    const std::int32_t levelId = savegame.SG_GetQuestSG()->m_act[difficulty];  // quest log +0x44 + 4 * difficulty
+    char hostBuffer[32] = {};
+    std::strncpy(hostBuffer, hostName.c_str(), sizeof hostBuffer - 1);
+    if (state->mode_ == 2) {
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_5, levelId);
+        attributes.SetAttributeBin(ROOM_BIN_ATTRIBUTE_3, hostBuffer, 32);
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_6, primaryQuest);
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_4, chosenDifficulty);
+    } else {
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_1, static_cast<std::int32_t>(0xFEEDABBAu));
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_2, app.GetVersionNumber());
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_3, savedLevelId);
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_4, chosenDifficulty);
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_5, levelId);
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_6, primaryQuest);
+        attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_7, 0);
+        attributes.SetAttributeBin(ROOM_BIN_ATTRIBUTE_3, hostBuffer, 32);
+        attributes.SetAttributeBin(ROOM_BIN_ATTRIBUTE_4, seedString.data(), static_cast<unsigned int>(seedString.size()));
+    }
+    CMatching::Get()->CreateJoinRoom(true, attributes);
+    state->flag25_ = true;  // +0x25
+    if (state->mode_ == 3) {
+        state->StampRoomCreationTime();  // gettimeofday into +0x44
+        state->flag4d_ = true;
+        LoadGLLiveFriends();
+    }
+    return 100;
+}
 
 // 0x49cd94 _ZN19MultiplayerCallback18HandlePlayerJoinedEPv
-// Partial (redo 2026-10-13). Declared now: the current Level's m_levelListIndex (+0x3c), m_difficulty
-// (+0x118), m_loadStep (+0x130, 38 = loaded) and m_seed (+0xdc); PlayerManager::IsLocalPlayerHosting and
-// GetHostingPlayer; CMessage::CreateMessage(const char*, bool); CMsgStartGame (a CMessage). Still missing:
-//  - The joined-player event. GetNetPlayerMgr()+0x180 (NetPlayerMgr+384) holds a CEventQueueBase, read with
-//    event type 0x300000 and a 4-byte payload. CNetPlayerManager declares no member there. The gap 0x180 to
-//    0x193, before player_slot_count_ at +0x194, fits a 0x14-byte CEventQueueBase. This is a layout request
-//    for net-transport. Without it the player pointer is unknown, so nothing after the event read is written.
-//  - The player record: +0x1a0 matches CNetPlayerInfo::conn_index_ (value), but the name bounds at +0x2e0
-//    and +0x2e4 lie past the 0x288-byte object, and name_ is at +0x248. Verify against the assembly.
-//  - CMsgStartGame: the payload words at +0x50, +0x54, +0x58, +0x59, +0x5c, +0x60, +0x64 and +0x68 are written
-//    through raw offsets. payload_ is a private byte array, so the field names are not recovered.
-//  - OnlineStatusMsg is not declared. The deque at 0x99fb34 (push_back, _M_subtract) and the statics
-//    OnlineStatusMsg::s_StartFuncName, s_NodeName and s_NodeCachedChar are not recovered.
-//  - StringManager::formatForMulti: the pseudocode passes a formatted argument block (sret, string, bool),
-//    and the declared signature is (std::string, bool). StringManager::parse and
-//    PyDataConstants::getConstant are declared.
-//  - The pseudocode's CMessaging::Get(level) takes a level, and the declared CMessaging::GetInstance takes
-//    none. The server-side tail appends a node to a list at dword_99F764+296 whose owner is not identified.
-// Returns 0 in every case, as the original does.
-std::int32_t MultiplayerCallback::HandlePlayerJoined(void* /*message*/) { return 0; }
+// With a Level present: the joined player's id comes from the net player manager's internal event 0x300000 and its record
+// (a PlayerInfo) from GetPlayer(id, false). A fully loaded level (m_loadStep 38) queues the status line "<name> has joined
+// the game" on the online status queue (the start function runs when it is the only line). When this machine hosts, a
+// CMsgStartGame is sent that tells the joiner the level (Level +0x3c), the difficulty (+0x118) and the seed (+0xdc) and names
+// the new player's matching id (record +0x1a0) as the one who starts; a PlayerSavegame of the hosting player's slot is built
+// and dropped as in the original (the constructor loads the file). On a server the matching id is also appended to the
+// ObjectManager list at +0x128. The event is consumed on every path. Returns 0.
+// Deviation: a missing player record (GetPlayer returning null) skips the handler body (the original dereferences it).
+std::int32_t MultiplayerCallback::HandlePlayerJoined(void* /*message*/) {
+    Level* level = GSLevel::s_level;
+    CNetPlayerManager* players = GetNetPlayerMgr();
+    if (level != nullptr) {
+        std::int32_t joinedId = -1;
+        players->internal_events_.GetEventData(0x300000, &joinedId, 4);  // 3145728, +0x180
+        PlayerInfo* joined = static_cast<PlayerInfo*>(GetNetPlayerMgr()->GetPlayer(joinedId, false));
+        if (joined != nullptr) {
+            Application& app = ApplicationGetInstance();
+            if (level->m_loadStep == 38) {
+                Application& application = app;
+                const char* format = application.m_stringManager->getString(
+                    application.m_pyDataConstants->getConstant("StrID", "MENU_HAS_JOINED_THE_GAME"));
+                const std::string playerName = StringManager::formatForMulti(joined->m_characterName.GetValue(), false);
+                std::string text;
+                application.m_stringManager->parse(text, format, playerName.c_str());
+                OnlineGameState::PostStatusMessage(text);
+            }
+            const std::int32_t matchingId = joined->matching_member_id_.GetValue();  // +0x1a0
+            PlayerManager* playerManager = app.m_playerManager;
+            if (playerManager->IsLocalPlayerHosting()) {
+                PlayerSavegame hostSave(static_cast<std::uint32_t>(playerManager->GetHostingPlayer()->unk_664), 1, false);
+                const std::int32_t levelIndex = level->m_levelListIndex;  // +0x3c
+                const std::int32_t difficulty = level->m_difficulty;      // +0x118
+                const std::int32_t seed = static_cast<std::int32_t>(app.GetCurrentLevel()->m_seed);  // +0xdc
+                auto* message = static_cast<CMsgStartGame*>(CMessage::CreateMessage("CMsgStartGame", true));
+                CMsgStartGame::Fields& fields = message->Payload();
+                fields.levelListIndex = levelIndex;   // +0x50
+                fields.resume = 0;                    // +0x58
+                fields.syncedSeed = seed;             // +0x64
+                fields.difficulty = difficulty;       // +0x5c
+                fields.entryPointId = 0;              // +0x54
+                fields.useSpawnPoint = 0;             // +0x59
+                fields.hostMatchingId = matchingId;   // +0x68
+                fields.seed = seed;                   // +0x60
+                CMessaging::GetInstance()->SendMsg(message);
+            }
+            if (GetOnline()->IsServer()) {
+                dword_99F764->unk_128.push_back(matchingId);  // ObjectManager +0x128
+            }
+        }
+    }
+    GetNetPlayerMgr()->internal_events_.ConsumeEvent(0x300000);
+    return 0;
+}
+

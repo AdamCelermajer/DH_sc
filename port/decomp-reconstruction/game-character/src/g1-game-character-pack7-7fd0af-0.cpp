@@ -99,7 +99,7 @@ void CSScared::OnFocus(int, Character* character, CharStateMachine*, int, int, v
     ProbeTracingSwitch("isTracingCharState");
     character->m_stateFlags = 0x2240u;
 
-    const int animRow = CharAnimRow(character->GetCharAnimTableId()).m_w31;
+    const int animRow = CharAnimRow(character->GetCharAnimTableId()).Scared;
     int stance = ApplicationGetPyDataConstants()->getConstant("AnimStancedAnim", "SL__LIST_IPHONE") & 0x100;
     if (stance != 0) {
         stance = character->GetAnimStance();

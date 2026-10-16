@@ -58,31 +58,31 @@ public:
     std::wstring getStringW() const override;    // 0x32d6fc: stream text, widened
 };
 
-// Enum attributes are an int attribute plus the selected index at +0x38.
-// The +0x24 value is inherited from CIntAttribute (inferred from the vtable
-// calls in the original, which go through getInt/setInt).
-class CEnumAttribute : public CIntAttribute {
+// Enumeration attribute (0x48 bytes): an IAttribute (name +0x08, flag +0x20) with the current literal as a string at +0x24 and
+// the table of literals at +0x3c (a vector of strings, filled by setEnum). The integer view is the index of the current
+// literal in the table (compared without regard to case).
+class CEnumAttribute : public IAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x560610: literal "enum" from the IDA listing
-    // 0x56532c (D1): PARTIAL. The original also releases the literal vector at +0x3c, which
-    // this layout does not hold; the base and members are released as usual.
-    CEnumAttribute() = default;
-    ~CEnumAttribute() override = default;
-    // 0x56706c: PARTIAL. Keeps the name and flag; the value and the choices (the literal
-    // table at +0x3c..+0x40) are not recovered, so the index starts at 0.
+    CEnumAttribute() = default;  // not in the original (tests)
+    // 0x56706c (C1): the name and flag, an empty value and table, then setEnum(value, choices).
     CEnumAttribute(const char* attrName, const char* value, const char* const* choices, bool f);
-    int enumValue = 0;  // +0x38
-    // +0x24: the narrow text. setString stores it and getString copies it. The choice table
-    // (+0x3c) is not in this layout, so the index is not tied to the text.
-    std::string text;
-    std::string getString() const override;       // 0x562d0c
-    void setString(const char* value) override;   // 0x567144: a null value is taken as empty
+    ~CEnumAttribute() override = default;  // 0x56532c (D1): the table and the strings are released by the members
 
-    float getFloat() const override;      // 0x5605a4
-    bool getBool() const override;        // 0x5605bc
-    void setFloat(float v) override;      // 0x5605d8
-    int getEnum() const override;         // 0x560600
-    int getType() const override;         // 0x560608 (returns 4)
+    std::string value;                // +0x24, the current literal
+    std::vector<std::string> literals;  // +0x3c
+
+    const wchar_t* getTypeString() const override;  // 0x560610: literal "enum" from the IDA listing
+    int getType() const override;                   // 0x560608 (returns 4)
+    int getInt() const override;                    // 0x561e98: the index of the value in the table, -1 for an empty table
+    float getFloat() const override;                // 0x5605a4: (float)getInt()
+    bool getBool() const override;                  // 0x5605bc: getInt() != 0
+    const char* getEnum() const override;           // 0x560600: the value string's data pointer
+    std::string getString() const override;         // 0x562d0c
+    std::wstring getStringW() const override;       // 0x562a84: each byte sign-extended to a wide character
+    void setInt(int index) override;                // 0x567eb8: the literal at the index, empty for an index out of range
+    void setFloat(float v) override;                // 0x5605d8: setInt((int)v)
+    void setString(const char* text) override;      // 0x567144: assigns the value (a null value is taken as empty)
+    void setEnum(const char* text, const char* const* choices) override;  // 0x5656c8: appends the choices, then setString(text)
 };
 
 class CUserPointerAttribute : public IAttribute {

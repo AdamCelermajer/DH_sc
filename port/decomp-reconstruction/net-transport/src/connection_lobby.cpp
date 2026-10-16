@@ -23,13 +23,12 @@ ConnectionLobby::ConnectionLobby(char* host, int port) : Connection(host, port) 
 ConnectionLobby::~ConnectionLobby() = default;
 
 // 0x846eb4 _ZN15ConnectionLobby13sendRetryDataEv
-// Partial: the original returns the time when a copy was sent, and the object pointer otherwise.
-// Hex-Rays shows that value as the return (R0 left by the calls). No direct caller exists in the
-// Hex-Rays output, so the return type cannot be confirmed; the function returns void. The body
-// (slot +0x64) is read before the length (slot +0x60), as in the original.
-void ConnectionLobby::sendRetryData() {
+// Returns the time stamped into the request time when a copy was sent, and the object pointer
+// (as the 32-bit register) otherwise, as the Hex-Rays body returns it. The body (slot +0x64) is read
+// before the length (slot +0x60), as in the original.
+int ConnectionLobby::sendRetryData() {
     if (!retry_packet_) {
-        return;
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(this));
     }
     auto* packet = new DataPacketLobby();
     const char* body = retry_packet_->getMessageBody();
@@ -37,6 +36,7 @@ void ConnectionLobby::sendRetryData() {
     packet->setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
     addOutgoingPacket(packet);
     last_request_time_ = platform_calls::GetTime();
+    return last_request_time_;
 }
 
 // 0x846f3c _ZN15ConnectionLobby19keepConnectionAliveEv
@@ -335,11 +335,11 @@ int ConnectionLobby::sendLobbyLoginPackage(long user_id, char* name, short a4, u
 }
 
 // 0x848300 _ZN15ConnectionLobby24sendKickOutPlayerPackageEPc
-// Partial: with a null name the original returns the object pointer (Hex-Rays "return this");
-// that value is not reproduced and the port returns 0. Nothing is queued in that case, as in the original.
+// With a null name the original returns the object pointer (Hex-Rays "return this") and queues nothing.
+// Partial: the non-null path returns Connection::addOutgoingPacket's result (see there).
 int ConnectionLobby::sendKickOutPlayerPackage(char* name) {
     if (name == nullptr) {
-        return 0;
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(this));
     }
     auto* packet = new DataPacketLobby();
     packet->addByte(kCommandG);

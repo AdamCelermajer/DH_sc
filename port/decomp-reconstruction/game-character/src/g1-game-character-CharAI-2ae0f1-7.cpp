@@ -454,7 +454,7 @@ void CharAI::AI_EndSpell(bool flag) {
     }
     const int faeryId = m_character->SG_GetCurrentFaerieId(-1);
     const auto* faery = static_cast<const Structs::Faery*>(m_character->GetCharFaery(faeryId));
-    if (faery->m_w7 != 2) {
+    if (faery->SpellType != 2) {
         return;
     }
     if (m_skillStepBegun) {

@@ -1,4 +1,4 @@
-// CUnZipReader (folder archive): the folder reader finds nothing while openFile is partial.
+// CUnZipReader (folder archive): the folder reader finds nothing when the folder holds no such file.
 #include "glitch-core-io/io/unzip_reader.hpp"
 
 #include <cstdio>
@@ -14,7 +14,10 @@
 int main() {
     int failures = 0;
     glitch::io::CUnZipReader reader(nullptr, "assets", false, true);
-    CHECK(reader.folderName == "assets");
+    CHECK(reader.folderName == "assets/");  // the constructor appends a separator when the name has none
+    glitch::io::CUnZipReader slashed(nullptr, "assets\\", false, true);
+    CHECK(slashed.folderName == "assets\\");  // a trailing backslash is kept as it is
+    CHECK(reader.getFileCount() == 0);
     CHECK(reader.getFileCount() == 0);
     reader.buildDirectory();
     CHECK(reader.findFile("missing.txt") == -1);

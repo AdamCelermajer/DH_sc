@@ -51,7 +51,7 @@ public:
     std::string sent;
     int reads = 0;
 
-    hostent* GetHostByName(const char* /*host*/) override {
+    hostent* GetHostByName(char* /*host*/) override {
         static char storage[64];
         return reinterpret_cast<hostent*>(storage);
     }

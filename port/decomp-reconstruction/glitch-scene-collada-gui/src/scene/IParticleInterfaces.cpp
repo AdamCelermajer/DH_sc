@@ -12,8 +12,8 @@ namespace glitch::scene {
 void IParticleEmitter::serializeAttributes(io::IAttributes*, io::SAttributeReadWriteOptions*) const {}
 
 // 0x6f76e4 _ZN6glitch5scene16IParticleEmitter21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Reads nothing and returns the index it was given.
-int IParticleEmitter::deserializeAttributes(int index, io::IAttributes*, io::SAttributeReadWriteOptions*) { return index; }
+// Reads nothing and returns 0 (the listing is `mov r0, #0; bx lr`).
+int IParticleEmitter::deserializeAttributes(int, io::IAttributes*, io::SAttributeReadWriteOptions*) { return 0; }
 
 // 0x6f76ec _ZNK6glitch5scene16IParticleEmitter7getTypeEv
 E_PARTICLE_EMITTER_TYPE IParticleEmitter::getType() const { return EPET_POINT; }
@@ -58,7 +58,8 @@ E_PARTICLE_EMITTER_TYPE IParticleAnimatedMeshSceneNodeEmitter::getType() const {
 void IParticleAffector::serializeAttributes(io::IAttributes*, io::SAttributeReadWriteOptions*) const {}
 
 // 0x6f8390 _ZN6glitch5scene17IParticleAffector21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-int IParticleAffector::deserializeAttributes(int index, io::IAttributes*, io::SAttributeReadWriteOptions*) { return index; }
+// Reads nothing and returns 0 (`mov r0, #0; bx lr`).
+int IParticleAffector::deserializeAttributes(int, io::IAttributes*, io::SAttributeReadWriteOptions*) { return 0; }
 
 // 0x6f836c _ZN6glitch5scene17IParticleAffector10setEnabledEb
 void IParticleAffector::setEnabled(bool value) { enabled = value; }

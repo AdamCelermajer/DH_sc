@@ -57,7 +57,7 @@ const Structs::Projectile& ProjectileRow(int tableIndex) {
 
 // Arrays::ProjectileDict row (12 bytes in the original, Structs::ColladaFile here). +0x08 is the dae name.
 const char* ProjectileDaeName(int dictIndex) {
-    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ProjectileDict::members)[dictIndex].m_w2;
+    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ProjectileDict::members)[dictIndex].Name;
 }
 
 // The table columns one impact plays. -1 means the column is empty.
@@ -74,19 +74,19 @@ ImpactColumns SelectImpactColumns(const Structs::Projectile& row, Projectile::Im
         case Projectile::IMPACT_NONE:
             return ImpactColumns{-1, -1};
         case Projectile::IMPACT_EXPIRE:
-            return ImpactColumns{row.m_w2, row.m_w3};  // +0x08 effect, +0x0c sound
+            return ImpactColumns{row.ExpireFX, row.ExpireSFX};  // +0x08 effect, +0x0c sound
         case Projectile::IMPACT_GROUND:
         case Projectile::IMPACT_OBJECT: {
-            ImpactColumns columns{row.m_w11, row.m_w12};  // +0x2c effect, +0x30 sound
+            ImpactColumns columns{row.ObjectImpactFX, row.ObjectImpactSFX};  // +0x2c effect, +0x30 sound
             if (columns.sound == -1) {
-                columns = ImpactColumns{row.m_w5, row.m_w6};  // +0x14 effect, +0x18 sound
+                columns = ImpactColumns{row.ImpactFX, row.ImpactSFX};  // +0x14 effect, +0x18 sound
             } else if (columns.fx == -1) {
-                columns.fx = row.m_w5;  // +0x14
+                columns.fx = row.ImpactFX;  // +0x14
             }
             return columns;
         }
         default:  // IMPACT_CHARACTER and any other value
-            return ImpactColumns{row.m_w5, row.m_w6};  // +0x14 effect, +0x18 sound
+            return ImpactColumns{row.ImpactFX, row.ImpactSFX};  // +0x14 effect, +0x18 sound
     }
 }
 
@@ -183,7 +183,7 @@ void Projectile::SetManager(ProjectileManager* manager) {
 // (+0x0c), else the world (PFWorld::GetFloorHeightAt). The position is set (SetPosition, with the found height; the height starts at 0 and stays 0 when no floor answers) in every case.
 // Then the hit object is cleared (+0x3cc), the projectile is marked expiring (+0x3d1) and the impact effect plays at the target position.
 void Projectile::OnExpire(ImpactType impact) {
-    if (ProjectileRow(m_projectileId).m_w13) {  // table +0x34: snap to the floor on expiry
+    if (ProjectileRow(m_projectileId).StayOnFloor) {  // table +0x34: snap to the floor on expiry
         PFFloor* floor = m_pfObject.m_floor;     // PFObject +0x10 (GameObject +0x1d8)
         PFRoom* room = m_pfObject.m_room;        // PFObject +0x0c (GameObject +0x1d4)
         float height = 0.0f;
@@ -240,7 +240,7 @@ void Projectile::Update() {
     m_position = targetPosition;  // +0x394..+0x3a0 copy of GetTargetPosition()
 
     const Structs::Projectile& row = ProjectileRow(m_projectileId);
-    if (row.m_off53 && m_target != nullptr) {  // table +0x35: home on the target
+    if (row.TargetLock && m_target != nullptr) {  // table +0x35: home on the target
         SetDestination(m_target->GetTargetPosition());
     } else {
         // The destination is 1000 units along the XY direction (destination - position); a zero direction gives NaN as in the original.
@@ -320,10 +320,10 @@ bool Projectile::OnCollision(GameObject* other, const Point2D<float>& position) 
         }
     } else {
         const Structs::Projectile& row = ProjectileRow(m_projectileId);
-        if (row.m_w1 && m_target != other) {  // table +0x04: a homing shot hits its target only
+        if (row.Dedicated && m_target != other) {  // table +0x04: a homing shot hits its target only
             return false;
         }
-        if (!row.m_w4) {  // table +0x10: a character hit must be an enemy of the owner
+        if (!row.FriendlyFire) {  // table +0x10: a character hit must be an enemy of the owner
             ObjectHandle ownerHandle = m_owner->GetHandle();
             Character* ownerCharacter = ownerHandle.operator Character*();
             if (ownerCharacter != nullptr && !ownerCharacter->AI_IsEnemy(other)) {
@@ -392,7 +392,7 @@ void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target
 
     const Structs::Projectile& row = ProjectileRow(projectileId);
     m_projectileId = projectileId;             // +0x374
-    unk_37c = row.m_off29;                     // +0x37c table +0x1d
+    unk_37c = row.IsMagic;                     // +0x37c table +0x1d
     m_target = target;                         // +0x384
     m_onHit = onHit;                           // +0x3b8
     m_onFinish = onFinish;                     // +0x3bc
@@ -408,7 +408,7 @@ void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target
     m_startPosition = ownerPosition;                     // +0x388 owner's target position
     m_launchHeight = ownerPosition.Z;                    // +0x3a0
     m_projectileNode = nullptr;                          // +0x3a4
-    m_rangeSquared = row.m_w8 >= 0.0f ? row.m_w8 * row.m_w8 : -1.0f;  // +0x3a8 table +0x20, squared
+    m_rangeSquared = row.MaxDistance >= 0.0f ? row.MaxDistance * row.MaxDistance : -1.0f;  // +0x3a8 table +0x20, squared
 
     VisualObject* ownerVisual = owner->m_visualObject;   // +0x2d8 of the owner
     if (ownerVisual != nullptr) {
@@ -421,14 +421,14 @@ void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target
         }
     }
 
-    m_speed = row.m_w16;         // +0x3ac table +0x40
-    m_deceleration = row.m_w17;  // +0x3b0 table +0x44
-    m_lifetimeMs = row.m_w15;    // +0x3b4 table +0x3c
+    m_speed = row.Velocity;         // +0x3ac table +0x40
+    m_deceleration = row.VelocityDamping;  // +0x3b0 table +0x44
+    m_lifetimeMs = row.Timer;    // +0x3b4 table +0x3c
 
-    if (row.m_w10 < 0) {  // table +0x28: visual dict index
+    if (row.Model < 0) {  // table +0x28: visual dict index
         SetVisualObject(nullptr);
     } else {
-        SetVisualObject(ProjectileDaeName(row.m_w10), nullptr, false);
+        SetVisualObject(ProjectileDaeName(row.Model), nullptr, false);
     }
 
     POProjectile* body = new POProjectile(ApplicationGetInstance().m_physicalWorld, this, false, true, true, true, 0, 0x20, 0x51f, 0);

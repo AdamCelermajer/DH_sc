@@ -863,7 +863,7 @@ void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegam
             const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
             int levelIndex = -1;
             for (uint32_t i = 0; i < Arrays::LevelList::size; ++i) {
-                if (LC_API_STRCASECMP(static_cast<const char*>(levels[i].m_w8), name) == 0) {  // row +0x20
+                if (LC_API_STRCASECMP(static_cast<const char*>(levels[i].LevelFile), name) == 0) {  // row +0x20
                     levelIndex = static_cast<int>(i);
                 }
             }

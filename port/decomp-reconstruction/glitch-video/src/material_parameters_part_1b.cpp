@@ -865,6 +865,49 @@ int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, vector2
     return materialGetArray(m, id, out, stride);
 }
 
+// 0x5be68c setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...)
+// Reconstructed: the entry must be defined, of value type 18 and the index inside the count. The new light gets a use,
+// replaces the stored pointer, and the old pointer is released (last reference through releaseLight -> destroyLight).
+// A stored pointer slot is sizeof(void*), not the original 4 bytes.
+int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight* const& src) {
+    const part1a::SParamEntry* e = findGlobal(s, id);
+    if (!e || e->type != 18 || index >= e->count) return 0;
+    const std::uint64_t pos = std::uint64_t(e->offset) + std::uint64_t(index) * sizeof(void*);
+    if (!inRange(s.values, pos, sizeof(void*))) return 0;
+    std::uint8_t* slot = s.values.data() + pos;
+    CLight* old = loadLight(slot);
+    addRefLight(src);
+    storeAs<CLight*>(slot, src);
+    releaseLight(old);
+    return 1;
+}
+
+// 0x5c0d30 IMaterialParameters<G>::dropParameter(unsigned short)
+// Matrix entries (0x0b): every non-null pointer goes back to the matrix pool and the slot is cleared (the port's pool does
+// not take the pointer, so the slot is only cleared). Texture entries (0x0c..0x0f): each pointer is cleared and then
+// dropped. Light entries (0x12): each pointer is cleared and released (last reference through destroyLight).
+void dropParameter(GlobalParameterStore& s, std::uint16_t id) {
+    const part1a::SParamEntry* e = findGlobal(s, id);
+    if (!e) return;
+    const std::uint8_t code = e->type;
+    if (code != 0x0b && (code < 0x0c || code > 0x0f) && code != 0x12) return;
+    if (!inRange(s.values, e->offset, std::uint64_t(e->count) * sizeof(void*))) return;
+    std::uint8_t* slot = s.values.data() + e->offset;
+    for (std::uint32_t i = 0; i < e->count; ++i, slot += sizeof(void*)) {
+        if (code == 0x0b) {
+            storeAs<void*>(slot, nullptr);
+        } else if (code == 0x12) {
+            CLight* light = loadLight(slot);
+            storeAs<CLight*>(slot, nullptr);
+            releaseLight(light);
+        } else {
+            ITexture* texture = loadTexture(slot);
+            storeAs<ITexture*>(slot, nullptr);
+            if (texture) textureDrop(texture);
+        }
+    }
+}
+
 // ---- Reference and release hooks used by the intrusive rows above. Declared in the header.
 
 // CLight last-reference release (the body of boost::intrusive_ptr<CLight>::~intrusive_ptr at 0x5aa3c8,

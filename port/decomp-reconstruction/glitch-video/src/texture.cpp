@@ -343,4 +343,27 @@ uint32_t ITexture::copy() {
     return 1;
 }
 
+// 0x5fde9c _ZN6glitch5video8ITexture4bindEb
+// Binds the texture when it is not bound yet or its data is dirty: bindImpl (vtable +0x0c, handed the same flag), and, when that
+// succeeded and the driver's capability word has bit 24 and its state word has neither of bits 1 and 2 (no screen set, not
+// pushing a target), the driver renders the texture through its default material so it gets uploaded (forceCommitTexture).
+void ITexture::bind(bool force) {
+    if ((m_flags3f & kFlagBound) != 0 && (m_dirtyFlags40 & kDirtyData) == 0) return;
+    if (!bindImpl(force)) return;
+    IVideoDriver* driver = m_driver;
+    if ((driver->m_capabilities & 0x1000000u) != 0 && (driver->m_stateFlags & 6u) == 0) {
+        driver->forceCommitTexture(boost::intrusive_ptr<ITexture>(this, true));
+    }
+}
+
+// 0x5fdf28 _ZN6glitch5video8ITexture15generateMipmapsEv
+// With more than one mip level and the driver's mipmap-generation capability (bit 2): binds the texture without forcing and runs
+// generateMipmapsImpl (vtable +0x20). False otherwise.
+bool ITexture::generateMipmaps() {
+    if (m_mipCount3e <= 1 || (m_driver->m_capabilities & 4u) == 0) return false;
+    bind(false);
+    generateMipmapsImpl();
+    return true;
+}
+
 }  // namespace glitch::video

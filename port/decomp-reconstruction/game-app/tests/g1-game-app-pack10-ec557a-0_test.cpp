@@ -228,18 +228,18 @@ void CheckLocalCharacterCommands() {
 
     Script_SetFaeryState faery;
     Structs::SetFaeryState faeryRecord;
-    faeryRecord.m_w2 = 3;
-    faeryRecord.m_w3 = 1;
+    faeryRecord.Faery = 3;
+    faeryRecord.State = 1;
     faery.m_args = &faeryRecord;
     Script_SetLevelState level;
     Structs::SetLevelState levelRecord;
-    levelRecord.m_w2 = 12;
-    levelRecord.m_w3 = 2;
+    levelRecord.Level = 12;
+    levelRecord.State = 2;
     level.m_args = &levelRecord;
     Script_SetWorldMapLocationState map;
     Structs::SetWorldMapLocationState mapRecord;
-    mapRecord.m_w2 = 5;
-    mapRecord.m_w3 = 4;
+    mapRecord.MapLoc = 5;
+    mapRecord.State = 4;
     map.m_args = &mapRecord;
 
     // No character: the trace read happens and no call is made.
@@ -269,7 +269,7 @@ void CheckLocalCharacterCommands() {
 void CheckSetStaticExecute() {
     Script_SetStatic command;
     Structs::SetStatic record;
-    SetName(record.m_w4, "Door01");
+    SetName(record.Target, "Door01");
     command.m_args = &record;
 
     Character* character = reinterpret_cast<Character*>(g_characterStorage);
@@ -278,7 +278,7 @@ void CheckSetStaticExecute() {
     g_objectFound = true;
 
     // Flag clear: looked up, not marked.
-    record.m_w2 = false;
+    record.Static = false;
     int before = g_traceReads;
     command.Execute(false, 7);
     Check(g_lookupCalls > 0 && g_lookupName == "Door01", "Script_SetStatic::Execute", "name is the record's m_w4");
@@ -289,7 +289,7 @@ void CheckSetStaticExecute() {
     Check(character->m_static == 0, "Script_SetStatic::Execute", "flag clear leaves m_static alone");
 
     // Flag set: the found Character is marked static.
-    record.m_w2 = true;
+    record.Static = true;
     command.Execute(true, 2);
     Check(character->m_static == 1, "Script_SetStatic::Execute", "flag set marks m_static");
     Check(g_lookupFlags == 2, "Script_SetStatic::Execute", "flags follow the second call");
@@ -298,7 +298,7 @@ void CheckSetStaticExecute() {
     std::memset(g_characterStorage, 0, sizeof g_characterStorage);
     g_objectFound = false;
     g_characterForHandle = nullptr;
-    record.m_w2 = true;
+    record.Static = true;
     command.Execute(false, 1);
     Check(character->m_static == 0, "Script_SetStatic::Execute", "missing object writes nothing");
 
@@ -309,7 +309,7 @@ void CheckSetStaticExecute() {
 void CheckShowActorExecute() {
     Script_ShowActor command;
     Structs::ShowActor record;
-    SetName(record.m_w3, "Lever02");
+    SetName(record.Target, "Lever02");
     command.m_args = &record;
 
     // Not found: the lookup runs, the object is not touched.
@@ -330,12 +330,12 @@ void CheckShowFlashInit() {
     Structs::ShowFlash record;
     command.m_args = &record;
 
-    SetName(record.m_w4, "HUD");
+    SetName(record.Name, "HUD");
     command.m_menu = reinterpret_cast<MenuBase*>(g_menuStorage);
     command.Init();
     Check(command.m_menu == nullptr, "Script_ShowFlash::Init", "a HUD name resolves to no menu");
 
-    SetName(record.m_w4, "DialogBox");
+    SetName(record.Name, "DialogBox");
     g_menuToReturn = reinterpret_cast<MenuBase*>(g_menuStorage);
     command.Init();
     Check(command.m_menu == g_menuToReturn, "Script_ShowFlash::Init", "other names resolve through GetMenuByName");
@@ -353,8 +353,8 @@ void CheckShowFlashIsBlocking() {
     MenuBase* menu = reinterpret_cast<MenuBase*>(g_menuStorage);
 
     command.m_menu = nullptr;
-    record.m_w2 = 2;
-    record.m_w5 = true;
+    record.Loop = 2;
+    record.Wait = true;
     Check(!command.IsBlocking(), "Script_ShowFlash::IsBlocking", "no menu, no block");
 
     command.m_menu = menu;
@@ -365,18 +365,18 @@ void CheckShowFlashIsBlocking() {
     Check(!command.IsBlocking(), "Script_ShowFlash::IsBlocking", "count 2 equal to finished animations does not block");
 
     menu->m_animOverCount = 0;
-    record.m_w5 = false;
+    record.Wait = false;
     Check(!command.IsBlocking(), "Script_ShowFlash::IsBlocking", "flag clear does not block");
 
-    record.m_w5 = true;
-    record.m_w2 = 0;
+    record.Wait = true;
+    record.Loop = 0;
     Check(!command.IsBlocking(), "Script_ShowFlash::IsBlocking", "zero count does not block");
 }
 
 void CheckShowFlashExecute() {
     Script_ShowFlash command;
     Structs::ShowFlash record;
-    SetName(record.m_w4, "DialogBox");
+    SetName(record.Name, "DialogBox");
     command.m_args = &record;
     command.m_menu = nullptr;
 

@@ -59,27 +59,8 @@ class CApplicatorInfo;
 
 // CSceneNodeAnimatorSet: canonical in collada/CSceneNodeAnimatorSet.hpp.
 
-class CParticleSystemSceneNode {
-public:
-    // 0x64bb78 _ZNK6glitch7collada24CParticleSystemSceneNode6getUIDEv
-    const char* getUID() const;
-    // 0x64bbc0 _ZNK6glitch7collada24CParticleSystemSceneNode25getTransformedBoundingBoxEv
-    const core::aabbox3d<float>* getTransformedBoundingBox() const;
-
-    const core::aabbox3d<float>* transformedBoundingBox = nullptr;  // +0x14C (LDR R0,[R0,#0x14C])
-    SUidHolder* uidHolder = nullptr;                                // +0x18C (LDR R3,[R0,#0x18C])
-};
-
-class CGlitchNewParticleSystemSceneNode {
-public:
-    // 0x637b3c _ZNK6glitch7collada33CGlitchNewParticleSystemSceneNode6getUIDEv
-    const char* getUID() const;
-    // 0x637b84 _ZNK6glitch7collada33CGlitchNewParticleSystemSceneNode25getTransformedBoundingBoxEv
-    const core::aabbox3d<float>* getTransformedBoundingBox() const;
-
-    const core::aabbox3d<float>* transformedBoundingBox = nullptr;  // +0x14C (LDR R0,[R0,#0x14C])
-    SUidHolder* uidHolder = nullptr;                                // +0x17C (LDR R3,[R0,#0x17C]; the sibling uses +0x18C)
-};
+// CParticleSystemSceneNode and CGlitchNewParticleSystemSceneNode: canonical in collada/CParticleSystemSceneNode.hpp and
+// collada/CGlitchNewParticleSystemSceneNode.hpp (their stand-ins with the uid holder and the box pointer were retired).
 
 namespace animation_track {
 

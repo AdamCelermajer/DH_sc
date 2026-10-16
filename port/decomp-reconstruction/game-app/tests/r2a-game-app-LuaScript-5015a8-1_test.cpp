@@ -392,12 +392,12 @@ void TestCurrentLevelRange() {
 
     // Row 1 holds m_w12..m_w17 = 10..15 (the file fields at +0x30..+0x44).
     Structs::LevelDeclaration* rows = reinterpret_cast<Structs::LevelDeclaration*>(rowStorage);
-    rows[1].m_w12 = 10;
-    rows[1].m_w13 = 11;
-    rows[1].m_w14 = 12;
-    rows[1].m_w15 = 13;
-    rows[1].m_w16 = 14;
-    rows[1].m_w17 = 15;
+    rows[1].MonsterLvlMax = 10;
+    rows[1].MonsterLvlMaxHard = 11;
+    rows[1].MonsterLvlMaxNightmare = 12;
+    rows[1].MonsterLvlMin = 13;
+    rows[1].MonsterLvlMinHard = 14;
+    rows[1].MonsterLvlMinNightmare = 15;
     Arrays::LevelList::members = rowStorage;
 
     struct Case {

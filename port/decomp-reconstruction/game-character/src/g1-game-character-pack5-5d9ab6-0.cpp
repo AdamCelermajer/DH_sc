@@ -196,11 +196,11 @@ void CSPreSpawn::OnFocus(int /*stateId*/, Character* character, CharStateMachine
     ReadTraceSwitch();
     character->CharStateMachine::m_stateFlags = 0x1300u;
     const Structs::CharAnim* row = character->GetCharAnimTable();
-    if (row->m_w25 == -1) {
-        character->CharAnimator::ANIM_Set(StancedAnim(character, row->m_w32, 1));
+    if (row->PreSpawn == -1) {
+        character->CharAnimator::ANIM_Set(StancedAnim(character, row->Spawn, 1));
         character->CharAnimator::ANIM_SetSpeed(0.0f);
     } else {
-        character->CharAnimator::ANIM_Set(row->m_w25);
+        character->CharAnimator::ANIM_Set(row->PreSpawn);
     }
     character->GameObject::SetPhysicalObject(nullptr, false);
     if (!character->m_aiStateVisible) {

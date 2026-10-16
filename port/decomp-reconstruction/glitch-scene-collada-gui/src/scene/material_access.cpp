@@ -21,4 +21,8 @@ bool setMaterialColorCvt(video::CMaterial& material, std::uint16_t parameterId, 
     return material.parameters.setParameterCvt(parameterId, index, color);
 }
 
+bool getMaterialColor(const video::CMaterial& material, std::uint16_t parameterId, std::uint32_t index, video::SColor& color) {
+    return material.parameters.getParameter(parameterId, index, color);
+}
+
 }  // namespace glitch::scene

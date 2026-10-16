@@ -8,6 +8,7 @@
 // constructController / constructGeometry / constructNode instance overloads, which are completed in the e2 batch file.
 
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CCoronasSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada_factory.hpp"
 
 namespace glitch::collada {
@@ -33,14 +34,16 @@ CParticleSystemSceneNode* CColladaDatabase::constructEmitter(const char* name, v
 }
 
 // 0x61a77c glitch::collada::CColladaDatabase::constructCoronas(glitch::collada::SInstanceCoronas*, glitch::video::IVideoDriver*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: as the GNPS instance overload. The instance layout and CCoronasSceneNode::setMaterial(material, driver) (recon/slice_32.cpp,
-// partial) are not usable, so the result is null here.
+// The node is built by name from the instance's url (without its '#'); each binding's material (by index) is then given to the node.
 CCoronasSceneNode* CColladaDatabase::constructCoronas(SInstanceCoronas* instance, video::IVideoDriver* driver,
                                                       CRootSceneNode* root) const {
-    (void)instance;
-    (void)driver;
-    (void)root;
-    return nullptr;
+    CCoronasSceneNode* node = constructCoronas(instance->url + 1, driver, root);
+    if (node != nullptr) {
+        for (std::int32_t i = 0; i < instance->bindingCount; ++i) {
+            node->setMaterial(*materialAt(tables(), instance->bindings[i].materialIndex), driver);
+        }
+    }
+    return node;
 }
 
 }  // namespace glitch::collada

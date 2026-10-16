@@ -2,7 +2,7 @@
 
 #include <cstring>
 
-#include "net-session-online/deps/glx_stand_ins.hpp"
+#include "net-transport/data_packet.hpp"
 
 // 0x84ab14 _ZN15GLXPlayerMPBaseC1EP23GLXPlayerMPBaseObserver
 // 0x84ab54 _ZN15GLXPlayerMPBaseC2EP23GLXPlayerMPBaseObserver
@@ -12,19 +12,21 @@ GLXPlayerMPBase::GLXPlayerMPBase(GLXPlayerMPBaseObserver* observer) : observer_(
 }
 
 // 0x84aea8 _ZN15GLXPlayerMPBaseD1Ev, 0x84af30 _ZN15GLXPlayerMPBaseD2Ev
+// Deletes the current incoming packet (+0x68) and frees the error message (+0x4c); both are owned members here. The
+// connection at +0x54 is not freed by the original (it leaks); the port owns it and frees it.
 GLXPlayerMPBase::~GLXPlayerMPBase() = default;
 
 // 0x84ab00 _ZN15GLXPlayerMPBase4InitEv
 void GLXPlayerMPBase::Init() {
     field70_ = 0;
-    aux68_.reset();
+    incomingPacket_.reset();
     field6c_ = 0;
     LoadConfig();
 }
 
 // 0x84aaf0 _ZN15GLXPlayerMPBase10LoadConfigEv
 bool GLXPlayerMPBase::LoadConfig() {
-    field58_ = 0;
+    host_ = nullptr;
     return true;
 }
 

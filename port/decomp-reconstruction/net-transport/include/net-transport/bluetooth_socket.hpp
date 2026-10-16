@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <string>
 
+#include "net-session-online/c_event_queue_base.hpp"
+
 class CBluetoothSocketAbstract {
 public:
     virtual ~CBluetoothSocketAbstract() = default;     // 0x828fac _ZN24CBluetoothSocketAbstractD1Ev
@@ -20,6 +22,11 @@ public:
     virtual void UpdateConnecting();                     // 0x828c38 _ZN24CBluetoothSocketAbstract16UpdateConnectingEv
     // Always the empty string in the original, whatever the peer.
     std::string GetDeviceNameByPeerId(unsigned int peer) const;  // 0x824da8 _ZN24CBluetoothSocketAbstract21GetDeviceNameByPeerIdEj
+
+    // The socket layer's event queue (CEventQueue<..., 100>; ids 0x1xxxxxx) read by CMatchingBluetooth::ProcessEvents.
+    static CEventQueueBase s_eventQueue;
+    // The name this device announces over Bluetooth (set by CMatchingBluetooth).
+    static std::string s_DisplayName;
 
 private:
     std::string device_name_;                            // +0x04

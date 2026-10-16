@@ -30,8 +30,8 @@ public:
     ~v2QuestRewardGiveXP() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t XP = 0;  // +0x8
+    std::int32_t NotUsed = 0;  // +0xc
 };
 void DeletingDestructor(v2QuestRewardGiveXP* self);
 
@@ -40,8 +40,8 @@ public:
     ~v2QuestRewardGiveGold() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Gold = 0;  // +0x8
+    std::int32_t NotUsed = 0;  // +0xc
 };
 void DeletingDestructor(v2QuestRewardGiveGold* self);
 
@@ -50,8 +50,8 @@ public:
     ~v2QuestRewardGiveCharProps() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Amount = 0;  // +0x8
+    std::int32_t Props = 0;  // +0xc
 };
 void DeletingDestructor(v2QuestRewardGiveCharProps* self);
 
@@ -85,8 +85,8 @@ public:
     ~v2QuestRewardGiveLoot() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t NotUsed = 0;  // +0x8
+    std::int32_t Loot = 0;  // +0xc
 };
 void DeletingDestructor(v2QuestRewardGiveLoot* self);
 
@@ -95,8 +95,8 @@ public:
     ~v2QuestRewardConsumeLoot() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Qty = 0;  // +0x8
+    std::int32_t Loot = 0;  // +0xc
 };
 void DeletingDestructor(v2QuestRewardConsumeLoot* self);
 
@@ -108,10 +108,10 @@ public:
     ~LangSheet() override;
     void finalize() override;
     void read(IStreamBase* stream) override;  // partial: see ledger
-    std::uint32_t m_w1 = 0;  // +0x4
-    char* m_w2 = nullptr;    // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc
-    char* m_w4 = nullptr;    // +0x10
+    std::uint32_t filenameSize = 0;  // +0x4
+    char* filename = nullptr;    // +0x8
+    std::uint32_t nameSize = 0;  // +0xc
+    char* name = nullptr;    // +0x10
 };
 void DeletingDestructor(LangSheet* self);
 
@@ -122,8 +122,8 @@ public:
     virtual ~LangSheetList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;     // +0x4  element count
-    void* m_w2 = nullptr;       // +0x8  members (LangSheet elements, listing stride 20; header at members - 8 / - 4)
+    std::uint32_t listSize = 0;     // +0x4  element count
+    void* list = nullptr;       // +0x8  members (LangSheet elements, listing stride 20; header at members - 8 / - 4)
 };
 void DeletingDestructor(LangSheetList* self);
 
@@ -135,13 +135,13 @@ public:
     ~v2QuestMoveInZone() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t ObjectSize = 0;  // +0x18
+    char* Object = nullptr;    // +0x1c
+    std::int32_t Level = 0;   // +0x20
+    std::int32_t Character = 0;   // +0x24
+    std::int32_t NotUsed3 = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestMoveInZone* self);
 
@@ -150,13 +150,13 @@ public:
     ~v2QuestGatherLoot() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t NotUsed2Size = 0;  // +0x18
+    char* NotUsed2 = nullptr;    // +0x1c
+    std::int32_t Level = 0;   // +0x20
+    std::int32_t Loot = 0;   // +0x24
+    std::int32_t Qty = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestGatherLoot* self);
 
@@ -165,13 +165,13 @@ public:
     ~v2QuestClearEnemyTemplate() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t NotUsed2Size = 0;  // +0x18
+    char* NotUsed2 = nullptr;    // +0x1c
+    std::int32_t Level = 0;   // +0x20
+    std::int32_t EnemyType = 0;   // +0x24
+    std::int32_t NotUsed3 = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestClearEnemyTemplate* self);
 
@@ -180,13 +180,13 @@ public:
     ~v2QuestKillEnemyTemplate() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t NotUsed2Size = 0;  // +0x18
+    char* NotUsed2 = nullptr;    // +0x1c
+    std::int32_t EnemyType = 0;   // +0x20
+    std::int32_t Level = 0;   // +0x24
+    std::int32_t Qty = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestKillEnemyTemplate* self);
 
@@ -195,13 +195,13 @@ public:
     ~v2QuestClearEnemies() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t NotUsed2Size = 0;  // +0x18
+    char* NotUsed2 = nullptr;    // +0x1c
+    std::int32_t Level = 0;   // +0x20
+    std::int32_t EnemyType = 0;   // +0x24
+    std::int32_t NotUsed3 = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestClearEnemies* self);
 
@@ -210,13 +210,13 @@ public:
     ~v2QuestKillEnemies() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t NotUsed2Size = 0;  // +0x18
+    char* NotUsed2 = nullptr;    // +0x1c
+    std::int32_t EnemyType = 0;   // +0x20
+    std::int32_t Level = 0;   // +0x24
+    std::int32_t Qty = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestKillEnemies* self);
 
@@ -226,13 +226,13 @@ public:
     ~v2QuestInteractWithDoNotUseThisObjectiveDirectly() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);  // partial: base read call omitted
-    std::uint32_t m_w4 = 0;  // +0x10
-    char* m_w5 = nullptr;    // +0x14
-    std::uint32_t m_w6 = 0;  // +0x18
-    char* m_w7 = nullptr;    // +0x1c
-    std::int32_t m_w8 = 0;   // +0x20
-    std::int32_t m_w9 = 0;   // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::uint32_t NotUsed1Size = 0;  // +0x10
+    char* NotUsed1 = nullptr;    // +0x14
+    std::uint32_t NotUsed2Size = 0;  // +0x18
+    char* NotUsed2 = nullptr;    // +0x1c
+    std::int32_t Object = 0;   // +0x20
+    std::int32_t Level = 0;   // +0x24
+    std::int32_t Qty = 0;  // +0x28
 };
 void DeletingDestructor(v2QuestInteractWithDoNotUseThisObjectiveDirectly* self);
 
@@ -296,11 +296,11 @@ public:
     virtual ~v2Event();
     virtual void finalize();
     virtual void read(IStreamBase* stream);  // full listing body; the Hex-Rays 5th readStringEx argument is a register residue
-    std::int32_t m_w1 = 0;    // +0x4
-    std::uint32_t m_w2 = 0;   // +0x8  length of m_w3
-    char* m_w3 = nullptr;     // +0xc
-    std::uint32_t m_w4 = 0;   // +0x10 element count
-    void* m_w5 = nullptr;     // +0x14 members (v2QuestObjectiveStub elements, listing stride 44)
+    std::int32_t Level = 0;    // +0x4
+    std::uint32_t ScriptSize = 0;   // +0x8  length of m_w3
+    char* Script = nullptr;     // +0xc
+    std::uint32_t TriggersSize = 0;   // +0x10 element count
+    void* Triggers = nullptr;     // +0x14 members (v2QuestObjectiveStub elements, listing stride 44)
 };
 void DeletingDestructor(v2Event* self);
 
@@ -313,29 +313,29 @@ public:
     virtual ~v2Quest();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;      // +0x4
-    std::int32_t m_w2 = 0;      // +0x8
-    std::int32_t m_w3 = 0;      // +0xc
-    std::int32_t m_w4 = 0;      // +0x10
-    std::uint32_t m_w5 = 0;     // +0x14 size of table 1
-    void* m_w6 = nullptr;  // 0x18 v2ConditionStub elements (listing stride 16)
-    std::uint32_t m_w7 = 0;     // +0x1c size of table 2
-    void* m_w8 = nullptr;  // 0x20 v2QuestObjectiveStub elements (listing stride 44)
-    std::uint32_t m_w9 = 0;     // +0x24 size of table 3
-    void* m_w10 = nullptr;  // 0x28 v2QuestRewardStub elements (listing stride 16)
-    std::uint32_t m_w11 = 0;    // +0x2c size of table 4
-    void* m_w12 = nullptr;  // 0x30 v2QuestRewardStub elements (listing stride 16)
-    std::uint32_t m_w13 = 0;    // +0x34 size of table 5
-    void* m_w14 = nullptr;  // 0x38 v2QuestRewardStub elements (listing stride 16)
+    std::int32_t Name = 0;      // +0x4
+    std::int32_t Description = 0;      // +0x8
+    std::int32_t PostDescription = 0;      // +0xc
+    std::int32_t StaticObjective = 0;      // +0x10
+    std::uint32_t PreReqsSize = 0;     // +0x14 size of table 1
+    void* PreReqs = nullptr;  // 0x18 v2ConditionStub elements (listing stride 16)
+    std::uint32_t ObjectivesSize = 0;     // +0x1c size of table 2
+    void* Objectives = nullptr;  // 0x20 v2QuestObjectiveStub elements (listing stride 44)
+    std::uint32_t RewardsSize = 0;     // +0x24 size of table 3
+    void* Rewards = nullptr;  // 0x28 v2QuestRewardStub elements (listing stride 16)
+    std::uint32_t RewardsHardSize = 0;    // +0x2c size of table 4
+    void* RewardsHard = nullptr;  // 0x30 v2QuestRewardStub elements (listing stride 16)
+    std::uint32_t RewardsVeryHardSize = 0;    // +0x34 size of table 5
+    void* RewardsVeryHard = nullptr;  // 0x38 v2QuestRewardStub elements (listing stride 16)
 
-    v2QuestObjectiveStub m_sub60;  // +0x3c, subobject destroyed after the body (listing call)
-    v2QuestObjectiveStub m_sub104;  // +0x68, subobject destroyed after the body (listing call)
-    std::int32_t m_w37 = 0;     // +0x94
-    bool m_w38 = false;         // +0x98
-    std::int32_t m_w39 = 0;     // +0x9c
-    v2QuestScripts m_sub160;  // +0xa0, subobject destroyed after the body (listing call)
-    std::int32_t m_w69 = 0;     // +0x114
-    std::int32_t m_w70 = 0;     // +0x118
+    v2QuestObjectiveStub AcceptType;  // +0x3c, subobject destroyed after the body (listing call)
+    v2QuestObjectiveStub EndType;  // +0x68, subobject destroyed after the body (listing call)
+    std::int32_t TargetLevel = 0;     // +0x94
+    bool Repeatable = false;         // +0x98
+    std::int32_t State = 0;     // +0x9c
+    v2QuestScripts Scripts;  // +0xa0, subobject destroyed after the body (listing call)
+    std::int32_t Priority = 0;     // +0x114
+    std::int32_t Act = 0;     // +0x118
 };
 
 }  // namespace Structs

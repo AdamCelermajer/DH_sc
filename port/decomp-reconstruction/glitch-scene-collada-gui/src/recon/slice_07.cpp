@@ -63,78 +63,7 @@ float distanceKdTree(const KdEntry& entry, float plane, char axis) {
 
 // SAnimatedMesh (0x59a000 .. 0x59ae64) and createAnimatedMesh (0x59ae1c): canonical in src/scene/SAnimatedMesh.cpp.
 
-// 0x60b2b4 _ZN6glitch7collada14COnDemandReaderD2Ev
-// Empty non-deleting destructor: nothing to tear down in the stand-in.
-void COnDemandReader_D1(void* /*self*/) {}
-
-// 0x60b2b8 _ZN6glitch7collada14COnDemandReader4readEiiPv
-// Partial: the reader vtable calls (+0x18 seek, +0x0c read) are not modelled.
-std::int32_t COnDemandReader_read(void* /*self*/, std::int32_t /*size*/, std::int32_t /*offset*/,
-                                  void* /*dst*/) {
-    return 0;
-}
-
-// 0x60b304 _ZN6glitch7collada14COnDemandReader4readEiiPvPFviiS2_S2_ES2_
-// Partial: the callback variant reads the same way; the callback is not invoked.
-std::int32_t COnDemandReader_read_callback(void* /*self*/, std::int32_t /*size*/,
-                                           std::int32_t /*offset*/, void* /*dst*/,
-                                           void (* /*callback*/)(int, int, void*, void*),
-                                           void* /*user*/) {
-    return 0;
-}
-
-// 0x60b350 _ZNK6glitch7collada14CAnimationBlock8getBlockERNS0_25SAnimationBlockSearchKeyE
-// Partial: the tree walk over the block registry is not reconstructed in this pass.
-CAnimationBlock* CAnimationBlock_getBlock(CAnimationBlock* /*root*/,
-                                          SAnimationBlockSearchKey& /*key*/) {
-    return nullptr;
-}
-
-// 0x60b918 _ZN6glitch7collada26CAnimationStreamingManager7releaseEPNS0_16CColladaDatabaseE
-// Partial: the cache-entry erase and size bookkeeping are not reconstructed.
-void CAnimationStreamingManager_release(CAnimationStreamingManager& /*self*/,
-                                        CColladaDatabase* /*db*/) {}
-
-// 0x60b990 _ZN6glitch7collada26CAnimationStreamingManager16checkMemoryUsageEv
-// Partial: the trim loop is not reconstructed; the original logs "AnimationStreamingManager :
-// Memory usage exceed maximum cache size" when no entry can be evicted.
-void CAnimationStreamingManager_checkMemoryUsage(CAnimationStreamingManager& /*self*/) {}
-
-// 0x60ba2c / 0x60bbd8 _ZN6glitch7collada14CAnimationBlockD1Ev
-// Partial: the previous-block release and the database member destructor are not reconstructed.
-void CAnimationBlock_D1(CAnimationBlock* /*self*/) {}
-
-
-
-// 0x60bb64 _ZN6glitch7collada26CAnimationStreamingManager23unregisterAnimationBlockEPNS0_14CAnimationBlockE
-// Partial: the lower-bound search and erase are not reconstructed.
-void CAnimationStreamingManager_unregisterAnimationBlock(CAnimationStreamingManager& /*self*/,
-                                                         CAnimationBlock* /*block*/) {}
-
-// 0x60bc7c _ZN6glitch7collada26CAnimationStreamingManager5cacheEPNS0_14CAnimationBlockE
-// Partial stub: 3.9 KB of pseudocode, not reconstructed in this pass.
-void CAnimationStreamingManager_cache(CAnimationStreamingManager& /*self*/,
-                                      CAnimationBlock* /*block*/) {}
-
-// 0x60c05c / 0x60c610 / 0x60c7a8 / 0x60c940 _ZN6glitch7collada14CAnimationBlockC2E...
-// Partial: constructors load the segment from the database; the loader is not reconstructed.
-void CAnimationBlock_ctor(CAnimationBlock* /*self*/, const CColladaDatabase& /*db*/,
-                          SAnimationBlockSearchKey& /*key*/, std::int32_t /*begin*/,
-                          std::int32_t /*end*/) {}
-
-// 0x60c220 _ZN6glitch7collada26CAnimationStreamingManager17getAnimationBlockERNS0_25SAnimationBlockSearchKeyE
-// Partial: lookup then allocate-and-construct; allocation is not modelled.
-CAnimationBlock* CAnimationStreamingManager_getAnimationBlock(CAnimationStreamingManager& /*self*/,
-                                                              SAnimationBlockSearchKey& /*key*/) {
-    return nullptr;
-}
-
-
-
-// 0x60c414 _ZN6glitch7collada26CAnimationStreamingManager20registerAnimationBlockEPNS0_14CAnimationBlockE
-// Partial stub: 3.3 KB of pseudocode, not reconstructed in this pass.
-void CAnimationStreamingManager_registerAnimationBlock(CAnimationStreamingManager& /*self*/,
-                                                       CAnimationBlock* /*block*/) {}
+// The COnDemandReader, CAnimationBlock and CAnimationStreamingManager stand-ins are retired: the classes are in src/collada/.
 
 
 

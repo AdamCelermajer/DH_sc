@@ -119,9 +119,9 @@ bool ItemInventory::CanRangeAttack(int& a, int& b, int& c) const {
     }
     ItemSlot* entry = EquippedSlot(m_equipment, GetCurrentEquipSet(1), 1);
     const Structs::Item* row = entry->m_item->GetItem();
-    a = row->m_w38;  // +0x98
-    b = row->m_w39;  // +0x9c
-    c = row->m_w40;  // +0xa0
+    a = row->Param4;  // +0x98
+    b = row->Param5;  // +0x9c
+    c = row->Param6;  // +0xa0
     return true;
 }
 
@@ -134,7 +134,7 @@ bool ItemInventory::CanMeleeAttack(int& a) const {
     }
     ItemSlot* entry = EquippedSlot(m_equipment, GetCurrentEquipSet(1), 1);
     if (entry) {
-        a = entry->m_item->GetItem()->m_w39;  // +0x9c
+        a = entry->m_item->GetItem()->Param5;  // +0x9c
     } else {
         a = 0;
     }
@@ -148,7 +148,7 @@ bool ItemInventory::HasRangedWeapon() const {
     if (!entry) {
         return false;
     }
-    const int type = entry->m_item->GetItem()->m_w22;  // +0x58
+    const int type = entry->m_item->GetItem()->Type;  // +0x58
     return type == 4 || type == 5;
 }
 
@@ -166,7 +166,7 @@ bool ItemInventory::HasAxeOrMace() const {
     if (!entry) {
         return false;
     }
-    const int subtype = entry->m_item->GetItem()->m_w37;  // +0x94
+    const int subtype = entry->m_item->GetItem()->Param3;  // +0x94
     return subtype == 1 || subtype == 2;
 }
 
@@ -177,7 +177,7 @@ bool ItemInventory::HasBow() const {
     if (!entry) {
         return false;
     }
-    return entry->m_item->GetItem()->m_w37 == 4;  // +0x94
+    return entry->m_item->GetItem()->Param3 == 4;  // +0x94
 }
 
 // 0x4000c8 _ZNK13ItemInventory8HasStaffEv
@@ -187,7 +187,7 @@ bool ItemInventory::HasStaff() const {
     if (!entry) {
         return false;
     }
-    return entry->m_item->GetItem()->m_w37 == 5;  // +0x94
+    return entry->m_item->GetItem()->Param3 == 5;  // +0x94
 }
 
 // 0x400110 _ZNK13ItemInventory9HasShieldEv
@@ -197,7 +197,7 @@ bool ItemInventory::HasShield() const {
     if (!entry) {
         return false;
     }
-    return entry->m_item->GetItem()->m_w22 == 6;  // +0x58
+    return entry->m_item->GetItem()->Type == 6;  // +0x58
 }
 
 // 0x400158 _ZNK13ItemInventory16HasOffHandWeaponEv
@@ -207,7 +207,7 @@ bool ItemInventory::HasOffHandWeapon() const {
     if (!entry) {
         return false;
     }
-    return entry->m_item->GetItem()->m_w22 != 6;  // +0x58
+    return entry->m_item->GetItem()->Type != 6;  // +0x58
 }
 
 // 0x40019c _ZNK13ItemInventory14IsDualWieldingEv
@@ -226,10 +226,10 @@ bool ItemInventory::HasTwoHander(bool offHandToo) const {
         return false;
     }
     const Structs::Item* row = entry->m_item->GetItem();
-    if ((static_cast<unsigned int>(row->m_w22) - 4u) <= 1u || offHandToo) {  // type 4 or 5
-        return row->m_w26 == -4;  // +0x68
+    if ((static_cast<unsigned int>(row->Type) - 4u) <= 1u || offHandToo) {  // type 4 or 5
+        return row->EquipmentSlottingType == -4;  // +0x68
     }
-    return row->m_w26 == -4 && m_character->m_props.m_w204 == 0;  // Character +0x1324
+    return row->EquipmentSlottingType == -4 && m_character->m_props.Special_Equip_2H_In_One == 0;  // Character +0x1324
 }
 
 // 0x40022c _ZNK13ItemInventory23IsEquipmentSlotLeftHandEj
@@ -302,7 +302,7 @@ int ItemInventory::_UnEquipItemAuto(unsigned int itemIdx) {
         return 0;
     }
     ItemSlot* slot = m_items[itemIdx];
-    const int category = FoldEquipCategory(slot->m_item->GetItem()->m_w26);  // +0x68
+    const int category = FoldEquipCategory(slot->m_item->GetItem()->EquipmentSlottingType);  // +0x68
     const int set = GetCurrentEquipSet(category);
     const unsigned int equipIdx = static_cast<unsigned int>(slot->m_equipSlot[set]);  // signed byte, -1 is 0xffffffff
     _UnEquipItemFromSlot(equipIdx, -1);

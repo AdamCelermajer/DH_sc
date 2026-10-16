@@ -32,7 +32,9 @@ namespace {
 // Decimal scale factors, indexed by the number of decimal digits: fast_atof_table[0..15] at
 // 0x8be9a4. The 64 bytes there are float bit patterns: entry 0 is 0.0 and entries 1..15 are the
 // nearest floats to 10^-1 .. 10^-15 (checked bit for bit against the database). Fractions with 16 or
-// more digits read past the table in the original; the port uses pow there instead (partial).
+// more digits read past the table in the original: the words that follow it in the file are the wide-character
+// strings of the pool after it (L"bool", L"int", ... one character per word), so the same 112 words are
+// reproduced below and read as floats; past those the value is taken as 0.
 constexpr float kFastAtofTable[16] = {
     0.f,
     0.1f,
@@ -51,6 +53,34 @@ constexpr float kFastAtofTable[16] = {
     0.00000000000001f,
     0.000000000000001f,
 };
+
+// The 112 words after the table (0x8be9e4 ..), which the original's out-of-range index reads as floats.
+constexpr std::uint32_t kAfterTable[112] = {
+    0x00000000, 0x00000062, 0x0000006f, 0x0000006f, 0x0000006c, 0x00000000, 0x00000000, 0x00000069, 0x0000006e,
+    0x00000074, 0x00000000, 0x00000066, 0x0000006c, 0x0000006f, 0x00000061, 0x00000074, 0x00000000, 0x00000069,
+    0x0000006e, 0x00000074, 0x0000006c, 0x00000069, 0x00000073, 0x00000074, 0x00000000, 0x00000066, 0x0000006c,
+    0x0000006f, 0x00000061, 0x00000074, 0x0000006c, 0x00000069, 0x00000073, 0x00000074, 0x00000000, 0x00000063,
+    0x0000006f, 0x0000006c, 0x0000006f, 0x00000072, 0x00000066, 0x00000000, 0x00000000, 0x00000063, 0x0000006f,
+    0x0000006c, 0x0000006f, 0x00000072, 0x00000000, 0x00000076, 0x00000065, 0x00000063, 0x00000074, 0x0000006f,
+    0x00000072, 0x00000032, 0x00000064, 0x00000000, 0x00000000, 0x00000076, 0x00000065, 0x00000063, 0x00000074,
+    0x0000006f, 0x00000072, 0x00000033, 0x00000064, 0x00000000, 0x00000000, 0x00000076, 0x00000065, 0x00000063,
+    0x00000074, 0x0000006f, 0x00000072, 0x00000034, 0x00000064, 0x00000000, 0x00000000, 0x00000073, 0x00000074,
+    0x00000072, 0x00000069, 0x0000006e, 0x00000067, 0x00000000, 0x00000000, 0x00000066, 0x00000061, 0x0000006c,
+    0x00000073, 0x00000065, 0x00000000, 0x00000074, 0x00000072, 0x00000075, 0x00000065, 0x00000000, 0x00000000,
+    0x00000025, 0x00000064, 0x00000000, 0x00000000, 0x00000067, 0x00000072, 0x0000006f, 0x00000075, 0x00000070,
+    0x00000000, 0x00000076, 0x00000061, 0x0000006c};
+
+// fast_atof_table[index] as the original's unchecked load.
+float fastAtofTableAt(std::size_t index) {
+    if (index < 16) return kFastAtofTable[index];
+    if (index < 16 + 112) {
+        const std::uint32_t word = kAfterTable[index - 16];
+        float value;
+        std::memcpy(&value, &word, sizeof value);
+        return value;
+    }
+    return 0.0f;
+}
 
 bool isDigit(char ch) { return ch >= '0' && ch <= '9'; }
 
@@ -81,7 +111,7 @@ const char* fast_atof_move(const char* text, float& result) {
             ++end;
         }
         const auto count = static_cast<std::size_t>(end - decimalStart);
-        const float scale = count < 16 ? kFastAtofTable[count] : std::pow(10.f, -static_cast<float>(count));
+        const float scale = fastAtofTableAt(count);
         value = value + static_cast<float>(decimals) * scale;
         c = end;
 

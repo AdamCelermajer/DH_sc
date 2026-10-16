@@ -19,7 +19,7 @@ namespace {
 
 // True when the item equipped in slot has m_w34 (+0x88 of its Structs::Item row) equal to value.
 bool ArmorSetSlotW34Is(ItemInventory* inventory, unsigned int slot, int value) {
-    return inventory->GetEquippedItem(slot)->GetItem()->m_w34 == value;
+    return inventory->GetEquippedItem(slot)->GetItem()->ClassRequirement == value;
 }
 
 // True when the item equipped in slot has one of the three ids of the set. The original tests them in order.

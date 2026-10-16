@@ -442,7 +442,7 @@ void ResetFixture() {
     g_inCombat = false;
     g_aggroValue = 0.0f;
     g_canAttack = true;
-    reinterpret_cast<Structs::DesignSettings*>(g_designBuf)->m_w12 = 2.5f;
+    reinterpret_cast<Structs::DesignSettings*>(g_designBuf)->EnemySpottedAggro = 2.5f;
 }
 
 void SetScript(CharAI* ai, bool present) {

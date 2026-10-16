@@ -22,14 +22,14 @@ void AIFaction::finalize() {
 
 // 0x4eb408 _ZN7Structs9AIFaction4readEP11IStreamBase
 void AIFaction::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Id = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Value = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4db85c _ZN7Structs7AIPropsD2Ev
 // 0x4db800 _ZN7Structs7AIPropsD1Ev
 AIProps::~AIProps() {
-    if (m_w11 != nullptr) CustomFree(m_w11);  // +0x2c
+    if (Script != nullptr) CustomFree(Script);  // +0x2c
 }
 
 // 0x4db840 _ZN7Structs7AIPropsD0Ev
@@ -40,10 +40,10 @@ void DeletingDestructor(AIProps* self) {
 
 // 0x4db7d8 _ZN7Structs7AIProps8finalizeEv
 void AIProps::finalize() {
-    if (m_w11 != nullptr) {
-        CustomFree(m_w11);  // +0x2c
-        m_w10 = 0;  // +0x28
-        m_w11 = nullptr;
+    if (Script != nullptr) {
+        CustomFree(Script);  // +0x2c
+        ScriptSize = 0;  // +0x28
+        Script = nullptr;
     }
 }
 
@@ -64,8 +64,8 @@ void SimpleAnim::finalize() {
 
 // 0x4dbd6c _ZN7Structs10SimpleAnim4readEP11IStreamBase
 void SimpleAnim::read(IStreamBase* stream) {
-    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
-    StreamReader::readAs<std::int16_t>(stream, &m_off6);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &AnimID);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &ResID);  // +0x6
 }
 
 // 0x4c699c _ZN7Structs4AnimD2Ev
@@ -88,14 +88,14 @@ void Anim::finalize() {
 // 0x4dbe3c _ZN7Structs4Anim4readEP11IStreamBase
 void Anim::read(IStreamBase* stream) {
     SimpleAnim::read(stream);
-    StreamReader::readAs<std::int16_t>(stream, &m_w2);  // +0x8
-    StreamReader::readAs<std::int16_t>(stream, &m_off10);  // +0xa
+    StreamReader::readAs<std::int16_t>(stream, &OffsetX);  // +0x8
+    StreamReader::readAs<std::int16_t>(stream, &OffsetY);  // +0xa
 }
 
 // 0x4db614 _ZN7Structs8AnimStepD2Ev
 // 0x4db5b8 _ZN7Structs8AnimStepD1Ev
 AnimStep::~AnimStep() {
-    if (m_w9 != nullptr) CustomFree(m_w9);  // +0x24
+    if (RandomCam != nullptr) CustomFree(RandomCam);  // +0x24
 }
 
 // 0x4db5f8 _ZN7Structs8AnimStepD0Ev
@@ -106,10 +106,10 @@ void DeletingDestructor(AnimStep* self) {
 
 // 0x4db590 _ZN7Structs8AnimStep8finalizeEv
 void AnimStep::finalize() {
-    if (m_w9 != nullptr) {
-        CustomFree(m_w9);  // +0x24
-        m_w8 = 0;  // +0x20
-        m_w9 = nullptr;
+    if (RandomCam != nullptr) {
+        CustomFree(RandomCam);  // +0x24
+        RandomCamSize = 0;  // +0x20
+        RandomCam = nullptr;
     }
 }
 
@@ -130,230 +130,230 @@ void CharacterProperties::finalize() {
 
 // 0x4f2750 _ZN7Structs19CharacterProperties4readEP11IStreamBase
 void CharacterProperties::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
-    m_w8 = StreamReader::readAs<std::int32_t>(stream);  // +0x20
-    m_w9 = StreamReader::readAs<std::int32_t>(stream);  // +0x24
-    m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
-    m_w11 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c
-    m_w12 = StreamReader::readAs<std::int32_t>(stream);  // +0x30
-    m_w13 = StreamReader::readAs<std::int32_t>(stream);  // +0x34
-    m_w14 = StreamReader::readAs<std::int32_t>(stream);  // +0x38
-    m_w15 = StreamReader::readAs<std::int32_t>(stream);  // +0x3c
-    m_w16 = StreamReader::readAs<std::int32_t>(stream);  // +0x40
-    m_w17 = StreamReader::readAs<std::int32_t>(stream);  // +0x44
-    m_w18 = StreamReader::readAs<std::int32_t>(stream);  // +0x48
-    m_w19 = StreamReader::readAs<std::int32_t>(stream);  // +0x4c
-    m_w20 = StreamReader::readAs<std::int32_t>(stream);  // +0x50
-    m_w21 = StreamReader::readAs<std::int32_t>(stream);  // +0x54
-    m_w22 = StreamReader::readAs<std::int32_t>(stream);  // +0x58
-    m_w23 = StreamReader::readAs<std::int32_t>(stream);  // +0x5c
-    m_w24 = StreamReader::readAs<std::int32_t>(stream);  // +0x60
-    m_w25 = StreamReader::readAs<std::int32_t>(stream);  // +0x64
-    m_w26 = StreamReader::readAs<std::int32_t>(stream);  // +0x68
-    m_w27 = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
-    m_w28 = StreamReader::readAs<std::int32_t>(stream);  // +0x70
-    m_w29 = StreamReader::readAs<std::int32_t>(stream);  // +0x74
-    m_w30 = StreamReader::readAs<std::int32_t>(stream);  // +0x78
-    m_w31 = StreamReader::readAs<std::int32_t>(stream);  // +0x7c
-    m_w32 = StreamReader::readAs<std::int32_t>(stream);  // +0x80
-    m_w33 = StreamReader::readAs<std::int32_t>(stream);  // +0x84
-    m_w34 = StreamReader::readAs<std::int32_t>(stream);  // +0x88
-    m_w35 = StreamReader::readAs<std::int32_t>(stream);  // +0x8c
-    m_w36 = StreamReader::readAs<std::int32_t>(stream);  // +0x90
-    m_w37 = StreamReader::readAs<std::int32_t>(stream);  // +0x94
-    m_w38 = StreamReader::readAs<std::int32_t>(stream);  // +0x98
-    m_w39 = StreamReader::readAs<std::int32_t>(stream);  // +0x9c
-    m_w40 = StreamReader::readAs<std::int32_t>(stream);  // +0xa0
-    m_w41 = StreamReader::readAs<std::int32_t>(stream);  // +0xa4
-    m_w42 = StreamReader::readAs<std::int32_t>(stream);  // +0xa8
-    m_w43 = StreamReader::readAs<std::int32_t>(stream);  // +0xac
-    m_w44 = StreamReader::readAs<std::int32_t>(stream);  // +0xb0
-    m_w45 = StreamReader::readAs<std::int32_t>(stream);  // +0xb4
-    m_w46 = StreamReader::readAs<std::int32_t>(stream);  // +0xb8
-    m_w47 = StreamReader::readAs<std::int32_t>(stream);  // +0xbc
-    m_w48 = StreamReader::readAs<std::int32_t>(stream);  // +0xc0
-    m_w49 = StreamReader::readAs<std::int32_t>(stream);  // +0xc4
-    m_w50 = StreamReader::readAs<std::int32_t>(stream);  // +0xc8
-    m_w51 = StreamReader::readAs<std::int32_t>(stream);  // +0xcc
-    m_w52 = StreamReader::readAs<std::int32_t>(stream);  // +0xd0
-    m_w53 = StreamReader::readAs<std::int32_t>(stream);  // +0xd4
-    m_w54 = StreamReader::readAs<std::int32_t>(stream);  // +0xd8
-    m_w55 = StreamReader::readAs<std::int32_t>(stream);  // +0xdc
-    m_w56 = StreamReader::readAs<std::int32_t>(stream);  // +0xe0
-    m_w57 = StreamReader::readAs<std::int32_t>(stream);  // +0xe4
-    m_w58 = StreamReader::readAs<std::int32_t>(stream);  // +0xe8
-    m_w59 = StreamReader::readAs<std::int32_t>(stream);  // +0xec
-    m_w60 = StreamReader::readAs<std::int32_t>(stream);  // +0xf0
-    m_w61 = StreamReader::readAs<std::int32_t>(stream);  // +0xf4
-    m_w62 = StreamReader::readAs<std::int32_t>(stream);  // +0xf8
-    m_w63 = StreamReader::readAs<std::int32_t>(stream);  // +0xfc
-    m_w64 = StreamReader::readAs<std::int32_t>(stream);  // +0x100
-    m_w65 = StreamReader::readAs<std::int32_t>(stream);  // +0x104
-    m_w66 = StreamReader::readAs<std::int32_t>(stream);  // +0x108
-    m_w67 = StreamReader::readAs<std::int32_t>(stream);  // +0x10c
-    m_w68 = StreamReader::readAs<std::int32_t>(stream);  // +0x110
-    m_w69 = StreamReader::readAs<std::int32_t>(stream);  // +0x114
-    m_w70 = StreamReader::readAs<std::int32_t>(stream);  // +0x118
-    m_w71 = StreamReader::readAs<std::int32_t>(stream);  // +0x11c
-    m_w72 = StreamReader::readAs<std::int32_t>(stream);  // +0x120
-    m_w73 = StreamReader::readAs<std::int32_t>(stream);  // +0x124
-    m_w74 = StreamReader::readAs<std::int32_t>(stream);  // +0x128
-    m_w75 = StreamReader::readAs<std::int32_t>(stream);  // +0x12c
-    m_w76 = StreamReader::readAs<std::int32_t>(stream);  // +0x130
-    m_w77 = StreamReader::readAs<std::int32_t>(stream);  // +0x134
-    m_w78 = StreamReader::readAs<std::int32_t>(stream);  // +0x138
-    m_w79 = StreamReader::readAs<std::int32_t>(stream);  // +0x13c
-    m_w80 = StreamReader::readAs<std::int32_t>(stream);  // +0x140
-    m_w81 = StreamReader::readAs<std::int32_t>(stream);  // +0x144
-    m_w82 = StreamReader::readAs<std::int32_t>(stream);  // +0x148
-    m_w83 = StreamReader::readAs<std::int32_t>(stream);  // +0x14c
-    m_w84 = StreamReader::readAs<std::int32_t>(stream);  // +0x150
-    m_w85 = StreamReader::readAs<std::int32_t>(stream);  // +0x154
-    m_w86 = StreamReader::readAs<std::int32_t>(stream);  // +0x158
-    m_w87 = StreamReader::readAs<std::int32_t>(stream);  // +0x15c
-    m_w88 = StreamReader::readAs<std::int32_t>(stream);  // +0x160
-    m_w89 = StreamReader::readAs<std::int32_t>(stream);  // +0x164
-    m_w90 = StreamReader::readAs<std::int32_t>(stream);  // +0x168
-    m_w91 = StreamReader::readAs<std::int32_t>(stream);  // +0x16c
-    m_w92 = StreamReader::readAs<std::int32_t>(stream);  // +0x170
-    m_w93 = StreamReader::readAs<std::int32_t>(stream);  // +0x174
-    m_w94 = StreamReader::readAs<std::int32_t>(stream);  // +0x178
-    m_w95 = StreamReader::readAs<std::int32_t>(stream);  // +0x17c
-    m_w96 = StreamReader::readAs<std::int32_t>(stream);  // +0x180
-    m_w97 = StreamReader::readAs<std::int32_t>(stream);  // +0x184
-    m_w98 = StreamReader::readAs<std::int32_t>(stream);  // +0x188
-    m_w99 = StreamReader::readAs<std::int32_t>(stream);  // +0x18c
-    m_w100 = StreamReader::readAs<std::int32_t>(stream);  // +0x190
-    m_w101 = StreamReader::readAs<std::int32_t>(stream);  // +0x194
-    m_w102 = StreamReader::readAs<std::int32_t>(stream);  // +0x198
-    m_w103 = StreamReader::readAs<std::int32_t>(stream);  // +0x19c
-    m_w104 = StreamReader::readAs<std::int32_t>(stream);  // +0x1a0
-    m_w105 = StreamReader::readAs<std::int32_t>(stream);  // +0x1a4
-    m_w106 = StreamReader::readAs<std::int32_t>(stream);  // +0x1a8
-    m_w107 = StreamReader::readAs<std::int32_t>(stream);  // +0x1ac
-    m_w108 = StreamReader::readAs<std::int32_t>(stream);  // +0x1b0
-    m_w109 = StreamReader::readAs<std::int32_t>(stream);  // +0x1b4
-    m_w110 = StreamReader::readAs<std::int32_t>(stream);  // +0x1b8
-    m_w111 = StreamReader::readAs<std::int32_t>(stream);  // +0x1bc
-    m_w112 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c0
-    m_w113 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c4
-    m_w114 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c8
-    m_w115 = StreamReader::readAs<std::int32_t>(stream);  // +0x1cc
-    m_w116 = StreamReader::readAs<std::int32_t>(stream);  // +0x1d0
-    m_w117 = StreamReader::readAs<std::int32_t>(stream);  // +0x1d4
-    m_w118 = StreamReader::readAs<std::int32_t>(stream);  // +0x1d8
-    m_w119 = StreamReader::readAs<std::int32_t>(stream);  // +0x1dc
-    m_w120 = StreamReader::readAs<std::int32_t>(stream);  // +0x1e0
-    m_w121 = StreamReader::readAs<std::int32_t>(stream);  // +0x1e4
-    m_w122 = StreamReader::readAs<std::int32_t>(stream);  // +0x1e8
-    m_w123 = StreamReader::readAs<std::int32_t>(stream);  // +0x1ec
-    m_w124 = StreamReader::readAs<std::int32_t>(stream);  // +0x1f0
-    m_w125 = StreamReader::readAs<std::int32_t>(stream);  // +0x1f4
-    m_w126 = StreamReader::readAs<std::int32_t>(stream);  // +0x1f8
-    m_w127 = StreamReader::readAs<std::int32_t>(stream);  // +0x1fc
-    m_w128 = StreamReader::readAs<std::int32_t>(stream);  // +0x200
-    m_w129 = StreamReader::readAs<std::int32_t>(stream);  // +0x204
-    m_w130 = StreamReader::readAs<std::int32_t>(stream);  // +0x208
-    m_w131 = StreamReader::readAs<std::int32_t>(stream);  // +0x20c
-    m_w132 = StreamReader::readAs<std::int32_t>(stream);  // +0x210
-    m_w133 = StreamReader::readAs<std::int32_t>(stream);  // +0x214
-    m_w134 = StreamReader::readAs<std::int32_t>(stream);  // +0x218
-    m_w135 = StreamReader::readAs<std::int32_t>(stream);  // +0x21c
-    m_w136 = StreamReader::readAs<std::int32_t>(stream);  // +0x220
-    m_w137 = StreamReader::readAs<std::int32_t>(stream);  // +0x224
-    m_w138 = StreamReader::readAs<std::int32_t>(stream);  // +0x228
-    m_w139 = StreamReader::readAs<std::int32_t>(stream);  // +0x22c
-    m_w140 = StreamReader::readAs<std::int32_t>(stream);  // +0x230
-    m_w141 = StreamReader::readAs<std::int32_t>(stream);  // +0x234
-    m_w142 = StreamReader::readAs<std::int32_t>(stream);  // +0x238
-    m_w143 = StreamReader::readAs<std::int32_t>(stream);  // +0x23c
-    m_w144 = StreamReader::readAs<std::int32_t>(stream);  // +0x240
-    m_w145 = StreamReader::readAs<std::int32_t>(stream);  // +0x244
-    m_w146 = StreamReader::readAs<std::int32_t>(stream);  // +0x248
-    m_w147 = StreamReader::readAs<std::int32_t>(stream);  // +0x24c
-    m_w148 = StreamReader::readAs<std::int32_t>(stream);  // +0x250
-    m_w149 = StreamReader::readAs<std::int32_t>(stream);  // +0x254
-    m_w150 = StreamReader::readAs<std::int32_t>(stream);  // +0x258
-    m_w151 = StreamReader::readAs<std::int32_t>(stream);  // +0x25c
-    m_w152 = StreamReader::readAs<std::int32_t>(stream);  // +0x260
-    m_w153 = StreamReader::readAs<std::int32_t>(stream);  // +0x264
-    m_w154 = StreamReader::readAs<std::int32_t>(stream);  // +0x268
-    m_w155 = StreamReader::readAs<std::int32_t>(stream);  // +0x26c
-    m_w156 = StreamReader::readAs<std::int32_t>(stream);  // +0x270
-    m_w157 = StreamReader::readAs<std::int32_t>(stream);  // +0x274
-    m_w158 = StreamReader::readAs<std::int32_t>(stream);  // +0x278
-    m_w159 = StreamReader::readAs<std::int32_t>(stream);  // +0x27c
-    m_w160 = StreamReader::readAs<std::int32_t>(stream);  // +0x280
-    m_w161 = StreamReader::readAs<std::int32_t>(stream);  // +0x284
-    m_w162 = StreamReader::readAs<std::int32_t>(stream);  // +0x288
-    m_w163 = StreamReader::readAs<std::int32_t>(stream);  // +0x28c
-    m_w164 = StreamReader::readAs<std::int32_t>(stream);  // +0x290
-    m_w165 = StreamReader::readAs<std::int32_t>(stream);  // +0x294
-    m_w166 = StreamReader::readAs<std::int32_t>(stream);  // +0x298
-    m_w167 = StreamReader::readAs<std::int32_t>(stream);  // +0x29c
-    m_w168 = StreamReader::readAs<std::int32_t>(stream);  // +0x2a0
-    m_w169 = StreamReader::readAs<std::int32_t>(stream);  // +0x2a4
-    m_w170 = StreamReader::readAs<std::int32_t>(stream);  // +0x2a8
-    m_w171 = StreamReader::readAs<std::int32_t>(stream);  // +0x2ac
-    m_w172 = StreamReader::readAs<std::int32_t>(stream);  // +0x2b0
-    m_w173 = StreamReader::readAs<std::int32_t>(stream);  // +0x2b4
-    m_w174 = StreamReader::readAs<std::int32_t>(stream);  // +0x2b8
-    m_w175 = StreamReader::readAs<std::int32_t>(stream);  // +0x2bc
-    m_w176 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c0
-    m_w177 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c4
-    m_w178 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c8
-    m_w179 = StreamReader::readAs<std::int32_t>(stream);  // +0x2cc
-    m_w180 = StreamReader::readAs<std::int32_t>(stream);  // +0x2d0
-    m_w181 = StreamReader::readAs<std::int32_t>(stream);  // +0x2d4
-    m_w182 = StreamReader::readAs<std::int32_t>(stream);  // +0x2d8
-    m_w183 = StreamReader::readAs<std::int32_t>(stream);  // +0x2dc
-    m_w184 = StreamReader::readAs<std::int32_t>(stream);  // +0x2e0
-    m_w185 = StreamReader::readAs<std::int32_t>(stream);  // +0x2e4
-    m_w186 = StreamReader::readAs<std::int32_t>(stream);  // +0x2e8
-    m_w187 = StreamReader::readAs<std::int32_t>(stream);  // +0x2ec
-    m_w188 = StreamReader::readAs<std::int32_t>(stream);  // +0x2f0
-    m_w189 = StreamReader::readAs<std::int32_t>(stream);  // +0x2f4
-    m_w190 = StreamReader::readAs<std::int32_t>(stream);  // +0x2f8
-    m_w191 = StreamReader::readAs<std::int32_t>(stream);  // +0x2fc
-    m_w192 = StreamReader::readAs<std::int32_t>(stream);  // +0x300
-    m_w193 = StreamReader::readAs<std::int32_t>(stream);  // +0x304
-    m_w194 = StreamReader::readAs<std::int32_t>(stream);  // +0x308
-    m_w195 = StreamReader::readAs<std::int32_t>(stream);  // +0x30c
-    m_w196 = StreamReader::readAs<std::int32_t>(stream);  // +0x310
-    m_w197 = StreamReader::readAs<std::int32_t>(stream);  // +0x314
-    m_w198 = StreamReader::readAs<std::int32_t>(stream);  // +0x318
-    m_w199 = StreamReader::readAs<std::int32_t>(stream);  // +0x31c
-    m_w200 = StreamReader::readAs<std::int32_t>(stream);  // +0x320
-    m_w201 = StreamReader::readAs<std::int32_t>(stream);  // +0x324
-    m_w202 = StreamReader::readAs<std::int32_t>(stream);  // +0x328
-    m_w203 = StreamReader::readAs<std::int32_t>(stream);  // +0x32c
-    m_w204 = StreamReader::readAs<std::int32_t>(stream);  // +0x330
-    m_w205 = StreamReader::readAs<std::int32_t>(stream);  // +0x334
-    m_w206 = StreamReader::readAs<std::int32_t>(stream);  // +0x338
-    m_w207 = StreamReader::readAs<std::int32_t>(stream);  // +0x33c
-    m_w208 = StreamReader::readAs<std::int32_t>(stream);  // +0x340
-    m_w209 = StreamReader::readAs<std::int32_t>(stream);  // +0x344
-    m_w210 = StreamReader::readAs<std::int32_t>(stream);  // +0x348
-    m_w211 = StreamReader::readAs<std::int32_t>(stream);  // +0x34c
-    m_w212 = StreamReader::readAs<std::int32_t>(stream);  // +0x350
-    m_w213 = StreamReader::readAs<std::int32_t>(stream);  // +0x354
-    m_w214 = StreamReader::readAs<std::int32_t>(stream);  // +0x358
-    m_w215 = StreamReader::readAs<std::int32_t>(stream);  // +0x35c
-    m_w216 = StreamReader::readAs<std::int32_t>(stream);  // +0x360
-    m_w217 = StreamReader::readAs<std::int32_t>(stream);  // +0x364
-    m_w218 = StreamReader::readAs<std::int32_t>(stream);  // +0x368
-    m_w219 = StreamReader::readAs<std::int32_t>(stream);  // +0x36c
-    m_w220 = StreamReader::readAs<std::int32_t>(stream);  // +0x370
-    m_w221 = StreamReader::readAs<std::int32_t>(stream);  // +0x374
-    m_w222 = StreamReader::readAs<std::int32_t>(stream);  // +0x378
-    m_w223 = StreamReader::readAs<std::int32_t>(stream);  // +0x37c
-    m_w224 = StreamReader::readAs<std::int32_t>(stream);  // +0x380
+    AIFaction = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    AI = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    AnimTable = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    ModelFile = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    ModularVisual = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    ClassString = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    ClassDescString = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
+    Effects = StreamReader::readAs<std::int32_t>(stream);  // +0x20
+    Sounds = StreamReader::readAs<std::int32_t>(stream);  // +0x24
+    Loot = StreamReader::readAs<std::int32_t>(stream);  // +0x28
+    Dialogs = StreamReader::readAs<std::int32_t>(stream);  // +0x2c
+    RespawnTime = StreamReader::readAs<std::int32_t>(stream);  // +0x30
+    Scale_X = StreamReader::readAs<std::int32_t>(stream);  // +0x34
+    Scale_Y = StreamReader::readAs<std::int32_t>(stream);  // +0x38
+    Scale_Z = StreamReader::readAs<std::int32_t>(stream);  // +0x3c
+    Melee_Scale = StreamReader::readAs<std::int32_t>(stream);  // +0x40
+    Collision_Scale = StreamReader::readAs<std::int32_t>(stream);  // +0x44
+    FX_Scale = StreamReader::readAs<std::int32_t>(stream);  // +0x48
+    Name = StreamReader::readAs<std::int32_t>(stream);  // +0x4c
+    Level = StreamReader::readAs<std::int32_t>(stream);  // +0x50
+    LevelMax = StreamReader::readAs<std::int32_t>(stream);  // +0x54
+    LevelMin = StreamReader::readAs<std::int32_t>(stream);  // +0x58
+    LevelOffset = StreamReader::readAs<std::int32_t>(stream);  // +0x5c
+    KillCount = StreamReader::readAs<std::int32_t>(stream);  // +0x60
+    MPLevelKillCount = StreamReader::readAs<std::int32_t>(stream);  // +0x64
+    DeathCount = StreamReader::readAs<std::int32_t>(stream);  // +0x68
+    ClassID = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
+    StatAutoAssignScheme = StreamReader::readAs<std::int32_t>(stream);  // +0x70
+    SkillTree = StreamReader::readAs<std::int32_t>(stream);  // +0x74
+    FaeryList = StreamReader::readAs<std::int32_t>(stream);  // +0x78
+    RangeMinDistance = StreamReader::readAs<std::int32_t>(stream);  // +0x7c
+    RangeMaxDistance = StreamReader::readAs<std::int32_t>(stream);  // +0x80
+    RangeProjectileID = StreamReader::readAs<std::int32_t>(stream);  // +0x84
+    XP = StreamReader::readAs<std::int32_t>(stream);  // +0x88
+    Max_XP = StreamReader::readAs<std::int32_t>(stream);  // +0x8c
+    Value_XP = StreamReader::readAs<std::int32_t>(stream);  // +0x90
+    HP = StreamReader::readAs<std::int32_t>(stream);  // +0x94
+    HP_Bonus = StreamReader::readAs<std::int32_t>(stream);  // +0x98
+    Max_HP = StreamReader::readAs<std::int32_t>(stream);  // +0x9c
+    Regen_HP = StreamReader::readAs<std::int32_t>(stream);  // +0xa0
+    CombatRegen_HP = StreamReader::readAs<std::int32_t>(stream);  // +0xa4
+    MP = StreamReader::readAs<std::int32_t>(stream);  // +0xa8
+    MP_Bonus = StreamReader::readAs<std::int32_t>(stream);  // +0xac
+    Max_MP = StreamReader::readAs<std::int32_t>(stream);  // +0xb0
+    Regen_MP = StreamReader::readAs<std::int32_t>(stream);  // +0xb4
+    CombatRegen_MP = StreamReader::readAs<std::int32_t>(stream);  // +0xb8
+    Speed_Modifier_Walk = StreamReader::readAs<std::int32_t>(stream);  // +0xbc
+    Speed_Modifier_Rotation = StreamReader::readAs<std::int32_t>(stream);  // +0xc0
+    Speed_Modifier_Attack = StreamReader::readAs<std::int32_t>(stream);  // +0xc4
+    Opacity_Modifier = StreamReader::readAs<std::int32_t>(stream);  // +0xc8
+    Rating_Attack = StreamReader::readAs<std::int32_t>(stream);  // +0xcc
+    Rating_Attack_Bonus_Sword = StreamReader::readAs<std::int32_t>(stream);  // +0xd0
+    Rating_Attack_Bonus_Axe = StreamReader::readAs<std::int32_t>(stream);  // +0xd4
+    Rating_Attack_Bonus_Mace = StreamReader::readAs<std::int32_t>(stream);  // +0xd8
+    Rating_Attack_Bonus_Dagger = StreamReader::readAs<std::int32_t>(stream);  // +0xdc
+    Rating_Attack_Bonus_Range = StreamReader::readAs<std::int32_t>(stream);  // +0xe0
+    Rating_Attack_Bonus_Staff = StreamReader::readAs<std::int32_t>(stream);  // +0xe4
+    Rating_Attack_Bonus_Wand = StreamReader::readAs<std::int32_t>(stream);  // +0xe8
+    Rating_Attack_Bonus_Dual = StreamReader::readAs<std::int32_t>(stream);  // +0xec
+    Rating_Defense = StreamReader::readAs<std::int32_t>(stream);  // +0xf0
+    Rating_Dodge = StreamReader::readAs<std::int32_t>(stream);  // +0xf4
+    Rating_Block = StreamReader::readAs<std::int32_t>(stream);  // +0xf8
+    Rating_Block_Bonus_Shield = StreamReader::readAs<std::int32_t>(stream);  // +0xfc
+    Rating_Critical = StreamReader::readAs<std::int32_t>(stream);  // +0x100
+    Rating_Critical_Bonus_Sword = StreamReader::readAs<std::int32_t>(stream);  // +0x104
+    Rating_Critical_Bonus_Axe = StreamReader::readAs<std::int32_t>(stream);  // +0x108
+    Rating_Critical_Bonus_Mace = StreamReader::readAs<std::int32_t>(stream);  // +0x10c
+    Rating_Critical_Bonus_Dagger = StreamReader::readAs<std::int32_t>(stream);  // +0x110
+    Rating_Critical_Bonus_Range = StreamReader::readAs<std::int32_t>(stream);  // +0x114
+    Rating_Critical_Bonus_Staff = StreamReader::readAs<std::int32_t>(stream);  // +0x118
+    Rating_Critical_Bonus_Wand = StreamReader::readAs<std::int32_t>(stream);  // +0x11c
+    Physical_Armor = StreamReader::readAs<std::int32_t>(stream);  // +0x120
+    Physical_Armor_Bonus_Shield = StreamReader::readAs<std::int32_t>(stream);  // +0x124
+    Magical_Armor = StreamReader::readAs<std::int32_t>(stream);  // +0x128
+    Resistance_Fire = StreamReader::readAs<std::int32_t>(stream);  // +0x12c
+    Resistance_Water = StreamReader::readAs<std::int32_t>(stream);  // +0x130
+    Resistance_Lightning = StreamReader::readAs<std::int32_t>(stream);  // +0x134
+    Resistance_Earth = StreamReader::readAs<std::int32_t>(stream);  // +0x138
+    Resistance_Air = StreamReader::readAs<std::int32_t>(stream);  // +0x13c
+    Damage_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x140
+    Damage_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x144
+    Damage_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x148
+    Damage_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x14c
+    Damage_Bonus_Sword = StreamReader::readAs<std::int32_t>(stream);  // +0x150
+    Damage_Bonus_Axe = StreamReader::readAs<std::int32_t>(stream);  // +0x154
+    Damage_Bonus_Mace = StreamReader::readAs<std::int32_t>(stream);  // +0x158
+    Damage_Bonus_Dagger = StreamReader::readAs<std::int32_t>(stream);  // +0x15c
+    Damage_Bonus_Range = StreamReader::readAs<std::int32_t>(stream);  // +0x160
+    Damage_Bonus_Staff = StreamReader::readAs<std::int32_t>(stream);  // +0x164
+    Damage_Bonus_Wand = StreamReader::readAs<std::int32_t>(stream);  // +0x168
+    Damage_Bonus_Dual = StreamReader::readAs<std::int32_t>(stream);  // +0x16c
+    Damage_Bonus_TwoHand = StreamReader::readAs<std::int32_t>(stream);  // +0x170
+    Damage_Bonus_Stunned = StreamReader::readAs<std::int32_t>(stream);  // +0x174
+    Damage_Bonus_Sneaking = StreamReader::readAs<std::int32_t>(stream);  // +0x178
+    Damage_Bonus_Combo = StreamReader::readAs<std::int32_t>(stream);  // +0x17c
+    Damage_Elemental_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x180
+    Damage_Elemental_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x184
+    Damage_Elemental_Type_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x188
+    Damage_Elemental_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x18c
+    Damage_Elemental_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x190
+    Damage_Elemental_Type_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x194
+    Damage_Fire_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x198
+    Damage_Fire_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x19c
+    Damage_Fire_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1a0
+    Damage_Fire_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1a4
+    Damage_Water_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1a8
+    Damage_Water_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1ac
+    Damage_Water_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1b0
+    Damage_Water_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1b4
+    Damage_Lightning_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1b8
+    Damage_Lightning_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1bc
+    Damage_Lightning_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1c0
+    Damage_Lightning_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1c4
+    Damage_Earth_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1c8
+    Damage_Earth_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1cc
+    Damage_Earth_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1d0
+    Damage_Earth_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1d4
+    Damage_Air_Min_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1d8
+    Damage_Air_Max_Main_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1dc
+    Damage_Air_Min_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1e0
+    Damage_Air_Max_Off_Hand = StreamReader::readAs<std::int32_t>(stream);  // +0x1e4
+    Damage_Block_Mitigation = StreamReader::readAs<std::int32_t>(stream);  // +0x1e8
+    Damage_Crit_Intensification = StreamReader::readAs<std::int32_t>(stream);  // +0x1ec
+    Dot_Min_Damage = StreamReader::readAs<std::int32_t>(stream);  // +0x1f0
+    Dot_Max_Damage = StreamReader::readAs<std::int32_t>(stream);  // +0x1f4
+    Dot_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x1f8
+    Dot_Tick_Damage_Normal = StreamReader::readAs<std::int32_t>(stream);  // +0x1fc
+    Dot_Tick_Damage_Fire = StreamReader::readAs<std::int32_t>(stream);  // +0x200
+    Dot_Tick_Damage_Water = StreamReader::readAs<std::int32_t>(stream);  // +0x204
+    Dot_Tick_Damage_Lightning = StreamReader::readAs<std::int32_t>(stream);  // +0x208
+    Dot_Tick_Damage_Earth = StreamReader::readAs<std::int32_t>(stream);  // +0x20c
+    Dot_Tick_Damage_Air = StreamReader::readAs<std::int32_t>(stream);  // +0x210
+    Leech_HP = StreamReader::readAs<std::int32_t>(stream);  // +0x214
+    Leech_MP = StreamReader::readAs<std::int32_t>(stream);  // +0x218
+    Hurt_Resist_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x21c
+    Hurt_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x220
+    Push_Resist_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x224
+    Push_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x228
+    Stun_Resist_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x22c
+    Stun_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x230
+    Stun_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x234
+    Fear_Resist_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x238
+    Fear_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x23c
+    Fear_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x240
+    Slow_Resist_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x244
+    Slow_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x248
+    Slow_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x24c
+    Diminishing_Return = StreamReader::readAs<std::int32_t>(stream);  // +0x250
+    Stat_Points = StreamReader::readAs<std::int32_t>(stream);  // +0x254
+    Stat_Strength = StreamReader::readAs<std::int32_t>(stream);  // +0x258
+    Stat_Dexterity = StreamReader::readAs<std::int32_t>(stream);  // +0x25c
+    Stat_Endurance = StreamReader::readAs<std::int32_t>(stream);  // +0x260
+    Stat_Energy = StreamReader::readAs<std::int32_t>(stream);  // +0x264
+    Prereq_Strength = StreamReader::readAs<std::int32_t>(stream);  // +0x268
+    Prereq_Dexterity = StreamReader::readAs<std::int32_t>(stream);  // +0x26c
+    Prereq_Endurance = StreamReader::readAs<std::int32_t>(stream);  // +0x270
+    Prereq_Energy = StreamReader::readAs<std::int32_t>(stream);  // +0x274
+    Skill_Points = StreamReader::readAs<std::int32_t>(stream);  // +0x278
+    Spell_Rating_Attack = StreamReader::readAs<std::int32_t>(stream);  // +0x27c
+    Spell_Rating_Attack_Bonus_Fire = StreamReader::readAs<std::int32_t>(stream);  // +0x280
+    Spell_Rating_Attack_Bonus_Water = StreamReader::readAs<std::int32_t>(stream);  // +0x284
+    Spell_Rating_Attack_Bonus_Lightning = StreamReader::readAs<std::int32_t>(stream);  // +0x288
+    Spell_Rating_Attack_Bonus_Earth = StreamReader::readAs<std::int32_t>(stream);  // +0x28c
+    Spell_Rating_Attack_Bonus_Air = StreamReader::readAs<std::int32_t>(stream);  // +0x290
+    Spell_Rating_Dodge = StreamReader::readAs<std::int32_t>(stream);  // +0x294
+    Spell_Rating_Critical = StreamReader::readAs<std::int32_t>(stream);  // +0x298
+    Spell_Damage_Bonus_Fire = StreamReader::readAs<std::int32_t>(stream);  // +0x29c
+    Spell_Damage_Bonus_Water = StreamReader::readAs<std::int32_t>(stream);  // +0x2a0
+    Spell_Damage_Bonus_Lightning = StreamReader::readAs<std::int32_t>(stream);  // +0x2a4
+    Spell_Damage_Bonus_Earth = StreamReader::readAs<std::int32_t>(stream);  // +0x2a8
+    Spell_Damage_Bonus_Air = StreamReader::readAs<std::int32_t>(stream);  // +0x2ac
+    Spell_Damage_Crit_Intensification = StreamReader::readAs<std::int32_t>(stream);  // +0x2b0
+    SnS_Level = StreamReader::readAs<std::int32_t>(stream);  // +0x2b4
+    SnS_ManaCost = StreamReader::readAs<std::int32_t>(stream);  // +0x2b8
+    SnS_MinDamage = StreamReader::readAs<std::int32_t>(stream);  // +0x2bc
+    SnS_MaxDamage = StreamReader::readAs<std::int32_t>(stream);  // +0x2c0
+    SnS_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x2c4
+    SnS_Cooldown = StreamReader::readAs<std::int32_t>(stream);  // +0x2c8
+    SnS_Dot_Elemental_Type = StreamReader::readAs<std::int32_t>(stream);  // +0x2cc
+    SnS_Dot_Min_Damage = StreamReader::readAs<std::int32_t>(stream);  // +0x2d0
+    SnS_Dot_Max_Damage = StreamReader::readAs<std::int32_t>(stream);  // +0x2d4
+    SnS_Dot_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x2d8
+    SnS_Hurt_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x2dc
+    SnS_Push_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x2e0
+    SnS_Stun_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x2e4
+    SnS_Stun_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x2e8
+    SnS_Fear_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x2ec
+    SnS_Fear_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x2f0
+    SnS_Slow_Target_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x2f4
+    SnS_Slow_Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x2f8
+    TempProp1 = StreamReader::readAs<std::int32_t>(stream);  // +0x2fc
+    TempProp2 = StreamReader::readAs<std::int32_t>(stream);  // +0x300
+    Potion_HP_Modifier = StreamReader::readAs<std::int32_t>(stream);  // +0x304
+    Potion_MP_Modifier = StreamReader::readAs<std::int32_t>(stream);  // +0x308
+    Special_Loot_Max_Potions = StreamReader::readAs<std::int32_t>(stream);  // +0x30c
+    Special_Loot_Gold_Multiplier = StreamReader::readAs<std::int32_t>(stream);  // +0x310
+    Special_Loot_Magical_Chance = StreamReader::readAs<std::int32_t>(stream);  // +0x314
+    Special_Transmute_Efficiency = StreamReader::readAs<std::int32_t>(stream);  // +0x318
+    Special_Sneak = StreamReader::readAs<std::int32_t>(stream);  // +0x31c
+    Special_Sneak_Detection = StreamReader::readAs<std::int32_t>(stream);  // +0x320
+    Special_Bonus_To_XP = StreamReader::readAs<std::int32_t>(stream);  // +0x324
+    Special_Merchant_Price = StreamReader::readAs<std::int32_t>(stream);  // +0x328
+    Special_Equip_Main_In_Offhand = StreamReader::readAs<std::int32_t>(stream);  // +0x32c
+    Special_Equip_2H_In_One = StreamReader::readAs<std::int32_t>(stream);  // +0x330
+    Threat_PerDamage = StreamReader::readAs<std::int32_t>(stream);  // +0x334
+    Threat_PerHeal = StreamReader::readAs<std::int32_t>(stream);  // +0x338
+    Threat_PerDamageToFriendly = StreamReader::readAs<std::int32_t>(stream);  // +0x33c
+    Menu_Average_Melee_To_Hit = StreamReader::readAs<std::int32_t>(stream);  // +0x340
+    Menu_Average_Spell_To_Hit = StreamReader::readAs<std::int32_t>(stream);  // +0x344
+    Menu_Melee_Damage_Reduction = StreamReader::readAs<std::int32_t>(stream);  // +0x348
+    Visual_AlphaFadeInSpawn = StreamReader::readAs<std::int32_t>(stream);  // +0x34c
+    Visual_AlphaFadeOutDespawn = StreamReader::readAs<std::int32_t>(stream);  // +0x350
+    Visual_BlinkWhenHit = StreamReader::readAs<std::int32_t>(stream);  // +0x354
+    Achievement_Transmute_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x358
+    Achievement_Block_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x35c
+    Achievement_Evade_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x360
+    Achievement_SkillUse_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x364
+    Achievement_Break_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x368
+    Achievement_Chests_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x36c
+    Achievement_Potions_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x370
+    Achievement_Sell_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x374
+    Achievement_Spent_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x378
+    Achievement_KnockedDown_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x37c
+    Achievement_PickUp_Count = StreamReader::readAs<std::int32_t>(stream);  // +0x380
 }
 
 // 0x4c645c _ZN7Structs18AssassinPropertiesD2Ev
@@ -419,9 +419,9 @@ void AttrBonusEntry::finalize() {
 
 // 0x4fef00 _ZN7Structs14AttrBonusEntry4readEP11IStreamBase
 void AttrBonusEntry::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Attr = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Bonus = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Flags = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c5e74 _ZN7Structs16BanditPropertiesD2Ev
@@ -496,7 +496,7 @@ void BigSpiderProperties::read(IStreamBase* stream) {
 // 0x4db3cc _ZN7Structs10CamAnimSetD2Ev
 // 0x4db370 _ZN7Structs10CamAnimSetD1Ev
 CamAnimSet::~CamAnimSet() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (CamAnims != nullptr) CustomFree(CamAnims);  // +0x8
 }
 
 // 0x4db3b0 _ZN7Structs10CamAnimSetD0Ev
@@ -507,18 +507,18 @@ void DeletingDestructor(CamAnimSet* self) {
 
 // 0x4db348 _ZN7Structs10CamAnimSet8finalizeEv
 void CamAnimSet::finalize() {
-    if (m_w2 != nullptr) {
-        CustomFree(m_w2);  // +0x8
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (CamAnims != nullptr) {
+        CustomFree(CamAnims);  // +0x8
+        CamAnimsSize = 0;  // +0x4
+        CamAnims = nullptr;
     }
 }
 
 // 0x4db2f8 _ZN7Structs8CharAnimD2Ev
 // 0x4db28c _ZN7Structs8CharAnimD1Ev
 CharAnim::~CharAnim() {
-    if (m_w17 != nullptr) CustomFree(m_w17);  // +0x44
-    if (m_w34 != nullptr) CustomFree(m_w34);  // +0x88
+    if (Interact != nullptr) CustomFree(Interact);  // +0x44
+    if (Spells != nullptr) CustomFree(Spells);  // +0x88
 }
 
 // 0x4db2dc _ZN7Structs8CharAnimD0Ev
@@ -529,15 +529,15 @@ void DeletingDestructor(CharAnim* self) {
 
 // 0x4db248 _ZN7Structs8CharAnim8finalizeEv
 void CharAnim::finalize() {
-    if (m_w17 != nullptr) {
-        CustomFree(m_w17);  // +0x44
-        m_w16 = 0;  // +0x40
-        m_w17 = nullptr;
+    if (Interact != nullptr) {
+        CustomFree(Interact);  // +0x44
+        InteractSize = 0;  // +0x40
+        Interact = nullptr;
     }
-    if (m_w34 != nullptr) {
-        CustomFree(m_w34);  // +0x88
-        m_w33 = 0;  // +0x84
-        m_w34 = nullptr;
+    if (Spells != nullptr) {
+        CustomFree(Spells);  // +0x88
+        SpellsSize = 0;  // +0x84
+        Spells = nullptr;
     }
 }
 
@@ -558,11 +558,11 @@ void CharEffect::finalize() {
 
 // 0x4ed5a8 _ZN7Structs10CharEffect4readEP11IStreamBase
 void CharEffect::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
+    BloodDeathEffect = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    BloodEffect = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    FootprintEffect = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    SwooshEffect = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    TriggerFloorFX = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c6978 _ZN7Structs12CharInfoNameD2Ev
@@ -612,11 +612,11 @@ void ClassFuncAddProp::finalize() {
 
 // 0x4f0abc _ZN7Structs16ClassFuncAddProp4readEP11IStreamBase
 void ClassFuncAddProp::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    PropToAdd = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    NotUsed = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed2 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c56dc _ZN7Structs17ClassFuncAddValueD2Ev
@@ -636,11 +636,11 @@ void ClassFuncAddValue::finalize() {
 
 // 0x4f124c _ZN7Structs17ClassFuncAddValue4readEP11IStreamBase
 void ClassFuncAddValue::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Value = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    NotUsed1 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed2 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c5730 _ZN7Structs25ClassFuncApplyGroupOnlyIfD2Ev
@@ -660,11 +660,11 @@ void ClassFuncApplyGroupOnlyIf::finalize() {
 
 // 0x4f0510 _ZN7Structs25ClassFuncApplyGroupOnlyIf4readEP11IStreamBase
 void ClassFuncApplyGroupOnlyIf::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    IsSpecialAttack = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    IsSpecialAttackState = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed1 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c56e8 _ZN7Structs14ClassFuncGroupD2Ev
@@ -684,11 +684,11 @@ void ClassFuncGroup::finalize() {
 
 // 0x4f1068 _ZN7Structs14ClassFuncGroup4readEP11IStreamBase
 void ClassFuncGroup::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Stat1 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Stat2 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Stat3 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c56b8 _ZN7Structs15ClassFuncLinearD2Ev
@@ -708,11 +708,11 @@ void ClassFuncLinear::finalize() {
 
 // 0x4f17f8 _ZN7Structs15ClassFuncLinear4readEP11IStreamBase
 void ClassFuncLinear::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Base = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    ScaleProp = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    PerProp = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c5700 _ZN7Structs20ClassFuncLinearLevelD2Ev
@@ -732,11 +732,11 @@ void ClassFuncLinearLevel::finalize() {
 
 // 0x4f0ca0 _ZN7Structs20ClassFuncLinearLevel4readEP11IStreamBase
 void ClassFuncLinearLevel::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Base = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    ScaleProp = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    PerProp = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c56f4 _ZN7Structs15ClassFuncMinMaxD2Ev
@@ -756,11 +756,11 @@ void ClassFuncMinMax::finalize() {
 
 // 0x4f0e84 _ZN7Structs15ClassFuncMinMax4readEP11IStreamBase
 void ClassFuncMinMax::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Min = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Max = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c5718 _ZN7Structs28ClassFuncScaleWithPercentageD2Ev
@@ -780,11 +780,11 @@ void ClassFuncScaleWithPercentage::finalize() {
 
 // 0x4f08d8 _ZN7Structs28ClassFuncScaleWithPercentage4readEP11IStreamBase
 void ClassFuncScaleWithPercentage::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    ScaleProp = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    NotUsed = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed2 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c5724 _ZN7Structs35ClassFuncScaleWithPercentageForBuffD2Ev
@@ -804,11 +804,11 @@ void ClassFuncScaleWithPercentageForBuff::finalize() {
 
 // 0x4f06f4 _ZN7Structs35ClassFuncScaleWithPercentageForBuff4readEP11IStreamBase
 void ClassFuncScaleWithPercentageForBuff::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    ScaleProp = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    NotUsed = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed2 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c56d0 _ZN7Structs15ClassFuncSetOIDD2Ev
@@ -828,11 +828,11 @@ void ClassFuncSetOID::finalize() {
 
 // 0x4f1430 _ZN7Structs15ClassFuncSetOID4readEP11IStreamBase
 void ClassFuncSetOID::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Value = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    NotUsed1 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    NotUsed2 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c56c4 _ZN7Structs17ClassFuncSetValueD2Ev
@@ -852,11 +852,11 @@ void ClassFuncSetValue::finalize() {
 
 // 0x4f1614 _ZN7Structs17ClassFuncSetValue4readEP11IStreamBase
 void ClassFuncSetValue::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DestProp = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Formula = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Value = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    UNUSED0 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    UNUSED1 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c5d9c _ZN7Structs10Coward_DogD2Ev
@@ -945,49 +945,49 @@ void DesignSettings::finalize() {
 
 // 0x4ee0d0 _ZN7Structs14DesignSettings4readEP11IStreamBase
 void DesignSettings::read(IStreamBase* stream) {
-    StreamReader::readAs<float>(stream, &m_w1);  // +0x4
-    StreamReader::readAs<float>(stream, &m_w2);  // +0x8
-    StreamReader::readAs<float>(stream, &m_w3);  // +0xc
-    StreamReader::readAs<float>(stream, &m_w4);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    StreamReader::readAs<float>(stream, &m_w6);  // +0x18
-    StreamReader::readAs<float>(stream, &m_w7);  // +0x1c
-    StreamReader::readAs<float>(stream, &m_w8);  // +0x20
-    m_w9 = StreamReader::readAs<std::int32_t>(stream);  // +0x24
-    m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
-    StreamReader::readAs<float>(stream, &m_w11);  // +0x2c
-    StreamReader::readAs<float>(stream, &m_w12);  // +0x30
-    StreamReader::readAs<float>(stream, &m_w13);  // +0x34
-    StreamReader::readAs<float>(stream, &m_w14);  // +0x38
-    StreamReader::readAs<float>(stream, &m_w15);  // +0x3c
-    StreamReader::readAs<float>(stream, &m_w16);  // +0x40
-    StreamReader::readAs<float>(stream, &m_w17);  // +0x44
-    StreamReader::readAs<float>(stream, &m_w18);  // +0x48
-    StreamReader::readAs<float>(stream, &m_w19);  // +0x4c
-    StreamReader::readAs<float>(stream, &m_w20);  // +0x50
-    StreamReader::readAs<float>(stream, &m_w21);  // +0x54
-    StreamReader::readAs<float>(stream, &m_w22);  // +0x58
-    StreamReader::readAs<float>(stream, &m_w23);  // +0x5c
-    StreamReader::readAs<float>(stream, &m_w24);  // +0x60
-    m_w25 = StreamReader::readAs<std::int32_t>(stream);  // +0x64
-    m_w26 = StreamReader::readAs<std::int32_t>(stream);  // +0x68
-    m_w27 = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
-    m_w28 = StreamReader::readAs<std::int32_t>(stream);  // +0x70
-    m_w29 = StreamReader::readAs<std::int32_t>(stream);  // +0x74
-    m_w30 = StreamReader::readAs<std::int32_t>(stream);  // +0x78
-    m_w31 = StreamReader::readAs<std::int32_t>(stream);  // +0x7c
-    m_w32 = StreamReader::readAs<std::int32_t>(stream);  // +0x80
-    m_w33 = StreamReader::readAs<std::int32_t>(stream);  // +0x84
-    m_w34 = StreamReader::readAs<std::int32_t>(stream);  // +0x88
-    StreamReader::readAs<float>(stream, &m_w35);  // +0x8c
-    StreamReader::readAs<float>(stream, &m_w36);  // +0x90
-    StreamReader::readAs<float>(stream, &m_w37);  // +0x94
-    StreamReader::readAs<float>(stream, &m_w38);  // +0x98
-    StreamReader::readAs<float>(stream, &m_w39);  // +0x9c
-    StreamReader::readAs<float>(stream, &m_w40);  // +0xa0
-    StreamReader::readAs<float>(stream, &m_w41);  // +0xa4
-    StreamReader::readAs<float>(stream, &m_w42);  // +0xa8
-    StreamReader::readAs<float>(stream, &m_w43);  // +0xac
+    StreamReader::readAs<float>(stream, &AdditionalLeaderIconBonus);  // +0x4
+    StreamReader::readAs<float>(stream, &AggroTargetSwitchPct);  // +0x8
+    StreamReader::readAs<float>(stream, &AutoZoomRefPoint);  // +0xc
+    StreamReader::readAs<float>(stream, &AutoZoomStep);  // +0x10
+    CombatMusicTrigger = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    StreamReader::readAs<float>(stream, &CoopCamLimits_Bottom);  // +0x18
+    StreamReader::readAs<float>(stream, &CoopCamLimits_Sides);  // +0x1c
+    StreamReader::readAs<float>(stream, &CoopCamLimits_Top);  // +0x20
+    DefaultLevelWhenInvalid = StreamReader::readAs<std::int32_t>(stream);  // +0x24
+    DefaultOnlineMultiLevelHack = StreamReader::readAs<std::int32_t>(stream);  // +0x28
+    StreamReader::readAs<float>(stream, &EnemyClickSensitivity);  // +0x2c
+    StreamReader::readAs<float>(stream, &EnemySpottedAggro);  // +0x30
+    StreamReader::readAs<float>(stream, &ExtraMonsterDamageMultiplyerPerPlayer);  // +0x34
+    StreamReader::readAs<float>(stream, &ExtraMonsterHealthMultiplyerPerPlayer);  // +0x38
+    StreamReader::readAs<float>(stream, &LeaderIconBonus2Players);  // +0x3c
+    StreamReader::readAs<float>(stream, &LeaderIconBonus3Players);  // +0x40
+    StreamReader::readAs<float>(stream, &LeaderIconBonus4Players);  // +0x44
+    StreamReader::readAs<float>(stream, &MiniMapZoomMaxLimit);  // +0x48
+    StreamReader::readAs<float>(stream, &MiniMapZoomMinLimit);  // +0x4c
+    StreamReader::readAs<float>(stream, &NPCClickSensitivity);  // +0x50
+    StreamReader::readAs<float>(stream, &ObjectClickSensitivity);  // +0x54
+    StreamReader::readAs<float>(stream, &PlayerRotationSpeed);  // +0x58
+    StreamReader::readAs<float>(stream, &PlayerRunToWalkPercent);  // +0x5c
+    StreamReader::readAs<float>(stream, &PlayerWalkToRunPercent);  // +0x60
+    QuestMarker = StreamReader::readAs<std::int32_t>(stream);  // +0x64
+    QuestMarkerCompleted = StreamReader::readAs<std::int32_t>(stream);  // +0x68
+    QuestMarkerSecondary = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
+    QuestMarkerSecondaryCompleted = StreamReader::readAs<std::int32_t>(stream);  // +0x70
+    StateFeared = StreamReader::readAs<std::int32_t>(stream);  // +0x74
+    StatePoisonned = StreamReader::readAs<std::int32_t>(stream);  // +0x78
+    StateSlowed = StreamReader::readAs<std::int32_t>(stream);  // +0x7c
+    StateStunned = StreamReader::readAs<std::int32_t>(stream);  // +0x80
+    TargetAttack = StreamReader::readAs<std::int32_t>(stream);  // +0x84
+    TargetMove = StreamReader::readAs<std::int32_t>(stream);  // +0x88
+    StreamReader::readAs<float>(stream, &XP_LevelBonusScaleFactorPerLevelPct);  // +0x8c
+    StreamReader::readAs<float>(stream, &XP_LevelMalusScaleFactorPerLevelPct);  // +0x90
+    StreamReader::readAs<float>(stream, &XP_LevelScaleFactorMaxPct);  // +0x94
+    StreamReader::readAs<float>(stream, &XP_LevelScaleFactorMinPct);  // +0x98
+    StreamReader::readAs<float>(stream, &XP_LevelScaleMaxLevelDiff);  // +0x9c
+    StreamReader::readAs<float>(stream, &XP_MaxDistanceToReceiveXP);  // +0xa0
+    StreamReader::readAs<float>(stream, &XP_PerPlayerReductionPct);  // +0xa4
+    StreamReader::readAs<float>(stream, &ZoomMaxLimit);  // +0xa8
+    StreamReader::readAs<float>(stream, &ZoomMinLimit);  // +0xac
 }
 
 // 0x4c6b7c _ZN7Structs10DialogStepD2Ev
@@ -1007,10 +1007,10 @@ void DialogStep::finalize() {
 
 // 0x4f1fb4 _ZN7Structs10DialogStep4readEP11IStreamBase
 void DialogStep::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Actor = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Style = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Text = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    TitleText = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 
 // 0x4c64c8 _ZN7Structs16DragonPropertiesD2Ev
@@ -1062,7 +1062,7 @@ void EquippedFaeryProperties::read(IStreamBase* stream) {
 // 0x4da404 _ZN7Structs5FaeryD2Ev
 // 0x4da3a8 _ZN7Structs5FaeryD1Ev
 Faery::~Faery() {
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    if (SpellScript != nullptr) CustomFree(SpellScript);  // +0x18
 }
 
 // 0x4da3e8 _ZN7Structs5FaeryD0Ev
@@ -1073,17 +1073,17 @@ void DeletingDestructor(Faery* self) {
 
 // 0x4da380 _ZN7Structs5Faery8finalizeEv
 void Faery::finalize() {
-    if (m_w6 != nullptr) {
-        CustomFree(m_w6);  // +0x18
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (SpellScript != nullptr) {
+        CustomFree(SpellScript);  // +0x18
+        SpellScriptSize = 0;  // +0x14
+        SpellScript = nullptr;
     }
 }
 
 // 0x4da340 _ZN7Structs9FaeryListD2Ev
 // 0x4da2e4 _ZN7Structs9FaeryListD1Ev
 FaeryList::~FaeryList() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (List != nullptr) CustomFree(List);  // +0x8
 }
 
 // 0x4da324 _ZN7Structs9FaeryListD0Ev
@@ -1094,17 +1094,17 @@ void DeletingDestructor(FaeryList* self) {
 
 // 0x4da2bc _ZN7Structs9FaeryList8finalizeEv
 void FaeryList::finalize() {
-    if (m_w2 != nullptr) {
-        CustomFree(m_w2);  // +0x8
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (List != nullptr) {
+        CustomFree(List);  // +0x8
+        ListSize = 0;  // +0x4
+        List = nullptr;
     }
 }
 
 // 0x4d5638 _ZN7Structs21FastTravelDestinationD2Ev
 // 0x4d55dc _ZN7Structs21FastTravelDestinationD1Ev
 FastTravelDestination::~FastTravelDestination() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (LevelName != nullptr) CustomFree(LevelName);  // +0x10
 }
 
 // 0x4d561c _ZN7Structs21FastTravelDestinationD0Ev
@@ -1115,10 +1115,10 @@ void DeletingDestructor(FastTravelDestination* self) {
 
 // 0x4d55b4 _ZN7Structs21FastTravelDestination8finalizeEv
 void FastTravelDestination::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (LevelName != nullptr) {
+        CustomFree(LevelName);  // +0x10
+        LevelNameSize = 0;  // +0xc
+        LevelName = nullptr;
     }
 }
 
@@ -1162,8 +1162,8 @@ void FontColorDef::finalize() {
 
 // 0x4f1d00 _ZN7Structs12FontColorDef4readEP11IStreamBase
 void FontColorDef::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    glowcolor = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    textcolor = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c6900 _ZN7Structs21FriendlyNPCPropertiesD2Ev
@@ -1206,11 +1206,11 @@ void GameDifficulty::finalize() {
 
 // 0x4f23e4 _ZN7Structs14GameDifficulty4readEP11IStreamBase
 void GameDifficulty::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    DamageInputModifier = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    DamageOutputModifier = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    MaxPotionModifier = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    RespawnTimeModifier = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    XPRewardModifier = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c6ba0 _ZN7Structs16GameObjectDamageD2Ev
@@ -1230,11 +1230,11 @@ void GameObjectDamage::finalize() {
 
 // 0x4f1dd0 _ZN7Structs16GameObjectDamage4readEP11IStreamBase
 void GameObjectDamage::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    Damage = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    ImmunityDelay = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Max = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Min = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Type = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4c6bac _ZN7Structs16GameObjectVisualD2Ev
@@ -1254,13 +1254,13 @@ void GameObjectVisual::finalize() {
 
 // 0x4ff23c _ZN7Structs16GameObjectVisual4readEP11IStreamBase
 void GameObjectVisual::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
+    AppearAnim = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    DisappearAnim = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    IdleActiveAnim = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    IdleAnim = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Palette = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    ResID = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    Sound = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
 }
 
 // 0x4c6a2c _ZN7Structs10GameOptionD2Ev
@@ -1280,13 +1280,13 @@ void GameOption::finalize() {
 
 // 0x4f213c _ZN7Structs10GameOption4readEP11IStreamBase
 void GameOption::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
+    Default = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Label = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Max = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Min = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Step = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    Type = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    ValueStr = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
 }
 
 // 0x4c6a38 _ZN7Structs16GameOptionSelectD2Ev
@@ -1490,8 +1490,8 @@ void HelpPage::finalize() {
 
 // 0x4ff0fc _ZN7Structs8HelpPage4readEP11IStreamBase
 void HelpPage::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    HelpStringCategory = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    HelpStringText = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c6bdc _ZN7Structs8HintPageD2Ev
@@ -1511,8 +1511,8 @@ void HintPage::finalize() {
 
 // 0x4ff02c _ZN7Structs8HintPage4readEP11IStreamBase
 void HintPage::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    HintAvatarID = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    HintStringID = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c5820 _ZN7Structs18InfectedPropertiesD2Ev
@@ -1556,7 +1556,7 @@ void Inventory::finalize() {
 // 0x4d4954 _ZN7Structs8ItemBaseD2Ev
 // 0x4d48f8 _ZN7Structs8ItemBaseD1Ev
 ItemBase::~ItemBase() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (IconName != nullptr) CustomFree(IconName);  // +0x8
 }
 
 // 0x4d4938 _ZN7Structs8ItemBaseD0Ev
@@ -1567,10 +1567,10 @@ void DeletingDestructor(ItemBase* self) {
 
 // 0x4d44f4 _ZN7Structs8ItemBase8finalizeEv
 void ItemBase::finalize() {
-    if (m_w2 != nullptr) {
-        CustomFree(m_w2);  // +0x8
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (IconName != nullptr) {
+        CustomFree(IconName);  // +0x8
+        IconNameSize = 0;  // +0x4
+        IconName = nullptr;
     }
 }
 
@@ -1606,8 +1606,8 @@ void ItemPowerEntry::finalize() {
 
 // 0x4ed200 _ZN7Structs14ItemPowerEntry4readEP11IStreamBase
 void ItemPowerEntry::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    StreamReader::readAs<std::int8_t>(stream, &m_w2);  // +0x8
+    Power = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    StreamReader::readAs<std::int8_t>(stream, &Prob);  // +0x8
 }
 
 // 0x4c62ac _ZN7Structs20LargePlantPropertiesD2Ev
@@ -1636,8 +1636,8 @@ void LargePlantProperties::read(IStreamBase* stream) {
 // 0x4d5564 _ZN7Structs16LevelDeclarationD2Ev
 // 0x4d54f8 _ZN7Structs16LevelDeclarationD1Ev
 LevelDeclaration::~LevelDeclaration() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
+    if (DynamicBusRouting != nullptr) CustomFree(DynamicBusRouting);  // +0xc
+    if (LevelFile != nullptr) CustomFree(LevelFile);  // +0x20
 }
 
 // 0x4d5548 _ZN7Structs16LevelDeclarationD0Ev
@@ -1648,15 +1648,15 @@ void DeletingDestructor(LevelDeclaration* self) {
 
 // 0x4d54b4 _ZN7Structs16LevelDeclaration8finalizeEv
 void LevelDeclaration::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (DynamicBusRouting != nullptr) {
+        CustomFree(DynamicBusRouting);  // +0xc
+        DynamicBusRoutingSize = 0;  // +0x8
+        DynamicBusRouting = nullptr;
     }
-    if (m_w8 != nullptr) {
-        CustomFree(m_w8);  // +0x20
-        m_w7 = 0;  // +0x1c
-        m_w8 = nullptr;
+    if (LevelFile != nullptr) {
+        CustomFree(LevelFile);  // +0x20
+        LevelFileSize = 0;  // +0x1c
+        LevelFile = nullptr;
     }
 }
 
@@ -1677,7 +1677,7 @@ void LiftableObject::finalize() {
 
 // 0x4ff1cc _ZN7Structs14LiftableObject4readEP11IStreamBase
 void LiftableObject::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Visual = StreamReader::readAs<std::int32_t>(stream);  // +0x4
 }
 
 // 0x4c7c98 _ZN7Structs8ListenerD2Ev
@@ -1697,12 +1697,12 @@ void Listener::finalize() {
 
 // 0x4ed978 _ZN7Structs8Listener4readEP11IStreamBase
 void Listener::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    StreamReader::readAs<float>(stream, &m_w5);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    Anchor = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    MaxDistance = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Orientation = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    RefDistance = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    StreamReader::readAs<float>(stream, &RolloffFactor);  // +0x14
+    UpVector = StreamReader::readAs<std::int32_t>(stream);  // +0x18
 }
 
 // 0x4c7c8c _ZN7Structs14ListenerVectorD2Ev
@@ -1722,9 +1722,9 @@ void ListenerVector::finalize() {
 
 // 0x4dc180 _ZN7Structs14ListenerVector4readEP11IStreamBase
 void ListenerVector::read(IStreamBase* stream) {
-    StreamReader::readAs<float>(stream, &m_w1);  // +0x4
-    StreamReader::readAs<float>(stream, &m_w2);  // +0x8
-    StreamReader::readAs<float>(stream, &m_w3);  // +0xc
+    StreamReader::readAs<float>(stream, &X);  // +0x4
+    StreamReader::readAs<float>(stream, &Y);  // +0x8
+    StreamReader::readAs<float>(stream, &Z);  // +0xc
 }
 
 // 0x4c588c _ZN7Structs19LizardManPropertiesD2Ev
@@ -1874,8 +1874,8 @@ void MerchandiseListEntry::finalize() {
 
 // 0x4f1bc0 _ZN7Structs20MerchandiseListEntry4readEP11IStreamBase
 void MerchandiseListEntry::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    ConditionId = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Merchandise = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c6750 _ZN7Structs18MerchantPropertiesD2Ev
@@ -1964,8 +1964,8 @@ void NumProb::finalize() {
 
 // 0x4dbc9c _ZN7Structs7NumProb4readEP11IStreamBase
 void NumProb::read(IStreamBase* stream) {
-    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
-    StreamReader::readAs<std::int16_t>(stream, &m_off6);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &Num);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &Prob);  // +0x6
 }
 
 // 0x4c5748 _ZN7Structs16PlayerPropertiesD2Ev
@@ -2008,9 +2008,9 @@ void Pos3D::finalize() {
 
 // 0x4ff4d8 _ZN7Structs5Pos3D4readEP11IStreamBase
 void Pos3D::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    x = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    y = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    z = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c6c48 _ZN7Structs10ProjectileD2Ev
@@ -2030,26 +2030,26 @@ void Projectile::finalize() {
 
 // 0x4edbb8 _ZN7Structs10Projectile4readEP11IStreamBase
 void Projectile::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<bool>(stream);  // +0x4
-    m_off5 = StreamReader::readAs<bool>(stream);  // +0x5
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
-    m_off29 = StreamReader::readAs<bool>(stream);  // +0x1d
-    StreamReader::readAs<float>(stream, &m_w8);  // +0x20
-    StreamReader::readAs<float>(stream, &m_w9);  // +0x24
-    m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
-    m_w11 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c
-    m_w12 = StreamReader::readAs<std::int32_t>(stream);  // +0x30
-    m_w13 = StreamReader::readAs<bool>(stream);  // +0x34
-    m_off53 = StreamReader::readAs<bool>(stream);  // +0x35
-    m_w14 = StreamReader::readAs<std::int32_t>(stream);  // +0x38
-    m_w15 = StreamReader::readAs<std::int32_t>(stream);  // +0x3c
-    StreamReader::readAs<float>(stream, &m_w16);  // +0x40
-    StreamReader::readAs<float>(stream, &m_w17);  // +0x44
+    Dedicated = StreamReader::readAs<bool>(stream);  // +0x4
+    DisappearOnHit = StreamReader::readAs<bool>(stream);  // +0x5
+    ExpireFX = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    ExpireSFX = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    FriendlyFire = StreamReader::readAs<bool>(stream);  // +0x10
+    ImpactFX = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    ImpactSFX = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    IsLaser = StreamReader::readAs<bool>(stream);  // +0x1c
+    IsMagic = StreamReader::readAs<bool>(stream);  // +0x1d
+    StreamReader::readAs<float>(stream, &MaxDistance);  // +0x20
+    StreamReader::readAs<float>(stream, &MaxRotation);  // +0x24
+    Model = StreamReader::readAs<std::int32_t>(stream);  // +0x28
+    ObjectImpactFX = StreamReader::readAs<std::int32_t>(stream);  // +0x2c
+    ObjectImpactSFX = StreamReader::readAs<std::int32_t>(stream);  // +0x30
+    StayOnFloor = StreamReader::readAs<bool>(stream);  // +0x34
+    TargetLock = StreamReader::readAs<bool>(stream);  // +0x35
+    TimeBetweenHit = StreamReader::readAs<std::int32_t>(stream);  // +0x38
+    Timer = StreamReader::readAs<std::int32_t>(stream);  // +0x3c
+    StreamReader::readAs<float>(stream, &Velocity);  // +0x40
+    StreamReader::readAs<float>(stream, &VelocityDamping);  // +0x44
 }
 
 // 0x4c6a08 _ZN7Structs4RectD2Ev
@@ -2069,10 +2069,10 @@ void Rect::finalize() {
 
 // 0x4f25c8 _ZN7Structs4Rect4readEP11IStreamBase
 void Rect::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Height = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    PosX = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    PosY = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Width = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 
 // 0x4c6984 _ZN7Structs16RepeatableSpriteD2Ev
@@ -2092,16 +2092,16 @@ void RepeatableSprite::finalize() {
 
 // 0x4dbf10 _ZN7Structs16RepeatableSprite4readEP11IStreamBase
 void RepeatableSprite::read(IStreamBase* stream) {
-    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
-    m_off6 = StreamReader::readAs<bool>(stream);  // +0x6
-    StreamReader::readAs<std::int16_t>(stream, &m_w2);  // +0x8
-    m_off10 = StreamReader::readAs<bool>(stream);  // +0xa
-    StreamReader::readAs<std::int16_t>(stream, &m_w3);  // +0xc
-    StreamReader::readAs<std::int16_t>(stream, &m_off14);  // +0xe
-    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-    StreamReader::readAs<std::int16_t>(stream, &m_off18);  // +0x12
-    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
-    StreamReader::readAs<std::int16_t>(stream, &m_off22);  // +0x16
+    StreamReader::readAs<std::int16_t>(stream, &AnimID);  // +0x4
+    Clip = StreamReader::readAs<bool>(stream);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &Height);  // +0x8
+    LeftAlign = StreamReader::readAs<bool>(stream);  // +0xa
+    StreamReader::readAs<std::int16_t>(stream, &PosX);  // +0xc
+    StreamReader::readAs<std::int16_t>(stream, &PosY);  // +0xe
+    Repeat = StreamReader::readAs<bool>(stream);  // +0x10
+    StreamReader::readAs<std::int16_t>(stream, &ResID);  // +0x12
+    TopAlign = StreamReader::readAs<bool>(stream);  // +0x14
+    StreamReader::readAs<std::int16_t>(stream, &Width);  // +0x16
 }
 
 // 0x4c6534 _ZN7Structs25ResurrectingGodPropertiesD2Ev
@@ -2199,9 +2199,9 @@ void SkeletonProperties::read(IStreamBase* stream) {
 // 0x4d1080 _ZN7Structs5SkillD2Ev
 // 0x4d1004 _ZN7Structs5SkillD1Ev
 Skill::~Skill() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    if (m_w10 != nullptr) CustomFree(m_w10);  // +0x28
-    if (m_w15 != nullptr) CustomFree(m_w15);  // +0x3c
+    if (DisplayProps != nullptr) CustomFree(DisplayProps);  // +0x10
+    if (Script != nullptr) CustomFree(Script);  // +0x28
+    if (SkillIcon != nullptr) CustomFree(SkillIcon);  // +0x3c
 }
 
 // 0x4d1064 _ZN7Structs5SkillD0Ev
@@ -2212,27 +2212,27 @@ void DeletingDestructor(Skill* self) {
 
 // 0x4d0fa4 _ZN7Structs5Skill8finalizeEv
 void Skill::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (DisplayProps != nullptr) {
+        CustomFree(DisplayProps);  // +0x10
+        DisplayPropsSize = 0;  // +0xc
+        DisplayProps = nullptr;
     }
-    if (m_w10 != nullptr) {
-        CustomFree(m_w10);  // +0x28
-        m_w9 = 0;  // +0x24
-        m_w10 = nullptr;
+    if (Script != nullptr) {
+        CustomFree(Script);  // +0x28
+        ScriptSize = 0;  // +0x24
+        Script = nullptr;
     }
-    if (m_w15 != nullptr) {
-        CustomFree(m_w15);  // +0x3c
-        m_w14 = 0;  // +0x38
-        m_w15 = nullptr;
+    if (SkillIcon != nullptr) {
+        CustomFree(SkillIcon);  // +0x3c
+        SkillIconSize = 0;  // +0x38
+        SkillIcon = nullptr;
     }
 }
 
 // 0x4d1164 _ZN7Structs9SkillListD2Ev
 // 0x4d1108 _ZN7Structs9SkillListD1Ev
 SkillList::~SkillList() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (List != nullptr) CustomFree(List);  // +0x8
 }
 
 // 0x4d1148 _ZN7Structs9SkillListD0Ev
@@ -2243,10 +2243,10 @@ void DeletingDestructor(SkillList* self) {
 
 // 0x4d10e0 _ZN7Structs9SkillList8finalizeEv
 void SkillList::finalize() {
-    if (m_w2 != nullptr) {
-        CustomFree(m_w2);  // +0x8
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (List != nullptr) {
+        CustomFree(List);  // +0x8
+        ListSize = 0;  // +0x4
+        List = nullptr;
     }
 }
 
@@ -2336,8 +2336,8 @@ void SoundAutoGen::finalize() {
 
 // 0x502af4 _ZN7Structs12SoundAutoGen4readEP11IStreamBase
 void SoundAutoGen::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Id = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Type = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c7c08 _ZN7Structs9SoundBankD2Ev
@@ -2357,8 +2357,8 @@ void SoundBank::finalize() {
 
 // 0x502bc8 _ZN7Structs9SoundBank4readEP11IStreamBase
 void SoundBank::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    MaxPlayback = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    MaxPlaybackBehavior = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c7c20 _ZN7Structs17SoundEventAutoGenD2Ev
@@ -2401,9 +2401,9 @@ void SpawnInfo::finalize() {
 
 // 0x502c98 _ZN7Structs9SpawnInfo4readEP11IStreamBase
 void SpawnInfo::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Char = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Prob = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Qty = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c5ee0 _ZN7Structs16SpiderPropertiesD2Ev
@@ -2446,9 +2446,9 @@ void StatAutoAssignTarget::finalize() {
 
 // 0x4ef520 _ZN7Structs20StatAutoAssignTarget4readEP11IStreamBase
 void StatAutoAssignTarget::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    AssignToStat = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    TargetStats = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    TargetWeight = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c5a3c _ZN7Structs19SwampKingPropertiesD2Ev
@@ -2491,8 +2491,8 @@ void TileOffset::finalize() {
 
 // 0x4dbbcc _ZN7Structs10TileOffset4readEP11IStreamBase
 void TileOffset::read(IStreamBase* stream) {
-    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
-    StreamReader::readAs<std::int16_t>(stream, &m_off6);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &X);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &Y);  // +0x6
 }
 
 // 0x4c6bc4 _ZN7Structs12TriggerPlateD2Ev
@@ -2512,13 +2512,13 @@ void TriggerPlate::finalize() {
 
 // 0x4ed35c _ZN7Structs12TriggerPlate4readEP11IStreamBase
 void TriggerPlate::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
+    Behavior = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    IsActive = StreamReader::readAs<bool>(stream);  // +0x8
+    SoundOff = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    SoundOn = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    SpecificObject = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    TriggerType = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    Visual = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
 }
 
 // 0x4c5b80 _ZN7Structs19TrollKingPropertiesD2Ev
@@ -2584,13 +2584,13 @@ void Trophy::finalize() {
 
 // 0x5060e0 _ZN7Structs6Trophy4readEP11IStreamBase
 void Trophy::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
+    Desc = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    GLIndex = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    GLLive = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Grade = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Label = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    Name = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    Type = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
 }
 
 // 0x4c5cc4 _ZN7Structs18Ugly_DogPropertiesD2Ev
@@ -2665,7 +2665,7 @@ void WitchProperties::read(IStreamBase* stream) {
 // 0x4cee08 _ZN7Structs14WldMapLocationD2Ev
 // 0x4cedac _ZN7Structs14WldMapLocationD1Ev
 WldMapLocation::~WldMapLocation() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (LocationLevels != nullptr) CustomFree(LocationLevels);  // +0x10
 }
 
 // 0x4cedec _ZN7Structs14WldMapLocationD0Ev
@@ -2676,10 +2676,10 @@ void DeletingDestructor(WldMapLocation* self) {
 
 // 0x4ced84 _ZN7Structs14WldMapLocation8finalizeEv
 void WldMapLocation::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (LocationLevels != nullptr) {
+        CustomFree(LocationLevels);  // +0x10
+        LocationLevelsSize = 0;  // +0xc
+        LocationLevels = nullptr;
     }
 }
 
@@ -2771,8 +2771,8 @@ void v2QuestObjective::finalize() {
 // 0x4d0114 _ZN7Structs20v2QuestObjectiveStubD2Ev
 // 0x4d00a0 _ZN7Structs20v2QuestObjectiveStubD1Ev
 v2QuestObjectiveStub::~v2QuestObjectiveStub() {
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    if (m_w7 != nullptr) CustomFree(m_w7);  // +0x1c
+    if (Str1 != nullptr) CustomFree(Str1);  // +0x14
+    if (Str2 != nullptr) CustomFree(Str2);  // +0x1c
 }
 
 // 0x4d00f8 _ZN7Structs20v2QuestObjectiveStubD0Ev
@@ -2783,15 +2783,15 @@ void DeletingDestructor(v2QuestObjectiveStub* self) {
 
 // 0x4d0008 _ZN7Structs20v2QuestObjectiveStub8finalizeEv
 void v2QuestObjectiveStub::finalize() {
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Str1 != nullptr) {
+        CustomFree(Str1);  // +0x14
+        Str1Size = 0;  // +0x10
+        Str1 = nullptr;
     }
-    if (m_w7 != nullptr) {
-        CustomFree(m_w7);  // +0x1c
-        m_w6 = 0;  // +0x18
-        m_w7 = nullptr;
+    if (Str2 != nullptr) {
+        CustomFree(Str2);  // +0x1c
+        Str2Size = 0;  // +0x18
+        Str2 = nullptr;
     }
     v2QuestObjective::finalize();
 }
@@ -2831,20 +2831,20 @@ void v2QuestRewardStub::finalize() {
 // 0x4d08a4 _ZN7Structs14v2QuestScriptsD2Ev
 // 0x4d03cc _ZN7Structs14v2QuestScriptsD1Ev
 v2QuestScripts::~v2QuestScripts() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
-    if (m_w10 != nullptr) CustomFree(m_w10);  // +0x28
-    if (m_w12 != nullptr) CustomFree(m_w12);  // +0x30
-    if (m_w14 != nullptr) CustomFree(m_w14);  // +0x38
-    if (m_w16 != nullptr) CustomFree(m_w16);  // +0x40
-    if (m_w18 != nullptr) CustomFree(m_w18);  // +0x48
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    if (m_w22 != nullptr) CustomFree(m_w22);  // +0x58
-    if (m_w24 != nullptr) CustomFree(m_w24);  // +0x60
-    if (m_w26 != nullptr) CustomFree(m_w26);  // +0x68
-    if (m_w28 != nullptr) CustomFree(m_w28);  // +0x70
+    if (OnActive != nullptr) CustomFree(OnActive);  // +0x8
+    if (OnAvailable != nullptr) CustomFree(OnAvailable);  // +0x10
+    if (OnClosed != nullptr) CustomFree(OnClosed);  // +0x18
+    if (OnComplete != nullptr) CustomFree(OnComplete);  // +0x20
+    if (OnFailed != nullptr) CustomFree(OnFailed);  // +0x28
+    if (OnPostActive != nullptr) CustomFree(OnPostActive);  // +0x30
+    if (OnPostAvailable != nullptr) CustomFree(OnPostAvailable);  // +0x38
+    if (OnPostClosed != nullptr) CustomFree(OnPostClosed);  // +0x40
+    if (OnPostComplete != nullptr) CustomFree(OnPostComplete);  // +0x48
+    if (OnPostLocked != nullptr) CustomFree(OnPostLocked);  // +0x50
+    if (OnPreActive != nullptr) CustomFree(OnPreActive);  // +0x58
+    if (OnPreAvailable != nullptr) CustomFree(OnPreAvailable);  // +0x60
+    if (OnPreClosed != nullptr) CustomFree(OnPreClosed);  // +0x68
+    if (OnPreComplete != nullptr) CustomFree(OnPreComplete);  // +0x70
 }
 
 // 0x4d0888 _ZN7Structs14v2QuestScriptsD0Ev
@@ -2855,75 +2855,75 @@ void DeletingDestructor(v2QuestScripts* self) {
 
 // 0x4d0238 _ZN7Structs14v2QuestScripts8finalizeEv
 void v2QuestScripts::finalize() {
-    if (m_w2 != nullptr) {
-        CustomFree(m_w2);  // +0x8
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (OnActive != nullptr) {
+        CustomFree(OnActive);  // +0x8
+        OnActiveSize = 0;  // +0x4
+        OnActive = nullptr;
     }
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (OnAvailable != nullptr) {
+        CustomFree(OnAvailable);  // +0x10
+        OnAvailableSize = 0;  // +0xc
+        OnAvailable = nullptr;
     }
-    if (m_w6 != nullptr) {
-        CustomFree(m_w6);  // +0x18
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (OnClosed != nullptr) {
+        CustomFree(OnClosed);  // +0x18
+        OnClosedSize = 0;  // +0x14
+        OnClosed = nullptr;
     }
-    if (m_w8 != nullptr) {
-        CustomFree(m_w8);  // +0x20
-        m_w7 = 0;  // +0x1c
-        m_w8 = nullptr;
+    if (OnComplete != nullptr) {
+        CustomFree(OnComplete);  // +0x20
+        OnCompleteSize = 0;  // +0x1c
+        OnComplete = nullptr;
     }
-    if (m_w10 != nullptr) {
-        CustomFree(m_w10);  // +0x28
-        m_w9 = 0;  // +0x24
-        m_w10 = nullptr;
+    if (OnFailed != nullptr) {
+        CustomFree(OnFailed);  // +0x28
+        OnFailedSize = 0;  // +0x24
+        OnFailed = nullptr;
     }
-    if (m_w12 != nullptr) {
-        CustomFree(m_w12);  // +0x30
-        m_w11 = 0;  // +0x2c
-        m_w12 = nullptr;
+    if (OnPostActive != nullptr) {
+        CustomFree(OnPostActive);  // +0x30
+        OnPostActiveSize = 0;  // +0x2c
+        OnPostActive = nullptr;
     }
-    if (m_w14 != nullptr) {
-        CustomFree(m_w14);  // +0x38
-        m_w13 = 0;  // +0x34
-        m_w14 = nullptr;
+    if (OnPostAvailable != nullptr) {
+        CustomFree(OnPostAvailable);  // +0x38
+        OnPostAvailableSize = 0;  // +0x34
+        OnPostAvailable = nullptr;
     }
-    if (m_w16 != nullptr) {
-        CustomFree(m_w16);  // +0x40
-        m_w15 = 0;  // +0x3c
-        m_w16 = nullptr;
+    if (OnPostClosed != nullptr) {
+        CustomFree(OnPostClosed);  // +0x40
+        OnPostClosedSize = 0;  // +0x3c
+        OnPostClosed = nullptr;
     }
-    if (m_w18 != nullptr) {
-        CustomFree(m_w18);  // +0x48
-        m_w17 = 0;  // +0x44
-        m_w18 = nullptr;
+    if (OnPostComplete != nullptr) {
+        CustomFree(OnPostComplete);  // +0x48
+        OnPostCompleteSize = 0;  // +0x44
+        OnPostComplete = nullptr;
     }
-    if (m_w20 != nullptr) {
-        CustomFree(m_w20);  // +0x50
-        m_w19 = 0;  // +0x4c
-        m_w20 = nullptr;
+    if (OnPostLocked != nullptr) {
+        CustomFree(OnPostLocked);  // +0x50
+        OnPostLockedSize = 0;  // +0x4c
+        OnPostLocked = nullptr;
     }
-    if (m_w22 != nullptr) {
-        CustomFree(m_w22);  // +0x58
-        m_w21 = 0;  // +0x54
-        m_w22 = nullptr;
+    if (OnPreActive != nullptr) {
+        CustomFree(OnPreActive);  // +0x58
+        OnPreActiveSize = 0;  // +0x54
+        OnPreActive = nullptr;
     }
-    if (m_w24 != nullptr) {
-        CustomFree(m_w24);  // +0x60
-        m_w23 = 0;  // +0x5c
-        m_w24 = nullptr;
+    if (OnPreAvailable != nullptr) {
+        CustomFree(OnPreAvailable);  // +0x60
+        OnPreAvailableSize = 0;  // +0x5c
+        OnPreAvailable = nullptr;
     }
-    if (m_w26 != nullptr) {
-        CustomFree(m_w26);  // +0x68
-        m_w25 = 0;  // +0x64
-        m_w26 = nullptr;
+    if (OnPreClosed != nullptr) {
+        CustomFree(OnPreClosed);  // +0x68
+        OnPreClosedSize = 0;  // +0x64
+        OnPreClosed = nullptr;
     }
-    if (m_w28 != nullptr) {
-        CustomFree(m_w28);  // +0x70
-        m_w27 = 0;  // +0x6c
-        m_w28 = nullptr;
+    if (OnPreComplete != nullptr) {
+        CustomFree(OnPreComplete);  // +0x70
+        OnPreCompleteSize = 0;  // +0x6c
+        OnPreComplete = nullptr;
     }
 }
 

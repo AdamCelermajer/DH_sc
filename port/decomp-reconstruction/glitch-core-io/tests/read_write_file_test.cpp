@@ -1,3 +1,4 @@
+#include "glitch-core-io/io/file_system.hpp"
 #include "glitch-core-io/io/read_file.hpp"
 #include "glitch-core-io/io/write_file.hpp"
 
@@ -40,12 +41,24 @@ int main() {
         delete c;
     }
 
-    // Obfuscated read: the first bytes are shifted by (~pos - i).
+    // The constructor argument is overwritten once the file opens (0x5704cc copies the CFile's byte at +0x24 into +0x2c), so
+    // the argument alone does nothing: the file is read plain.
     {
         glitch::io::CReadFile r(name, true);
         char buf[2] = {0};
         r.read(buf, 2);
+        CHECK(buf[0] == 'a' && buf[1] == 'b');
+    }
+
+    // Obfuscated read: a name found in the obfuscation map opens a CFile with the flag set, and the first bytes are shifted
+    // by (~pos - i).
+    {
+        glitch::io::CFileSystem::ObfuscationMap[name] = name;
+        glitch::io::CReadFile r(name, false);
+        char buf[2] = {0};
+        r.read(buf, 2);
         CHECK(static_cast<unsigned char>(buf[0]) == static_cast<unsigned char>('a' + static_cast<unsigned char>(~0u)));
+        glitch::io::CFileSystem::ObfuscationMap.clear();
     }
 
     // Missing file: not open, size 0.

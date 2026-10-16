@@ -1,3 +1,4 @@
+#include "glitch-core-io/core/process_buffer.hpp"
 #include "glitch-video/s_new_buffer_allocator.hpp"
 
 namespace glitch::video::detail {
@@ -20,5 +21,15 @@ boost::intrusive_ptr<IBuffer> SNewBufferAllocator<Driver>::allocate(uint32_t siz
 
 // The only instance the original uses.
 template struct SNewBufferAllocator<IVideoDriver>;
+
+// 0x5abaa8 _ZNK6glitch5video6detail31SProcessBufferHeapBufferAllocator7releaseERKN5boost13intrusive_ptrINS0_7IBufferEEE
+void SProcessBufferHeapBufferAllocator::release(const boost::intrusive_ptr<IBuffer>& buffer) const {
+    boost::intrusive_ptr<IBuffer> held(buffer);
+    uint8_t* block = buffer->map(static_cast<E_BUFFER_MAP_ACCESS>(4));
+    glitch::core::releaseProcessBuffer(block);
+    if (block != nullptr) held->unmap();
+    held.reset();
+    buffer->reset(0, nullptr, true);
+}
 
 }  // namespace glitch::video::detail

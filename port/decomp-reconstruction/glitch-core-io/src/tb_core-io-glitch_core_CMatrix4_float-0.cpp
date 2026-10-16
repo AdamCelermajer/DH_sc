@@ -93,13 +93,14 @@ int CMatrix4<float>::getInverse(CMatrix4<float>& out) const {
 // The listing calls atan2 and cos with double arguments, so the arithmetic is done in double.
 template <>
 vector3d<float> CMatrix4<float>::getRotationDegrees() const {
-    constexpr double kRadToDeg = 57.2957795;
+    constexpr double kRadToDeg = 57.29577951308232;
     const double pitch = static_cast<double>(-std::asin(M[2]));  // v4
     const double cosPitch = std::cos(pitch);                     // v5
     double angleY = pitch * kRadToDeg;                           // v6
     double angleX = 0.0;                                         // v8
     double angleZ = 0.0;                                         // v9
-    if (std::fabs(cosPitch) <= 0.00000001) {
+    // The listing branches on !(|cos| > 1e-8) (dcmpgt), so a NaN pitch (|M[2]| > 1) takes the gimbal-lock path too.
+    if (!(std::fabs(cosPitch) > 0.00000001)) {
         angleZ = std::atan2(static_cast<double>(-M[4]), static_cast<double>(M[5])) * kRadToDeg;
     } else {
         const double inv = 1.0 / cosPitch;

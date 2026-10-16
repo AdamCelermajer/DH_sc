@@ -121,9 +121,9 @@ bool Script_EnqueueCharMenuTutorialMessage::IsBlocking() const {
 void Script_EnqueueCharMenuTutorialMessage::Execute(bool /*skipping*/, int /*module*/) {
     auto* args = static_cast<Structs::EnqueueCharMenuTutorialMessage*>(m_args);
     CharMenuTutorialMsg message(-1, std::string(), std::string());
-    message.m_stringId = args->m_w6;
-    message.m_frame.assign(args->m_w3);
-    message.m_menu.assign(args->m_w5);
+    message.m_stringId = args->Text;
+    message.m_frame.assign(args->Frame);
+    message.m_menu.assign(args->Menu);
     MenuMessageManager<CharMenuTutorialMsg, 1>::s_inst.m_queues[0].push_back(message);
 }
 
@@ -141,9 +141,9 @@ bool Script_EnqueueTutorialMessage::IsBlocking() const {
 // TutorialMsg::s_StartFuncName ("onTutorialMessage") is invoked on the HUD root (Invoke reads no queue argument).
 void Script_EnqueueTutorialMessage::Execute(bool /*skipping*/, int /*module*/) {
     auto* args = static_cast<Structs::EnqueueTutorialMessage*>(m_args);
-    if (args->m_w3 >= 0) {
+    if (args->Text >= 0) {
         MenuMessageManager<TutorialMsg, 1>& manager = MenuMessageManager<TutorialMsg, 1>::s_inst;
-        manager.m_queues[0].push_back(TutorialMsg(args->m_w3, args->m_w2));
+        manager.m_queues[0].push_back(TutorialMsg(args->Text, args->Duration));
         if (manager.m_queues[0].size() == 1) {
             manager.Invoke(TutorialMsg::s_StartFuncName[0], 0);
         }
@@ -223,7 +223,7 @@ void Script_EnterSafeZone::Execute(bool /*skipping*/, int /*module*/) {
 // running (ScriptManager::IsScriptRunning); with it clear it does not block.
 bool Script_ExecScript::IsBlocking() const {
     const auto* record = static_cast<const Structs::ExecScript*>(m_args);
-    if (record->m_w6) {
+    if (record->Wait) {
         return ScriptManager::s_inst.IsScriptRunning(unk_10);
     }
     return false;
@@ -239,13 +239,13 @@ bool Script_ExecScript::IsBlocking() const {
 void Script_ExecScript::Execute(bool /*skipping*/, int module) {
     const auto* record = static_cast<const Structs::ExecScript*>(m_args);
     int id;
-    if (record->m_w4 != 0) {
-        id = record->m_w5[Random::GetRandom(static_cast<int>(record->m_w4), false)];
+    if (record->ScriptAltsSize != 0) {
+        id = record->ScriptAlts[Random::GetRandom(static_cast<int>(record->ScriptAltsSize), false)];
     } else {
-        id = record->m_w3;
+        id = record->Script;
     }
     TraceScriptCmdSwitch();
-    if (!record->m_w2) {
+    if (!record->IsGlobal) {
         id += ScriptManager::s_inst.m_loadedCount;
     }
     unk_10 = id;
@@ -332,7 +332,7 @@ void Script_HideActor::Execute(bool /*skipping*/, int module) {
     auto* args = static_cast<Structs::HideActor*>(m_args);
     TraceScriptCmdSwitch();
     ObjectHandle handle =
-        ApplicationGetInstance().m_objectManager->GetObjectByName(args->m_w3, module, false, nullptr);
+        ApplicationGetInstance().m_objectManager->GetObjectByName(args->Target, module, false, nullptr);
     if (handle.GetObject(false)) {
         GameObject* object = handle;
         if (object) {

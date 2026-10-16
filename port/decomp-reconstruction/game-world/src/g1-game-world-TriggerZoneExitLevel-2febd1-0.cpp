@@ -91,7 +91,7 @@ void TriggerZoneExitLevel::Update() {
     auto displayFastTravel = [this](bool show) {
         const int row = pydata::FindMemberName(Arrays::LevelList::m_memberNames, static_cast<int>(Arrays::LevelList::size), m_levelName.c_str());
         const Structs::LevelDeclaration& declaration = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[row];
-        const char* text = ApplicationGetStringManager()->getString(declaration.m_w9);
+        const char* text = ApplicationGetStringManager()->getString(declaration.LevelName);
         gameswf::as_value arguments[4];
         arguments[0] = gameswf::as_value(show);
         arguments[1] = gameswf::as_value(text);

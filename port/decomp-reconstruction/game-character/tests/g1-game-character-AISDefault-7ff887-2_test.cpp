@@ -531,11 +531,11 @@ Structs::FootstepEffect g_footstepRow[1];
 alignas(PFFloor) unsigned char g_floorStorage[sizeof(PFFloor)];
 
 void SetFootstepWorld(bool allowed, const char* material) {
-    g_charEffectRow[0].m_w5 = allowed;
-    g_footstepRow[0].m_w1 = 9;
-    if (g_footstepRow[0].m_w3 == nullptr) {
-        g_footstepRow[0].m_w3 = static_cast<char*>(std::malloc(6));  // the record frees its string buffer in its destructor
-        std::strcpy(g_footstepRow[0].m_w3, "stone");
+    g_charEffectRow[0].TriggerFloorFX = allowed;
+    g_footstepRow[0].Effect = 9;
+    if (g_footstepRow[0].Floortype == nullptr) {
+        g_footstepRow[0].Floortype = static_cast<char*>(std::malloc(6));  // the record frees its string buffer in its destructor
+        std::strcpy(g_footstepRow[0].Floortype, "stone");
     }
     Arrays::CharEffectTable::members = reinterpret_cast<std::uint8_t*>(g_charEffectRow);
     Arrays::CharEffectTable::size = 1;

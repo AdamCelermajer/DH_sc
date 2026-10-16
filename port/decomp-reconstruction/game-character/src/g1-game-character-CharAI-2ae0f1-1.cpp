@@ -232,17 +232,17 @@ void CharAI::SetSkillsAndSpells() {
 
     if (m_skillScripts.empty()) {
         const Structs::SkillList* skillList = static_cast<const Structs::SkillList*>(m_character->GetCharSkillList());
-        m_skillScripts.reserve(skillList->m_w1);
+        m_skillScripts.reserve(skillList->ListSize);
         sfc::script::lua::Arguments arguments;
         arguments.pushString("");
         arguments.pushInteger(-1);
-        for (int i = 0; static_cast<unsigned int>(i) < skillList->m_w1; ++i) {
+        for (int i = 0; static_cast<unsigned int>(i) < skillList->ListSize; ++i) {
             const Structs::Skill* skill = static_cast<const Structs::Skill*>(m_character->GetCharSkill(i));
-            if (skill->m_w9 == 0) {
+            if (skill->ScriptSize == 0) {
                 m_skillScripts.push_back(nullptr);
                 continue;
             }
-            const char* name = static_cast<const char*>(skill->m_w10);
+            const char* name = static_cast<const char*>(skill->Script);
             m_script->Load("_commons");
             arguments.m_values->at(0).setString(name);
             arguments.m_values->at(1).setNumber(static_cast<float>(i));
@@ -258,17 +258,17 @@ void CharAI::SetSkillsAndSpells() {
 
     if (m_spellScripts.empty()) {
         const Structs::FaeryList* faeryList = static_cast<const Structs::FaeryList*>(m_character->GetCharFaeryList());
-        m_spellScripts.reserve(faeryList->m_w1);
+        m_spellScripts.reserve(faeryList->ListSize);
         sfc::script::lua::Arguments arguments;
         arguments.pushString("");
         arguments.pushInteger(-1);
-        for (int i = 0; static_cast<unsigned int>(i) < faeryList->m_w1; ++i) {
+        for (int i = 0; static_cast<unsigned int>(i) < faeryList->ListSize; ++i) {
             const Structs::Faery* faery = static_cast<const Structs::Faery*>(m_character->GetCharFaery(i));
-            if (faery->m_w5 == 0) {
+            if (faery->SpellScriptSize == 0) {
                 m_spellScripts.push_back(nullptr);
                 continue;
             }
-            const char* name = static_cast<const char*>(faery->m_w6);
+            const char* name = static_cast<const char*>(faery->SpellScript);
             m_script->Load("_commons");
             arguments.m_values->at(0).setString(name);
             arguments.m_values->at(1).setNumber(-1.0f);
@@ -431,8 +431,8 @@ void CharAI::StepCreateScript() {
     const Structs::AIProps* row = m_character->GetCharAI();
     DebugSwitches::GetInstance()->load();
     DebugSwitches::GetInstance()->GetSwitch("isTracingChar_Init");
-    if (row->m_w10 != 0) {
-        SetScriptByName(static_cast<const char*>(row->m_w11));
+    if (row->ScriptSize != 0) {
+        SetScriptByName(static_cast<const char*>(row->Script));
         m_usesCommons = true;
     } else {
         if (std::strcmp(m_character->m_gameType.c_str(), "Player") != 0) {
@@ -564,7 +564,7 @@ void CharAI::_UpdateAggro() {
                 players.m_list = &dword_99F764->unk_70;  // ObjectManager +0x70
                 players.m_current = players.m_list->begin();
                 players.m_end = players.m_list->end();
-                nearest.Search(m_character->GetCharAI()->m_w16, kCharAIFullCircle, players);
+                nearest.Search(m_character->GetCharAI()->ViewRadiusNoAggro, kCharAIFullCircle, players);
                 if (nearest.m_results.empty()) {
                     AI_ClearAggro(current);
                     AI_SetTarget(nullptr, false);
@@ -581,7 +581,7 @@ void CharAI::_UpdateAggro() {
                         nearest.m_results.pop();
                     }
                     if (!hasAggro && inResults && AI_IsEnemy(local)) {
-                        AI_AddAggro(local, reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w12);
+                        AI_AddAggro(local, reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->EnemySpottedAggro);
                     }
                 }
             } else {
@@ -593,7 +593,7 @@ void CharAI::_UpdateAggro() {
             const float currentAggro = AI_GetAggro(current);
             const float highestAggro = AI_GetAggro(highest);
             if (highestAggro >
-                currentAggro * reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w2) {
+                currentAggro * reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->AggroTargetSwitchPct) {
                 DebugSwitches::GetInstance()->GetSwitch("isTracingThreatChange");  // the result is unused
                 AI_SetTarget(highest, false);
             }
@@ -607,11 +607,11 @@ void CharAI::_UpdateAggro() {
     // Threat search. The range is the AITable row's m_w15 (+0x3c); a spawning character with a spawn view radius uses that
     // radius, and a character without aggro uses m_w16 (+0x40). The row is Character::GetCharAI().
     const Structs::AIProps* row = m_character->GetCharAI();
-    float range = row->m_w15;
+    float range = row->ViewRadius;
     if (m_character->SM_IsAwaitingToSpawn() && m_character->m_spawnViewRadius > 0.0f) {
         range = m_character->m_spawnViewRadius;  // Character +0x143c
     } else if (!AI_HasAggro()) {
-        range = row->m_w16;
+        range = row->ViewRadiusNoAggro;
     }
 
     ObjectSearcher::TargetList found(m_character, 0x7FFFFFFF, 2, 1);

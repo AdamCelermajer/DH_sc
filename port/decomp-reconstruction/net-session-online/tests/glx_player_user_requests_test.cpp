@@ -34,7 +34,7 @@ public:
 // Records the rejected-argument reports (slot 3, OnResponseError).
 class RecordingObserver : public GLXPlayerObserver {
 public:
-    void OnResponseError(std::int32_t code, std::int32_t detail) override {
+    void OnRequestFailure(std::int32_t code, std::int32_t detail) override {
         ++errors;
         lastCode = code;
         lastDetail = detail;

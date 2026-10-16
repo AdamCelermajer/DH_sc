@@ -42,7 +42,7 @@ int main() {
         ByteStream s(b);
         Structs::ScriptCmd base;
         base.read(&s);
-        CHECK(base.m_w1 == -2);
+        CHECK(base.ID == -2);
     }
 
     // AIChangeScript: int32 base word, then length 3 and "abc", then length 2 and "xy".
@@ -56,11 +56,11 @@ int main() {
         ByteStream s(b);
         Structs::AIChangeScript* c = new Structs::AIChangeScript();
         c->read(&s);
-        CHECK(c->m_w1 == 7);
-        CHECK(c->m_w2 == 3);
-        CHECK(c->m_w4 == 2);
-        CHECK(c->m_w3 != nullptr && std::strcmp(c->m_w3, "abc") == 0);
-        CHECK(c->m_w5 != nullptr && std::strcmp(c->m_w5, "xy") == 0);
+        CHECK(c->ID == 7);
+        CHECK(c->ScriptSize == 3);
+        CHECK(c->TargetSize == 2);
+        CHECK(c->Script != nullptr && std::strcmp(c->Script, "abc") == 0);
+        CHECK(c->Target != nullptr && std::strcmp(c->Target, "xy") == 0);
         delete c;  // frees both buffers
     }
 
@@ -74,12 +74,12 @@ int main() {
         ByteStream s(b);
         Structs::AIDoSkill* d = new Structs::AIDoSkill();
         d->read(&s);
-        CHECK(d->m_w1 == 9);
-        CHECK(d->m_w2 == -5);
-        CHECK(d->m_w3 == 2);
-        CHECK(d->m_w4 != nullptr && std::strcmp(d->m_w4, "hi") == 0);
+        CHECK(d->ID == 9);
+        CHECK(d->Skill == -5);
+        CHECK(d->TargetSize == 2);
+        CHECK(d->Target != nullptr && std::strcmp(d->Target, "hi") == 0);
         d->finalize();  // frees the buffer at +0x10 and clears it with its length at +0xc (the listing does both)
-        CHECK(d->m_w4 == nullptr && d->m_w3 == 0);
+        CHECK(d->Target == nullptr && d->TargetSize == 0);
         delete d;
     }
 
@@ -98,12 +98,12 @@ int main() {
         ByteStream s(b);
         Structs::AIDoSkill* d = new Structs::AIDoSkill();
         d->read(&s);
-        CHECK(d->m_w4 != nullptr && std::strcmp(d->m_w4, "hi") == 0);
+        CHECK(d->Target != nullptr && std::strcmp(d->Target, "hi") == 0);
         d->read(&s);
-        CHECK(d->m_w1 == 4);
-        CHECK(d->m_w2 == 7);
-        CHECK(d->m_w3 == 3);
-        CHECK(d->m_w4 != nullptr && std::strcmp(d->m_w4, "xyz") == 0);
+        CHECK(d->ID == 4);
+        CHECK(d->Skill == 7);
+        CHECK(d->TargetSize == 3);
+        CHECK(d->Target != nullptr && std::strcmp(d->Target, "xyz") == 0);
         unsigned char extra = 0;
         CHECK(!s.ReadBytes(&extra, 1));  // every byte was consumed
         delete d;  // frees "xyz"
@@ -124,12 +124,12 @@ int main() {
         ByteStream s(b);
         Structs::CloseDoor* c = new Structs::CloseDoor();
         c->read(&s);
-        CHECK(c->m_w3 != nullptr && std::strcmp(c->m_w3, "abc") == 0);
-        CHECK(c->m_w4 == true);
+        CHECK(c->Target != nullptr && std::strcmp(c->Target, "abc") == 0);
+        CHECK(c->Wait == true);
         c->read(&s);
-        CHECK(c->m_w2 == 2);
-        CHECK(c->m_w3 != nullptr && std::strcmp(c->m_w3, "xy") == 0);
-        CHECK(c->m_w4 == false);
+        CHECK(c->TargetSize == 2);
+        CHECK(c->Target != nullptr && std::strcmp(c->Target, "xy") == 0);
+        CHECK(c->Wait == false);
         delete c;  // frees "xy"
     }
 
@@ -146,12 +146,12 @@ int main() {
         ByteStream s(b);
         Structs::MoveActor* m = new Structs::MoveActor();
         m->read(&s);
-        CHECK(m->m_w2 == 2);
-        CHECK(m->m_w3 != nullptr && std::strcmp(m->m_w3, "hi") == 0);
-        CHECK(m->m_w4 == true);
-        CHECK(m->m_w5 == 3);
-        CHECK(m->m_w6 != nullptr && std::strcmp(m->m_w6, "xyz") == 0);
-        CHECK(m->m_w7 == false);
+        CHECK(m->DestinationSize == 2);
+        CHECK(m->Destination != nullptr && std::strcmp(m->Destination, "hi") == 0);
+        CHECK(m->Forced == true);
+        CHECK(m->TargetSize == 3);
+        CHECK(m->Target != nullptr && std::strcmp(m->Target, "xyz") == 0);
+        CHECK(m->Wait == false);
         delete m;  // frees both buffers
     }
 
@@ -160,7 +160,7 @@ int main() {
         ByteStream s(std::vector<unsigned char>{1, 2});
         Structs::ScriptCmd base;
         base.read(&s);
-        CHECK(base.m_w1 == 0);
+        CHECK(base.ID == 0);
     }
 
     std::printf("%s\n", failures ? "script_cmd_records: FAILED" : "script_cmd_records: ok");

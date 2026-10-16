@@ -1,40 +1,61 @@
-// GLXPlayerMPBase and its observer. The observer's vtable (_ZTV23GLXPlayerMPBaseObserver)
-// lists the callbacks below in this order: slot 0 OnMPFinishGameSuccess,
-// slot 1 OnMPuPnPTestSuccess, ... slot 13 OnMPJoinPreDefinedRoomSessionSuccess.
-// The callbacks have empty bodies in the original, so they are no-op virtuals here.
+// GLXPlayerMPBase and its observer. The observer's vtable (_ZTV23GLXPlayerMPBaseObserver) lists 25 slots: eleven pure ones
+// that CMatchingGLLiveLobbyObserver implements (OnMPNetworkError .. OnMPStartGameSuccess), then fourteen with empty bodies
+// (OnMPFinishGameSuccess .. OnMPJoinPreDefinedRoomSessionSuccess).
 //
 // GLXPlayerMPBase layout (original 32-bit offsets, kept as comments):
-//   +0x00 vptr  +0x04 observer  +0x4c error message (char*, owned)
-//   +0x58 set by LoadConfig     +0x68 aux object (virtual dtor)
-//   +0x6c zeroed by Init        +0x70 zeroed by Init (byte)  +0x71 zeroed by ctor (byte)
+//   +0x00 vptr  +0x04 observer  +0x08 name for the connection (0x40 bytes)  +0x48 GGI (the game id GGI of the config)
+//   +0x4c error message (char*, owned)  +0x50 last result (-1 pending, 0x32 refused, 0x28 timeout, ...)
+//   +0x54 Connection* (the base's own, replaced by mpSendEstablishConnection)  +0x58 server address (char*, owned)
+//   +0x5c server port  +0x60 state  +0x68 the current incoming DataPacket (owned)  +0x6c connection state word
+//   +0x70 and +0x71 flag bytes
+// GLXPlayerMPLobby (glx_player_mp_lobby.hpp) continues at +0x74.
+//
+// Virtual slots (the vtable _ZTV15GLXPlayerMPBase, 84 bytes): +0x08 Update, +0x0c mpSendEstablishConnection, +0x10
+// mpPrepareGameData, +0x14 mpSendDisconnect, +0x18 mpDisconnect, +0x1c and +0x20 mpSendKickOutPlayer, +0x24 mpSendLeaveGame,
+// +0x28 mpSendStartGame, +0x2c mpSendFinishGame, +0x30 mpIsInSession, +0x34 mpIsInRoom, +0x38 mpIsInGame, +0x3c mpIsMaster,
+// +0x40 mpSendUPnPPortMapping, +0x44 mpProcessIncomingMessages, +0x48 mpProcessPushMessages. The slots the base leaves
+// pure (+0x08, +0x18, +0x30..+0x3c, +0x44) are inert defaults here so the base stays instantiable (the tests use it).
 #pragma once
 
 #include <cstdint>
 #include <memory>
+
+#include "net-transport/connection_base.hpp"  // Connection (one definition, net-transport)
 
 class DataPacket;
 
 class GLXPlayerMPBaseObserver {
 public:
     virtual ~GLXPlayerMPBaseObserver() = default;
-    virtual void OnMPFinishGameSuccess() {}                                  // slot 0
-    virtual void OnMPuPnPTestSuccess() {}                                    // slot 1
-    virtual void OnMPLeaveGameSuccess() {}                                   // slot 2
-    virtual void OnMPSetParamSuccess(std::int32_t) {}                        // slot 3
-    virtual void OnMPProcessPushMessages(DataPacket*, std::int32_t) {}       // slot 4
-    virtual void OnMPRejoinLobbySuccess(DataPacket*, bool) {}                // slot 5
-    virtual void OnMPGetLobbyInfo(DataPacket*) {}                            // slot 6
-    virtual void OnMPStartGameFailed(std::int32_t) {}                        // slot 7
-    virtual void OnMPGetLobbyForName(DataPacket*) {}                         // slot 8
-    virtual void OnMPGetLobbyForFriend(DataPacket*) {}                       // slot 9
-    virtual void OnMPAutoMatchRequeset(std::int32_t) {}                      // slot 10 (sic)
-    virtual void OnMPAutoMatchRequesetCancel() {}                            // slot 11 (sic)
-    virtual void OnMPGetPlayerCounterSuccess(DataPacket*) {}                 // slot 12
-    virtual void OnMPJoinPreDefinedRoomSessionSuccess(DataPacket*) {}        // slot 13
+    // The first eleven slots (+0x00..+0x28) are pure virtual in _ZTV23GLXPlayerMPBaseObserver (108 bytes, 25 slots) and
+    // are implemented by CMatchingGLLiveLobbyObserver. They are inert defaults here so the base stays instantiable (the
+    // tests use it); the slot order is the binary's.
+    virtual void OnMPNetworkError(std::int32_t) {}                           // +0x00
+    virtual void OnMPFunctionError(char*, std::int32_t) {}                   // +0x04
+    virtual void OnMPEstablishConnectionSuccess() {}                         // +0x08
+    virtual void OnMPDisconnectSuccess() {}                                  // +0x0c
+    virtual void OnMPLoginSuccess(DataPacket*) {}                            // +0x10
+    virtual void OnMPCreateSessionSuccess(DataPacket*) {}                    // +0x14
+    virtual void OnMPListSessionSuccess(DataPacket*) {}                      // +0x18
+    virtual void OnMPJoinSessionSuccess(DataPacket*) {}                      // +0x1c
+    virtual std::int32_t OnMPLeaveSessionSuccess() { return 0; }             // +0x20 (the lobby observer returns a leftover)
+    virtual void OnMPKickOutPlayerSuccess() {}                               // +0x24
+    virtual void OnMPStartGameSuccess(DataPacket*) {}                        // +0x28
+    virtual void OnMPFinishGameSuccess() {}                                  // +0x2c
+    virtual void OnMPuPnPTestSuccess() {}                                    // +0x30
+    virtual void OnMPLeaveGameSuccess() {}                                   // +0x34
+    virtual void OnMPSetParamSuccess(std::int32_t) {}                        // +0x38
+    virtual std::int32_t OnMPProcessPushMessages(DataPacket*, std::int32_t) { return 0; }  // +0x3c
+    virtual void OnMPRejoinLobbySuccess(DataPacket*, bool) {}                // +0x40
+    virtual void OnMPGetLobbyInfo(DataPacket*) {}                            // +0x44
+    virtual void OnMPStartGameFailed(std::int32_t) {}                        // +0x48
+    virtual void OnMPGetLobbyForName(DataPacket*) {}                         // +0x4c
+    virtual void OnMPGetLobbyForFriend(DataPacket*) {}                       // +0x50
+    virtual void OnMPAutoMatchRequeset(std::int32_t) {}                      // +0x54 (sic)
+    virtual void OnMPAutoMatchRequesetCancel() {}                            // +0x58 (sic)
+    virtual void OnMPGetPlayerCounterSuccess(DataPacket*) {}                 // +0x5c
+    virtual void OnMPJoinPreDefinedRoomSessionSuccess(DataPacket*) {}        // +0x60
 };
-
-class ThreadHandle;
-class ConnectionTransport;
 
 class GLXPlayerMPBase {
 public:
@@ -50,41 +71,47 @@ public:
     const char* getErrMsg() const;
     // 0x84ab9c _ZN15GLXPlayerMPBase9setErrMsgEPc
     void setErrMsg(const char* message);
-    // 0x84abd8 _ZN15GLXPlayerMPBase9setErrMsgEv. Partial, see the cpp.
+    // 0x84abd8 _ZN15GLXPlayerMPBase9setErrMsgEv: frees the old message and copies the text of the current incoming packet.
     void setErrMsg();
 
     // 0x84ac64 _ZN15GLXPlayerMPBase11mpSendLoginEPc
     void mpSendLogin(char* nickname);
-    // 0x84ad78 _ZN15GLXPlayerMPBase25mpSendEstablishConnectionEv. Partial, see the cpp.
-    void mpSendEstablishConnection();
 
-    // Not in the original: test seams for the transport pointer (+0x54) and the state (+0x50).
-    void SetTransportForTest(ConnectionTransport* transport) { transport_ = transport; }
-    std::int32_t Field50ForTest() const { return field50_; }
+    // Virtual slots, in the binary's order.
+    virtual void Update() {}                             // +0x08 (pure in the base)
+    virtual void mpSendEstablishConnection();            // +0x0c 0x84ad78
+    virtual void mpPrepareGameData() {}                  // +0x10 0x83760c
+    virtual void mpSendDisconnect();                     // +0x14 0x84ae28
+    virtual void mpDisconnect() {}                       // +0x18 (pure in the base)
+    virtual void mpSendKickOutPlayer(char*) {}           // +0x1c 0x837614
+    virtual void mpSendKickOutPlayer(unsigned short*) {}  // +0x20 0x837618
+    virtual void mpSendLeaveGame() {}                    // +0x24 0x83761c
+    virtual void mpSendStartGame() {}                    // +0x28 0x837620
+    virtual void mpSendFinishGame() {}                   // +0x2c 0x837624
+    virtual bool mpIsInSession() { return false; }       // +0x30 (pure in the base)
+    virtual bool mpIsInRoom() { return false; }          // +0x34 (pure in the base)
+    virtual bool mpIsInGame() { return false; }          // +0x38 (pure in the base)
+    virtual bool mpIsMaster() { return false; }          // +0x3c (pure in the base)
+    virtual void mpSendUPnPPortMapping() {}              // +0x40 0x837628
+    virtual std::int32_t mpProcessIncomingMessages() { return 0; }  // +0x44 (pure in the base)
+    virtual void mpProcessPushMessages() {}              // +0x48 0x83762c
+
+    // Not in the original: test seams for the connection (+0x54) and the state (+0x50).
+    void SetConnectionForTest(std::unique_ptr<Connection> connection) { baseConnection_ = std::move(connection); }
+    std::int32_t Field50ForTest() const { return lastResult_; }
     std::uint8_t Field71ForTest() const { return field71_; }
 
-    // Empty virtual defaults in the original (4-byte bodies).
-    // 0x84ae28 _ZN15GLXPlayerMPBase16mpSendDisconnectEv, vtable +0x14. Partial, see the cpp.
-    virtual void mpSendDisconnect();
-    virtual void mpPrepareGameData() {}                 // 0x83760c
-    virtual void mpSendKickOutPlayer(char*) {}          // 0x837614
-    virtual void mpSendKickOutPlayer(unsigned short*) {}  // 0x837618
-    virtual void mpSendLeaveGame() {}                   // 0x83761c
-    virtual void mpSendStartGame() {}                   // 0x837620
-    virtual void mpSendFinishGame() {}                  // 0x837624
-    virtual void mpSendUPnPPortMapping() {}             // 0x837628
-    virtual void mpProcessPushMessages() {}             // 0x83762c
-
-protected:
+    // Members are public (Track B decision 9): the lobby continues this layout.
     GLXPlayerMPBaseObserver* observer_ = nullptr;       // +0x04
+    char name_[0x40] = {};                              // +0x08 (the name handed to Connection::setName)
+    std::int32_t ggi_ = 0;                              // +0x48 (the game id GGI, request argument of the lobby sends)
     std::unique_ptr<char[]> errMsg_;                    // +0x4c
-    char field08_[0x44] = {};                           // +0x08..+0x4b: not recovered; name passed to setName
-    char* field58_ = nullptr;                           // +0x58 (address passed to the Connection ctor)
-    std::int32_t field5c_ = 0;                          // +0x5c (port passed to the Connection ctor)
-    std::int32_t field50_ = 0;                          // +0x50 (set by mpSendDisconnect)
-    std::uint8_t field60_ = 0;                          // +0x60 (login flag: 1 selects the login path)
-    ConnectionTransport* transport_ = nullptr;          // +0x54 (not owned)
-    std::unique_ptr<ThreadHandle> aux68_;               // +0x68
+    std::int32_t lastResult_ = 0;                       // +0x50
+    std::unique_ptr<Connection> baseConnection_;        // +0x54 (not freed by the original destructor; owned here)
+    char* host_ = nullptr;                              // +0x58 (server address, malloc'd)
+    std::int32_t port_ = 0;                             // +0x5c
+    std::uint8_t state_ = 0;                            // +0x60 (login flag in the base: 1 selects the login path)
+    std::unique_ptr<DataPacket> incomingPacket_;        // +0x68 (the packet being processed)
     std::int32_t field6c_ = 0;                          // +0x6c
     std::uint8_t field70_ = 0;                          // +0x70
     std::uint8_t field71_ = 0;                          // +0x71

@@ -48,7 +48,7 @@ COctTreeTriangleSelector::SOctTreeNode::~SOctTreeNode() {
 // 0x5887ec _ZN6glitch5scene24COctTreeTriangleSelectorC1EPKNS0_5IMeshEPKNS0_10ISceneNodeEib (complete object)
 // Builds the CTriangleSelector base from the mesh (a use is held on the mesh for the call), then, when the base holds
 // triangles, a root node with a copy of them, constructOctTree on the root, and logs the build time, node count and polygon
-// count. PARTIAL: the base mesh constructor itself is partial (the mesh-buffer traversal), so the base usually holds no triangles.
+// count.
 COctTreeTriangleSelector::COctTreeTriangleSelector(const IMesh* mesh, const ISceneNode* sceneNode, int minimalPolys,
                                                    bool bake)
     : CTriangleSelector(boost::intrusive_ptr<const IMesh>(mesh, true), sceneNode, bake), minimalPolysPerNode(minimalPolys) {

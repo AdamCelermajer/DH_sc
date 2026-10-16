@@ -46,7 +46,7 @@ Reward* Reward::Compile() {
 
 // 0x482874 _ZN6Reward9GetParam1Ev. Returns the m_w2 word (+0x08) of the stub row (+0x0c). No null check, as the original.
 int Reward::GetParam1() {
-    return m_pyData->m_w2;  // +0x0c row, +0x08 word
+    return m_pyData->Param1;  // +0x0c row, +0x08 word
 }
 
 // 0x483278 _ZN6Reward34DBG_TraceDetailedRewardInformationEP7__sFILE

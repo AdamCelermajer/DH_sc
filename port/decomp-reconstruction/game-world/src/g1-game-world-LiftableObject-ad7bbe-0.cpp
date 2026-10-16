@@ -255,9 +255,9 @@ void LiftableObject::InitPost() {
         if (!m_dataDesc.empty()) {
             m_dataId = pydata::FindMemberName(Arrays::LiftableObjects::m_memberNames, static_cast<int>(Arrays::LiftableObjects::size), m_dataDesc.c_str());
             if (m_dataId != -1) {
-                const int model = reinterpret_cast<const Structs::LiftableObject*>(Arrays::LiftableObjects::members)[m_dataId].m_w1;
+                const int model = reinterpret_cast<const Structs::LiftableObject*>(Arrays::LiftableObjects::members)[m_dataId].Visual;
                 if (model != -1) {
-                    m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[model].m_w2;
+                    m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[model].Name;
                 }
             }
         }

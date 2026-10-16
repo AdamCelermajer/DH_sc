@@ -16,8 +16,8 @@ public:
     ~v2IsQuestInState() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Quest = 0;  // +0x8
+    std::int32_t State = 0;  // +0xc
 };
 
 class v2IsQuestStateLower : public v2Condition {
@@ -25,8 +25,8 @@ public:
     ~v2IsQuestStateLower() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Quest = 0;  // +0x8
+    std::int32_t State = 0;  // +0xc
 };
 
 class v2IsQuestStateHigher : public v2Condition {
@@ -34,8 +34,8 @@ public:
     ~v2IsQuestStateHigher() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Quest = 0;  // +0x8
+    std::int32_t State = 0;  // +0xc
 };
 
 class v2IsPlayerInLevel : public v2Condition {
@@ -43,8 +43,8 @@ public:
     ~v2IsPlayerInLevel() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Level = 0;  // +0x8
+    std::int32_t NotUsed1 = 0;  // +0xc
 };
 
 class v2IsEventInState : public v2Condition {
@@ -52,8 +52,8 @@ public:
     ~v2IsEventInState() override;
     void finalize() override;
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t Event = 0;  // +0x8
+    std::int32_t State = 0;  // +0xc
 };
 
 class v2IsQuestLocked : public v2IsQuestInState {

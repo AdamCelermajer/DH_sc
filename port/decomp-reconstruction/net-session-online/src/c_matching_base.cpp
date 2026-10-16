@@ -18,21 +18,23 @@
 // then NetStruct::ProcessLostPacket(a2, a3) (its slot +0x44) on member element i for i in
 // 0..memberCount_-1 (element base stride 432; the pseudocode's `v9 = this + 24` and `432*v10 + 8` name
 // the same elements, see the element-base note in the header). The result returned is the last call's.
-void CMatching::ProcessLostPacket(int a2, int a3) {
+std::int32_t CMatching::ProcessLostPacket(int a2, int a3) {
     if (CRoomAttributes* room = GetRoomAttributes()) room->ProcessLostPacket(a2, a3);
     for (std::int32_t i = 0; i < memberCount_; ++i) {
         members_[i].ProcessLostPacket(a2, a3);  // NetStruct slot +0x44
     }
+    return 0;  // the binary returns r0 left by the last (void) slot call
 }
 
 // 0x7fed08 _ZN9CMatching25ProcessAcknowledgedPacketEii
 // Reconstructed. Same shape as ProcessLostPacket: the room attributes first, then
 // NetStruct::ProcessAcknowledgedPacket (slot +0x40) on every member element.
-void CMatching::ProcessAcknowledgedPacket(int a2, int a3) {
+std::int32_t CMatching::ProcessAcknowledgedPacket(int a2, int a3) {
     if (CRoomAttributes* room = GetRoomAttributes()) room->ProcessAcknowledgedPacket(a2, a3);
     for (std::int32_t i = 0; i < memberCount_; ++i) {
         members_[i].ProcessAcknowledgedPacket(a2, a3);  // NetStruct slot +0x40
     }
+    return 0;  // the binary returns r0 left by the last (void) slot call
 }
 
 // 0x7ff008 _ZN9CMatching21SetRoomMemberAttibuteEiPKvi
@@ -111,9 +113,9 @@ bool CMatching::TestRoomMask(std::uint32_t bits) const {
 // Deviation: none known. The change notifications are the real net-transport NetStruct members' SetValue
 // and SetBuffer, so NetStructMember::SetChanged and NetStruct::s_changeCounter behave as in the binary.
 void CMatching::UpdateMemberIdList() {
-    if (!UnknownGate()) return;  // slot +0x64
+    if (!IsInRoom()) return;  // slot +0x64
 
-    if (IsServer() && UnknownGate()) {
+    if (IsServer() && IsInRoom()) {
         // Server: connected members that have no slot get one (id, team 0, empty attribute buffer).
         std::vector<int> candidates = ConnectionMemberIdList();
         candidates.push_back(LocalMemberId());

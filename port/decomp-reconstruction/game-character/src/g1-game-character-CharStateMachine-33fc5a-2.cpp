@@ -101,12 +101,12 @@ int CharStateMachine::SM_SetDeadState(bool flag, void* data, bool immediate) {
     const Structs::CharAnim& row = CharAnimRow(result);
     // m_deadAltAnim (+0x3f) selects the alternate dead anims: listing +0x10 and +0x18/+0x1c word pairs.
     const bool alt = m_deadAltAnim;
-    const int animBase = alt ? row.m_w4 : row.m_w7;  // +0x10 / +0x1c
+    const int animBase = alt ? row.DeadlyGreatKB : row.Died;  // +0x10 / +0x1c
     const int stance = AnimStanceOffset(m_character, alt ? 0x20000 : 0x8000);
     m_pendingAnim = stance + animBase;  // +0x28
     // Dead anim (+0x38): the alt path adds stance bit 0x40000 to +0x18, the normal path adds bit 0x10000 to +0x14.
-    const int deadAnim = alt ? row.m_w6 + AnimStanceOffset(m_character, 0x40000)
-                             : row.m_w5 + AnimStanceOffset(m_character, 0x10000);
+    const int deadAnim = alt ? row.DespawnGreatKB + AnimStanceOffset(m_character, 0x40000)
+                             : row.Despawn + AnimStanceOffset(m_character, 0x10000);
     m_deadAnim = deadAnim;
     m_deadFlag = flag;         // +0x3e
     m_deadAltAnim = false;     // +0x3f reset
@@ -129,7 +129,7 @@ int CharStateMachine::SM_SetDodgingState(void* data, bool immediate) {
         m_character->m_combatTextCooldown = kCooldownStartMs;  // Character +0x14fc
         result = m_character->GetCharAnimTableId();
         if (CharAnimIdInRange(result)) {
-            const int animBase = CharAnimRow(result).m_w8;  // +0x20
+            const int animBase = CharAnimRow(result).Dodging;  // +0x20
             if (animBase != -1) {
                 const int stance = AnimStanceOffset(m_character, 0x4000);
                 m_pendingAnim = stance + animBase;  // +0x28
@@ -153,7 +153,7 @@ int CharStateMachine::SM_SetBlockingState(void* data, bool immediate) {
         m_character->m_combatTextCooldown = kCooldownStartMs;  // Character +0x14fc
         result = m_character->GetCharAnimTableId();
         if (CharAnimIdInRange(result)) {
-            const int animBase = CharAnimRow(result).m_w3;  // +0x0c
+            const int animBase = CharAnimRow(result).Blocking;  // +0x0c
             if (animBase != -1) {
                 const int stance = AnimStanceOffset(m_character, 0x2000);
                 m_pendingAnim = stance + animBase;  // +0x28
@@ -177,7 +177,7 @@ int CharStateMachine::SM_SetInjureState(void* data, bool immediate) {
         m_character->m_combatTextCooldown = kCooldownStartMs;  // Character +0x14fc
         result = m_character->GetCharAnimTableId();
         if (CharAnimIdInRange(result)) {
-            const int animBase = CharAnimRow(result).m_w15;  // +0x3c
+            const int animBase = CharAnimRow(result).Injured;  // +0x3c
             const int stance = AnimStanceOffset(m_character, 0x1000);
             m_pendingAnim = stance + animBase;  // +0x28
             if (immediate) {
@@ -198,13 +198,13 @@ int CharStateMachine::SM_SetKnockBackState(bool strong, void* data, bool immedia
         if (CharAnimIdInRange(result)) {
             const Structs::CharAnim& row = CharAnimRow(result);
             if (strong) {
-                const int animBase = row.m_w9;  // +0x24
+                const int animBase = row.GreatKnockedBack;  // +0x24
                 const int stance = AnimStanceOffset(m_character, 0x800);
                 m_pendingAnim = stance + animBase;  // +0x28
                 // Hex-Rays: *(this + 11) = &off_18, a whole-word store of 0x18 to m_statusFlags (+0x2c).
                 m_statusFlags = 0x18u;
             } else {
-                const int animBase = row.m_w18;  // +0x48
+                const int animBase = row.KnockedBack;  // +0x48
                 const int stance = AnimStanceOffset(m_character, 0x400);
                 const std::uint32_t flags = m_statusFlags;
                 m_pendingAnim = stance + animBase;  // +0x28
@@ -231,7 +231,7 @@ int CharStateMachine::SM_SetStunState(unsigned int durationMs, bool flag, void* 
                 m_character->CharTimers::TMR_Start(durationMs, 0, 43, nullptr);
                 m_statusFlags |= 2u;  // bit 0x02: stunned
             }
-            const int animBase = CharAnimRow(result).m_w35;  // +0x8c
+            const int animBase = CharAnimRow(result).Stunned;  // +0x8c
             const int stance = AnimStanceOffset(m_character, 0x200);
             m_pendingAnim = stance + animBase;  // +0x28
             if (immediate) {
@@ -258,7 +258,7 @@ int CharStateMachine::SM_SetScareState(unsigned int durationMs, bool flag, void*
                 m_character->CharTimers::TMR_Start(durationMs, 0, 44, nullptr);
                 m_statusFlags |= 4u;  // bit 0x04: scared
             }
-            const int animBase = CharAnimRow(result).m_w31;  // +0x7c
+            const int animBase = CharAnimRow(result).Scared;  // +0x7c
             const int stance = AnimStanceOffset(m_character, 0x100);
             m_pendingAnim = stance + animBase;  // +0x28
             if (immediate) {
@@ -310,8 +310,8 @@ int CharStateMachine::SM_SetCastState(unsigned int castIndex, void* data, bool i
     int result = m_character->GetCharAnimTableId();
     if (CharAnimIdInRange(result)) {
         const Structs::CharAnim& row = CharAnimRow(result);
-        if (row.m_w33 > castIndex) {  // +0x84 count of the +0x88 list
-            const int animBase = static_cast<const std::int32_t*>(row.m_w34)[castIndex];  // +0x88 list
+        if (row.SpellsSize > castIndex) {  // +0x84 count of the +0x88 list
+            const int animBase = static_cast<const std::int32_t*>(row.Spells)[castIndex];  // +0x88 list
             const int stance = AnimStanceOffset(m_character, 0x400000);
             m_pendingAnim = stance + animBase;  // +0x28
             if (immediate) {
@@ -344,8 +344,8 @@ int CharStateMachine::SM_SetInteractState(int interactKind, bool flag, void* tar
         }
         if (interactKind >= 0) {
             const Structs::CharAnim& row = CharAnimRow(result);
-            if (interactKind < static_cast<std::int32_t>(row.m_w16)) {  // +0x40 count of the +0x44 list
-                const int animBase = static_cast<const std::int32_t*>(row.m_w17)[interactKind];  // +0x44 list
+            if (interactKind < static_cast<std::int32_t>(row.InteractSize)) {  // +0x40 count of the +0x44 list
+                const int animBase = static_cast<const std::int32_t*>(row.Interact)[interactKind];  // +0x44 list
                 const int stance = AnimStanceOffset(m_character, 0x800000);
                 m_pendingAnim = stance + animBase;  // +0x28
                 m_interactKind = interactKind;
@@ -368,7 +368,7 @@ int CharStateMachine::SM_SetInteractState(int interactKind, bool flag, void* tar
 // non-immediate path also returns RaiseStateEvent's value (see there).
 int CharStateMachine::SM_SetSkillState(unsigned int skillId, bool flag, void* data, bool immediate) {
     const auto* skillRecord = static_cast<const Structs::Skill*>(m_character->GetCharSkill(static_cast<int>(skillId)));
-    const int skillAnim = skillRecord != nullptr ? skillRecord->m_w1 : 0;  // +0x04; 0 for the null (PARTIAL) case
+    const int skillAnim = skillRecord != nullptr ? skillRecord->Anim : 0;  // +0x04; 0 for the null (PARTIAL) case
     const int stance = AnimStanceOffset(m_character, 0x200000);
     m_pendingAnim = stance + skillAnim;  // +0x28
     m_skillId = static_cast<int>(skillId);  // +0x54

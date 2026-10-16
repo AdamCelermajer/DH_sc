@@ -7,6 +7,8 @@
 #include "glitch-scene-collada-gui/scene/CMeshCache.hpp"
 #include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
 #include "glitch-video/image.hpp"
+#include "glitch-video/material_vertex_attribute_map.hpp"
+#include "glitch-video/null_driver.hpp"
 
 using namespace glitch::scene;
 
@@ -14,7 +16,8 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    CMeshCache* cache = new CMeshCache(nullptr);
+    glitch::video::CNullDriver driver(static_cast<glitch::IDevice*>(nullptr));
+    CMeshCache* cache = new CMeshCache(&driver);
     CHECK(cache->referenceCounter == 1 && cache->getMeshCount() == 0);
     CHECK(cache->getMeshFilename(0u) == nullptr && cache->getMeshByIndex(0).get() == nullptr);
 
@@ -46,7 +49,14 @@ int main() {
     // the generator front ends: a cached name returns the cached mesh, a null name nothing, a failing generator nothing
     CHECK(cache->addSphereMesh(0, "a.x", 1.0f, 8, 8).get() == meshA.get());
     CHECK(cache->addSphereMesh(0, nullptr, 1.0f, 8, 8).get() == nullptr);
-    CHECK(cache->addSphereMesh(0, "sphere", 1.0f, 8, 8).get() == nullptr && cache->getMeshCount() == 2);
+    {
+        // The sphere generator is real: it builds a mesh over the driver and the cache keeps it.
+        boost::intrusive_ptr<IAnimatedMesh> sphere = cache->addSphereMesh(0x3u, "sphere", 1.0f, 8, 8);
+        CHECK(sphere.get() != nullptr && cache->getMeshCount() == 3);
+        CHECK(cache->addSphereMesh(0x3u, "sphere", 1.0f, 8, 8).get() == sphere.get());  // a cached name returns the cached mesh
+        cache->removeMesh(boost::intrusive_ptr<const IAnimatedMesh>(sphere));
+        CHECK(cache->getMeshCount() == 2);
+    }
     CHECK(cache->addTerrainMesh("terrain", boost::intrusive_ptr<glitch::video::CImage>(),
                                 boost::intrusive_ptr<glitch::video::CImage>(), glitch::core::dimension2d<float>{1.0f, 1.0f}, 1.0f,
                                 glitch::core::dimension2d<std::int32_t>{8, 8})

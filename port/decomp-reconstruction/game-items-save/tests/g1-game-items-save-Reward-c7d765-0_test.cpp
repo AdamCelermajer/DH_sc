@@ -68,14 +68,14 @@ void TestConstructor() {
 
 void TestGetParam1() {
     Structs::v2QuestRewardStub row;
-    row.m_w2 = 42;
-    row.m_w3 = 9;
+    row.Param1 = 42;
+    row.Param2 = 9;
     TestReward reward;
     reward.m_pyData = &row;
     EXPECT(reward.GetParam1() == 42);
-    row.m_w2 = -5;
+    row.Param1 = -5;
     EXPECT(reward.GetParam1() == -5);
-    EXPECT(row.m_w3 == 9);  // only m_w2 is read
+    EXPECT(row.Param2 == 9);  // only m_w2 is read
 }
 
 void TestCompile() {

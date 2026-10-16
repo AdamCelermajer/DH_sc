@@ -44,9 +44,12 @@
 // `*(int*)(v + 20) - *(int*)(v + 16)`, i.e. the segment record's indexEnd - indexBegin (CBatchMesh::SSegment +0x14 / +0x10);
 // updateIndices 0x57f704 forms the same address (0x57f75c). The 20-byte record's words are therefore
 // {count, indexBase, tick, flags, firstIndex}, never host-width pointers of their own.
-// On this 64-bit host an SSegment* is 8 bytes while the offsets still advance one word per entry, so two batches with
-// non-empty lists overlap; the convention for that (double the offsets / store word indices / a separate pointer array) is
-// still open - see TRACK-B-HANDOVER.md question 1 and the file comment of src/scene/CBatchSceneNode.cpp.
+// HOST WIDTH DECISION (option (a) of TRACK-B-HANDOVER.md, decided by the 2026-10-15 residue owner): an SSegment* is 8 bytes on this
+// host, so every list entry spans kEntryWords == 2 words. Every offset that the original advances "one word per entry" advances
+// kEntryWords words here: postCompile allocates (record words + kEntryWords * segment count) words and starts batch i's list at
+// firstIndex, advancing it by kEntryWords * (the batch's segment count). `firstIndex` stays a WORD offset into the +0x158 block
+// and the address of entry k is `block + 4 * firstIndex + sizeof(SSegment*) * k`, so the listing's arithmetic is unchanged and two
+// batches never overlap. The record array is padded to an even number of words so that the lists start 8-byte aligned.
 #pragma once
 
 #include <cstdint>
@@ -133,11 +136,30 @@ public:
     template <typename Intersector>
     void addVisibleSegments(std::uint32_t batch, Intersector intersector);
 
+    // Host width of one visible-list entry in 32-bit words (see the file comment).
+    static constexpr std::uint32_t kEntryWords = sizeof(CBatchMesh::SSegment*) / sizeof(std::uint32_t);
+
+    // The four culling tests of onRegisterSceneNode, passed by value to addVisibleSegments (their mangled names are part of the
+    // symbols 0x50d198, 0x50d2c0, 0x50d49c, 0x50cdb0). Each one holds what the original passes in its single register.
+    struct SUniverseIntersector {};
+    struct SBoxIntersector {
+        const core::aabbox3d<float>* box;  // the frustum's own box (SViewFrustum +0x6c)
+    };
+    struct SFrustumBoxIntersector {
+        const SViewFrustum* frustum;  // six planes tested one by one (the box's most negative vertex against each)
+    };
+    struct SFrustumBoxIntersector3 {
+        const SViewFrustum* frustum;  // SViewFrustum::intersectsWithoutBoxTest3
+    };
+
     // Helpers of the visible-entry block (not in the original: named views of the word arithmetic). They are the only way
     // the class touches the entries and the cache, so the layout lives in one place.
     SVisibleEntry* visibleEntry(std::uint32_t batch) const;        // +0x158 + 20 * batch
     SCacheSlot* cacheSlot(std::uint32_t batch) const;              // +0x154 + 12 * batch
     CBatchMesh::SSegment* visibleSegment(std::uint32_t batch, std::uint32_t position) const;  // +0x158 block + 4 * firstIndex
+    // Appends a segment to its batch's list (the tail every addVisibleSegments instance shares): stales the batch's flags when the
+    // segment's tick differs from the record's, stamps the segment, stores the pointer and counts it.
+    void appendVisibleSegment(CBatchMesh::SSegment* segment);
 
     boost::intrusive_ptr<CBatchMesh> mesh;                                 // +0x130
     std::uint32_t unk_134 = 0;                                             // +0x134

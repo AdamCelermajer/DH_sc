@@ -55,12 +55,12 @@
 template <typename TStruct, typename TEvent>
 void ObjectiveTemplate_InteractWith<TStruct, TEvent>::Compile() {
     const Structs::v2QuestObjectiveStub* row = m_pyData;  // +0x0c
-    m_objectId = row->m_w8;                               // row +0x20 copied to +0x24
+    m_objectId = row->OID1;                               // row +0x20 copied to +0x24
     if (m_objectId == -1) {
         return;
     }
     m_valid = true;                                       // +0x08
-    if (m_currentQty < row->m_w10) {                      // +0x20 below the row's required count (+0x28)
+    if (m_currentQty < row->Value) {                      // +0x20 below the row's required count (+0x28)
         return;
     }
     Objective::SetIsCompleted();                          // direct call in the listing
@@ -109,7 +109,7 @@ bool ObjectiveTemplate_InteractWith<TStruct, TEvent>::handleEvent(const IEvent* 
         raised->m_value = m_currentQty;   // event +0x14
         count = m_currentQty;
     }
-    if (row->m_w10 > count) {  // row +0x28, the required count
+    if (row->Value > count) {  // row +0x28, the required count
         return false;
     }
     Objective::SetIsCompleted();  // direct call in the listing

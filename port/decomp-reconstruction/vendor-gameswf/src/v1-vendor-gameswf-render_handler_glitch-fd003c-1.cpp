@@ -17,6 +17,7 @@
 #include <cstring>
 
 #include "gameswf/gameswf_types.h"  // gameswf::rgba and gameswf::rect (complete types)
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"  // the effect database of the constructor
 #include "glitch-video/material.hpp"
 #include "glitch-video/primitive_stream.hpp"
 #include "glitch-video/render_target.hpp"
@@ -134,20 +135,18 @@ render_handler_glitch::TransformState::TransformState()
 }
 
 // 0x7d60f4 render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver*)   [C1]
-// PARTIAL. Written, in the original's order: the scalar fields (unk_14 = 0x001f00ff, unk_04 = 1), the identity line matrix
-// and colour transform, the two TransformStates and the BufferedRenderer (member initialisers), the triangle intersector
-// (its constructor allocates the tesselator), the vertex streams m_vertex_streams = CVertexStreams::allocate(1, 0x40000),
-// the default bitmap m_default_bitmap = bitmap_info_ogl(driver, 4, 4, s_no_bitmap_data), the three fill sides (colour
-// 0xff, identity bitmap matrix and colour transform, flag 0), then, when there is a driver: a reference on it, the vertex
-// buffer from createBuffer (type 0, usage 4, size 0, no data, flag true) and the three setStream calls on the streams
-// (position: offset 12, value type 6, 3 components; texture coordinates: offset 0, type 6, 2 components; colour: offset 8,
-// type 1, 4 components; stride 24; the colour stream is the one set without the flag), and ensureBufferCapacity(256).
-// Not written: the blend-mode materials. The original opens the effect database "gameswf_effects.bdae"
-// (glitch::collada::CColladaDatabase(file, &DefaultFactory)), builds the effect "_1_-_Default-fx" with constructEffect
-// (driver, name, null), and calls BufferedRenderer::createBlendModeMaterial(renderer, index, technique) seven times:
-// (0, "default"), (1, "default"), (3, "multiply"), (4, "screen"), (13, "overlay"), (15, "default"), (16, "default").
-// The canonical CColladaDatabase header has no file constructor and no DefaultFactory, so the batch renderer has no
-// materials after this constructor.
+// Reconstructed, in the original's order: the scalar fields (the saved render state starts as 0x001f00ff / 0, unk_04 = 1),
+// the identity line matrix and colour transform, the two TransformStates and the BufferedRenderer (member initialisers),
+// the triangle intersector (its constructor allocates the tesselator), the vertex streams m_vertex_streams =
+// CVertexStreams::allocate(1, 0x40000), the default bitmap m_default_bitmap = bitmap_info_ogl(driver, 4, 4,
+// s_no_bitmap_data), the three fill sides (colour 0xff, identity bitmap matrix and colour transform, flag 0), then, when
+// there is a driver: a reference on it, the vertex buffer from createBuffer (type 0, usage 4, size 0, no data, flag true)
+// and the three setStream calls on the streams (position: offset 12, value type 6, 3 components; texture coordinates:
+// offset 0, type 6, 2 components; colour: offset 8, type 1, 4 components; stride 24; the colour stream is the one set
+// without the flag), and ensureBufferCapacity(256). Then the effect database "gameswf_effects.bdae"
+// (CColladaDatabase(file, &DefaultFactory)) builds the effect "_1_-_Default-fx" with constructEffect (driver, name, null) and
+// BufferedRenderer::createBlendModeMaterial(renderer, index, technique) runs seven times: (0, "default"), (1, "default"),
+// (3, "multiply"), (4, "screen"), (13, "overlay"), (15, "default"), (16, "default").
 // The original leaves fill_style::source_bitmap (+0x08) and unk_48 (+0x48) unset; here they take their member
 // defaults (null and 0).
 render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver* driver)
@@ -156,7 +155,6 @@ render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver* driver
       m_vertex_streams(glitch::video::CVertexStreams::allocate(static_cast<uint8_t>(1), 0x40000u)),
       m_default_bitmap(driver, 4, 4, s_no_bitmap_data) {
     unk_04 = 1;
-    unk_14 = 0x001f00ffu;
 
     set_identity(m_matrix);
     for (int c = 0; c < 4; ++c) {
@@ -205,7 +203,17 @@ render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver* driver
 
     ensureBufferCapacity(256);
 
-    // NOT WRITTEN: the effect database and the seven createBlendModeMaterial calls (see the note above).
+    // The blend-mode materials: one effect of the database, bound to seven slots with their technique names.
+    glitch::collada::CColladaDatabase database("gameswf_effects.bdae", &glitch::collada::CColladaDatabase::DefaultFactory);
+    const boost::intrusive_ptr<glitch::video::CMaterialRenderer> effect(
+        database.constructEffect(m_driver, "_1_-_Default-fx", nullptr), false);
+    m_buffered.createBlendModeMaterial(effect, 0, "default");
+    m_buffered.createBlendModeMaterial(effect, 1, "default");
+    m_buffered.createBlendModeMaterial(effect, 3, "multiply");
+    m_buffered.createBlendModeMaterial(effect, 4, "screen");
+    m_buffered.createBlendModeMaterial(effect, 13, "overlay");
+    m_buffered.createBlendModeMaterial(effect, 15, "default");
+    m_buffered.createBlendModeMaterial(effect, 16, "default");
 }
 
 // 0x7d6680 render_handler_glitch::get_matrix(gameswf::matrix const&)
@@ -267,12 +275,12 @@ void render_handler_glitch::flush() {
 }
 
 // 0x7d6de4 render_handler_glitch::end_display(void)
-// PARTIAL. Flushes the batch, then restores the driver state that begin_display saved, in the original's order:
+// Flushes the batch, then restores the driver state that begin_display saved, in the original's order:
 // setTransform(2, m_saved_state.projection), setTransform(0, m_saved_state.view), setTransform(1, m_saved_state.world)
 // (driver vtable +0x6c), the viewport of the current render target (the last entry of the driver's target stack, +0xc8)
 // with m_saved_state.viewport (IRenderTarget::setViewport, slot +0x0c), setOption(256, m_saved_option_256) (slot +0xa0) and
-// the render state (slot +0x1e4, setRenderState with the 8 bytes at +0x14). The last call is NOT written: the
-// detail::driver::SRenderState type is an empty placeholder in glitch-video/video_types.hpp (see the layout requests).
+// the render state (slot +0x1e4, setRenderState with the 8 bytes at +0x14). The flush's second register is the caller's r1
+// (see begin_display_callback); the return is the driver call's r0, which the interface drops.
 void render_handler_glitch::end_display() {
     m_buffered.flush();
     m_driver->setTransform(2, m_saved_state.projection);
@@ -280,7 +288,7 @@ void render_handler_glitch::end_display() {
     m_driver->setTransform(1, m_saved_state.world);
     m_driver->m_renderTargets.back()->setViewport(m_saved_state.viewport);
     m_driver->setOption(256, m_saved_option_256);
-    // NOT WRITTEN: m_driver->setRenderState(<8 bytes at +0x14>) (vtable +0x1e4).
+    m_driver->setRenderState(m_saved_render_state);  // vtable +0x1e4
 }
 
 // 0x7d71bc render_handler_glitch::render_mask_intersection(void)
@@ -331,7 +339,7 @@ void render_handler_glitch::render_mask_intersection() {
 }
 
 // 0x7d73d0 render_handler_glitch::begin_display(gameswf::rgba, int, int, int, int, float, float, float, float)
-// PARTIAL. In the original's order: the display width and height (fabs of x1-x0, y1-y0); the driver's transform states 2, 0
+// In the original's order: the display width and height (fabs of x1-x0, y1-y0); the driver's transform states 2, 0
 // and 1 saved into m_saved_state (getTransform, slot +0x70); the viewport of the current render target (the last entry of
 // the driver's target stack) saved into m_saved_state.viewport; the driver's option 256 saved (bit 8 of the option word
 // +0x88) in m_saved_option_256; [NOT WRITTEN: the render state saved into the 8 bytes at +0x14 with getRenderState, slot
@@ -340,7 +348,6 @@ void render_handler_glitch::render_mask_intersection() {
 // depth and z set to zero and every mask run emptied; the projection matrix (m_state.projection, state 2) and the view
 // matrix (m_state.view, state 0: maps the display rectangle to clip space) built and given to the driver with setTransform;
 // the world matrix (state 1) set to the identity and given to the driver. The background colour is not used.
-// The missing driver call is the render state: glitch-video declares detail::driver::SRenderState as an empty placeholder.
 // The mask stack is reset to size zero for each run. The original also writes a zero for any run with a negative size; a
 // gameswf::array never has one, so that path is not written.
 void render_handler_glitch::begin_display(gameswf::rgba background_color, int viewport_x0,
@@ -359,7 +366,7 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
     glitch::video::IRenderTarget* target = m_driver->m_renderTargets.back().get();
     m_saved_state.viewport = target->m_viewport;
     m_saved_option_256 = ((m_driver->m_options >> 8) & 1) != 0;
-    // NOT WRITTEN: m_driver->getRenderState(<8 bytes at +0x14>) (vtable +0x1e0).
+    m_driver->getRenderState(m_saved_render_state);  // vtable +0x1e0
 
     glitch::core::rect<int32_t> viewport;
     viewport.UpperLeftCorner.X = viewport_x0;
@@ -426,16 +433,14 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
 }
 
 // 0x7d77b0 render_handler_glitch::draw_line_strip(void const*, int)
-// PARTIAL. The coordinates are float (x, y) pairs (8 bytes each), as the original reads them. In the original's order:
-// the batch flush; the line scale; the material (the batch renderer's slot for m_materialIndex, or slot 0 when that slot has
-// no material); the line width written into the first render pass of the material's current technique (state float at
-// +0x0c, with the pass's change flag set when the value changed: the same pass edit as BufferedRenderer::applyMaskState);
-// [NOT WRITTEN: the texture parameter, IMaterialParameters<CMaterial>::setParameter<intrusive_ptr<ITexture>>(id of the slot,
-// index 0, m_default_bitmap.m_texture)]; IVideoDriver::setMaterial(material); the vertex transform (matrix from get_matrix,
-// z from m_mask_z) and the colour of fill side 2 into the staging vertices; the vertex count on the vertex streams; and a
-// non-indexed line-strip draw of the streams (primitive type 1, vertex range 0..count).
-// The texture parameter is missing because CMaterial in glitch-video has no setParameter: the parameter block is a
-// separate object there.
+// The coordinates are float (x, y) pairs (8 bytes each), as the original reads them. In the original's order: the batch
+// flush; the line scale; the material (the batch renderer's slot for m_materialIndex, or slot 0 when that slot has no
+// material); the line width written into the first render pass of the material's current technique (state float at +0x0c,
+// with the pass's change flag set when the value changed: the same pass edit as BufferedRenderer::applyMaskState); the
+// texture parameter (IMaterialParameters<CMaterial>::setParameter<intrusive_ptr<ITexture>> with the slot's parameter id 2,
+// index 0 and m_default_bitmap.m_texture); IVideoDriver::setMaterial(material); the vertex transform (matrix from
+// get_matrix, z from m_mask_z) and the colour of fill side 2 into the staging vertices; the vertex count on the vertex
+// streams; and a non-indexed line-strip draw of the streams (primitive type 1, vertex range 0..count).
 void render_handler_glitch::draw_line_strip(const void* coords, int vertex_count) {
     m_buffered.flush();
 
@@ -474,8 +479,8 @@ void render_handler_glitch::draw_line_strip(const void* coords, int vertex_count
         state.m_float0c = scale;
         renderer.setRenderState(static_cast<uint8_t>(technique), 0, state);
     }
-    // NOT WRITTEN: setParameter<intrusive_ptr<ITexture>>(selected.m_material, selected.m_parameterId2, 0,
-    // m_default_bitmap.m_texture).
+    selected.m_material->parameters.setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(
+        selected.m_parameterId2, 0, m_default_bitmap.m_texture);
     m_driver->setMaterial(selected.m_material,
                           static_cast<const boost::intrusive_ptr<glitch::video::CVertexAttributeMap>*>(nullptr));
 

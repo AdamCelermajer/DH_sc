@@ -80,7 +80,7 @@ ItemInstance* Objective_GatherLoot::InitWithCurrentQty() {
         return nullptr;
     }
     // The row's loot id (+0x24) is looked up in the owner's inventory (the ItemInventory base at +0x37c).
-    ItemInstance* item = static_cast<ItemInventory*>(m_owner)->FindItem(m_pyData->m_w9);  // +0x0c row
+    ItemInstance* item = static_cast<ItemInventory*>(m_owner)->FindItem(m_pyData->OID2);  // +0x0c row
     if (item != nullptr) {
         m_currentQty = item->m_qty;  // +0x20 takes the instance quantity (+0x50, signed 16-bit)
     }
@@ -92,15 +92,15 @@ int Objective_GatherLoot::DBG_TraceDetailedObjectiveInformation(__sFILE* stream)
     std::FILE* out = reinterpret_cast<std::FILE*>(stream);  // the same FILE round trip as the other batches
     static_cast<void>(std::fwrite("\t  Objective_GatherLoot\n", 1, 0x18, out));
 
-    const int lootId = m_pyData->m_w9;  // +0x24
+    const int lootId = m_pyData->OID2;  // +0x24
     const char* lootName = "na";
     if (lootId >= 0 && static_cast<std::uint32_t>(lootId) < Arrays::ItemTable::size) {
         lootName = Arrays::ItemTableMemberNameAt(lootId);
     }
     std::fprintf(out, "\t    Loot : %s\n", lootName);
-    std::fprintf(out, "\t    Qty : %d\n", m_pyData->m_w10);  // +0x28
+    std::fprintf(out, "\t    Qty : %d\n", m_pyData->Value);  // +0x28
 
-    const int levelId = m_pyData->m_w8;  // +0x20
+    const int levelId = m_pyData->OID1;  // +0x20
     const char* levelName = "na";
     if (levelId >= 0 && static_cast<std::uint32_t>(levelId) < Arrays::LevelList::size) {
         levelName = Arrays::LevelListMemberNameAt(levelId);
@@ -114,7 +114,7 @@ bool Objective_GatherLoot::handleEvent(const IEvent* event, const EventManager* 
     // The original writes the counted flag and the quantity into the event. The const on the parameter is not
     // kept for those writes, which is why the cast removes it.
     QE_GatherLoot* gather = const_cast<QE_GatherLoot*>(static_cast<const QE_GatherLoot*>(event));
-    if (m_pyData->m_w9 == gather->m_matchId && m_owner == gather->m_character) {  // +0x24 vs +0x18, +0x10 vs +0x08
+    if (m_pyData->OID2 == gather->m_matchId && m_owner == gather->m_character) {  // +0x24 vs +0x18, +0x10 vs +0x08
         InitWithCurrentQty();
         if (gather->m_flag1 == 0) {
             // The event carries no quantity yet: this objective counts it and passes its own quantity back.
@@ -124,7 +124,7 @@ bool Objective_GatherLoot::handleEvent(const IEvent* event, const EventManager* 
             // The event carries the quantity: it replaces the one read from the inventory.
             m_currentQty = gather->m_value;   // +0x14 into +0x20
         }
-        if (m_pyData->m_w10 <= m_currentQty) {  // +0x28 required quantity
+        if (m_pyData->Value <= m_currentQty) {  // +0x28 required quantity
             SetIsCompleted();
         }
     }
@@ -133,7 +133,7 @@ bool Objective_GatherLoot::handleEvent(const IEvent* event, const EventManager* 
 
 // 0x47bae4 _ZN20Objective_GatherLoot7CompileEv
 void Objective_GatherLoot::Compile() {
-    const int lootId = m_pyData->m_w9;  // +0x24
+    const int lootId = m_pyData->OID2;  // +0x24
     if (lootId == -1) {
         ReportObjectiveAssert("objData->Loot != -1", 986);
         ReportObjectiveAssert("objData->Loot > 0", 987);
@@ -143,18 +143,18 @@ void Objective_GatherLoot::Compile() {
         ReportObjectiveAssert("objData->Loot > 0", 987);
     }
 
-    if (m_pyData->m_w10 > 0) {  // +0x28 required quantity
+    if (m_pyData->Value > 0) {  // +0x28 required quantity
         Level* level = ApplicationGetInstance().GetCurrentLevel();
         if (level == nullptr) {
             ReportObjectiveAssert("lvl != 0", 995);
         }
-        const int levelListId = m_pyData->m_w8;  // +0x20; -1 matches any level
+        const int levelListId = m_pyData->OID1;  // +0x20; -1 matches any level
         // The original reads the current level's index without a null test; with no level and a row level it has
         // no defined result, so this port does nothing there.
         if (levelListId == -1 || (level != nullptr && LevelListIndexOfLevel(level) == levelListId)) {
             InitWithCurrentQty();
             m_valid = true;  // +0x08
-            if (m_currentQty >= m_pyData->m_w10) {
+            if (m_currentQty >= m_pyData->Value) {
                 SetIsCompleted();
             }
         }
@@ -165,7 +165,7 @@ void Objective_GatherLoot::Compile() {
 void Objective_GatherLoot::Unregister() {
     Objective_EventReceiver::Unregister();
     if (m_valid) {  // +0x08
-        static_cast<ItemInventory*>(m_owner)->UnregisterQuestGatheringItemId(m_pyData->m_w9);  // +0x24 loot id
+        static_cast<ItemInventory*>(m_owner)->UnregisterQuestGatheringItemId(m_pyData->OID2);  // +0x24 loot id
     }
 }
 
@@ -177,7 +177,7 @@ void Objective_GatherLoot::Register() {
     }
     // The owner's counted list of gathered item ids: the list header is the ItemInventory member at +0x30 (owner +0x3ac).
     // A loot id already in the list gains a reference; a new one is appended with a count of 1.
-    const int lootId = m_pyData->m_w9;  // +0x24
+    const int lootId = m_pyData->OID2;  // +0x24
     std::list<ItemInventory::QuestGatheredItem>& gathered =
         static_cast<ItemInventory*>(m_owner)->m_activeQuestGatheredItemIds;
     for (ItemInventory::QuestGatheredItem& entry : gathered) {

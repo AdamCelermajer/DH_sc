@@ -97,12 +97,12 @@ int FloatToInt32(float value) {
 
 // Entry count of the character's skill list: the word at +4 of GetCharSkillList() (Structs::SkillList::m_w1).
 std::uint32_t CharSkillListCount(const Character* self) {
-    return static_cast<const Structs::SkillList*>(self->GetCharSkillList())->m_w1;
+    return static_cast<const Structs::SkillList*>(self->GetCharSkillList())->ListSize;
 }
 
 // Entry count of the character's faery list: the word at +4 of GetCharFaeryList() (Structs::FaeryList::m_w1).
 std::uint32_t CharFaeryListCount(const Character* self) {
-    return static_cast<const Structs::FaeryList*>(self->GetCharFaeryList())->m_w1;
+    return static_cast<const Structs::FaeryList*>(self->GetCharFaeryList())->ListSize;
 }
 
 }  // namespace
@@ -241,7 +241,7 @@ void Character::_SpellCombatRoll(const sfc::script::lua::Arguments& args, sfc::s
     if (victim != nullptr) {
         const auto* faery = static_cast<const Structs::Faery*>(self->GetCharFaery(faeryId));
         AttackResult result{};
-        self->F_SpellAttack(result, self, victim, faery->m_w2, 0);
+        self->F_SpellAttack(result, self, victim, faery->Elemental, 0);
         Character::F_ApplyResult(result, self, victim, false);
         ret.pushInteger(result.m_damage);
         return;
@@ -334,7 +334,7 @@ void Character::_SetSkillCooldownTimerId(const sfc::script::lua::Arguments& args
     }
     if (!LuaArgHasTag(args, 0, kLuaTagNumber)) {
         const auto* list = static_cast<const Structs::SkillList*>(self->GetCharSkillList());
-        if (list->m_w1 <= LuaFloatToUInt32(args[0].getNumber())) {
+        if (list->ListSize <= LuaFloatToUInt32(args[0].getNumber())) {
             return;
         }
     }
@@ -424,7 +424,7 @@ void Character::_SkillCombatRoll(const sfc::script::lua::Arguments& args, sfc::s
     }
     const unsigned int skill = args[0].getUInteger();
     const auto* list = static_cast<const Structs::SkillList*>(self->GetCharSkillList());
-    if (skill >= list->m_w1) {
+    if (skill >= list->ListSize) {
         return;
     }
     if (!LuaArgHasTag(args, 1, kLuaTagLightUserData) && !LuaArgHasTag(args, 1, kLuaTagUserData)) {
@@ -438,21 +438,21 @@ void Character::_SkillCombatRoll(const sfc::script::lua::Arguments& args, sfc::s
     Character* hit = handle.operator Character*();
     if (hit != nullptr) {
         const auto* record = static_cast<const Structs::Skill*>(self->GetCharSkill(static_cast<int>(skill)));
-        const std::int32_t flags = record->m_w7;
+        const std::int32_t flags = record->Flags;
         Character::AttackResult result{};
         if ((flags & 0x800000) != 0) {
             if (self->ItemInventory::HasMainHandWeapon()) {
-                self->F_SkillAttack(result, self, hit, flags, record->m_w5);
+                self->F_SkillAttack(result, self, hit, flags, record->ElementalType);
                 Character::F_ApplyResult(result, self, hit, false);
                 ret.pushInteger(result.m_damage);
             }
             if (self->ItemInventory::HasOffHandWeapon()) {
-                self->F_SkillAttack(result, self, hit, flags | 0x4000000, record->m_w5);
+                self->F_SkillAttack(result, self, hit, flags | 0x4000000, record->ElementalType);
                 Character::F_ApplyResult(result, self, hit, false);
                 ret.pushInteger(result.m_damage);
             }
         } else {
-            self->F_SkillAttack(result, self, hit, flags, record->m_w5);
+            self->F_SkillAttack(result, self, hit, flags, record->ElementalType);
             Character::F_ApplyResult(result, self, hit, false);  // flags & 0x800000 is 0 on this path
             ret.pushInteger(result.m_damage);
         }
@@ -517,25 +517,25 @@ void Character::_PlayAnim(const sfc::script::lua::Arguments& args, sfc::script::
     Structs::AnimTpl* const table = reinterpret_cast<Structs::AnimTpl*>(Arrays::AnimTable::members);
     Structs::AnimTpl& rowA = table[rowAIndex];
     Structs::AnimTpl& rowB = table[rowBIndex];
-    if (rowA.m_w2 != 2u) {
+    if (rowA.StepsSize != 2u) {
         LuaReportAssert("Arrays::AnimTable::members[idOne].StepsSize == 2 && \"WTF! Someone messed up the format of the "
                             "data in animations.pyarray\"",
                             kLuaCallbacksSourceFile, 1232);
     }
-    if (rowB.m_w2 != 1u) {
+    if (rowB.StepsSize != 1u) {
         LuaReportAssert("Arrays::AnimTable::members[idTwo].StepsSize == 1 && \"WTF! Someone messed up the format of the "
                             "data in animations.pyarray\"",
                             kLuaCallbacksSourceFile, 1233);
     }
 
-    Structs::AnimStep* stepA = static_cast<Structs::AnimStep*>(rowA.m_w3);
-    Structs::AnimStep* stepB = static_cast<Structs::AnimStep*>(rowB.m_w3);
+    Structs::AnimStep* stepA = static_cast<Structs::AnimStep*>(rowA.Steps);
+    Structs::AnimStep* stepB = static_cast<Structs::AnimStep*>(rowB.Steps);
     if (LuaArgCount(args) > 1 && LuaArgHasTag(args, 1, kLuaTagNumber)) {
-        stepA->m_w2 = LuaFloatToInt32(args[0].getNumber());
-        stepB->m_w2 = LuaFloatToInt32(args[1].getNumber());
+        stepA->Anim = LuaFloatToInt32(args[0].getNumber());
+        stepB->Anim = LuaFloatToInt32(args[1].getNumber());
     } else {
-        stepA->m_w2 = LuaFloatToInt32(args[0].getNumber());
-        stepB->m_w2 = -1;
+        stepA->Anim = LuaFloatToInt32(args[0].getNumber());
+        stepB->Anim = -1;
     }
 
     bool loop = false;

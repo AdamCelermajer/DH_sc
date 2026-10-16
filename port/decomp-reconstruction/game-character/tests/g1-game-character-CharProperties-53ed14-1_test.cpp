@@ -121,11 +121,11 @@ static int failures = 0;
 static int DefaultOf(const CharProperties& cp, int propId) { return cp._GetDefault(propId); }
 
 // Word of a property id (id i is m_w(i+1)).
-static std::int32_t& Word(Structs::CharacterProperties& sheet, int propId) { return (&sheet.m_w1)[propId]; }
+static std::int32_t& Word(Structs::CharacterProperties& sheet, int propId) { return (&sheet.AIFaction)[propId]; }
 
 static bool SheetMatchesDefaults(const CharProperties& cp, const Structs::CharacterProperties& sheet) {
     for (int i = 0; i < 224; ++i) {
-        if ((&sheet.m_w1)[i] != DefaultOf(cp, i)) return false;
+        if ((&sheet.AIFaction)[i] != DefaultOf(cp, i)) return false;
     }
     return true;
 }
@@ -274,7 +274,7 @@ static void TestClassLoaders() {
 static void TestGetInt() {
     CharProperties cp;
     Word(cp.m_props, 9) = 0x1234;
-    CharProperties::s_temp.m_w10 = 0x5600;
+    CharProperties::s_temp.Loot = 0x5600;
     CHECK(cp.PROPS_GetInt(9, false) == 0x12);
     CHECK(cp.PROPS_GetInt(9, true) == 0x56);
 }

@@ -1141,9 +1141,9 @@ bool edit_text_character::on_event(const event_id& id)
 }
 
 // 0x7928cc _ZN7gameswf19edit_text_character7displayEv
-// PARTIAL: one store is not written. The binary sets a byte at +0x04 of the render handler (the glitch handler's unk_04, which
-// draw_bitmap reads to round the quad corners to whole pixels) before the text is drawn: 0 when the glyph provider's scale is
-// not 1.0, otherwise (definition's grid fit != 0). The base render_handler of the tree has no member there.
+// Before the text is drawn the byte at +0x04 of the render handler (render_handler::unk_04, which draw_bitmap reads to round
+// the quad corners to whole pixels) is set: 0 when the glyph provider's scale is not 1.0, otherwise (definition's grid
+// fit != 0).
 // Flow: with the root's buffering flag (+0x85) set outside the flush, the field is queued for the flush and nothing is
 // drawn. A bordered field first draws its background strip (m_background_color) and a black outline of the definition's
 // rectangle. When the player caches renders (player +0x98), a valid render cache is replayed through the render handler; an
@@ -1180,7 +1180,17 @@ void edit_text_character::display()
 		}
 	}
 
-	// Missing: the byte at s_render_handler + 4 (see above).
+	if (get_player()->m_context->m_glyph_provider->m_scale != 1.0f)
+	{
+		if (s_render_handler)
+		{
+			s_render_handler->unk_04 = 0;
+		}
+	}
+	else if (s_render_handler)
+	{
+		s_render_handler->unk_04 = m_def->m_grid_fit != 0;
+	}
 
 	if (get_player()->unk_98 /* +0x98: the player caches renders */)
 	{

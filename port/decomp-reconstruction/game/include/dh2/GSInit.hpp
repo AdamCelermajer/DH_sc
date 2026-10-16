@@ -36,5 +36,6 @@ public:
     // StateBase occupies +0x00 .. +0x03 (vptr).
     int m_step;                                                     // +0x04 loading step; Update advances it once per call
     int unk_08;                                                     // +0x08 -1 while the spinner runs; the ctor and ClearLoadingScreen set -1
+    int unk_0c;                                                     // +0x0c never accessed (the constructor does not store it)
     boost::intrusive_ptr<glitch::video::ITexture> m_splashTexture;  // +0x10 splash background; drawn only while set
 };

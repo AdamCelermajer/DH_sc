@@ -61,48 +61,48 @@ static std::string localEntry(const std::string& name, const std::string& payloa
 static void testExtractFilename() {
     CZipReader zip;  // flagA and flagB false
     SZipFileEntry raw;
-    raw.path = "Dir/Sub/File.TXT";
+    raw.zipFileName = "Dir/Sub/File.TXT";
     zip.extractFilename(raw);
-    CHECK(raw.name == "Dir/Sub/File.TXT");  // without flagB the raw name is kept
-    CHECK(raw.extra == "Dir/Sub/");
-    CHECK(raw.path == "Dir/Sub/File.TXT");
+    CHECK(raw.simpleFileName == "Dir/Sub/File.TXT");  // without flagB the raw name is kept
+    CHECK(raw.path == "Dir/Sub/");
+    CHECK(raw.zipFileName == "Dir/Sub/File.TXT");
 
-    zip.flagB = true;
+    zip.ignorePaths = true;
     SZipFileEntry base;
-    base.path = "Dir/Sub/File.TXT";
+    base.zipFileName = "Dir/Sub/File.TXT";
     zip.extractFilename(base);
-    CHECK(base.name == "File.TXT" && base.extra == "Dir/Sub/");
+    CHECK(base.simpleFileName == "File.TXT" && base.path == "Dir/Sub/");
 
-    zip.flagA = true;
+    zip.ignoreCase = true;
     SZipFileEntry lower;
-    lower.path = "Dir/Sub/File.TXT";
+    lower.zipFileName = "Dir/Sub/File.TXT";
     zip.extractFilename(lower);
-    CHECK(lower.path == "dir/sub/file.txt" && lower.name == "file.txt" && lower.extra == "dir/sub/");
-    zip.flagA = false;
+    CHECK(lower.zipFileName == "dir/sub/file.txt" && lower.simpleFileName == "file.txt" && lower.path == "dir/sub/");
+    zip.ignoreCase = false;
 
     // A '/' at index 0 is not a split: the whole name stays and the directory is empty.
     SZipFileEntry leading;
-    leading.path = "/x";
+    leading.zipFileName = "/x";
     zip.extractFilename(leading);
-    CHECK(leading.name == "/x" && leading.extra.empty());
+    CHECK(leading.simpleFileName == "/x" && leading.path.empty());
 
     // Only '/' separates; a backslash does not split, and with no '/' the whole name stays.
     SZipFileEntry plain;
-    plain.path = "a\\b.txt";
+    plain.zipFileName = "a\\b.txt";
     zip.extractFilename(plain);
-    CHECK(plain.name == "a\\b.txt" && plain.extra.empty());
+    CHECK(plain.simpleFileName == "a\\b.txt" && plain.path.empty());
 
     // A trailing '/' (a directory entry) gives an empty base name.
     SZipFileEntry dir;
-    dir.path = "e/";
+    dir.zipFileName = "e/";
     zip.extractFilename(dir);
-    CHECK(dir.name.empty() && dir.extra == "e/");
+    CHECK(dir.simpleFileName.empty() && dir.path == "e/");
 
     // An empty raw name changes nothing.
     SZipFileEntry empty;
-    empty.name = "keep";
+    empty.simpleFileName = "keep";
     zip.extractFilename(empty);
-    CHECK(empty.name == "keep");
+    CHECK(empty.simpleFileName == "keep");
 }
 
 static void testScanKeepsRawPath() {
@@ -111,11 +111,11 @@ static void testScanKeepsRawPath() {
     file->drop();  // the reader keeps the reference its constructor took
     CHECK(zip.getFileCount() == 1);
     const SZipFileEntry* e = zip.getFileInfo(0);
-    CHECK(e->path == "Dir/Readme.TXT");
-    CHECK(e->name == "Dir/Readme.TXT");
-    CHECK(e->extra == "Dir/");
-    CHECK(e->f48 == 30 + 14);  // data follows the 30-byte header and the 14-byte name
-    CHECK(e->f54 == 0 && e->f58 == 5 && e->f5c == 5);
+    CHECK(e->zipFileName == "Dir/Readme.TXT");
+    CHECK(e->simpleFileName == "Dir/Readme.TXT");
+    CHECK(e->path == "Dir/");
+    CHECK(e->fileDataPosition == 30 + 14);  // data follows the 30-byte header and the 14-byte name
+    CHECK(e->header.CompressionMethod == 0 && e->header.CompressedSize == 5 && e->header.UncompressedSize == 5);
 }
 
 static void testDirectoryOrder() {
@@ -129,11 +129,11 @@ static void testDirectoryOrder() {
     CHECK(zip.getFileCount() == 8);
     bool sorted = true;
     for (int i = 1; i < zip.getFileCount(); ++i) {
-        if (zip.getFileInfo(i)->name < zip.getFileInfo(i - 1)->name) sorted = false;
+        if (zip.getFileInfo(i)->simpleFileName < zip.getFileInfo(i - 1)->simpleFileName) sorted = false;
     }
     CHECK(sorted);
-    CHECK(zip.getFileInfo(0)->name.empty());
-    CHECK(zip.getFileInfo(7)->name == "z.bin");
+    CHECK(zip.getFileInfo(0)->simpleFileName.empty());
+    CHECK(zip.getFileInfo(7)->simpleFileName == "z.bin");
     // Two entries share the base name a.bin; the search returns one of them.
     const int a = zip.findFile("a.bin");
     CHECK(a == 1 || a == 2);
@@ -162,7 +162,9 @@ static void testOpenByMethod() {
         CHECK(std::string(stored->getFileName()) == "one.txt");
         stored->drop();
     }
-    CHECK(zip.openFile(deflatedIndex) == nullptr);  // deflate: zlib is not in the port
+    IReadFile* inflated = zip.openFile(deflatedIndex);  // deflate: inflated into a memory file (zip_deflate_test checks the bytes)
+    CHECK(inflated != nullptr);
+    if (inflated) inflated->drop();
     CHECK(zip.openFile(oddIndex) == nullptr);       // any other method is unsupported
 
     // Bit 0 of unk_10 selects the five-argument form; the window is the same.
@@ -182,9 +184,9 @@ static void testOpenByMethod() {
 // sorts before 'a'.
 static void testSignedCharOrder() {
     SZipFileEntry high;
-    high.name = "\xE9";
+    high.simpleFileName = "\xE9";
     SZipFileEntry low;
-    low.name = "a";
+    low.simpleFileName = "a";
     CHECK(high < low);
     CHECK(!(low < high));
 }

@@ -129,7 +129,8 @@ int main() {
         DefaultDataPacket s;
         s.addPacket(&src);  // body: 0, 3, 'a', 'b', 'c'
         DataPacket* out = nullptr;
-        CHECK(s.getPacket(out) == 1);
+        const int result = s.getPacket(out);  // the new packet's body pointer, as the 32-bit register
+        CHECK(out != nullptr && result == static_cast<int>(reinterpret_cast<std::uintptr_t>(out->getMessageBody())));
         CHECK(out != nullptr && out->getMessageLen() == 3);
         CHECK(out != nullptr && std::memcmp(out->getMessageBody(), "abc", 3) == 0);
         delete out;

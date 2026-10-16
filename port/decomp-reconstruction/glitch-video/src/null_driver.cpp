@@ -1,14 +1,22 @@
 #include "glitch-video/null_driver.hpp"
 
 #include <cstring>
+#include <string>
 #include <utility>
+
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "glitch-video/null_shader_manager.hpp"
 
 namespace glitch::video {
 
 // 0x5b9840 _ZN6glitch5video11CNullDriverC1EPNS_7IDeviceE / 0x5b99bc C2
-// Partial, see null_driver.hpp: no shader manager, and a 0 x 0 screen framebuffer.
+// A CNullShaderManager (0x54 bytes) is created and handed to the IVideoDriver constructor with the device; the three managers
+// and the default light are left to that constructor. The transforms start as identity matrices, the driver's name and message
+// strings are set, the screen framebuffer is pushed (initDriver) and the dynamic-light parameters are registered with one
+// light (init(1, 1, 0)).
 CNullDriver::CNullDriver(glitch::IDevice* device)
-    : IVideoDriver(device, nullptr, nullptr, nullptr, nullptr, boost::intrusive_ptr<CLight>()) {
+    : IVideoDriver(device, new CNullShaderManager(), nullptr, nullptr, nullptr, boost::intrusive_ptr<CLight>()) {
     for (core::CMatrix4<float>& matrix : m_transforms) {
         matrix = core::CMatrix4<float>(core::CMatrix4<float>::EM4CONST_IDENTITY);
     }
@@ -18,15 +26,43 @@ CNullDriver::CNullDriver(glitch::IDevice* device)
     init(1, 1, 0);
 }
 
+// 0x5b9610 _ZN6glitch5video11CNullDriverC1EPNS0_12IVideoDriverE / 0x5b9764 C2
+// A null driver on another driver's device, material renderer manager, texture manager, global parameter manager and default
+// light, with a new CNullShaderManager. The transforms are identity matrices and the screen framebuffer is pushed; no name
+// strings are set and nothing is registered (the other driver's parameters are reused).
+CNullDriver::CNullDriver(IVideoDriver* other)
+    : IVideoDriver(other->m_device, new CNullShaderManager(), other->m_materialRendererManager, other->m_textureManager,
+                   other->m_globalParameters, other->m_defaultDynamicLight) {
+    for (core::CMatrix4<float>& matrix : m_transforms) {
+        matrix = core::CMatrix4<float>(core::CMatrix4<float>::EM4CONST_IDENTITY);
+    }
+    initDriver();
+}
+
 // 0x5b94d4 _ZN6glitch5video11CNullDriverD1Ev / 0x5b9524 D2 / 0x5b9508 D0: the IVideoDriver destructor follows.
 CNullDriver::~CNullDriver() = default;
 
 // 0x5b942c _ZN6glitch5video11CNullDriver10initDriverEv
-// Partial: the screen size is the device's (IDevice +0x60), which the port cannot read; the framebuffer is 0 x 0.
+// Zeroes the four words at +0x8c, builds the screen framebuffer (a CFramebuffer, 0x34 bytes) on the device's screen size (the
+// creation parameters' width and height, device +0x60 / +0x64) and pushes it on the target stack.
+// Port guard: without a device the screen is 0 x 0 (the original reads the device).
 void CNullDriver::initDriver() {
     for (uint32_t& word : unk_8c) word = 0;
-    boost::intrusive_ptr<IRenderTarget> screen(new CFramebuffer(this, core::dimension2d<int32_t>{0, 0}), true);
-    pushRenderTarget(screen);
+    core::dimension2d<int32_t> screen{0, 0};
+    if (m_device != nullptr) {
+        std::memcpy(&screen.Width, m_device->creationParameters.bytes + 4, sizeof(int32_t));   // device +0x60
+        std::memcpy(&screen.Height, m_device->creationParameters.bytes + 8, sizeof(int32_t));  // device +0x64
+    }
+    boost::intrusive_ptr<IRenderTarget> framebuffer(new CFramebuffer(this, screen), true);
+    pushRenderTarget(framebuffer);
+}
+
+// 0x5b9240 _ZN6glitch5video11CNullDriver12printVersionEv
+// Logs "Using renderer: " and the driver's name (+0x08) at level 1.
+void CNullDriver::printVersion() {
+    std::wstring text = L"Using renderer: ";
+    for (char c : unk_08) text.push_back(static_cast<wchar_t>(static_cast<unsigned char>(c)));
+    glitch::os::Printer::log(text.c_str(), glitch::os::ELL_INFORMATION);
 }
 
 // 0x5b9064 _ZNK6glitch5video11CNullDriver12getTransformENS0_22E_TRANSFORMATION_STATEE: &m_transforms[state].

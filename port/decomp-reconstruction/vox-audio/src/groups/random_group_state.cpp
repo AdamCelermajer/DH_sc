@@ -58,7 +58,7 @@ void RandomGroup::GetState(RandomGroupState* state) const {
     state->prev_index = prev_index_;
     state->prev_cycle_remaining = prev_cycle_remaining_;
     state->elements = &elements_;
-    state->removed = &removed_;
+    state->removed = &sentinel();
 }
 
 // 0x882f48 _ZN3vox11RandomGroup8SetStateEPNS_16RandomGroupStateE
@@ -91,10 +91,10 @@ void RandomGroup::SetState(const RandomGroupState* state) {
         }
     }
 
-    FreeRemovedNodes(removed_);
+    FreeRemovedNodes(sentinel());
     if (state->removed != nullptr) {
         for (const RandomGroupNode* node = state->removed->next; node != state->removed; node = node->next) {
-            LinkRemovedAtTail(removed_, AllocRemovedNode(node->element));
+            LinkRemovedAtTail(sentinel(), AllocRemovedNode(node->element));
         }
     }
 }
@@ -121,8 +121,8 @@ void RandomGroup::SetState(const RandomGroup& other) {
     SegmentGroup::SetState(other);
 
     auto first_removed_element = [this]() -> RandomGroupElement* {
-        RandomGroupNode* head = removed_.next;
-        return head == &removed_ ? nullptr : head->element;
+        RandomGroupNode* head = sentinel().next;
+        return head == &sentinel() ? nullptr : head->element;
     };
 
     const std::size_t source_size = other.elements_.size();
@@ -139,7 +139,7 @@ void RandomGroup::SetState(const RandomGroup& other) {
             elements_.push_back(last);
         }
         RandomGroupNode* node = AllocRemovedNode(last);
-        RandomGroupNode* head = removed_.next;
+        RandomGroupNode* head = sentinel().next;
         RandomGroupNode* tail = head->prev;
         node->next = head;
         node->prev = tail;
@@ -165,8 +165,8 @@ void RandomGroup::SetState(const RandomGroup& other) {
 // freed. The current state moves to the saved fields, the cycle is restarted from the element
 // count, and with reset mode 0 the second word pair is restored from the reset values.
 int RandomGroup::Reset(int reset_mode) {
-    while (removed_.next != &removed_) {
-        RandomGroupNode* node = removed_.next;
+    while (sentinel().next != &sentinel()) {
+        RandomGroupNode* node = sentinel().next;
         RandomGroupElement* element = node->element;
         total_weight_ += element->weight_;
         elements_.push_back(element);
@@ -220,15 +220,15 @@ void RandomGroup::SetToPreviousState() {
             total_weight_ -= popped->weight_;
         }
 
-        elements_.push_back(removed_.prev->element);
+        elements_.push_back(sentinel().prev->element);
 
-        RandomGroupNode* tail = removed_.prev;
+        RandomGroupNode* tail = sentinel().prev;
         total_weight_ += tail->element->weight_;
         UnlinkRemoved(tail);
         VoxFree(tail);
 
         if (reinsert_flag_) {
-            LinkRemovedAtTail(removed_, AllocRemovedNode(popped));
+            LinkRemovedAtTail(sentinel(), AllocRemovedNode(popped));
         }
     }
 }

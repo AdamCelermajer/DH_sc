@@ -29,5 +29,7 @@ bool getMaterialTexture(const video::CMaterial& material, std::uint16_t paramete
                         boost::intrusive_ptr<video::ITexture>& texture);
 // setParameterCvt<SColor>(id, index, colour): the colour converted to the parameter's own type.
 bool setMaterialColorCvt(video::CMaterial& material, std::uint16_t parameterId, std::uint32_t index, video::SColor color);
+// getParameter<SColor>(id, index, out): the parameter's colour value (CParticleSystemSceneNode::onAnimate).
+bool getMaterialColor(const video::CMaterial& material, std::uint16_t parameterId, std::uint32_t index, video::SColor& color);
 
 }  // namespace glitch::scene

@@ -110,19 +110,19 @@ void Character::UpdateStateFX() {
         fxId = -1;
     } else if (CharStateMachine::SM_IsStunned(true) && (CharStateMachine::m_stateFlags & 0x800u) != 0) {
         category = 4;
-        fxId = design->m_w32;
+        fxId = design->StateStunned;
     } else if (previous > 3) {
         category = 0;
         fxId = -1;
     } else if (CharStateMachine::SM_IsScared(true) && (CharStateMachine::m_stateFlags & 0x400u) != 0) {
         category = 3;
-        fxId = design->m_w29;
+        fxId = design->StateFeared;
     } else if (previous > 1 || !(FloatFromBits(CharProperties::PROPS_GetWalkSpeed()) < 1.0f)) {
         category = 0;
         fxId = -1;
     } else {
         category = 1;
-        fxId = design->m_w31;
+        fxId = design->StateSlowed;
     }
     if (fxId == -1) {
         category = 0;
@@ -211,9 +211,9 @@ bool Character::INV_DoesMeetRequirements(ItemInstance* item) {
         return true;
     }
     const Structs::Item* record = item->GetItem();
-    return record->m_w29 <= (m_props.m_w20 >> 8) && record->m_w30 <= (m_props.m_w150 >> 8) &&
-           record->m_w31 <= (m_props.m_w151 >> 8) && record->m_w32 <= (m_props.m_w152 >> 8) &&
-           record->m_w33 <= (m_props.m_w153 >> 8);
+    return record->LevelRequirement <= (m_props.Level >> 8) && record->StrengthRequirement <= (m_props.Stat_Strength >> 8) &&
+           record->DexterityRequirement <= (m_props.Stat_Dexterity >> 8) && record->EnduranceRequirement <= (m_props.Stat_Endurance >> 8) &&
+           record->EnergyRequirement <= (m_props.Stat_Energy >> 8);
 }
 
 // 0x3a49f0 _ZNK9Character8IsPlayerEv
@@ -315,18 +315,18 @@ int Character::AddItemInstance(ItemInstance* item, bool a, bool b) {
 // query runs. With one, a and b take m_props.m_w31 and m_w32 (+0x1070, +0x1074) shifted right by 8, c takes m_w33, and the
 // result is true.
 bool Character::CanRangeAttack(int& a, int& b, int& c) const {
-    if (m_props.m_w33 == -1) {
+    if (m_props.RangeProjectileID == -1) {
         return ItemInventory::CanRangeAttack(a, b, c);
     }
-    a = m_props.m_w31 >> 8;
-    b = m_props.m_w32 >> 8;
-    c = m_props.m_w33;
+    a = m_props.RangeMinDistance >> 8;
+    b = m_props.RangeMaxDistance >> 8;
+    c = m_props.RangeProjectileID;
     return true;
 }
 
 // 0x3a4d3c _ZNK9Character14CanRangeAttackEv
 bool Character::CanRangeAttack() const {
-    if (m_props.m_w33 == -1) {
+    if (m_props.RangeProjectileID == -1) {
         return ItemInventory::CanRangeAttack();
     }
     return true;
@@ -382,9 +382,9 @@ void Character::Interact(GameObject* other) {
             if (player != nullptr) {
                 const auto* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + GetLoot();
                 if (ItemInventory::GetNumItems() == 0) {
-                    const auto* entries = static_cast<const Structs::MerchandiseListEntry*>(row->m_w4);
-                    for (std::uint32_t i = 0; i < row->m_w3; ++i) {
-                        ItemInventory::AddLoot(entries[i].m_w2, 0, 0, -1, false);
+                    const auto* entries = static_cast<const Structs::MerchandiseListEntry*>(row->MerchandiseList);
+                    for (std::uint32_t i = 0; i < row->MerchandiseListSize; ++i) {
+                        ItemInventory::AddLoot(entries[i].Merchandise, 0, 0, -1, false);
                     }
                 }
                 gameswf::as_value openArgument;

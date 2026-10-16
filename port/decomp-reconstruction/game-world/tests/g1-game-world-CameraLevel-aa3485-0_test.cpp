@@ -321,10 +321,10 @@ void TestCanPlayShakeAnimNull(const CameraLevel& cam) {
 void TestHandleZoom(CameraLevel& cam) {
     // The four limit words are floats in Structs::DesignSettings (m_w18, m_w19, m_w42 and m_w43).
     Structs::DesignSettings* design = TestDesign();
-    design->m_w43 = 0.2f;  // minimum, object position off (word 172)
-    design->m_w42 = 1.5f;  // maximum, object position off (word 168)
-    design->m_w19 = 0.3f;  // minimum, object position on (word 76)
-    design->m_w18 = 1.2f;  // maximum, object position on (word 72)
+    design->ZoomMinLimit = 0.2f;  // minimum, object position off (word 172)
+    design->ZoomMaxLimit = 1.5f;  // maximum, object position off (word 168)
+    design->MiniMapZoomMinLimit = 0.3f;  // minimum, object position on (word 76)
+    design->MiniMapZoomMaxLimit = 1.2f;  // maximum, object position on (word 72)
     Arrays::DesignSettingsTable::members = g_designBuf;
 
     // InfiniteZoom: the effective zoom is the current zoom and nothing is clamped.

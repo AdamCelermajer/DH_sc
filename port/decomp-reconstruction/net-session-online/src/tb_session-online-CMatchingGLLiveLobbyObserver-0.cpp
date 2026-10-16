@@ -1,20 +1,32 @@
 // Lobby observer bodies (CMatchingGLLiveLobbyObserver). The room list (+0x18, tGLRoomInfo records)
 // and the member list (+0x24, tMemberInfo entries) are modelled in the owner header and in
-// tb/t_gl_room_info.hpp and t_member_info.hpp. The packet reads are not: DataPacket's vptr slots
-// +0x0c, +0x14 and +0x40 are not declared in net-transport, so each body that reads a packet keeps
-// only the state and list effects it can make, and is partial. Unmodelled parts are listed per
-// function. Original field offsets are kept as comments; see c_matching_gl_live_observers.hpp.
+// tb/t_gl_room_info.hpp and t_member_info.hpp. The packet reads go through the DataPacket slots (getInt +0x14, getByte +0x0c,
+// getShortLenString +0x40, getBlob +0x50). Original field offsets are kept as comments; see c_matching_gl_live_observers.hpp.
 
+#include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <ctime>
+#include <new>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "core-platform/memory.hpp"
+#include "core-platform/w7_global_04.hpp"  // ParseDedicatedServerInfo
+#include "dh2/CRoomSearchFilter.hpp"
+#include "dh2/global/net_singletons.hpp"  // GetConnectionMgr, GetDedicatedServer
 #include "net-session-online/c_matching_gl_live.hpp"
 #include "net-session-online/c_matching_gl_live_observers.hpp"
+#include "net-session-online/c_sign_in.hpp"
+#include "net-session-online/deps/matching_queue.hpp"
+#include "net-session-online/glx_player_login.hpp"
+#include "net-session-online/glx_player_mp_lobby.hpp"
 #include "net-session-online/tb/t_gl_room_info.hpp"
+#include "net-transport/connection_manager.hpp"
 #include "net-transport/data_packet.hpp"
 #include "net-transport/deps/byte_array.hpp"  // CustomFree (inline, the C allocator here)
+#include "net-transport/net_network_id.hpp"
 
 // 0x8213ec _ZN28CMatchingGLLiveLobbyObserver13ClearRoomListEv
 // Reconstructed: the original pops each room record from the back of the list, runs its destructor
@@ -61,40 +73,209 @@ std::int32_t CMatchingGLLiveLobbyObserver::GetMemberIndexByName(const char* name
     return -1;
 }
 
+namespace {
+
+// 0x8212d0 _ZL15PrintDatapacketP10DataPacket. File-local in the original, so each user has its own copy.
+// It calls the packet's getMessageBody (vptr +0x64) and returns getMessageLen (vptr +0x60). Both are
+// declared on the DataPacket base. core-platform ledgers the original as skipped; this is the local copy
+// the handlers need.
+std::int32_t PrintDatapacket(DataPacket* packet) {
+    (void)packet->getMessageBody();
+    return static_cast<std::int32_t>(packet->getMessageLen());
+}
+
+// The matching singleton as a CMatchingGLLive. The original casts CMatching::Get() without a check; the observer
+// is only installed when the Gameloft Live provider is active. Null (callers skip the call) for another provider.
+CMatchingGLLive* LiveMatching() { return dynamic_cast<CMatchingGLLive*>(CMatching::Get()); }
+
+// A short-length string read from the packet (DataPacket vtable +0x40, getShortLenString). The text is a new[] block
+// that this object releases; the original frees most of its packet strings with CustomFree and leaks some, which are
+// released here too.
+struct PacketString {
+    char* text = nullptr;
+    std::int16_t length = 0;
+    PacketString() = default;
+    PacketString(const PacketString&) = delete;
+    PacketString& operator=(const PacketString&) = delete;
+    ~PacketString() { delete[] text; }
+    // Drops the previous text and reads the next string.
+    void Read(DataPacket* packet) {
+        delete[] text;
+        text = nullptr;
+        packet->getShortLenString(text, length);
+    }
+    const char* Text() const { return text != nullptr ? text : ""; }
+};
+
+// The member name: the original copies min(length, 31) + 1 bytes of the packet text into the 36-byte name buffer of the
+// entry (memcpy). Here at most 31 characters are copied and the name is terminated (the original leaves a name of 31 or
+// more characters unterminated and reads the following stack bytes). A failed read gives an empty name (the original
+// copies from a null pointer).
+void SetMemberName(tMemberInfo& member, const PacketString& text) {
+    std::int32_t length = text.length;
+    if (length > 31) {
+        length = 31;
+    }
+    if (text.text == nullptr || length < 0) {
+        length = 0;
+    }
+    std::memcpy(member.name_, text.Text(), static_cast<std::size_t>(length));
+    member.name_[length] = '\0';
+}
+
+// The three reads shared by the join handlers after the name: the second string (+0x08), the byte (+0x4c) and the value
+// string (+0x0c with its length at +0x24; the value is assigned only when the length is positive, the length is stored
+// either way).
+void ReadMemberTail(tMemberInfo& member, DataPacket* packet) {
+    PacketString second;
+    second.Read(packet);
+    member.unk08_ = second.Text();
+    unsigned char flag = 0;
+    packet->getByte(flag);
+    member.unk4c_ = flag;
+    PacketString value;
+    value.Read(packet);
+    if (value.length > 0 && value.text != nullptr) {
+        member.value_.assign(value.text, std::strlen(value.text));
+    }
+    member.value24_ = value.length;
+}
+
+// A copy of a string with the engine allocator (tGLRoomInfo releases its strings with CustomFree).
+char* CustomString(const char* text) {
+    if (text == nullptr) {
+        return nullptr;
+    }
+    const std::size_t length = std::strlen(text) + 1;
+    char* copy = static_cast<char*>(CustomAlloc(static_cast<unsigned>(length)));
+    std::memcpy(copy, text, length);
+    return copy;
+}
+
+// std::string::tolower in place, as the handlers do before comparing lobby names.
+std::string Lower(const char* text) {
+    std::string result(text != nullptr ? text : "");
+    for (char& c : result) {
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
+    return result;
+}
+
+}  // namespace
+
 // 0x8216a8 _ZN28CMatchingGLLiveLobbyObserver29OnMPProcessPushGameserverAddrEP10DataPacket
-// Partial. The original copies the dedicated-server info (GetDedicatedServer, 0x2c-byte record),
-// calls ParseDedicatedServerInfo, resets a CNetworkId, sets CMatchingGLLive::s_IsGameStarting,
-// calls CConnectionManager::Connect(1, id) and then CMatchingGLLive::SetGCState(8). Only the
-// s_IsGameStarting store is reproduced: the dedicated-server accessors and the connect call are
-// not declared in this category.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushGameserverAddr(DataPacket* /*packet*/) {
+// Copies the dedicated-server record (GetDedicatedServer, 0x30 bytes), parses the packet into the copy
+// (ParseDedicatedServerInfo), builds the connection id from the copy (the address with its two ports: address 0 =
+// {port at +0x1c, address at +0x18}, address 1 = {the second short at +0x1e, the same address}, both presence bits),
+// sets CMatchingGLLive::s_IsGameStarting, connects member 1 to it and moves the Game Center state to 8. Returns 0.
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushGameserverAddr(DataPacket* packet) {
+    _tDedicatedServerInfo info = *GetDedicatedServer();
+    ParseDedicatedServerInfo(info, packet);
+    CNetworkId id;
+    id.Reset();
     CMatchingGLLive::s_IsGameStarting = true;
+    id.SetAddress0(static_cast<std::uint16_t>(info.unk_1c), info.address);  // +0x1c, +0x18
+    id.SetAddress1(static_cast<std::uint16_t>(info.unk_1e), info.address);  // +0x1e, +0x18
+    GetConnectionMgr()->Connect(1, id);
+    if (CMatchingGLLive* live = LiveMatching()) {
+        live->SetGCState(8);
+    }
     return 0;
 }
 
 // 0x8217a8 _ZN28CMatchingGLLiveLobbyObserver22OnMPListSessionSuccessEP10DataPacket
-// Partial. Reproduced on every path: the flag byte (+0x07) = true and state (+0x14) = 7 at entry.
-// The exit stores, lastResult (+0x48) = 0 and updateTime (+0x10) = time(nullptr), belong to the
-// count > 0 branch only. For a count of 0 or less the original calls ClearRoomList and branches to the
-// epilogue (assembly labels loc_821AA0 and loc_821A70), which skips both stores (loc_821A58). This
-// body runs both stores on every path anyway: the session count (DataPacket vptr +0x14, not declared)
-// is not read, so the branch cannot be chosen, and the count <= 0 path is not reproduced.
-// Not reproduced: the PrintDatapacket trace; the count read that picks the branch; the ClearRoomList
-// call for a count of 0 or less; for a positive count, the room record reads, the CRoomAttributes
-// unserialize from the blob (the char* overload is not declared), the CRoomSearchFilter test against
-// CMatching+26424, the record allocation and insert or replace by name; and the JoinRoom and
-// SetGCState(5) branch for a logged-in host.
-void CMatchingGLLiveLobbyObserver::OnMPListSessionSuccess(DataPacket* /*packet*/) {
+// The packet is dumped, the session count read, the flag byte (+0x07) set and the state (+0x14) put at 7. A count of 0
+// or less only clears the room list (the exit stores are skipped). Otherwise: with Game Center active the packet carries
+// the room id and the room name; when the name equals the host UID the room is joined (sign-extended id) and the
+// Game Center state becomes 5. Without Game Center the room list is rebuilt: each record (CustomAlloc, 0x28 bytes) reads
+// the id, the name, the second string, four bytes, two ints and the attribute blob (length at +0x24); the blob is
+// unserialized (0x80 bytes), the search filter of the matching object (+0x6738, copied) tests it, and a record that
+// passes replaces the room of the same name (the old record is destroyed and freed) or is appended. Finally the last
+// result (+0x48) is cleared and the update time (+0x10) stamped.
+// Deviation: a record that fails the filter is freed here (the original leaks it); the Game Center room name is freed.
+void CMatchingGLLiveLobbyObserver::OnMPListSessionSuccess(DataPacket* packet) {
+    PrintDatapacket(packet);
+    std::int32_t count = 0;
+    packet->getInt(count);
     flag07_ = true;
     state_ = 7;
-    lastResult_ = 0;
-    updateTime_ = static_cast<std::int32_t>(std::time(nullptr));
+    if (count <= 0) {
+        ClearRoomList();
+        return;
+    }
+    CMatchingGLLive* live = LiveMatching();
+    if (live != nullptr && live->gameCenterActive_) {  // +0x67e8
+        std::int32_t roomId = 0;
+        packet->getInt(roomId);
+        PacketString name;
+        name.length = 0;
+        name.Read(packet);
+        const char* hostUid = CMatchingGLLive::s_GameCenterInfo.hostUid_;  // dword_A33880
+        if (name.text != nullptr && hostUid != nullptr && std::strcmp(name.text, hostUid) == 0) {
+            CMatching::Get()->JoinRoom(static_cast<std::uint64_t>(static_cast<std::int64_t>(roomId)));
+            live->SetGCState(5);
+        }
+    } else {
+        ClearRoomList();
+        for (std::int32_t i = 0; i < count; ++i) {
+            void* block = CustomAlloc(sizeof(tGLRoomInfo));
+            tGLRoomInfo* room = new (block) tGLRoomInfo();
+            std::int16_t length = 0;
+            packet->getInt(room->roomId_);
+            {
+                PacketString text;
+                text.Read(packet);
+                room->name_ = CustomString(text.text);
+                text.Read(packet);
+                room->second_ = CustomString(text.text);
+            }
+            packet->getByte(room->byte0c_);
+            packet->getByte(room->byte0d_);
+            packet->getByte(room->byte0e_);
+            packet->getByte(room->byte0f_);
+            packet->getInt(room->unk_10_);
+            packet->getInt(room->unk_14_);
+            {
+                char* blob = nullptr;
+                packet->getBlob(blob, length);  // vtable +0x50
+                if (blob != nullptr) {
+                    room->attributes_ = static_cast<char*>(CustomAlloc(static_cast<unsigned>(length) + 1u));
+                    std::memcpy(room->attributes_, blob, static_cast<std::size_t>(length) + 1u);
+                    delete[] blob;
+                }
+            }
+            room->attributesLength_ = length;
+            CRoomAttributes attributes;
+            if (room->attributes_ != nullptr) {
+                attributes.Unserialize(room->attributes_, 0x80u);
+            }
+            CRoomSearchFilter filter(live != nullptr ? live->searchFilter_ : CRoomSearchFilter());  // +0x6738
+            if (filter.TestRoomAttributes(attributes)) {
+                const std::int32_t index = GetRoomIndexByName(room->name_);
+                if (index == -1) {
+                    roomList_.push_back(room);
+                } else {
+                    tGLRoomInfo* old = roomList_[static_cast<std::size_t>(index)];
+                    roomList_[static_cast<std::size_t>(index)] = room;
+                    if (old != nullptr) {
+                        old->~tGLRoomInfo();
+                        CustomFree(old);
+                    }
+                }
+            } else {
+                room->~tGLRoomInfo();
+                CustomFree(room);
+            }
+        }
+    }
+    lastResult_ = 0;                                        // +0x48
+    updateTime_ = static_cast<std::int32_t>(std::time(nullptr));  // +0x10
 }
 
 // 0x822b78 _ZN28CMatchingGLLiveLobbyObserver23OnMPLeaveSessionSuccessEv
-// Partial: the side effects are reproduced (gameStarted (+0x06) = false, field0c and field08 = -1,
-// the member list erased, lastResult (+0x48) = 0). The original returns the erase result: the
-// position of the erased range, which is an address and has no portable value. This returns 0.
+// gameStarted (+0x06) = false, field0c and field08 = -1, the member list erased, lastResult (+0x48) = 0.
+// Deviation: the original returns the erase result (the position of the erased range, an address with no portable
+// value) when the list was not empty and 0 otherwise; this returns 0.
 std::int32_t CMatchingGLLiveLobbyObserver::OnMPLeaveSessionSuccess() {
     gameStarted_ = false;
     field0c_ = -1;
@@ -105,117 +286,301 @@ std::int32_t CMatchingGLLiveLobbyObserver::OnMPLeaveSessionSuccess() {
 }
 
 // 0x822c58 _ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushKickOutPlayerEP10DataPacket
-// Partial. Not reproduced: the packet string read of the kicked player's name (DataPacket vptr +0x40,
-// not declared); the comparison with the local login nickname (GLXPlayerLogin +0x74, nickName()); on a
-// mismatch, the member erase at the index from GetMemberIndexByName (now available) and the CMatching
-// event 4194318; on a match, the GLXPlayerMPLobby::mpSendLeaveLobby branch, the erase and the event
-// 4194314. SyncMemberId is not called. Returns 0.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushKickOutPlayer(DataPacket* /*packet*/) {
+// Reads two strings (the first is discarded, the second is the kicked player's name). A name that differs from the
+// local nickname (GLXPlayerLogin +0x74) removes that member, posts 0x40000e, renumbers the remaining entries 0..n-1 and
+// syncs the member ids. The local nickname (this player was kicked) leaves the lobby (mpSendLeaveLobby), clears the
+// member list and posts 0x40000a. Returns 0.
+// Deviation: a name that is not in the list (index -1) erases nothing here, where the original erases the element before
+// the first one (undefined); the name text is freed (the original leaks it).
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushKickOutPlayer(DataPacket* packet) {
+    PacketString name;
+    name.length = -1;
+    name.Read(packet);  // discarded
+    name.Read(packet);
+    CMatchingGLLive* live = LiveMatching();
+    const char* nickname = live != nullptr ? live->GetGLXPlayerLogin()->nickName() : nullptr;
+    if (nickname == nullptr || std::strcmp(nickname, name.Text()) != 0) {
+        const std::int32_t index = GetMemberIndexByName(name.text);
+        if (index >= 0 && static_cast<std::size_t>(index) < memberList_.size()) {
+            memberList_.erase(memberList_.begin() + index);
+        }
+        MatchingOutputEventQueue().AddEvent(0x40000e, nullptr, 0);  // 4194318
+        for (std::size_t i = 0; i < memberList_.size(); ++i) {
+            memberList_[i].memberId_ = static_cast<std::int32_t>(i);  // +0x00
+        }
+        if (live != nullptr) {
+            live->SyncMemberId();
+        }
+    } else {
+        if (live != nullptr) {
+            live->GetGLXPlayerMPLobby()->mpSendLeaveLobby();
+        }
+        memberList_.clear();
+        MatchingOutputEventQueue().AddEvent(0x40000a, nullptr, 0);  // 4194314
+    }
     return 0;
 }
 
 // 0x822db4 _ZN28CMatchingGLLiveLobbyObserver32OnMPProcessPushJoinLobbyLaunchedEP10DataPacket
-// Partial. The guard is reproduced: -1 when the member list already holds 16 or more entries, with no
-// side effects. Not reproduced: the packet reads that fill the new entry, in this order: the name
-// (DataPacket vptr +0x40, not declared; copied to +0x28, at most 31 characters); a second string
-// (vptr +0x40) into +0x08; a byte (vptr +0x0c) into +0x4c; and the value string (vptr +0x40) into the
-// value at +0x0c, with its length at +0x24. The id (+0x00) is never read: the entry keeps -1, which
-// the original sets before the reads. The launched flag (+0x50) is then set to 1, the entry is pushed
-// into the member list and the CMatching event 4194316 is queued; none of that is reproduced. Returns
-// 0 after the guard, so no entry is added.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyLaunched(DataPacket* /*packet*/) {
+// -1 when the member list already holds 16 entries. Otherwise a new entry (id -1) is read from the packet: the name
+// (at most 31 characters), the second string, the byte and the value string with its length; its launched flag
+// (+0x50) is set, it is appended and 0x40000c is posted. Returns 0.
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyLaunched(DataPacket* packet) {
     if (memberList_.size() > 15) {
         return -1;
     }
+    tMemberInfo member(-1);
+    PacketString name;
+    name.Read(packet);
+    SetMemberName(member, name);
+    ReadMemberTail(member, packet);
+    member.launched_ = true;  // +0x50
+    memberList_.push_back(member);
+    MatchingOutputEventQueue().AddEvent(0x40000c, nullptr, 0);  // 4194316
     return 0;
 }
 
 // 0x822fa4 _ZN28CMatchingGLLiveLobbyObserver24OnMPCreateSessionSuccessEP10DataPacket
-// Partial. Reproduced: state (+0x14) = 4 and gameStarted (+0x06) = true at entry, the member list
-// erased (when not empty), lastResult (+0x48) = 0 at exit. Not reproduced: the packet read of the host
-// id into +0x08 (DataPacket vptr +0x14, not declared) and the room-name read; the single host member
-// push, whose name is the login nickname or the anonymous name, and whose value comes from a CMatching
-// string (CMatching+26600..+26628, not recovered); SetGCState(6); and the event 4 queued on
-// CMatchingGLLive::s_eventQueueGLLiveInternal.
-void CMatchingGLLiveLobbyObserver::OnMPCreateSessionSuccess(DataPacket* /*packet*/) {
+// State (+0x14) = 4 and gameStarted (+0x06) = true; the packet is dumped and the host id read into +0x08; the member
+// list is erased. One entry (the host) is built: with Game Center active its name is the host UID (dword_A33880) and the
+// id stays -1; otherwise the name is the login nickname (at most 32 characters), the id 0 and the value the
+// matching object's player parameter (with its length). The entry is launched, appended, the Game Center state moves to
+// 6, event 4 is queued on the GL Live internal queue and lastResult (+0x48) = 0.
+void CMatchingGLLiveLobbyObserver::OnMPCreateSessionSuccess(DataPacket* packet) {
     state_ = 4;
     gameStarted_ = true;
+    PrintDatapacket(packet);
+    packet->getInt(field08_);  // +0x08
     memberList_.clear();
+    tMemberInfo member(-1);
+    CMatchingGLLive* live = LiveMatching();
+    if (live != nullptr && live->gameCenterActive_) {
+        const char* hostUid = CMatchingGLLive::s_GameCenterInfo.hostUid_;
+        const std::size_t length = hostUid != nullptr ? std::min<std::size_t>(std::strlen(hostUid), 31) : 0;
+        if (length != 0) {
+            std::memcpy(member.name_, hostUid, length);
+        }
+        member.name_[length] = '\0';
+    } else {
+        const char* nickname = live != nullptr ? live->GetGLXPlayerLogin()->nickName() : nullptr;
+        std::memset(member.name_, 0, sizeof(member.name_));
+        if (nickname != nullptr) {
+            std::strncpy(member.name_, nickname, 32);
+        }
+        member.name_[32] = '\0';
+        member.memberId_ = 0;
+        if (live != nullptr) {
+            member.value_ = live->playerParam_;
+            member.value24_ = static_cast<std::int32_t>(live->playerParam_.size());
+        }
+    }
+    member.launched_ = true;  // +0x50
+    memberList_.push_back(member);
+    if (live != nullptr) {
+        live->SetGCState(6);
+    }
+    CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(4, nullptr, 0);
     lastResult_ = 0;
 }
 
 // 0x8231e0 _ZN28CMatchingGLLiveLobbyObserver22OnMPJoinSessionSuccessEP10DataPacket
-// Partial. Reproduced: gameStarted (+0x06) = true at entry, the member list erased (when not empty),
-// state (+0x14) = 5 and lastResult (+0x48) = 0 at exit. Not reproduced: the member-count read and the
-// per-member packet reads (id, name, value, flags; DataPacket vptr +0x0c, +0x14 and +0x40 not declared),
-// the local-member index store at +0x0c (when the name matches the login nickname or the anonymous
-// name), the SyncMemberId call and the final SetGCState(8).
-void CMatchingGLLiveLobbyObserver::OnMPJoinSessionSuccess(DataPacket* /*packet*/) {
+// The login component's UID is fetched (unused), gameStarted (+0x06) = true, the member count read and the member list
+// erased. Each member entry reads the name (at most 31 characters), the second string, the byte and the value string;
+// its id is its index, or -1 while the game is starting (s_IsGameStarting). The local member index (+0x0c) is set to the
+// index of the entry whose name equals the Game Center user UID (Game Center active) or the login nickname. Each
+// entry is launched, appended, and SyncMemberId runs. Finally the Game Center state becomes 8, lastResult (+0x48) = 0 and
+// the state (+0x14) = 5.
+void CMatchingGLLiveLobbyObserver::OnMPJoinSessionSuccess(DataPacket* packet) {
+    CMatchingGLLive* live = LiveMatching();
+    if (live != nullptr) {
+        live->GetGLXPlayerLogin();  // GetUID() result unused
+    }
     gameStarted_ = true;
+    std::int32_t count = 0;
+    packet->getInt(count);
     memberList_.clear();
-    state_ = 5;
+    for (std::int32_t i = 0; i < count; ++i) {
+        tMemberInfo member(CMatchingGLLive::s_IsGameStarting ? -1 : i);
+        PacketString name;
+        name.Read(packet);
+        SetMemberName(member, name);
+        {
+            PacketString second;
+            second.Read(packet);
+            member.unk08_ = second.Text();
+        }
+        unsigned char flag = 0;
+        packet->getByte(flag);
+        member.unk4c_ = flag;
+        live = LiveMatching();
+        if (live != nullptr && live->gameCenterActive_) {
+            const char* userUid = CMatchingGLLive::s_GameCenterInfo.userUid_;  // dword_A3387C
+            if (userUid != nullptr && std::strcmp(member.name_, userUid) == 0) {
+                field0c_ = i;
+            }
+        } else if (live != nullptr) {
+            const char* nickname = live->GetGLXPlayerLogin()->nickName();
+            if (nickname != nullptr && std::strcmp(member.name_, nickname) == 0) {
+                field0c_ = i;
+            }
+        }
+        PacketString value;
+        value.Read(packet);
+        if (value.length > 0 && value.text != nullptr) {
+            member.value_.assign(value.text, std::strlen(value.text));
+        }
+        member.value24_ = value.length;
+        member.launched_ = true;  // +0x50
+        memberList_.push_back(member);
+        if (live != nullptr) {
+            live->SyncMemberId();
+        }
+    }
+    if (CMatchingGLLive* gl = LiveMatching()) {
+        gl->SetGCState(8);
+    }
     lastResult_ = 0;
+    state_ = 5;
 }
 
 // 0x823510 _ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSetUserParameterEP10DataPacket
-// Partial. Not reproduced: the two string reads through DataPacket vptr +0x40 (not declared on the
-// base). The first is the member name; the second is freed at once and discarded. With the name, the
-// original scans the members in order for the first entry whose name (+0x28) is equal and, if one is
-// found, reads the blob C-string through getBlob (vptr +0x50, declared in net-transport, not yet wired
-// here) and assigns it to that member's value string (+0x0c), with strlen as the length. It does not
-// go through SetPlayerParam, which assigns to the member at the observer's local index (+0x0c), and
-// GetMemberIndexByName is not called here either, because the name is not read. Returns 0.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushSetUserParameter(DataPacket* /*packet*/) {
-    return 0;
-}
-
-// 0x8235f8 _ZN28CMatchingGLLiveLobbyObserver34OnMPProcessPushJoinLobbyUnlaunchedEP10DataPacket
-// Partial. The member-count guard is reproduced: -1 when the member list already holds 16 or more
-// entries, before any packet read. Not reproduced: the four packet reads that fill the new entry, in
-// this order: the name (copied to +0x28, at most 31 characters), a second string (+0x08), a flag byte
-// (+0x4c) and the value (+0x0c, its length at +0x24). They go through DataPacket vptr +0x40
-// (getShortLenString) and +0x0c (getByte), which the DataPacket base does not declare. Also not
-// reproduced: the push_back of the entry, the launched flag (+0x50 = 1; the original sets it in this
-// body, which the note on the Launched sibling does not show), and the CMatching event 4194316 on the
-// outgoing queue. Returns 0 after the guard, so no entry is added.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyUnlaunched(DataPacket* /*packet*/) {
-    if (memberList_.size() > 15) {
-        return -1;
+// Reads the member name and a second string (discarded), finds the first entry with that name and replaces its value
+// string with the blob read next (vtable +0x50, getBlob; used as a C string). Does not go through SetPlayerParam.
+// Returns 0. Deviation: the name and the blob are freed (the original leaks them); an unreadable name matches nothing.
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushSetUserParameter(DataPacket* packet) {
+    PacketString name;
+    name.Read(packet);
+    {
+        PacketString discarded;
+        discarded.Read(packet);
+    }
+    if (name.text == nullptr) {
+        return 0;
+    }
+    for (tMemberInfo& member : memberList_) {
+        if (std::strcmp(member.name_, name.text) == 0) {
+            std::int16_t length = 0;
+            char* blob = nullptr;
+            packet->getBlob(blob, length);  // vtable +0x50
+            if (blob != nullptr) {
+                member.value_.assign(blob, std::strlen(blob));
+                delete[] blob;
+            }
+            break;
+        }
     }
     return 0;
 }
 
+// 0x8235f8 _ZN28CMatchingGLLiveLobbyObserver34OnMPProcessPushJoinLobbyUnlaunchedEP10DataPacket
+// Like the Launched variant, but the new entry's id is the current member count. -1 when the list already holds 16
+// entries. The entry is launched (+0x50 = 1), appended and 0x40000c is posted. Returns 0.
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyUnlaunched(DataPacket* packet) {
+    if (memberList_.size() > 15) {
+        return -1;
+    }
+    tMemberInfo member(static_cast<std::int32_t>(memberList_.size()));
+    PacketString name;
+    name.Read(packet);
+    SetMemberName(member, name);
+    ReadMemberTail(member, packet);
+    member.launched_ = true;  // +0x50
+    memberList_.push_back(member);
+    MatchingOutputEventQueue().AddEvent(0x40000c, nullptr, 0);  // 4194316
+    return 0;
+}
+
 // 0x823808 _ZN28CMatchingGLLiveLobbyObserver25OnMPProcessPushRejoinGameEP10DataPacket
-// Partial. The lookup by name is reproduced in GetMemberIndexByName, but the packet is not read, so the
-// body returns 0 without touching the list. Not reproduced: the first string read (the lookup name,
-// through DataPacket vptr +0x40, not declared on the base). When the name is found, the original reads a
-// second string into +0x08, a flag byte into +0x4c (vptr +0x0c) and a third string into the value at
-// +0x0c with its length at +0x24, then sets the launched flag (+0x50) to 1. When it is not found, the
-// original pushes a new entry built the same way and calls CMatchingGLLive::SyncMemberId.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushRejoinGame(DataPacket* /*packet*/) {
+// Reads the member name. An unknown name appends a new entry (id -1; name of at most 31 characters, the second string, the
+// byte, the value string with its length), launched, and syncs the member ids. A known name updates its entry: the
+// second string, the byte and the value string; the length at +0x24 is only replaced when it differs; the launched flag is
+// set. Returns 0.
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushRejoinGame(DataPacket* packet) {
+    PacketString name;
+    name.length = -1;
+    name.Read(packet);
+    const std::int32_t index = GetMemberIndexByName(name.text);
+    if (index == -1) {
+        tMemberInfo member(-1);
+        SetMemberName(member, name);
+        {
+            PacketString second;
+            second.Read(packet);
+            member.unk08_ = second.Text();
+        }
+        unsigned char flag = 0;
+        packet->getByte(flag);
+        member.unk4c_ = flag;
+        PacketString value;
+        value.Read(packet);
+        member.value_ = value.Text();
+        member.value24_ = value.length;
+        member.launched_ = true;  // +0x50
+        memberList_.push_back(member);
+        if (CMatchingGLLive* live = LiveMatching()) {
+            live->SyncMemberId();
+        }
+    } else {
+        tMemberInfo& member = memberList_[static_cast<std::size_t>(index)];
+        {
+            PacketString second;
+            second.Read(packet);
+            member.unk08_ = second.Text();
+        }
+        unsigned char flag = 0;
+        packet->getByte(flag);
+        member.unk4c_ = flag;
+        PacketString value;
+        value.Read(packet);
+        member.value_ = value.Text();
+        if (member.value24_ != value.length) {
+            member.value24_ = value.length;
+        }
+        member.launched_ = true;  // +0x50
+    }
     return 0;
 }
 
 // 0x823ac4 _ZN28CMatchingGLLiveLobbyObserver25OnMPProcessPushLeaveLobbyEP10DataPacket
-// Partial. The 9.4 KB body is not rebuilt. Not reproduced: the two packet string reads (the lobby name,
-// then the member name; DataPacket vptr +0x40, not declared on the base), so every branch is unreached.
-// The original branches on the Game Center flag (CMatchingGLLive +0x67e8, private, no accessor). With
-// the flag set, the lower-cased lobby name is compared with dword_A3387C (not identified); otherwise
-// with the sign-in name (CSignIn credentials, protected, no accessor). On a match, when the GLX lobby
-// is not master (mpIsMaster), the original sets the lobby's master byte (+0x81, no setter) and queues
-// event 13 on CMatchingGLLive::s_eventQueueGLLiveInternal. The member lookup then erases the entry and
-// renumbers the list (the copies it makes are not observable). Returns 0.
-std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushLeaveLobby(DataPacket* /*packet*/) {
+// Reads the lobby name. Both it and the local identity (the Game Center user UID, dword_A3387C, when Game Center is
+// active; the sign-in credentials name otherwise) are lower-cased; when the lobby is not master and the names are equal
+// the lobby's master byte (+0x81) is set and event 13 is queued on the GL Live internal queue. A second string, the leaving
+// member's name, is read; a known member is erased, the remaining entries are renumbered 0..n-1 and the member ids are
+// synced. Returns 0.
+// Deviation: a null name is taken as empty (the original constructs a string from null), and the name text is freed on
+// every path (the original frees it only when the member is known).
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushLeaveLobby(DataPacket* packet) {
+    PacketString text;
+    text.length = -1;
+    text.Read(packet);
+    CMatchingGLLive* live = LiveMatching();
+    std::string identity;
+    if (live != nullptr && live->gameCenterActive_) {
+        identity = Lower(CMatchingGLLive::s_GameCenterInfo.userUid_);
+    } else {
+        CSignIn* signIn = CSignIn::Get();
+        identity = Lower(signIn != nullptr ? signIn->CredentialsName() : nullptr);
+    }
+    const std::string lobbyName = Lower(text.text);
+    GLXPlayerMPLobby* lobby = live != nullptr ? live->GetGLXPlayerMPLobby() : nullptr;
+    if (lobby != nullptr && !lobby->mpIsMaster()) {  // lobby vtable +0x3c
+        if (lobbyName == identity) {
+            lobby->SetMaster(true);  // +0x81
+            CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(13, nullptr, 0);
+        }
+    }
+    text.Read(packet);
+    const std::int32_t index = GetMemberIndexByName(text.text);
+    if (index != -1) {
+        memberList_.erase(memberList_.begin() + index);
+        for (std::size_t i = 0; i < memberList_.size(); ++i) {
+            memberList_[i].memberId_ = static_cast<std::int32_t>(i);  // +0x00
+        }
+        if (live != nullptr) {
+            live->SyncMemberId();
+        }
+    }
     return 0;
-}
-
-// 0x8212d0 _ZL15PrintDatapacketP10DataPacket. File-local in the original, so each user has its own copy.
-// It calls the packet's getMessageBody (vptr +0x64) and returns getMessageLen (vptr +0x60). Both are
-// declared on the DataPacket base. core-platform ledgers the original as skipped; this is the local copy
-// the dispatcher needs.
-static std::int32_t PrintDatapacket(DataPacket* packet) {
-    (void)packet->getMessageBody();
-    return static_cast<std::int32_t>(packet->getMessageLen());
 }
 
 // 0x823fd8 _ZN28CMatchingGLLiveLobbyObserver23OnMPProcessPushMessagesEP10DataPacketi

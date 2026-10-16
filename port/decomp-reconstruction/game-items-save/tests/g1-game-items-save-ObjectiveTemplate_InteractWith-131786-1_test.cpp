@@ -148,10 +148,10 @@ namespace {
 // the instance reads are set.
 void Configure(ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerPlate, QE_TriggerPlate>& obj,
                Structs::v2QuestObjectiveStub& row, int objectId, int required) {
-    row.m_w1 = kTypeKill;
-    row.m_w8 = objectId;
-    row.m_w9 = 3;
-    row.m_w10 = required;
+    row.Type = kTypeKill;
+    row.OID1 = objectId;
+    row.OID2 = 3;
+    row.Value = required;
     obj.m_pyData = &row;
     obj.m_objectId = objectId;
     obj.m_currentQty = 0;

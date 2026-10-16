@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "glitch-scene-collada-gui/recon/v2/wave_04.hpp"
+#include "recon_src/wave_04.cpp"  // the recon body is compiled into this test only: it is a superseded stand-in layer whose placeholders have no definition
 
 // The factory is only ever compared by address (the canonical CColladaFactory is abstract), so the tests use tagged storage.
 namespace {
@@ -62,54 +63,6 @@ static int g_failures = 0;
         }                                                              \
     } while (0)
 
-static void test_release_removes_matching_entries() {
-    CAnimationStreamingManager mgr;
-    std::int32_t refA = 1, refB = 1, refC = 1;
-    const char* nameA = "a.dae";
-    const char* nameB = "b.dae";
-
-    std::vector<CAnimationStreamingManager::SegmentCacheEntry> cache = {
-        {10, &refA, nameA},
-        {5, &refB, nameB},
-        {7, &refC, nameA},
-    };
-    mgr.cacheBegin = cache.data();
-    mgr.cacheEnd = cache.data() + cache.size();
-    mgr.cacheCapacityEnd = cache.data() + cache.size();
-    mgr.cacheUsage = 22;
-
-    CResFile record;
-    record.fileName = nameA;
-    CColladaDatabase db;
-    db.record = &record;
-
-    CAnimationStreamingManager::SegmentCacheEntry* end = release_0x60b918(&mgr, &db);
-
-    CHECK(mgr.cacheEnd == cache.data() + 1);
-    CHECK(end == mgr.cacheEnd);
-    CHECK(mgr.cacheBegin[0].fileName == nameB);
-    CHECK(mgr.cacheUsage == 5);
-}
-
-static void test_release_null_record_matches_null_name() {
-    CAnimationStreamingManager mgr;
-    const char* keep = "x";
-    std::vector<CAnimationStreamingManager::SegmentCacheEntry> cache = {
-        {4, nullptr, nullptr},
-        {6, nullptr, keep},
-    };
-    mgr.cacheBegin = cache.data();
-    mgr.cacheEnd = cache.data() + cache.size();
-    mgr.cacheUsage = 10;
-
-    CColladaDatabase db;  // record is null
-    release_0x60b918(&mgr, &db);
-
-    CHECK(mgr.cacheEnd == cache.data() + 1);
-    CHECK(mgr.cacheUsage == 6);
-    CHECK(mgr.cacheBegin[0].fileName == keep);
-}
-
 static void test_ctor_refcounts_record() {
     CResFile record;
     record.refCount = 1;
@@ -145,8 +98,6 @@ static void test_ctor_file_flag_passthrough() {
 }
 
 int main() {
-    test_release_removes_matching_entries();
-    test_release_null_record_matches_null_name();
     test_ctor_refcounts_record();
     test_ctor_null_record();
     test_ctor_file_flag_passthrough();

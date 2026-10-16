@@ -161,6 +161,12 @@ int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index,
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::CLight* const& src);  // 0x5c5be0
 int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::CLight*& out);       // 0x5c5a40
 int getParameterCvt(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::CLight*& out);    // 0x5c58ec
+// 0x5be68c setParameter<intrusive_ptr<CLight>>: the entry must be the light type (18); a new use is taken on the light
+// before it replaces the stored one, and the old light is released.
+int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::CLight* const& src);   // 0x5be68c
+// 0x5c0d30 dropParameter(id): releases the pointers stored by a matrix (0x0b), texture (0x0c..0x0f) or light (0x12) entry
+// and clears the slots; other value types are left alone.
+void dropParameter(GlobalParameterStore& s, std::uint16_t id);                                                            // 0x5c0d30
 // Array forms (pointer, stride in bytes).
 int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, glitch::video::ITexture** out, int stride);     // 0x5c4fa8
 int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, glitch::video::CLight** out, int stride);       // 0x5c518c
@@ -226,4 +232,36 @@ int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, glitch:
 int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, glitch::core::vector3d<float>* out, int stride);    // 0x5c8970
 int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, glitch::core::vector2d<float>* out, int stride);    // 0x5c8a24
 
+// ---------------------------------------------------------------------------------------------
+// Owner G rows added by owner K1b (src/ok1b-GlobalMaterialParameters.cpp). Stored pointers are sizeof(void*) slots, as above.
+// ---------------------------------------------------------------------------------------------
+// Texture and light pointer rows. A stride of 0 steps by sizeof(void*) (the original's 4); every element goes through the counted
+// assign (the original's contiguous branch is a raw memcpy that takes no use).
+int getParameterArray(const GlobalParameterStore& s, std::uint16_t id, glitch::video::ITexture** out, int stride);   // 0x5c24d8
+int getParameterArray(const GlobalParameterStore& s, std::uint16_t id, glitch::video::CLight** out, int stride);     // 0x5c2198
+int setParameterArray(GlobalParameterStore& s, std::uint16_t id, glitch::video::ITexture* const* src, int stride);   // 0x5c0c94
+int setParameterArrayCvt(GlobalParameterStore& s, std::uint16_t id, glitch::video::ITexture* const* src, int stride);  // 0x5c0bd4
+int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::ITexture*& out);     // 0x5bf7dc
+int getParameterCvt(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::ITexture*& out);  // 0x5beaa4
+int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::ITexture* const& src);  // 0x5c3f40
+// Matrix rows: the value slot holds a pointer to a heap matrix (null = identity), written through detail::setMatrixParameter.
+int getParameterArray(const GlobalParameterStore& s, std::uint16_t id, glitch::core::CMatrix4<float>* out, int stride);       // 0x5c091c
+int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::core::CMatrix4<float>& out);   // 0x5c09ec
+int setParameterArray(GlobalParameterStore& s, std::uint16_t id, const glitch::core::CMatrix4<float>* src, int stride);       // 0x5bee04
+int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, const glitch::core::CMatrix4<float>& src);   // 0x5beed8
+// setParameterElement(id, index, component, value): one component of an element; a matrix entry takes the component into its matrix.
+int setParameterElement(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, std::uint32_t component, std::uint8_t value);  // 0x5becc4
+int setParameterElement(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, std::uint32_t component, int value);          // 0x5beb84
+int setParameterElement(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, std::uint32_t component, float value);        // 0x5c0aa8
+
 }  // namespace glitch::video::detail::part1b
+
+namespace glitch::video::detail {
+
+// 0x5bb280 grabParameter<boost::intrusive_ptr<ITexture>>(intrusive_ptr<ITexture>*, unsigned int) and 0x5bb5b0
+// grabParameter<boost::intrusive_ptr<CLight>>(...): takes a use on each of the `count` stored pointers (the in-place copy of a pointer
+// slot after its bytes were copied). Defined in src/ok1b-GlobalMaterialParameters.cpp.
+template <class P>
+void grabParameter(P* slots, unsigned int count);
+
+}  // namespace glitch::video::detail

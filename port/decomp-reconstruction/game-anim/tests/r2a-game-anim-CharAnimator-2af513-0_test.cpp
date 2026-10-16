@@ -247,16 +247,16 @@ Structs::AnimStep g_steps0[1], g_steps1[2], g_steps2[1], g_steps3[2], g_steps5[2
 
 void SetRecord(int id, int loop, int kind, Structs::AnimStep* steps, int stepCount) {
     Structs::AnimTpl& r = g_records[id];
-    r.m_w1 = loop;
-    r.m_w2 = static_cast<std::uint32_t>(stepCount);
-    r.m_w3 = steps;
-    r.m_w4 = kind;
+    r.Loop = loop;
+    r.StepsSize = static_cast<std::uint32_t>(stepCount);
+    r.Steps = steps;
+    r.Type = kind;
 }
 
 void SetStep(Structs::AnimStep& s, int redir, int animDict, int fx = -1) {
-    s.m_w10 = redir;
-    s.m_w2 = animDict;
-    s.m_w6 = fx;
+    s.Redir = redir;
+    s.Anim = animDict;
+    s.FX = fx;
 }
 
 void BuildTable() {

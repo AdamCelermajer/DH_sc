@@ -10,6 +10,7 @@
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
+#include "glitch-video/compile_callbacks.hpp"
 #include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
 #include "glitch-scene-collada-gui/scene/CParticleSystemSceneNode.hpp"
@@ -43,6 +44,8 @@ bool operator==(const std::pair<std::uint32_t, core::aabbox3d<float>>& lhs,
 namespace glitch::scene {
 
 class ITriangleSelector;
+class CBatchSceneNode;
+class CSceneManager;
 // IParticleEmitter, IParticleAffector and the per-shape interfaces: canonical classes in scene/IParticleEmitter.hpp and
 // scene/IParticleAffector.hpp (the stand-ins with a type tag and an empty destructor were retired).
 
@@ -71,16 +74,20 @@ class ITriangleSelector;
 
 // IEndOfBatchCallback: canonical class in scene/CAppendMeshBuffer.hpp.
 
-class ISegmentCompileCallback {
-public:
-    // 0x3ef17c _ZN6glitch5scene23ISegmentCompileCallbackD1Ev (empty)
-    ~ISegmentCompileCallback() = default;
-};
+// ISegmentCompileCallback: canonical class in glitch-video/compile_callbacks.hpp (0x3ef17c, empty destructor).
 
-class SDefaultSegmentCompileCallback {
+class SDefaultSegmentCompileCallback : public ISegmentCompileCallback {
 public:
     // 0x5891a8 _ZN6glitch5scene30SDefaultSegmentCompileCallbackD1Ev (empty)
-    ~SDefaultSegmentCompileCallback() = default;
+    ~SDefaultSegmentCompileCallback() override = default;
+    // 0x58c118: records one compiled segment in the batch node's mesh and forwards it to the user's callback.
+    void operator()(CBatchMesh* mesh, void* segment, const SCompileInfo& info) override;
+
+    // The object is built on compileInternal's stack (0x58fb0c .. 0x58fb5c): vptr +0x00, then
+    CBatchSceneNode* node = nullptr;                        // +0x04 the batch node whose mesh receives the segments
+    CSceneManager* sceneManager = nullptr;                  // +0x08
+    ISegmentCompileCallback* userCallback = nullptr;        // +0x0c compileInternal's fifth argument
+    std::int32_t batchIndex = -1;                           // +0x10 the batch being filled (-1: none yet); the end-of-batch callback keys its map with it
 };
 
 // SAnimatedMesh: canonical class in scene/SAnimatedMesh.hpp.

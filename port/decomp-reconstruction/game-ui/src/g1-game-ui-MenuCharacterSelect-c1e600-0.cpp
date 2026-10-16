@@ -265,9 +265,9 @@ void MenuCharacterSelect::Update() {
             const Structs::CharAnim* row = actor->GetCharAnimTable();
             CharStateMachine* machine = static_cast<CharStateMachine*>(actor);
             if (i == m_shownClassIndex) {
-                machine->SM_SetAnimState(row->m_w24, true, false);
+                machine->SM_SetAnimState(row->MenuOnSelect, true, false);
             } else {
-                machine->SM_SetAnimState(row->m_w23, false, false);
+                machine->SM_SetAnimState(row->MenuIdle, false, false);
             }
         }
     }
@@ -494,7 +494,7 @@ void MenuCharacterSelect::Show() {
         }
         actor->_InitEquipment();
         actor->CharAnimator::SetAnimationSet();
-        static_cast<CharStateMachine*>(actor)->SM_SetAnimState(actor->GetCharAnimTable()->m_w23, false, false);
+        static_cast<CharStateMachine*>(actor)->SM_SetAnimState(actor->GetCharAnimTable()->MenuIdle, false, false);
         actorNode->setPosition(dummy->getAbsolutePosition());  // vtable +0xa4
         actorNode->setRotation(dummy->getRotation());          // vtable +0x9c
         actorNode->setScale(dummy->getScale());                // vtable +0x94

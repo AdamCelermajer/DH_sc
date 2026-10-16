@@ -183,9 +183,9 @@ void RewardList::AssignPyData(Structs::v2QuestRewardStub* pyData, int count) {
         m_rewards = static_cast<Reward**>(
             ::operator new[](sizeof(Reward*) * static_cast<std::size_t>(count), MHS_UNRECOVERED));
         for (int i = 0; i < count; ++i) {
-            m_rewards[i] = s_RewardImplDataMap[pyData[i].m_w1]();
+            m_rewards[i] = s_RewardImplDataMap[pyData[i].Type]();
             m_rewards[i]->m_pyData = &pyData[i];
-            m_rewards[i]->m_type = pyData[i].m_w1;
+            m_rewards[i]->m_type = pyData[i].Type;
         }
     }
 }

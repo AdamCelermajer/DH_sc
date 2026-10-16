@@ -194,7 +194,7 @@ void SetEvent(int i, int state) {
 // Builds a stub array of the given types. The stubs are host v2ConditionStub rows (m_w1 is the type).
 void FillStubs(Structs::v2ConditionStub* stubs, const int* types, int count) {
     for (int i = 0; i < count; ++i) {
-        stubs[i].m_w1 = types[i];
+        stubs[i].Op = types[i];
     }
 }
 
@@ -328,8 +328,8 @@ void TestEventInStateEval() {
     // No current level: false.
     g_currentLevel = nullptr;
     cond.m_stub = &stub;
-    stub.m_w2 = 1;
-    stub.m_w3 = 1;
+    stub.Op1 = 1;
+    stub.Op2 = 1;
     CHECK(!cond.Eval());
 
     // A level with no event manager: false (gAssertLevel 0 prints nothing).
@@ -339,17 +339,17 @@ void TestEventInStateEval() {
 
     // Event 1 is Active: state 1 holds, state 2 does not.
     SetupLevelWithEvents();
-    stub.m_w2 = 1;
-    stub.m_w3 = 1;
+    stub.Op1 = 1;
+    stub.Op2 = 1;
     CHECK(cond.Eval());
-    stub.m_w3 = 2;
+    stub.Op2 = 2;
     CHECK(!cond.Eval());
 
     // Event 2 is Completed.
-    stub.m_w2 = 2;
-    stub.m_w3 = 2;
+    stub.Op1 = 2;
+    stub.Op2 = 2;
     CHECK(cond.Eval());
-    stub.m_w3 = 0;
+    stub.Op2 = 0;
     CHECK(!cond.Eval());
 
     g_currentLevel = nullptr;
@@ -358,8 +358,8 @@ void TestEventInStateEval() {
 void TestEventInStateStateTrace() {
     Condition_IsEventInState cond;
     Structs::v2ConditionStub stub;
-    stub.m_w2 = 1;
-    stub.m_w3 = 1;
+    stub.Op1 = 1;
+    stub.Op2 = 1;
     cond.m_stub = &stub;
     SetupLevelWithEvents();
     std::FILE* f = std::tmpfile();

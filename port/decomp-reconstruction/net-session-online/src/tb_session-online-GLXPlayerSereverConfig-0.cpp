@@ -228,7 +228,7 @@ void GLXPlayerSereverConfig::Update() {
         if (id != 1 || !loadConfigFromLocal()) {
             if (observer_ != nullptr) {
                 // Observer slot 0 with no argument in the pseudocode. The port passes 0.
-                observer_->OnDownloadError(0);
+                observer_->OnNetworkError();
             }
             return;
         }
@@ -236,6 +236,6 @@ void GLXPlayerSereverConfig::Update() {
 
     // Local config loaded for request 1: observer slot 2 with no text (null, length 0).
     if (observer_ != nullptr) {
-        observer_->OnResponseText(1, nullptr, 0);
+        observer_->OnRequestSuccess(1, nullptr, 0);
     }
 }

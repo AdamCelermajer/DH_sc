@@ -106,14 +106,14 @@ const char* TriggerTrap::GetScript() const {
     if (m_dataIndex == -1) {
         return "";
     }
-    return TrapRow(m_dataIndex).m_w4;
+    return TrapRow(m_dataIndex).Script;
 }
 
 // 0x39dc08 TriggerTrap::GetVisual() const
 // The row's Visual (row +0x18, m_w6) when m_dataIndex is not -1, else m_dataIndex (-1).
 int TriggerTrap::GetVisual() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w6;
+        return TrapRow(m_dataIndex).Visual;
     }
     return m_dataIndex;
 }
@@ -127,7 +127,7 @@ int TriggerTrap::GetDamagerId() const {
     if (m_dataIndex == -1) {
         return m_damagerIndex;
     }
-    return TrapRow(m_dataIndex).m_w1;
+    return TrapRow(m_dataIndex).Damage;
 }
 
 // 0x39dc90 TriggerTrap::GetHurtChance() const
@@ -139,14 +139,14 @@ int TriggerTrap::GetHurtChance() const {
     if (m_dataIndex == -1) {
         return m_damagerIndex;
     }
-    return TrapRow(m_dataIndex).m_w2;
+    return TrapRow(m_dataIndex).HurtChance;
 }
 
 // 0x39dce0 TriggerTrap::GetSound() const
 // The row's Sound (row +0x14, m_w5) when m_dataIndex is not -1, else m_dataIndex (-1).
 int TriggerTrap::GetSound() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w5;
+        return TrapRow(m_dataIndex).Sound;
     }
     return m_dataIndex;
 }
@@ -187,7 +187,7 @@ void TriggerTrap::InitPost() {
                 // Structs::ColladaFile::m_w2) becomes m_dae (GameObject +0x290, a 24-byte std::string).
                 const Structs::ColladaFile& dict =
                     reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[visual];
-                m_dae = dict.m_w2;
+                m_dae = dict.Name;
             }
         }
         Zone::InitPost();

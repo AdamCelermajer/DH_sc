@@ -154,9 +154,9 @@ void TestIdFallbacks() {
 
 // The AI row is the one the id selects: row 3 for word 3, the fallback row 8 for an out-of-range word.
 void TestRowWalk(std::vector<std::uint8_t>& ai) {
-    AIRowAt(ai, 0)->m_w14 = 4;
-    AIRowAt(ai, 3)->m_w14 = 2;
-    AIRowAt(ai, 8)->m_w14 = 6;
+    AIRowAt(ai, 0)->Type = 4;
+    AIRowAt(ai, 3)->Type = 2;
+    AIRowAt(ai, 8)->Type = 6;
 
     SetRaw(0, 3, 0, 0);
     EXPECT(Obj()->GetCharAI() == reinterpret_cast<const Structs::AIProps*>(ai.data()) + 3);
@@ -170,7 +170,7 @@ void TestRowWalk(std::vector<std::uint8_t>& ai) {
     EXPECT(Obj()->IsNPC());
 
     for (std::size_t r = 0; r < kAIRows; ++r) {
-        AIRowAt(ai, r)->m_w14 = 0;
+        AIRowAt(ai, r)->Type = 0;
     }
 }
 
@@ -178,7 +178,7 @@ void TestRowWalk(std::vector<std::uint8_t>& ai) {
 void TestTypePredicates(std::vector<std::uint8_t>& ai) {
     SetRaw(0, 3, 0, 0);
     for (int type = -1; type <= 10; ++type) {
-        AIRowAt(ai, 3)->m_w14 = type;
+        AIRowAt(ai, 3)->Type = type;
         EXPECT(Obj()->GetCharType() == type);
         EXPECT(Obj()->IsMonster() == (type == 4));
         EXPECT(Obj()->IsFollower() == (type == 2));
@@ -190,34 +190,34 @@ void TestTypePredicates(std::vector<std::uint8_t>& ai) {
         // IsNPC: type 6, or a merchant, or a cleaner.
         EXPECT(Obj()->IsNPC() == (type == 6 || type == 7 || type == 8));
     }
-    AIRowAt(ai, 3)->m_w14 = 0;
+    AIRowAt(ai, 3)->Type = 0;
 }
 
 // The three flag predicates on the flag word of row 3: bits 1, 2 and 3 of m_w5.
 void TestFlagBits(std::vector<std::uint8_t>& ai) {
     SetRaw(0, 3, 0, 0);
     for (int flags = 0; flags < 16; ++flags) {
-        AIRowAt(ai, 3)->m_w5 = flags;
+        AIRowAt(ai, 3)->Flags = flags;
         EXPECT(Obj()->IsMiniBoss() == (((flags >> 1) & 1) != 0));
         EXPECT(Obj()->IsBoss() == (((flags >> 2) & 1) != 0));
         EXPECT(Obj()->IsCharSitting() == (((flags >> 3) & 1) != 0));
     }
     // Bit 0 is none of the three flags.
-    AIRowAt(ai, 3)->m_w5 = 1;
+    AIRowAt(ai, 3)->Flags = 1;
     EXPECT(!Obj()->IsMiniBoss());
     EXPECT(!Obj()->IsBoss());
     EXPECT(!Obj()->IsCharSitting());
     // All bits set: all three.
-    AIRowAt(ai, 3)->m_w5 = -1;
+    AIRowAt(ai, 3)->Flags = -1;
     EXPECT(Obj()->IsMiniBoss());
     EXPECT(Obj()->IsBoss());
     EXPECT(Obj()->IsCharSitting());
     // Only the sign bit: none of the three (the original shifts logically).
-    AIRowAt(ai, 3)->m_w5 = static_cast<std::int32_t>(0x80000000u);
+    AIRowAt(ai, 3)->Flags = static_cast<std::int32_t>(0x80000000u);
     EXPECT(!Obj()->IsMiniBoss());
     EXPECT(!Obj()->IsBoss());
     EXPECT(!Obj()->IsCharSitting());
-    AIRowAt(ai, 3)->m_w5 = 0;
+    AIRowAt(ai, 3)->Flags = 0;
 }
 
 // The faction and animation rows: the typed pointer is the table base plus the id, one host element per id.

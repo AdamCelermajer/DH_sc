@@ -160,7 +160,7 @@ void TestInvalidateAndReset() {
 
 void TestDescriptions() {
     Structs::v2QuestObjectiveStub row;
-    row.m_w2 = 5;
+    row.Desc = 5;
     TestObjective obj;
     obj.m_pyData = &row;
     EXPECT(obj.GetDescStrId() == 5);
@@ -171,12 +171,12 @@ void TestDescriptions() {
     EXPECT(g_stringCalls == 1);
     EXPECT(obj.GetDesc() == "string-5");
 
-    row.m_w2 = 0;
+    row.Desc = 0;
     g_stringCalls = 0;
     EXPECT(std::strcmp(obj.GetDescStr(), "") == 0);
     EXPECT(g_stringCalls == 0);
 
-    row.m_w2 = -3;
+    row.Desc = -3;
     g_stringCalls = 0;
     EXPECT(obj.GetDesc().empty());
     EXPECT(g_stringCalls == 0);
@@ -184,7 +184,7 @@ void TestDescriptions() {
 
 void TestSetIsCompleted() {
     Structs::v2QuestObjectiveStub row;
-    row.m_w3 = 3;
+    row.OnComplete = 3;
     TestObjective obj;
     obj.m_pyData = &row;
     g_startCalls = 0;
@@ -199,7 +199,7 @@ void TestSetIsCompleted() {
     EXPECT(g_startCalls == 1);
 
     TestObjective negative;
-    row.m_w3 = -1;
+    row.OnComplete = -1;
     negative.m_pyData = &row;
     negative.SetIsCompleted();
     EXPECT(negative.m_completed);

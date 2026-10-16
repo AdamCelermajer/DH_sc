@@ -129,11 +129,11 @@ void SetFiveSlotIds(int id3, int id4, int id8, int id0, int id7) {
 
 // Sets the m_w34 word of the five equipment slots the m_w34 sets read: 3, 4, 8, 0 and 7.
 void SetFiveSlotW34(int value3, int value4, int value8, int value0, int value7) {
-    g_slotRows[3].m_w34 = value3;
-    g_slotRows[4].m_w34 = value4;
-    g_slotRows[8].m_w34 = value8;
-    g_slotRows[0].m_w34 = value0;
-    g_slotRows[7].m_w34 = value7;
+    g_slotRows[3].ClassRequirement = value3;
+    g_slotRows[4].ClassRequirement = value4;
+    g_slotRows[8].ClassRequirement = value8;
+    g_slotRows[0].ClassRequirement = value0;
+    g_slotRows[7].ClassRequirement = value7;
 }
 
 void TestMarksmanAngelicRage() {

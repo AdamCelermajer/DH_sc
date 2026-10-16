@@ -50,8 +50,8 @@ struct Fixture {
         file.data = &data;
         file.refCount = 1;
         db.record = &file;
-        tables.animationStart = 100;
-        tables.animationEnd = 1100;
+        tables.animationRange.start = 100;
+        tables.animationRange.end = 1100;
     }
 };
 
@@ -156,12 +156,13 @@ void testAnimationSetAndSetAnimator() {
     SAnimation noTrack = rot.animation;
     SChannel other = rot.channel;
     other.name = "scale";
+    other.type = 15;  // a channel type with no track class
     noTrack.channels = &other;
     noTrack.trackEx = nullptr;
     CHECK(set->addAnimation(&noTrack) == -1);
     CHECK(set->getChannel(1) == &rot.channel);
     CHECK(set->getAnimationTrack(0) == &pos.channel);
-    CHECK(set->getAnimationTrackEx(1) == &rot.track);
+    CHECK(set->getAnimationTrackEx(1) == CColladaDatabase::getAnimationTrackEx(&rot.animation));  // the track class of the channel type
     CHECK(set->remAnimation(&pos.animation) == 0);
 
     // compile: the animations of the databases are collected and the channels no database drives are pruned.
@@ -185,7 +186,7 @@ void testAnimationSetAndSetAnimator() {
         CHECK(animator.getAnimationCount() == 2);
         CHECK(std::strcmp(animator.getBindURI(0), "pos") == 0);
         CHECK(animator.getAnimationTrack(0) == &pos.channel);
-        CHECK(animator.getAnimationTrackEx(0) == &pos.track);
+        CHECK(animator.getAnimationTrackEx(0) == CColladaDatabase::getAnimationTrackEx(&pos.animation));
         CHECK(animator.getTargetSize(0) == 12 && animator.getTargetsSize() == 12);
         CHECK(animator.getTimelineCtrl() != nullptr && animator.getTimelineCtrl()->rangeEndMs == 1100);
 

@@ -280,14 +280,14 @@ void Push(sfc::script::lua::Arguments& args, const sfc::script::lua::Value& valu
 void TestSetLevel() {
     Character* self = FreshSelf();
     sfc::script::lua::ReturnValues ret;
-    self->CharProperties::m_baseProps.m_w20 = 77;
+    self->CharProperties::m_baseProps.Level = 77;
 
     // No argument: nothing is stored and nothing is recalculated or regenerated.
     {
         sfc::script::lua::Arguments args;
         Character::_SetLevel(args, ret, self);
     }
-    EXPECT(self->CharProperties::m_baseProps.m_w20 == 77);
+    EXPECT(self->CharProperties::m_baseProps.Level == 77);
     EXPECT(g_recalcs.empty() && g_regenHP.empty() && g_regenMP.empty());
 
     // A boolean first argument: nothing.
@@ -296,7 +296,7 @@ void TestSetLevel() {
         Push(args, sfc::script::lua::Value(true));
         Character::_SetLevel(args, ret, self);
     }
-    EXPECT(self->CharProperties::m_baseProps.m_w20 == 77);
+    EXPECT(self->CharProperties::m_baseProps.Level == 77);
     EXPECT(g_recalcs.empty() && g_regenHP.empty() && g_regenMP.empty());
 
     // A number below the cap (30 << 8): stored as it is, then recalculation and both regenerations.
@@ -305,7 +305,7 @@ void TestSetLevel() {
         Push(args, sfc::script::lua::Value(12));
         Character::_SetLevel(args, ret, self);
     }
-    EXPECT(self->CharProperties::m_baseProps.m_w20 == 12);
+    EXPECT(self->CharProperties::m_baseProps.Level == 12);
     EXPECT(g_recalcs.size() == 1 && g_recalcs[0] == true);
     EXPECT(g_regenHP.size() == 1 && g_regenHP[0] == -1);
     EXPECT(g_regenMP.size() == 1 && g_regenMP[0] == -1);
@@ -317,7 +317,7 @@ void TestSetLevel() {
         Push(args, sfc::script::lua::Value(40000));
         Character::_SetLevel(args, ret, self);
     }
-    EXPECT(self->CharProperties::m_baseProps.m_w20 == (30 << 8));
+    EXPECT(self->CharProperties::m_baseProps.Level == (30 << 8));
     EXPECT(g_recalcs.size() == 1 && g_regenHP.size() == 1 && g_regenMP.size() == 1);
 
     // A fractional number is truncated; 100.9 stays under the cap.
@@ -327,7 +327,7 @@ void TestSetLevel() {
         Push(args, sfc::script::lua::Value(100.9f));
         Character::_SetLevel(args, ret, self);
     }
-    EXPECT(self->CharProperties::m_baseProps.m_w20 == 100);
+    EXPECT(self->CharProperties::m_baseProps.Level == 100);
 }
 
 void TestTimers() {

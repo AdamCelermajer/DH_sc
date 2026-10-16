@@ -38,18 +38,11 @@ void testKdTree() {
     check(near(distanceKdTree(entry, other.second), 4.0f + 1.0f + 0.0f), "distance to box");
 }
 
-void testHandles() {
-    CAnimationBlock block{};
-    block.refCount = 1;
-    block.grab();
-    check(block.refCount == 2, "grab increments count");
-}
 
 }  // namespace
 
 int main() {
     testKdTree();
-    testHandles();
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);
         return 1;

@@ -13,7 +13,7 @@ int main() {
     CGenericBaker baker(nullptr);
     CHECK(baker.m_shader == nullptr);
     CHECK(baker.m_unknown10 == 0xffff);
-    CHECK(baker.m_unknown14 == 0);
+    CHECK(baker.m_batchMaterial == nullptr);
     CHECK(baker.referenceCounter == 0);
     CHECK(baker.m_attributeMap != nullptr);
     CHECK(baker.m_attributeMap->m_refCount == 1);  // the baker holds the one use

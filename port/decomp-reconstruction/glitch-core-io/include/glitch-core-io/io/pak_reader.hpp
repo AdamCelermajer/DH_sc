@@ -20,11 +20,12 @@ struct SPakFileEntry {
     // 0x56f650 (D1): compiler-generated; the three strings release their buffers.
     ~SPakFileEntry() = default;
 
-    std::string path;   // +0x00: name as stored in the pak directory
-    std::string name;   // +0x18: file name the limit reader is opened with (openFile)
-    std::string extra;  // +0x30: third string; its use is not recovered
-    std::int32_t offset = 0;  // +0x48: position of the file data in the pak (seek target)
-    std::int32_t size = 0;    // +0x4c: size of the file data (limit of the reader)
+    // Irrlicht 1.5.1 SPakFileEntry: pakFileName, simpleFileName, path, pos, length (the same three strings as SZipFileEntry).
+    std::string pakFileName;     // +0x00: name as stored in the pak directory
+    std::string simpleFileName;  // +0x18: file name the limit reader is opened with (openFile); the key of the order and of findFile
+    std::string path;            // +0x30: the directory part, up to and including the last '/' (extractFilename)
+    std::int32_t pos = 0;        // +0x48: position of the file data in the pak (seek target)
+    std::int32_t length = 0;     // +0x4c: size of the file data (limit of the reader)
 };
 
 // 0x56fa04 / 0x56fc0c / 0x57015c use operator< on entries. The inlined comparator reads the name
@@ -38,21 +39,21 @@ public:
     CPakReader() = default;
     // 0x57002c (C1), 0x5700c4 (C2): takes a reference to the file, scans its directory once
     // (scanLocalHeader) and sorts the entries by name (heapsort, core/sort.hpp).
-    CPakReader(IReadFile* file, bool flagA, bool flagB);
+    CPakReader(IReadFile* file, bool ignoreCase, bool ignorePaths);
     ~CPakReader() override;  // 0x56f6f4 (D1), 0x56f73c (D2): drops the read file
 
-    // 0x56f784: seeks the archive file to the entry's offset and returns a limit reader over the
-    // entry's size, named after the entry.
+    // 0x56f784: seeks the archive file to the entry's pos and returns a limit reader over the
+    // entry's length, named after the entry.
     IReadFile* openFile(int index);
     // 0x5703b8 (vtable +0x0c): the reader for the named entry; null when there is no such entry.
     virtual IReadFile* openFile(const char* name);
-    // 0x5702b4: index of the entry whose name matches. The key's name is lower-cased when flagA
-    // is set, then cut to its base name (deletePathFromFilename) when flagB is set, or -1.
+    // 0x5702b4: index of the entry whose name matches. The key's name is lower-cased when ignoreCase
+    // is set, then cut to its base name (deletePathFromFilename) when ignorePaths is set, or -1.
     // A binary search over the sorted entries.
     int findFile(const char* name);
-    // 0x56fcec: PARTIAL. Lower-cases the path when flagA is set, then splits it at the last '/':
-    // the text before and including the '/' goes to extra; name gets the file name, or the whole
-    // path when flagB is clear. The original scans a fixed 56-byte window of the name buffer (bytes
+    // 0x56fcec: PARTIAL. Lower-cases the path when ignoreCase is set, then splits it at the last '/':
+    // the text before and including the '/' goes to path; simpleFileName gets the file name, or the whole
+    // path when ignorePaths is clear. The original scans a fixed 56-byte window of the name buffer (bytes
     // past the terminator are stale there); the port scans the string's own length.
     void extractFilename(SPakFileEntry* entry);
     // 0x56fe44: reads the 12-byte header (see the members below), then one 64-byte record per
@@ -83,8 +84,8 @@ public:
     // +0x18 .. +0x20: entry vector (begin, end, capacity).
     std::vector<SPakFileEntry> entries;
     // +0x24, +0x25: flags passed to the constructor (their uses are not recovered).
-    bool flagA = false;  // +0x24
-    bool flagB = false;  // +0x25
+    bool ignoreCase = false;  // +0x24
+    bool ignorePaths = false;  // +0x25
 };
 
 }  // namespace glitch::io

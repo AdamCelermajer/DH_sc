@@ -17,6 +17,7 @@ public:
     int IsLocked() const;        // 0x310720 _ZN6CMutex8IsLockedEv
 
 private:
+    std::uint32_t unk_00_ = 0;       // +0x00 never accessed (the constructors are empty)
     std::uint32_t lock_count_ = 0;   // +0x04
 };
 
@@ -28,6 +29,7 @@ public:
     void Release(int count);            // 0x80e2e8 _ZN10CSemaphore7ReleaseEi
 
 private:
+    std::uint32_t unk_00_ = 0;          // +0x00 never accessed
     int count_ = 0;                     // +0x04
 };
 
@@ -58,8 +60,9 @@ private:
     std::recursive_mutex mutex_;
 };
 
-// Worker thread base. Start() calls Init() (negative means failure), then the
-// thread repeatedly calls Step() until Stop() sets the stop flag.
+// Worker thread base. Start() calls Prepare() (negative means failure), then the thread repeatedly calls Kernel()
+// until Stop() sets the stop flag; Stop() ends with Finish(). The three slots (vtable +0x08, +0x0c, +0x10) are pure in
+// the binary's Thread; the names are those of GLXPlayerPing's overriders.
 class Thread {
 public:
     Thread() = default;
@@ -69,15 +72,15 @@ public:
 
     int Start();                        // 0x855688 _ZN6Thread5StartEv
     int Stop();                         // 0x85560c _ZN6Thread4StopEv
-    bool IsCurrentThreadRunning() const;  // 0x84559c _ZN6Thread22IsCurrectThreadRunningEv
+    bool IsCurrectThreadRunning();  // 0x84559c _ZN6Thread22IsCurrectThreadRunningEv (sic: the original spells it so; non-const)
 
 protected:
-    virtual int Init() { return 0; }    // vtable +0x08
-    virtual void Step() = 0;            // vtable +0x0C
-    virtual void Cleanup() {}           // vtable +0x10
+    virtual int Prepare() { return 0; }  // vtable +0x08
+    virtual int Kernel() = 0;           // vtable +0x0C (the result is not used)
+    virtual int Finish() { return 0; }  // vtable +0x10 (the result is not used)
     void Run();                         // 0x8455c0 _ZN6Thread3RunEv
 
 private:
     std::thread handle_;                // +0x04 (pthread_t)
-    std::atomic<bool> stop_{false};     // +0x08
+    std::atomic<bool> stop_{true};      // +0x08 (set until Start; GLXPlayerPing sets it in its constructor)
 };

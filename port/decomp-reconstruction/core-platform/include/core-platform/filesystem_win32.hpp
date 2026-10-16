@@ -12,6 +12,7 @@
 
 #include "core-platform/filesystem_base.hpp"
 #include "dh2/IFileStream.hpp"
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/io/file.hpp"
 
 class FileSystemWin32 : public FileSystemBase {
@@ -39,12 +40,9 @@ public:
         std::uint64_t tell() const override;                                  // 0x34edf0
 
         std::FILE* file_ = nullptr;   // +0x4: the handle's FILE*, cached out of the CFile below
-        // +0x8: the shared glitch::io::CFile. The original gets it from
-        // glitch::io::CFileSystem::open (0x56dc40), which is declared in
-        // glitch-core-io/io/file_system.hpp but has no definition in the tree (its ledger row is
-        // skipped: it needs the obfuscation map), so the constructor below builds the CFile from
-        // the handle the port opened. Its obfuscation flag (+0x24) can therefore never be set.
-        glitch::io::CFile* cfile_ = nullptr;
+        // +0x8: the shared glitch::io::CFile from glitch::io::CFileSystem::open (0x56dc40); its obfuscation byte (+0x24) is
+        // what read and peek test.
+        boost::intrusive_ptr<glitch::io::CFile> cfile_;
         bool canRead_ = false;        // +0xc
         bool canWrite_ = false;       // +0xd
     };
@@ -85,6 +83,7 @@ public:
 private:
     void _getPaths();                                  // 0x34f068
     static void makeFullPath(const char* a, const char* b, char* out, int size);  // 0x34f34c
+    static wchar_t* makeFullPath(const wchar_t* a, const wchar_t* b, wchar_t* out, int size);  // 0x34f35c
 
     char rootPath_[0x104];       // +0x2c
     char cwdPath_[0x104];        // +0x130

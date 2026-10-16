@@ -74,9 +74,9 @@ void CheckFactionIds(const Character* me, const Character* other, int firstLine)
 // +0x4 m_w1 entry count, +0x8 m_w2 entries. Entry layout: +0x4 m_w1 faction id, +0x8 m_w2 relation value (> 0 friend,
 // < 0 enemy, 0 neutral). The entries are indexed as host-sized Structs::AIFaction elements.
 const Structs::AIFaction* FindFactionRelation(const Structs::AIFactions* row, int factionId) {
-    const auto* entries = static_cast<const Structs::AIFaction*>(row->m_w2);
-    for (std::uint32_t i = 0; i < row->m_w1; ++i) {
-        if (entries[i].m_w1 == factionId) {
+    const auto* entries = static_cast<const Structs::AIFaction*>(row->factions);
+    for (std::uint32_t i = 0; i < row->factionsSize; ++i) {
+        if (entries[i].Id == factionId) {
             return &entries[i];
         }
     }
@@ -139,7 +139,7 @@ float CharAI::AI_GetMeleeRadius() const {
     int meleeBonus = 0;
     m_character->ItemInventory::CanMeleeAttack(meleeBonus);
     const Structs::AIProps* row = m_character->GetCharAI();
-    return static_cast<float>(meleeBonus) + row->m_w8;  // AITable row +0x20
+    return static_cast<float>(meleeBonus) + row->MeleeRadius;  // AITable row +0x20
 }
 
 // 0x3d4c9c CharAI::AI_GetMeleeRadiusSq() const
@@ -180,14 +180,14 @@ void CharAI::AI_SetMaster(Character* master) {
     const float dx = masterPos.X - myPos.X;
     const float dy = masterPos.Y - myPos.Y;
     const float dz = masterPos.Z - myPos.Z;
-    const float sightRange = row->m_w15;  // AITable row +0x3c
+    const float sightRange = row->ViewRadius;  // AITable row +0x3c
     m_masterInSight = sightRange * sightRange > dx * dx + dy * dy + dz * dz;
 }
 
 // 0x3d4ea0 CharAI::AI_IsInSight(float) const
 // dist is a squared distance. The sight range (AITable row +0x3c) squared must be above it.
 bool CharAI::AI_IsInSight(float dist) const {
-    const float sightRange = m_character->GetCharAI()->m_w15;  // AITable row +0x3c
+    const float sightRange = m_character->GetCharAI()->ViewRadius;  // AITable row +0x3c
     return sightRange * sightRange > dist;
 }
 
@@ -231,7 +231,7 @@ bool CharAI::AI_IsInInteractionRange(const GameObject* obj) const {
     if (obj->m_interactionSpotNode == nullptr) {
         meleeRadius = AI_GetMeleeRadius();
         interactRadius = obj->GetInteractionRadius();
-        threshold = m_character->GetCharAI()->m_w6;  // AITable row +0x18
+        threshold = m_character->GetCharAI()->InteractRadius;  // AITable row +0x18
     }
     const float remaining = (dist - meleeRadius) - interactRadius;
     if (obj->GetInteractionType(m_character) == 8) {
@@ -256,7 +256,7 @@ bool CharAI::AI_IsFriend(const GameObject* obj) const {
     CheckFactionIds(m_character, other, 196);
     const Structs::AIFaction* relation =
         FindFactionRelation(m_character->GetCharAIFaction(), other->GetCharAIFactionId());
-    return relation != nullptr && relation->m_w2 > 0;
+    return relation != nullptr && relation->Value > 0;
 }
 
 // 0x3d53ec CharAI::AI_PauseTargetSeeking(unsigned int)
@@ -318,7 +318,7 @@ bool CharAI::AI_IsEnemy(const GameObject* obj) const {
     }
     const Structs::AIFaction* relation =
         FindFactionRelation(m_character->GetCharAIFaction(), other->GetCharAIFactionId());
-    return relation != nullptr && relation->m_w2 < 0;  // the sign bit of the relation value
+    return relation != nullptr && relation->Value < 0;  // the sign bit of the relation value
 }
 
 // 0x3d5a98 CharAI::AI_IsNeutral(GameObject const*) const
@@ -340,5 +340,5 @@ bool CharAI::AI_IsNeutral(const GameObject* obj) const {
     if (relation == nullptr) {
         return true;
     }
-    return relation->m_w2 == 0;
+    return relation->Value == 0;
 }

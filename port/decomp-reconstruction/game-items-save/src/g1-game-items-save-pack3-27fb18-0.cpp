@@ -133,7 +133,7 @@ void Objective_MoveInZone::GetPositions(Vector3DFList& positions) const {
         ObjectHandle handle(listed);
         ObjectBase* object = handle.GetObject(false);
         if (object != nullptr && object->m_goId == 14 &&
-            m_pyData->m_w8 == static_cast<TriggerZoneExitLevel*>(object)->m_levelIndex) {
+            m_pyData->OID1 == static_cast<TriggerZoneExitLevel*>(object)->m_levelIndex) {
             const Point3D<float>& position = static_cast<GameObject*>(object)->m_position;
             glitch::core::vector3d<float> point;
             point.X = position.X;
@@ -162,7 +162,7 @@ bool Objective_MoveInZone::handleEvent(const IEvent* event, const EventManager* 
     // event +0x11 (m_flag1) clear, or a character present: run the character test.
     Character* character = static_cast<Character*>(zone->m_character);  // event +0x08
     if (character != nullptr || zone->m_flag1 == 0) {
-        const std::int32_t propId = m_pyData->m_w9;  // row +0x24
+        const std::int32_t propId = m_pyData->OID2;  // row +0x24
         // With propId -1 the test runs only when the character is not a player.
         if (propId != -1 || !character->IsPlayer()) {
             if (character->SafeGetCharPropsId() != propId) {
@@ -188,14 +188,14 @@ bool Objective_MoveInZone::handleEvent(const IEvent* event, const EventManager* 
 void Objective_MoveInZone::Compile() {
     const Structs::v2QuestObjectiveStub* row = m_pyData;  // +0x0c
     ObjectHandle handle =
-        ApplicationGetInstance().m_objectManager->GetObjectByName(static_cast<const char*>(row->m_w7), -1, false, nullptr);
+        ApplicationGetInstance().m_objectManager->GetObjectByName(static_cast<const char*>(row->Str2), -1, false, nullptr);
     GameObject* object = handle;  // ObjectHandle::operator GameObject*
 
     if (object == nullptr || object->MeetCondition()) {
         // GetObject returns the ObjectBase; the objective stores it as the GameObject it was looked up as.
         m_object = static_cast<GameObject*>(handle.GetObject(false));  // +0x20
         if (m_object != nullptr) {
-            const std::int32_t propId = row->m_w9;  // row +0x24
+            const std::int32_t propId = row->OID2;  // row +0x24
             // The listing passes an unset register as the level id. HasEnemyOfTypeLoaded ignores it (see
             // g1-game-items-save-Objective_EventReceiver-4e7672-0.cpp), so 0 is passed.
             if (propId == -1 || Objective_EventReceiver::HasEnemyOfTypeLoaded<TestCharPropId>(propId, 0) != 0) {
@@ -216,7 +216,7 @@ void Objective_MoveInZone::Compile() {
 // the first DesignSettings record: markerIndex > 7 takes +0x70 for kind 1 and +0x68 otherwise, and markerIndex <= 7 takes
 // +0x6c for kind 1 and +0x64 otherwise. The effect is grabbed, owned by the character, synced, shown, and set to loop.
 void Objective_TalkToNPC::InstallObjectiveMarker(int markerKind, int markerIndex) {
-    if (!m_valid || m_pyData->m_w1 != 5) {  // +0x08, row +0x04
+    if (!m_valid || m_pyData->Type != 5) {  // +0x08, row +0x04
         return;
     }
     Character* character = FindCharacterByPropsId(m_objectId);  // +0x24
@@ -233,9 +233,9 @@ void Objective_TalkToNPC::InstallObjectiveMarker(int markerKind, int markerIndex
     const Structs::DesignSettings& design = FirstDesignSettings();
     std::int32_t effectId = 0;
     if (markerIndex > 7) {
-        effectId = markerKind == 1 ? design.m_w28 : design.m_w26;  // +0x70 / +0x68
+        effectId = markerKind == 1 ? design.QuestMarkerSecondaryCompleted : design.QuestMarkerCompleted;  // +0x70 / +0x68
     } else {
-        effectId = markerKind == 1 ? design.m_w27 : design.m_w25;  // +0x6c / +0x64
+        effectId = markerKind == 1 ? design.QuestMarkerSecondary : design.QuestMarker;  // +0x6c / +0x64
     }
 
     AnimatedFX* marker = VisualFXManager::s_inst.GrabAnimFX(effectId, nullptr);
@@ -260,7 +260,7 @@ void Objective_TalkToNPC::InstallObjectiveMarker(int markerKind, int markerIndex
 // Only a valid row of type 5 acts. The NPC character's flags are both cleared (unk_2fb, then unk_2fa). The marker, when it
 // exists, loses its owner, is synced, loses the character from its root node, and is hidden.
 void Objective_TalkToNPC::RemoveObjectiveMarker() {
-    if (!m_valid || m_pyData->m_w1 != 5) {  // +0x08, row +0x04
+    if (!m_valid || m_pyData->Type != 5) {  // +0x08, row +0x04
         return;
     }
     Character* character = FindCharacterByPropsId(m_objectId);  // +0x24
@@ -286,7 +286,7 @@ void Objective_TalkToNPC::RemoveObjectiveMarker() {
 // Registers the base receiver, then sets the NPC flag (unk_2fa = 1) on the character when the row is a valid type 5.
 void Objective_TalkToNPC::Register() {
     Objective_EventReceiver::Register();
-    if (!m_valid || m_pyData->m_w1 != 5) {  // +0x08, row +0x04
+    if (!m_valid || m_pyData->Type != 5) {  // +0x08, row +0x04
         return;
     }
     Character* character = FindCharacterByPropsId(m_objectId);  // +0x24
@@ -299,7 +299,7 @@ void Objective_TalkToNPC::Register() {
 // Unregisters the base receiver, then clears the NPC flag (unk_2fa = 0) on the character when the row is a valid type 5.
 void Objective_TalkToNPC::Unregister() {
     Objective_EventReceiver::Unregister();
-    if (!m_valid || m_pyData->m_w1 != 5) {  // +0x08, row +0x04
+    if (!m_valid || m_pyData->Type != 5) {  // +0x08, row +0x04
         return;
     }
     Character* character = FindCharacterByPropsId(m_objectId);  // +0x24

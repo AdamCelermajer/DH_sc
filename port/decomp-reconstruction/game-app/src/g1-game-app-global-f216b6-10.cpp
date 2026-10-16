@@ -422,12 +422,12 @@ void NativeStartGame(const gameswf::fn_call& call) {
         useSpawnPoint = save.m_useSpawnPoint[difficulty];
     }
     if (levelId == -1) {
-        levelId = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w9;  // row 0 +0x24
+        levelId = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->DefaultLevelWhenInvalid;  // row 0 +0x24
     }
     save.m_useSpawnPoint[difficulty] = false;
     save.SG_Save();
     const char* levelName =
-        static_cast<const char*>(reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[levelId].m_w8);  // row +0x20
+        static_cast<const char*>(reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[levelId].LevelFile);  // row +0x20
     app.LoadLevel(levelName, entryPoint, static_cast<std::uint32_t>(slot), true, useSpawnPoint, difficultyArgument, false, 0, 0);
     save.unk_194 = false;
 }

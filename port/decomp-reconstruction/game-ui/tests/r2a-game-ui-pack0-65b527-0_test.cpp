@@ -113,9 +113,6 @@ void RenderFX::Update(int, bool) {}
 void RenderFX::UpdateCursor(RenderFX::Cursor&, int) {}
 void RenderFX::EventListener::OnEvent(RenderFX::Event&) {}
 void RenderFX::EventListener::OnFSCommand(const char*, const char*) {}
-bool RenderFX::EventListener::CanHandleEvent(RenderFX::Event&) {
-    return true;
-}
 
 RenderFX::CharacterArray* RenderFX::FindCharacters(gameswf::character* context, const char* prefix, int index) {
     (void)context;

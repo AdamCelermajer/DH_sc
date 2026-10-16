@@ -82,10 +82,10 @@ public:
     virtual void addEnum(const char* name, const char* value, const char* const* choices, bool flag) = 0;  // +0x0f0
     virtual void addEnum(const char* name, int value, const char* const* choices, bool flag) = 0;  // +0x0f4
     virtual void setAttribute(const char* name, const char* value, const char* const* choices) = 0;  // +0x0f8
-    virtual int getEnum(const char* name) const = 0;  // +0x0fc 0x5624c4
+    virtual const char* getEnum(const char* name) const = 0;  // +0x0fc 0x5624c4 (the attribute's +0x80 result)
     virtual int getEnum(const char* name, const char* const* choices) const = 0;  // +0x100
     virtual int getEnum(int index, const char* const* choices) const = 0;  // +0x104
-    virtual int getEnum(int index) const = 0;  // +0x108 0x560d1c
+    virtual const char* getEnum(int index) const = 0;  // +0x108 0x560d1c (the attribute's +0x80 result)
     virtual void getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const = 0;  // +0x10c
     virtual void getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const = 0;  // +0x110
     virtual void setAttribute(int index, const char* value, const char* const* choices) = 0;  // +0x114 0x5611b4
@@ -209,6 +209,28 @@ public:
     virtual void* getUserPointer(const char* name) const = 0;  // +0x2ec 0x56201c
     virtual void* getUserPointer(int index) const = 0;  // +0x2f0 0x561858
     virtual void setAttribute(int index, void* userPointer) = 0;  // +0x2f4 0x56189c
+
+    // The member templates getEnum<T>(name) / getEnum<T>(index) / addEnum<T>(name, value, flag) of the binary, one instance per video enum.
+    // Every video enum is an int32_t alias in the port, so each instance is a member of its own name carrying the original symbol as
+    // an assembler label. getEnum<T>: the enum's name table (video::getStringsInternal(T*)) is handed to the virtual getEnum(.., choices)
+    // (+0x100 by name, +0x104 by index); addEnum<T>: to the virtual addEnum(name, int, choices, flag) (+0xf4).
+    // Defined in src/attributes_enum_templates.cpp.
+    int32_t getEnumBlendFactor(const char* name)  // 0x5e09cc
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video14E_BLEND_FACTOREEET_PKc");
+    int32_t getEnumCompareFunc(const char* name)  // 0x5e0a2c
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video14E_COMPARE_FUNCEEET_PKc");
+    int32_t getEnumStencilOp(const char* name)  // 0x5e0a5c
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video12E_STENCIL_OPEEET_PKc");
+    int32_t getEnumPolygonMode(const char* name)  // 0x5e09fc
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video14E_POLYGON_MODEEEET_PKc");
+    int32_t getEnumTextureFilterType(const char* name)  // 0x5fde3c
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video21E_TEXTURE_FILTER_TYPEEEET_PKc");
+    int32_t getEnumTextureClamp(const char* name)  // 0x5fde6c
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video15E_TEXTURE_CLAMPEEET_PKc");
+    int32_t getEnumIndexType(int index)  // 0x5a03cc
+        asm("_ZN6glitch2io11IAttributes7getEnumINS_5video12E_INDEX_TYPEEEET_i");
+    void addEnumShaderParameterValueType(const char* name, int32_t value, bool flag)  // 0x5ba66c
+        asm("_ZN6glitch2io11IAttributes7addEnumINS_5video29E_SHADER_PARAMETER_VALUE_TYPEEEEN5boost10disable_ifINS5_11is_integralIT_EEvE4typeEPKcS8_b");
 };
 
 }  // namespace glitch::io

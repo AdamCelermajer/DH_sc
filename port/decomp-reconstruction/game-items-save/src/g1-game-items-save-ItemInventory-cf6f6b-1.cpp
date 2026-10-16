@@ -114,7 +114,7 @@ void ItemInventory::RemoveItem(unsigned int a2) {
         return;
     }
     ItemSlot* slot = m_items[a2];
-    const int category = FoldEquipCategory(slot->m_item->GetItem()->m_w26);  // Structs::Item +0x68
+    const int category = FoldEquipCategory(slot->m_item->GetItem()->EquipmentSlottingType);  // Structs::Item +0x68
 
     // Clear the item from the current equipment set, swap sets, clear it from the other one, and swap back.
     const int set = GetCurrentEquipSet(category);
@@ -257,7 +257,7 @@ int ItemInventory::GetValuableItems(std::vector<Item>* a2) {
     int count = 0;
     for (std::size_t i = 0; i < m_items.size(); ++i) {
         const ItemSlot* slot = m_items[i];
-        if (slot->m_item->GetItem()->m_w26 != -1) {  // Structs::Item +0x68 must be -1
+        if (slot->m_item->GetItem()->EquipmentSlottingType != -1) {  // Structs::Item +0x68 must be -1
             continue;
         }
         ++count;
@@ -278,12 +278,12 @@ int ItemInventory::GetValuableItems(std::vector<Item>* a2) {
 // that character is the local player (ItemInventoryTrophyPlayers::IsLocalPlayer, companion TU).
 // The third argument is tested with !a3 before the stacking scan (see ledger notes on the parameter name).
 int ItemInventory::_AddItemInstance(ItemInstance* a2, bool a3, bool a4) {
-    if (m_maxPotions == 0 && a2->GetItem()->m_w22 == 14) {
+    if (m_maxPotions == 0 && a2->GetItem()->Type == 14) {
         delete a2;
         return -1;
     }
-    if (m_potion != nullptr || a2->GetItem()->m_w22 != 14) {
-        if (a4 && a2->GetItem()->m_w22 == 13) {
+    if (m_potion != nullptr || a2->GetItem()->Type != 14) {
+        if (a4 && a2->GetItem()->Type == 13) {
             AddGold(a2->m_value);  // ItemInstance +0x54: the gold amount of a gold item
             delete a2;
             return -1;
@@ -303,7 +303,7 @@ int ItemInventory::_AddItemInstance(ItemInstance* a2, bool a3, bool a4) {
             }
             const int qty = a2->m_qty;
             int add = qty;
-            if (a2->GetItem()->m_w22 == 14) {
+            if (a2->GetItem()->Type == 14) {
                 // Potions stack up to the cap in m_maxPotions (int8, -1 by default).
                 const int room = static_cast<int>(m_maxPotions) - slot->m_item->m_qty;
                 if (room < qty) {

@@ -598,6 +598,7 @@ namespace gameswf
 	}
 #endif  // DH2: action_buffer::operator= replaced, see above
 
+#if 0 /* DH2: replaced by the transcription of 0x7bc230 below (comments there list the differences from r1714) */
 	void	action_buffer::execute(
 		as_environment* env,
 		int start_pc,
@@ -2444,6 +2445,1763 @@ namespace gameswf
 			log_error("%s", error_detail.c_str());
 			// TODO: return error back up to caller.
 		}
+	}
+#endif /* DH2 */
+
+	// DH2: 0x7bc230 gameswf::action_buffer::execute(as_environment*, int, int, as_value*, array<with_stack_entry> const&, bool) const
+	// DH2: Transcribed from the binary, opcode by opcode, against r1714's interpreter (the #if 0 copy above). The differences the
+	// DH2: binary proves, all marked below:
+	// DH2:  - no stack-size checks, no error text, no last-variable tracking, no verbose logging (the binary has none);
+	// DH2:  - to_string(tu_string&) / to_tu_string() are used where the binary calls them (to_tu_string() does not convert);
+	// DH2:  - get timer subtracts the player's start ticks; start drag keeps the bounds as given (no twips, no swap);
+	// DH2:  - call function resolves the name through the with stack (switching the target) and handles "super";
+	// DH2:  - new / new method stamp the new object with the player's garbage count; call method handles function objects;
+	// DH2:  - get member / set member have integer-keyed forms; the shifts use ARM register-shift semantics;
+	// DH2:  - push data type 0 interns a non-empty string, appends it to the dictionary and patches the instruction into type
+	// DH2:    0x0A (a 16-bit dictionary index), which later executions read.
+	// DH2: Locals of the binary that are constant values: a null object (the 'this' of constructor calls and the null push)
+	// DH2: and an undefined value (the 'this' of trace and the undefined push).
+	namespace
+	{
+		// ARM register shifts: the amount is the low byte of the register, 32 and above shift everything out.
+		int	arm_lsl(int value, int count)
+		{
+			unsigned int c = (unsigned int) count & 0xFF;
+			return c >= 32 ? 0 : (int) ((unsigned int) value << c);
+		}
+		int	arm_asr(int value, int count)
+		{
+			unsigned int c = (unsigned int) count & 0xFF;
+			return c >= 32 ? (value >> 31) : (value >> c);
+		}
+		unsigned int	arm_lsr(unsigned int value, int count)
+		{
+			unsigned int c = (unsigned int) count & 0xFF;
+			return c >= 32 ? 0u : (value >> c);
+		}
+	}
+
+	void	action_buffer::execute(
+		as_environment* env,
+		int start_pc,
+		int exec_bytes,
+		as_value* retval,
+		const array<with_stack_entry>& initial_with_stack,
+		bool is_function2) const
+	// Interpret the specified subset of the actions in our
+	// buffer.  Caller is responsible for cleaning up our local
+	// stack frame (it may have passed its arguments in via the
+	// local stack frame).
+	//
+	// The is_function2 flag determines whether to use global or local registers.
+	{
+		tu_string scratch;	// the buffer of to_string(tu_string&) and the string operations
+		array<with_stack_entry>	with_stack(initial_with_stack);
+
+		character*	original_target = env->get_target();
+		membuf & buffer = *m_buffer;  // DH2: m_buffer is a raw counted_buffer* in the DH2 layout (action_buffer.hpp)
+
+		as_value null_this;	// an object value holding null
+		null_this.set_null();
+		as_value undefined_value;
+
+		int stop_pc = start_pc + exec_bytes;
+
+		for (int pc = start_pc; pc < stop_pc; )
+		{
+			// Cleanup any expired "with" blocks.
+			while (with_stack.size() > 0
+				   && pc >= with_stack.back().m_block_end_pc)
+			{
+				// Drop this stack element
+				with_stack.resize(with_stack.size() - 1);
+			}
+
+			// Get the opcode.
+			int	action_id = buffer[pc];
+			if ((action_id & 0x80) == 0)
+			{
+				// Simple action; no extra data.
+				switch (action_id)
+				{
+				default:
+					break;
+
+				case 0x00:	// end of actions.
+					return;
+
+				case 0x04:	// next frame.
+					if (env->get_target() != NULL)
+					{
+						env->get_target()->goto_frame(env->get_target()->get_current_frame() + 1);
+					}
+					break;
+
+				case 0x05:	// prev frame.
+					if (env->get_target() != NULL)
+					{
+						env->get_target()->goto_frame(env->get_target()->get_current_frame() - 1);
+					}
+					break;
+
+				case 0x06:	// action play
+					if (env->get_target() != NULL)
+					{
+						env->get_target()->set_play_state(character::PLAY);
+					}
+					break;
+
+				case 0x07:	// action stop
+					if (env->get_target() != NULL)
+					{
+						env->get_target()->set_play_state(character::STOP);
+					}
+					break;
+
+				case 0x08:	// toggle quality
+				case 0x2A:	// throw
+				case 0x2C:	// implements
+				case 0x31:	// mb length
+				case 0x35:	// mb substring
+				case 0x37:	// mb chr
+				case 0x45:	// get target
+					log_error("todo opcode: %02X\n", action_id);
+					break;
+
+				case 0x09:	// stop sounds
+				{
+					sound_handler* s = get_sound_handler();
+					if (s != NULL)
+					{
+						s->stop_all_sounds();
+					}
+					break;
+				}
+
+				case 0x0A:	// add
+				{
+					double b = env->top(0).to_number();
+					double a = env->top(1).to_number();
+					env->top(1).set_double(b + a);
+					env->drop(1);
+					break;
+				}
+				case 0x0B:	// subtract
+				{
+					double b = env->top(0).to_number();
+					double a = env->top(1).to_number();
+					env->top(1).set_double(a - b);
+					env->drop(1);
+					break;
+				}
+				case 0x0C:	// multiply
+				{
+					double b = env->top(0).to_number();
+					double a = env->top(1).to_number();
+					env->top(1).set_double(b * a);
+					env->drop(1);
+					break;
+				}
+				case 0x0D:	// divide
+				{
+					double b = env->top(0).to_number();
+					env->top(1) /= b;
+					env->drop(1);
+					break;
+				}
+				case 0x0E:	// equal
+				case 0x66:	// strict equal
+				{
+					bool equal = env->top(1) == env->top(0);
+					env->top(1).set_bool(equal);
+					env->drop(1);
+					break;
+				}
+				case 0x0F:	// less than
+				{
+					double b = env->top(0).to_number();
+					double a = env->top(1).to_number();
+					env->top(1).set_bool(b > a);
+					env->drop(1);
+					break;
+				}
+				case 0x10:	// logical and
+				{
+					bool result = env->top(1).to_bool() && env->top(0).to_bool();
+					env->top(1).set_bool(result);
+					env->drop(1);
+					break;
+				}
+				case 0x11:	// logical or
+				{
+					bool result = env->top(1).to_bool() || env->top(0).to_bool();
+					env->top(1).set_bool(result);
+					env->drop(1);
+					break;
+				}
+				case 0x12:	// logical not
+				{
+					bool value = env->top(0).to_bool();
+					env->top(0).set_bool(! value);
+					break;
+				}
+				case 0x13:	// string equal
+				{
+					const tu_string& a = env->top(1).to_tu_string();
+					const tu_string& b = env->top(0).to_tu_string();
+					bool equal = (&a == &b) || strcmp(a.c_str(), b.c_str()) == 0;
+					env->top(1).set_bool(equal);
+					env->drop(1);
+					break;
+				}
+				case 0x14:	// string length
+				{
+					int length = env->top(0).to_tu_string().utf8_length();
+					env->top(0).set_int(length);
+					break;
+				}
+				case 0x15:	// substring
+				{
+					int	size = (int) env->top(0).to_number();
+					int	base = (int) env->top(1).to_number() - 1;  // 1-based indices
+					const tu_string&	str = env->top(2).to_tu_string();
+
+					// Keep base within range.
+					base = iclamp(base, 0, str.length());
+
+					// Truncate if necessary.
+					size = imin(str.length() - base, size);
+
+					scratch = str.c_str() + base;
+					scratch.resize(size);
+
+					env->drop(2);
+					env->top(0).set_tu_string(scratch);
+					break;
+				}
+				case 0x17:	// pop
+				{
+					if (env->size() > 0)
+					{
+						env->drop(1);
+					}
+					break;
+				}
+				case 0x18:	// int
+				{
+					double n = env->top(0).to_number();
+					env->top(0).set_int(int(floor(n)));
+					break;
+				}
+				case 0x1C:	// get variable
+				{
+					const tu_string& var_string = env->top(0).to_tu_string();
+					as_value variable = env->get_variable(var_string, with_stack, NULL);
+					env->top(0) = variable;
+					break;
+				}
+				case 0x1D:	// set variable
+				{
+					const tu_string& var_string = env->top(1).to_tu_string();
+					env->set_variable(var_string, env->top(0), with_stack);
+					env->drop(2);
+					break;
+				}
+				case 0x20:	// set target expression
+				{
+					// Flash doc says:
+					// This action behaves exactly like the original ActionSetTarget from SWF 3,
+					// but is stack-based to enable the target path to be the result of expression evaluation.
+					env->set_target(env->top(0), original_target);
+					env->drop(1);
+					break;
+				}
+				case 0x21:	// string concat
+				{
+					scratch = env->top(1).to_tu_string();
+					scratch += env->top(0).to_tu_string();
+					env->drop(1);
+					env->top(0).set_tu_string(scratch);
+					break;
+				}
+				case 0x22:	// get property
+				{
+					character*	target = cast_to<character>(env->find_target(env->top(1)));
+					if (target)
+					{
+						env->top(1) = get_property(target, (int) env->top(0).to_number());
+					}
+					else
+					{
+						env->top(1) = undefined_value;
+					}
+					env->drop(1);
+					break;
+				}
+
+				case 0x23:	// set property
+				{
+					character*	target = cast_to<character>(env->find_target(env->top(2)));
+					if (target)
+					{
+						set_property(target, (int) env->top(1).to_number(), env->top(0));
+					}
+					env->drop(3);
+					break;
+				}
+
+				case 0x24:
+				// duplicateMovieClip(target:String, newname:String, depth:Number) : Void
+				// duplicateMovieClip(target:MovieClip, newname:String, depth:Number) : Void
+				{
+					character* target = cast_to<character>(env->top(2).to_object());
+
+					// try string
+					if (target == NULL)
+					{
+						const tu_string& name = env->top(2).to_string(scratch);
+						as_value val = env->get_variable(name, with_stack, NULL);
+						target = cast_to<character>(val.to_object());
+					}
+
+					if (target)
+					{
+						// Flash automatically adds 16384 to depth therefore
+						// we don't apply ADJUST_DEPTH_VALUE
+						const tu_string& new_name = env->top(1).to_string(scratch);
+						target->clone_display_object(new_name, (int) env->top(0).to_number());
+					}
+
+					env->drop(3);
+					break;
+				}
+
+				case 0x25:	// remove clip
+				{
+					//	removeMovieClip(target:Object), deletes the specified movie clip.
+					character*	target = cast_to<character>(env->find_target(env->top(0)));
+					if (target)
+					{
+						sprite_instance* parent = cast_to<sprite_instance>(target->get_parent());
+						if (parent)
+						{
+							parent->remove_display_object(target);
+						}
+					}
+					env->drop(1);
+					break;
+				}
+
+				case 0x26:	// trace
+				{
+					// Log the stack val.
+					as_global_trace(fn_call(&env->top(0), undefined_value, env, 1, env->get_top_index(), "trace"));
+					env->drop(1);
+					break;
+				}
+
+				case 0x27:	// start drag movie
+				{
+					character::drag_state st;
+
+					character* targetChar = cast_to<character>(env->find_target(env->top(0)));
+					st.SetCharacter(targetChar);
+					if (targetChar == NULL)
+					{
+						log_error("error: start_drag of invalid target '%s'.\n",  env->top(0).to_string());
+					}
+
+					st.SetLockCentered(env->top(1).to_bool());
+					st.m_bound = env->top(2).to_bool();
+					if (st.m_bound)
+					{
+						// DH2: the bounds are kept as the script gave them (no twips conversion, no swap of reversed corners)
+						st.m_bound_x0 = (float) env->top(6).to_number();
+						st.m_bound_y0 = (float) env->top(5).to_number();
+						st.m_bound_x1 = (float) env->top(4).to_number();
+						st.m_bound_y1 = (float) env->top(3).to_number();
+
+						env->drop(4);
+					}
+					env->drop(3);
+
+					// The drag state goes to the target's root movie.
+					character* root_movie = env->get_target()->get_root_movie();
+					if (root_movie && st.m_character)
+					{
+						root_movie->set_drag_state(st);
+					}
+					break;
+				}
+
+				case 0x28:	// stop drag movie
+				{
+					character* root_movie = env->get_target()->get_root_movie();
+					root_movie->stop_drag();
+					break;
+				}
+
+				case 0x29:	// string less than
+				{
+					const tu_string& a = env->top(1).to_tu_string();
+					const tu_string& b = env->top(0).to_tu_string();
+					env->top(1).set_bool(strcmp(a.c_str(), b.c_str()) < 0);
+					break;
+				}
+
+				case 0x2B:	// cast_object
+				{
+					//Determines if object is an instance of constructor
+					// (doing the same comparison as ActionInstanceOf).
+
+					as_object* obj = env->top(0).to_object();
+					as_function* constructor = env->top(1).to_function();
+
+					if ((obj && obj->is_instance_of(constructor)) == false)
+					{
+						obj = NULL;
+					}
+
+					env->drop(1);
+					env->top(0).set_as_object(obj);
+					break;
+				}
+
+				case 0x30:	// random
+				{
+					int	max = (int) env->top(0).to_number();
+					if (max < 1) max = 1;
+					env->top(0).set_int(tu_random::next_random() % (unsigned int) max);
+					break;
+				}
+				case 0x32:	// ord
+				{
+					// ASCII code of first character
+					env->top(0).set_int(env->top(0).to_string(scratch).c_str()[0]);
+					break;
+				}
+				case 0x33:	// chr
+				{
+					char	buf[2];
+					buf[0] = (char) (unsigned char) (int) env->top(0).to_number();
+					buf[1] = 0;
+					env->top(0).set_string(buf);
+					break;
+				}
+
+				case 0x34:	// get timer
+					// Push milliseconds since the player started (DH2: relative to the player's start ticks).
+					env->push((double) ((Uint64) tu_timer::get_ticks() - env->get_player()->m_start_ticks));
+					break;
+
+				case 0x3A:	// delete
+				{
+					scratch = env->top(0).to_tu_string();
+					as_object* obj_interface = env->top(1).to_object();
+					env->drop(1);
+
+					bool retcode = false;
+					if (obj_interface)
+					{
+						as_value val;
+						if (obj_interface->get_member(scratch, &val))
+						{
+							obj_interface->set_member(scratch, as_value());
+							retcode = true;
+						}
+					}
+
+					env->top(0).set_bool(retcode);
+					break;
+				}
+				case 0x3B:	// delete2
+				{
+					tu_string varname(env->top(0).to_tu_string());
+					as_value obj(env->get_variable_raw(varname, with_stack, NULL));
+
+					if (obj.is_undefined() == false)
+					{
+						// drop refs
+						obj.set_undefined();
+
+						// finally to remove it we need set varname to undefined
+
+						// try delete local var
+						int	local_index = env->find_local(varname, true);
+						if (local_index >= 0)
+						{
+							// local var is found
+							env->m_local_frames[local_index].m_value.set_undefined();
+							env->top(0).set_bool(true);
+							break;
+						}
+						else
+						{
+							// check var in m_variables
+							as_value val;
+							if (env->get_member(varname, &val))
+							{
+								env->set_member(varname, obj);
+								env->top(0).set_bool(true);
+								break;
+							}
+						}
+					}
+
+					// can't delete var
+					env->top(0).set_bool(false);
+					break;
+				}
+
+				case 0x3C:	// set local
+				{
+					env->set_local(env->top(1).to_tu_string(), env->top(0));
+					env->drop(2);
+					break;
+				}
+
+				case 0x3D:	// call function
+				{
+					as_value	function;
+					as_value	this_value = null_this;
+					const char*	label;
+					smart_ptr<character>	saved_target;	// the target before a with block switched it
+					if (env->top(0).is_string())
+					{
+						// Function is a string; lookup the function.
+						const tu_string&	function_name = env->top(0).to_tu_string();
+						label = function_name.c_str();
+
+						// DH2: the name is resolved through the with stack; when a with object holds it, its character
+						// DH2: becomes the target for the call and is restored afterwards
+						int	with_index = -1;
+						function = env->get_variable(function_name, with_stack, &with_index);
+						if (with_index != -1)
+						{
+							saved_target = env->get_target();
+							character* with_character = cast_to<character>(with_stack[with_index].m_object.get_ptr());
+							if (with_character)
+							{
+								env->set_target(with_character);
+							}
+						}
+
+						// super constructor, Flash 6
+						if (function.is_object())
+						{
+							as_object* obj = function.to_object();
+							if (obj)
+							{
+								if (obj->get_ctor(&function))
+								{
+									if (strcmp(function_name.c_str(), "super") == 0)
+									{
+										this_value = as_value(obj);
+										obj->create_proto(function);
+									}
+								}
+							}
+						}
+
+						if (function.is_function() == false)
+						{
+							log_error("error in call_function: '%s' is not a function\n",
+								  function_name.c_str());
+						}
+					}
+					else
+					{
+						// Hopefully the actual function object is here.
+						function = env->top(0);
+						label = "?";
+					}
+					int	nargs = (int) env->top(1).to_number();
+					as_value	result = call_method(function, env, this_value, nargs, env->get_top_index() - 2, label);
+					env->drop(nargs + 1);
+					env->top(0) = result;
+					if (saved_target.get_ptr())
+					{
+						env->set_target(saved_target.get_ptr());
+					}
+					break;
+				}
+				case 0x3E:	// return
+				{
+					// Put top of stack in the provided a slot, if
+					// it's not NULL.
+					if (retval)
+					{
+						*retval = env->top(0);
+					}
+					env->drop(1);
+
+					// Skip the rest of this buffer (return from this action_buffer).
+					pc = stop_pc;
+
+					break;
+				}
+				case 0x3F:	// modulo
+				{
+					as_value	result;
+					double	y = env->pop().to_number();
+					double	x = env->pop().to_number();
+					if (y != 0.0)
+					{
+						result.set_double(fmod(x, y));
+					}
+					env->push(result);
+					break;
+				}
+				case 0x40:	// new
+				{
+					as_value	classname = env->pop();
+					int	nargs = (int) env->pop().to_number();
+					const tu_string&	class_name = classname.to_string(scratch);
+					as_value constructor = env->get_variable(class_name, with_stack, NULL);
+					as_value new_obj;
+
+					if (as_c_function* c_constructor = cast_to<as_c_function>(constructor.to_object()))
+					{
+						// C function is responsible for creating the new object and setting members.
+						(*c_constructor)(fn_call(&new_obj, null_this, env, nargs, env->get_top_index(), "new"));
+					}
+					else if (as_s_function* s_constructor = cast_to<as_s_function>(constructor.to_object()))
+					{
+						// Create an empty object
+						gc_ptr<as_object>	new_obj_ptr = new as_object(env->get_player());
+						as_object* proto = new_obj_ptr->create_proto(as_value(s_constructor));
+
+						// override m_this_ptr with just new created object
+						proto->m_this_ptr = new_obj_ptr.get_ptr();
+
+						// Call the actual constructor function; new_obj is its 'this'.
+						// We don't need the function result.
+						call_method(as_value(s_constructor), env, as_value(new_obj_ptr.get_ptr()), nargs, env->get_top_index(), class_name.c_str());
+
+						new_obj_ptr->set_ctor(as_value(s_constructor));
+						new_obj.set_as_object(new_obj_ptr.get_ptr());
+					}
+					else
+					{
+						// try to load user defined class from DLL / shared library
+						array<as_value> params;
+						int first_arg_bottom_index = env->get_top_index();
+						for (int i = 0; i < nargs; i++)
+						{
+							params.push_back(env->bottom(first_arg_bottom_index - i));
+						}
+
+						as_object* plugin = load_as_plugin(env->get_player(), classname.to_tu_string(), params);
+						if (plugin)
+						{
+							new_obj.set_as_object(plugin);
+						}
+						else
+						{
+							log_error("can't create object with unknown class '%s'\n",
+								  classname.to_tu_string().c_str());
+						}
+					}
+
+					// DH2: the new object is stamped alive for the current garbage generation (r1714: player::set_alive)
+					if (new_obj.to_object())
+					{
+						new_obj.to_object()->m_alive_stamp = env->get_player()->m_garbage_count;
+					}
+
+					env->drop(nargs);
+					env->push(new_obj);
+					break;
+				}
+				case 0x41:	// declare local
+				{
+					const tu_string&	varname = env->top(0).to_tu_string();
+					env->declare_local(varname);
+					env->drop(1);
+					break;
+				}
+				case 0x42:	// init array
+				{
+ 					// Call the array constructor
+ 					as_value	result;
+ 					as_global_array_ctor(fn_call(&result, null_this, env, -1, -1, "array"));
+ 					env->push(result);
+					break;
+				}
+				case 0x43:	// declare object
+				{
+				// Pops elems off of the stack. Pops [value1, name1, ..., valueN, nameN] off the stack.
+				// It does the following:
+				// 1 Pops the number of initial properties from the stack.
+				// 2 Initializes the object as a ScriptObject.
+				// 3 Sets the object type to "Object".
+				// 4 Pops each initial property off the stack. For each initial property, the value of the property is
+				// popped off the stack, then the name of the property is popped off the stack. The name of the
+				// property is converted to a string. The value may be of any type.
+
+					int n = (int) env->pop().to_number();
+					as_object* obj = new as_object(env->get_player());
+
+					// Set members
+					for (int i = 0; i < n; i++)
+					{
+						// a new item must be ENUM
+						obj->set_member(env->top(1).to_tu_string(), env->top(0));
+
+						env->drop(2);
+					}
+
+					env->push(obj);
+					break;
+				}
+				case 0x44:	// type of
+				{
+					env->top(0).set_string(env->top(0)._typeof());
+					break;
+				}
+				case 0x46:	// enumerate
+				{
+					as_value variable = env->get_variable(env->top(0).to_tu_string(), with_stack, NULL);
+					enumerate(env, variable.to_object());
+					env->drop(1);
+					break;
+				}
+				case 0x47:	// add_t (typed)
+				{
+					if (env->top(0).is_string() || env->top(1).is_string())
+					{
+						tu_string str;
+						str = env->top(1).to_string(scratch);
+						str += env->top(0).to_string(scratch);
+						env->top(1).set_tu_string(str);
+					}
+					else
+					{
+						double b = env->top(0).to_number();
+						double a = env->top(1).to_number();
+						env->top(1).set_double(b + a);
+					}
+					env->drop(1);
+					break;
+				}
+				case 0x48:	// less than (typed)
+				{
+					if (env->top(1).is_string())
+					{
+						const tu_string& a = env->top(1).to_tu_string();
+						const tu_string& b = env->top(0).to_tu_string();
+						env->top(1).set_bool(strcmp(a.c_str(), b.c_str()) < 0);
+					}
+					else
+					{
+						double b = env->top(0).to_number();
+						double a = env->top(1).to_number();
+						env->top(1).set_bool(b > a);
+					}
+					env->drop(1);
+					break;
+				}
+				case 0x49:	// equal (typed)
+				{
+					bool equal = env->top(1) == env->top(0);
+					env->top(1).set_bool(equal);
+					env->drop(1);
+					break;
+				}
+				case 0x4A:	// to number
+				{
+					double n = env->top(0).to_number();
+					env->top(0).set_double(n);
+					break;
+				}
+				case 0x4B:	// to string
+				{
+					const tu_string& str = env->top(0).to_string(scratch);
+					env->top(0).set_tu_string(str);
+					break;
+				}
+				case 0x4C:	// dup
+				{
+					as_value copy = env->top(0);
+					env->push(copy);
+					break;
+				}
+				case 0x4D:	// swap
+				{
+					as_value	temp = env->top(1);
+					env->top(1) = env->top(0);
+					env->top(0) = temp;
+					break;
+				}
+				case 0x4E:	// get member
+				{
+					// keep alive 'obj'
+					smart_ptr<as_object>	obj = env->top(1).to_object();
+					if (obj == NULL)
+					{
+						// try property/method of a primitive type, like String.length
+						as_value val;
+						env->top(1).get_member(env->top(0).to_tu_string(), &val);	// DH2: as_value::get_member (0x796fd0) replaces find_property
+						if (val.is_property())
+						{
+							val.get_property(env->top(1), &val);
+						}
+						env->top(1) = val;
+					}
+					else
+					{
+						env->top(1).set_undefined();
+						if (env->top(0).is_number())
+						{
+							// DH2: an integer key goes to the object's integer-keyed member (vtable +0x28)
+							obj->get_member((int) env->top(0).to_number(), &(env->top(1)));
+						}
+						else if (obj->get_member(env->top(0).to_string(scratch), &(env->top(1))) == false)
+						{
+							// try '__resolve' property
+							as_value val;
+							if (obj->get_member(tu_string("__resolve"), &val))
+							{
+								// call __resolve
+								as_function* resolve = cast_to<as_function>(val.to_object());
+								if (resolve)
+								{
+									as_value this_value(obj.get_ptr());
+									(*resolve)(fn_call(&val, this_value, env, 1, env->get_top_index(), "__resolve"));
+									env->top(1) = val;
+								}
+							}
+						}
+					}
+					env->drop(1);
+					break;
+				}
+				case 0x4F:	// set member
+				{
+					as_object*	obj = env->top(2).to_object();
+					if (obj)
+					{
+						// DH2: an integer key goes to the object's integer-keyed member (vtable +0x24)
+						if (env->top(1).is_number())
+						{
+							obj->set_member((int) env->top(1).to_number(), env->top(0));
+						}
+						else
+						{
+							obj->set_member(env->top(1).to_tu_string(), env->top(0));
+						}
+					}
+					env->drop(3);
+					break;
+				}
+				case 0x50:	// increment
+				{
+					double n = env->top(0).to_number();
+					env->top(0).set_double(n + 1.0);
+					break;
+				}
+				case 0x51:	// decrement
+				{
+					double n = env->top(0).to_number();
+					env->top(0).set_double(n - 1.0);
+					break;
+				}
+				case 0x52:	// call method
+				{
+					int	nargs = (int) env->top(2).to_number();
+					as_value	result;
+
+					// DH2: the method name is copied; anything that is not a string gives an empty name
+					tu_string	method_name;
+					if (env->top(0).is_string())
+					{
+						method_name = env->top(0).to_string(scratch);
+					}
+
+					as_value func;
+					if (env->top(1).get_member(method_name, &func))	// DH2: as_value::get_member (0x796fd0) replaces find_property
+					{
+						result = call_method(
+							func,
+							env,
+							env->top(1),
+							nargs,
+							env->get_top_index() - 3,
+							method_name.c_str());
+					}
+					else if (env->top(0).is_undefined() == false && method_name.length() != 0)
+					{
+						log_error("error: can't find method %s\n", method_name.c_str());
+					}
+					else
+					{
+						// Flash help says:
+						// If the method name is blank or undefined, the object is taken to be
+						// a function object that should be invoked,
+						// rather than the container object of a method. For example, if
+						// CallMethod is invoked with object obj and method name blank,
+						// it's equivalent to using the syntax:
+						// obj();
+
+						as_object* obj = env->top(1).to_object();
+						if (obj && obj->is(AS_FUNCTION))
+						{
+							// DH2: the object is itself the function
+							result = call_method(
+								env->top(1),
+								env,
+								as_value(obj),
+								nargs,
+								env->get_top_index() - 3,
+								method_name.c_str());
+						}
+						else
+						{
+							bool called = false;
+							if (obj && obj->m_this_ptr.get_ptr() != NULL)
+							{
+								as_value constructor;
+								if (obj->get_ctor(&constructor))
+								{
+									obj->create_proto(constructor);
+									result = call_method(
+										constructor,
+										env,
+										as_value(obj),
+										nargs,
+										env->get_top_index() - 3,
+										method_name.c_str());
+								}
+								called = true;
+							}
+							if (called == false)
+							{
+								log_error("error: call_method can't call constructor 0x%p.%s\n", env->top(1).to_object(), method_name.c_str());
+							}
+						}
+					}
+					env->drop(nargs + 2);
+					env->top(0) = result;
+					break;
+				}
+
+				case 0x53:	// new method
+				{
+
+				// Invokes a constructor function to create a new object.
+				// A new object is constructed and passed to the constructor function
+				// as the value of the this keyword. Arguments may be specified to the
+				// constructor function. The return value from the constructor function
+				// is discarded. The newly constructed object is pushed to the stack.
+				// Similar to ActionCallMethod and ActionNewObject.
+
+				// 1 Pops the name of the method from the stack.
+				// 2 Pops the ScriptObject from the stack. If the name of the method is blank,
+				// the ScriptObject is treated as a function object which is invoked as
+				// the constructor function. If the method name is not blank, the named method
+				// of the ScriptObject is invoked.
+				// 3 Pops the number of arguments from the stack.
+				// 4 Executes the method call.
+				// 5 Pushes the newly constructed object to the stack.
+
+					as_value	constructor = env->pop();
+					as_object*	obj = env->pop().to_object();
+					int	nargs = (int) env->pop().to_number();
+
+					// Create an empty object
+					gc_ptr<as_object>	new_obj;
+
+					if (cast_to<as_c_function>(constructor.to_object()))
+					{
+						// C function is responsible for creating the new object and setting members.
+						as_value result = call_method(constructor, env, null_this, nargs, env->get_top_index(), "???");
+						new_obj = result.to_object();
+					}
+					else if (cast_to<as_s_function>(constructor.to_object()))
+					{
+						new_obj = new as_object(env->get_player());
+						as_object* proto = new_obj->create_proto(constructor);
+						proto->m_this_ptr = new_obj.get_ptr();
+
+						// Call the actual constructor function; new_obj is its 'this'.
+						// We don't need the function result.
+						call_method(constructor, env, as_value(new_obj.get_ptr()), nargs, env->get_top_index(), "???");
+					}
+					else
+					{
+						as_value val;
+						if (obj && obj->get_member(constructor.to_tu_string(), &val))
+						{
+							if ( as_s_function* func = cast_to<as_s_function>(val.to_object()))
+							{
+								new_obj = new as_object(env->get_player());
+								as_object* proto = new_obj->create_proto(as_value(func));
+								proto->m_this_ptr = new_obj.get_ptr();
+
+								// Call the actual constructor function; new_obj is its 'this'.
+								// We don't need the function result.
+								call_method(as_value(func), env, as_value(new_obj.get_ptr()), nargs, env->get_top_index(), "???");
+							}
+							else if( as_c_function* c_func = cast_to<as_c_function>(val.to_object()) )
+							{
+								// Result contains the new output.
+								as_value result = call_method(as_value(c_func), env, null_this, nargs, env->get_top_index(), "???");
+								new_obj = result.to_object();
+							}
+						}
+					}
+
+					// DH2: stamped alive for the current garbage generation (r1714: player::set_alive); the binary
+					// DH2: stores through the pointer without a null test
+					if (new_obj.get_ptr())
+					{
+						new_obj->m_alive_stamp = env->get_player()->m_garbage_count;
+					}
+
+					env->drop(nargs);
+					env->push(new_obj.get_ptr());
+					break;
+				}
+
+				case 0x54:	// instance of
+				{
+					const as_function* constructor = env->top(0).to_function();
+					bool ret = env->top(1).is_instance_of(constructor);
+					env->top(1).set_bool(ret);
+					env->drop(1);
+					break;
+				}
+
+				case 0x55:	// enumerate object
+				{
+					as_value variable = env->pop();
+					enumerate(env, variable.to_object());
+					break;
+				}
+				case 0x60:	// bitwise and
+				{
+					int b = (int) env->top(0).to_number();
+					int a = (int) env->top(1).to_number();
+					env->top(1).set_double((double) (b & a));
+					env->drop(1);
+					break;
+				}
+				case 0x61:	// bitwise or
+				{
+					int b = (int) env->top(0).to_number();
+					int a = (int) env->top(1).to_number();
+					env->top(1).set_double((double) (b | a));
+					env->drop(1);
+					break;
+				}
+				case 0x62:	// bitwise xor
+				{
+					int b = (int) env->top(0).to_number();
+					int a = (int) env->top(1).to_number();
+					env->top(1).set_double((double) (b ^ a));
+					env->drop(1);
+					break;
+				}
+				case 0x63:	// shift left
+				{
+					int count = (int) env->top(0).to_number();
+					int value = (int) env->top(1).to_number();
+					env->top(1).set_double((double) arm_lsl(value, count));
+					env->drop(1);
+					break;
+				}
+				case 0x64:	// shift right (signed)
+				{
+					int count = (int) env->top(0).to_number();
+					int value = (int) env->top(1).to_number();
+					env->top(1).set_double((double) arm_asr(value, count));
+					env->drop(1);
+					break;
+				}
+				case 0x65:	// shift right (unsigned)
+				{
+					int count = (int) env->top(0).to_number();
+					unsigned int value = (unsigned int) (int) env->top(1).to_number();
+					env->top(1).set_double((double) (int) arm_lsr(value, count));
+					env->drop(1);
+					break;
+				}
+				case 0x67:	// gt (typed)
+				{
+					if (env->top(1).is_string())
+					{
+						const tu_string& a = env->top(1).to_tu_string();
+						const tu_string& b = env->top(0).to_tu_string();
+						env->top(1).set_bool(strcmp(a.c_str(), b.c_str()) > 0);
+					}
+					else
+					{
+						double a = env->top(1).to_number();
+						double b = env->top(0).to_number();
+						env->top(1).set_bool(a > b);
+					}
+					env->drop(1);
+					break;
+				}
+				case 0x68:	// string gt
+				{
+					const tu_string& a = env->top(1).to_tu_string();
+					const tu_string& b = env->top(0).to_tu_string();
+					env->top(1).set_bool(strcmp(a.c_str(), b.c_str()) > 0);
+					env->drop(1);
+					break;
+				}
+
+				case 0x69:	// extends
+				{
+					// These steps are the equivalent to the following ActionScript:
+					// Subclass.prototype = new Object();
+					// Subclass.prototype.__proto__ = Superclass.prototype;
+					// Subclass.prototype.__constructor__ = Superclass;
+
+					as_value& super = env->top(0);
+					as_value& sub = env->top(1);
+
+					as_value super_prototype;
+					super.to_object()->get_member(tu_string("prototype"), &super_prototype);
+
+					as_object* new_prototype = new as_object(env->get_player());
+
+					new_prototype->m_proto = super_prototype.to_object();
+					new_prototype->set_ctor(super);
+					sub.to_object()->set_member(tu_string("prototype"), as_value(new_prototype));
+					env->drop(2);
+					break;
+				}
+
+				}
+				pc++;	// advance to next action.
+			}
+			else
+			{
+				// Action containing extra data.
+				int	length = buffer[pc + 1] | (buffer[pc + 2] << 8);
+				int	next_pc = pc + length + 3;
+
+				switch (action_id)
+				{
+				default:
+					break;
+
+				case 0x81:	// goto frame
+				{
+					int	frame = buffer[pc + 3] | (buffer[pc + 4] << 8);
+					if (env->get_target() != NULL)
+					{
+						env->get_target()->goto_frame(frame);
+					}
+					break;
+				}
+
+				case 0x83:	// get url
+				{
+					// If this is an FSCommand, then call the callback
+					// handler, if any.
+
+					// Two strings as args.
+					const char*	url = (const char*) &(buffer[pc + 3]);
+					int	url_len = int(strlen(url));
+					const char*	target = (const char*) &(buffer[pc + 3 + url_len + 1]);
+
+					// If the url starts with "FSCommand:", then this is
+					// a message for the host app.
+					if (strncmp(url, "FSCommand:", 10) == 0)
+					{
+						if (get_fscommand_callback())
+						{
+							// Call into the app.
+							character* mroot = env->get_target()->get_root_movie();	// DH2: the target's root movie (vtable +0x134)
+							(*get_fscommand_callback())(mroot, url + 10, target);
+						}
+					}
+					else
+					{
+						env->load_file(url, as_value(target));
+					}
+
+					break;
+				}
+
+				case 0x87:	// store_register
+				{
+					int	reg = buffer[pc + 3];
+					// Save top of stack in specified register.
+					if (is_function2)
+					{
+						env->set_register(reg, env->top(0));
+					}
+					else if (reg >= 0 && reg < 4)
+					{
+						env->m_global_register[reg] = env->top(0);
+					}
+					else
+					{
+						log_error("store_register[%d] -- register out of bounds!", reg);
+					}
+
+					break;
+				}
+
+				case 0x88:	// decl_dict: declare dictionary
+				{
+					const_cast<action_buffer*>( this )->process_decl_dict(pc, next_pc, env->get_player());	// DH2: 0x7bb9a0 takes the player (permanent strings)
+
+					break;
+				}
+
+				case 0x8B:	// set target
+				{
+					// Change the movie we're working on.
+					as_value val = (const char*) &buffer[pc + 3];
+					env->set_target(val, original_target);
+					break;
+				}
+
+				case 0x8C:	// go to labeled frame, goto_frame_lbl
+				{
+					char*	frame_label = (char*) &buffer[pc + 3];
+					if (env->get_target() != NULL)
+					{
+						env->get_target()->goto_labeled_frame(tu_string(frame_label));
+					}
+					break;
+				}
+
+				case 0x8D:	// wait for frame expression (?)
+				{
+					// Pop the frame number to wait for; if it's not loaded skip the
+					// specified number of actions.
+					//
+					// Since we don't support incremental loading, pop our arg and
+					// don't do anything.
+					env->drop(1);
+					break;
+				}
+
+				case 0x8E:	// function2
+				{
+					int	i = pc;
+					i += 3;
+
+					// Extract name.
+					// @@ security: watch out for possible missing terminator here!
+					tu_string	name = (const char*) &buffer[i];
+					i += name.length() + 1;
+
+					bool function_exists = false;
+
+					if (name.length() > 0)
+					{
+						as_value value;
+						env->get_member(name, &value);
+						as_s_function* existing_function = cast_to<as_s_function>(value.to_object());
+
+						if (existing_function)
+						{
+							if (existing_function->m_action_buffer.m_buffer == m_buffer
+								&& existing_function->m_start_pc == next_pc )
+							{
+								function_exists = true;
+							}
+						}
+					}
+
+					if (function_exists == false)
+					{
+						as_s_function*	func = new as_s_function(env->get_player(), this, next_pc, with_stack);
+						func->set_target(env->get_target());
+						func->set_is_function2();
+
+						// Get number of arguments.
+						int	nargs = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+
+						// Get the count of local registers used by this function.
+						uint8	register_count = buffer[i];
+						i += 1;
+						func->set_local_register_count(register_count);
+
+						// Flags, for controlling register assignment of implicit args.
+						uint16	flags = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+						func->set_function2_flags(flags);
+
+						// Get the register assignments and names of the arguments.
+						for (int n = 0; n < nargs; n++)
+						{
+							int	arg_register = buffer[i];
+							i++;
+
+							// @@ security: watch out for possible missing terminator here!
+							func->add_arg(arg_register, (const char*) &buffer[i]);
+							i += func->m_args.back().m_name.length() + 1;
+						}
+
+						// Get the length of the actual function code.
+						int	length = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+						func->set_length(length);
+
+						// Skip the function body (don't interpret it now).
+						next_pc += length;
+
+						// If we have a name, then save the function in this
+						// environment under that name.
+						as_value	function_value(func);
+						if (name.length() > 0)
+						{
+							// @@ NOTE: should this be m_target->set_variable()???
+							env->set_member(name, function_value);
+						}
+						else
+						{
+							// Also leave it on the stack.
+							env->push(function_value);
+						}
+					}
+					else
+					{
+						int	nargs = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+
+						// Get the count of local registers used by this function.
+						i += 1;
+
+						// Flags, for controlling register assignment of implicit args.
+						i += 2;
+
+						// Get the register assignments and names of the arguments.
+						for (int n = 0; n < nargs; n++)
+						{
+							i++;
+							// @@ security: watch out for possible missing terminator here!
+							i += (int) strlen((const char*) &buffer[i]) + 1;
+						}
+
+						// Skip the length of the actual function code.
+						int	length = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+
+						// Skip the function body (don't interpret it now).
+						next_pc += length;
+					}
+					break;
+				}
+
+				case 0x94:	// with
+				{
+					if (with_stack.size() < 8) //todo, depends on flash version, could be 16
+					{
+ 						int	block_length = buffer[pc + 3] | (buffer[pc + 4] << 8);
+ 						int	block_end = next_pc + block_length;
+ 						as_object*	with_obj = env->top(0).to_object();
+ 						with_stack.push_back(with_stack_entry(with_obj, block_end));
+					}
+					env->drop(1);
+					break;
+				}
+				case 0x96:	// push_data
+				{
+					int i = pc;
+					while (i - pc < length)
+					{
+						int	type = buffer[3 + i];
+						i++;
+						if (type == 0)
+						{
+							// string
+							const char*	str = (const char*) &buffer[3 + i];
+							int str_len = int(strlen(str));
+							player* p = env->get_player();
+							if (str_len > 0)
+							{
+								// DH2: the string is interned in the player's permanent strings and appended to the dictionary, and
+								// DH2: the instruction is patched into type 0x0A with the 16-bit dictionary index in its first two
+								// DH2: bytes; the next execution takes the cached string (the string text stays in place, its length
+								// DH2: comes from the dictionary entry).
+								const tu_string* interned = p->m_permanent_strings.get(tu_string(str));
+								int dict_index = m_buffer->m_dictionary.size();
+								m_buffer->m_dictionary.push_back(interned);
+								buffer[3 + i - 1] = 10;
+								buffer[3 + i] = (Uint8) dict_index;
+								buffer[3 + i + 1] = (Uint8) (dict_index >> 8);
+								i += str_len + 1;
+								as_value cached_value;
+								cached_value.set_tu_string(*interned);
+								env->push(cached_value);
+							}
+							else
+							{
+								i += 1;
+								const tu_string* interned = p->m_permanent_strings.get(tu_string(str));
+								as_value empty_value;
+								empty_value.set_tu_string(*interned);
+								env->push(empty_value);
+							}
+						}
+						else if (type == 0x0A)
+						{
+							// DH2: a string that an earlier execution cached (see type 0)
+							int	id = buffer[3 + i] | (buffer[4 + i] << 8);
+							const tu_string* cached = m_buffer->m_dictionary[id];
+							i += cached->length() + 1;
+							as_value cached_value;
+							cached_value.set_tu_string(*cached);
+							env->push(cached_value);
+						}
+						else if (type == 1)
+						{
+							// float (little-endian)
+							union {
+								float	f;
+								Uint32	i;
+							} u;
+							compiler_assert(sizeof(u) == sizeof(u.i));
+
+							memcpy(&u.i, &buffer[3 + i], 4);
+							u.i = swap_le32(u.i);
+							i += 4;
+
+							env->push(u.f);
+						}
+						else if (type == 2)
+						{
+							env->push(null_this);
+						}
+						else if (type == 3)
+						{
+							env->push(undefined_value);
+						}
+						else if (type == 4)
+						{
+							// contents of register
+							int	reg = buffer[3 + i];
+							i++;
+							if (is_function2)
+							{
+								env->push(*env->get_register(reg));
+							}
+							else if (reg < 0 || reg >= 4)
+							{
+								env->push(undefined_value);
+								log_error("push register[%d] -- register out of bounds!\n", reg);
+							}
+							else
+							{
+								env->push(env->m_global_register[reg]);
+							}
+
+						}
+						else if (type == 5)
+						{
+							bool	bool_val = buffer[3 + i] ? true : false;
+							i++;
+							env->push(bool_val);
+						}
+						else if (type == 6)
+						{
+							// double
+							// wacky format: 45670123
+							union {
+								double	d;
+								Uint64	i;
+								struct {
+									Uint32	lo;
+									Uint32	hi;
+								} sub;
+							} u;
+							compiler_assert(sizeof(u) == sizeof(u.i));
+
+							memcpy(&u.sub.hi, &buffer[3 + i], 4);
+							memcpy(&u.sub.lo, &buffer[3 + i + 4], 4);
+							u.i = swap_le64(u.i);
+							i += 8;
+
+							env->push(u.d);
+						}
+						else if (type == 7)
+						{
+							// int32
+							Sint32	val = buffer[3 + i]
+								| (buffer[3 + i + 1] << 8)
+								| (buffer[3 + i + 2] << 16)
+								| (buffer[3 + i + 3] << 24);
+							i += 4;
+
+							env->push(val);
+						}
+						else if (type == 8)
+						{
+							int	id = buffer[3 + i];
+							i++;
+							// DH2: the dictionary is in the counted buffer (array<const tu_string*>) and holds interned strings, which the
+							// DH2: value borrows (as_value type 3, no owner) instead of copying
+							if (id < m_buffer->m_dictionary.size())
+							{
+								as_value	dict_value;
+								dict_value.set_tu_string(*m_buffer->m_dictionary[id]);
+								env->push(dict_value);
+							}
+							else
+							{
+								log_error("error: dict_lookup(%d) is out of bounds!\n", id);
+								env->push(0);
+							}
+						}
+						else if (type == 9)
+						{
+							int	id = buffer[3 + i] | (buffer[4 + i] << 8);
+							i += 2;
+							// DH2: same as type 8 (borrowed interned string from the counted buffer's dictionary)
+							if (id < m_buffer->m_dictionary.size())
+							{
+								as_value	dict_value;
+								dict_value.set_tu_string(*m_buffer->m_dictionary[id]);
+								env->push(dict_value);
+							}
+							else
+							{
+								log_error("error: dict_lookup(%d) is out of bounds!\n", id);
+								env->push(0);
+							}
+						}
+					}
+
+					break;
+				}
+				case 0x99:	// branch always (goto)
+				{
+					Sint16	offset = buffer[pc + 3] | (buffer[pc + 4] << 8);
+					next_pc += offset;
+					// @@ TODO range checks
+					break;
+				}
+
+				case 0x9A:	// get url2
+				{
+					// DH2: the send-method byte (buffer[pc + 3]) is not read; load_file takes the url and the target only
+					tu_string	target_buffer;
+					const char*	target_text = env->top(0).to_string(target_buffer).c_str();
+					const char*	url = env->top(1).to_string(scratch).c_str();
+
+					// If the url starts with "FSCommand:", then this is
+					// a message for the host app.
+					if (strncmp(url, "FSCommand:", 10) == 0)
+					{
+						if (get_fscommand_callback())
+						{
+							// Call into the app.
+							character* mroot = env->get_target()->get_root_movie();	// DH2: the target's root movie (vtable +0x134)
+							(*get_fscommand_callback())(mroot, url + 10, target_text);
+						}
+					}
+					else
+					{
+						env->load_file(url, env->top(0));	// DH2: 0x7cdaac, no method argument
+					}
+					env->drop(2);
+					break;
+				}
+
+				case 0x9B:	// declare function
+				{
+					int	i = pc;
+					i += 3;
+
+					// Extract name.
+					// @@ security: watch out for possible missing terminator here!
+					tu_string	name = (const char*) &buffer[i];
+					i += name.length() + 1;
+
+					bool function_exists = false;
+
+					if (name.length() > 0)
+					{
+						as_value value;
+						env->get_member(name, &value);
+						as_s_function* existing_function = cast_to<as_s_function>(value.to_object());
+
+						if (existing_function)
+						{
+							if (existing_function->m_action_buffer.m_buffer == m_buffer
+								&& existing_function->m_start_pc == next_pc )
+							{
+								function_exists = true;
+							}
+						}
+					}
+
+					if (function_exists == false)
+					{
+						as_s_function*	func = new as_s_function(env->get_player(), this, next_pc, with_stack);
+						func->set_target(env->get_target());
+
+						// Get number of arguments.
+						int	nargs = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+
+						// Get the names of the arguments.
+						for (int n = 0; n < nargs; n++)
+						{
+							// @@ security: watch out for possible missing terminator here!
+							func->add_arg(0, (const char*) &buffer[i]);
+							i += func->m_args.back().m_name.length() + 1;
+						}
+
+						// Get the length of the actual function code.
+						int	length = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+						func->set_length(length);
+
+						// Skip the function body (don't interpret it now).
+						next_pc += length;
+
+						// ActionDefineFunction can be used in the following ways:
+						// Usage #1. Pushes an anonymous function on the stack that does not persist.
+						// Usage #2. Sets a variable with a given FunctionName and a given function definition.
+						// Thanks to Julien Hamaide
+						as_value	function_value(func);
+						if (name.length() > 0)
+						{
+							// @@ NOTE: should this be m_target->set_variable()???
+							// Usage #1. If we have a name, then save the function in this
+							// environment under that name.
+							env->set_member(name, function_value);
+						}
+						else
+						{
+							// Usage #2. Leave it on the stack
+							env->push(function_value);
+						}
+					}
+					else
+					{
+						// Get number of arguments.
+						int	nargs = buffer[i] | (buffer[i + 1] << 8);
+						i += 2;
+
+						// Get the names of the arguments.
+						for (int n = 0; n < nargs; n++)
+						{
+							// @@ security: watch out for possible missing terminator here!
+							i += (int) strlen((const char*) &buffer[i]) + 1;
+						}
+
+						// Get the length of the actual function code.
+						int	length = buffer[i] | (buffer[i + 1] << 8);
+
+						// Skip the function body (don't interpret it now).
+						next_pc += length;
+					}
+
+					break;
+				}
+
+				case 0x9D:	// branch if true
+				{
+					Sint16	offset = buffer[pc + 3] | (buffer[pc + 4] << 8);
+
+					bool	test = env->top(0).to_bool();
+					env->drop(1);
+					if (test)
+					{
+						next_pc += offset;
+
+						if (next_pc > stop_pc)
+						{
+							log_error("branch to offset %d -- this section only runs to %d\n",
+								  next_pc,
+								  stop_pc);
+						}
+					}
+					break;
+				}
+				case 0x9E:	// call frame
+				{
+					// Note: no extra data in this instruction!
+					env->get_target()->call_frame_actions(env->top(0));
+					env->drop(1);
+
+					break;
+				}
+
+				case 0x9F:	// goto frame expression, goto_frame_exp
+				{
+					// From Alexi's SWF ref:
+					//
+					// Pop a value or a string and jump to the specified
+					// frame. When a string is specified, it can include a
+					// path to a sprite as in:
+					//
+					//   /Test:55
+					//
+					// When f_play is ON, the action is to play as soon as
+					// that frame is reached. Otherwise, the
+					// frame is shown in stop mode.
+
+					unsigned char	play_flag = buffer[pc + 3];
+					character::play_state	state = play_flag ? character::PLAY : character::STOP;
+
+					character* target = env->get_target();
+					bool success = false;
+
+					if (env->top(0).is_undefined())
+					{
+						// No-op.
+					}
+					else if (env->top(0).is_string())
+					{
+						// @@ TODO: parse possible sprite path...
+
+						// Also, if the frame spec is actually a number (not a label), then
+						// we need to do the conversion...
+
+						if (target->goto_labeled_frame(env->top(0).to_tu_string()))
+						{
+							success = true;
+						}
+						else
+						{
+							// Couldn't find the label.  Try converting to a number.
+							double num;
+							if (string_to_number(&num, env->top(0).to_string()))
+							{
+								int frame_number = int(num);
+								target->goto_frame(frame_number);
+								success = true;
+							}
+							// else no-op.
+						}
+					}
+					else if (env->top(0).is_number())
+					{
+						// Frame numbers appear to be 0-based!  @@ Verify.
+						int frame_number = (int) env->top(0).to_number();
+						target->goto_frame(frame_number);
+						success = true;
+					}
+
+					if (success)
+					{
+						target->set_play_state(state);
+					}
+
+					env->drop(1);
+
+					break;
+				}
+
+				}
+				pc = next_pc;
+			}
+		}
+
+		env->set_target(original_target);
 	}
 
 #if ACTION_BUFFER_PROFILING

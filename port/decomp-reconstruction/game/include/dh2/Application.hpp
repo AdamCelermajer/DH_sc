@@ -51,7 +51,7 @@ public:
     void Init(glitch::IDevice* device);                // 0x323ae0 takes a reference on the device
     void InitPS3(glitch::IDevice* device);             // 0x322afc
     void InitWin32(glitch::IDevice* device);           // 0x32fab4 creates touch screen, savegame manager, menu manager
-    void InitIPhone(glitch::IDevice* device, float a, float b, float c, float d, float e);  // 0x31f4f4 empty
+    void InitIPhone(glitch::IDevice* device, float a, float b, float c, float d, float e);  // 0x31f4f4 one store of 1 to address 0 (a deliberate fault); game-app/src/ok3-Application.cpp
     void PostInit();                                   // 0x32f7e8 creates the managers stored in the members below
     void Quit();                                       // 0x323bc4
     bool IsInitFinish();                               // 0x31f504

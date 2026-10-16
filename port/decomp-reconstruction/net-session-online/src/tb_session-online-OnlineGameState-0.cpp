@@ -1,9 +1,24 @@
-// Batch e1-net-session-online-OnlineGameState-0.
-//   processEvents: not rebuilt (see the ledger row; skipped).
-//   processMessages and Init(int): partial, see each function.
+// Batch e1-net-session-online-OnlineGameState-0: processMessages and Init(int). processEvents is in
+// online_game_state_events.cpp.
 #include "net-session-online/online_game_state.hpp"
 
+#include <cstdio>
+#include <string>
+
+#include "core-platform/gc_singleton.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/QuestSavegame.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
 #include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_online.hpp"
+#include "net-session-online/c_online_impl.hpp"
+#include "net-session-online/game_center.hpp"
 #include "net-session-online/multiplayer_callback.hpp"
 #include "net-transport/tb/c_net_player_manager.hpp"
 
@@ -135,29 +150,28 @@ void OnlineGameState::processMessages() {
 }
 
 // 0x4a04c0 _ZN15OnlineGameState4InitEi
-// Partial. The state table (8 entries, skip 0, in the binary's order: 100 idleState, 300 ingameState,
-// 101 createRoom, 102 searchRoom, 104 searchRoomPushNotif, 103 joinRoom, 200 lobbyUpdate, 201
-// roomLobbyUpdate) and the 15-handler list are reconstructed and match the listing, as is the state-100
-// store at the end.
-//
-// MISSING, in binary order (asm 0x4a0a10 on, 852 instructions total):
-//   a) `GetOnline()->COnlineImpl::Initialize()` (0x824f40, 4a0a10..4a0a14) runs before the mode switch.
-//   b) The switch on mode (4a0a18..4a0a24 first tests GetOnline()+5, the online-game byte, and skips the
-//      whole switch when it is already set), cases 1 and 2 at 0x4a1170 / 0x4a13e4, plus the 3 and 4 paths
-//      around 0x4a136c and 0x4a11c8. Each case does CMatching::Destroy, CMatching::SetMatchingProvider
-//      (0x7fe4c0), DebugSwitches::load + GetSwitch("ConnectToAlphaServer"/"ConnectToBetaServer"),
-//      Application::GetVersionString, the online version assign, CGameCenter user/host UID and player
-//      count, COnline::SetIsOnlineGame, and for modes 1/2 CMatchingGLLive::SetPlayerParam; the mode is then
-//      stored at +0x34.
-//   c) The host block after the switch (0x4a15c0): builds a CRoomAttributes, PlayerSavegame::SG_Load(16),
-//      SG_GetCurrentPrimaryQuest, six SetAttributeInt calls, one SetAttributeBin, then assigns into
-//      CMatching::Get()->roomAttributes_.
-//   d) COnlineImpl::SignIn at 0x4a1554.
-// The state machine entries are the only part that runs today, so a mode-1..4 Init leaves the matching
-// provider, the online-game flag and the host room attributes unset.
+// The state table (8 entries, skip 0, in the binary's order: 100 idleState, 300 ingameState, 101 createRoom, 102
+// searchRoom, 104 searchRoomPushNotif, 103 joinRoom, 200 lobbyUpdate, 201 roomLobbyUpdate), the 15 handlers, then
+// COnlineImpl::Initialize and, when the online-game byte of COnline (+0x05) is still clear, the switch on the mode:
+//   2: Destroy the matching object, mode_ = 2, provider 2 (Bluetooth), Terminate() (vtable +0x2c) and Initialize(2)
+//      (+0x28) on the new object, SetIsOnlineGame(true), flag24_ = 0.
+//   1: Destroy, mode_ = 1, provider 1 (local), sign in when COnlineImpl::IsSignedIn() is clear, Terminate(),
+//      Initialize(4), SetIsOnlineGame(true), flag24_ = 0.
+//   3: flag26_ = flag27_ = 0, Destroy, mode_ = 3, provider 3 (GLLive), Terminate(); the game version string
+//      (CMatchingGLLive::m_GameVersion) becomes "1.0.1" under the debug switch ConnectToBetaServer and the
+//      Application version string otherwise; the local player's save slot (PlayerInfo +0x664, -1 becomes 0) loads a
+//      PlayerSavegame, its class and level go to the player parameter ("%d %d"); Initialize(4), SetIsOnlineGame(true),
+//      flag28_ = 0, flag24_ = 0, and the debug switch ConnectToAlphaServer sets the alpha-server byte (+0x67ed).
+//   4: Destroy, mode_ = 4, provider 4 (GLLive with Game Center); m_GameVersion is "0.0.0" under ConnectToBetaServer
+//      and the Application version string otherwise; the Game Center record (host flag, user UID, host UID, player
+//      count, player list) is copied from the GameCenter singleton; a host builds the room attributes from the local
+//      player's save (seed, difficulty, level id, act, primary quest, the seed text as binary attribute 4), sets
+//      flag25_ and stores them in the matching object's Game Center attributes (+0x6840); then Initialize(4),
+//      SetIsOnlineGame(true), flag24_ = 0 and the alpha-server switch as for mode 3.
+// Finally the state becomes 100 and the singleton is returned. The original reads the singleton through
+// OnlineSingleton<OnlineGameState>::GetInstance() for its flag stores; this is that object when Init is called as the
+// game calls it, so the stores here go through this.
 OnlineGameState* OnlineGameState::Init(int mode) {
-    (void)mode;  // consumed only by the mode switch that is not reconstructed (see above)
-
     stateMachine_.initStateMachine();
     for (const StateEntryInit& entry : kStateEntries) {
         stateMachine_.addStateEntry(entry.stateId, entry.callback, false);
@@ -170,7 +184,130 @@ OnlineGameState* OnlineGameState::Init(int mode) {
         }
     }
 
-    // The state set after the switch in the original.
+    static_cast<COnlineImpl*>(GetOnline())->Initialize();  // 0x824f40
+    if (!GetOnlineGameFlag()) {                            // *(GetOnline() + 5)
+        Application& app = ApplicationGetInstance();
+        DebugSwitches& switches = DebugSwitches::s_inst;
+        switch (mode) {
+            case 2: {
+                CMatching::Get()->Destroy();
+                mode_ = 2;  // +0x34
+                CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(2));
+                CMatching::Get()->Terminate();   // vtable +0x2c
+                CMatching::Get()->Initialize(2);  // vtable +0x28
+                GetOnline()->SetIsOnlineGame(true);
+                flag24_ = false;  // +0x24
+                break;
+            }
+            case 1: {
+                CMatching::Get()->Destroy();
+                mode_ = 1;
+                CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(1));
+                COnlineImpl* online = static_cast<COnlineImpl*>(GetOnline());
+                if (!online->IsSignedIn()) {
+                    online->SignIn();
+                }
+                CMatching::Get()->Terminate();
+                CMatching::Get()->Initialize(4);
+                GetOnline()->SetIsOnlineGame(true);
+                flag24_ = false;
+                break;
+            }
+            case 3: {
+                flag26_ = false;  // +0x26
+                flag27_ = false;  // +0x27
+                CMatching::Get()->Destroy();
+                mode_ = 3;
+                CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(3));
+                CMatching::Get()->Terminate();
+                switches.load();
+                if (switches.GetSwitch(std::string("ConnectToBetaServer"))) {
+                    CMatchingGLLive::m_GameVersion = "1.0.1";
+                } else {
+                    char version[60];
+                    app.GetVersionString(version, 10, false);
+                    CMatchingGLLive::m_GameVersion = version;
+                }
+                PlayerInfo* local = app.m_playerManager->GetLocalPlayer(0, false);
+                if (local->unk_664 == -1) {  // +0x664, the save slot
+                    local->unk_664 = 0;
+                }
+                PlayerSavegame savegame(static_cast<std::uint32_t>(local->unk_664), 1, false);
+                char parameter[124];
+                std::snprintf(parameter, sizeof(parameter), "%d %d", savegame.m_playerClass,
+                              savegame.m_playerLevel);  // +0x34, +0x30
+                static_cast<CMatchingGLLive*>(CMatching::Get())->SetPlayerParam(std::string(parameter), false);
+                CMatching::Get()->Initialize(4);
+                GetOnline()->SetIsOnlineGame(true);
+                flag28_ = false;  // +0x28
+                flag24_ = false;
+                switches.load();
+                if (switches.GetSwitch(std::string("ConnectToAlphaServer"))) {
+                    static_cast<CMatchingGLLive*>(CMatching::Get())->useAlphaServer_ = true;  // +0x67ed
+                }
+                break;
+            }
+            case 4: {
+                CMatching::Get()->Destroy();
+                mode_ = 4;
+                CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(4));
+                switches.load();
+                if (switches.GetSwitch(std::string("ConnectToBetaServer"))) {
+                    CMatchingGLLive::m_GameVersion = "0.0.0";
+                } else {
+                    char version[60];
+                    app.GetVersionString(version, 10, false);
+                    CMatchingGLLive::m_GameVersion = version;
+                }
+                GameCenter* gameCenter = GCSingleton<GameCenter>::GetInstance();
+                CMatching::Get();  // creates the provider-4 object (CMatchingGLLive with Game Center)
+                CMatchingGLLive::s_GameCenterInfo.userUid_ = gameCenter->GetUserUid();  // dword_A3387C
+                CMatchingGLLive::s_GameCenterInfo.hostUid_ = GCSingleton<GameCenter>::GetInstance()->GetHostUid();  // dword_A33880
+                CMatchingGLLive::s_GameCenterInfo.isHost_ = GCSingleton<GameCenter>::GetInstance()->IsHost() ? 1 : 0;
+                CMatchingGLLive::s_GameCenterInfo.playerCount_ = GCSingleton<GameCenter>::GetInstance()->GetPlayerCount();
+                CMatchingGLLive::s_GameCenterInfo.ids_ = GCSingleton<GameCenter>::GetInstance()->GetJoinPlayerList();
+                if (GCSingleton<GameCenter>::GetInstance()->IsHost()) {
+                    CRoomAttributes attributes;
+                    PlayerInfo* local = app.m_playerManager->GetLocalPlayer(0, false);
+                    PlayerSavegame savegame(static_cast<std::uint32_t>(local->unk_664), 1, false);
+                    const std::int32_t difficulty = PlayerSavegame::m_difficultyLevel;
+                    const std::int32_t levelId = savegame.unk_50[difficulty];  // +0x50 + 4 * difficulty
+                    std::int32_t seed = savegame.m_seeds[difficulty];          // +0x5c + 4 * difficulty
+                    if (seed == 0 || (switches.load(), switches.GetSwitch(std::string("DontUsePlayerSeed")))) {
+                        seed = static_cast<std::int32_t>(glitch::os::Timer::getRealTime());
+                        savegame.m_seeds[difficulty] = seed;
+                    }
+                    char seedText[60];
+                    std::snprintf(seedText, sizeof(seedText), "%d %d", seed, seed);
+                    const std::string seedString(seedText);
+                    savegame.SG_Load(16);
+                    const std::int32_t primaryQuest = savegame.SG_GetCurrentPrimaryQuest(PlayerSavegame::m_difficultyLevel);
+                    const std::int32_t act = savegame.SG_GetQuestSG()->m_act[PlayerSavegame::m_difficultyLevel];  // +0x44 + 4 * d
+                    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_1, -17978438);  // 0xFEEDABBA
+                    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_2, app.GetVersionNumber());
+                    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_3, levelId);
+                    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_4, difficulty);
+                    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_5, act);
+                    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_6, primaryQuest);
+                    attributes.SetAttributeBin(ROOM_BIN_ATTRIBUTE_4, seedString.data(),
+                                               static_cast<unsigned int>(seedString.size()));
+                    flag25_ = true;  // +0x25
+                    static_cast<CMatchingGLLive*>(CMatching::Get())->gcRoomAttributes_ = attributes;  // +0x6840
+                }
+                CMatching::Get()->Initialize(4);
+                GetOnline()->SetIsOnlineGame(true);
+                flag24_ = false;
+                switches.load();
+                if (switches.GetSwitch(std::string("ConnectToAlphaServer"))) {
+                    static_cast<CMatchingGLLive*>(CMatching::Get())->useAlphaServer_ = true;  // +0x67ed
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
     stateMachine_.SetStateForTest(100);
     return this;
 }

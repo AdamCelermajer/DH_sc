@@ -2,6 +2,7 @@
 #include <cstring>
 
 #include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/shader_attributes.hpp"
 
 // glitch-core-io/core/process_buffer.hpp is not on the glitch-video include path, so the three process
 // buffer declarations used here are repeated exactly as that header declares them. Replace this block with
@@ -19,9 +20,13 @@ namespace glitch::video {
 
 // Number of 8-byte binding entries for a shader. The original reads four u16 fields of IShader: the
 // count is (u16 +0x36 + u16 +0x2e) - (u16 +0x34 + u16 +0x2c), truncated to u16 (asm of 0x5d93e8, entry).
-// The port's IShader does not name those fields yet, so this helper has no body. It must be defined
-// with the shader layout before addRenderPass can run.
-uint16_t shaderBindingEntryCount(const glitch::IReferenceCounted* shader);
+// +0x2c / +0x34 are the stage records' field04 and +0x2e / +0x36 their counts (stages 0 and 1 at +0x28 / +0x30).
+uint16_t shaderBindingEntryCount(const glitch::IReferenceCounted* shader) {
+    const IShader* s = static_cast<const IShader*>(shader);
+    const SShaderStageParameters& a = s->m_stageParameters[0];
+    const SShaderStageParameters& b = s->m_stageParameters[1];
+    return static_cast<uint16_t>((b.count + a.count) - (b.field04 + a.field04));
+}
 
 namespace {
 
@@ -76,13 +81,9 @@ void appendPass(SCreationState& state, glitch::IReferenceCounted* shader,
 }  // namespace
 
 // 0x5d93e8 _ZN6glitch5video24CMaterialRendererManager14SCreationState13addRenderPassERKN5boost13intrusive_ptrIKNS0_7IShaderEEERKNS0_6detail10renderpass12SRenderStateERKNSA_8material12SRenderStateE
-// Partial, for three reasons:
-//   1. shaderBindingEntryCount has no body yet (IShader fields at +0x2c, +0x2e, +0x34 and +0x36 are not named).
-//   2. The pass-list sentinel (+0x10/+0x14) must be linked to itself by the constructor. The existing
-//      constructor (material_renderer_manager.cpp) links the pink sentinel only.
-//   3. The symbol has a third parameter, the material::SRenderState const&. The body never reads it (the
-//      entry code loads only the first two arguments), so it is not a parameter here.
-// The destructor (material_renderer_manager.cpp) does not release the pass nodes yet.
+// The binding count is shaderBindingEntryCount (above) and the constructor links the pass sentinel. The symbol has a
+// third parameter, the material::SRenderState const&, which the body never reads (the entry code loads only the first
+// two arguments), so it is not a parameter here; that keeps the row partial against the original mangled symbol.
 void CMaterialRendererManager::SCreationState::addRenderPass(glitch::IReferenceCounted* shader,
                                                              const detail::renderpass::SRenderState& state) {
     // Binding block for the shader: 8 bytes per entry, zeroed. A null block is not cleared.

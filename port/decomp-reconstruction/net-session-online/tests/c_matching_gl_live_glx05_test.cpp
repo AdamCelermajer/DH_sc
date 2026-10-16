@@ -10,7 +10,7 @@ static int failures = 0;
 namespace {
 struct CountingObserver : GLXPlayerMPBaseObserver {
     int invalid = 0;
-    void OnMPFinishGameSuccess() override { ++invalid; }
+    void OnMPNetworkError(std::int32_t) override { ++invalid; }
 };
 }  // namespace
 
@@ -94,6 +94,7 @@ int main() {
     CHECK(lobbyObs.StateForTest() == 1);
     CHECK(!lobbyObs.LoggedInForTest());
 
+    CMatchingGLLive::s_GLXPlayerMPLobby = nullptr;  // the matching object deletes the singletons it owns
     std::printf("%s\n", failures ? "c_matching_gl_live_glx05: FAILED" : "c_matching_gl_live_glx05: ok");
     return failures != 0;
 }

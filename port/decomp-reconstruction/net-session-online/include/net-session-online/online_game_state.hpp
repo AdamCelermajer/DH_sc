@@ -14,6 +14,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "net-session-online/deps/time_of_day.hpp"
@@ -54,6 +55,13 @@ public:
     // (NetPlayerMgr, event 3145728, PlayerJoined handler) is not. The original returns the last handler
     // result; no caller in the Hex-Rays corpus reads it, so this port returns nothing.
     void processMessages();
+    // 0x49db80 _ZN15OnlineGameState13processEventsEv: the matching layer's output events (0x4xxxxx), the sign-in events, the
+    // GL Live internal events and the host change of the net player manager, turned into menu calls and state changes.
+    // The original returns the last callee's value; nothing reads it, so this is void.
+    void processEvents();
+    // The inline push of a status line onto MenuMessageManager<OnlineStatusMsg, 1> queue 0 (processEvents,
+    // HandlePlayerJoined): the start function runs when the queue then holds one line.
+    static void PostStatusMessage(const std::string& text);
     // 0x4a04c0 _ZN15OnlineGameState4InitEi. Partial: see the .cpp. Builds the state table and the
     // handler list, then sets the state to 100. The matching-provider switch on the mode and the
     // GameCenter/PlayerSavegame branches are not reconstructed. Returns this (the original returns the
@@ -89,10 +97,18 @@ public:
     bool flag28_ = false;                  // +0x28 zeroed by the constructor (roomLobbyUpdate, lobbyUpdate)
     const char* menuName30_ = nullptr;     // +0x30 menu name HandleMenuBackButton dispatches on
     std::int32_t mode_ = 0;                // +0x34 the mode word Init's switch stores; 2 and 3 select the attribute branch
+    // joinRoom reads the same +0x30 word as the index of the chosen room in the tRoomInfo list (32-bit word on the target;
+    // the low 32 bits of the stored value here).
+    std::int32_t roomIndex30() const { return static_cast<std::int32_t>(reinterpret_cast<std::uintptr_t>(menuName30_)); }
+    // The tRoomInfo list at +0x50 (read by joinRoom).
+    const std::vector<tRoomInfo>& RoomInfos() const { return roomInfos_; }
     const char* menuName38_ = nullptr;     // +0x38
     bool flag4c_ = false;                  // +0x4c
     bool flag4d_ = false;                  // +0x4d zeroed by the constructor; set on the GL Live path of createRoom
     bool flag4e_ = false;                  // +0x4e zeroed by the constructor
+
+    // gettimeofday into the room-creation time (+0x44), inline in MultiplayerCallback::createRoom.
+    void StampRoomCreationTime() { GetTimeOfDay(&roomCreation_); }
 
     // Test seams. Not in the original.
     void SetStartGameTimeForTest(const Timeval& when) { startGame_ = when; }

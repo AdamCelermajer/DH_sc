@@ -1,6 +1,7 @@
 // Test for CMatching::WritePacketData (0x8010a4, batch r1n-net-session-online-CMatching-9acceb-1) and for the
 // review of CMatching::Get (0x800f8c, src/glx_320e98.cpp). Links against the whole library, as the other tests do.
 #include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_bluetooth.hpp"
 #include "net-session-online/c_matching_local.hpp"
 #include "room_test_helpers.hpp"
 #include "net-transport/net_bit_stream.hpp"
@@ -21,6 +22,8 @@ public:
 
     int LocalMemberId() const override { return 0; }
     int ServerMemberId() const override { return 0; }
+    bool IsInRoom() override { return false; }  // vtable +0x64
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     std::uint32_t MemberBit(int memberId) const override {
         return (memberId >= 0 && memberId < 32) ? (1u << memberId) : 0u;
     }
@@ -41,12 +44,15 @@ int main() {
         CHECK(CMatching::Get() == first);
     }
 
-    // Provider 2 (CMatchingBluetooth) is not ported: Get returns null and leaves the instance unset.
+    // Provider 2 builds a CMatchingBluetooth (a CMatchingLocal) and keeps it as the instance.
     {
         CMatching::Set(nullptr);
         CMatching::s_matchingProvider = 2;
-        CHECK(CMatching::Get() == nullptr);
-        CHECK(CMatching::s_Matching == nullptr);
+        CMatching* bluetooth = CMatching::Get();
+        CHECK(bluetooth != nullptr);
+        CHECK(dynamic_cast<CMatchingBluetooth*>(bluetooth) != nullptr);
+        CHECK(CMatching::s_Matching == bluetooth);
+        CMatching::Set(nullptr);
         CMatching::s_matchingProvider = 1;
     }
 

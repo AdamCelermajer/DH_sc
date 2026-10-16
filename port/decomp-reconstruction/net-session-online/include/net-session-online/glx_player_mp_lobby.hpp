@@ -2,17 +2,14 @@
 // player state, forwards the request to ConnectionLobby and records the pending
 // request kind. Refused requests set the result to 0x32 and notify the observer.
 //
-// Layout (original 32-bit offsets, kept as comments):
-//   +0x00 vptr           +0x04 observer (GLXPlayerMPBase, see glx_player_mp_base.hpp)
-//   +0x48 request arg    +0x4c unknown, zeroed by Init
-//   +0x50 last result (-1 pending, 0x32 refused)
+// Layout (original 32-bit offsets, kept as comments; +0x00..+0x73 is GLXPlayerMPBase, see glx_player_mp_base.hpp):
 //   +0x60 state (>1 can send, >2 in session or room, >4 in game)
 //   +0x61 Init sets 10, +0x62 Init sets 0, +0x63/+0x64 Init sets 0xff (unknown)
-//   +0x68 aux object (ThreadHandle, freed by mpDisconnect)
+//   +0x68 the current incoming DataPacket (GLXPlayerMPBase::incomingPacket_)
 //   +0x74 ConnectionLobby (allocated as 0x2058 bytes, time field at +0x2050)
-//   +0x78 auto-match flag  +0x80 request pending flag  +0x81 is master
-//   +0x84 pending request kind  +0x88 unknown, set to -1 by Init and mpDisconnect
-//   +0x90 worker thread (ThreadHandle)
+//   +0x78 auto-match flag  +0x7c config text  +0x80 request pending flag  +0x81 is master
+//   +0x84 pending request kind  +0x88 the ping result (-1 without a ping thread)
+//   +0x90 the ping thread (GLXPlayerPing, a Thread)
 #pragma once
 
 #include <cstdint>
@@ -23,6 +20,7 @@
 
 #include "net-transport/connection_lobby.hpp"  // ConnectionLobby (one definition, net-transport)
 #include "net-session-online/deps/glx_stand_ins.hpp"
+#include "net-session-online/glx_player_ping.hpp"
 #include "net-session-online/glx_player_mp_base.hpp"
 #include "net-session-online/glx_player_user_friend.hpp"
 
@@ -38,11 +36,18 @@ public:
     // 0x83a4a4 _ZN16GLXPlayerMPLobby4InitEv
     void Init();
 
+    // 0x838a34 _ZN16GLXPlayerMPLobby6UpdateEv (vtable +0x08). Reads the connection, processes the incoming packets, times
+    // out a pending request after 18000 ms and connects a connection that is waiting to.
+    void Update() override;
+    // 0x838c6c _ZN16GLXPlayerMPLobby25mpProcessIncomingMessagesEv (vtable +0x44): one incoming packet per call,
+    // dispatched on its message type to the observer.
+    std::int32_t mpProcessIncomingMessages() override;
+
     // 0x837630 mpIsInSession, 0x837644 mpIsInRoom, 0x837658 mpIsInGame, 0x83766c mpIsMaster
-    bool mpIsInSession() const;
-    bool mpIsInRoom() const;
-    bool mpIsInGame() const;
-    bool mpIsMaster() const;
+    bool mpIsInSession() override;
+    bool mpIsInRoom() override;
+    bool mpIsInGame() override;
+    bool mpIsMaster() override;
     // The master byte at +0x81, which OnMPProcessPushLeaveLobby sets when the leaving member is the local one.
     void SetMaster(bool value) { isMaster_ = value; }
 
@@ -113,15 +118,15 @@ public:
     // 0x8389a8 _ZN16GLXPlayerMPLobby16mpSendDisconnectEv
     // Partial: the observer slot 3 call (OnMPSetParamSuccess) is not made, because its int
     // argument is not in the pseudocode. The port's void return drops the original's result.
-    void mpSendDisconnect();
+    void mpSendDisconnect() override;
     // 0x838bf0 _ZN16GLXPlayerMPLobby12mpDisconnectEv
-    void mpDisconnect();
+    void mpDisconnect() override;
     // 0x839e7c _ZN16GLXPlayerMPLobby25mpSendEstablishConnectionEv
     // The state byte (+0x60) picks the branch: observer slot 2 when set, otherwise a new connection.
-    void mpSendEstablishConnection();
-    // 0x839f4c _ZN16GLXPlayerMPLobby10LoadConfigEv
-    // Partial: the oconf.bar load is not recovered; only the not-found trace is kept.
-    void LoadConfig();
+    void mpSendEstablishConnection() override;
+    // 0x839f4c _ZN16GLXPlayerMPLobby10LoadConfigEv: reads oconf.bar (GGI and the XPlayMPURL host and port) or the
+    // config text; 1 when read, 0 when the file is missing.
+    std::int32_t LoadConfig();
 
     // Not in the original: test seams that set state and read back the request kind.
     void SetStateForTest(std::uint8_t state) { state_ = state; }
@@ -132,14 +137,12 @@ public:
     std::int32_t PendingKindForTest() const { return pendingKind_; }
     bool PendingForTest() const { return pendingActive_; }
 
-private:
+    // The ping result at +0x88 (-1 without a ping thread).
+    std::int32_t PingResult() const { return unknown88_; }
+
     void RefuseRequest();
     void StampRequest(std::int32_t kind);
 
-    std::int32_t requestArg_ = 0;                       // +0x48
-    std::int32_t unknown4c_ = 0;                        // +0x4c
-    std::int32_t lastResult_ = 0;                       // +0x50
-    std::uint8_t state_ = 0;                            // +0x60
     std::uint8_t unknown61_ = 0;                        // +0x61
     std::uint8_t unknown62_ = 0;                        // +0x62
     std::uint8_t unknown63_ = 0;                        // +0x63
@@ -150,6 +153,7 @@ private:
     bool pendingActive_ = false;                        // +0x80
     bool isMaster_ = false;                             // +0x81
     std::int32_t pendingKind_ = 0;                      // +0x84
-    std::int32_t unknown88_ = -1;                       // +0x88
-    std::unique_ptr<ThreadHandle> worker_;              // +0x90
+    std::int32_t unknown88_ = -1;                       // +0x88 (the ping result)
+    std::int32_t keepAliveTime_ = 0;                    // +0x8c (XP_API_GET_TIME of the last sent keep-alive)
+    std::unique_ptr<GLXPlayerPing> worker_;             // +0x90 (the ping thread)
 };

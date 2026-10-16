@@ -59,13 +59,13 @@ const char* TimerTrap::GetScript() const {
     if (m_dataIndex == -1) {  // +0x3c0
         return "";
     }
-    return TrapRow(m_dataIndex).m_w5;  // row +0x14, script name (char*)
+    return TrapRow(m_dataIndex).Script;  // row +0x14, script name (char*)
 }
 
 // 0x39d568 TimerTrap::GetVisual() const
 int TimerTrap::GetVisual() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w7;  // row +0x1c, Visual
+        return TrapRow(m_dataIndex).Visual;  // row +0x1c, Visual
     }
     return m_dataIndex;
 }
@@ -74,7 +74,7 @@ int TimerTrap::GetVisual() const {
 // Unlike TriggerTrap, m_damagerIndex is not consulted: the result is the row's damager, or m_dataIndex (-1) without a row.
 int TimerTrap::GetDamagerId() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w1;  // row +0x04, Damage
+        return TrapRow(m_dataIndex).Damage;  // row +0x04, Damage
     }
     return m_dataIndex;
 }
@@ -89,13 +89,13 @@ int TimerTrap::GetHurtChance() const {
     if (m_dataIndex == -1) {  // +0x3c0
         return m_damagerIndex;
     }
-    return TrapRow(m_dataIndex).m_w3;  // row +0x0c, HurtChance
+    return TrapRow(m_dataIndex).HurtChance;  // row +0x0c, HurtChance
 }
 
 // 0x39d61c TimerTrap::GetSound() const
 int TimerTrap::GetSound() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w6;  // row +0x18, Sound
+        return TrapRow(m_dataIndex).Sound;  // row +0x18, Sound
     }
     return m_dataIndex;
 }
@@ -105,7 +105,7 @@ int TimerTrap::GetDelay() const {
     if (m_dataIndex == -1) {
         return 0;
     }
-    return TrapRow(m_dataIndex).m_w2;  // row +0x08, Delay (ms)
+    return TrapRow(m_dataIndex).Delay;  // row +0x08, Delay (ms)
 }
 
 // 0x39d688 TimerTrap::SpecificUpdate()

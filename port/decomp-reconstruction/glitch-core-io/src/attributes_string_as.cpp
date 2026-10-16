@@ -179,14 +179,12 @@ void CAttributes::addString(const char* name, const char* value, bool flag) {
 namespace glitch::io {
 
 // 0x56840c _ZN6glitch2io11CAttributes17addStringAsBinaryEPKcPKwb
-// PARTIAL: the original builds a CStringAttribute (name, null buffer, size = the bool argument, flag 0),
-// then writes the CBinaryAttribute vtable over it (ARM: ADD vtable, #8). In the binary CBinaryAttribute
-// derives from CStringAttribute (its D1 calls the CStringAttribute destructor, 0x5650dc); the port's
-// CBinaryAttribute derives from IAttribute, so the object cannot be built the same way. This version
-// passes a zero count, uses the string class, then sets the text through setString(wchar_t).
+// Builds the CStringAttribute constructor's object with the name, a null buffer, the size argument = the bool argument of this
+// function (the listing passes it in the size slot) and the flag 0, writes the CBinaryAttribute vtable over it, appends it and
+// sets the text through the wide setString (vtable +0x94). A true flag asks the constructor for one byte from the null buffer,
+// which faults there, as it does in the original.
 void CAttributes::addStringAsBinary(const char* name, const wchar_t* value, bool flag) {
-    (void)flag;
-    appendAndSetString(currentAttributes(), new CStringAttribute(name, static_cast<void*>(nullptr), 0, false), value);
+    appendAndSetString(currentAttributes(), new CBinaryAttribute(name, nullptr, flag ? 1 : 0, false), value);
 }
 
 }  // namespace glitch::io

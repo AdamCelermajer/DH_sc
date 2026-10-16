@@ -16,6 +16,7 @@
 #include "glitch-video/material_parameters_part_1a.hpp"
 #include "glitch-video/material_parameters_part_1b.hpp"
 #include "glitch-video/material_parameters_typed.hpp"
+#include "glitch-video/shader_parameter_def.hpp"
 
 namespace glitch::video {
 namespace detail {
@@ -31,22 +32,36 @@ namespace globalmaterialparametermanager {
 // constructors 0x5b9f64 (C2) and 0x5b9f74 (C1) are three instructions and share their body:
 // STRH R2,[R0,#4] (the id) and STR R0,#1,[R0] (the literal 1), an 8-byte SIdValue record whose single Props word
 // is the 1. Verified in both instantiations and against the getProperties 0x5b9f04/0x5b9f1c offsets.
-struct SPropeties {
-    int32_t unk00 = 1;  // +0x00: 1 after construction (the only Props write of the SIdValue constructor); meaning not recovered
-};
+// SPropeties itself is defined with the traits in shader_parameter_def.hpp (unk00 = the user count, 1 after construction).
 
-// Value traits of the same instance. The shared template calls Traits::isSet and Traits::useCount on the stored
-// value; for this instance they read the reference count of the 20-byte SShaderParameterDef's shared-string data
-// pointer (glitch-shared/sid_collection.hpp). The port's SShaderParameterDef (shader_attributes.hpp) has no
-// shared-string member yet, so the two members are NOT declared here: the collection functions that need them
-// (insert 0x5bc16c, remove 0x5c0f70, removeAll(bool) 0x5c1104, SEntry::reset 0x5bc5c4, SEntry::set 0x5bc620)
-// keep their ledger status and stay unwritten rather than silently mis-counting. The SIdValue constructor this
-// declaration unblocks does not use the traits.
-struct SValueTraits;
-
+// Value traits of the same instance: shader_parameter_def.hpp (a definition is set when it holds a name, its use count is the
+// name record's count).
 }  // namespace globalmaterialparametermanager
 
 struct SGlobalParameterOwner : IMaterialParametersTyped<SGlobalParameterOwner> {
+    using Base = IMaterialParametersTyped<SGlobalParameterOwner>;
+    // The typed templates and dispatchers of the mixin, and the matrix accessors below (they must not hide each other).
+    using Base::getParameter;
+    using Base::getParameterCvt;
+    using Base::setParameter;
+    using Base::setParameterCvt;
+
+    // Matrix accessors (G 0x5c091c / 0x5c09ec / 0x5bee04 / 0x5beed8; src/ok1b-GlobalMaterialParameters.cpp). The value slot of a matrix
+    // entry holds a pointer to a heap matrix, null for the identity.
+    bool getParameter(std::uint16_t id, core::CMatrix4<float>* out, int stride) const;
+    bool getParameter(std::uint16_t id, std::uint32_t index, core::CMatrix4<float>& out) const;
+    bool setParameter(std::uint16_t id, const core::CMatrix4<float>* src, int stride);
+    bool setParameter(std::uint16_t id, std::uint32_t index, const core::CMatrix4<float>& src);
+    // setParameterElement (G 0x5becc4 / 0x5beb84 / 0x5c0aa8): one component of an element.
+    template <typename T>
+    bool setParameterElement(std::uint16_t id, std::uint32_t index, std::uint32_t component, T value);
+
+    // getThis (0x5ba0b8, const 0x5ba0bc: empty, leaves this) and getParameterBlock (0x5ba0c0, const 0x5ba0c8: the value buffer at +0x2c).
+    SGlobalParameterOwner* getThis() { return this; }
+    const SGlobalParameterOwner* getThis() const { return this; }
+    std::uint8_t* getParameterBlock() { return m_store.values.data(); }
+    const std::uint8_t* getParameterBlock() const { return m_store.values.data(); }
+
     // Defines entry id: value type code, element count and byte offset of element 0 in the value buffer.
     // Entries are never removed. Ids below id are created unset.
     void defineEntry(std::uint16_t id, std::uint8_t type, std::uint32_t count, std::uint32_t offset);

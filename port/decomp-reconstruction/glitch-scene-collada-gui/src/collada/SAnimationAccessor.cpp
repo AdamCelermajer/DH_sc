@@ -387,6 +387,13 @@ const CAnimationTrackEx* SAnimationAccessor::getAnimator() const {
 // The get / apply entry points (0x66a068 .. 0x66a1a8): each calls a virtual slot of the track.
 // ---------------------------------------------------------------------------------------------------------------------
 
+// 0x66a010 _ZNK6glitch7collada18SAnimationAccessor10applyValueEiiPvPNS0_15animation_track15CApplicatorInfoERib
+// Track slot +0x80, with the applicator.
+int SAnimationAccessor::applyValue(int firstTime, int secondTime, void* target, animation_track::CApplicatorInfo* info, int& keyIndex,
+                                   bool interpolate) const {
+    return getAnimator()->applyValue(*this, firstTime, secondTime, target, info, keyIndex, interpolate);
+}
+
 // 0x66a068 _ZNK6glitch7collada18SAnimationAccessor10applyValueEiiPvRib
 // Track slot +0x80, with a null applicator.
 int SAnimationAccessor::applyValue(int firstTime, int secondTime, void* target, int& keyIndex, bool interpolate) const {

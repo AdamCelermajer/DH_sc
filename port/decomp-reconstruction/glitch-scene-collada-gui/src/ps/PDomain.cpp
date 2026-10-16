@@ -42,7 +42,7 @@ double PSRandom::Rand() {
         value = static_cast<std::int32_t>(static_cast<std::uint32_t>(value) + 0x7FFFFFFFu);
         seed = value;
     }
-    return static_cast<double>(value) / 2147483650.0;
+    return static_cast<double>(value) / 2147483647.0;  // the listing builds 0x41dfffffffc00000; Hex-Rays prints it as 2147483650.0
 }
 
 // 0x637ac4 _ZN6glitch2ps8PSRandom7RandVecEv
@@ -222,8 +222,10 @@ PDBox::PDBox(float width, float height, float depth) {
 }
 
 bool PDBox::within(const core::vector3d<float>& p) const {
-    return p.X >= minCorner.X && p.X <= maxCorner.X && p.Y >= minCorner.Y && p.Y <= maxCorner.Y && p.Z >= minCorner.Z &&
-           p.Z <= maxCorner.Z;
+    // The listing rejects with `x < min` and `x > max` (the float helpers 0x30e70c and 0x30e2f8) and accepts otherwise, so a NaN
+    // coordinate is inside; Hex-Rays prints the negation as >= and <=.
+    return !(p.X < minCorner.X) && !(p.X > maxCorner.X) && !(p.Y < minCorner.Y) && !(p.Y > maxCorner.Y) && !(p.Z < minCorner.Z) &&
+           !(p.Z > maxCorner.Z);
 }
 
 core::vector3d<float> PDBox::generate(PSRandom& random) const {
@@ -358,9 +360,11 @@ PDomain* PDSphere::copy() const {
 PDBlob::PDBlob(const core::vector3d<float>& centerPoint, float sigmaValue) {
     center = centerPoint;
     sigma = sigmaValue;
-    const float inverse = static_cast<float>(1.0 / static_cast<double>(static_cast<float>(static_cast<double>(sigmaValue) + 1.0e-12)));
+    // All in float: the listing loads the float constants 1e-12f (0x2b8cbccc) and 0.39894228f (0x3ecc422a); Hex-Rays prints them as
+    // 1.0e-12 and 0.39894.
+    const float inverse = 1.0f / (sigmaValue + 1.0e-12f);
     negHalfInvSigmaSquared = (inverse * inverse) * -0.5f;
-    gaussNorm = static_cast<float>(static_cast<double>(inverse) * 0.39894);
+    gaussNorm = inverse * 0.39894228f;
 }
 
 // A point is inside with the probability of the Gauss curve at its distance: the test draws lrand48() / 2^31.
@@ -421,7 +425,7 @@ PDCone::PDCone(const core::vector3d<float>& startPoint, const core::vector3d<flo
     const float scale = std::sqrt(invAxisLengthSquared);
     buildBasis(scale * axis.X, scale * axis.Y, scale * axis.Z, u, v);
     if (uniform != 0) {
-        volume = static_cast<float>(static_cast<double>(std::sqrt(lengthSquared + radiusMaxSquared)) * 3.14159265 *
+        volume = static_cast<float>(static_cast<double>(std::sqrt(lengthSquared + radiusMaxSquared)) * 3.141592653589793 *
                                     static_cast<double>(radiusMax));
     } else {
         const float outer = static_cast<float>(static_cast<double>(radiusMaxSquared) * 1.04719758 * static_cast<double>(length));
@@ -503,7 +507,7 @@ PDCylinder::PDCylinder(float h, float radius) {
     uniform = 0;
     radiusMinSquared = 0.0f;
     radiusMaxSquared = radius * radius;
-    volume = length * static_cast<float>(static_cast<double>(radius * radius) * 3.14159265);
+    volume = length * static_cast<float>(static_cast<double>(radius * radius) * 3.141592653589793);
 }
 
 PDCylinder::PDCylinder(const core::vector3d<float>& startPoint, const core::vector3d<float>& endPoint, float r1, float r2) {
@@ -528,10 +532,10 @@ PDCylinder::PDCylinder(const core::vector3d<float>& startPoint, const core::vect
     const float scale = std::sqrt(invAxisLengthSquared);
     buildBasis(scale * axis.X, scale * axis.Y, scale * axis.Z, u, v);
     if (uniform != 0) {
-        volume = static_cast<float>(static_cast<double>(length + length) * 3.14159265 * static_cast<double>(radiusMax));
+        volume = static_cast<float>(static_cast<double>(length + length) * 3.141592653589793 * static_cast<double>(radiusMax));
     } else {
-        const float section = static_cast<float>(static_cast<double>(radiusMaxSquared) * 3.14159265 +
-                                                 static_cast<double>(radiusMinSquared) * -3.14159265);
+        const float section = static_cast<float>(static_cast<double>(radiusMaxSquared) * 3.141592653589793 +
+                                                 static_cast<double>(radiusMinSquared) * -3.141592653589793);
         volume = length * section;
     }
 }

@@ -96,7 +96,7 @@ int TriggerObject::GetInteractionType(GameObject* other) const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return DataRow(m_dataIndex).m_w1;
+    return DataRow(m_dataIndex).InteractionType;
 }
 
 // 0x39939c TriggerObject::InterpretIncomingNetStruct(bool)
@@ -221,7 +221,7 @@ void TriggerObject::Interact(GameObject* other) {
     }
     if (m_dataIndex != -1) {
         const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
-        VoxSoundManager::s_instance->Play3D(DataRow(m_dataIndex).m_w4, at, false, 1, -1.0f, -1.0f);
+        VoxSoundManager::s_instance->Play3D(DataRow(m_dataIndex).Sound, at, false, 1, -1.0f, -1.0f);
     }
     if (m_scriptOffId == -1 || (m_numActivations & 1) == 0) {  // +0x768, +0x3b4
         if (m_scriptId != -1) {  // +0x74c
@@ -287,9 +287,9 @@ void TriggerObject::InitPost() {
 
     m_dataIndex = pydata::FindMemberName(Arrays::TriggerObjects::m_memberNames, static_cast<int>(Arrays::TriggerObjects::size), m_data.c_str());  // +0x730
     if (m_dataIndex != -1) {
-        const int model = DataRow(m_dataIndex).m_w5;
+        const int model = DataRow(m_dataIndex).Visual;
         if (model != -1) {
-            m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[model].m_w2;
+            m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[model].Name;
         }
     }
 
@@ -304,7 +304,7 @@ void TriggerObject::InitPost() {
         if (condition != -1) {
             m_unlockConditions = new ConditionList();   // +0x788
             const Structs::v2CondAnd& row = reinterpret_cast<const Structs::v2CondAnd*>(Arrays::v2Conditions::members)[condition];
-            m_unlockConditions->AssignPyData(static_cast<Structs::v2ConditionStub*>(row.m_w2), static_cast<int>(row.m_w1));
+            m_unlockConditions->AssignPyData(static_cast<Structs::v2ConditionStub*>(row.Conds), static_cast<int>(row.CondsSize));
         }
     }
 
@@ -326,7 +326,7 @@ void TriggerObject::InitPost() {
     PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
     SetPhysicalObject(body, false);
     if (VoxSoundManager::s_instance != nullptr) {
-        VoxSoundManager::s_instance->LoadSound(DataRow(m_dataIndex).m_w4);
+        VoxSoundManager::s_instance->LoadSound(DataRow(m_dataIndex).Sound);
     }
-    LoadExternalScript(DataRow(m_dataIndex).m_w3, "data/scripts/objects/");
+    LoadExternalScript(DataRow(m_dataIndex).Script, "data/scripts/objects/");
 }

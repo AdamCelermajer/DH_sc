@@ -16,4 +16,15 @@ dual_quaternion& dual_quaternion::fromQuatAndTrans(const quaternion& q, const ve
     return *this;
 }
 
+// 0x66d85c _ZN6glitch4core15dual_quaternionaSERKNS0_8CMatrix4IfEE
+dual_quaternion& dual_quaternion::operator=(const CMatrix4<float>& m) {
+    quaternion q;
+    q = m;
+    vector3d<float> t;
+    t.X = m.M[12];
+    t.Y = m.M[13];
+    t.Z = m.M[14];
+    return fromQuatAndTrans(q, t);
+}
+
 }  // namespace glitch::core

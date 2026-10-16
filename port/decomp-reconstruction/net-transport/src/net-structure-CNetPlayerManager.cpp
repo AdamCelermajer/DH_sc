@@ -83,7 +83,7 @@ int CNetPlayerManager::Update(int delta) {
     }
     ProcessEvents();
     if (CMatching::Get()->IsServer()) {
-        if (CMatching::Get()->UnknownGate()) {  // vtable +0x64, IsInRoom()
+        if (CMatching::Get()->IsInRoom()) {  // vtable +0x64, IsInRoom()
             for (std::size_t i = 0; i < players_.size(); ++i) {
                 CNetPlayerInfo* player = players_[i];
                 if (player->matching_member_id_.GetValue() > 0) {  // +0x1a0

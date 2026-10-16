@@ -318,17 +318,14 @@ void CModularSkinnedMeshSceneNode::serializeAttributes(io::IAttributes* attribut
 }
 
 // 0x649474 _ZN6glitch7collada28CModularSkinnedMeshSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS3_26SAttributeReadWriteOptionsE
-// From the listing: ISceneNode::deserializeAttributes, then for k = 0 .. getCategoryCount()-1: call IAttributes' vtable slot
-// +0xfc (LDR R7,[R3,#0xFC]; BLX R7) with R1 = getCategoryName(k) and take its result as a `char*` (the helper's own
-// annotation says `char *`), look that name up with getModuleId, and store it with setCategoryModule(k, id).
-//
-// PARTIAL, and the missing piece is a TYPE, not a body: the port's io::IAttributes declares slot +0xfc as
-// `virtual int getEnum(const char* name) const`, so in the port the same call yields an int where the original uses the
-// returned word as a string pointer. Writing getModuleId over that int would be a type error, and casting the int to a
-// `const char*` would invent a bridge the listing does not show. The row keeps the ISceneNode part and names the gap: the
-// port needs the slot +0xfc contract decided (its result is a literal's text, not an index).
+// ISceneNode::deserializeAttributes, then for every category: the enum attribute named after it (IAttributes slot +0xfc, getEnum(name),
+// which answers the literal's text) is looked up as a module name (getModuleId) and the category is set to that module.
 void CModularSkinnedMeshSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
     ISceneNode::deserializeAttributes(attributes, options);
+    for (int category = 0; category < getCategoryCount(); ++category) {
+        const char* literal = attributes->getEnum(getCategoryName(category));
+        setCategoryModule(category, getModuleId(literal));
+    }
 }
 
 }  // namespace glitch::collada

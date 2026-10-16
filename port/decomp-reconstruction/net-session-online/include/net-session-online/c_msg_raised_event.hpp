@@ -1,6 +1,6 @@
 // CMsgRaisedEvent: a quest event raised by one player and replayed on the others. The payload
 // starts at +0x50 (the CMessage base ends at +0x50): five 32-bit words, +0x50..+0x63. The names
-// come from the reads in RaiseEventFromNetwork. The QE_* quest-event classes are not ported.
+// come from the reads in RaiseEventFromNetwork. 
 #pragma once
 
 #include <cstdint>
@@ -38,9 +38,7 @@ public:
     // (QuestEvent::FillNetworkMsg, vtable slot +0x0c). Returns the message.
     static CMessage* Create(QuestEvent* event);
 
-    // 0x49a238 _ZN15CMsgRaisedEvent21RaiseEventFromNetworkEPS_. Partial: only the guard is
-    // reproduced. A message whose sender is the local member is ignored. The quest-event objects
-    // (QE_* classes), ObjectManager, PyDataConstants, EventManager and Application are not ported,
-    // so other messages are not raised here. The original's return value is not reproduced.
+    // 0x49a238 _ZN15CMsgRaisedEvent21RaiseEventFromNetworkEPS_. Rebuilds the quest event of the message (kinds 0..5, 7..10, 12)
+    // and raises it on the current Level; a message from the local member is ignored. The original returns the EventManager.
     static void RaiseEventFromNetwork(CMsgRaisedEvent* message);
 };

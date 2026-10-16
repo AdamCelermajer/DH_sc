@@ -47,6 +47,7 @@
 #include "glitch-video/material.hpp"
 #include "glitch-video/render_target.hpp"
 #include "glitch-video/texture.hpp"
+#include "glitch-video/vertex_attribute_map.hpp"
 #include "glitch-video/vertex_streams.hpp"
 #include "glitch-video/video_types.hpp"
 
@@ -268,17 +269,19 @@ public:
     uint32_t addDynamicLight(const boost::intrusive_ptr<CLight>& light);
     void deleteAllDynamicLights();
 
-    // 0x5a8e3c / 0x5a8ef0: sets the screen rectangle of the framebuffer target, 0x5a8f88 flips a projection matrix for the
-    // current orientation, 0x5a9fd4 changes the orientation. Declared only.
-    void setFramebufferScreenInternal(core::dimension2d<int32_t>* previousSize, const core::rect<int32_t>& rect);
+    // 0x5a8e3c: clamps the rectangle to the device area and stores it as the screen framebuffer's screen offset, size and
+    // margins; returns the size the framebuffer had before. 0x5a8ef0 does that, resets the framebuffer's viewport to its whole
+    // size when the size did not change, and sets bit 0 of the state flags. 0x5a8f88 flips a projection matrix for the current
+    // orientation, 0x5a9fd4 changes the orientation.
+    core::dimension2d<int32_t> setFramebufferScreenInternal(const core::rect<int32_t>& rect);
     void setFramebufferScreen(const core::rect<int32_t>& rect);
     void fixUpProjectionMatrixOrientation(core::CMatrix4<float>& projection) const;
     void setOrientation(E_ORIENTATION orientation);
-    // 0x5a90fc: clips a rectangle (and optional texture coordinates and colours) against another. Declared only.
+    // 0x5a90fc: clips a rectangle (and its texture coordinates and corner colours) against another.
     static bool clip(core::rect<int32_t>& target, core::rect<float>& texture, const core::rect<int32_t>& clipRect,
                      SColor* colors);
     // 0x5a97e4 .. 0x5aa114: converts positions and rectangles between screen and device space for the current orientation
-    // (instances for int and float). Declared only.
+    // (instances for int and float).
     template <typename T> void screen2DevicePos(T& x, T& y) const;
     template <typename T> void device2ScreenPos(T& x, T& y) const;
     template <typename T> void screen2Device(core::rect<T>& rect) const;
@@ -293,7 +296,7 @@ public:
     void clearRenderBuffers();
     void unregisterRenderBuffer(IRenderBuffer* buffer);
     // 0x5aa5f8: validates the descriptor against the driver capabilities (logging the reason on failure) and calls
-    // createTextureImpl. Declared only.
+    // createTextureImpl.
     boost::intrusive_ptr<ITexture> createTexture(const char* name, const STextureDesc& desc);
     // 0x5acfd0: renders a texture through the default material so it is uploaded. Declared only.
     void forceCommitTexture(const boost::intrusive_ptr<ITexture>& texture);
@@ -316,7 +319,7 @@ public:
               CDriverBinding** binding);
     void drawMeshBuffer(const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer);
     bool drawPendingBatch();
-    void appendBatch(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
+    bool appendBatch(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
                      CDriverBinding** binding);
     void drawFullScreenQuad(const SColor* colors);
     // 0x6498a0: process buffer for a mesh buffer. Declared only.
@@ -372,7 +375,7 @@ public:
     const uint8_t* const* m_techniqueRemap = nullptr;     // +0x108, remap tables read by CMaterial::getTechnique
     uint32_t m_maxBatchIndices = 1024;                    // +0x10c
     std::vector<boost::intrusive_ptr<glitch::IReferenceCounted>> m_batchBuffers;  // +0x110..+0x118, CAppendMeshBuffer (scene)
-    uint32_t unk_11c = 0;                                 // +0x11c, not touched by the constructor
+    uint32_t m_batchBufferIndex = 0;                      // +0x11c, index of the current buffer in m_batchBuffers (drawPendingBatch)
     boost::intrusive_ptr<glitch::IReferenceCounted> m_batchBuffer;  // +0x120, current CAppendMeshBuffer
     boost::intrusive_ptr<CMaterial> m_batchMaterial;      // +0x124
     boost::intrusive_ptr<IBatchBaker> m_batchBaker;       // +0x128
@@ -384,8 +387,12 @@ public:
     uint32_t m_stateFlags = 0;                            // +0x138, 0x1 screen set, 0x4 pushing a target, 0x8 batch pending, 0x10 / 0x20 own managers
     E_ORIENTATION m_orientation = 0;                      // +0x13c
     boost::intrusive_ptr<CVertexStreams> unk_140;         // +0x140
-    CVertexStreams* unk_144[4] = {};                      // +0x144..+0x153, four counted blocks (count at +0x00)
+    boost::intrusive_ptr<CVertexAttributeMap> unk_144[4];  // +0x144..+0x153, the vertex attribute map of the full-screen quad (shared by the four slots; count at +0x00)
     std::vector<IRenderBuffer*> m_renderBuffers;          // +0x154..+0x15c
+
+    // _ZN6glitch5video12IVideoDriver16DefaultAttribMapE: the 30-byte stream-index-per-attribute map (0xff = unset) that
+    // CBatchDriver::thisAppendBatch (0x5a6fe0) rebuilds for each record when no material map (+0xe8) is bound.
+    static uint8_t DefaultAttribMap[30];
 };
 
 }  // namespace glitch::video

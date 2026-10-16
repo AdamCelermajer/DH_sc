@@ -22,9 +22,8 @@ constexpr int kLevelLoadStepDone = 38;
 extern int OPERATOR_PACKAGE_INGAME;
 
 // 0x31f4f4 Application::InitIPhone(glitch::IDevice*, float, float, float, float, float)
-// Skipped: iPhone-only init, not a target platform. The original body is a single store of 1 to
-// address 0 (asm: MOV R3,#0; STRB R2,[R3]), so there is no definition here. The header keeps the
-// declaration.
+// iPhone-only init: the original body is a single store of 1 to address 0 (asm: MOV R3,#0; STRB R2,[R3]).
+// Defined in game-app/src/ok3-Application.cpp.
 
 // 0x31f504 Application::IsInitFinish()
 // True when the state stack holds a state, its top state is not null and is not &GSInit::s_inst. The stack is

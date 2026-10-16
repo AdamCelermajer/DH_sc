@@ -109,12 +109,12 @@ void ResetState() {
 // w5 script, w6 sound, w7 visual). The rows are zero-filled and never constructed.
 void FillRows() {
     auto* rows = reinterpret_cast<Structs::TimerTrap*>(g_rows);
-    rows[0].m_w1 = 7;
-    rows[0].m_w2 = 500;
-    rows[0].m_w3 = 30;
-    rows[0].m_w5 = const_cast<char*>("spike_script");
-    rows[0].m_w6 = 9;
-    rows[0].m_w7 = 11;
+    rows[0].Damage = 7;
+    rows[0].Delay = 500;
+    rows[0].HurtChance = 30;
+    rows[0].Script = const_cast<char*>("spike_script");
+    rows[0].Sound = 9;
+    rows[0].Visual = 11;
     Arrays::TimerTraps::members = g_rows;
 }
 

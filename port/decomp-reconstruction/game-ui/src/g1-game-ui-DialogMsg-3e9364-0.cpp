@@ -51,7 +51,7 @@ void DialogMsg::SetActorName(int actorIndex) {
         return;
     }
     const auto* actors = static_cast<const Structs::DialogActor*>(static_cast<const void*>(Arrays::DialogActors::members));
-    const char* text = ApplicationGetStringManager()->getString(actors[actorIndex].m_w4);
+    const char* text = ApplicationGetStringManager()->getString(actors[actorIndex].Name);
     // The original parses into a local and then assigns it to m_actorName. Its `v2 != &v4` test is always true (the
     // local is never the member), so it is not reproduced.
     const std::string raw(text);

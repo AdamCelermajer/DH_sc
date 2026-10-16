@@ -18,9 +18,19 @@ T EntryOr(const std::vector<T>& field, std::int32_t count, std::int32_t index, b
 }
 }  // namespace
 
+namespace {
+// The text getters: the stored string, or null when the array is absent or the index is out of range.
+const char* TextOrNull(const std::vector<std::string>& field, std::int32_t count, std::int32_t index) {
+    if (field.empty() || index < 0 || index > count || static_cast<std::size_t>(index) >= field.size()) {
+        return nullptr;
+    }
+    return field[static_cast<std::size_t>(index)].c_str();
+}
+}  // namespace
+
 // 0x82b9fc _ZN19GLXPlayerUserFriend13GetUserNumberEi
-std::uint32_t GLXPlayerUserFriend::GetUserNumber(std::int32_t index) const {
-    return EntryOr<std::uint32_t>(userNumber_, count_, index, true, 0u);
+const char* GLXPlayerUserFriend::GetUserNumber(std::int32_t index) const {
+    return TextOrNull(userNumber_, count_, index);
 }
 
 // 0x82ba2c _ZN19GLXPlayerUserFriend7GetNameEi
@@ -33,8 +43,8 @@ const char* GLXPlayerUserFriend::GetName(std::int32_t index) const {
 }
 
 // 0x82ba5c _ZN19GLXPlayerUserFriend10GetCountryEi
-std::int32_t GLXPlayerUserFriend::GetCountry(std::int32_t index) const {
-    return EntryOr<std::int32_t>(country_, count_, index, true, 0);
+const char* GLXPlayerUserFriend::GetCountry(std::int32_t index) const {
+    return TextOrNull(country_, count_, index);
 }
 
 // 0x82ba8c _ZN19GLXPlayerUserFriend13GetReputationEi
@@ -58,8 +68,8 @@ std::int32_t GLXPlayerUserFriend::GetState(std::int32_t index) const {
 }
 
 // 0x82bb58 _ZN19GLXPlayerUserFriend14GetCurrentGameEi
-std::int32_t GLXPlayerUserFriend::GetCurrentGame(std::int32_t index) const {
-    return EntryOr<std::int32_t>(currentGame_, count_, index, true, 0);
+const char* GLXPlayerUserFriend::GetCurrentGame(std::int32_t index) const {
+    return TextOrNull(currentGame_, count_, index);
 }
 
 // 0x82bb88 _ZN19GLXPlayerUserFriend9GetTrophyEi
@@ -73,35 +83,35 @@ std::int32_t GLXPlayerUserFriend::GetTotalTrophyScore(std::int32_t index) const 
 }
 
 // 0x82bbe8 _ZN19GLXPlayerUserFriend11GetLanguageEi
-std::int32_t GLXPlayerUserFriend::GetLanguage(std::int32_t index) const {
-    return EntryOr<std::int32_t>(language_, count_, index, true, 0);
+const char* GLXPlayerUserFriend::GetLanguage(std::int32_t index) const {
+    return TextOrNull(language_, count_, index);
 }
 
 // 0x82bc18 _ZN19GLXPlayerUserFriend19GetAvatarLastUpdateEi
-std::int32_t GLXPlayerUserFriend::GetAvatarLastUpdate(std::int32_t index) const {
-    return EntryOr<std::int32_t>(avatarLastUpdate_, count_, index, true, 0);
+const char* GLXPlayerUserFriend::GetAvatarLastUpdate(std::int32_t index) const {
+    return TextOrNull(avatarLastUpdate_, count_, index);
 }
 
 // 0x82bc48 _ZN19GLXPlayerUserFriend12GetAvatarKeyEi
-std::int32_t GLXPlayerUserFriend::GetAvatarKey(std::int32_t index) const {
-    return EntryOr<std::int32_t>(avatarKey_, count_, index, true, 0);
+const char* GLXPlayerUserFriend::GetAvatarKey(std::int32_t index) const {
+    return TextOrNull(avatarKey_, count_, index);
 }
 
 void GLXPlayerUserFriend::ReserveForTest(std::int32_t count) {
     count_ = count;
     const auto n = static_cast<std::size_t>(count);
-    userNumber_.assign(n, 0);
+    userNumber_.assign(n, std::string());
     name_.assign(n, std::string());
-    country_.assign(n, 0);
+    country_.assign(n, std::string());
     reputation_.assign(n, 0.0);
     badRep_.assign(n, 0);
     goodRep_.assign(n, 0);
     state_.assign(n, 0);
-    currentGame_.assign(n, 0);
+    currentGame_.assign(n, std::string());
     trophy_.assign(n, 0);
-    language_.assign(n, 0);
-    avatarKey_.assign(n, 0);
-    avatarLastUpdate_.assign(n, 0);
+    language_.assign(n, std::string());
+    avatarKey_.assign(n, std::string());
+    avatarLastUpdate_.assign(n, std::string());
     totalTrophy_.assign(n, 0);
 }
 

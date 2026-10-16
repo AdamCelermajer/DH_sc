@@ -104,10 +104,10 @@ void Script_StopSound::Execute(bool skipping, int module) {
     (void)module;
     const Structs::StopSound* record = static_cast<const Structs::StopSound*>(m_args);
     TraceScriptCmd();
-    if (record->m_w3) {
-        VoxSoundManager::s_instance->StopMusic(record->m_w2);
+    if (record->IsMusic) {
+        VoxSoundManager::s_instance->StopMusic(record->FadeoutTime);
     } else {
-        VoxSoundManager::s_instance->Stop(record->m_w4, record->m_w2);
+        VoxSoundManager::s_instance->Stop(record->SoundID, record->FadeoutTime);
     }
 }
 
@@ -123,7 +123,7 @@ void Script_UnEquipHands::Execute(bool skipping, int module) {
     (void)skipping;
     const Structs::UnEquipHands* record = static_cast<const Structs::UnEquipHands*>(m_args);
     TraceScriptCmd();
-    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->Target, module, false, nullptr);
     if (handle.GetObject(false) != nullptr) {
         Character* character = static_cast<Character*>(handle);
         if (character != nullptr) {
@@ -145,11 +145,11 @@ void Script_UnEquipItemFromSlot::Execute(bool skipping, int module) {
     (void)skipping;
     const Structs::UnEquipItemFromSlot* record = static_cast<const Structs::UnEquipItemFromSlot*>(m_args);
     TraceScriptCmd();
-    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->m_w4, module, false, nullptr);
+    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->Target, module, false, nullptr);
     if (handle.GetObject(false) != nullptr) {
         Character* character = static_cast<Character*>(handle);
         if (character != nullptr) {
-            character->UnEquipItemFromSlot(static_cast<unsigned int>(record->m_w2));
+            character->UnEquipItemFromSlot(static_cast<unsigned int>(record->SlotID));
         }
     }
 }
@@ -167,7 +167,7 @@ void Script_UnlockCharacter::Execute(bool skipping, int module) {
     (void)skipping;
     const Structs::UnlockCharacter* record = static_cast<const Structs::UnlockCharacter*>(m_args);
     TraceScriptCmd();
-    const char* name = record->m_w3;
+    const char* name = record->Target;
     if (std::strcmp(name, "All") != 0) {
         ObjectHandle handle = ObjectManagerOf()->GetObjectByName(name, module, false, nullptr);
         if (handle.GetObject(false) != nullptr) {
@@ -201,7 +201,7 @@ void Script_Wait::Execute(bool skipping, int module) {
     const Structs::Wait* record = static_cast<const Structs::Wait*>(m_args);
     TraceScriptCmd();
     m_elapsed = 0;
-    m_duration = record->m_w2;
+    m_duration = record->Time;
 }
 
 // 0x45932c Script_WaitCamera::IsBlocking() const

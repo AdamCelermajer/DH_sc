@@ -28,9 +28,12 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/material_parameters.hpp"
+#include "glitch-video/shader_parameter_def.hpp"
 #include "glitch-video/tb/renderpass_srenderstate.hpp"
 #include "glitch-video/video_types.hpp"
 
@@ -43,7 +46,7 @@ namespace glitch::video {
 struct SShaderParameterDef;
 
 namespace detail::material_renderer_manager {
-struct STechniqueList;  // CMaterialRendererManager's technique list (0x5d3124 argument 5)
+struct STechniqueList;  // CMaterialRendererManager's technique list (0x5d3124 argument 5); defined below, after STechnique
 }  // namespace detail::material_renderer_manager
 
 // One render pass of a technique: 52 bytes in the original (the pass array element). The first 32 bytes are the
@@ -52,8 +55,8 @@ struct SRenderPass {
     uint32_t stateWords[8] = {};                  // +0x00..+0x1f, the renderpass::SRenderState block
     glitch::IReferenceCounted* shader = nullptr;  // +0x20, the pass shader (counted: IReferenceCounted at +0x04)
     int* bindings = nullptr;                      // +0x24, 8 bytes per entry, process-buffer block
-    uint32_t unknown28 = 0;                       // +0x28, meaning unknown
-    uint16_t unknown2c = 0;                       // +0x2c, meaning unknown
+    const SShaderParameterBinding* unknown28 = nullptr; // +0x28, the pass's shader parameter bindings (SShaderParameterBinding, 4 bytes each; commitCurrentMaterialImpl 0x5b74e8)
+    uint16_t unknown2c = 0;                       // +0x2c, the number of bindings
     uint16_t unknown2e = 0;                       // +0x2e, meaning unknown
     uint8_t flag30 = 1;                           // +0x30, one when written by addRenderPass or setRenderState
 
@@ -70,9 +73,30 @@ using SRendererParameterBlock = SRenderPass;
 struct STechnique {
     void* name = nullptr;                    // +0x00, the technique name (SSharedStringHeapEntry::SData*, count at +0x00)
     uint8_t passCount = 0;                   // +0x04, number of render passes of the technique
+    uint8_t flag05 = 0;                      // +0x05, zero at creation (makeTechnique 0x5dc824 writes node +0x0d = 0); meaning unknown
     const SRenderPass* passes = nullptr;     // +0x08, first render pass of the technique
 };
 using STechniqueEntry = STechnique;
+
+namespace detail::material_renderer_manager {
+// The std::list<STechnique, SProcessBufferAllocator> of the creation state (SCreationState +0x08): nodes of 0x14 bytes, next at
+// +0x00, prev at +0x04, the STechnique payload at +0x08 (makeTechnique 0x5dc824 allocates 0x14). The list head is a node of its own
+// whose payload is never read (the original's head is only next/prev; the port's is a whole node).
+struct STechniqueNode {
+    STechniqueNode* next = nullptr;  // +0x00
+    STechniqueNode* prev = nullptr;  // +0x04
+    STechnique technique;            // +0x08
+};
+struct STechniqueList {
+    STechniqueList() { head.next = head.prev = &head; }
+    STechniqueList(const STechniqueList&) = delete;
+    STechniqueList& operator=(const STechniqueList&) = delete;
+    STechniqueNode head;  // end sentinel
+    STechniqueNode* begin() const { return head.next; }
+    const STechniqueNode* end() const { return &head; }
+    bool empty() const { return head.next == &head; }
+};
+}  // namespace detail::material_renderer_manager
 
 class CMaterialRenderer {
 public:
@@ -81,6 +105,9 @@ public:
     CMaterialRenderer() = default;
     CMaterialRenderer(const CMaterialRenderer&) = delete;
     CMaterialRenderer& operator=(const CMaterialRenderer&) = delete;
+    // 0x5d4aa0 (D1): drops the global parameters the passes bound, the pass shaders and the names of the techniques and parameters.
+    // Only a renderer built by the constructor below does that; a default-constructed one (tests) owns nothing.
+    ~CMaterialRenderer();
 
     // 0x5d3124 (C2) / 0x5d36cc (C1): lays out the block, copies the technique list and the render passes (grabbing
     // their shaders and the global parameters they bind), the parameter entries and the name, and zeroes the value
@@ -138,6 +165,18 @@ public:
     // parameters.headerForTest() holds the count (+0x0e) and the entry array (+0x20), parameters.valueBuffer() the value
     // buffer (+0x24), whose bytes are the default values of every material of this renderer (CMaterial::init copies them).
     detail::IMaterialParameters<CMaterialRenderer, false> parameters;
+
+    // Port storage. The original lays the header, the technique table, the parameter entries, the value buffer, the passes, the binding
+    // ids and records and the name text out in ONE block (see the header comment); the port keeps them in these arrays and points the
+    // header words at them. Filled by the constructor 0x5d3124 only.
+    bool m_constructed = false;
+    std::vector<STechnique> m_techniqueStorage;
+    std::vector<SRenderPass> m_passStorage;
+    std::vector<detail::SParameterEntry> m_entryStorage;
+    std::vector<uint8_t> m_valueStorage;
+    std::vector<uint16_t> m_bindingIdStorage;                // per pass, the 16-bit parameter id of each shader parameter (bit 15: global)
+    std::vector<SShaderParameterBinding> m_bindingRecords;   // per pass, the 4-byte records built from the ids
+    std::string m_nameStorage;
 };
 
 // The original's inline count updates (CMaterialRenderer keeps its count at +0x00, not in IReferenceCounted).

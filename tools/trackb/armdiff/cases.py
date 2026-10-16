@@ -17,6 +17,7 @@ values or a small range. The first cases are fixed combinations; later ones draw
 from __future__ import annotations
 
 import random
+import re
 import struct
 from dataclasses import dataclass, field
 
@@ -242,6 +243,19 @@ class CaseGen:
                     buf[at:at + 12] = struct.pack("<III", a, end, end + es * rng.choice([0, 1, 2]))
             elif ty.startswith(("class ", "struct ")) and not ty.rstrip().endswith("*") and not t.startswith("std::"):
                 self._typed_fill(rng, buf, self.layouts.get(t), at, depth + 1, alloc, bstyle, ptr_pool)
+            else:
+                # fixed arrays of bools or of records: `T[N]` and `std::array<T, N>`
+                am = re.match(r"^(.*)\[(\d+)\]$", t) or re.match(r"^std::array<(.*),\s*(\d+)>$", t)
+                if am:
+                    et, cnt = _strip_kw(am.group(1).strip()), int(am.group(2))
+                    esz = self._elem_size(et)
+                    if et in ("_Bool", "bool"):
+                        for k in range(min(cnt, 4096)):
+                            if at + k < len(buf):
+                                buf[at + k] = 0 if bstyle == B_ZERO else rng.getrandbits(1)
+                    elif et in self.layouts and not et.startswith("std::") and esz > 1:
+                        for k in range(min(cnt, 64)):
+                            self._typed_fill(rng, buf, self.layouts.get(et), at + k * esz, depth + 1, alloc, bstyle, ptr_pool)
 
     def make(self, index: int) -> Case:
         rng = random.Random((self.seed * 1000003 + self.func_key * 7919 + index * 104729) & 0xFFFFFFFFFFFF)

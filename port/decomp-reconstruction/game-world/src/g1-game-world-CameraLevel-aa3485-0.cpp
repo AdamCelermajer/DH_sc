@@ -259,8 +259,8 @@ void CameraLevel::HandleZoom() {
     const Structs::DesignSettings& design = DesignSettingsRecord0();
     // Minimum: word 172 (m_w43), or word 76 (m_w19) for the object-position camera. Maximum: word 168 (m_w42), or word 72
     // (m_w18) for the object-position camera. The words are file offsets of record 0, shown as the struct's members.
-    const float minZoom = m_useObjectPosition ? design.m_w19 : design.m_w43;
-    const float maxZoom = m_useObjectPosition ? design.m_w18 : design.m_w42;
+    const float minZoom = m_useObjectPosition ? design.MiniMapZoomMinLimit : design.ZoomMinLimit;
+    const float maxZoom = m_useObjectPosition ? design.MiniMapZoomMaxLimit : design.ZoomMaxLimit;
 
     float zoomCurrent = m_zoomCurrent;  // +0x88
     if (zoomCurrent <= minZoom) {
@@ -383,13 +383,13 @@ void CameraLevel::Load(const char* dae, int camTableIndex, const char* cameraNod
 
     m_animSetId = AnimSetManager::s_inst.Create();  // +0x7c
     const Structs::CamAnimSet& row = CamAnimSetRow(m_camTableIndex);
-    AnimSetManager::s_inst.AddTemplateAnim(m_animSetId, row.m_w6);
-    AnimSetManager::s_inst.AddAnim(m_animSetId, row.m_w4);
-    AnimSetManager::s_inst.AddAnim(m_animSetId, row.m_w5);
-    AnimSetManager::s_inst.AddAnim(m_animSetId, row.m_w3);
-    if (row.m_w1 != 0) {
-        const std::int32_t* clips = static_cast<const std::int32_t*>(row.m_w2);
-        for (std::uint32_t i = 0; i < row.m_w1; ++i) {
+    AnimSetManager::s_inst.AddTemplateAnim(m_animSetId, row.Template);
+    AnimSetManager::s_inst.AddAnim(m_animSetId, row.Idle);
+    AnimSetManager::s_inst.AddAnim(m_animSetId, row.Shake);
+    AnimSetManager::s_inst.AddAnim(m_animSetId, row.Crit);
+    if (row.CamAnimsSize != 0) {
+        const std::int32_t* clips = static_cast<const std::int32_t*>(row.CamAnims);
+        for (std::uint32_t i = 0; i < row.CamAnimsSize; ++i) {
             AnimSetManager::s_inst.AddAnim(m_animSetId, clips[i]);
         }
     }

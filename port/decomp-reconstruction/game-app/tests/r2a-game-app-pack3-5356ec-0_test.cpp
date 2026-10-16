@@ -525,9 +525,9 @@ void CheckPlayCamera() {
     CameraObject()->m_zoomAnimActive = true;
     g_currentLevel = LevelObject();
 
-    record.m_w3 = false;
+    record.Wait = false;
     Check(!command.IsBlocking(), "Script_PlayCamera", "not blocking while the record flag is clear");
-    record.m_w3 = true;
+    record.Wait = true;
     g_currentLevel = nullptr;
     Check(!command.IsBlocking(), "Script_PlayCamera", "not blocking without a current level");
     g_currentLevel = LevelObject();
@@ -536,7 +536,7 @@ void CheckPlayCamera() {
     Check(!command.IsBlocking(), "Script_PlayCamera", "not blocking when the camera is idle");
 
     CameraObject()->m_zoomAnimActive = true;
-    record.m_w2 = 12;
+    record.Anim = 12;
     ResetCounters();
     command.Execute(false, 0);
     Check(g_switchReads == 1, "Script_PlayCamera::Execute", "one trace read");
@@ -545,8 +545,8 @@ void CheckPlayCamera() {
           "PlayAnim gets 0 and false");
     // Skipping: the clip is field +0x10 (m_w4) of the Arrays::CamAnimSetTable element m_camTableIndex of the camera.
     Structs::CamAnimSet* camSets = reinterpret_cast<Structs::CamAnimSet*>(g_camAnimSetStorage);
-    camSets[0].m_w4 = 7;
-    camSets[1].m_w4 = 33;
+    camSets[0].Idle = 7;
+    camSets[1].Idle = 33;
     Arrays::CamAnimSetTable::members = g_camAnimSetStorage;
     CameraObject()->m_camTableIndex = 1;
     ResetCounters();
@@ -566,10 +566,10 @@ void CheckSetCameraTargetBlocking() {
     command.m_args = &record;
     g_currentLevel = LevelObject();
 
-    record.m_w5 = false;
+    record.Wait = false;
     CameraObject()->m_transitionRemainingMs = 5;
     Check(!command.IsBlocking(), "Script_SetCameraTarget", "not blocking while the record flag is clear");
-    record.m_w5 = true;
+    record.Wait = true;
     CameraObject()->m_transitionRemainingMs = 5;
     Check(command.IsBlocking(), "Script_SetCameraTarget", "blocking while the transition counter is positive");
     CameraObject()->m_transitionRemainingMs = 0;
@@ -622,10 +622,10 @@ void CheckStartDialogInit() {
     Structs::StartDialog record;
     dialog.m_args = &record;
 
-    record.m_w3 = g_enterLocationValue;
+    record.Style = g_enterLocationValue;
     dialog.Init();
     Check(dialog.unk_04, "Script_StartDialog::Init", "flag set for the EnterLocationDialog style");
-    record.m_w3 = 3;
+    record.Style = 3;
     dialog.Init();
     Check(!dialog.unk_04, "Script_StartDialog::Init", "flag clear for another style");
 }
@@ -635,9 +635,9 @@ void CheckStartDialogExecute() {
     queue.clear();
     Script_StartDialog dialog;
     Structs::StartDialog record;
-    record.m_w2 = 5;
-    record.m_w3 = 3;
-    record.m_w4 = 21;
+    record.Actor = 5;
+    record.Style = 3;
+    record.Text = 21;
     dialog.m_args = &record;
 
     ResetCounters();
@@ -656,7 +656,7 @@ void CheckStartDialogExecute() {
     Check(queue.size() == 1 && queue.front().m_style == 3, "Script_StartDialog::Execute",
           "the message is in the queue with its style");
 
-    record.m_w3 = g_enterLocationValue;
+    record.Style = g_enterLocationValue;
     queue.clear();
     queue.push_back(DialogMsg(9, 9, 9, 9));
     ResetCounters();
@@ -675,7 +675,7 @@ void CheckStartDialogID() {
     auto& queue = MenuMessageManager<DialogMsg, 1>::s_inst.m_queues[0];
     Script_StartDialogID dialogId;
     Structs::StartDialogID record;
-    record.m_w2 = 9;
+    record.DialogID = 9;
     dialogId.m_args = &record;
 
     queue.clear();
@@ -705,7 +705,7 @@ void CheckStartDialogID() {
 void CheckSpawnCharacter() {
     Script_SpawnCharacter spawn;
     Structs::SpawnCharacter record;
-    SetName(record.m_w3, "Hero");
+    SetName(record.Target, "Hero");
     spawn.m_args = &record;
 
     g_characterForHandle = nullptr;
@@ -727,7 +727,7 @@ void CheckSpawnCharacter() {
 void CheckSpawnContainer() {
     Script_SpawnContainer spawn;
     Structs::SpawnContainer record;
-    SetName(record.m_w3, "Chest");
+    SetName(record.Target, "Chest");
     spawn.m_args = &record;
 
     g_containerForHandle = nullptr;
@@ -774,7 +774,7 @@ void CheckSaveGame() {
 void CheckStopActorNamed() {
     Script_StopActor stop;
     Structs::StopActor record;
-    SetName(record.m_w3, "Hero");
+    SetName(record.Target, "Hero");
     stop.m_args = &record;
 
     Character* hero = CharacterObject();

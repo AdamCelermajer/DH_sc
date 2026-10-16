@@ -203,9 +203,9 @@ CharAI* NewCharAI(Character* me) {
 // AITable row: +0x18 interaction threshold (m_w6), +0x20 melee base radius (m_w8), +0x3c sight range (m_w15).
 const Structs::AIProps* MakeAIRow(float interactThreshold, float meleeBase, float sight) {
     Structs::AIProps* row = static_cast<Structs::AIProps*>(std::calloc(1, sizeof(Structs::AIProps)));
-    row->m_w6 = interactThreshold;
-    row->m_w8 = meleeBase;
-    row->m_w15 = sight;
+    row->InteractRadius = interactThreshold;
+    row->MeleeRadius = meleeBase;
+    row->ViewRadius = sight;
     return row;
 }
 
@@ -216,13 +216,13 @@ const Structs::AIFactions* MakeFactionRow(std::initializer_list<std::pair<int, i
                                       : nullptr;
     std::size_t i = 0;
     for (const auto& entry : entries) {
-        list[i].m_w1 = entry.first;
-        list[i].m_w2 = entry.second;
+        list[i].Id = entry.first;
+        list[i].Value = entry.second;
         ++i;
     }
     Structs::AIFactions* row = static_cast<Structs::AIFactions*>(std::calloc(1, sizeof(Structs::AIFactions)));
-    row->m_w1 = static_cast<std::uint32_t>(n);
-    row->m_w2 = list;
+    row->factionsSize = static_cast<std::uint32_t>(n);
+    row->factions = list;
     return row;
 }
 

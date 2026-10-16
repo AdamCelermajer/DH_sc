@@ -146,7 +146,7 @@ static void TestSetCameraDoesNothing() {
 
 static void TestPutCharacterInIdleExecute() {
     Structs::PutCharacterInIdle* record = new Structs::PutCharacterInIdle();
-    record->m_w3 = const_cast<char*>("Hero");
+    record->Target = const_cast<char*>("Hero");
 
     Script_PutCharacterInIdle* cmd = new Script_PutCharacterInIdle();
     cmd->m_args = record;

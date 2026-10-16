@@ -5,14 +5,26 @@
 // A comment `// 0xADDR symbol` precedes each function; PARTIAL in the comment means the ledger row stays partial.
 #include "glitch-scene-collada-gui/collada/CSkinnedMesh.hpp"
 
+#include "glitch-core-io/io/interfaces.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/collada/COnDemandReader.hpp"
+
 #include <utility>
 
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "glitch-scene-collada-gui/collada/IColladaSkinTechnique.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/shader_attributes.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
 #include "glitch-video/video_driver.hpp"
+
+namespace glitch::video {
+// 0x663ca8: the compiler clone of CVertexStreams::setStreamBuffer with the flag argument folded to true (defined in glitch-video).
+void setStreamBufferClone1(CVertexStreams* self, SVertexStream* stream, const boost::intrusive_ptr<IBuffer>* buffer)
+    __asm__("_ZN6glitch5video14CVertexStreams15setStreamBufferEPNS0_13SVertexStreamERKN5boost13intrusive_ptrINS0_7IBufferEEEb.clone.1");
+}  // namespace glitch::video
 
 namespace glitch::collada {
 
@@ -98,8 +110,6 @@ core::CMatrix4<float> ISkinnedMesh::getTransform(const core::CMatrix4<float>& ma
 // Switches skinning on while it works (K 0x54), takes the buffer's streams, asks the driver to release the process buffer of type 0 for
 // them (driver K 0x1f4: the stream table, the buffer's two range words, the pass shader flags of the material's technique masked with
 // 0x20001, no binding), clears the buffer's bit in the mask and switches skinning off again when it was off.
-// PARTIAL: the pass shader flags are read from the material renderer's technique table (renderer +0x18, entry +0x08, pass +0x20,
-// shader +0x38), which glitch-video does not expose; the flags word is passed as 0.
 void ISkinnedMesh::releaseProcessBuffer(video::IVideoDriver* driver, std::uint32_t index) {
     const bool wasEnabled = skinningEnabled;
     if (!wasEnabled) {
@@ -107,9 +117,10 @@ void ISkinnedMesh::releaseProcessBuffer(video::IVideoDriver* driver, std::uint32
     }
     boost::intrusive_ptr<scene::CMeshBuffer> meshBuffer = getMeshBuffer(index);
     boost::intrusive_ptr<video::CMaterial> material = getMaterial(index);
-    (void)material;
+    const video::STechnique& technique = material->m_renderer->m_techniques[material->getTechnique()];
+    const auto* shader = static_cast<const video::IShader*>(technique.passes->shader);
     driver->releaseProcessBuffer(0, meshBuffer->vertexStreams, meshBuffer->primitiveStream.m_vertexStart,
-                                 /*flags word of the pass shader, see PARTIAL*/ 0, nullptr);
+                                 shader->m_vertexAttributeMask & 0x20001u, nullptr);
     bufferFlags &= ~(1u << (index & 0x1f));
     if (!wasEnabled) {
         setIsSkinningEnabled(false);
@@ -124,10 +135,10 @@ void ISkinnedMesh::releaseProcessBuffer(video::IVideoDriver* driver, std::uint32
 // 0x6664f0 (C2)
 // Reference count 0, the database copied (a use), bufferFlags 0, the uid empty, skinning enabled, the skin taken from the controller
 // (+0x08), the box (-1,-1,-1)..(1,1,1), the flag bytes cleared, the technique pointers, the skin-data handle, the two vectors and the
-// cache zeroed, the uid set to the controller's name (+0x04), then instanciateMesh.
-// PARTIAL: the original goes on to load the skin data of the file through the on-demand reader (res::onDemand<SSkinData<float>>::get)
-// and to build the four techniques with `new`; the reader is not reconstructed, so the skin-data handles stay empty. The four techniques
-// are built (they need only the skin, the cache and the flag).
+// cache zeroed, the uid set to the controller's name (+0x04), then instanciateMesh. When the file has skin data its on-demand blocks are
+// loaded through a reader over the file the database came from (opened again through the manager's file system; a second attempt is
+// made when the first gives no file): the skin data block, and one block of (weight, joint index) pairs per skin data record. Then the
+// four techniques are built over the skin, the cache and the has-skin-data flag.
 CSkinnedMesh::CSkinnedMesh(const CColladaDatabase& source, video::IVideoDriver* driver, SController& controller,
                            CRootSceneNode* root) {
     referenceCounter = 0;
@@ -138,8 +149,28 @@ CSkinnedMesh::CSkinnedMesh(const CColladaDatabase& source, video::IVideoDriver* 
     skinRecord = static_cast<SSkin*>(const_cast<void*>(controller.morph));
     uid = controller.name;
     instanciateMesh(driver, root);
-    const bool hasSkinData = source.record != nullptr && source.record->data != nullptr &&
-                             source.record->data->tables != nullptr && source.record->data->tables->skinCount > 0;
+    const SDatabaseTables* tables = source.record != nullptr && source.record->data != nullptr ? source.record->data->tables : nullptr;
+    const bool hasSkinData = tables != nullptr && tables->skinCount > 0;
+    io::IReadFile* file = nullptr;
+    if (tables != nullptr && tables->sourceName != nullptr && CResFileManager::Inst != nullptr && CResFileManager::Inst->device != nullptr &&
+        CResFileManager::Inst->device->fileSystem != nullptr) {
+        io::IFileSystem* fileSystem = CResFileManager::Inst->device->fileSystem;
+        file = fileSystem->createAndOpenFile(tables->sourceName);
+        if (file == nullptr) {
+            file = fileSystem->createAndOpenFile(tables->sourceName);
+        }
+    }
+    if (hasSkinData) {
+        COnDemandReader reader(file);
+        skinData = res::getOnDemand<float>(skinRecord->skinData, reader);
+        skinDataEntries.resize(static_cast<std::size_t>(skinRecord->skinDataCount > 0 ? skinRecord->skinDataCount : 0));
+        for (std::int32_t i = 0; i < skinRecord->skinDataCount; ++i) {
+            skinDataEntries[static_cast<std::size_t>(i)] = res::getOnDemand<std::pair<float, unsigned short>>(skinRecord->skinDataEntries[i].block, reader);
+        }
+    }
+    if (file != nullptr) {
+        file->drop();
+    }
     techniques[0] = new detail::CColladaHardwareTextureSkinTechnique(*skinRecord, cache, hasSkinData);
     techniques[1] = new detail::CColladaHardwareMatrixSkinTechnique(*skinRecord, cache, hasSkinData);
     techniques[2] = new detail::CColladaHardwareQuatSkinTechnique(*skinRecord, cache, hasSkinData);
@@ -295,7 +326,8 @@ void CSkinnedMesh::instanciateMesh(video::IVideoDriver* driver, CRootSceneNode* 
 // output buffer gets its stream tables rebound: with skinning on the stream buffers (the first one, and the one after the last
 // attribute stream when the attribute mask has bit 0x20000) are cleared; with skinning off the table takes the original mesh buffer's
 // streams back (mask 0x20001). The ISkinnedMesh flag is stored last.
-// PARTIAL: CVertexStreams::setStreamBuffer is a compiler clone (0x663ca8) whose flag argument is fixed inside the clone; false is passed.
+// The two setStreamBuffer calls are the compiler clone 0x663ca8 (the homogeneity flag is folded to true inside it), called through its
+// own symbol.
 void CSkinnedMesh::setIsSkinningEnabled(bool enabled) {
     if (!skinningEnabled && enabled) {
         markCacheDirty(cache);
@@ -310,12 +342,12 @@ void CSkinnedMesh::setIsSkinningEnabled(bool enabled) {
             video::CVertexStreams* streams = buffer.buffer->vertexStreams.get();
             if (enabled) {
                 boost::intrusive_ptr<video::IBuffer> none;
-                streams->setStreamBuffer(&streams->m_streams[0], none, false);
+                video::setStreamBufferClone1(streams, &streams->m_streams[0], &none);
                 if ((streams->m_attributeMask & 0x20000u) == 0) {
                     continue;
                 }
                 boost::intrusive_ptr<video::IBuffer> none2;
-                streams->setStreamBuffer(&streams->m_streams[streams->m_count0c + 1u], none2, false);
+                video::setStreamBufferClone1(streams, &streams->m_streams[streams->m_count0c + 1u], &none2);
             } else {
                 boost::intrusive_ptr<scene::CMeshBuffer> original = mesh->getMeshBuffer(i);
                 streams->setStreams(original->vertexStreams, 0x20001u, 0, false);

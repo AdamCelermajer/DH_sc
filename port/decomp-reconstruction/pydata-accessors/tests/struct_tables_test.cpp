@@ -38,26 +38,26 @@
     } while (0)
 
 static void ConditionalWordsOfTheOwners() {
-    OWNER_ROW(LangSheetList, m_w2, m_w1, LangSheet, 20);
-    OWNER_ROW(v2Event, m_w5, m_w4, v2QuestObjectiveStub, 44);
-    OWNER_ROW(v2CondAnd, m_w2, m_w1, v2ConditionStub, 16);
-    OWNER_ROW(SpawnGroup, m_w4, m_w3, SpawnInfo, 16);
-    OWNER_ROW(Merchant, m_w4, m_w3, MerchandiseListEntry, 12);
-    OWNER_ROW(TileOffsetList, m_w2, m_w1, TileOffset, 8);
-    OWNER_ROW(NumProbList, m_w2, m_w1, NumProb, 8);
-    OWNER_ROW(ItemListEntryList, m_w2, m_w1, ItemListEntry, 12);
-    OWNER_ROW(Loot, m_w4, m_w3, LootEntry, 36);
-    OWNER_ROW(Loot, m_w6, m_w5, LootEntry, 36);
-    OWNER_ROW(AnimFXTpl, m_w4, m_w3, AnimFX, 48);
-    OWNER_ROW(DialogStepList, m_w2, m_w1, DialogStep, 20);
-    OWNER_ROW(ConditionalDialog, m_w2, m_w1, DialogCondition, 16);
-    OWNER_ROW(CharTemplate, m_w2, m_w1, CharInfoName, 8);
-    OWNER_ROW(StatAutoAssignTargetList, m_w2, m_w1, StatAutoAssignTarget, 16);
-    OWNER_ROW(ClassFuncList, m_w2, m_w1, ClassFunc, 24);
-    OWNER_ROW(AnimTpl, m_w3, m_w2, AnimStep, 56);
-    OWNER_ROW(AIFactions, m_w2, m_w1, AIFaction, 12);
-    OWNER_ROW(ItemPowerEntryList, m_w2, m_w1, ItemPowerEntry, 12);
-    OWNER_ROW(ItemPowerRef, m_w4, m_w3, AttrBonusEntry, 16);
+    OWNER_ROW(LangSheetList, list, listSize, LangSheet, 20);
+    OWNER_ROW(v2Event, Triggers, TriggersSize, v2QuestObjectiveStub, 44);
+    OWNER_ROW(v2CondAnd, Conds, CondsSize, v2ConditionStub, 16);
+    OWNER_ROW(SpawnGroup, Spawns, SpawnsSize, SpawnInfo, 16);
+    OWNER_ROW(Merchant, MerchandiseList, MerchandiseListSize, MerchandiseListEntry, 12);
+    OWNER_ROW(TileOffsetList, list_entries, list_entriesSize, TileOffset, 8);
+    OWNER_ROW(NumProbList, list_entries, list_entriesSize, NumProb, 8);
+    OWNER_ROW(ItemListEntryList, list_entries, list_entriesSize, ItemListEntry, 12);
+    OWNER_ROW(Loot, RandomLootEntries, RandomLootEntriesSize, LootEntry, 36);
+    OWNER_ROW(Loot, FixedLootEntries, FixedLootEntriesSize, LootEntry, 36);
+    OWNER_ROW(AnimFXTpl, Steps, StepsSize, AnimFX, 48);
+    OWNER_ROW(DialogStepList, steps, stepsSize, DialogStep, 20);
+    OWNER_ROW(ConditionalDialog, List, ListSize, DialogCondition, 16);
+    OWNER_ROW(CharTemplate, CharInfo, CharInfoSize, CharInfoName, 8);
+    OWNER_ROW(StatAutoAssignTargetList, list_entries, list_entriesSize, StatAutoAssignTarget, 16);
+    OWNER_ROW(ClassFuncList, list_entries, list_entriesSize, ClassFunc, 24);
+    OWNER_ROW(AnimTpl, Steps, StepsSize, AnimStep, 56);
+    OWNER_ROW(AIFactions, factions, factionsSize, AIFaction, 12);
+    OWNER_ROW(ItemPowerEntryList, list_entries, list_entriesSize, ItemPowerEntry, 12);
+    OWNER_ROW(ItemPowerRef, AttrBonusList, AttrBonusListSize, AttrBonusEntry, 16);
 }
 
 static void V2QuestFiveTables() {
@@ -65,23 +65,23 @@ static void V2QuestFiveTables() {
     Structs::v2Quest q;
     CounterStream s(0, false);
     q.read(&s);
-    CHECK(q.m_w6 != nullptr && pydata::ElementTableListingStride(q.m_w6) == 16);
-    CHECK(q.m_w8 != nullptr && pydata::ElementTableListingStride(q.m_w8) == 44);
-    CHECK(q.m_w10 != nullptr && pydata::ElementTableListingStride(q.m_w10) == 16);
-    CHECK(q.m_w12 != nullptr && pydata::ElementTableListingStride(q.m_w12) == 16);
-    CHECK(q.m_w14 != nullptr && pydata::ElementTableListingStride(q.m_w14) == 16);
-    CHECK(pydata::ElementTableCount(q.m_w6) == q.m_w5);
-    CHECK(pydata::ElementTableCount(q.m_w8) == q.m_w7);
-    CHECK(pydata::ElementTableCount(q.m_w10) == q.m_w9);
-    CHECK(pydata::ElementTableCount(q.m_w12) == q.m_w11);
-    CHECK(pydata::ElementTableCount(q.m_w14) == q.m_w13);
+    CHECK(q.PreReqs != nullptr && pydata::ElementTableListingStride(q.PreReqs) == 16);
+    CHECK(q.Objectives != nullptr && pydata::ElementTableListingStride(q.Objectives) == 44);
+    CHECK(q.Rewards != nullptr && pydata::ElementTableListingStride(q.Rewards) == 16);
+    CHECK(q.RewardsHard != nullptr && pydata::ElementTableListingStride(q.RewardsHard) == 16);
+    CHECK(q.RewardsVeryHard != nullptr && pydata::ElementTableListingStride(q.RewardsVeryHard) == 16);
+    CHECK(pydata::ElementTableCount(q.PreReqs) == q.PreReqsSize);
+    CHECK(pydata::ElementTableCount(q.Objectives) == q.ObjectivesSize);
+    CHECK(pydata::ElementTableCount(q.Rewards) == q.RewardsSize);
+    CHECK(pydata::ElementTableCount(q.RewardsHard) == q.RewardsHardSize);
+    CHECK(pydata::ElementTableCount(q.RewardsVeryHard) == q.RewardsVeryHardSize);
     if (sizeof(void*) == 8) {
         CHECK(sizeof(Structs::v2ConditionStub) > Structs::ListingStride::v2ConditionStub);
         CHECK(sizeof(Structs::v2QuestObjectiveStub) > Structs::ListingStride::v2QuestObjectiveStub);
     }
     q.finalize();
-    CHECK(q.m_w6 == nullptr && q.m_w8 == nullptr && q.m_w10 == nullptr && q.m_w12 == nullptr && q.m_w14 == nullptr);
-    CHECK(q.m_w5 == 0 && q.m_w7 == 0 && q.m_w9 == 0 && q.m_w11 == 0 && q.m_w13 == 0);
+    CHECK(q.PreReqs == nullptr && q.Objectives == nullptr && q.Rewards == nullptr && q.RewardsHard == nullptr && q.RewardsVeryHard == nullptr);
+    CHECK(q.PreReqsSize == 0 && q.ObjectivesSize == 0 && q.RewardsSize == 0 && q.RewardsHardSize == 0 && q.RewardsVeryHardSize == 0);
     CounterStream s2(0, false);
     q.read(&s2);  // read again, then the destructor frees the second set
 }
@@ -103,11 +103,11 @@ static void ItemPowerFamilyFinalizeThenDestroy() {
     Structs::ItemPowerAR a;
     CounterStream s(0, false);
     a.read(&s);
-    CHECK(a.m_w4 != nullptr && pydata::ElementTableListingStride(a.m_w4) == 16);
-    CHECK(pydata::ElementTableCount(a.m_w4) == a.m_w3);
+    CHECK(a.AttrBonusList != nullptr && pydata::ElementTableListingStride(a.AttrBonusList) == 16);
+    CHECK(pydata::ElementTableCount(a.AttrBonusList) == a.AttrBonusListSize);
     if (sizeof(void*) == 8) CHECK(sizeof(Structs::AttrBonusEntry) > Structs::ListingStride::AttrBonusEntry);
     a.finalize();
-    CHECK(a.m_w4 == nullptr && a.m_w3 == 0);
+    CHECK(a.AttrBonusList == nullptr && a.AttrBonusListSize == 0);
 }
 
 static void PackedLangSheetList() {
@@ -120,12 +120,12 @@ static void PackedLangSheetList() {
     Structs::LangSheetList l;
     l.read(&s);
     CHECK(s.pos == s.bytes.size());
-    CHECK(l.m_w1 == 2 && l.m_w2 != nullptr);
-    if (l.m_w2 == nullptr) return;
-    CHECK(pydata::ElementTableListingStride(l.m_w2) == 20);
-    const auto* e = static_cast<const Structs::LangSheet*>(l.m_w2);
-    CHECK(e[0].m_w1 == 2 && std::memcmp(e[0].m_w2, "en", 3) == 0 && e[0].m_w3 == 3 && std::memcmp(e[0].m_w4, "one", 4) == 0);
-    CHECK(e[1].m_w1 == 4 && std::memcmp(e[1].m_w2, "fran", 5) == 0 && e[1].m_w3 == 5 && std::memcmp(e[1].m_w4, "deux!", 6) == 0);
+    CHECK(l.listSize == 2 && l.list != nullptr);
+    if (l.list == nullptr) return;
+    CHECK(pydata::ElementTableListingStride(l.list) == 20);
+    const auto* e = static_cast<const Structs::LangSheet*>(l.list);
+    CHECK(e[0].filenameSize == 2 && std::memcmp(e[0].filename, "en", 3) == 0 && e[0].nameSize == 3 && std::memcmp(e[0].name, "one", 4) == 0);
+    CHECK(e[1].filenameSize == 4 && std::memcmp(e[1].filename, "fran", 5) == 0 && e[1].nameSize == 5 && std::memcmp(e[1].name, "deux!", 6) == 0);
 }
 
 static void PackedAnimTpl() {
@@ -142,20 +142,20 @@ static void PackedAnimTpl() {
     Structs::AnimTpl t;
     t.read(&s);
     CHECK(s.pos == s.bytes.size());
-    CHECK(t.m_w1 == 77 && t.m_w2 == 2 && t.m_w4 == 88);
-    CHECK(t.m_w3 != nullptr);
-    if (t.m_w3 == nullptr) return;
-    CHECK(pydata::ElementTableListingStride(t.m_w3) == 56);
-    const auto* st = static_cast<const Structs::AnimStep*>(t.m_w3);
+    CHECK(t.Loop == 77 && t.StepsSize == 2 && t.Type == 88);
+    CHECK(t.Steps != nullptr);
+    if (t.Steps == nullptr) return;
+    CHECK(pydata::ElementTableListingStride(t.Steps) == 56);
+    const auto* st = static_cast<const Structs::AnimStep*>(t.Steps);
     for (int e = 0; e < 2; ++e) {
-        CHECK(st[e].m_w1 == true && st[e].m_w2 == 10 * e + 1 && st[e].m_w3 == 10 * e + 2 && st[e].m_w4 == 10 * e + 3);
-        CHECK(st[e].m_w5 == false && st[e].m_w6 == 10 * e + 4 && st[e].m_w7 == true);
-        CHECK(st[e].m_w8 == 2 && st[e].m_w9 != nullptr);
-        if (st[e].m_w9 != nullptr) {
-            const auto* w = static_cast<const std::int32_t*>(st[e].m_w9);
+        CHECK(st[e].AnchorFX == true && st[e].Anim == 10 * e + 1 && st[e].BlendOut == 10 * e + 2 && st[e].Cam == 10 * e + 3);
+        CHECK(st[e].CamDir == false && st[e].FX == 10 * e + 4 && st[e].MoveGO == true);
+        CHECK(st[e].RandomCamSize == 2 && st[e].RandomCam != nullptr);
+        if (st[e].RandomCam != nullptr) {
+            const auto* w = static_cast<const std::int32_t*>(st[e].RandomCam);
             CHECK(w[0] == 100 * e + 1 && w[1] == 100 * e + 2);
         }
-        CHECK(st[e].m_w10 == 10 * e + 5 && st[e].m_w11 == 10 * e + 6 && st[e].m_w12 == 2.5f + e && st[e].m_w13 == (e != 0));
+        CHECK(st[e].Redir == 10 * e + 5 && st[e].Sound == 10 * e + 6 && st[e].Speed == 2.5f + e && st[e].Swoosh == (e != 0));
     }
 }
 

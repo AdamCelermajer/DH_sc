@@ -1,6 +1,7 @@
-// vox::DriverAndroid and the VoxSet* exports. The JNI and OpenSL paths are not ported:
-// the functions that need them are marked partial in the comments.
+// vox::DriverAndroid and the VoxSet* exports. The OpenSL path is empty in the original; the audio-thread path drives
+// android.media.AudioTrack through JNI (the JavaVM set by VoxSetJavaVM), here and in driver_android_slice.cpp.
 #include <chrono>
+#include <new>
 
 #include "vox-audio/vox/driver_android.hpp"
 #include "vox-audio/vox/memory.hpp"
@@ -15,6 +16,14 @@ double DriverAndroid::m_updateTime = 0.0;
 double DriverAndroid::m_updateStartTime = 0.0;
 double DriverAndroid::m_dataThreshold = 0.0;
 double DriverAndroid::m_dataDuration = 0.0;
+jclass DriverAndroid::cAudioTrack = nullptr;
+jmethodID DriverAndroid::mAudioTrack = nullptr;
+jmethodID DriverAndroid::mGetMinBufferSize = nullptr;
+jmethodID DriverAndroid::mPlay = nullptr;
+jmethodID DriverAndroid::mPause = nullptr;
+jmethodID DriverAndroid::mStop = nullptr;
+jmethodID DriverAndroid::mRelease = nullptr;
+jmethodID DriverAndroid::mWrite = nullptr;
 
 namespace {
 
@@ -29,11 +38,8 @@ double DriverAndroidNowSeconds() {
 }  // namespace
 
 // 0x88fae4 _ZN3vox13DriverAndroidC2Ev (C1 0x88fa80 has the same body)
-// Verified against the listing (0x88fa80..0x88fABC): the DriverCallbackInterface base
-// constructor, then mode_ (+0x54) = 0, the vtable, then Init(nullptr). The port's base is the
-// callback_ member, which is constructed before the body runs, so the same order holds.
-// Deviation: the base is composed as a member instead of inherited, which is why the port's
-// mutex_ and mode_ offsets are its own.
+// Verified against the listing (0x88fa80..0x88faBC): the DriverCallbackInterface base constructor, then mode_ (+0x54) = 0,
+// the vtable, then Init(nullptr) (this class's Init, the object is a DriverAndroid by then).
 DriverAndroid::DriverAndroid() {
     mode_ = 0;
     Init(nullptr);
@@ -99,51 +105,60 @@ void DriverAndroid::Shutdown() {
 // DriverCallbackInterface::Init(context) (0x8902a8, which only clears the two static scratch
 // blocks and takes no lock), DriverCallbackInterface::SetDefaultParameter (0x89039c, also
 // lock-free, called twice - before and after _InitAT), _InitAT(context), then Unlock, which is
-// what the function returns. The port calls all four in that order through the callback_ member.
-// Deviation (host layout): the binary's DriverAndroid inherits DriverCallbackInterface, so the one
-// mutex at +0x04 is both the driver's and the base's; the port composes the base, so the lock is
-// DriverAndroid::mutex_ and the base state lives in callback_ (whose own mutex_ is untouched).
+// what the function returns.
 void DriverAndroid::Init(void* context) {
     mutex_.Lock();
-    callback_.Init(context);
-    callback_.SetDefaultParameter();
+    DriverCallbackInterface::Init(context);
+    SetDefaultParameter();
     _InitAT(context);
-    callback_.SetDefaultParameter();
+    SetDefaultParameter();
     mutex_.Unlock();
 }
 
-// 0x88fbe8 _ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i (partial)
-// Verified against the listing (0x88fbe8..0x88fc88): lock; when the byte at +0x08 (the base
-// active_ flag) is set, VoxAlloc(0xb4) then DriverAndroidSource(block, params, user, the base
-// source counter at +0x0c) - the counter, not the flags argument, is the source's flags - and
-// when that returned non-null a 0x0c-byte node is allocated, its element word (+0x08) set to the
-// source, and it is linked at the tail of the base list whose sentinel is +0x10 (node next at
-// +0x00, prev at +0x04), after which the counter at +0x0c is incremented; unlock and return the
-// source. With active_ clear it unlocks and returns null. Missing item: all three base members
-// (DriverCallbackInterface::active_ +0x08, field_0c_ +0x0c and list_head_ +0x10, with
-// DriverCallbackNode) are reachable only through the callback_ member, which exposes no accessor,
-// so the port takes the lock and returns null.
-DriverSourceInterface* DriverAndroid::CreateDriverSource(const std::int32_t* params, void* user, int flags) {
-    (void)params;
-    (void)user;
-    (void)flags;
+// 0x88fbe8 _ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i
+// Verified against the listing (0x88fbe8..0x88fc88): lock; when the byte at +0x08 (the base active_ flag) is set,
+// VoxAlloc(0xb4) then DriverAndroidSource(block, params, user, the base source counter at +0x0c) - the counter, not the
+// flags argument (which is unused), is the source's flags - and when that returned non-null a 0x0c-byte node is allocated,
+// its element word (+0x08) set to the source, and it is linked at the tail of the base list whose sentinel is +0x10 (node
+// next at +0x00, prev at +0x04), after which the counter at +0x0c is incremented; unlock and return the source. With
+// active_ clear it unlocks and returns null. The two pointer arguments are the source's format and buffer-count words.
+DriverSourceInterface* DriverAndroid::CreateDriverSource(const std::int32_t* params, void* user, int /*flags*/) {
     mutex_.Lock();
+    if (active_) {
+        void* block = VoxAlloc(sizeof(DriverAndroidSource));
+        auto* source = new (block)
+            DriverAndroidSource(params, static_cast<const std::int32_t*>(user), static_cast<std::uint32_t>(field_0c_));
+        auto* node = static_cast<DriverCallbackNode*>(VoxAlloc(sizeof(DriverCallbackNode)));
+        node->source = source;
+        DriverCallbackNode* tail = list_head_.prev;
+        node->next = &list_head_;
+        node->prev = tail;
+        tail->next = node;
+        list_head_.prev = node;
+        ++field_0c_;
+        mutex_.Unlock();
+        return source;
+    }
     mutex_.Unlock();
     return nullptr;
 }
 
-// 0x88f59c _ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE (partial)
-// Verified against the listing (0x88f59c..0x88f618): lock; when the source is non-null the base
-// list (sentinel at +0x10) is walked from *(+0x10) comparing each node's element word (+0x08)
-// with the source, and on a hit the node is unlinked (prev->next and next->prev) and freed with
-// VoxFree; then, whether or not the node was found, the source's virtual destructor runs through
-// its first vtable slot and the source block is VoxFree'd; unlock and return the result. The port
-// reproduces the destructor, the free and the unlock. Missing item: the unlink needs
-// DriverCallbackInterface::list_head_ (+0x10) and DriverCallbackNode, which the private
-// callback_ member does not expose (no accessor is declared on DriverCallbackInterface).
+// 0x88f59c _ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE
+// Verified against the listing (0x88f59c..0x88f618): lock; when the source is non-null the base list (sentinel at +0x10) is
+// walked from its first node comparing each node's element word (+0x08) with the source, and on a hit the node is unlinked
+// (prev->next and next->prev) and freed with VoxFree; then, whether or not the node was found, the source's virtual
+// destructor runs and the source block is VoxFree'd; unlock.
 void DriverAndroid::DestroyDriverSource(DriverSourceInterface* source) {
     mutex_.Lock();
     if (source != nullptr) {
+        for (DriverCallbackNode* node = list_head_.next; node != &list_head_; node = node->next) {
+            if (node->source == source) {
+                node->prev->next = node->next;
+                node->next->prev = node->prev;
+                VoxFree(node);
+                break;
+            }
+        }
         source->~DriverSourceInterface();
         VoxFree(source);
     }
@@ -152,19 +167,6 @@ void DriverAndroid::DestroyDriverSource(DriverSourceInterface* source) {
 
 // 0x88ee6c _ZN3vox13DriverAndroid10PrintDebugEv
 void DriverAndroid::PrintDebug() {}
-
-// +0x24 _ZN3vox23DriverCallbackInterface14Set3DParameterEiPKv
-// The binary's DriverAndroid inherits this slot from DriverCallbackInterface; the port forwards it
-// to the member that holds that state.
-void DriverAndroid::Set3DParameter(int which, const void* value) {
-    callback_.Set3DParameter(which, value);
-}
-
-// +0x4c _ZN3vox23DriverCallbackInterface10FillBufferEPsi
-// Same forwarding: the binary's slot is DriverCallbackInterface::FillBuffer(short*, int).
-void DriverAndroid::FillBuffer(std::int16_t* out, int count) {
-    callback_.FillBuffer(out, count);
-}
 
 // 0x88ee5c _ZN3vox13DriverAndroid8_InitOSLEPv
 void DriverAndroid::_InitOSL(void* context) {
@@ -199,18 +201,21 @@ void DriverAndroid::_ShutdownAT() {
 }
 
 // 0x88f044 _ZN3vox13DriverAndroid10_SuspendATEv
-// Verified against the listing (0x88f044..0x88f134): lock; when the byte at +0x08 (at_active_) is
-// set, GetEnv on s_javaVM (JavaVM slice +0x18, version 0x10002),
-// CallNonvirtualVoidMethod(env, track at +0x64, cAudioTrack, mPause), the byte at +0x60 (paused_)
-// = 1, then m_dataDuration -= _GetTime() - m_updateStartTime; unlock and return the unlock result.
-// The port's flag and duration part matches (with a steady clock for _GetTime).
-// Deviation (no host equivalent): the AudioTrack pause() call - JavaVM::GetEnv plus
-// _JNIEnv::CallNonvirtualVoidMethod with the cached android.media.AudioTrack "pause" method ID
-// (mPause) on the jobject at +0x64 - is dropped, because the host has no JavaVM, no JNIEnv and no
-// AudioTrack object to pause. The port also drops the returned Unlock int (its caller ignores it).
+// Verified against the listing (0x88f044..0x88f134): lock; when the byte at +0x08 (active_) is set, GetEnv on s_javaVM
+// (JavaVM slot +0x18, version 0x10002), CallNonvirtualVoidMethod(env, track at +0x64, cAudioTrack, mPause), the byte at
+// +0x60 (paused_) = 1, then m_dataDuration -= _GetTime() - m_updateStartTime; unlock. The returned Unlock int is dropped (the
+// caller ignores it).
+// Deviation: without a JavaVM or an env (the host tests) the pause() call is skipped, the rest runs.
 void DriverAndroid::_SuspendAT() {
     mutex_.Lock();
-    if (at_active_) {
+    if (active_) {
+        JNIEnv* env = nullptr;
+        if (s_javaVM != nullptr) {
+            s_javaVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_2);
+        }
+        if (env != nullptr && track_ != nullptr) {
+            env->CallNonvirtualVoidMethod(track_, cAudioTrack, mPause);
+        }
         paused_ = true;
         m_dataDuration = m_dataDuration - (DriverAndroidNowSeconds() - m_updateStartTime);
     }
@@ -218,18 +223,20 @@ void DriverAndroid::_SuspendAT() {
 }
 
 // 0x88ef6c _ZN3vox13DriverAndroid9_ResumeATEv
-// Verified against the listing (0x88ef6c..0x88f020): lock; when the byte at +0x08 (at_active_) is
-// set, GetEnv on s_javaVM (JavaVM slice +0x18, version 0x10002),
-// CallNonvirtualVoidMethod(env, track at +0x64, cAudioTrack, mPlay), the byte at +0x60 (paused_)
-// = 0, then m_updateStartTime = _GetTime(); unlock and return the unlock result. The port's flag
-// and start-time part matches (with a steady clock for _GetTime).
-// Deviation (no host equivalent): the AudioTrack play() call - JavaVM::GetEnv plus
-// _JNIEnv::CallNonvirtualVoidMethod with the cached android.media.AudioTrack "play" method ID
-// (mPlay) on the jobject at +0x64 - is dropped, because the host has no JavaVM, no JNIEnv and no
-// AudioTrack object to start. The port also drops the returned Unlock int (its caller ignores it).
+// Verified against the listing (0x88ef6c..0x88f020): lock; when the byte at +0x08 (active_) is set, GetEnv on s_javaVM
+// (version 0x10002), CallNonvirtualVoidMethod(env, track at +0x64, cAudioTrack, mPlay), the byte at +0x60 (paused_) = 0, then
+// m_updateStartTime = _GetTime(); unlock. The returned Unlock int is dropped.
+// Deviation: without a JavaVM or an env (the host tests) the play() call is skipped, the rest runs.
 void DriverAndroid::_ResumeAT() {
     mutex_.Lock();
-    if (at_active_) {
+    if (active_) {
+        JNIEnv* env = nullptr;
+        if (s_javaVM != nullptr) {
+            s_javaVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_2);
+        }
+        if (env != nullptr && track_ != nullptr) {
+            env->CallNonvirtualVoidMethod(track_, cAudioTrack, mPlay);
+        }
         paused_ = false;
         m_updateStartTime = DriverAndroidNowSeconds();
     }

@@ -1,7 +1,9 @@
 #include "glitch-core-io/io/scalar_attributes.hpp"
 
+#include <cctype>
 #include <cwchar>
 #include <string>
+#include <vector>
 
 #include <cinttypes>
 #include <cstdint>
@@ -123,7 +125,8 @@ bool CEnumAttribute::getBool() const { return getInt() != 0; }
 void CEnumAttribute::setFloat(float v) { setInt(static_cast<int>(v)); }
 
 // 0x560600 _ZN6glitch2io14CEnumAttribute7getEnumEv
-int CEnumAttribute::getEnum() const { return enumValue; }
+// The word at +0x38 is the data pointer of the value string at +0x24 (its end pointer is +0x34), so this is the current literal's text.
+const char* CEnumAttribute::getEnum() const { return value.c_str(); }
 
 // 0x560608 _ZNK6glitch2io14CEnumAttribute7getTypeEv
 int CEnumAttribute::getType() const { return 4; }
@@ -207,12 +210,64 @@ std::wstring CIntAttribute::getStringW() const { return std::to_wstring(value); 
 namespace glitch::io {
 
 // 0x56706c _ZN6glitch2io14CEnumAttributeC1EPKcS3_PKS3_b
-// PARTIAL: the decompiled constructor builds the literal table and the value string, which are
-// not in this layout; only the base (name and flag) is set here.
-CEnumAttribute::CEnumAttribute(const char* attrName, const char* value, const char* const* choices, bool f)
-    : CIntAttribute(attrName, 0, f) {
-    (void)value;
-    (void)choices;
+// IAttribute base (count 1, empty name string), the flag byte at +0x20, empty value string (+0x24) and empty table (+0x3c);
+// the name is assigned, then setEnum(value, choices) fills the table and the value.
+CEnumAttribute::CEnumAttribute(const char* attrName, const char* text, const char* const* choices, bool f) {
+    flag = f;
+    name = attrName;
+    setEnum(text, choices);
+}
+
+namespace {
+// LC_API_STRCASECMP_0: compares ASCII letters without regard to case.
+bool equalsIgnoreCase(const char* a, const char* b) {
+    for (;; ++a, ++b) {
+        const int x = std::tolower(static_cast<unsigned char>(*a));
+        const int y = std::tolower(static_cast<unsigned char>(*b));
+        if (x != y) return false;
+        if (x == 0) return true;
+    }
+}
+}  // namespace
+
+// 0x561e98 _ZN6glitch2io14CEnumAttribute6getIntEv
+// An empty table gives -1; otherwise the first literal that equals the value (strcasecmp). The listing's loop has no end
+// test, so a value that matches no literal walks past the table there; -1 is returned for that case here.
+int CEnumAttribute::getInt() const {
+    for (std::size_t i = 0; i < literals.size(); ++i) {
+        if (equalsIgnoreCase(value.c_str(), literals[i].c_str())) return static_cast<int>(i);
+    }
+    return -1;
+}
+
+// 0x567eb8 _ZN6glitch2io14CEnumAttribute6setIntEi
+void CEnumAttribute::setInt(int index) {
+    if (index < 0 || static_cast<std::size_t>(index) >= literals.size()) {
+        value.clear();
+        return;
+    }
+    value = literals[static_cast<std::size_t>(index)];
+}
+
+// 0x5656c8 _ZN6glitch2io14CEnumAttribute7setEnumEPKcPKS3_
+// The null-terminated choices are appended to the table (the vector is only reserved, never cleared, so a second call
+// adds the literals again), then the value goes through setString (slot +0x90).
+void CEnumAttribute::setEnum(const char* text, const char* const* choices) {
+    if (choices != nullptr) {
+        std::size_t count = 0;
+        while (choices[count] != nullptr) ++count;
+        literals.reserve(literals.size() + count);
+        for (std::size_t i = 0; i < count; ++i) literals.emplace_back(choices[i]);
+    }
+    setString(text);
+}
+
+// 0x562a84 _ZN6glitch2io14CEnumAttribute10getStringWEv
+// A wide string of the value, each byte sign-extended (the listing loads the bytes as signed chars).
+std::wstring CEnumAttribute::getStringW() const {
+    std::wstring wide;
+    for (const char c : value) wide.push_back(static_cast<wchar_t>(static_cast<signed char>(c)));
+    return wide;
 }
 
 // 0x31d968 _ZNK6glitch2io14CBoolAttribute13getTypeStringEv
@@ -228,12 +283,12 @@ const wchar_t* CIntAttribute::getTypeString() const { return L"int"; }
 const wchar_t* CEnumAttribute::getTypeString() const { return L"enum"; }
 
 // 0x562d0c _ZNK6glitch2io14CEnumAttribute9getStringEv
-// Copies the narrow text at +0x24 (see the header).
-std::string CEnumAttribute::getString() const { return text; }
+// Copies the value string at +0x24.
+std::string CEnumAttribute::getString() const { return value; }
 
 // 0x567144 _ZN6glitch2io14CEnumAttribute9setStringEPKc
 // The original takes the length of the value and assigns the text, so it has no null case;
 // a null value is taken as the empty string here.
-void CEnumAttribute::setString(const char* value) { text = value != nullptr ? value : ""; }
+void CEnumAttribute::setString(const char* text) { value = text != nullptr ? text : ""; }
 
 }  // namespace glitch::io

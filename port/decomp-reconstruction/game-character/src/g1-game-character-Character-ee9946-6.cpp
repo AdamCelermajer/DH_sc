@@ -71,7 +71,7 @@ void Character::Update() {
     DebugSwitches* switches = DebugSwitches::GetInstance();
     switches->load();
     if (switches->GetSwitch("KillPlayerOne") && this == dword_99F76C->GetPlayer(0, false)->unk_660) {
-        const int hp = m_props.m_w37;
+        const int hp = m_props.HP;
         if (hp <= 0) {
             PROPS_Set(36, 0);
             if (!IsDead()) {

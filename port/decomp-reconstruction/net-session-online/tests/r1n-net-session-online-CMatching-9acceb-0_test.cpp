@@ -17,6 +17,8 @@ class RoomFake : public CMatching {
 public:
     int LocalMemberId() const override { return 0; }
     int ServerMemberId() const override { return 7; }
+    bool IsInRoom() override { return false; }  // vtable +0x64
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     std::uint32_t MemberBit(int memberId) const override {
         return (memberId >= 0 && memberId < 32) ? (1u << memberId) : 0u;
     }

@@ -168,7 +168,8 @@ CGUISkin::~CGUISkin() {
 
 // 0x54aa24 _ZNK6glitch3gui8CGUISkin8getColorENS0_17EGUI_DEFAULT_COLOREE
 video::SColor CGUISkin::getColor(EGUI_DEFAULT_COLOR color) const {
-    if (color <= EGDC_ICON_HIGH_LIGHT) {
+    // The original compares unsigned (0x54aa24: a2 <= 0x14), so a negative index is out of range.
+    if (static_cast<std::uint32_t>(color) <= static_cast<std::uint32_t>(EGDC_ICON_HIGH_LIGHT)) {
         return colors[color];
     }
     return video::SColor{};
@@ -176,14 +177,14 @@ video::SColor CGUISkin::getColor(EGUI_DEFAULT_COLOR color) const {
 
 // 0x54aa64 _ZN6glitch3gui8CGUISkin8setColorENS0_17EGUI_DEFAULT_COLOREENS_5video6SColorE
 void CGUISkin::setColor(EGUI_DEFAULT_COLOR which, video::SColor newColor) {
-    if (which <= EGDC_ICON_HIGH_LIGHT) {
+    if (static_cast<std::uint32_t>(which) <= static_cast<std::uint32_t>(EGDC_ICON_HIGH_LIGHT)) {  // unsigned, as 0x54aa64
         colors[which] = newColor;
     }
 }
 
 // 0x54aaa0 _ZNK6glitch3gui8CGUISkin7getSizeENS0_16EGUI_DEFAULT_SIZEE
 int CGUISkin::getSize(EGUI_DEFAULT_SIZE size) const {
-    if (size > EGDS_TEXT_DISTANCE_Y) {
+    if (static_cast<std::uint32_t>(size) > static_cast<std::uint32_t>(EGDS_TEXT_DISTANCE_Y)) {  // unsigned, as 0x54aaa0
         return 0;
     }
     return sizes[size];
@@ -191,7 +192,7 @@ int CGUISkin::getSize(EGUI_DEFAULT_SIZE size) const {
 
 // 0x54aab4 _ZN6glitch3gui8CGUISkin7setSizeENS0_16EGUI_DEFAULT_SIZEEi
 void CGUISkin::setSize(EGUI_DEFAULT_SIZE which, int size) {
-    if (which <= EGDS_TEXT_DISTANCE_Y) {
+    if (static_cast<std::uint32_t>(which) <= static_cast<std::uint32_t>(EGDS_TEXT_DISTANCE_Y)) {  // unsigned, as 0x54aab4
         sizes[which] = size;
     }
 }
@@ -239,7 +240,7 @@ void CGUISkin::setSpriteBank(IGUISpriteBank* bank) {
 
 // 0x54ab74 _ZNK6glitch3gui8CGUISkin7getIconENS0_17EGUI_DEFAULT_ICONE
 std::uint32_t CGUISkin::getIcon(EGUI_DEFAULT_ICON icon) const {
-    if (icon > EGDI_DIRECTORY) {
+    if (static_cast<std::uint32_t>(icon) > static_cast<std::uint32_t>(EGDI_DIRECTORY)) {  // unsigned, as 0x54ab74
         return 0;
     }
     return icons[icon];
@@ -247,7 +248,7 @@ std::uint32_t CGUISkin::getIcon(EGUI_DEFAULT_ICON icon) const {
 
 // 0x54ab88 _ZN6glitch3gui8CGUISkin7setIconENS0_17EGUI_DEFAULT_ICONEj
 void CGUISkin::setIcon(EGUI_DEFAULT_ICON icon, std::uint32_t index) {
-    if (icon <= EGDI_DIRECTORY) {
+    if (static_cast<std::uint32_t>(icon) <= static_cast<std::uint32_t>(EGDI_DIRECTORY)) {  // unsigned, as 0x54ab88
         icons[icon] = index;
     }
 }

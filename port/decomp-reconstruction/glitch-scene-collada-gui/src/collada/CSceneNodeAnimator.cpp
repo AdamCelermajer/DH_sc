@@ -36,10 +36,10 @@ CSceneNodeAnimator::CSceneNodeAnimator(const CColladaDatabase& source, SLibraryA
             controller->rangeEndMs = 1;    // +0x14
         }
     } else {
-        controller->setRange(tables.animationStart, tables.animationEnd, true);  // vptr+0x50
+        controller->setRange(tables.animationRange.start, tables.animationRange.end, true);  // vptr+0x50
     }
-    startTime = tables.animationStart;    // +0x38
-    endTime = tables.animationEnd;        // +0x3c
+    startTime = tables.animationRange.start;    // +0x38
+    endTime = tables.animationRange.end;        // +0x3c
     length = static_cast<std::uint32_t>(endTime - startTime);  // +0x14
     setTimelineCtrl(controller.get());    // takes a use; the handle drops the construction use
 }
@@ -186,20 +186,13 @@ void CSceneNodeAnimator::removeAnimationTracks() {
 }
 
 // 0x65d768 _ZN6glitch7collada18CSceneNodeAnimator16getAnimationDataEi
-// Verified against the decompilation 0x65d768: the timeline controller (vptr+0x44) is asked for its current clip (its
-// vptr+0x38), an SAnimationBlockSearchKey is built from the database at +0x28 with that clip and the time (0x65d6d8),
-// CAnimationStreamingManager::getAnimationBlock (0x60c59c) is called on the singleton with the block slot at +0x54, and the
-// result is `block ? block->dataHolder->buffer : null`. The port has all of that.
-// PARTIAL for exactly one reason: CAnimationStreamingManager::getAnimationBlock itself, whose missing pieces are itemised
-// on that row (CAnimationBlock with its ctor 0x60c05c, getBlock 0x60b350 and its counts, the manager's sorted registry
-// __lower_bound 0x60c220, and the CAnimationBlockSearch comparator 0x60b454). Until that class exists the block slot is
-// never set, so this returns null. One deviation beyond that: the manager is null-tested, where the original dereferences it.
+// Verified against the decompilation 0x65d768: the timeline controller (vptr+0x44) is asked for its current clip (its vptr+0x38), an
+// SAnimationBlockSearchKey is built from the database at +0x28 with that clip and the time (0x65d6d8), CAnimationStreamingManager::
+// getAnimationBlock (0x60c59c) is called on the singleton with the block slot at +0x54, and the result is `block ? block->dataHolder->buffer
+// : null`. One deviation: the manager is null-tested, where the original dereferences it.
 const SAnimationOutput* CSceneNodeAnimator::getAnimationData(std::int32_t time) {
     scene::ITimelineController* controller = getTimelineCtrl();
-    SAnimationBlockSearchKey key;
-    copyDatabase(key.database, database);
-    key.clip = controller != nullptr ? controller->getCurrentClipIndex() : 0;  // vptr+0x38
-    key.time = time;
+    SAnimationBlockSearchKey key(database, controller != nullptr ? controller->getCurrentClipIndex() : 0, time);
     if (CAnimationStreamingManager::Instance != nullptr) {  // the original dereferences it unconditionally
         CAnimationStreamingManager::Instance->getAnimationBlock(key, animationBlock);
     }
@@ -227,7 +220,7 @@ std::int32_t sampleTime(scene::ITimelineController* controller, std::int32_t sta
 // then per target `if (target) SAnimationAccessor::getValue(time, target, keyIndex, interpolate)` with targets[0].keyIndex
 // as the shared hint when the flag is set and interpolate = (interpolationType != 1).
 // Deviation, named: the early return when getAnimationData is null; the original passes the null data on. The animated
-// values themselves depend on CAnimationStreamingManager::getAnimationBlock (see getAnimationData above and row 0x60c59c).
+// values are those of the block the streaming manager hands out (CAnimationStreamingManager::getAnimationBlock).
 void CSceneNodeAnimator::computeAnimationValues(std::uint32_t timeMs) {
     if (targets.empty() && unk_50 == 0) {
         return;
@@ -237,7 +230,7 @@ void CSceneNodeAnimator::computeAnimationValues(std::uint32_t timeMs) {
     const bool interpolate = interpolationType != 1;
     const SAnimationOutput* data = getAnimationData(time);
     if (data == nullptr) {
-        return;  // PARTIAL guard: the original would read through the block data
+        return;  // host guard: the original would read through the missing block data
     }
     SAnimationKeyCache cache;
     cache.enabled = animationFlag ? 1 : 0;
@@ -262,7 +255,7 @@ void CSceneNodeAnimator::applyAnimationValues(std::uint32_t timeMs) {
     const bool interpolate = interpolationType != 1;
     const SAnimationOutput* data = getAnimationData(time);
     if (data == nullptr) {
-        return;  // PARTIAL guard: the original would read through the block data
+        return;  // host guard: the original would read through the missing block data
     }
     SAnimationKeyCache cache;
     cache.enabled = animationFlag ? 1 : 0;
@@ -285,7 +278,7 @@ void CSceneNodeAnimator::getAnimationValue(std::int32_t trackIndex, std::int32_t
     STarget& record = targets[trackIndex];
     const SAnimationOutput* data = getAnimationData(time);
     if (data == nullptr) {
-        return;  // PARTIAL guard: the original would read through the block data
+        return;  // host guard: the original would read through the missing block data
     }
     SAnimationKeyCache cache;
     cache.enabled = 0;

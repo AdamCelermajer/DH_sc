@@ -18,8 +18,11 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
+#include <cstring>
 #include <vector>
 
+#include "core-platform/device.hpp"
+#include "core-platform/deps/application.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Level.hpp"
@@ -52,7 +55,7 @@ constexpr int kMusicType = 2;
 constexpr int kLevelLoadedStep = 38;
 // Parameters Play3D passes to PlayEvent (the bit patterns of -1.0f).
 constexpr float kNoParam = -1.0f;
-// Arrays::Sounds record kind of an event (m_w2 == 1). The data index of an event is the event id.
+// Arrays::Sounds record kind of an event (Type == 1). The data index of an event is the event id.
 constexpr std::int32_t kEventKind = 1;
 
 // Position and basis vectors of the listing (the Hex-Rays words v18..v23 in PlaySoundPackSound).
@@ -87,7 +90,7 @@ void ReadTraceSwitch(const char* name) {
 
 // Arrays::Sounds element `sound`. The table's members points at element 0 of host Structs::SoundAutoGen
 // records (pydata element_table.hpp). The original's 12-byte listing stride is not applied to bytes.
-// +0x4 (m_w1) is the sound's data index, which is the event id when m_w2 == kEventKind; +0x8 (m_w2) is the kind.
+// +0x4 (Id) is the sound's data index, which is the event id when Type == kEventKind; +0x8 (Type) is the kind.
 Structs::SoundAutoGen& SoundRecord(int sound) {
     return reinterpret_cast<Structs::SoundAutoGen*>(Arrays::Sounds::members)[sound];
 }
@@ -147,7 +150,7 @@ void VoxSoundManager::Pause(int sound) {
         nativePauseSoundBig(sound);
         return;
     }
-    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    vox::DataHandle* data = sounds_[SoundRecord(sound).Id];
     if (data == nullptr) {
         return;
     }
@@ -350,8 +353,8 @@ int VoxSoundManager::Play3D(int sound, const glitch::core::vector3d<float>& pos,
             nativePlaySoundBig(sound, sfx_vfx_volume, loop ? 1 : 0, kChannelSfxVfx);
         } else {
             const Structs::SoundAutoGen& record = SoundRecord(sound);
-            const std::int32_t data = record.m_w1;
-            if (record.m_w2 == kEventKind) {
+            const std::int32_t data = record.Id;
+            if (record.Type == kEventKind) {
                 PlayEvent(data, pos, kNoParam, kNoParam);
             } else {
                 const char* name = nullptr;
@@ -389,7 +392,7 @@ int VoxSoundManager::Play(int sound, bool loop, int fade_ms, int type, bool forc
         nativePlaySoundBig(sound, sfx_vfx_volume, loop ? 1 : 0, kChannelSfxVfx);
         return 0;
     }
-    const std::int32_t data = SoundRecord(sound).m_w1;
+    const std::int32_t data = SoundRecord(sound).Id;
     const char* name = nullptr;
     vox::FormatTypes format = static_cast<vox::FormatTypes>(0);
     int field_16 = 0;
@@ -439,11 +442,11 @@ void VoxSoundManager::CrossfadeMusic(int music_a, int music_b) {
     const int play_sound = music_slot_ ? music_b : music_a;
     Structs::SoundAutoGen& play_record = SoundRecord(play_sound);
     Structs::SoundAutoGen& stop_record = SoundRecord(stop_sound);
-    const std::int32_t play_data = play_record.m_w1;
-    const std::int32_t stop_data = stop_record.m_w1;
+    const std::int32_t play_data = play_record.Id;
+    const std::int32_t stop_data = stop_record.Id;
     // The stop record takes the play record's data index and kind.
-    stop_record.m_w1 = play_data;
-    stop_record.m_w2 = play_record.m_w2;
+    stop_record.Id = play_data;
+    stop_record.Type = play_record.Type;
     if (sounds_[stop_data] == nullptr) {
         LoadSound(stop_data);
     }
@@ -498,7 +501,7 @@ void VoxSoundManager::PlayMusic(int music, bool loop, bool stop_if_none, int fad
             return;
         }
         vox::EmitterHandle emitter = EmptyEmitterHandle();
-        vox::DataHandle* handle = sounds_[SoundRecord(music).m_w1];
+        vox::DataHandle* handle = sounds_[SoundRecord(music).Id];
         if (handle != nullptr && vox::VoxEngine::GetEmitterHandles(*handle, &emitter, 1) > 0) {
             vox::VoxEngine::Resume(emitter, kPlayFade);
             return;
@@ -558,3 +561,90 @@ void VoxSoundManager::SetInSafeZoneMusic(bool in_zone) {
         PlayMusic(level->m_musicSoundId, true, false, kMusicFadeMs);
     }
 }
+
+// 0x36ca88 _ZN15VoxSoundManager14CreateInstanceEv
+// The process-wide manager is built once: operator new(196, 4) (196 = 0xc4 bytes on the target) and the constructor, stored in
+// s_instance. The original returns void; the declaration returns the instance (the existing callers drop it).
+VoxSoundManager* VoxSoundManager::CreateInstance() {
+    if (s_instance == nullptr) {
+        s_instance = new VoxSoundManager();
+    }
+    return s_instance;
+}
+
+// 0x36b048 _ZN15VoxSoundManager14DeleteInstanceEv
+// The destructor runs on the instance and the block is released (CustomFree). The original does not clear s_instance, so a
+// second DeleteInstance would free it twice; the port clears the pointer (deviation, undefined behaviour in the original).
+void VoxSoundManager::DeleteInstance() {
+    VoxSoundManager* instance = s_instance;
+    if (instance != nullptr) {
+        s_instance = nullptr;
+        delete instance;
+    }
+}
+
+// 0x3695f4 _ZN15VoxSoundManager15SetLevelRoutingEi
+// -1 or the Java sound mode: nothing (the original returns 0). Otherwise the dynamic bus routing file of the level:
+// RES_PATH + "data/routing/" + the level list row's routing name (Arrays::LevelList element +0x0c), through
+// VoxEngine::SetDynamicBusRouting. The original returns 1; the declared void result drops it (no caller reads it).
+void VoxSoundManager::SetLevelRouting(int level) {
+    if (level == -1 || JAVA_SOUNDS) {
+        return;
+    }
+    const auto* rows = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+    char path[512];
+    std::strcpy(path, RES_PATH);
+    std::strcpy(path + std::strlen(path), "data/routing/");
+    std::strcat(path, static_cast<const char*>(rows[level].DynamicBusRouting));  // element +0x0c
+    vox::VoxEngine::SetDynamicBusRouting(path);
+}
+
+// 0x36c2e4 _ZN15VoxSoundManager10InitializeEv
+// The iPod playlist flag (+0x33) is cleared, the iPod title string (+0x38) emptied, and the flag cleared again when iOS 3.2 is
+// not supported (always false on this platform). The FX and music volumes come from the saved options "VolumeFX" and
+// "VolumeMusic" (SetSoundVolume types 1 and 2). The static bus routing file is
+// "/app_home/data/routing/template_dhpsn.vrt", 3D general parameter 2 is set to 4. The pack's banks (40 bytes each) are
+// counted: more than 8 prints the VOX_NUM_PRIORITY_BANK warning; with two or more, banks 1.. are registered through
+// VoxEngine::SetPriorityBank (GetBankInfo gives the three words). Unless Java sounds are on, a high-performance device (or HTC,
+// Sharp devices, or multiplayer mode) preloads the "preload_sfx" event: every uid it yields is recorded in preload_ids_ and
+// loaded with LoadSound (the isTracingPreload_SFX debug switch is read and ignored, as in the original).
+// The original's trailing value is the _DEBUG_OUT result (trace only); the port returns void.
+void VoxSoundManager::Initialize() {
+    ipod_playlist_set_ = false;
+    unk_38.clear();
+    if (!Device::IsiOSVersionSupported("3.2")) {
+        ipod_playlist_set_ = false;
+    }
+    SetSoundVolume(1, static_cast<float>(Singleton<Application>::s_inst.GetSavedOption("VolumeFX")));
+    SetSoundVolume(2, static_cast<float>(Singleton<Application>::s_inst.GetSavedOption("VolumeMusic")));
+    char busRouting[] = "/app_home/data/routing/template_dhpsn.vrt";
+    vox::VoxEngine::SetStaticBusRouting(busRouting);
+    vox::VoxEngine::Set3DGeneralParameteri(2, 4);
+    const int bankCount = sound_pack_.GetBankCount();
+    if (bankCount > 8) {
+        std::printf("Xml file define %d banks, but only %d are defined in configuration, change VOX_NUM_PRIORITY_BANK to "
+                    "match actual bank count\n",
+                    bankCount, 8);
+    }
+    if (bankCount >= 2) {
+        for (int bank = 1; bank < sound_pack_.GetBankCount(); ++bank) {
+            int field_0c = 0;
+            int field_08 = 0;
+            vox::PriorityBankBehavior behavior{};
+            sound_pack_.GetBankInfo(bank, field_0c, field_08, behavior);
+            vox::VoxEngine::SetPriorityBank(bank, field_0c, field_08, behavior);
+        }
+    }
+    if (!JAVA_SOUNDS && (Device::IsHighPerformance() || HTC_DEVICES || SHARP_DEVICES || Is_In_Multiplayer_Mode)) {
+        const int eventSize = sound_pack_.GetEventSize("preload_sfx");
+        for (int i = 0; i < eventSize; ++i) {
+            int uid = 0;
+            sound_pack_.GetEventSoundUid("preload_sfx", uid);
+            DebugSwitches::s_inst.load();
+            (void)DebugSwitches::s_inst.GetSwitch("isTracingPreload_SFX");
+            preload_ids_.push_back(uid);
+            LoadSound(uid);
+        }
+    }
+}
+

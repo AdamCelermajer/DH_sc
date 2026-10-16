@@ -1,3 +1,4 @@
+#include "glitch-video/gl_small.hpp"
 #include "glitch-video/null_shader.hpp"
 #include "glitch-video/null_shader_manager.hpp"
 #include "glitch-video/shader_code.hpp"
@@ -12,7 +13,7 @@ using namespace glitch::video;
 
 int main() {
     // Shader code table: insert, find by name, unknown name gives null.
-    ICodeShaderManager codes;
+    CGLSLShaderManager codes;  // an ICodeShaderManager with its createEmptyShader
     auto a = boost::intrusive_ptr<IShaderCode>(new test::TestShaderCode("alpha"), true)  /* born with count 0 */;
     auto b = boost::intrusive_ptr<IShaderCode>(new test::TestShaderCode("beta"), true);
     codes.addShaderCode(a);
@@ -47,7 +48,11 @@ int main() {
     CHECK(s1.get() == s2.get());
     CHECK(manager.createEmptyShader("ignored").get() != s1.get());
     manager.removeUnusedShaders();
-    CHECK(manager.m_shaders.empty());
+    CHECK(manager.m_shaders.size() == 1);   // still held by s1 and s2
+    s1 = nullptr;
+    s2 = nullptr;
+    manager.removeUnusedShaders();
+    CHECK(manager.m_shaders.size() == 0);
 
     std::printf("%s\n", failures ? "shader_code: FAILED" : "shader_code: ok");
     return failures != 0;

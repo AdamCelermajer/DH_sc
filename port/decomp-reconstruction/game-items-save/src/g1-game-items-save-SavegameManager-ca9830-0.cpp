@@ -187,10 +187,10 @@ void SavegameManager::decOption(const char* name) {
         return;
     }
     const Structs::GameOption* definition = it->second.m_definition;
-    const int type = definition->m_w6;
+    const int type = definition->Type;
     if (static_cast<unsigned int>(type - 1) <= 1u) {
-        const int value = it->second.m_value - definition->m_w5;
-        it->second.m_value = value < definition->m_w4 ? definition->m_w4 : value;
+        const int value = it->second.m_value - definition->Step;
+        it->second.m_value = value < definition->Min ? definition->Min : value;
     }
 }
 
@@ -203,13 +203,13 @@ void SavegameManager::incOption(const char* name) {
         return;
     }
     const Structs::GameOption* definition = it->second.m_definition;
-    const int type = definition->m_w6;
+    const int type = definition->Type;
     if (type == 1) {
-        const int value = it->second.m_value + definition->m_w5;
-        it->second.m_value = value > definition->m_w3 ? definition->m_w3 : value;
+        const int value = it->second.m_value + definition->Step;
+        it->second.m_value = value > definition->Max ? definition->Max : value;
     } else if (type == 2) {
-        const int value = it->second.m_value + definition->m_w5;
-        const int max = definition->m_w3 - 1;
+        const int value = it->second.m_value + definition->Step;
+        const int max = definition->Max - 1;
         it->second.m_value = value > max ? max : value;
     }
 }
@@ -260,7 +260,7 @@ int SavegameManager::getOptionType(const char* name) const {
     if (it == m_options.end()) {
         return -1;
     }
-    return it->second.m_definition->m_w6;
+    return it->second.m_definition->Type;
 }
 
 // 0x46d2b8 SavegameManager::getOptionString(char const*) const
@@ -270,7 +270,7 @@ int SavegameManager::getOptionString(const char* name) const {
     if (it == m_options.end()) {
         return -1;
     }
-    return it->second.m_value + it->second.m_definition->m_w7;
+    return it->second.m_value + it->second.m_definition->ValueStr;
 }
 
 // 0x46d2f8 SavegameManager::getOptionLabel(char const*) const
@@ -280,7 +280,7 @@ int SavegameManager::getOptionLabel(const char* name) const {
     if (it == m_options.end()) {
         return -1;
     }
-    return it->second.m_definition->m_w2;
+    return it->second.m_definition->Label;
 }
 
 // 0x46d330 SavegameManager::getOptionMax(char const*) const
@@ -291,8 +291,8 @@ int SavegameManager::getOptionMax(const char* name) const {
         return -1;
     }
     const Structs::GameOption* definition = it->second.m_definition;
-    int max = definition->m_w3;
-    if (definition->m_w6 == 2) {
+    int max = definition->Max;
+    if (definition->Type == 2) {
         --max;
     }
     return max;

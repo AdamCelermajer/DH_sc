@@ -21,6 +21,9 @@
 
 class FileSystemBase : public glitch::io::CFileSystem {
 public:
+    // 0x34e504 (C1) / 0x34e538 (C2): the CFileSystem base constructor, then the FileSystemBase vtable (core-platform/src/ok3-FileSystemBase.cpp).
+    FileSystemBase();
+
     // +0x0c, 0x34e688 _ZN14FileSystemBase17createAndOpenFileEPKc.
     // The name is normalised by slot +0xb8, prefixed with RES_PATH unless it is a ".config",
     // ".glsl" or "/sdcard/" name, then opened with glitch::io::CFileSystem::createAndOpenFile

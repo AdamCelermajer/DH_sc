@@ -92,7 +92,7 @@ void AISMonster::OnUpdate() {
     const float dx = character->m_initialPosition.X - pos.X;            // +0x1450 - position
     const float dy = character->m_initialPosition.Y - pos.Y;            // +0x1454 - position
     const float dz = character->m_initialPosition.Z - pos.Z;            // +0x1458 - position
-    const float range = character->GetCharAI()->m_w7;                   // AI table row +0x1c (Arrays::AITable, 68-byte stride)
+    const float range = character->GetCharAI()->LeashDistance;                   // AI table row +0x1c (Arrays::AITable, 68-byte stride)
     if (range * range < dx * dx + dy * dy + dz * dz) {
         character->m_controller->Cmd_MoveTo(character->m_initialPosition);  // +0x378 controller, +0x1450 initial position
     }

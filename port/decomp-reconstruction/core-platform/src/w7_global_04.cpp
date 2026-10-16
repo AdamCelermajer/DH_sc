@@ -16,6 +16,7 @@
 #include "core-platform/debug_out.hpp"
 #include "core-platform/lc_api.hpp"
 #include "core-platform/misc_util.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "net-transport/data_packet.hpp"
 #include "net-transport/process_param.hpp"
 
@@ -121,21 +122,12 @@ constexpr std::uint32_t kChannelSelector[3][2] = {
 }  // namespace
 
 // 0x8279d8 _Z24ParseDedicatedServerInfoR21_tDedicatedServerInfoP10DataPacket
-// Partial: the body is the listing step for step. Vtable +0x40 (getShortLenString) fills a local
-// name and a local 16-bit length; TransToIp rewrites the name; a null name returns 0; inet_addr
-// goes to info +0x18; vtable +0x24 (getShort) runs twice and the first result goes to info +0x1c
-// and the second to info +0x1e; vtable +0x14 (getInt) writes info +0x2c; inet_ntoa runs twice on
-// the four bytes at info +0x18, both results discarded; 1 is returned. The three slots and their
-// offsets are the DataPacket slots net-transport declares at those offsets, so the calls are the
-// real virtual calls, not a vtable poke. The single missing item is the
-// _tDedicatedServerInfo layout: the type is only forward declared
-// (game/include/dh2/global/net_singletons.hpp), so the four fields are written at the binary's
-// byte offsets 0x18 (the inet_addr u32), 0x1c and 0x1e (the two getShort u16s) and 0x2c (the
-// getInt int). Layout request for that owner: declare those members at those offsets so this body
-// can name them. Not covered by a test.
+// The listing step for step. Vtable +0x40 (getShortLenString) fills a local name and a local 16-bit length; TransToIp rewrites the name;
+// a null name returns 0; inet_addr goes to info +0x18; vtable +0x24 (getShort) runs twice and the first result goes to info +0x1c and
+// the second to info +0x1e; vtable +0x14 (getInt) writes info +0x2c; inet_ntoa runs twice on the four bytes at info +0x18, both results
+// discarded; 1 is returned. The three slots are the DataPacket slots net-transport declares at those offsets, so the calls are the real
+// virtual calls. The record is dh2/global/net_singletons.hpp's _tDedicatedServerInfo.
 bool ParseDedicatedServerInfo(_tDedicatedServerInfo& info, DataPacket* packet) {
-    unsigned char* raw = reinterpret_cast<unsigned char*>(&info);
-
     char* host = nullptr;
     std::int16_t host_length = 0;
     packet->getShortLenString(host, host_length);  // vtable +0x40
@@ -144,20 +136,19 @@ bool ParseDedicatedServerInfo(_tDedicatedServerInfo& info, DataPacket* packet) {
         return false;
     }
 
-    const std::uint32_t address = inet_addr(host);
-    std::memcpy(raw + 0x18, &address, sizeof address);
+    info.address = inet_addr(host);
 
     std::int16_t first_port = 0;
     std::int16_t second_port = 0;
     packet->getShort(first_port);   // vtable +0x24, first call -> info +0x1c
     packet->getShort(second_port);  // vtable +0x24, second call -> info +0x1e
-    std::memcpy(raw + 0x1c, &first_port, sizeof first_port);
-    std::memcpy(raw + 0x1e, &second_port, sizeof second_port);
+    info.unk_1c = first_port;
+    info.unk_1e = second_port;
 
-    packet->getInt(*reinterpret_cast<int*>(raw + 0x2c));  // vtable +0x14
+    packet->getInt(info.unk_2c);  // vtable +0x14
 
     in_addr stored{};
-    std::memcpy(&stored, raw + 0x18, sizeof stored);
+    stored.s_addr = info.address;
     (void)inet_ntoa(stored);
     (void)inet_ntoa(stored);
     return true;

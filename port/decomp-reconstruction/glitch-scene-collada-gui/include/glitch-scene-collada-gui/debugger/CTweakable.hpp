@@ -228,20 +228,11 @@ public:
     // Defined out of line in src/recon/slice_00.cpp so the mangled symbol exists even when nothing calls it.
     int loadGroup(glitch::io::CAttributes& attributes, bool flag);
 
-    // 0x32b6b8 _ZN6glitch8debugger10CTweakable7loadXMLEPKcb. The flow is recovered from the listing (verified
-    // against the assembly of 0x32b6b8): CReadFile(file, false); only when the file opened (its handle at +0x0c is
-    // non-null), take the wide XML reader from the device's file system (device +0x34, vtable slot +0x50 =
-    // createXMLReader(IReadFile*)), build a CXMLAttributesReader over it, build a CAttributes on the device's video
-    // driver (device +0x10), read the document into it, pop the group stack until getGroupName() is empty, read the
-    // string attribute L"Tweakable" and assign it to rootGroup (+0x54) when it is not empty, run loadGroup, drop the
-    // reader. Partial, and the only missing piece is the type of that file-system member: glitch-core-io's
-    // os/device.hpp declares it `FileSystemWin32*`, which has no vtable and no createXMLReader slot, while the
-    // listing proves the original stores the glitch::io::IFileSystem returned by CIrrFactory::createFileSystem
-    // (0x533fb0). Retyping IDevice's +0x34 member reconstructs this body; every other type it needs exists.
-    void loadXML(const char* file, bool flag) {
-        (void)file;
-        (void)flag;
-    }
+    // 0x32b6b8 _ZN6glitch8debugger10CTweakable7loadXMLEPKcb (verified against the decompilation): CReadFile(file, false); only when the file
+    // opened, the wide XML reader of the device's file system (slot +0x50 createXMLReader(IReadFile*)) feeds a CXMLAttributesReader, a
+    // CAttributes on the device's video driver is read from it, the group stack is popped until the group name is empty, the string attribute
+    // "Tweakable" (when not empty) becomes rootGroup (+0x54), loadGroup runs, and the reader is dropped. Defined in src/recon/slice_00.cpp.
+    void loadXML(const char* file, bool flag);
 
     // 0x327be0 _ZN6glitch8debugger10CTweakable10writeGroupERNS1_6SGroupERNS_2io10CXMLWriterEb. Inline because the
     // header is the one translation unit the row is owned by; every type it needs is complete above. See the

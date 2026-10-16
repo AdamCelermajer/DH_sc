@@ -36,6 +36,10 @@
 #endif
 
 #include <GL/gl.h>
+// DH2: the binary's libtess is compiled with GLenum = int (gluTessProperty is _Z15gluTessPropertyP13GLUtesselatorid,
+// gluNextContour is _Z14gluNextContourP13GLUtesselatori, __gl_noBeginData is _Z16__gl_noBeginDataiPv). The system gl.h
+// types it unsigned, which would mangle as j, so every GLenum after this line is int.
+#define GLenum int
 
 #ifndef GLAPIENTRY
 #if defined(_MSC_VER) || defined(__MINGW32__)

@@ -1,0 +1,186 @@
+// App loop entry points of the Android build (jni_app.cpp of the original): appInit, appUpdate, appResume, appPause and
+// appDestroy, with the globals they keep (device, app, driver, IsExit, the window sizes and the phone-model flags).
+// Ledger rows 0x530ba8 .. 0x530fc8 of core-platform. The queue lists them under w7_global_03.cpp; they are in their own
+// unit because that one includes the vendored gameswf headers, which conflict with the game headers used here.
+
+#include <string>
+
+#include "core-platform/debug_out.hpp"
+#include "core-platform/tb/android_jni_app_events.hpp"
+#include "core-platform/tb/android_jni_platform.hpp"
+#include "core-platform/tb/app_lifecycle.hpp"
+#include "core-platform/w7_global_02.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/screen_size.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/video_driver.hpp"
+
+// ---- app* entry points (jni_app.cpp of the original) ----
+// The C entry points the Java natives forward to (GameRenderer.nativeInit / nativeRender / nativeDone, DungeonHunter2
+// pause, resume and key natives). They keep the render device, the video driver and the Application pointer in the
+// globals device, driver and app, which the touch and key handlers read.
+//
+// Hex-Rays shows several of them returning the r0 left by a void call (Application::Pause, ::Quit, ...). Those results
+// are not meaningful, the Java natives drop them, and the versions here return 0.
+
+namespace {
+
+// glitch::createDevice(E_DRIVER_TYPE, dimension2d<int> const&, unsigned, bool, bool, bool, IEventReceiver*), 0x5340ac.
+// E_DRIVER_TYPE is an enum in the original's mangled name (...ENS_5video13E_DRIVER_TYPEE...), but the tree spells it as an
+// int32_t alias (glitch-video/video_types.hpp), which would mangle as i. The symbol is bound by name, so the row owner
+// can define it with the original spelling.
+glitch::IDevice* CreateDevice(int driverType, const glitch::core::dimension2d<int>& size, unsigned bits, bool fullscreen,
+                              bool stencil, bool vsync, glitch::IEventReceiver* receiver)
+    __asm__("_ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE");
+
+}  // namespace
+
+// Phone-model flags set by appInit (1-byte .bss words). HTC_DEVICES, SHARP_DEVICES, LG_DEVICES, NO_IGP and JAVA_SOUNDS are
+// defined by game-app/src/Globals_link1.cpp.
+extern bool HTC_DEVICES;
+extern bool SHARP_DEVICES;
+extern bool LG_DEVICES;
+extern bool NO_IGP;
+extern bool JAVA_SOUNDS;
+extern bool videoDone;  // game-app/src/Globals_link1.cpp
+extern const char* RES_PATH;
+bool SAMSUNG_DEVICES = false;   // .bss
+bool MOTOROLA_DEVICES = false;  // .bss
+bool SONY_DEVICES = false;      // .bss
+
+// The render device (0x9f63e8), the Application* (0x9f63ec) and the video driver (0x9f63f0) of the app loop.
+glitch::IDevice* device = nullptr;
+Application* app = nullptr;
+glitch::video::IVideoDriver* driver = nullptr;
+bool IsExit = false;                 // 0x9f63e4, set by appDestroy; appUpdate then does nothing
+int lastFPS = 0;                     // .bss; appInit sets -1
+int lastdrawCalls = 0;               // .bss; appInit sets -1
+int videosteps = 0;                  // .bss; appInit clears it
+
+// The window sizes appInit picks from Width_Screen (internal statics of jni_app.cpp, set by its static initialiser).
+static glitch::core::dimension2d<int> g_windowDimensions = {800, 480};   // 0x9f63b0
+static glitch::core::dimension2d<int> g_windowDimensions1 = {800, 480};  // 0x9f63b8
+static glitch::core::dimension2d<int> g_windowDimensions2 = {854, 480};  // 0x9f63c0
+static glitch::core::dimension2d<int> g_windowDimensions3 = {960, 640};  // 0x9f63c8
+static glitch::core::dimension2d<int> g_windowDimensions4 = {1280, 720}; // 0x9f63d0
+
+// 0x530ba8 appInit
+extern "C" int appInit() {
+    OPERATOR_PACKAGE_INGAME = 0;
+    RES_PATH = nativeGetSdFolderPath();
+    isDevicePause = false;
+    videosteps = 0;
+    Musicplayerpause = false;
+    videoDone = false;
+    _DEBUG_OUT("app Init is 1111111111111111111111111 %d ", Width_Screen);
+    switch (Width_Screen) {
+        case 854:
+            g_windowDimensions = g_windowDimensions2;
+            break;
+        case 960:
+            g_windowDimensions = g_windowDimensions3;
+            break;
+        case 800:
+            g_windowDimensions = g_windowDimensions1;
+            break;
+        default:
+            g_windowDimensions = g_windowDimensions4;
+            break;
+    }
+    device = CreateDevice(1, g_windowDimensions, 16, false, false, false, nullptr);
+    app = &ApplicationGetInstance();
+    app->InitWin32(device);
+    lastFPS = -1;
+    lastdrawCalls = -1;
+    driver = device->videoDriver;  // device +0x10
+    switch (nativeGet_PhoneManufacturer()) {
+        case 0:
+            HTC_DEVICES = true;
+            break;
+        case 1:
+            SAMSUNG_DEVICES = true;
+            break;
+        case 2:
+            SHARP_DEVICES = true;
+            break;
+        case 3:
+            MOTOROLA_DEVICES = true;
+            break;
+        case 4:
+            SONY_DEVICES = true;
+            break;
+        case 5:
+            LG_DEVICES = true;
+            break;
+        default:
+            break;
+    }
+    switch (nativeGet_PhoneModel()) {
+        case 2:
+            JAVA_SOUNDS = false;
+            break;
+        case 99:
+            NO_IGP = true;
+            break;
+        case 1:
+            _DEBUG_OUT("EVOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            JAVA_SOUNDS = false;
+            break;
+        default:
+            break;
+    }
+    _DEBUG_OUT("app Init is OK");
+    return 0;
+}
+
+// 0x530fc8 appUpdate. One frame: when the device loop runs, Application::Update with mTimeCallbackFinished cleared, then
+// the debug switches are reloaded and, when "isDisplayingFPS" is set, the FPS and draw-call counters are sampled
+// (the originals only store them: the overlay text is gone from the shipped binary). Always returns 1.
+extern "C" int appUpdate() {
+    if (!IsExit) {
+        if (device->run()) {
+            mTimeCallbackFinished = 0;
+            app->Update();
+            mTimeCallbackFinished = 1;
+            DebugSwitches::s_inst.load();
+            if (DebugSwitches::s_inst.GetSwitch(std::string("isDisplayingFPS"))) {
+                const int fps = static_cast<int>(driver->getFPS());
+                const int drawCalls = static_cast<int>(driver->getDrawCallCount());
+                if (fps != lastFPS || drawCalls != lastdrawCalls) {
+                    lastFPS = fps;
+                    lastdrawCalls = drawCalls;
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+// 0x530974 appResume. After a device pause: marks the intro video done, resumes the interrupt state and the Application.
+extern "C" float appResume() {
+    if (isDevicePause) {
+        videoDone = true;
+        ApplicationGetInstance().OnInterruptResume();
+        ApplicationGetInstance().Resume();
+        isDevicePause = false;
+    }
+    return 0.0f;
+}
+
+// 0x5309d8 appPause
+extern "C" int appPause() {
+    isDevicePause = true;
+    ApplicationGetInstance().Pause();
+    ApplicationGetInstance().OnInterruptPause();
+    return 0;
+}
+
+// 0x530a1c appDestroy. Sets IsExit, drops the device, then quits the Application (through the app pointer).
+extern "C" int appDestroy() {
+    IsExit = true;
+    device->drop();
+    app->Quit();
+    return 0;
+}

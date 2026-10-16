@@ -2,6 +2,9 @@
 
 #include <cstring>
 
+#include "glitch-video/video_names.hpp"
+#include "glitch-core-io/os/logging.hpp"
+
 namespace glitch::video::pixel_format {
 
 namespace detail {
@@ -114,48 +117,7 @@ int computeSizeInBytes(E_PIXEL_FORMAT format, uint32_t width, uint32_t height, u
     return computeSizeInBytes(format, width, height, 1u, levels, flag);
 }
 
-namespace {
-
-// Packed RGB to luminance/alpha converter. Built from one PFDTable row: three
-// channel weights (0.3, 0.59, 0.11), the channel masks and shifts of the row,
-// and the alpha mask, shift and scale. Layout offsets are the original's.
-struct SPackedRGBtoLuminanceAlphaConverter {
-    explicit SPackedRGBtoLuminanceAlphaConverter(E_PIXEL_FORMAT format);
-
-    float weight[3] = {};          // +0x00
-    uint32_t channelMask[3] = {};  // +0x0c
-    uint8_t channelShift[3] = {};  // +0x18
-    uint8_t alphaShift = 0;        // +0x1b
-    uint32_t alphaMask = 0;        // +0x1c
-    float alphaScale = 0.0f;       // +0x20, 255 / (alphaMask >> alphaShift)
-    uint32_t alphaMaxBits = 0;     // +0x24, 0 when the row flags bit 0 is set
-};
-
-}  // namespace
-
-// 0x5edca4 _ZN6glitch5video12pixel_format12_GLOBAL__N_135SPackedRGBtoLuminanceAlphaConverterC1ENS0_14E_PIXEL_FORMATE
-// (C1 only; the C2 form is not in the ARM listing.) Reconstructed against the listing: the three
-// channel weights 0.3/0.59/0.11 divided by (key[i] >> shift[i]), the masks and shifts stored at
-// +0x0c/+0x18, then alphaShift +0x1b, alphaMask +0x1c, alphaScale +0x20 and alphaMaxBits +0x24
-// (zeroed when the row flags bit 0 is set). The table it reads is the binary's.
-SPackedRGBtoLuminanceAlphaConverter::SPackedRGBtoLuminanceAlphaConverter(E_PIXEL_FORMAT format) {
-    const SFormatEntry& row = PFDTable[format];
-    // Row bytes not named in SFormatEntry (+0x1c..+0x1e are the channel shifts, +0x1f the
-    // alpha shift). unknown18 starts at +0x18, so the shifts are unknown18[4..6] and [7].
-    // Luma weights 0.3, 0.59, 0.11 (float bit patterns 0x3e99999a, 0x3f170a3d, 0x3de147ae).
-    static constexpr float kWeights[3] = {0.3f, 0.59f, 0.11f};
-    for (int i = 0; i < 3; ++i) {
-        const uint32_t mask = row.key[i];            // row words +0x04, +0x08, +0x0c
-        const uint8_t shift = row.unknown18[4 + i];  // row bytes +0x1c, +0x1d, +0x1e
-        weight[i] = kWeights[i] / static_cast<float>(lsrOrZero(mask, shift));
-        channelMask[i] = mask;
-        channelShift[i] = shift;
-    }
-    alphaShift = row.unknown18[7];                   // row byte +0x1f
-    alphaMask = row.key[3];                          // row word +0x10
-    alphaScale = 255.0f / static_cast<float>(lsrOrZero(alphaMask, alphaShift));
-    alphaMaxBits = (row.flags & 1) != 0 ? 0 : lsrOrZero(alphaMask, alphaShift);
-}
+// The packed-RGB-to-luminance/alpha converter constructor (0x5edca4) lives with the converters in pixel_format_convert.cpp.
 
 // 0x5ed9d0 _ZN6glitch5video12pixel_format27computeRelativeSwizzleTableENS0_14E_PIXEL_FORMATES2_Ph
 uint8_t* computeRelativeSwizzleTable(E_PIXEL_FORMAT from, E_PIXEL_FORMAT to, uint8_t* table) {
@@ -205,6 +167,74 @@ int swapBytes(E_PIXEL_FORMAT format, const void* src, uint32_t size, bool flag, 
         out[4 * i + 1] = in[4 * i + 2];
         out[4 * i + 2] = in[4 * i + 1];
         out[4 * i + 3] = in[4 * i + 0];
+    }
+    return 1;
+}
+
+// 0x5ee104 _ZN6glitch5video12pixel_format16unpackPalettizedEPKvjhNS0_14E_PIXEL_FORMATES3_Pvjjjb
+// The bit position of the next pixel inside the source byte is kept in `shift` (the bit count for the first pixel is 8 - bpp,
+// each pixel then moves it right by bpp, a zero shift takes the pixel and moves to the next source byte). The shift is moved
+// by a shift, not a subtraction, so for 1 and 2 bits per pixel the positions are not the plain sequence; it is kept as the
+// binary has it. The shift also carries from one row to the next (the source pointer restarts at the row's pitch).
+namespace {
+
+template <typename Entry>
+void unpackRows(const uint8_t* src, uint32_t srcPitch, uint32_t bpp, const Entry* palette, uint8_t* dstRow, int32_t rowStep,
+                uint32_t width, uint32_t height) {
+    if (height == 0) return;
+    const uint8_t* rowStart = src;
+    uint32_t shift = static_cast<uint8_t>(8 - bpp);
+    const uint32_t mask = static_cast<uint8_t>(~(0xffffffffu << bpp));
+    for (;;) {
+        for (uint32_t i = 0; i != width; ++i) {
+            const uint32_t value = *src;
+            const bool zero = shift == 0;
+            const uint32_t index = mask & (value >> shift);
+            if (shift != 0) shift >>= bpp;
+            const Entry entry = palette[index];
+            if (zero) {
+                ++src;
+                shift = static_cast<uint8_t>(8 - bpp);
+            }
+            std::memcpy(dstRow + i * sizeof(Entry), &entry, sizeof(Entry));
+        }
+        if (--height == 0) break;
+        rowStart += srcPitch;
+        src = rowStart;
+        dstRow += rowStep;
+    }
+}
+
+}  // namespace
+
+int unpackPalettized(const void* src, uint32_t srcPitch, uint8_t bpp, E_PIXEL_FORMAT paletteFormat, const void* palette,
+                     void* dst, uint32_t dstPitch, uint32_t width, uint32_t height, bool flip) {
+    if (src == dst) {
+        os::Printer::log("in-place unpacking of palettized image not supported", ELL_ERROR);
+        return 0;
+    }
+    if (((bpp - 1u) & bpp) != 0 || bpp > 8) {
+        os::Printer::log("invalid bpp value", "should be 1, 2, 4 or 8", ELL_ERROR);
+        return 0;
+    }
+    const uint32_t entrySize = detail::PFDTable[paletteFormat].bytesPerBlock;
+    if (entrySize != 1 && entrySize != 2 && entrySize != 4) {
+        os::Printer::log("palette format not supported", pixelFormatName(paletteFormat), ELL_ERROR);
+        return 0;
+    }
+    uint8_t* firstRow = static_cast<uint8_t*>(dst);
+    int32_t rowStep = static_cast<int32_t>(dstPitch);
+    if (flip) {
+        firstRow += static_cast<size_t>(dstPitch) * (height - 1);
+        rowStep = -static_cast<int32_t>(dstPitch);
+    }
+    const uint8_t* source = static_cast<const uint8_t*>(src);
+    if (entrySize == 2) {
+        unpackRows(source, srcPitch, bpp, static_cast<const uint16_t*>(palette), firstRow, rowStep, width, height);
+    } else if (entrySize == 4) {
+        unpackRows(source, srcPitch, bpp, static_cast<const uint32_t*>(palette), firstRow, rowStep, width, height);
+    } else {
+        unpackRows(source, srcPitch, bpp, static_cast<const uint8_t*>(palette), firstRow, rowStep, width, height);
     }
     return 1;
 }

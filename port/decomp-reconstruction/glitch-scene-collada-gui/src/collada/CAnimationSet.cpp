@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include "glitch-scene-collada-gui/collada/CSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp"
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 #include "glitch-scene-collada-gui/tb/glitch_collada_detail.hpp"
@@ -71,11 +72,10 @@ IAnimationSetTemplate& IAnimationSetTemplate::setUnAdded() {
 }
 
 // 0x667384 _ZN6glitch7collada21IAnimationSetTemplate11addChannelsEPSt6vector...
-// PARTIAL. Reconstructed: the walk over the targets, the skip of targets already added, the record allocation, the kind copy, the
-// record link and the added flag. Missing: the record's value04 (the original calls virtual slot +0x54 of the target's node and
-// stores the result: the collada::CSceneNode stand-in has no virtuals), and, for the kinds 0x01 .. 0x0d, the
-// CVirtualEx<...>::getInstance() calls of the matching track instantiation (their result is discarded; they only set up
-// function-local statics). The two vector arguments are never read by the pseudocode.
+// For each target not yet added: a record with the target's kind and the node's UID (virtual slot +0x54), linked to the target, and the target
+// marked added. The original also calls, per kind (1..13), CVirtualEx<...>::getInstance() of the matching track and discards the result: it only
+// builds function-local statics, so it is not repeated. The two vector arguments are never read. Host guard: a target without a node (the SNode
+// overload stores none) has no UID.
 void IAnimationSetTemplate::addChannels(std::vector<const SChannel*>*, std::vector<const CAnimationTrackEx*>*) {
     for (STemplateTarget* target : targets) {
         if (target->added) {
@@ -83,6 +83,7 @@ void IAnimationSetTemplate::addChannels(std::vector<const SChannel*>*, std::vect
         }
         STemplateRecord* record = new STemplateRecord();  // +0x00..+0x0f
         record->kind08 = target->kind;                    // record +0x08 = target +0x04
+        record->uid = target->node != nullptr ? target->node->getUID() : nullptr;  // record +0x04
         target->record = record;                          // target +0x0c
         target->added = 1;
     }
@@ -162,20 +163,27 @@ int CAnimationSetTransformationTemplate::isAnimationExist(const SChannel* channe
 }
 
 // 0x6e23d0 _ZNK6glitch7collada35CAnimationSetTransformationTemplate15getDefaultValueEPKNS0_8SChannelEPPv
-// PARTIAL: each target's node is asked for a default value in turn (CColladaDatabase::getDefaultValue on the database embedded at
-// node +0x14c) and the first success returns 1; the collada::CSceneNode stand-in has no database member, so no default is found.
-int CAnimationSetTransformationTemplate::getDefaultValue(const SChannel*, void**) const {
+// Each target's node is asked in turn (its database at node +0x14c); the first node that has a default value for the channel answers 1.
+// Host guard: a target without a node (the SNode overload stores none) is skipped.
+int CAnimationSetTransformationTemplate::getDefaultValue(const SChannel* channel, void** out) const {
+    for (const STemplateTarget* target : targets) {
+        if (target->node != nullptr && target->node->database.getDefaultValue(channel, out)) {
+            return 1;
+        }
+    }
     return 0;
 }
 
 // 0x6e24e8 _ZN6glitch7collada35CAnimationSetTransformationTemplate24addTransformationTargetsEPNS0_10CSceneNodeE
-// Pushes three targets for this node, of kinds 1, 5 and 10, in that order. PARTIAL: the original then walks the node's intrusive
-// child list (sentinel at node +0xf4; each child pointer is the link word minus 4) and calls this overload for every child; the
-// collada::CSceneNode stand-in has no child list, so the children are not visited.
+// Pushes three targets for this node, of kinds 1, 5 and 10, in that order, then does the same for every child of the node (the original
+// converts each child link to a node pointer without checking the child's type).
 void CAnimationSetTransformationTemplate::addTransformationTargets(CSceneNode* node) {
     targets.push_back(newTarget(1, node));
     targets.push_back(newTarget(5, node));
     targets.push_back(newTarget(10, node));
+    for (scene::ISceneNode* child : node->getChildren()) {
+        addTransformationTargets(static_cast<CSceneNode*>(child));
+    }
 }
 
 // 0x6e26d4 _ZN6glitch7collada35CAnimationSetTransformationTemplate24addTransformationTargetsERNS0_5SNodeE
@@ -204,24 +212,10 @@ CAnimationSet::~CAnimationSet() {
 }
 
 // 0x6601fc _ZN6glitch7collada13CAnimationSet12addAnimationEPKNS0_10SAnimationE
-// PARTIAL, and the missing piece is one callee: CColladaDatabase::getAnimationTrackEx (0x611ae0, ledgered `skipped`). The
-// original's only call in the whole 632-byte body is
-//   AnimationTrack = CColladaDatabase::getAnimationTrackEx(animation);   // 0x660330
-// which is a 91-case switch on the animation's channel type ((*(animation + 0x10) + 8) - 1, cases 1..0x5b) that reads the
-// animation's offset/scale record (+0x1c) and picks one of ~15 concrete target classes: CFloatEx, CWeightEx,
-// CVisibilityEx, CVector3dEx, CTextureTransformEx, and the CVirtualEx<CApplyValueEx<Value, Mixin<char|short|float>>>
-// instantiations (the char/short/float key widths). Every arm returns the address of a function-local static, or nullptr
-// for a type with no arm. Porting it means naming all ~15 targets in animation_track.hpp and mapping the case list.
-// Everything else in this body IS reproduced line by line from the listing (I verified each step): the channel match
-// (CompatibilityTable row = the existing channel's type, tested at (table + 4 * (type >> 5)) & (1 << (type & 31)); for type
-// 14 the flag byte at +0x0c, for type 86 the string at +0x0c, else a name match), the -1 on no track, and the two
-// push_backs (channels at +0x0c, tracks at +0x18) with the index ((end - begin) >> 2) - 1.
-// The interim port reads the track the loader cached at SAnimation +0x14 instead. That word is exactly the result the
-// original stores there: CResFileManager::postLoadProcess's animation pass writes `entry + 0x14 = getAnimationTrackEx(entry)`
-// for every animation, and both this function and CSceneNodeAnimator::getAnimationTrackEx (0x65d3e8: LDR R3,[R0,#0x44];
-// LDR R3,[R3,R1,LSL#4]; LDR R0,[R3,#0x14]) read it back. So when the loader ran, the port's track is the same pointer the
-// original would compute. The observable difference is the un-loaded case: the port returns -1 where the original would
-// still return the singleton.
+// Verified against the decompilation 0x6601fc (632 bytes): the channel match (CompatibilityTable row = the existing channel's type, tested at
+// (table + 4 * (type >> 5)) & (1 << (type & 31)); for type 14 the flag byte at +0x0c, for type 86 the string at +0x0c, else a name match),
+// the track from CColladaDatabase::getAnimationTrackEx (0x660330; -1 when none), and the two push_backs (channels at +0x0c, tracks at +0x18)
+// with the index ((end - begin) >> 2) - 1.
 int CAnimationSet::addAnimation(const SAnimation* animation) {
     const SChannel& channel = *animation->channels;
     const int match = findMatchingChannel(static_cast<int>(channels.size()), channel,
@@ -229,7 +223,7 @@ int CAnimationSet::addAnimation(const SAnimation* animation) {
     if (match >= 0) {
         return match;
     }
-    const auto* track = static_cast<const CAnimationTrackEx*>(animation->trackEx);
+    const auto* track = static_cast<const CAnimationTrackEx*>(CColladaDatabase::getAnimationTrackEx(animation));
     if (track == nullptr) {
         return -1;
     }
@@ -270,12 +264,27 @@ const CAnimationTrackEx* CAnimationSet::getAnimationTrackEx(int index) {
 }
 
 // 0x6600fc _ZN6glitch7collada13CAnimationSet19addAnimationLibraryEPKc
-// PARTIAL: the original loads the file (CResFileManager::load, auto-unload switched off meanwhile), wraps the record in a
-// CColladaDatabase over CColladaDatabase::DefaultFactory and calls the database overload (vptr+0x2c). The resource manager is not
-// reconstructed, so the url never loads: the error line is printed and the last index is returned, as the original does on failure.
+// The file is loaded through the manager (automatic unloading switched off meanwhile), wrapped in a database over DefaultFactory (the record
+// gets a use) and added through the database overload (vptr+0x2c); the temporary handle is then dropped. A file that does not load prints the
+// error line and answers the last index.
 int CAnimationSet::addAnimationLibrary(const char* url) {
-    std::printf("ERROR: CAnimationSet::addAnimationLibrary: Unable to add url: %s\n", url);
-    return static_cast<int>(databases.size()) - 1;
+    CResFile* record = CResFileManager::Inst->load(url, false, nullptr);
+    if (record == nullptr) {
+        std::printf("ERROR: CAnimationSet::addAnimationLibrary: Unable to add url: %s\n", url);
+        return static_cast<int>(databases.size()) - 1;
+    }
+    const bool savedAutoUnload = CResFileManager::Inst->autoUnloadEnabled;
+    CResFileManager::Inst->autoUnloadEnabled = false;
+    CColladaDatabase handle;
+    handle.record = record;
+    handle.factory = &CColladaDatabase::DefaultFactory;
+    if (record->refCount != 0) {
+        ++record->refCount;
+    }
+    const int index = addAnimationLibrary(handle);
+    dropDatabase(handle);
+    CResFileManager::Inst->autoUnloadEnabled = savedAutoUnload;
+    return index;
 }
 
 // 0x6601d4 _ZN6glitch7collada13CAnimationSet19addAnimationLibraryERKNS0_16CColladaDatabaseE
@@ -487,8 +496,8 @@ void CAnimationSet::CompileInternal() {
     lengths.assign(databases.size(), 0);
     for (std::size_t i = 0; i < databases.size(); ++i) {
         const SDatabaseTables& tables = databases[i].tables();
-        starts[i] = tables.animationStart;
-        ends[i] = tables.animationEnd;
+        starts[i] = tables.animationRange.start;
+        ends[i] = tables.animationRange.end;
         lengths[i] = ends[i] - starts[i];
     }
 }
@@ -580,9 +589,9 @@ void CDynamicAnimationSet::addAnimationLibraryBindings(const CColladaDatabase& d
     databases.push_back(database);  // takes the record's use, as the original's push_back does
 
     const SDatabaseTables& tables = database.tables();
-    starts.push_back(tables.animationStart);   // 0x62eecc: *(holder + 28)
-    ends.push_back(tables.animationEnd);       // 0x62ef00: *(holder + 32)
-    lengths.push_back(tables.animationEnd - tables.animationStart);
+    starts.push_back(tables.animationRange.start);   // 0x62eecc: *(holder + 28)
+    ends.push_back(tables.animationRange.end);       // 0x62ef00: *(holder + 32)
+    lengths.push_back(tables.animationRange.end - tables.animationRange.start);
 
     const std::size_t oldBindingCount = bindings.size();
     bindings.reserve(oldBindingCount + ownedChannels.size());   // reserve, then resize to the same total
@@ -623,13 +632,103 @@ void CDynamicAnimationSet::clearTracks() {
     animatedTrackCount = 0;
 }
 
+// 0x62f0cc _ZN6glitch7collada20CDynamicAnimationSet12remAnimationEPKNS0_10SAnimationE
+// The owned channel that matches the animation's first channel (same flag byte at +0x0c, a compatible type through the table row of the
+// owned channel, the same name) is removed with its track; the answer is its index, -1 when none matches. (The flag byte is compared for
+// every type here, unlike addAnimation; the bindings and the library windows are left as they are.)
+int CDynamicAnimationSet::remAnimation(const SAnimation* animation) {
+    const SChannel& channel = *animation->channels;
+    for (std::size_t i = 0; i < ownedChannels.size(); ++i) {
+        const SChannel& existing = ownedChannels[i];
+        if (existing.flag == channel.flag && detail::channelTypeCompatible(existing.type, channel.type) &&
+            std::strcmp(existing.name, channel.name) == 0) {
+            ownedChannels.erase(ownedChannels.begin() + static_cast<std::ptrdiff_t>(i));
+            tracks.erase(tracks.begin() + static_cast<std::ptrdiff_t>(i));
+            return static_cast<int>(i);
+        }
+    }
+    return -1;
+}
+
+// 0x62e204 _ZN6glitch7collada20CDynamicAnimationSet33overwriteAnimationLibraryBindingsERKNS0_16CColladaDatabaseEj
+// A library inside the list is replaced by the given one (the new handle takes a use, the old one loses its own); its start, end and length
+// come from the new file's animation range; and the library's bindings (animatedTrackCount of them from index * animatedTrackCount) are
+// refilled: kind 2 + the blendable animation when the new file has one for the owned channel, else kind 1; the default value is the
+// file's, else the default library's (when it has a record), else none.
+void CDynamicAnimationSet::overwriteAnimationLibraryBindings(const CColladaDatabase& database, unsigned index) {
+    if (index >= databases.size()) {
+        return;
+    }
+    CColladaDatabase previous = databases[index];
+    copyDatabase(databases[index], database);
+    dropDatabase(previous);
+    const SDatabaseTables& tables = database.tables();
+    starts[index] = static_cast<std::int32_t>(tables.animationRange.start);
+    ends[index] = static_cast<std::int32_t>(tables.animationRange.end);
+    lengths[index] = ends[index] - starts[index];
+    const std::size_t first = static_cast<std::size_t>(index) * animatedTrackCount;
+    for (std::uint32_t i = 0; i < animatedTrackCount; ++i) {
+        const SChannel* channel = &ownedChannels[i];
+        SBinding& binding = bindings[first + i];
+        SAnimation* blendable = database.getBlendableAnimation(channel);
+        void* defaultValue = nullptr;
+        const bool hasDefault = database.getDefaultValue(channel, &defaultValue);
+        binding.defaultValue = defaultValue;
+        binding.kind = blendable != nullptr ? 2u : 1u;
+        binding.animation = blendable;
+        if (!hasDefault) {
+            void* fallback = nullptr;
+            binding.defaultValue = defaultLibrary.record != nullptr && defaultLibrary.getDefaultValue(channel, &fallback) ? fallback : nullptr;
+        }
+    }
+}
+
+// 0x62e3f8 _ZN6glitch7collada20CDynamicAnimationSet33overwriteAnimationLibraryBindingsERKNS0_16CColladaDatabaseERS2_
+// The same for the library that has `library`'s record (-1 as an unsigned index changes nothing).
+void CDynamicAnimationSet::overwriteAnimationLibraryBindings(const CColladaDatabase& database, CColladaDatabase& library) {
+    overwriteAnimationLibraryBindings(database, static_cast<unsigned>(getDatabaseIndex(library)));
+}
+
+// 0x62fa44 _ZN6glitch7collada20CDynamicAnimationSet27remAnimationLibraryBindingsEj
+// The library's bindings (animatedTrackCount of them from index * animatedTrackCount) and its database handle are removed; the start, end and
+// length lists are left as they are.
+void CDynamicAnimationSet::remAnimationLibraryBindings(unsigned index) {
+    if (index >= databases.size()) {
+        return;
+    }
+    const std::size_t first = static_cast<std::size_t>(index) * animatedTrackCount;
+    const std::size_t last = first + animatedTrackCount;
+    if (first != last) {
+        bindings.erase(bindings.begin() + static_cast<std::ptrdiff_t>(first), bindings.begin() + static_cast<std::ptrdiff_t>(last));
+    }
+    dropDatabase(databases[index]);
+    databases.erase(databases.begin() + static_cast<std::ptrdiff_t>(index));
+}
+
+// 0x62fb10 _ZN6glitch7collada20CDynamicAnimationSet27remAnimationLibraryBindingsERNS0_16CColladaDatabaseE
+void CDynamicAnimationSet::remAnimationLibraryBindings(CColladaDatabase& library) {
+    remAnimationLibraryBindings(static_cast<unsigned>(getDatabaseIndex(library)));
+}
+
+// 0x62fb2c _ZN6glitch7collada20CDynamicAnimationSet19remAnimationLibraryEj
+// A library inside the list is removed (its handle loses its use) and the set is marked for recompilation.
+void CDynamicAnimationSet::remAnimationLibrary(unsigned index) {
+    if (index < databases.size()) {
+        dropDatabase(databases[index]);
+        databases.erase(databases.begin() + static_cast<std::ptrdiff_t>(index));
+        dirty = true;
+    }
+}
+
+// 0x62fb6c _ZN6glitch7collada20CDynamicAnimationSet19remAnimationLibraryERNS0_16CColladaDatabaseE (vptr+0x30)
+void CDynamicAnimationSet::remAnimationLibrary(CColladaDatabase& library) {
+    remAnimationLibrary(static_cast<unsigned>(getDatabaseIndex(library)));
+}
+
 // 0x62f354 _ZN6glitch7collada20CDynamicAnimationSet12addAnimationEPKNS0_10SAnimationE
 // As CAnimationSet::addAnimation, over the owned channels (copied by value) and with the negative-type rejection: when the
 // owned channel list is non-empty and (int)channel.type < 0 the original returns -1 before searching. Verified against the
 // decompilation; the channel match is the same shared shape.
-// PARTIAL: same single missing callee as CAnimationSet::addAnimation - CColladaDatabase::getAnimationTrackEx (0x611ae0),
-// the 91-case target-class dispatcher. The port reads the track the loader cached at SAnimation +0x14 (see the long note on
-// CAnimationSet::addAnimation for why that word is the same pointer once postLoadProcess has run).
 int CDynamicAnimationSet::addAnimation(const SAnimation* animation) {
     const SChannel& channel = *animation->channels;
     if (!ownedChannels.empty() && static_cast<std::int32_t>(channel.type) < 0) {
@@ -640,7 +739,7 @@ int CDynamicAnimationSet::addAnimation(const SAnimation* animation) {
     if (match >= 0) {
         return match;
     }
-    const auto* track = static_cast<const CAnimationTrackEx*>(animation->trackEx);
+    const auto* track = static_cast<const CAnimationTrackEx*>(CColladaDatabase::getAnimationTrackEx(animation));
     if (track == nullptr) {
         return -1;
     }

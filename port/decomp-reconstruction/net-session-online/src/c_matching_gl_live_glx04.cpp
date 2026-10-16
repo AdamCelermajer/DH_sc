@@ -39,19 +39,23 @@ bool SignInLoggedIn() {
 }  // namespace
 
 // 0x81bcd4 _ZN15CMatchingGLLive17SetGLLivePasswordEPKc
-// Partial: the original returns the strlen result when the password is too long.
+// Copies the password into the 16-byte buffer at +0x6bf2 when it is at most 15 characters and returns the strcpy result.
+// A longer one is not copied and the function returns the strlen value in the return register (an integer; the return type
+// is char*, so the length is returned as the address bits, as the listing leaves it).
 char* CMatchingGLLive::SetGLLivePassword(const char* password) {
-    if (std::strlen(password) > kLoginNameMaxLength) {
-        return nullptr;
+    const std::size_t length = std::strlen(password);
+    if (length > kLoginNameMaxLength) {
+        return reinterpret_cast<char*>(length);
     }
     return std::strcpy(password_, password);
 }
 
 // 0x81bd08 _ZN15CMatchingGLLive17SetGLLiveUserNameEPKc
-// Partial: same return convention as SetGLLivePassword.
+// Same rule as SetGLLivePassword, for the user name at +0x6be1.
 char* CMatchingGLLive::SetGLLiveUserName(const char* userName) {
-    if (std::strlen(userName) > kLoginNameMaxLength) {
-        return nullptr;
+    const std::size_t length = std::strlen(userName);
+    if (length > kLoginNameMaxLength) {
+        return reinterpret_cast<char*>(length);
     }
     return std::strcpy(userName_, userName);
 }
@@ -153,7 +157,7 @@ CMatchingGLLiveFriendObserver* CMatchingGLLive::GetGLXPlayerUserFriendObserver()
 }
 
 // 0x81c410 _ZN15CMatchingGLLive27GetGLXPlayerMPLobbyObserverEv
-CMatchingGLLiveLobbyObserver* CMatchingGLLive::GetGLXPlayerMPLobbyObserver() const {
+CMatchingGLLiveLobbyObserver* CMatchingGLLive::GetGLXPlayerMPLobbyObserver() {
     if (s_GLXPlayerMPLobbyObserver == nullptr) {
         s_GLXPlayerMPLobbyObserver = new CMatchingGLLiveLobbyObserver();
     }

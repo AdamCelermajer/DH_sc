@@ -391,7 +391,7 @@ float GetLevelScaledXP(float xp, Character* other, Character* self) {
     const std::int32_t selfLevel = self->GetLevel();
     const std::int32_t levelDiff = selfLevel - other->GetLevel();
     const float percent =
-        cf_calc::LevelScaledPercent(levelDiff, design->m_w39, design->m_w35, design->m_w36, design->m_w38, design->m_w37);
+        cf_calc::LevelScaledPercent(levelDiff, design->XP_LevelScaleMaxLevelDiff, design->XP_LevelBonusScaleFactorPerLevelPct, design->XP_LevelMalusScaleFactorPerLevelPct, design->XP_LevelScaleFactorMinPct, design->XP_LevelScaleFactorMaxPct);
     // The original calls DebugSwitches::load and GetSwitch("isTracingXPDistribution") and drops the result. The
     // lookup has no other effect; GetInstance loads the switch file on first use (0x330740).
     (void)DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingXPDistribution"));

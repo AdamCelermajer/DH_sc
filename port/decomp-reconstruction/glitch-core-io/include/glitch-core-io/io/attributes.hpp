@@ -14,10 +14,11 @@
 namespace glitch::io {
 
 namespace detail {
-// Zeroed 16 values with the diagonal set to 1, as the original fills it.
+// Zeroed 16 values with the diagonal set to 1 and the identity flag (+0x40) set, as the original fills it (0x326588).
 inline glitch::core::CMatrix4<float> identityMatrix() {
     glitch::core::CMatrix4<float> m{};
     m.M[0] = m.M[5] = m.M[10] = m.M[15] = 1.f;
+    m.flag = true;
     return m;
 }
 }  // namespace detail
@@ -66,7 +67,9 @@ public:
     virtual glitch::core::plane3d<float> getPlane() const { return {{0.f, 1.f, 0.f}, -0.f}; }  // +0x074 0x31d7dc
     virtual boost::intrusive_ptr<glitch::video::ITexture> getTexture() const;  // +0x078 0x31d7fc (+0x78)
     virtual boost::intrusive_ptr<glitch::video::CLight> getLight() const;  // +0x07c 0x31d808 (+0x7c)
-    virtual int getEnum() const { return 0; }  // +0x080
+    // +0x080, 0x31d814: the current literal of an enumeration (CEnumAttribute returns the data pointer of its value
+    // string); the base has none.
+    virtual const char* getEnum() const { return nullptr; }  // +0x080
     virtual void* getUserPointer() const { return nullptr; }  // +0x084 0x31d81c
     virtual void setInt(int) {}  // +0x088
     virtual void setFloat(float) {}  // +0x08c
@@ -135,10 +138,14 @@ public:
 
     // +0x08: the root group, embedded as in the original. Its attribute vector is at +0x28.
     SContext root{""};
-    // +0x44: current group. The original also keeps +0x48 = &group->attributes; that
-    // pointer is not stored here, the accessor below returns the same vector.
+    // +0x44: current group. The original also keeps +0x48 = &group->attributes; the accessor below returns the same vector. The word
+    // is kept (null) so that the object has the original's size: nothing reads it here.
     SContext* group = &root;
+    std::vector<IAttribute*>* groupAttributes = nullptr;         // +0x48
     // +0x4c..+0x54 are three words the constructor zeroes; their role is not recovered.
+    std::uint32_t unk_4c = 0;                                    // +0x4c
+    std::uint32_t unk_50 = 0;                                    // +0x50
+    std::uint32_t unk_54 = 0;                                    // +0x54
     glitch::video::IVideoDriver* driver = nullptr;               // +0x58
 
     std::vector<IAttribute*>& currentAttributes() { return group->attributes; }
@@ -150,8 +157,8 @@ public:
     bool getBool(int index) const override;                    // 0x5608a0
     int getInt(int index) const override;                      // 0x5608dc
     float getFloat(int index) const override;                  // 0x560918
-    int getEnum(int index) const override;                     // 0x560d1c
-    // 0x561f04: PARTIAL. The index of the first choice equal to the attribute's text, or -1.
+    const char* getEnum(int index) const override;             // 0x560d1c: the attribute's +0x80 result, null for no attribute
+    // 0x561f04: the index of the first choice equal (strcmp) to the attribute's +0x80 text, or -1.
     int getEnum(int index, const char* const* choices) const override;
     void getBinaryData(int index, void* data, int size) const override;  // 0x560ce4
 
@@ -277,7 +284,7 @@ public:
     void addTexture(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value, bool flag) override;
     // 0x560d58: an enumeration with the empty value, then the index set on the new attribute.
     void addEnum(const char* name, int value, const char* const* choices, bool flag) override;
-    // 0x568580: PARTIAL, the enumeration's literal table is not recovered (see CEnumAttribute).
+    // 0x568580: appends a new CEnumAttribute(name, value, choices, flag).
     void addEnum(const char* name, const char* value, const char* const* choices, bool flag) override;
     // 0x56a8b4: PARTIAL. The array is passed to CStringWArrayAttribute, whose constructor does
     // not keep it (see that class).
@@ -337,9 +344,8 @@ public:
     bool getBool(const char* name) const override;                  // 0x562888
     int getInt(const char* name) const override;                    // 0x562860
     float getFloat(const char* name) const override;                // 0x562838
-    int getEnum(const char* name) const override;                   // 0x5624c4
-    // 0x562458: PARTIAL. The original compares the text returned by the attribute's +0x80 slot; the
-    // port labels that slot getEnum, so the attribute's getString is compared instead.
+    const char* getEnum(const char* name) const override;           // 0x5624c4: the attribute's +0x80 result, null for none
+    // 0x562458: the index of the first choice equal (strcmp) to the attribute's +0x80 text, or -1.
     int getEnum(const char* name, const char* const* choices) const override;
     void getBinaryData(const char* name, void* data, int size) const override;  // 0x5624ec
     glitch::video::SColorf getColorf(const char* name) const override;     // 0x562768

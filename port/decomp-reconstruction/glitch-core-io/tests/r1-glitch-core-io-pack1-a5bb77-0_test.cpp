@@ -89,34 +89,34 @@ using CharReader = glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>;
 }  // namespace
 
 int main() {
-    // scanLocalHeader through the constructor: 56-byte names, offsets and sizes, lower-cased paths (flagA),
-    // extra = text up to and including the last '/', name = whole path (flagB clear), entries sorted by name.
+    // scanLocalHeader through the constructor: 56-byte names, offsets and sizes, lower-cased paths (ignoreCase),
+    // path = text up to and including the last '/', simpleFileName = whole path (ignorePaths clear), entries sorted by name.
     {
         MemFile file(makePak('P', 'A', {{"data/UI/Icon.PNG", 0x200, 42}, {"A/b.txt", 0x300, 7}}));
         CPakReader reader(&file, true, false);
         CHECK(reader.getFileCount() == 2);
         CHECK(reader.directoryOffset == 12 && reader.directorySize == 128);
         CHECK(reader.header[0] == 'P' && reader.header[2] == 'K');
-        CHECK(reader.entries[0].path == "a/b.txt");
-        CHECK(reader.entries[0].offset == 0x300 && reader.entries[0].size == 7);
-        CHECK(reader.entries[0].extra == "a/");
-        CHECK(reader.entries[0].name == "a/b.txt");
-        CHECK(reader.entries[1].path == "data/ui/icon.png");
-        CHECK(reader.entries[1].offset == 0x200 && reader.entries[1].size == 42);
-        CHECK(reader.entries[1].extra == "data/ui/");
+        CHECK(reader.entries[0].pakFileName == "a/b.txt");
+        CHECK(reader.entries[0].pos == 0x300 && reader.entries[0].length == 7);
+        CHECK(reader.entries[0].path == "a/");
+        CHECK(reader.entries[0].simpleFileName == "a/b.txt");
+        CHECK(reader.entries[1].pakFileName == "data/ui/icon.png");
+        CHECK(reader.entries[1].pos == 0x200 && reader.entries[1].length == 42);
+        CHECK(reader.entries[1].path == "data/ui/");
         CHECK(reader.findFile("DATA/UI/ICON.PNG") == 1);
         CHECK(reader.findFile("a/b.txt") == 0);
         CHECK(reader.findFile("missing") == -1);
     }
 
-    // flagB set (and flagA clear): name is the file name after the last '/'.
+    // ignorePaths set (and ignoreCase clear): simpleFileName is the file name after the last '/'.
     {
         MemFile file(makePak('P', 'A', {{"data/UI/Icon.PNG", 0x200, 42}}));
         CPakReader reader(&file, false, true);
         CHECK(reader.getFileCount() == 1);
-        CHECK(reader.entries[0].path == "data/UI/Icon.PNG");
-        CHECK(reader.entries[0].name == "Icon.PNG");
-        CHECK(reader.entries[0].extra == "data/UI/");
+        CHECK(reader.entries[0].pakFileName == "data/UI/Icon.PNG");
+        CHECK(reader.entries[0].simpleFileName == "Icon.PNG");
+        CHECK(reader.entries[0].path == "data/UI/");
         CHECK(reader.findFile("Icon.PNG") == 0);
         // findFile cuts the key to its base name too (deletePathFromFilename after the flagA step):
         // a full path finds the entry, and a different base name does not.
@@ -130,7 +130,7 @@ int main() {
         MemFile file(makePak('P', 'A', {{"data/UI/Icon.PNG", 0x200, 42}}));
         CPakReader reader(&file, true, true);
         CHECK(reader.getFileCount() == 1);
-        CHECK(reader.entries[0].name == "icon.png");
+        CHECK(reader.entries[0].simpleFileName == "icon.png");
         CHECK(reader.findFile("DATA/UI/ICON.PNG") == 0);
     }
 
@@ -178,41 +178,41 @@ int main() {
         CHECK(s.empty());
     }
 
-    // extractFilename: only '/' splits; a leading '/' or no '/' leaves extra empty and name the whole path.
+    // extractFilename: only '/' splits; a leading '/' or no '/' leaves path empty and simpleFileName the whole path.
     {
         CPakReader plain;
         SPakFileEntry e;
-        e.path = "dir/sub/file.TXT";
+        e.pakFileName = "dir/sub/file.TXT";
         plain.extractFilename(&e);
-        CHECK(e.extra == "dir/sub/");
-        CHECK(e.name == "dir/sub/file.TXT");
+        CHECK(e.path == "dir/sub/");
+        CHECK(e.simpleFileName == "dir/sub/file.TXT");
 
         SPakFileEntry leading;
-        leading.path = "/root.txt";
+        leading.pakFileName = "/root.txt";
         plain.extractFilename(&leading);
-        CHECK(leading.extra.empty());
-        CHECK(leading.name == "/root.txt");
+        CHECK(leading.path.empty());
+        CHECK(leading.simpleFileName == "/root.txt");
 
         SPakFileEntry backslash;
-        backslash.path = "a\\b";
+        backslash.pakFileName = "a\\b";
         plain.extractFilename(&backslash);
-        CHECK(backslash.extra.empty());
-        CHECK(backslash.name == "a\\b");
+        CHECK(backslash.path.empty());
+        CHECK(backslash.simpleFileName == "a\\b");
 
         CPakReader fileNameOnly(nullptr, false, true);
         SPakFileEntry f;
-        f.path = "dir/sub/file.TXT";
+        f.pakFileName = "dir/sub/file.TXT";
         fileNameOnly.extractFilename(&f);
-        CHECK(f.name == "file.TXT");
-        CHECK(f.extra == "dir/sub/");
+        CHECK(f.simpleFileName == "file.TXT");
+        CHECK(f.path == "dir/sub/");
 
         CPakReader lower(nullptr, true, false);
         SPakFileEntry g;
-        g.path = "Dir/File.TXT";
+        g.pakFileName = "Dir/File.TXT";
         lower.extractFilename(&g);
-        CHECK(g.path == "dir/file.txt");
-        CHECK(g.extra == "dir/");
-        CHECK(g.name == "dir/file.txt");
+        CHECK(g.pakFileName == "dir/file.txt");
+        CHECK(g.path == "dir/");
+        CHECK(g.simpleFileName == "dir/file.txt");
     }
 
     // parseOpeningXMLElement: name, attributes in order (quoted values, spaces around '='), and the

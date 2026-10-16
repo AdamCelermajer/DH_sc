@@ -12,9 +12,9 @@
 // postCompile 0x57ef64 advances the next batch's firstIndex by that count (invalidateVisibleIndexCache 0x57eca8 does the
 // same for the index-data base). On this 64-bit host an SSegment* is 8 bytes, so an array of `count` entries spans 2 * count
 // words while the offsets still advance one word per entry: two batches whose arrays are both non-empty therefore overlap.
-// The port keeps the original's word offsets and uses the host pointer width for the elements (visibleSegment below); the
-// open decision - whether to double the offsets, to store word indices instead of pointers, or to keep the pointers in a
-// separate host-width array - is recorded in TRACK-B-HANDOVER.md (question 1) and is not exercised by the tests.
+// DECISION (option (a) of TRACK-B-HANDOVER.md question 1): the offsets advance kEntryWords (== 2) words per entry. postCompile
+// allocates recordWords + kEntryWords * segments words, hands batch i the word offset `firstIndex` and advances it by
+// kEntryWords * its segment count, so the listing's `block + 4 * firstIndex` addressing is kept and the lists cannot overlap.
 #include "glitch-scene-collada-gui/scene/CBatchSceneNode.hpp"
 
 #include <cstring>
@@ -24,8 +24,15 @@
 #include "glitch-core-io/os/logging.hpp"  // glitch::os::Timer::TickCount (updateInfo)
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"  // registerNodeForRendering (vptr+0x24, 0x58f348)
+#include "glitch-core-io/core/process_buffer.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
 #include "glitch-video/buffer.hpp"
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
+#include "glitch-video/primitive_stream.hpp"
+#include "glitch-video/video_driver.hpp"
 
 // CMaterial comes from the core-io stub that io/interfaces.hpp (through ISceneNode.hpp) declares; glitch-video/material.hpp
 // cannot be included here until that stub is replaced.
@@ -145,23 +152,107 @@ void CBatchSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAt
 }
 
 // 0x57f4b8 _ZN6glitch5scene15CBatchSceneNode19onRegisterSceneNodeEv
-// PARTIAL: the 588-byte body reaches the CBatchMesh batch and segment records (initStaticSegmentBoundingBoxes, the frustum
-// intersectors, addVisibleSegments) and the sorted batch order; only the base registration result is returned here. The
-// visible-entry layout is no longer the blocker - it is mapped above.
+// Does nothing unless the node is visible (flags bit 0). preRegisterSceneNode (vptr+0x104) runs, then clearVisibleSegments gives the
+// batch count; a node the manager culls (isCulled) is not registered at all. Otherwise the manager's culling switch is saved and,
+// when it was on, cleared for the duration (the segment test below does its own culling); the culling mode is then the node's
+// segment mode (+0x138) and the camera the manager's active one, with the switch off both are zero. Per batch, by the mode:
+//   0 / 4 (and any value not listed): with the visible-index cache off the batch's record count becomes its segment count (every
+//     segment counts as visible, mode 0/4 only); with the cache on addVisibleSegments<SUniverseIntersector> collects the segments;
+//   1: SBoxIntersector over the camera frustum's box; 2: SFrustumBoxIntersector over its planes; 8: SFrustumBoxIntersector3;
+//   any other mode leaves the record alone.
+// Then: with the register-once flag (+0x148) set, updateInfo(0, solid batch count) decides whether the node files itself once with
+// the scene manager (no material, user data 0, pass 3 = ESNRP_AUTOMATIC, sort order 0x7FFFFFFF); with it clear registerSolidBatches
+// does the filing per batch. registerTransparentBatches always runs. The manager's culling switch is restored. Returns 1.
 int CBatchSceneNode::onRegisterSceneNode() {
-    return ISceneNode::onRegisterSceneNode();
+    if ((flags & ESNF_VISIBLE) != 0) {
+        preRegisterSceneNode();
+        const std::int32_t batchCount = clearVisibleSegments();
+        if (!sceneManager->isCulled(this)) {
+            const bool cullingWasOn = sceneManager->cullingEnabled;
+            std::uint32_t mode;
+            ICameraSceneNode* camera = nullptr;
+            if (cullingWasOn) {
+                mode = unk_138;
+                sceneManager->cullingEnabled = false;
+                camera = sceneManager->activeCamera;
+            } else {
+                mode = 0;
+            }
+            for (std::int32_t batch = 0; batch < batchCount; ++batch) {
+                switch (mode) {
+                    case 0:
+                    case 4:
+                        if (!visibleIndexCacheOn) {
+                            visibleEntry(static_cast<std::uint32_t>(batch))->count =
+                                static_cast<std::uint16_t>(mesh->batches[batch].endSegmentInfo - mesh->batches[batch].firstSegmentInfo);
+                        } else {
+                            addVisibleSegments(static_cast<std::uint32_t>(batch), SUniverseIntersector{});
+                        }
+                        break;
+                    case 1:
+                        addVisibleSegments(static_cast<std::uint32_t>(batch), SBoxIntersector{&camera->getViewFrustum()->box});
+                        break;
+                    case 2:
+                        addVisibleSegments(static_cast<std::uint32_t>(batch), SFrustumBoxIntersector{camera->getViewFrustum()});
+                        break;
+                    case 8:
+                        addVisibleSegments(static_cast<std::uint32_t>(batch), SFrustumBoxIntersector3{camera->getViewFrustum()});
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (flag148) {
+                const std::uint32_t solid = static_cast<std::uint32_t>(unk_144);
+                if (solid != 0 && updateInfo(0, solid) != 0) {
+                    const boost::intrusive_ptr<video::CMaterial> noMaterial;
+                    sceneManager->registerNodeForRendering(this, noMaterial, nullptr, ESNRP_AUTOMATIC, nullptr, 0x7FFFFFFF);
+                }
+            } else {
+                registerSolidBatches();
+            }
+            registerTransparentBatches();
+            if (cullingWasOn) {
+                sceneManager->cullingEnabled = true;
+            }
+        }
+    }
+    return 1;
 }
 
 // 0x5808ac _ZN6glitch5scene15CBatchSceneNode6renderEPv
-// The argument is a packed dispatch word, not a context: the low 16 bits are (batch index + 1), the high 16 bits are the index
-// of a segment inside the transparent batch. With a driver: setTransform(1, the absolute matrix), then, when the driver has
-// 0x100 in its option flags, setState(256, false) and the transparent path - a word >= 0x10000 draws that one transparent
-// segment, else it draws solid batch (word - 1); without the flag the same dispatch happens after the option test. With a
-// zero/absent batch index and a batch count above zero it draws the solid batches [index, unk_144) and flushes the
-// transparent queue, and it restores setState(256, true) when the driver option was set. PARTIAL: IVideoDriver in the port
-// has no setState (+0xa0) and no option accessor; the mesh is not drawn here.
+// The argument is a packed dispatch word, not a context: the low 16 bits are (batch index + 1) for a solid batch / the batch index for
+// a transparent segment, the high 16 bits are the segment's position inside the transparent batch plus one. With a driver
+// (manager +0x14): setTransform(1, the absolute matrix); when the driver has option bit 8 (256) it is switched off for the draw
+// (setOption(256, false)) and back on at the end. A word >= 0x10000 draws that one transparent segment (the segment record
+// batches[word & 0xffff].firstSegmentInfo - 1 + (word >> 16)); any other non-zero word draws solid batch (word - 1); a zero word draws the
+// solid batches [0, solid batch count).
 void CBatchSceneNode::render(void* renderContext) {
-    (void)renderContext;
+    video::IVideoDriver* driver = sceneManager->driver;
+    if (driver == nullptr) {
+        return;
+    }
+    std::uint32_t word = static_cast<std::uint32_t>(reinterpret_cast<std::uintptr_t>(renderContext));
+    driver->setTransform(1, absoluteTransform);
+    const bool optionOn = ((driver->getOptionFlags() >> 8) & 1u) != 0;
+    if (optionOn) {
+        driver->setOption(256, false);
+    }
+    if (word != 0) {
+        if (word >= 0x10000u) {
+            const CBatchMesh::SBatch& batch = mesh->batches[static_cast<std::uint16_t>(word)];
+            renderTransparentSegment(driver, *mesh->segmentAt(static_cast<std::size_t>(batch.firstSegmentInfo) - 1u + (word >> 16)));
+        } else {
+            renderSolidBatch(driver, word - 1u);
+        }
+    } else if (unk_144 != 0) {
+        do {
+            renderSolidBatch(driver, word++);
+        } while (static_cast<std::uint32_t>(unk_144) > word);
+    }
+    if (optionOn) {
+        driver->setOption(256, true);
+    }
 }
 
 // 0x57e538 _ZNK6glitch5scene15CBatchSceneNode14getBoundingBoxEv
@@ -207,14 +298,13 @@ boost::intrusive_ptr<IMesh> CBatchSceneNode::getMesh() const {
 // CBatchMesh::sort(driver) is stored into both +0x15c and +0x144, then CBatchMesh::updateBoundingBox(),
 // CBatchMesh::initStaticSegmentBoundingBoxes() and the mesh's vtable +0x3c (CBatchMesh::init) run; with `flag` false the
 // vtable +0x100 slot (CBatchSceneNode::postCompile) is dispatched, which is the cache set-up.
-// PARTIAL: CBatchMesh::sort (0x57c19c) and initStaticSegmentBoundingBoxes (0x57b174) have no body in the port, so the two
-// stores and the postCompile dispatch that depend on sort's answer are not written. updateBoundingBox and the mesh's init are
-// called here (both are empty/reconstructed in the port).
-void CBatchSceneNode::setup(bool flag, video::IVideoDriver* /*driver*/) {
-    if (mesh) {
-        mesh->updateBoundingBox();
-        mesh->init();
-    }
+void CBatchSceneNode::setup(bool flag, video::IVideoDriver* driver) {
+    const std::uint32_t solid = mesh->sort(driver);
+    unk_15c = static_cast<std::int32_t>(solid);
+    unk_144 = static_cast<std::int32_t>(solid);
+    mesh->updateBoundingBox();
+    mesh->initStaticSegmentBoundingBoxes();
+    mesh->init();
     if (!flag) {
         postCompile();
     }
@@ -269,8 +359,10 @@ void CBatchSceneNode::postCompile() {
     maxSolidIndices = 0;
     maxTransparentIndices = 0;
 
-    const std::uint32_t recordWords = 5u * batchCount;
-    visibleEntries = reinterpret_cast<SVisibleEntry*>(new std::uint32_t[recordWords + static_cast<std::size_t>(totalSegments)]);
+    // The record array is padded to an even word count so that the host-width pointer lists that follow it are 8-byte aligned.
+    const std::uint32_t recordWords = (5u * batchCount + 1u) & ~1u;
+    visibleEntries = reinterpret_cast<SVisibleEntry*>(
+        new std::uint32_t[recordWords + static_cast<std::size_t>(kEntryWords) * totalSegments]());
     std::uint32_t running = recordWords;
     for (std::uint32_t index = 0; index < batchCount; ++index) {
         SVisibleEntry& entry = visibleEntries[index];
@@ -280,7 +372,7 @@ void CBatchSceneNode::postCompile() {
         entry.flags = 1;
         entry.firstIndex = running;
         const CBatchMesh::SBatch& batch = mesh->batches[index];
-        running += static_cast<std::uint32_t>(batch.endSegmentInfo) - batch.firstSegmentInfo;
+        running += kEntryWords * (static_cast<std::uint32_t>(batch.endSegmentInfo) - batch.firstSegmentInfo);
 
         const boost::intrusive_ptr<video::CMaterial> material = mesh->getMaterial(index);
         const boost::intrusive_ptr<video::CMaterialVertexAttributeMap> attributeMap =
@@ -515,29 +607,29 @@ void CBatchSceneNode::registerSolidBatches() {
 }
 
 // 0x57ea70 _ZN6glitch5scene15CBatchSceneNode25registerTransparentBatchesEv
-// PARTIAL, and the recorded blocker is replaced by the two items that really are missing. Verified against the listing
-// 0x57ea70 and Hex-Rays 0x57ea70: the loop is the transparent batches [the solid batch count at +0x144, the mesh's buffer
-// count) - asm 0x57ea88 `LDR R7,[R0,#0x144]` and the bound built from the mesh's +0x20 / +0x24 words. Per batch it loads the
-// 20-byte visible-entry record from +0x158 and reads its count word as the length of the SSegment* array at
-// `block + 4 * record[+0x10]` (asm 0x57eadc-0x57eaf4, the same arithmetic computeMaxIndices and updateIndices use). Per
-// segment it (1) calls CBatchMesh::getSegmentCenter 0x57e90c as `getSegmentCenter(&centre, mesh, segment[+0x04])` (asm
-// 0x57eb14-0x57eb20) and (2) files the batch with the scene manager: the manager is the word at +0x110 (asm 0x57eb24),
-// which is ISceneNode::sceneManager, and the call is its vtable slot +0x24 (`LDR R11,[R12,#0x24]` with R12 = [R8];
-// `BLX R11`, 0x57eb40 / 0x57eb84), i.e. CSceneManager::registerNodeForRendering 0x58f348 - NOT a CBatchDriver compile call
-// (the word the notes called 0x97712c is an inherited IVideoDriver slot of the batch driver's vtable, while the object the
-// slot is read from here is node+0x110). The arguments are R0 = the manager (asm 0x57eb5c), R1 = this node (0x57eb50),
-// R2 = the material handle (0x57eb58, the vtable +0x18 call at 0x57eb48), R3 = `batch | ((segment[+0x22] + 1) << 16)` (asm
-// 0x57eb4c-0x57eb7c, +0x22 read as a signed halfword), then the stack words 8 (0x57eb64 = ESNRP_TRANSPARENT), the centre
-// (0x57eb70) and the sign-extended segment[+0x22] (0x57eb74/0x57eb80). Then the batch's record count is zeroed and its tick
-// is stamped with os::Timer::TickCount (asm 0x57ebb0-0x57ebd4).
-// MISSING, named exactly: (1) the material handle in R2 at the call - the listing reaches it through the segment's own
-// stream table, `(*segment)[+0x04]` indexing `*(meshBuffer + 0x14)` and then a vtable +0x18 material call (asm
-// 0x57eb4c-0x57eb58); neither SSegment +0x04 / +0x22 nor the stream table at CMeshBuffer +0x14 is mapped in the port
-// (CBatchMesh::SSegment declares them as unrecovered padding), and the port's CBatchMesh::getSegmentCenter is
-// declared-only, so writing the body now would both invent a field meaning and add an undefined symbol the link does not
-// have; (2) CBatchMesh::getSegmentCenter 0x57e90c has no body in the port (its own ledger row lists the same unmapped
-// SSegment bytes). Unlike registerSolidBatches, nothing here can be written from mapped members alone.
-void CBatchSceneNode::registerTransparentBatches() {}
+// For every transparent batch [the solid batch count at +0x144 (the transparent base), the mesh's buffer count): each visible
+// SSegment* of the batch's list is filed with the scene manager (vptr+0x24, registerNodeForRendering 0x58f348) as a transparent-pass
+// entry: node = this, material = the batch's material, user data = `batch | ((info.index + 1) << 16)` (info = the segment's
+// SSegmentInfo; render 0x5808ac unpacks it), pass 8 = ESNRP_TRANSPARENT, position = CBatchMesh::getSegmentCenter(segment.infoIndex)
+// and sort order = the segment's priority (signed halfword +0x22). Afterwards the batch's visible count is cleared and its tick
+// stamped with os::Timer::TickCount.
+void CBatchSceneNode::registerTransparentBatches() {
+    const std::uint32_t batchCount = mesh->getMeshBufferCount();
+    for (std::uint32_t batch = static_cast<std::uint32_t>(unk_144); batch < batchCount; ++batch) {
+        SVisibleEntry* entry = visibleEntry(batch);
+        const std::uint32_t count = static_cast<std::uint32_t>(entry->count);
+        for (std::uint32_t k = 0; k < count; ++k) {
+            CBatchMesh::SSegment* segment = visibleSegment(batch, k);
+            const core::vector3d<float> centre = mesh->getSegmentCenter(reinterpret_cast<void*>(static_cast<std::uintptr_t>(segment->infoIndex)));
+            const boost::intrusive_ptr<video::CMaterial> material = mesh->getMaterial(batch);
+            const std::uint32_t packed = batch | (static_cast<std::uint32_t>((*segment->infos)[segment->infoIndex].index + 1) << 16);
+            sceneManager->registerNodeForRendering(this, material, reinterpret_cast<void*>(static_cast<std::uintptr_t>(packed)),
+                                                   ESNRP_TRANSPARENT, &centre, static_cast<std::int32_t>(segment->priority));
+        }
+        entry->count = 0;
+        entry->tick = os::Timer::TickCount;
+    }
+}
 
 // 0x57ebec _ZN6glitch5scene15CBatchSceneNode26invalidateVisibleIndexCacheEj
 // With the cache off (+0x150 byte) nothing happens. With batch == -1: takes the batch count, sums every batch's INDEX count
@@ -584,55 +676,228 @@ void CBatchSceneNode::invalidateVisibleIndexCache(std::uint32_t batch) {
 }
 
 // 0x57f21c _ZN6glitch5scene15CBatchSceneNode16renderBatchBBoxesEPNS_5video12IVideoDriverEj
-// Takes the driver's material renderer manager (+0xdc), creates the renderer of its material when its type word (+0x2c of the
-// manager) is 0xffff, gets that renderer's cached material instance and sets it on the driver (driver vtable +0x24) with the
-// renderer's technique, or technique 0xff for a null material. Then it draws the batch's visible segment boxes: the
-// SSegment* list of the entry, and for each segment the driver's draw3DBox (vtable +0x28) over the box at segment +0x0c
-// (the aabbox3d pointer of the segment) in green (0xFF00FF00).
-// PARTIAL: the renderer type word is at IVideoDriver +0x2c... the original reads the manager at +0xdc and its type word at
-// +0x2c; the port's CMaterialRendererManager declares neither that word nor createMaterialRenderer, and IVideoDriver exposes
-// no accessor for +0xdc. draw3DBox at the driver's vtable +0x28 is likewise absent.
+// The debug material of the driver: the renderer id of material type 0 (created when the manager has none: id 0xffff), its cached
+// instance (getMaterialInstance(id, false)); the material goes to the driver with its technique (255 for a null material) and
+// no attribute map. Then every visible SSegment* of the batch has its box drawn (draw3DBox) in green, 0xFF00FF00.
 void CBatchSceneNode::renderBatchBBoxes(video::IVideoDriver* driver, std::uint32_t batch) {
-    (void)driver;
-    (void)batch;
+    video::CMaterialRendererManager* manager = driver->m_materialRendererManager;
+    std::uint16_t rendererId = manager->m_materialTypeIds[0];
+    if (rendererId == 0xFFFFu) {
+        rendererId = manager->createMaterialRenderer(static_cast<video::E_MATERIAL_TYPE>(0));
+    }
+    const boost::intrusive_ptr<video::CMaterial> material = manager->getMaterialInstance(rendererId, false);
+    const std::uint8_t technique = material ? static_cast<std::uint8_t>(material->getTechnique()) : 255u;
+    driver->setMaterial(material, technique, nullptr);
+    const SVisibleEntry* entry = visibleEntry(batch);
+    for (std::int32_t k = 0; k < entry->count; ++k) {
+        driver->draw3DBox(*visibleSegment(batch, static_cast<std::uint32_t>(k))->box, video::SColor{0xFF00FF00u});
+    }
 }
 
+namespace {
+
+// The primitive stream the batch draws build on the stack: the given index buffer at offset 0 with `count` indices, and the vertex
+// range and the two type halfwords of the batch mesh buffer's own primitive stream.
+video::CPrimitiveStream batchPrimitives(const CMeshBuffer& meshBuffer, const boost::intrusive_ptr<video::IBuffer>& indices,
+                                        std::uint32_t count) {
+    video::CPrimitiveStream primitives;
+    primitives.m_indexBuffer = indices;
+    primitives.m_offset = 0;
+    primitives.m_count = count;
+    primitives.m_vertexStart = meshBuffer.primitiveStream.m_vertexStart;
+    primitives.m_vertexEnd = meshBuffer.primitiveStream.m_vertexEnd;
+    primitives.m_indexType = meshBuffer.primitiveStream.m_indexType;
+    primitives.m_primitiveType = meshBuffer.primitiveStream.m_primitiveType;
+    return primitives;
+}
+
+}  // namespace
+
 // 0x5800e8 _ZN6glitch5scene15CBatchSceneNode15renderSolidBatchEPNS_5video12IVideoDriverEj
-// Returns when the batch's visible-entry count is zero. Otherwise it takes the batch's vertex-attribute map (mesh vtable
-// +0x1c) and the batch's material (mesh vtable +0x18), then, with the cache on (+0x150), rebuilds the index buffer: the
-// cache block is handed to the driver's createBuffer as a 16-bit index buffer (type 1, usage 4, 2 * slot->count bytes at
-// cache + 2 * slot->base) and, when the entry's flags are set, updateIndices(batch, the new buffer, the batch mesh buffer's
-// index buffer) writes it and stores the returned index count in the slot head. With the cache off (or when both
-// maxSolidIndices (+0x13c) and computeMaxIndices(batch) are zero) it allocates a fresh process buffer, creates a buffer over
-// it and runs the same updateIndices. The material, the attribute map and the batch's stream table (mesh buffer +0x14) are
-// given to the driver (setMaterial, vtable +0x24 of the material) and the draw slot (vtable +0x1c of the driver, the
-// 3-argument draw) is issued; then the created buffer and the process buffer are released and the entry's count word is
-// restored into the batch's index word at +0x14 (record word 1).
-// PARTIAL: the driver's createBuffer, setMaterial and draw are declared-only in the port and the batch mesh buffer's index
-// buffer is not named there, so only the early-out is written. The cache/entry arithmetic this body would use is implemented
-// in invalidateVisibleIndexCache / updateIndices / computeMaxIndices.
+// Nothing is drawn for a batch whose visible count is zero. Otherwise, with the batch's mesh buffer and vertex-attribute map:
+//  - cache on (+0x150): the batch's cache slot {count, capacity, base} gives an index buffer over `cache + 2 * base` of
+//    2 * capacity bytes (createBuffer(type 1, usage 4, size, data, false)); when the record's flags are set updateIndices(batch,
+//    buffer, the mesh buffer's index buffer) refills it and its result is stored in slot.count; the draw count is slot.count;
+//  - cache off: the index count is maxSolidIndices (+0x13c), or computeMaxIndices(the transparent base +0x15c) when that is zero (the
+//    listing passes +0x15c, not the batch - kept); with a non-zero count a process buffer of 2 * count bytes backs a new index buffer
+//    that updateIndices fills, and its result is the draw count.
+// The material of the batch and the attribute map go to the driver (setMaterial), a primitive stream over that buffer with the
+// mesh buffer's vertex range and type halfwords is drawn with the mesh buffer's vertex streams (draw, no binding), the buffers
+// and the process buffer are released, and in every case the record's indexBase word is set to its count word.
 void CBatchSceneNode::renderSolidBatch(video::IVideoDriver* driver, std::uint32_t batch) {
-    (void)driver;
-    (void)batch;
+    SVisibleEntry* entry = visibleEntry(batch);
+    if (entry->count != 0) {
+        CMeshBuffer* meshBuffer = mesh->batches[batch].meshBuffer.get();
+        boost::intrusive_ptr<video::CMaterialVertexAttributeMap> attributeMap = mesh->getMaterialVertexAttributeMap(batch);
+        boost::intrusive_ptr<video::IBuffer> indexBuffer;
+        int* processBuffer = nullptr;
+        std::uint32_t drawCount = 0;
+        if (visibleIndexCacheOn) {
+            SCacheSlot* slot = cacheSlot(batch);
+            if (slot->capacity != 0) {
+                indexBuffer = driver->createBuffer(1, 4, 2u * static_cast<std::uint32_t>(slot->capacity),
+                                                   reinterpret_cast<std::uint8_t*>(visibleIndexCache) + 2u * slot->base, false);
+                if (entry->flags != 0) {
+                    slot->count = updateIndices(batch, indexBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get()));
+                }
+                drawCount = static_cast<std::uint32_t>(slot->count);
+            }
+        } else {
+            std::int32_t maxIndices = maxSolidIndices;
+            if (maxIndices == 0) {
+                maxIndices = computeMaxIndices(static_cast<std::uint32_t>(unk_15c));
+            }
+            if (maxIndices != 0) {
+                processBuffer = core::allocProcessBuffer(2 * maxIndices);
+                indexBuffer = driver->createBuffer(1, 4, 2u * static_cast<std::uint32_t>(maxIndices), processBuffer, false);
+                drawCount = static_cast<std::uint32_t>(
+                    updateIndices(batch, indexBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get())));
+            }
+        }
+        const video::CPrimitiveStream primitives = batchPrimitives(*meshBuffer, indexBuffer, drawCount);
+        driver->setMaterial(mesh->getMaterial(batch), boost::intrusive_ptr<const video::CMaterialVertexAttributeMap>(attributeMap.get()));
+        driver->draw(boost::intrusive_ptr<const video::CVertexStreams>(meshBuffer->vertexStreams.get()), primitives, nullptr);
+        if (processBuffer != nullptr) {
+            core::releaseProcessBuffer(processBuffer);
+        }
+    }
+    entry->indexBase = entry->count;
 }
 
 // 0x5804f0 _ZN6glitch5scene15CBatchSceneNode21flushTransparentBatchEPNS_5video12IVideoDriverE
-// Returns when the transparent batch's (index +0x15c) visible-entry count is zero. Otherwise it takes the batch's material
-// and attribute map, rebuilds the index buffer from the cache block when maxTransparentIndices (+0x140) is set (reusing the
-// buffer at +0x14c through IBuffer::reset, otherwise creating one), runs updateIndices on it, sets the material and draws the
-// batch's stream table, then zeroes the batch's entry count and releases the process buffer.
-// PARTIAL: as renderSolidBatch, the driver's createBuffer / setMaterial / draw and the batch mesh buffer's index buffer are
-// not available in the port.
+// The transparent batch is the one at +0x15c. Nothing happens when its visible count is zero. Otherwise, with the batch's mesh buffer
+// and attribute map: the index count is maxTransparentIndices (+0x140), or computeMaxIndices(+0x15c) when that is zero; with a count
+// of zero the record's count is cleared and the call ends. A process buffer of 2 * count bytes refills the node's index buffer
+// (+0x14c: IBuffer::reset over it when the node already has one, else createBuffer(1, 4, size, data, false)); updateIndices(+0x15c,
+// that buffer, the mesh buffer's index buffer) fills it and its result is the draw count; the material and attribute map go to the
+// driver, a primitive stream over the buffer is drawn with the mesh buffer's vertex streams, the record's count is cleared and the
+// process buffer is released.
 void CBatchSceneNode::flushTransparentBatch(video::IVideoDriver* driver) {
-    (void)driver;
+    const std::uint32_t batch = static_cast<std::uint32_t>(unk_15c);
+    SVisibleEntry* entry = visibleEntry(batch);
+    if (entry->count == 0) {
+        return;
+    }
+    CMeshBuffer* meshBuffer = mesh->batches[batch].meshBuffer.get();
+    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> attributeMap = mesh->getMaterialVertexAttributeMap(batch);
+    std::int32_t maxIndices = maxTransparentIndices;
+    if (maxIndices == 0) {
+        maxIndices = computeMaxIndices(static_cast<std::uint32_t>(unk_15c));
+    }
+    if (maxIndices == 0) {
+        entry->count = 0;
+        return;
+    }
+    const std::uint32_t bytes = 2u * static_cast<std::uint32_t>(maxIndices);
+    int* processBuffer = core::allocProcessBuffer(static_cast<int>(bytes));
+    if (dirtyBuffer) {
+        dirtyBuffer->reset(bytes, processBuffer, false);
+    } else {
+        dirtyBuffer = driver->createBuffer(1, 4, bytes, processBuffer, false);
+    }
+    const std::int32_t drawCount =
+        updateIndices(static_cast<std::uint32_t>(unk_15c), dirtyBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get()));
+    const video::CPrimitiveStream primitives = batchPrimitives(*meshBuffer, dirtyBuffer, static_cast<std::uint32_t>(drawCount));
+    driver->setMaterial(mesh->getMaterial(static_cast<std::uint32_t>(unk_15c)),
+                        boost::intrusive_ptr<const video::CMaterialVertexAttributeMap>(attributeMap.get()));
+    driver->draw(boost::intrusive_ptr<const video::CVertexStreams>(meshBuffer->vertexStreams.get()), primitives, nullptr);
+    entry->count = 0;
+    core::releaseProcessBuffer(processBuffer);
 }
 
 // 0x5807a0 _ZN6glitch5scene15CBatchSceneNode24renderTransparentSegmentEPNS_5video12IVideoDriverERNS0_10CBatchMesh8SSegmentE
-// Sets the segment's material and draws the segment's stream table for the transparent pass. It is called from render with
-// the segment the packed word selected. PARTIAL: the driver's draw entry point is not available in the port.
+// The segment's batch is the one its info entry names. When that batch's list is empty the pending batch is flushed first and
+// becomes the pending one (+0x15c := the batch). The record's flags get bit 0 when its tick differs from the segment's; the
+// segment is stamped with the current tick and appended to the batch's list. The pending batch is flushed again unless this node is
+// also the next node the manager renders (the following entry is a segment of the same node and will extend the list).
 void CBatchSceneNode::renderTransparentSegment(video::IVideoDriver* driver, CBatchMesh::SSegment& segment) {
-    (void)driver;
-    (void)segment;
+    const std::int32_t segmentBatch = (*segment.infos)[segment.infoIndex].batch;
+    SVisibleEntry* entry = visibleEntry(static_cast<std::uint32_t>(segmentBatch));
+    if (entry->count == 0) {
+        flushTransparentBatch(driver);
+        unk_15c = segmentBatch;
+        entry = visibleEntry(static_cast<std::uint32_t>(segmentBatch));
+    }
+    appendVisibleSegment(&segment);
+    if (reinterpret_cast<std::uintptr_t>(this) != sceneManager->getNextRenderedNode(nullptr, nullptr)) {
+        flushTransparentBatch(driver);
+    }
 }
+
+// Not in the original (the tail the four addVisibleSegments instances and renderTransparentSegment share, 0x50d198 and others):
+// the record's flags get bit 0 when its tick differs from the segment's, the segment's tick becomes the current one and the pointer
+// is appended at `block + 4 * firstIndex + sizeof(SSegment*) * count`.
+void CBatchSceneNode::appendVisibleSegment(CBatchMesh::SSegment* segment) {
+    SVisibleEntry* entry = visibleEntry(static_cast<std::uint32_t>((*segment->infos)[segment->infoIndex].batch));
+    if (entry->tick != segment->lastVisibleTick) {
+        entry->flags |= 1u;
+    }
+    segment->lastVisibleTick = os::Timer::TickCount;
+    auto* block = reinterpret_cast<std::uint8_t*>(visibleEntries);
+    reinterpret_cast<CBatchMesh::SSegment**>(block + 4u * entry->firstIndex)[entry->count] = segment;
+    ++entry->count;
+}
+
+namespace {
+
+bool acceptsSegment(CBatchSceneNode::SUniverseIntersector, const CBatchMesh::SSegment&) { return true; }
+
+// SBoxIntersector 0x50d2c0: the intersector box and the segment box overlap on all three axes.
+bool acceptsSegment(CBatchSceneNode::SBoxIntersector intersector, const CBatchMesh::SSegment& segment) {
+    const core::aabbox3d<float>& a = *intersector.box;
+    const core::aabbox3d<float>& b = *segment.box;
+    return a.MinEdge.X <= b.MaxEdge.X && a.MinEdge.Y <= b.MaxEdge.Y && a.MinEdge.Z <= b.MaxEdge.Z && a.MaxEdge.X >= b.MinEdge.X &&
+           a.MaxEdge.Y >= b.MinEdge.Y && a.MaxEdge.Z >= b.MinEdge.Z;
+}
+
+// SFrustumBoxIntersector 0x50d49c: the six planes in order; for each, the box vertex reached by taking the maximum on an axis whose
+// normal component is negative and the minimum otherwise; the segment is rejected as soon as n . v + d > 0.
+bool acceptsSegment(CBatchSceneNode::SFrustumBoxIntersector intersector, const CBatchMesh::SSegment& segment) {
+    const core::aabbox3d<float>& box = *segment.box;
+    for (int i = 0; i < 6; ++i) {
+        const auto& plane = intersector.frustum->planes[i];
+        const float x = plane.Normal.X < 0.0f ? box.MaxEdge.X : box.MinEdge.X;
+        const float y = plane.Normal.Y < 0.0f ? box.MaxEdge.Y : box.MinEdge.Y;
+        const float z = plane.Normal.Z < 0.0f ? box.MaxEdge.Z : box.MinEdge.Z;
+        if ((plane.Normal.X * x + plane.Normal.Y * y) + plane.Normal.Z * z + plane.D > 0.0f) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// SFrustumBoxIntersector3 0x50cdb0.
+bool acceptsSegment(CBatchSceneNode::SFrustumBoxIntersector3 intersector, const CBatchMesh::SSegment& segment) {
+    return intersector.frustum->intersectsWithoutBoxTest3(*segment.box);
+}
+
+}  // namespace
+
+// 0x50d198 (SUniverseIntersector), 0x50d2c0 (SBoxIntersector), 0x50d49c (SFrustumBoxIntersector), 0x50cdb0 (SFrustumBoxIntersector3)
+// _ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_..IntersectorEEEvjT_
+// Every segment of the batch (the mesh's batch record range) whose tick is not the current one, that isSegmentVisible (vptr+0x108)
+// accepts and that the intersector accepts is appended to the batch's visible list. SUniverseIntersector accepts everything;
+// SBoxIntersector tests the overlap of the intersector box with the segment's box on all three axes; SFrustumBoxIntersector rejects
+// the segment when, for one of the six planes (normal n, constant d at floats 3..6 of each four-float plane), the box vertex that is
+// farthest against n satisfies n . v + d > 0; SFrustumBoxIntersector3 calls SViewFrustum::intersectsWithoutBoxTest3 on the box.
+template <typename Intersector>
+void CBatchSceneNode::addVisibleSegments(std::uint32_t batch, Intersector intersector) {
+    const CBatchMesh::SBatch& record = mesh->batches[batch];
+    const std::uint32_t count = static_cast<std::uint16_t>(record.endSegmentInfo - record.firstSegmentInfo);
+    for (std::uint32_t k = 0; k < count; ++k) {
+        CBatchMesh::SSegment* segment = mesh->segmentAt(static_cast<std::size_t>(mesh->batches[batch].firstSegmentInfo) + k);
+        if (segment->lastVisibleTick == os::Timer::TickCount || !isSegmentVisible(*segment)) {
+            continue;
+        }
+        if (acceptsSegment(intersector, *segment)) {
+            appendVisibleSegment(segment);
+        }
+    }
+}
+
+template void CBatchSceneNode::addVisibleSegments<CBatchSceneNode::SUniverseIntersector>(std::uint32_t, CBatchSceneNode::SUniverseIntersector);
+template void CBatchSceneNode::addVisibleSegments<CBatchSceneNode::SBoxIntersector>(std::uint32_t, CBatchSceneNode::SBoxIntersector);
+template void CBatchSceneNode::addVisibleSegments<CBatchSceneNode::SFrustumBoxIntersector>(std::uint32_t, CBatchSceneNode::SFrustumBoxIntersector);
+template void CBatchSceneNode::addVisibleSegments<CBatchSceneNode::SFrustumBoxIntersector3>(std::uint32_t, CBatchSceneNode::SFrustumBoxIntersector3);
 
 }  // namespace glitch::scene

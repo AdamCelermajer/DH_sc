@@ -167,8 +167,8 @@ std::string CaptureTrace(Trace trace, std::size_t* returned) {
 
 // The quest row used by the Condition_IsQuestInStateGeneric tests: quest id in m_w2, required state in m_w3.
 void SetRow(Structs::v2ConditionStub& row, int id, int state) {
-    row.m_w2 = id;
-    row.m_w3 = state;
+    row.Op1 = id;
+    row.Op2 = state;
 }
 
 void TestConstantConditions() {
@@ -196,24 +196,24 @@ void TestPlayerInLevel() {
     g_currentLevel = reinterpret_cast<Level*>(g_levelStorage);
     g_currentLevel->m_levelListIndex = 7;
 
-    row.m_w2 = 7;
+    row.Op1 = 7;
     Check(cond.Eval(), "Condition_IsPlayerInLevel true when the row's level is the current one");
-    row.m_w2 = 6;
+    row.Op1 = 6;
     Check(!cond.Eval(), "Condition_IsPlayerInLevel false for another level");
 
     std::size_t ret = 0;
-    row.m_w2 = 1;
+    row.Op1 = 1;
     std::string text = CaptureTrace(
         [&](__sFILE* s) { return cond.DBG_TraceDetailedConditionInformation(s); }, &ret);
     const std::string expected1 = std::string("\t    Level       : ") + kLevelNames[1] + "\n\n";
     Check(text == expected1, "Condition_IsPlayerInLevel trace names level 1");
     Check(ret == expected1.size(), "Condition_IsPlayerInLevel trace returns the written length");
 
-    row.m_w2 = 3;  // at Arrays::LevelList::size
+    row.Op1 = 3;  // at Arrays::LevelList::size
     text = CaptureTrace([&](__sFILE* s) { return cond.DBG_TraceDetailedConditionInformation(s); }, &ret);
     Check(text == "\t    Level       : na\n\n", "Condition_IsPlayerInLevel trace prints na past the table");
 
-    row.m_w2 = -1;
+    row.Op1 = -1;
     text = CaptureTrace([&](__sFILE* s) { return cond.DBG_TraceDetailedConditionInformation(s); }, &ret);
     Check(text == "\t    Level       : na\n\n", "Condition_IsPlayerInLevel trace prints na for a negative index");
 }

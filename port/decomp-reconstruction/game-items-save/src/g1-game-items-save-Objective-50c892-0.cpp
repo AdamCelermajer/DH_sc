@@ -53,7 +53,7 @@ void Objective::SetIsCompleted() {
     }
     Structs::v2QuestObjectiveStub* row = m_pyData;  // +0x0c
     m_completed = true;
-    const int scriptNumber = row->m_w3;  // row +0x0c
+    const int scriptNumber = row->OnComplete;  // row +0x0c
     if (scriptNumber < 0) {
         return;
     }
@@ -82,7 +82,7 @@ void Objective::_resetData() {
 
 // 0x47a3a0 _ZNK9Objective12GetDescStrIdEv
 int Objective::GetDescStrId() const {
-    return m_pyData->m_w2;  // row +0x08
+    return m_pyData->Desc;  // row +0x08
 }
 
 // 0x47b9b8 _ZNK9Objective10GetDescStrEv

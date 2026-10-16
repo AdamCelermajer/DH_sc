@@ -80,6 +80,7 @@ public:
 
     int state_ = 0;                                  // +0x04
     int handshake_time_ = 0;                         // +0x08
+    std::uint16_t unk_0c_ = 0;                       // +0x0c never accessed (the constructor does not store it)
     bool connected_ = false;                         // +0x0e
     std::uint8_t recv_buffer_[kBufferBytes] = {};    // +0x0f
     std::uint8_t send_buffer_[kBufferBytes] = {};    // +0x1010

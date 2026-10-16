@@ -143,7 +143,7 @@ void CSIdle::OnFocus(int, Character* character, CharStateMachine*, int, int, voi
     }
     character->m_stateFlags = kFocusStateFlags;
 
-    const int idleAnim = character->GetCharAnimTable()->m_w10;
+    const int idleAnim = character->GetCharAnimTable()->Idle;
     int stance = ApplicationGetPyDataConstants()->getConstant("AnimStancedAnim", "SL__LIST_IPHONE") & kStanceBit;
     if (stance != 0) {
         stance = character->GetAnimStance();

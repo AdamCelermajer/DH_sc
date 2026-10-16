@@ -48,9 +48,9 @@ float CAttributes::getFloat(int index) const {
 }
 
 // 0x560d1c _ZN6glitch2io11CAttributes7getEnumEi
-int CAttributes::getEnum(int index) const {
+const char* CAttributes::getEnum(int index) const {
     IAttribute* a = at(currentAttributes(), index);
-    return a ? a->getEnum() : 0;
+    return a ? a->getEnum() : nullptr;
 }
 
 // 0x560ce4 _ZN6glitch2io11CAttributes13getBinaryDataEiPvi

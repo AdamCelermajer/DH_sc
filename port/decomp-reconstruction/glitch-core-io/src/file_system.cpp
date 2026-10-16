@@ -5,9 +5,11 @@
 #include "glitch-core-io/io/zip_reader.hpp"
 #include "glitch-core-io/tb/glitch_io.hpp"
 
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 
 #ifdef _WIN32
 #include <direct.h>
@@ -20,6 +22,7 @@
 namespace glitch::io {
 
 char CFileSystem::WorkingDirectory[1024] = {};
+std::map<std::string, std::string> CFileSystem::ObfuscationMap;
 
 // 0x56c058 _ZN6glitch2io11CFileSystemC2Ev and 0x56c0a8 _ZN6glitch2io11CFileSystemC1Ev
 // The three archive lists start empty (their default construction zeroes them, as the original
@@ -153,10 +156,8 @@ void CFileSystem::clear() {
 CFileSystem::~CFileSystem() { clear(); }
 
 // 0x56df38 _ZNK6glitch2io11CFileSystem9existFileEPKc
-// The three archive lists are searched in order (zip, pak, unzip): the first reader that finds the
-// name answers 1. Otherwise the file is opened for reading. PARTIAL: the original's last step is
-// CFileSystem::open(name, "rb") (0x56dc40, not reconstructed: it returns a shared CFile and applies
-// the obfuscation map); here fopen stands in for it.
+// The three archive lists are searched in order (zip, pak, unzip): the first reader that finds the name answers true.
+// Otherwise CFileSystem::open(name, "rb") is tried and the handle it returns is dropped at once.
 bool CFileSystem::existFile(const char* name) const {
     for (CZipReader* zip : zipReaders) {
         if (zip->findFile(name) != -1) return true;
@@ -167,10 +168,7 @@ bool CFileSystem::existFile(const char* name) const {
     for (CUnZipReader* unzip : unZipReaders) {
         if (unzip->findFile(name) != -1) return true;
     }
-    std::FILE* file = std::fopen(name, "rb");
-    if (file == nullptr) return false;
-    std::fclose(file);
-    return true;
+    return static_cast<bool>(open(name, "rb"));
 }
 
 // 0x34df7c _ZNK6glitch2io11CFileSystem9existFileERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
@@ -193,12 +191,71 @@ IReadFile* CFileSystem::createAndOpenFileFromArchives(const char* name) {
 }
 
 // 0x56d4e0 _ZN6glitch2io11CFileSystem17createAndOpenFileEPKc
-// The listing tries the archives, then createReadFile(name). PARTIAL: when both fail it goes on to look the
-// path up piece by piece (a prefix that is itself a file inside an archive, opened as a nested zip); that
-// loop is not reconstructed, so the result is null there.
+// The archives, then createReadFile(name). When both fail the path is cut at its last '/' (rfind from the previous
+// cut) one component at a time, each shorter prefix trying the archives and then the disk, until one opens or no '/'
+// is left. A prefix that opened is taken as a zip (CZipReader::isValid, else it is dropped and the result is null): the
+// rest of the original path is then opened inside it, one component at a time, each step wrapping the previous
+// file in a CZipReader(file, true, true) and opening the next component by name.
 IReadFile* CFileSystem::createAndOpenFile(const char* name) {
-    if (IReadFile* file = createAndOpenFileFromArchives(name)) return file;
-    return createReadFile(name);
+    IReadFile* file = createAndOpenFileFromArchives(name);
+    if (file != nullptr) return file;
+    file = createReadFile(name);
+    if (file != nullptr) return file;
+
+    std::string path = name;         // v33
+    size_t cut = std::string::npos;  // v7
+    IReadFile* prefix = nullptr;     // v16
+    for (;;) {
+        cut = path.empty() ? std::string::npos : path.rfind('/', cut);
+        path = path.substr(0, cut);
+        if (IReadFile* inArchive = createAndOpenFileFromArchives(path.c_str())) {
+            prefix = inArchive;
+            break;
+        }
+        IReadFile* onDisk = createReadFile(path.c_str());
+        if (onDisk != nullptr || cut == std::string::npos) {
+            prefix = onDisk;
+            break;
+        }
+    }
+    if (cut == std::string::npos || prefix == nullptr) return prefix;  // LABEL_39
+    if (!CZipReader::isValid(prefix)) {
+        prefix->drop();
+        return nullptr;
+    }
+    size_t start = cut + 1;  // v17
+    const std::string full = name;
+    for (;;) {
+        CZipReader reader(prefix, true, true);  // takes its own use of the file
+        std::string rest = full;
+        size_t slash;  // v19, npos when there is no further '/'
+        size_t next;   // v18
+        if (rest.size() <= start) {
+            slash = std::string::npos;
+            next = 0;
+        } else {
+            size_t p = start;
+            if (rest[p] != '/') {
+                do {
+                    ++p;
+                } while (p != rest.size() && rest[p] != '/');
+            }
+            if (p == rest.size()) {
+                slash = std::string::npos;
+                next = 0;
+            } else {
+                slash = p;
+                next = slash + 1;
+            }
+        }
+        rest = rest.substr(start, slash - start);
+        prefix->drop();
+        IReadFile* inner = reader.openFile(rest.c_str());
+        prefix = inner;
+        if (slash == std::string::npos) return inner;
+        if (inner == nullptr || next == std::string::npos) return inner;
+        start = next;
+    }
 }
 
 // 0x56c230 _ZN6glitch2io11CFileSystem15createXMLReaderEPKc
@@ -231,15 +288,171 @@ IXMLReaderUTF8* CFileSystem::createXMLReaderUTF8(IReadFile* file) {
 }
 
 // 0x56d2c0 _ZN6glitch2io11CFileSystem17addZipFileArchiveEPKcbb
-// 0x56d180 ...18addFolderFileArchiveEPKcbb, 0x56ca70 ...17addPakFileArchiveEPKcbb,
-// 0x56e6dc ...21addObfuscationFileMapEPKchSbIc...E, 0x56ce60 ...17removeFileArchiveEPKc
-// PARTIAL: the archive containers and the obfuscation map are not reconstructed (the lists hold readers
-// that tests add directly). The slots exist so that the interface is complete; they answer false.
-bool CFileSystem::addZipFileArchive(const char*, bool, bool) { return false; }
-bool CFileSystem::addFolderFileArchive(const char*, bool, bool) { return false; }
-bool CFileSystem::addPakFileArchive(const char*, bool, bool) { return false; }
-bool CFileSystem::addObfuscationFileMap(const char*, unsigned char, std::string) { return false; }
-bool CFileSystem::removeFileArchive(const char*) { return false; }
+// The file is opened through createAndOpenFile (slot +0x0c); null answers false. A CZipReader over it (which takes its own
+// use) gets the word at +0x10 OR-ed with 1, is appended to the zip list, and the local use of the file is dropped.
+bool CFileSystem::addZipFileArchive(const char* name, bool ignoreCase, bool ignorePaths) {
+    IReadFile* file = createAndOpenFile(name);
+    if (file == nullptr) return false;
+    CZipReader* reader = new CZipReader(file, ignoreCase, ignorePaths);
+    reader->unk_10 |= 1;
+    zipReaders.push_back(reader);
+    file->drop();
+    return true;
+}
+
+// 0x56d180 _ZN6glitch2io11CFileSystem18addFolderFileArchiveEPKcbb
+// The unzip list is searched from the back: a reader whose folder name equals `name` answers false and nothing is added.
+// Otherwise a CUnZipReader(this, name, ignoreCase, ignorePaths) is appended and true is returned.
+bool CFileSystem::addFolderFileArchive(const char* name, bool ignoreCase, bool ignorePaths) {
+    for (std::size_t i = unZipReaders.size(); i-- > 0;) {
+        if (std::strcmp(name, unZipReaders[i]->folderName.c_str()) == 0) return false;
+    }
+    CUnZipReader* reader = new CUnZipReader(this, name, ignoreCase, ignorePaths);
+    unZipReaders.push_back(reader);
+    return true;
+}
+
+// 0x56ca70 _ZN6glitch2io11CFileSystem17addPakFileArchiveEPKcbb
+// As addZipFileArchive with a CPakReader and the pak list (no flag word).
+bool CFileSystem::addPakFileArchive(const char* name, bool ignoreCase, bool ignorePaths) {
+    IReadFile* file = createAndOpenFile(name);
+    if (file == nullptr) return false;
+    CPakReader* reader = new CPakReader(file, ignoreCase, ignorePaths);
+    pakReaders.push_back(reader);
+    file->drop();
+    return true;
+}
+
+// 0x56ce60 _ZN6glitch2io11CFileSystem17removeFileArchiveEPKc
+// Each list is searched from the back, in the order zip, pak, unzip. The zip and pak readers compare `name` with the
+// file name of their read file (IReadFile slot +0x28; a reader with no file compares with null), the unzip readers with
+// their folder name. The first match is dropped and erased from its list: true; no match: false.
+bool CFileSystem::removeFileArchive(const char* name) {
+    for (std::size_t i = zipReaders.size(); i-- > 0;) {
+        const char* readerName = zipReaders[i]->readFile != nullptr ? zipReaders[i]->readFile->getFileName() : nullptr;
+        if (readerName != nullptr && std::strcmp(name, readerName) == 0) {
+            zipReaders[i]->drop();
+            zipReaders.erase(zipReaders.begin() + static_cast<std::ptrdiff_t>(i));
+            return true;
+        }
+    }
+    for (std::size_t i = pakReaders.size(); i-- > 0;) {
+        const char* readerName = pakReaders[i]->readFile != nullptr ? pakReaders[i]->readFile->getFileName() : nullptr;
+        if (readerName != nullptr && std::strcmp(name, readerName) == 0) {
+            pakReaders[i]->drop();
+            pakReaders.erase(pakReaders.begin() + static_cast<std::ptrdiff_t>(i));
+            return true;
+        }
+    }
+    for (std::size_t i = unZipReaders.size(); i-- > 0;) {
+        if (std::strcmp(name, unZipReaders[i]->folderName.c_str()) == 0) {
+            unZipReaders[i]->drop();
+            unZipReaders.erase(unZipReaders.begin() + static_cast<std::ptrdiff_t>(i));
+            return true;
+        }
+    }
+    return false;
+}
+
+namespace {
+
+// The shared front half of open (0x56dc40) and getObfuscatedFileName (0x56e064): while the map is in use, a leading "./"
+// or ".\" is skipped, the working-directory prefix is cut when the name contains it (plus one more character unless the
+// directory already ends with a separator), the backslashes of a copy become '/', and the copy is looked up. Returns the
+// map's real name on a hit, null on a miss (and when the map is empty).
+const std::string* lookupObfuscated(const char* name) {
+    if (CFileSystem::ObfuscationMap.empty()) return nullptr;
+    const char* n = name;
+    if (n[0] == '.' && (n[1] == '/' || n[1] == '\\')) n += 2;
+    const std::size_t workingLength = std::strlen(CFileSystem::WorkingDirectory);
+    if (workingLength != 0 && std::strstr(n, CFileSystem::WorkingDirectory) != nullptr) {
+        const char last = CFileSystem::WorkingDirectory[workingLength - 1];
+        n += workingLength + ((last == '\\' || last == '/') ? 0 : 1);
+    }
+    std::string key(n);
+    std::replace(key.begin(), key.end(), '\\', '/');
+    const auto it = CFileSystem::ObfuscationMap.find(key);
+    return it == CFileSystem::ObfuscationMap.end() ? nullptr : &it->second;
+}
+
+}  // namespace
+
+// 0x56e064 _ZN6glitch2io11CFileSystem21getObfuscatedFileNameEPKc
+const char* CFileSystem::getObfuscatedFileName(const char* name) {
+    const std::string* real = lookupObfuscated(name);
+    return real != nullptr ? real->c_str() : name;
+}
+
+// 0x56dc40 _ZN6glitch2io11CFileSystem4openEPKcS3_
+boost::intrusive_ptr<CFile> CFileSystem::open(const char* name, const char* mode) {
+    const std::string* real = lookupObfuscated(name);
+    const bool obfuscated = real != nullptr;
+    std::string fileName = obfuscated ? *real : std::string(name);
+    // A name without a drive colon gets the working directory in front of it (and a '/' when the directory has no
+    // trailing separator).
+    if (fileName.find(':') == std::string::npos && WorkingDirectory[0] != 0) {
+        std::string directory = WorkingDirectory;
+        const char last = directory.back();
+        if (last != '\\' && last != '/') directory += '/';
+        fileName = directory + fileName;
+    }
+    std::FILE* handle = std::fopen(fileName.c_str(), mode);
+    if (handle == nullptr) return {};
+    return boost::intrusive_ptr<CFile>(new CFile(handle, fileName.c_str(), obfuscated), true);
+}
+
+// 0x56e6dc _ZN6glitch2io11CFileSystem21addObfuscationFileMapEPKchSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
+// The map file is read whole and decoded in place with a rolling key k that starts at `key`: byte i becomes
+// (byte - k) mod 256; the last three decoded bytes (one per i mod 3) are summed; the next k is
+// ((sum / 3) + (i mod 3 - 1) * ((v / 2) * (v mod 2) % key) + k) mod 256, kept in 0..255 (v is the decoded byte). The
+// decoded text must end with "c|-|3k" (else the buffer is freed and false returned). Each line before that is
+// "<name>:<obfuscated>"; ObfuscationMap[<obfuscated>] = path + <name>.
+// Deviations: a null file (createAndOpenFile failed) crashes in the original, here it answers false; a zero key divides
+// by zero in the original, where the ARM helper yields 0, so the term is 0.
+bool CFileSystem::addObfuscationFileMap(const char* name, unsigned char key, std::string path) {
+    IReadFile* file = createAndOpenFile(name);  // slot +0x0c
+    if (file == nullptr) return false;
+    const long size = file->getSize();  // +0x20
+    char* buffer = new char[static_cast<std::size_t>(size) + 1];
+    file->read(buffer, static_cast<std::uint32_t>(size));  // +0x0c
+    file->drop();
+    buffer[size] = 0;
+
+    unsigned char recent[3] = {0, 0, 0};  // v38, v39, v40
+    int k = key;                           // i
+    for (long idx = 0; idx < size; ++idx) {
+        const int raw = static_cast<unsigned char>(buffer[idx]) - k;
+        const int decoded = raw + (raw >= 0 ? 0 : 256);
+        const unsigned slot = static_cast<unsigned>(idx % 3);
+        recent[slot] = static_cast<unsigned char>(decoded);
+        const int sum = recent[1] + recent[0] + recent[2];
+        buffer[idx] = static_cast<char>(decoded);
+        const int mix = key == 0 ? 0 : ((decoded / 2) * (decoded % 2)) % key;
+        const int next = (sum / 3 + (static_cast<int>(slot) - 1) * mix + k) % 256;
+        k = next + (next >= 0 ? 0 : 256);
+    }
+
+    if (size < 6 || std::strcmp(buffer + size - 6, "c|-|3k") != 0) {
+        delete[] buffer;
+        return false;
+    }
+    char* const end = buffer + size - 6;
+    char* lineStart = buffer;
+    while (lineStart < end) {
+        char* colon = static_cast<char*>(std::memchr(lineStart, ':', static_cast<std::size_t>(end - lineStart)));
+        if (colon == nullptr) break;
+        *colon = 0;
+        char* obfuscatedName = colon + 1;
+        char* newline =
+            static_cast<char*>(std::memchr(obfuscatedName, '\n', static_cast<std::size_t>(end - obfuscatedName)));
+        if (newline == nullptr) newline = end;
+        *newline = 0;
+        ObfuscationMap[std::string(obfuscatedName)] = path + lineStart;
+        lineStart = newline + 1;
+    }
+    delete[] buffer;
+    return true;
+}
 
 // 0x56c2d8 _ZN6glitch2io16createFileSystemEv
 IFileSystem* createFileSystem() {

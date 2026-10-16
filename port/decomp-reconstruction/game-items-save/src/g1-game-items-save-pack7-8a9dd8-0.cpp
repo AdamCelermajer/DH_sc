@@ -40,7 +40,7 @@ static_assert(sizeof "\t  v2QuestRewardGiveXP\n" - 1 == 0x17, "XP trace header l
 
 // The grant amount for a Reward_XP row: record +0x08 shifted left by 8 in 32-bit arithmetic.
 std::int32_t XPFromRow(const Structs::v2QuestRewardStub* row) {
-    return static_cast<std::int32_t>(static_cast<std::uint32_t>(row->m_w2) << 8);
+    return static_cast<std::int32_t>(static_cast<std::uint32_t>(row->Param1) << 8);
 }
 
 }  // namespace
@@ -65,9 +65,9 @@ int Reward_Gold::DBG_TraceDetailedRewardInformation(__sFILE* s) {
     const Structs::v2QuestRewardStub* row = m_pyData;  // +0x0c
     static_cast<void>(std::fwrite("\t  v2QuestRewardGiveGold\n", 1, 0x19, out));
     const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", row->m_w1);  // +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", row->Type);  // +0x04
     std::fprintf(out, "\t    Type        : %s\n", constantName);
-    return std::fprintf(out, "\t    Gold        : %dG\n\n", row->m_w2);  // +0x08
+    return std::fprintf(out, "\t    Gold        : %dG\n\n", row->Param1);  // +0x08
 }
 
 // 0x483480 Reward_Gold::Give()
@@ -78,8 +78,8 @@ bool Reward_Gold::Give() {
     if (!m_compiled) {
         return false;
     }
-    m_owner->ItemInventory::AddGold(m_compiledStub->m_w2);  // +0x08 of the compiled copy
-    m_owner->m_pendingGoldText = m_compiledStub->m_w2;      // owner +0x1500
+    m_owner->ItemInventory::AddGold(m_compiledStub->Param1);  // +0x08 of the compiled copy
+    m_owner->m_pendingGoldText = m_compiledStub->Param1;      // owner +0x1500
     return true;
 }
 
@@ -108,9 +108,9 @@ int Reward_Loot::DBG_TraceDetailedRewardInformation(__sFILE* s) {
     const Structs::v2QuestRewardStub* compiled = m_compiledStub;  // +0x14
     static_cast<void>(std::fwrite("\t  v2QuestRewardGiveLoot\n", 1, 0x19, out));
     const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", compiled->m_w1);  // +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", compiled->Type);  // +0x04
     std::fprintf(out, "\t    Type        : %s\n", constantName);
-    const std::int32_t lootIndex = compiled->m_w3;  // +0x0c
+    const std::int32_t lootIndex = compiled->Param2;  // +0x0c
     const char* lootName = (lootIndex < 0 || static_cast<std::uint32_t>(lootIndex) >= Arrays::LootTable::size)
                                ? "na"
                                : Arrays::LootTable::m_memberNames.names[lootIndex];
@@ -125,7 +125,7 @@ bool Reward_Loot::Give() {
     if (!m_compiled) {
         return false;
     }
-    ItemObject::DropLootTable(m_compiledStub->m_w3, m_owner, m_owner, m_owner, -1);  // +0x0c of the compiled copy
+    ItemObject::DropLootTable(m_compiledStub->Param2, m_owner, m_owner, m_owner, -1);  // +0x0c of the compiled copy
     return true;
 }
 
@@ -152,9 +152,9 @@ int Reward_XP::DBG_TraceDetailedRewardInformation(__sFILE* s) {
     const Structs::v2QuestRewardStub* row = m_pyData;  // +0x0c
     static_cast<void>(std::fwrite("\t  v2QuestRewardGiveXP\n", 1, 0x17, out));
     const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", row->m_w1);  // +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", row->Type);  // +0x04
     std::fprintf(out, "\t    Type        : %s\n", constantName);
-    return std::fprintf(out, "\t    XP          : %dXP\n\n", row->m_w2);  // +0x08
+    return std::fprintf(out, "\t    XP          : %dXP\n\n", row->Param1);  // +0x08
 }
 
 // 0x483420 Reward_XP::Give()

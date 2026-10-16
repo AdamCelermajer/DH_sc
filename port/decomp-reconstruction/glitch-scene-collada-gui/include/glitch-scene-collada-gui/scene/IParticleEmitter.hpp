@@ -59,7 +59,7 @@ public:
     virtual std::uint32_t getMaxParticlesPerSecond() const = 0;                              // vptr+0x30
     virtual const video::SColor& getMinStartColor() const = 0;                               // vptr+0x34
     virtual const video::SColor& getMaxStartColor() const = 0;                               // vptr+0x38
-    // vptr+0x3c, 0x6f76e4: reads nothing and returns `index`. The concrete emitters read their attributes starting at `index`.
+    // vptr+0x3c, 0x6f76e4: reads nothing and returns 0. The concrete emitters read their attributes starting at `index`.
     virtual int deserializeAttributes(int index, io::IAttributes* attributes, io::SAttributeReadWriteOptions* options);
     // vptr+0x40, 0x6f76ec: EPET_POINT.
     virtual E_PARTICLE_EMITTER_TYPE getType() const;

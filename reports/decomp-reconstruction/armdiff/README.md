@@ -156,3 +156,5 @@ original's mangling.
 5. Run armdiff after each wave (`merge_ledger.py` then `run.py --category ...`) and keep the CSVs: the `src_sha1` column shows which
    rows a source edit invalidates.
 6. Report return types separately (`getAngle` returns a double in the original) by comparing `r1` when the original writes it.
+
+Superseded by `SWEEP-2026-10-16.md` (full sweep of all categories, triage of every mismatch, fixes).

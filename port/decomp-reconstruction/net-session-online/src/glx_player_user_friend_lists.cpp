@@ -50,12 +50,10 @@ void GLXPlayerUserFriend::clearFriendsList() {
 }
 
 // 0x82bfd8 _ZN19GLXPlayerUserFriend18processFriendsListEPc
-// Partial: the original stores the text fields 0 (user number), 2 (country), 6 (current game),
-// 8 (language), 9 (avatar key) and 10 (avatar last update) as char* buffers, one per entry, in the
-// arrays at +0x40, +0x48, +0x5c, +0x64, +0x68 and +0x6c (0x80, 0x80, 0x80, 3, 0x20 and 0x20 bytes).
-// The getters return the stored pointer as a 32-bit int (GetCountry, 0x82ba5c, reads the same
-// slot), which a 64-bit host cannot keep. So these fields are parsed and dropped here. Layout
-// request: the owner header types these slots as numbers; they need text storage.
+// Clears the list, then reads the header fields and the count, and for each entry the text fields 0 (user number), 1 (name),
+// 2 (country), 6 (current game), 8 (language), 9 (avatar key) and 10 (avatar last update) as strings (0x80, 0x80, 0x80, 3,
+// 0x20, 0x20 bytes per entry in the original), the reputation triple "reputation,bad,good" (field 3), the total trophy (4),
+// the state (5) and the trophy (7).
 void GLXPlayerUserFriend::processFriendsList(const char* text) {
     clearFriendsList();
     if (text == nullptr) {
@@ -104,9 +102,9 @@ void GLXPlayerUserFriend::processFriendsList(const char* text) {
         std::memset(entry, 0, sizeof entry);
         getValue(list, entry, i + 3, kFieldDelim);
 
-        // Field 0 (user number), 2 (country), 6, 8, 9, 10: text in the original, not stored here.
         std::memset(value, 0, sizeof value);
         getValue(entry, value, 0, kEntryDelim);  // user number (text)
+        userNumber_[static_cast<std::size_t>(i)] = value;
 
         std::memset(name, 0, sizeof name);
         getValue(entry, name, 1, kEntryDelim);
@@ -114,6 +112,7 @@ void GLXPlayerUserFriend::processFriendsList(const char* text) {
 
         std::memset(value, 0, sizeof value);
         getValue(entry, value, 2, kEntryDelim);  // country (text)
+        country_[static_cast<std::size_t>(i)] = value;
 
         // Field 3: "reputation,bad,good" packed into one field.
         std::memset(pair, 0, sizeof pair);
@@ -141,6 +140,7 @@ void GLXPlayerUserFriend::processFriendsList(const char* text) {
 
         std::memset(value, 0, sizeof value);
         getValue(entry, value, 6, kEntryDelim);  // current game (text)
+        currentGame_[static_cast<std::size_t>(i)] = value;
 
         std::memset(pair, 0, sizeof pair);
         getValue(entry, pair, 7, kEntryDelim);
@@ -148,12 +148,15 @@ void GLXPlayerUserFriend::processFriendsList(const char* text) {
 
         std::memset(value, 0, sizeof value);
         getValue(entry, value, 8, kEntryDelim);  // language (text)
+        language_[static_cast<std::size_t>(i)] = value;
 
         std::memset(value, 0, sizeof value);
         getValue(entry, value, 9, kEntryDelim);  // avatar key (text)
+        avatarKey_[static_cast<std::size_t>(i)] = value;
 
         std::memset(value, 0, sizeof value);
         getValue(entry, value, 10, kEntryDelim);  // avatar last update (text)
+        avatarLastUpdate_[static_cast<std::size_t>(i)] = value;
     }
 }
 

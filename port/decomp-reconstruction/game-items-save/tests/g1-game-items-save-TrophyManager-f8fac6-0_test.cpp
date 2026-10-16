@@ -125,29 +125,29 @@ std::deque<AchievementMsg>& queue() {
 }
 
 void SetUpRows() {
-    g_rows[0].m_w1 = 10;
-    g_rows[0].m_w2 = 100;
-    g_rows[0].m_w3 = 1;
-    g_rows[0].m_w4 = 2;
-    g_rows[0].m_w5 = 3;
-    g_rows[0].m_w6 = 20;
-    g_rows[0].m_w7 = 5;
+    g_rows[0].Desc = 10;
+    g_rows[0].GLIndex = 100;
+    g_rows[0].GLLive = 1;
+    g_rows[0].Grade = 2;
+    g_rows[0].Label = 3;
+    g_rows[0].Name = 20;
+    g_rows[0].Type = 5;
 
-    g_rows[1].m_w1 = 11;
-    g_rows[1].m_w2 = 101;
-    g_rows[1].m_w3 = 0;
-    g_rows[1].m_w4 = 1;
-    g_rows[1].m_w5 = 4;
-    g_rows[1].m_w6 = 21;
-    g_rows[1].m_w7 = 6;
+    g_rows[1].Desc = 11;
+    g_rows[1].GLIndex = 101;
+    g_rows[1].GLLive = 0;
+    g_rows[1].Grade = 1;
+    g_rows[1].Label = 4;
+    g_rows[1].Name = 21;
+    g_rows[1].Type = 6;
 
-    g_rows[2].m_w1 = -1;
-    g_rows[2].m_w2 = 102;
-    g_rows[2].m_w3 = 0;
-    g_rows[2].m_w4 = 0;
-    g_rows[2].m_w5 = 0;
-    g_rows[2].m_w6 = -1;
-    g_rows[2].m_w7 = 7;
+    g_rows[2].Desc = -1;
+    g_rows[2].GLIndex = 102;
+    g_rows[2].GLLive = 0;
+    g_rows[2].Grade = 0;
+    g_rows[2].Label = 0;
+    g_rows[2].Name = -1;
+    g_rows[2].Type = 7;
 
     Arrays::TrophyTable::members = reinterpret_cast<std::uint8_t*>(g_rows);
     Arrays::TrophyTable::size = 3;

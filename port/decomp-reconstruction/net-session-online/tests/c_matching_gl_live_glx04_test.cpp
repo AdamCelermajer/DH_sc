@@ -15,7 +15,7 @@ int main() {
         CMatchingGLLive m;
         CHECK(m.SetGLLivePassword("secret") != nullptr);
         CHECK(std::strcmp(m.PasswordForTest(), "secret") == 0);
-        CHECK(m.SetGLLivePassword("0123456789abcdef") == nullptr);  // 16 characters
+        CHECK(m.SetGLLivePassword("0123456789abcdef") == reinterpret_cast<char*>(16));  // 16 characters: the length comes back
         CHECK(std::strcmp(m.PasswordForTest(), "secret") == 0);
         CHECK(m.SetGLLivePassword("0123456789abcde") != nullptr);   // 15 characters
         CHECK(m.SetGLLiveUserName("alice") != nullptr);

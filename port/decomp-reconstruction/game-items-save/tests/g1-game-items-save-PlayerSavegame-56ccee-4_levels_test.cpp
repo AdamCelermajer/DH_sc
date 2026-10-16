@@ -52,11 +52,11 @@ std::vector<unsigned char> g_locationRows;
 
 void SetLevelRow(std::uint32_t row, std::int32_t m_w10) {
     auto* r = reinterpret_cast<Structs::LevelDeclaration*>(g_levelRows.data() + row * sizeof(Structs::LevelDeclaration));
-    r->m_w10 = m_w10;
+    r->LevelState = m_w10;
 }
 void SetLocationRow(std::uint32_t row, std::int32_t m_w2) {
     auto* r = reinterpret_cast<Structs::WldMapLocation*>(g_locationRows.data() + row * sizeof(Structs::WldMapLocation));
-    r->m_w2 = m_w2;
+    r->State = m_w2;
 }
 
 void TestFillsNewArrays() {

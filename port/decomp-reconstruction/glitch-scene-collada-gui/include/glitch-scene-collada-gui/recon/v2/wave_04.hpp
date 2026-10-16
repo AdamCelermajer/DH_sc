@@ -14,10 +14,7 @@ namespace glitch::collada::recon_v2_04 {
 CResFile* resFileManagerLoadName(CResFileManager* self, const char* name, int a3, int a4);
 CResFile* resFileManagerLoadFile(CResFileManager* self, glitch::io::IReadFile* file, int a3, int a4, bool flag);
 
-// 0x60b918 _ZN6glitch7collada28CAnimationStreamingManager7releaseEPNS0_16CColladaDatabaseE
-// Removes every cache entry whose fileName matches the database record, and
-// subtracts its size from cacheUsage. Returns the end of the cache after the walk.
-CAnimationStreamingManager::SegmentCacheEntry* release_0x60b918(CAnimationStreamingManager* self, CColladaDatabase* a2);
+// (0x60b918 CAnimationStreamingManager::release is canonical in src/collada/CAnimationStreaming.cpp.)
 
 // 0x60f25c and 0x60f2b0 are two identical overloads of the same constructor body.
 // The name is the one from the pseudocode. Each one is a separate function here.

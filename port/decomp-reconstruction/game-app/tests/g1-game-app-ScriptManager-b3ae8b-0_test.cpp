@@ -196,7 +196,7 @@ namespace Structs {
 ScriptCmd::~ScriptCmd() {}
 void ScriptCmd::finalize() {}
 void ScriptCmd::read(IStreamBase* stream) {
-    StreamReader::readAs<int>(stream, &m_w1);
+    StreamReader::readAs<int>(stream, &ID);
 }
 }  // namespace Structs
 
@@ -384,8 +384,8 @@ void testLoadScriptFileCommands() {
     TestCmd* second = static_cast<TestCmd*>(sm.m_cmds[0].m_cmds[1]);
     EXPECT(first->m_cmdId == 0 && second->m_cmdId == 1);
     EXPECT(first->m_args != nullptr && second->m_args != nullptr);
-    EXPECT(static_cast<Structs::ScriptCmd*>(first->m_args)->m_w1 == 0);
-    EXPECT(static_cast<Structs::ScriptCmd*>(second->m_args)->m_w1 == 1);
+    EXPECT(static_cast<Structs::ScriptCmd*>(first->m_args)->ID == 0);
+    EXPECT(static_cast<Structs::ScriptCmd*>(second->m_args)->ID == 1);
     EXPECT(first->inits == 1 && second->inits == 1);
     EXPECT(!first->unk_04 && second->unk_04);
     EXPECT(sm.m_cmds[0].unk_04);

@@ -337,7 +337,7 @@ bool render_handler_glitch::process_mask_intersection(Vertex* vertices, int vert
 }
 
 // 0x7d8df4 _ZN21render_handler_glitch11draw_bitmapERKN7gameswf6matrixEPNS0_11bitmap_infoERKNS0_4rectES8_NS0_4rgbaE
-// PARTIAL. Draws one bitmap quad. Nothing is drawn when the colour's alpha is zero. Otherwise the four corners come
+// Draws one bitmap quad. Nothing is drawn when the colour's alpha is zero. Otherwise the four corners come
 // from the matrix and the coordinate rect (quad_positions), the texture coordinates from the uv rect, and every
 // staging entry gets the current depth and the colour. The quad is snapped to whole pixels when the byte at +0x04
 // is set. The bitmap is laid out (virtual layout), its texture gets wrap mode 1 and is bound to the buffer, the quad is
@@ -345,10 +345,10 @@ bool render_handler_glitch::process_mask_intersection(Vertex* vertices, int vert
 // (set_render_cache), the quad is then recorded in it: six indices (0, 1, 2, 1, 2, 3, relative to the entry's vertices) at the
 // end of the index array, four positions and four uv pairs at the ends of the vertex and uv arrays, and one entry
 // {bitmap, the red byte of the colour, vertex base, 4, index base, 6}.
-// PARTIAL because of the copy into the cache: the listing's loop (asm 0x7d9294..0x7d92cc: counter step 0x18, bound
-// CMP #0x480) copies 48 staging entries to the cache, although only four were appended to the vertex and uv arrays (the
-// arrays are reserved for four more elements). That is an overrun of the cache arrays in the original. This body copies the
-// four entries of the quad; whether the original's bound is intended needs a decision.
+// The copy into the cache: the listing's loop (asm 0x7d9294..0x7d92cc: counter step 0x18, bound CMP #0x480) copies 48
+// staging entries to the cache, although only four were appended to the vertex and uv arrays (the arrays are reserved for
+// four more elements). That is a memory overrun of the cache arrays in the original (the writes past the four appended
+// entries land in unreserved memory), which the port does not reproduce: this body copies the four entries of the quad.
 void render_handler_glitch::draw_bitmap(const gameswf::matrix& m, gameswf::bitmap_info* bi,
                                         const gameswf::rect& coords, const gameswf::rect& uv_coords,
                                         gameswf::rgba color) {

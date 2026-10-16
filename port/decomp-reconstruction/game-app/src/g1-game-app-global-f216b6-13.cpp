@@ -282,10 +282,10 @@ void NativeGetPossibleClassSpec(const gameswf::fn_call& call) {
         StringManager* strings = ApplicationGetStringManager();
         const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
         const int playerClass = local->SG_GetPlayerClass();
-        nativeobj::SetString(object, "Class1Name", strings->getString(rows[playerClass + 1].m_w6));
-        nativeobj::SetString(object, "Class1Desc", strings->getString(rows[playerClass + 1].m_w7));
-        nativeobj::SetString(object, "Class2Name", strings->getString(rows[playerClass + 2].m_w6));
-        nativeobj::SetString(object, "Class2Desc", strings->getString(rows[playerClass + 2].m_w7));
+        nativeobj::SetString(object, "Class1Name", strings->getString(rows[playerClass + 1].ClassString));
+        nativeobj::SetString(object, "Class1Desc", strings->getString(rows[playerClass + 1].ClassDescString));
+        nativeobj::SetString(object, "Class2Name", strings->getString(rows[playerClass + 2].ClassString));
+        nativeobj::SetString(object, "Class2Desc", strings->getString(rows[playerClass + 2].ClassDescString));
         call.result->set_as_object(object);
     }
 }
@@ -451,7 +451,7 @@ void NativeGetSaveSlotDetails(const gameswf::fn_call& call) {
     PlayerSavegame save(static_cast<std::uint32_t>(slotId), 17, false);
     if (inUse) {
         const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
-        className = strings->getString(rows[save.m_playerClass].m_w6);
+        className = strings->getString(rows[save.m_playerClass].ClassString);
     }
     std::string classLevelText = className + " ";
     classLevelText += strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "GAMEPLAYMENUS_LEVEL"));
@@ -481,7 +481,7 @@ void NativeGetSaveSlotDetails(const gameswf::fn_call& call) {
         const char* location = "";
         if (inUse) {
             const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
-            location = strings->getString(levels[levelId == -1 ? 0 : levelId].m_w9);
+            location = strings->getString(levels[levelId == -1 ? 0 : levelId].LevelName);
         }
         nativeobj::SetString(object, "PlayerLocation", location);
         nativeobj::SetString(object, "PlayerLastSave", inUse ? lastSave : "");
@@ -662,8 +662,8 @@ void NativeInvGetItemDetails(const gameswf::fn_call& call) {
     float buyPercent = 0.0f;
     if (merchant && merchant->IsMerchant()) {
         const Structs::Merchant* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + merchant->GetLoot();
-        sellPercent = static_cast<float>(row->m_w1) / 100.0f;
-        buyPercent = static_cast<float>(row->m_w2) / 100.0f;
+        sellPercent = static_cast<float>(row->BuyMultiplier) / 100.0f;
+        buyPercent = static_cast<float>(row->SellMultiplier) / 100.0f;
     }
     ItemInstance* item = (fromMerchant && merchant) ? static_cast<ItemInventory&>(*merchant).GetItem(static_cast<unsigned int>(itemIndex))
                                                    : static_cast<ItemInventory&>(*ch).GetItem(static_cast<unsigned int>(itemIndex));

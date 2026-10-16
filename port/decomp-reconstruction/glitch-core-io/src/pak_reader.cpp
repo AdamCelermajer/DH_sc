@@ -17,17 +17,17 @@ SPakFileEntry::SPakFileEntry() {}
 
 // 0x56f500 _ZN6glitch2io13SPakFileEntryC1ERKS1_
 SPakFileEntry::SPakFileEntry(const SPakFileEntry& other)
-    : path(other.path), name(other.name), extra(other.extra), offset(other.offset), size(other.size) {}
+    : pakFileName(other.pakFileName), simpleFileName(other.simpleFileName), path(other.path), pos(other.pos), length(other.length) {}
 
 // 0x56f5e0 _ZN6glitch2io13SPakFileEntryaSERKS1_
 // Each string is assigned only when it is not the same object, as the original compares
 // the member addresses before each assignment. The integers are always copied.
 SPakFileEntry& SPakFileEntry::operator=(const SPakFileEntry& other) {
-    if (this != &other) path = other.path;
-    if (&name != &other.name) name = other.name;
-    if (&extra != &other.extra) extra = other.extra;
-    offset = other.offset;
-    size = other.size;
+    if (this != &other) pakFileName = other.pakFileName;
+    if (&simpleFileName != &other.simpleFileName) simpleFileName = other.simpleFileName;
+    if (&path != &other.path) path = other.path;
+    pos = other.pos;
+    length = other.length;
     return *this;
 }
 
@@ -73,7 +73,7 @@ void CPakReader::deletePathFromFilename(std::string& name) {
 // 0x57002c _ZN6glitch2io10CPakReaderC1EPNS0_9IReadFileEbb (C2 at 0x5700c4 is the same body)
 // Takes a reference to the file, scans the directory once, then sorts the entries with the
 // heapsort (heapsort<SPakFileEntry> at 0x56fa04; the comparison is operator< above).
-CPakReader::CPakReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(a), flagB(b) {
+CPakReader::CPakReader(IReadFile* file, bool a, bool b) : readFile(file), ignoreCase(a), ignorePaths(b) {
     if (readFile) {
         ++readFile->referenceCounter;
         scanLocalHeader();
@@ -85,8 +85,8 @@ CPakReader::CPakReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(
 // 0x56f784 _ZN6glitch2io10CPakReader8openFileEi
 IReadFile* CPakReader::openFile(int index) {
     const SPakFileEntry& entry = entries[static_cast<std::size_t>(index)];
-    readFile->seek(entry.offset, false);
-    return createLimitReadFile(entry.name.c_str(), readFile, entry.size);
+    readFile->seek(entry.pos, false);
+    return createLimitReadFile(entry.simpleFileName.c_str(), readFile, entry.length);
 }
 
 // 0x56fcec _ZN6glitch2io10CPakReader15extractFilenameEPNS0_13SPakFileEntryE
@@ -94,21 +94,21 @@ IReadFile* CPakReader::openFile(int index) {
 // field, scanned from index 55 down, with index 56 tested first). The port searches the string's
 // own length. The bytes past the terminator, which the original also reads, are not reproduced.
 void CPakReader::extractFilename(SPakFileEntry* entry) {
-    std::string& path = entry->path;
-    if (flagA) {
-        for (char& c : path) {
+    std::string& pakFileName = entry->pakFileName;
+    if (ignoreCase) {
+        for (char& c : pakFileName) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
         }
     }
     // Only '/' splits here (the original does not test '\\'). A '/' at index 0 counts as none.
-    const std::size_t sep = path.rfind('/');
+    const std::size_t sep = pakFileName.rfind('/');
     if (sep == std::string::npos || sep == 0) {
-        entry->name = path;
-        entry->extra.clear();
+        entry->simpleFileName = pakFileName;
+        entry->path.clear();
         return;
     }
-    entry->extra = path.substr(0, sep + 1);
-    entry->name = flagB ? path.substr(sep + 1) : path;
+    entry->path = pakFileName.substr(0, sep + 1);
+    entry->simpleFileName = ignorePaths ? pakFileName.substr(sep + 1) : pakFileName;
 }
 
 // 0x5703b8 _ZN6glitch2io10CPakReader8openFileEPKc
@@ -120,19 +120,19 @@ IReadFile* CPakReader::openFile(const char* name) {
 
 // 0x5702b4 _ZN6glitch2io10CPakReader8findFileEPKc
 // The key is a new entry whose name is the argument, and its path is left empty. The original runs
-// three steps on the key name, in order: lower-case it when flagA (+0x24) is set; cut it to the text
-// after its last '/' or '\\' when flagB (+0x25) is set (the call to deletePathFromFilename at 0x570368);
+// three steps on the key name, in order: lower-case it when ignoreCase (+0x24) is set; cut it to the text
+// after its last '/' or '\\' when ignorePaths (+0x25) is set (the call to deletePathFromFilename at 0x570368);
 // then the shared binary search (lower_bound plus an equality test) over the entries, which relies on
 // the same name order as the sort in the constructor.
 int CPakReader::findFile(const char* name) {
     SPakFileEntry key;
-    key.name = name;
-    if (flagA) {
-        for (char& c : key.name) {
+    key.simpleFileName = name;
+    if (ignoreCase) {
+        for (char& c : key.simpleFileName) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
         }
     }
-    if (flagB) deletePathFromFilename(key.name);
+    if (ignorePaths) deletePathFromFilename(key.simpleFileName);
     return glitch::core::binary_search(entries, key);
 }
 
@@ -151,7 +151,7 @@ bool signedCharNameLess(const std::string& a, const std::string& b) {
 }
 }  // namespace
 
-bool operator<(const SPakFileEntry& a, const SPakFileEntry& b) { return signedCharNameLess(a.name, b.name); }
+bool operator<(const SPakFileEntry& a, const SPakFileEntry& b) { return signedCharNameLess(a.simpleFileName, b.simpleFileName); }
 
 namespace {
 // Little-endian 32-bit field of the pak file (Decisions in force: file data is decoded field by field).
@@ -185,14 +185,14 @@ bool CPakReader::scanLocalHeader() {
         readFile->read(nameBuffer, 56);
         nameBuffer[56] = '\0';
         SPakFileEntry entry;
-        entry.path = nameBuffer;  // up to the first NUL, as strlen gives
+        entry.pakFileName = nameBuffer;  // up to the first NUL, as strlen gives
         extractFilename(&entry);
         std::uint8_t offsetBytes[4] = {};
         std::uint8_t sizeBytes[4] = {};
         readFile->read(offsetBytes, 4);
         readFile->read(sizeBytes, 4);
-        entry.offset = static_cast<std::int32_t>(readLe32(offsetBytes));
-        entry.size = static_cast<std::int32_t>(readLe32(sizeBytes));
+        entry.pos = static_cast<std::int32_t>(readLe32(offsetBytes));
+        entry.length = static_cast<std::int32_t>(readLe32(sizeBytes));
         entries.push_back(entry);
     }
     return true;

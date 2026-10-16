@@ -362,10 +362,11 @@ int CSocket::OpenTCP(std::uint16_t port, unsigned int options) {
 }
 
 // 0x827da0 _ZN7CSocket15GetLocalAddressEv
-// Walks the SIOCGIFCONF list and returns the first up, non-loopback IPv4 address. Winsock
-// has no SIOCGIFCONF, so the Windows build asks the resolver for the host's addresses.
-// Partial: the original leaks its probe socket on the ioctl-failure and found paths; the
-// port closes it on every path. The Windows branch is a stand-in.
+// Walks the SIOCGIFCONF list and returns the first up, non-loopback IPv4 address. Winsock has no
+// SIOCGIFCONF; its equivalent is WSAIoctl(SIO_GET_INTERFACE_LIST) over a datagram socket, which gives the same
+// per-interface address and IFF_UP flag (the Windows build reads the list in the same order and applies the same tests).
+// The original leaks its probe socket on the ioctl-failure and found paths; the port closes it on every path
+// (a leaked descriptor is not behaviour anything reads).
 std::uint32_t CSocket::GetLocalAddress() {
 #ifndef _WIN32
     int fd = ::socket(AF_INET, SOCK_DGRAM, 0);
@@ -403,21 +404,28 @@ std::uint32_t CSocket::GetLocalAddress() {
     ::close(fd);
     return found;
 #else
-    char host[256] = {};
-    if (::gethostname(host, sizeof(host)) != 0) {
+    SOCKET probe = ::socket(AF_INET, SOCK_DGRAM, 0);
+    if (probe == INVALID_SOCKET) {
         return 0;
     }
-    hostent* he = ::gethostbyname(host);
-    if (he == nullptr || he->h_addrtype != AF_INET) {
+    INTERFACE_INFO list[32];
+    DWORD returned = 0;
+    if (::WSAIoctl(probe, SIO_GET_INTERFACE_LIST, nullptr, 0, list, sizeof(list), &returned, nullptr, nullptr) != 0) {
+        ::closesocket(probe);
         return 0;
     }
-    for (char** list = he->h_addr_list; list != nullptr && *list != nullptr; ++list) {
-        in_addr addr{};
-        std::memcpy(&addr, *list, sizeof(addr));
-        if (addr.s_addr != htonl(INADDR_LOOPBACK)) {
-            return static_cast<std::uint32_t>(addr.s_addr);
+    std::uint32_t found = 0;
+    const DWORD count = returned / sizeof(INTERFACE_INFO);
+    for (DWORD i = 0; i < count; ++i) {
+        if (list[i].iiAddress.Address.sa_family != AF_INET) {
+            continue;
+        }
+        if ((list[i].iiFlags & IFF_UP) != 0 && list[i].iiAddress.AddressIn.sin_addr.s_addr != htonl(INADDR_LOOPBACK)) {
+            found = static_cast<std::uint32_t>(list[i].iiAddress.AddressIn.sin_addr.s_addr);
+            break;
         }
     }
-    return 0;
+    ::closesocket(probe);
+    return found;
 #endif
 }

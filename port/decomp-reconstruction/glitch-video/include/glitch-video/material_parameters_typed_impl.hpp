@@ -20,8 +20,9 @@
 //                 When false, the dispatchers return 0 for them.
 //   kMatrixPtrGet, kMatrixPtrSet, kMatrixPtrGetCvt, kMatrixPtrSetCvt, kMatrixIdxGet, kMatrixIdxSet,
 //   kMatrixIdxGetCvt, kMatrixIdxSetCvt: code 11 (CMatrix4<float>) goes to the class matrix accessor in that
-//                 dispatcher. When false, that dispatcher returns 0 for code 11. The class accessors are
-//                 declared in material_parameters.hpp.
+//                 dispatcher (the Cvt dispatchers of the binary call the plain matrix accessor too: the class has no
+//                 matrix Cvt, Hex-Rays shows getParameter / setParameter in all eight). When false, that dispatcher returns 0
+//                 for code 11. The class accessors are declared in material_parameters.hpp.
 #pragma once
 
 #include <cstdint>
@@ -160,7 +161,7 @@ int IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, E_SHADER_PAR
     using B = MixinBackend<Derived>;
     const Derived& m = static_cast<const Derived&>(*this);
     if constexpr (B::kMatrixPtrGetCvt) {
-        if (type == shader_value_type::kMatrix4Float) return m.getParameterCvt(id, static_cast<typed_impl::CMatrix*>(out), count) ? 1 : 0;
+        if (type == shader_value_type::kMatrix4Float) return m.getParameter(id, static_cast<typed_impl::CMatrix*>(out), count) ? 1 : 0;  // the class has no matrix Cvt: the dispatcher calls the plain accessor
     }
     return typed_impl::withValueType<B>(type, [&](auto tag) -> int {
         using T = typename decltype(tag)::type;
@@ -188,7 +189,7 @@ int IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, E_SHADER_PAR
     using B = MixinBackend<Derived>;
     Derived& m = static_cast<Derived&>(*this);
     if constexpr (B::kMatrixPtrSetCvt) {
-        if (type == shader_value_type::kMatrix4Float) return m.setParameterCvt(id, static_cast<const typed_impl::CMatrix*>(src), count) ? 1 : 0;
+        if (type == shader_value_type::kMatrix4Float) return m.setParameter(id, static_cast<const typed_impl::CMatrix*>(src), count) ? 1 : 0;  // plain accessor, as above
     }
     return typed_impl::withValueType<B>(type, [&](auto tag) -> int {
         using T = typename decltype(tag)::type;
@@ -216,7 +217,7 @@ int IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, uint32_t ind
     using B = MixinBackend<Derived>;
     const Derived& m = static_cast<const Derived&>(*this);
     if constexpr (B::kMatrixIdxGetCvt) {
-        if (type == shader_value_type::kMatrix4Float) return m.getParameterCvt(id, index, *static_cast<typed_impl::CMatrix*>(out)) ? 1 : 0;
+        if (type == shader_value_type::kMatrix4Float) return m.getParameter(id, index, *static_cast<typed_impl::CMatrix*>(out)) ? 1 : 0;  // plain accessor, as above
     }
     return typed_impl::withValueType<B>(type, [&](auto tag) -> int {
         using T = typename decltype(tag)::type;
@@ -244,7 +245,7 @@ int IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, uint32_t ind
     using B = MixinBackend<Derived>;
     Derived& m = static_cast<Derived&>(*this);
     if constexpr (B::kMatrixIdxSetCvt) {
-        if (type == shader_value_type::kMatrix4Float) return m.setParameterCvt(id, index, *static_cast<const typed_impl::CMatrix*>(src)) ? 1 : 0;
+        if (type == shader_value_type::kMatrix4Float) return m.setParameter(id, index, *static_cast<const typed_impl::CMatrix*>(src)) ? 1 : 0;  // plain accessor, as above
     }
     return typed_impl::withValueType<B>(type, [&](auto tag) -> int {
         using T = typename decltype(tag)::type;

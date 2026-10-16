@@ -226,13 +226,13 @@ Structs::TriggerPlate* Row(int index) {
 
 void SetRow(int index, int w1, bool w2, int w3, int w4, int w5, int w6, int w7) {
     Structs::TriggerPlate* row = Row(index);
-    row->m_w1 = w1;
-    row->m_w2 = w2;
-    row->m_w3 = w3;
-    row->m_w4 = w4;
-    row->m_w5 = w5;
-    row->m_w6 = w6;
-    row->m_w7 = w7;
+    row->Behavior = w1;
+    row->IsActive = w2;
+    row->SoundOff = w3;
+    row->SoundOn = w4;
+    row->SpecificObject = w5;
+    row->TriggerType = w6;
+    row->Visual = w7;
 }
 
 void TestConstructorDefaults(TriggerPlate* plate) {

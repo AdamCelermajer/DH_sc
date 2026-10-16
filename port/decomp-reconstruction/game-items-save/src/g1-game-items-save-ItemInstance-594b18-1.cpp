@@ -96,10 +96,10 @@ int FindDelimiter(const char* text, int from) {
 void ItemInstance::_UpdateReqs() {
     m_requirements.assign("");
     const Structs::Item* row = GetItem();
-    if (row->m_w29 == 0 && row->m_w30 == 0 && row->m_w31 == 0 && row->m_w32 == 0 && row->m_w33 == 0 && row->m_w34 == 0) {
+    if (row->LevelRequirement == 0 && row->StrengthRequirement == 0 && row->DexterityRequirement == 0 && row->EnduranceRequirement == 0 && row->EnergyRequirement == 0 && row->ClassRequirement == 0) {
         return;
     }
-    if (row->m_w22 == 14) {
+    if (row->Type == 14) {
         return;
     }
 
@@ -108,39 +108,39 @@ void ItemInstance::_UpdateReqs() {
     const char* separator = StrIdText("GLOBAL_LIST_SEPERATOR");
 
     bool wrote = false;  // v12: a requirement line has been written
-    if (row->m_w29 != 0) {  // +0x74
-        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_LEVEL"), row->m_w29);
+    if (row->LevelRequirement != 0) {  // +0x74
+        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_LEVEL"), row->LevelRequirement);
         wrote = true;
     }
-    if (row->m_w30 != 0) {  // +0x78
+    if (row->StrengthRequirement != 0) {  // +0x78
         if (wrote) m_requirements += separator;
-        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_STRENGTH"), row->m_w30);
+        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_STRENGTH"), row->StrengthRequirement);
         wrote = true;
     }
-    if (row->m_w31 != 0) {  // +0x7c
+    if (row->DexterityRequirement != 0) {  // +0x7c
         if (wrote) m_requirements += separator;
-        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_DEXTERITY"), row->m_w31);
+        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_DEXTERITY"), row->DexterityRequirement);
         wrote = true;
     }
-    if (row->m_w32 != 0) {  // +0x80
+    if (row->EnduranceRequirement != 0) {  // +0x80
         if (wrote) m_requirements += separator;
-        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_ENDURANCE"), row->m_w32);
+        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_ENDURANCE"), row->EnduranceRequirement);
         wrote = true;
     }
-    if (row->m_w33 != 0) {  // +0x84
+    if (row->EnergyRequirement != 0) {  // +0x84
         if (wrote) m_requirements += separator;
-        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_ENERGY"), row->m_w33);
+        strings->parse(m_requirements, StrIdText("INGAME_REQUIRES_ENERGY"), row->EnergyRequirement);
         wrote = true;
     }
-    if (row->m_w34 != 0) {  // +0x88 class
+    if (row->ClassRequirement != 0) {  // +0x88 class
         if (wrote) m_requirements += separator;
         const char* format = StrIdText("INGAME_REQUIRES_CLASS");
         // PARTIAL: a class id outside 1..9 leaves the original's class name variable uninitialised, so the class line is
         // not written for it here. Classes 1..9 follow kClassCharacterRow.
-        if (row->m_w34 >= 1 && row->m_w34 <= 9) {
+        if (row->ClassRequirement >= 1 && row->ClassRequirement <= 9) {
             const int nameId = TableRow<Structs::CharacterProperties>(Arrays::CharacterTable::members,
-                                                                      kClassCharacterRow[row->m_w34])
-                                   ->m_w6;
+                                                                      kClassCharacterRow[row->ClassRequirement])
+                                   ->ClassString;
             strings->parse(m_requirements, format, strings->getString(nameId));
         }
     }
@@ -151,7 +151,7 @@ void ItemInstance::_UpdateReqs() {
 void ItemInstance::_UpdateStats() {
     m_stats.assign("");
     const Structs::Item* row = GetItem();
-    const unsigned int itemType = static_cast<unsigned int>(row->m_w22);  // +0x58
+    const unsigned int itemType = static_cast<unsigned int>(row->Type);  // +0x58
     if (itemType > 0xC) {
         return;
     }
@@ -159,19 +159,19 @@ void ItemInstance::_UpdateStats() {
     StringManager* strings = ApplicationGetStringManager();
     if ((typeBit & 0x1780u) != 0) {
         // Types 7, 8, 9, 10 and 12: armour rating only.
-        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_ARMOR_RATING"), row->m_w35 >> 8);
+        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_ARMOR_RATING"), row->Param1 >> 8);
         return;
     }
     if ((typeBit & 0x40u) != 0) {
         // Type 6: armour rating, a space, block rating.
-        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_ARMOR_RATING"), row->m_w35 >> 8);
+        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_ARMOR_RATING"), row->Param1 >> 8);
         m_stats.append(" ");  // _M_append(v1, " ", ""): one space
-        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_BLOCK_RATING"), row->m_w36 >> 8);
+        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_BLOCK_RATING"), row->Param2 >> 8);
         return;
     }
     if ((typeBit & 0x3Fu) != 0) {
         // Types 0 to 5: damage description with the armour and block rating as its two values.
-        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_DAMAGE_DESC"), row->m_w35 >> 8, row->m_w36 >> 8);
+        strings->parse(m_stats, StrIdText("GAMEPLAYMENUS_DAMAGE_DESC"), row->Param1 >> 8, row->Param2 >> 8);
     }
 }
 
@@ -189,11 +189,11 @@ void ItemInstance::PowerInfo::swap(PowerInfo& other) {
 void ItemInstance::_UpdateName() {
     m_name.assign("");
     const Structs::Item* row = GetItem();
-    if (row->m_w17 == -1) {  // +0x44 name string id
+    if (row->Name == -1) {  // +0x44 name string id
         return;
     }
     StringManager* strings = ApplicationGetStringManager();
-    const char* nameText = strings->getString(row->m_w17);  // the name template (String in the original)
+    const char* nameText = strings->getString(row->Name);  // the name template (String in the original)
 
     // Gender tag of the name template: [f] first, then [fs], then [s].
     const char* tag = std::strstr(nameText, kFemaleTag);
@@ -216,8 +216,8 @@ void ItemInstance::_UpdateName() {
 
     // The second text (+0x48) and its segment.
     const char* after = nullptr;  // v8
-    if (row->m_w18 != -1) {
-        after = strings->getString(row->m_w18);
+    if (row->Material != -1) {
+        after = strings->getString(row->Material);
     }
     std::string suffix;           // v37: the selected segment of the second text
     bool tagInside = false;       // v26: the isAfter tag is found after the first character
@@ -315,22 +315,22 @@ void ItemInstance::AddPower(int powerId, int variant) {
     const Structs::ItemPowerRef* row = TableRow<Structs::ItemPowerRef>(Arrays::ItemPowerTable::members, id);
     PowerInfo info;
     info.m_powerId = id;
-    info.unk_04 = row->m_w7;  // +0x1c, the ItemPowerTable value
+    info.unk_04 = row->SortingOrder;  // +0x1c, the ItemPowerTable value
     m_powers.push_back(info);
 
-    if (row->m_w3 != 0) {
+    if (row->AttrBonusListSize != 0) {
         VarArgs args;
-        const auto* values = static_cast<const Structs::AttrBonusEntry*>(row->m_w4);
-        for (std::uint32_t k = 0; k < row->m_w3; ++k) {
+        const auto* values = static_cast<const Structs::AttrBonusEntry*>(row->AttrBonusList);
+        for (std::uint32_t k = 0; k < row->AttrBonusListSize; ++k) {
             VarArgs::Variant entry;
-            entry.number = static_cast<float>(values[k].m_w2) * 0.00390625f;
-            entry.integer = values[k].m_w2 >> 8;
+            entry.number = static_cast<float>(values[k].Bonus) * 0.00390625f;
+            entry.integer = values[k].Bonus >> 8;
             entry.text = nullptr;
             args.m_variants.push_back(entry);
         }
-        ApplicationGetStringManager()->parseEx(m_powers.back().m_desc, ApplicationGetStringManager()->getString(row->m_w5), args);
+        ApplicationGetStringManager()->parseEx(m_powers.back().m_desc, ApplicationGetStringManager()->getString(row->Description), args);
     } else {
-        m_powers.back().m_desc.assign(ApplicationGetStringManager()->getString(row->m_w5));
+        m_powers.back().m_desc.assign(ApplicationGetStringManager()->getString(row->Description));
     }
 
     // Insertion step on the value, compared by position. PowerInfo::swap does not move unk_04, so this pass compares the

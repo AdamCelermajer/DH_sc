@@ -12,7 +12,7 @@ static int failures = 0;
 namespace {
 struct CountingObserver : GLXPlayerMPBaseObserver {
     int invalid = 0;
-    void OnMPFinishGameSuccess() override { ++invalid; }
+    void OnMPNetworkError(std::int32_t) override { ++invalid; }
 };
 }  // namespace
 

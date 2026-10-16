@@ -14,20 +14,20 @@ using namespace glitch::io;
 int main() {
     // The copy constructor and assignment copy all three strings and both integers.
     SPakFileEntry a;
-    a.path = "data/ui/icon.png";
-    a.name = "icon.png";
-    a.extra = "x";
-    a.offset = 0x1234;
-    a.size = 42;
+    a.pakFileName = "data/ui/icon.png";
+    a.simpleFileName = "icon.png";
+    a.path = "x";
+    a.pos = 0x1234;
+    a.length = 42;
     SPakFileEntry b(a);
-    CHECK(b.path == a.path && b.name == a.name && b.extra == a.extra);
-    CHECK(b.offset == 0x1234 && b.size == 42);
+    CHECK(b.pakFileName == a.pakFileName && b.simpleFileName == a.simpleFileName && b.path == a.path);
+    CHECK(b.pos == 0x1234 && b.length == 42);
     SPakFileEntry c;
     c = b;
-    CHECK(c.path == "data/ui/icon.png" && c.name == "icon.png" && c.extra == "x");
-    CHECK(c.offset == 0x1234 && c.size == 42);
+    CHECK(c.pakFileName == "data/ui/icon.png" && c.simpleFileName == "icon.png" && c.path == "x");
+    CHECK(c.pos == 0x1234 && c.length == 42);
     c = c;  // self-assignment keeps the value
-    CHECK(c.path == "data/ui/icon.png" && c.size == 42);
+    CHECK(c.pakFileName == "data/ui/icon.png" && c.length == 42);
 
     // The count and the entry access follow the entry vector (0x50 bytes per entry).
     CPakReader reader;
@@ -35,7 +35,7 @@ int main() {
     reader.entries.push_back(a);
     reader.entries.push_back(b);
     CHECK(reader.getFileCount() == 2);
-    CHECK(reader.getFileInfo(1)->size == 42 && reader.getFileInfo(0)->path == a.path);
+    CHECK(reader.getFileInfo(1)->length == 42 && reader.getFileInfo(0)->pakFileName == a.pakFileName);
     CHECK(reader.getFileInfo(1) == reader.entries.data() + 1);
 
     // deletePathFromFilename keeps the text after the last separator.

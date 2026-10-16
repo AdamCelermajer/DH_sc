@@ -67,10 +67,10 @@ float HeadingLengthSquared(const Character* character) {
 // Structs::DesignSettings record 0 of Arrays::DesignSettingsTable (the original reads members + 92 and members + 96,
 // with no index): m_w23 at +0x5c is the walk threshold and m_w24 at +0x60 is the run threshold.
 float WalkThreshold() {
-    return reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w23;
+    return reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->PlayerRunToWalkPercent;
 }
 float RunThreshold() {
-    return reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w24;
+    return reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->PlayerWalkToRunPercent;
 }
 
 // The AnimStancedAnim/SL__LIST_IPHONE constant from the application's PyDataConstants, masked with `bit`.
@@ -95,7 +95,7 @@ void ApplyWalk(Character* character) {
     const std::int32_t speedBits = character->CharProperties::PROPS_GetWalkSpeed();
     character->CharStateMachine::unk_30 = static_cast<std::uint32_t>(speedBits);
     const Structs::CharAnim* row = character->GetCharAnimTable();
-    const int anim = StancedAnim(character, row->m_w37, kWalkStanceBit);
+    const int anim = StancedAnim(character, row->Walk, kWalkStanceBit);
     character->CharAnimator::ANIM_Set(anim);
     character->CharAnimator::ANIM_SetSpeed(FloatFromBits(speedBits));
 }
@@ -106,7 +106,7 @@ void ApplyRun(Character* character) {
     const std::int32_t speedBits = character->CharProperties::PROPS_GetWalkSpeed();
     character->CharStateMachine::unk_30 = static_cast<std::uint32_t>(speedBits);
     const Structs::CharAnim* row = character->GetCharAnimTable();
-    const int anim = StancedAnim(character, row->m_w28, kRunStanceBit);
+    const int anim = StancedAnim(character, row->Run, kRunStanceBit);
     character->CharAnimator::ANIM_Set(anim);
     character->CharAnimator::ANIM_SetSpeed(FloatFromBits(speedBits));
 }

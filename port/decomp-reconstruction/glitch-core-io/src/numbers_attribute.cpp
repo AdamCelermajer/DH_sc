@@ -1,6 +1,7 @@
 #include "glitch-core-io/io/numbers_attribute.hpp"
 
 #include <sstream>
+#include "glitch-core-io/core/strings.hpp"
 #include <string>
 
 namespace glitch::io {
@@ -312,6 +313,26 @@ glitch::core::vector3d<float> CNumbersAttribute::getVector3d() const {
     if (count >= 2) v.Y = activeFloat(1);
     if (count >= 3) v.Z = activeFloat(2);
     return v;
+}
+
+// 0x325070 _ZN6glitch2io17CNumbersAttribute9setStringEPKc
+// Irrlicht 1.5.1 CNumbersAttribute::setString: reset(), then for i < Count while the text is not at its end, skip
+// to the next '-' or digit and read the number with fast_atof_move (ValueF[i] = c, or ValueI[i] = (s32)c). The
+// listing has the same loops: a count of zero returns before the text is read, and the text pointer is not tested
+// for null (the port returns after the reset instead of faulting).
+void CNumbersAttribute::setString(const char* text) {
+    if (count == 0) return;
+    clearActive();
+    if (text == nullptr) return;
+    const char* p = text;
+    for (std::size_t i = 0; i < count && *p != '\0'; ++i) {
+        while (*p != '\0' && *p != '-' && (*p < '0' || *p > '9')) ++p;
+        if (*p != '\0') {
+            float number = 0.f;
+            p = glitch::core::fast_atof_move(p, number);
+            setActive(i, number);  // an int list truncates (the listing's f2iz)
+        }
+    }
 }
 
 // 0x324df4 _ZN6glitch2io17CNumbersAttribute11setVector3dERKNS_4core8vector3dIfEE

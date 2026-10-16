@@ -304,7 +304,7 @@ public:
     bool everyMeshVertex = false;                    // +0x20
     bool useNormalDirection = false;                 // +0x21
     float normalDirectionModifier = 0.0f;            // +0x24
-    std::vector<std::int32_t> unk_28;                // +0x28 (a second vector of words, zero at construction; the destructor frees it)
+    std::vector<SParticle> particles;                // +0x28 (upstream Particles; emitt is a stub in the binary, so it stays empty; the destructor frees it)
     core::vector3d<float> direction;                 // +0x34
     std::uint32_t minParticlesPerSecond = 0;         // +0x40
     std::uint32_t maxParticlesPerSecond = 0;         // +0x44
@@ -367,7 +367,7 @@ public:
     bool everyMeshVertex = false;                    // +0x28
     bool useNormalDirection = false;                 // +0x29
     float normalDirectionModifier = 0.0f;            // +0x2c
-    std::vector<std::int32_t> unk_30;                // +0x30 (a second vector of words, zero at construction; the destructor frees it)
+    std::vector<SParticle> particles;                // +0x30 (upstream Particles; emitt is a stub in the binary, so it stays empty; the destructor frees it)
     core::vector3d<float> direction;                 // +0x3c
     std::uint32_t minParticlesPerSecond = 0;         // +0x48
     std::uint32_t maxParticlesPerSecond = 0;         // +0x4c

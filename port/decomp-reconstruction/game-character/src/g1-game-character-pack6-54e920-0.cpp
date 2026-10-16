@@ -75,7 +75,7 @@ void CSRevived::OnFocus(int, Character* character, CharStateMachine*, int, int, 
     character->CharStateMachine::m_stateFlags = 9025u;
     character->CancelSneaking();
     const Structs::CharAnim* row = character->GetCharAnimTable();
-    const int anim = AnimStanceOffset(character, 0x100000) + row->m_w26;
+    const int anim = AnimStanceOffset(character, 0x100000) + row->Revived;
     character->CharStateMachine::SM_SetAnim(anim);
     character->m_controller->m_blocked = true;
 }
@@ -138,7 +138,7 @@ void CSReviving::OnFocus(int, Character* character, CharStateMachine*, int, int,
     character->CharAI::AI_SetTarget(nullptr, false);
     character->CharAI::AI_SyncLastTarget();
     const Structs::CharAnim* row = character->GetCharAnimTable();
-    const int anim = AnimStanceOffset(character, 0x80000) + row->m_w27;
+    const int anim = AnimStanceOffset(character, 0x80000) + row->Reviving;
     character->CharStateMachine::SM_SetAnim(anim);
 }
 

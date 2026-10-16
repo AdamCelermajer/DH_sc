@@ -53,6 +53,25 @@ std::string ddsFile(uint32_t size, uint32_t pixelFormatSize) {
     return file;
 }
 
+// A 24-bit BMP of 2 x 1 pixels (padded rows of 8 bytes): blue then red.
+std::string bmpFile24() {
+    std::string file(54, 0);
+    auto put = [&](size_t off, uint32_t v, int bytes) {
+        for (int i = 0; i < bytes; ++i) file[off + i] = static_cast<char>(v >> (8 * i));
+    };
+    put(0, 0x4d42, 2);
+    put(10, 54, 4);
+    put(14, 40, 4);
+    put(18, 2, 4);
+    put(22, 1, 4);
+    put(26, 1, 2);
+    put(28, 24, 2);
+    put(34, 8, 4);
+    const unsigned char pixels[8] = {0xff, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00};
+    file.append(reinterpret_cast<const char*>(pixels), 8);
+    return file;
+}
+
 }  // namespace
 
 int main() {
@@ -106,11 +125,11 @@ int main() {
     CHECK(!readDDSHeader(&ddsShort, header));
 
     // Texture data reader: source step without the pitch flag uses the header dimensions.
-    STextureHeaderBlock dims;
-    dims.width = 64;
-    dims.height = 32;
+    glitch::video::test::TestTexture dims(64, 32);  // dimensions at +0x24 / +0x28 are the height and the depth
+    dims.m_height = 64;
+    dims.m_depth = 32;
     STextureDataInfo info;
-    info.header = &dims;
+    info.texture = &dims;
     glitch::video::test::TestTextureDataLoading loading;
     loading.m_info = &info;
     loading.m_sourceStep = 4;
@@ -127,6 +146,20 @@ int main() {
     CHECK(!loading.m_flag20);
     CHECK(loading.read(buf, 4) == 0);
     CHECK(loading.m_flag20);
+
+    // BMP: a 24-bit file loads as a 10 (24-bit) image of the file's size; a file that is not BMP gives null.
+    {
+        glitch::video::CImageLoaderBMP bmp;
+        MemoryFile good(bmpFile24());
+        boost::intrusive_ptr<glitch::video::CImage> image = bmp.loadImage(&good);
+        CHECK(image != nullptr);
+        if (image) {
+            CHECK(image->m_width == 2 && image->m_height == 1);
+            CHECK(image->m_format == 10);
+        }
+        MemoryFile notBmp(std::string(60, 'x'));
+        CHECK(bmp.loadImage(&notBmp) == nullptr);
+    }
 
     // Factories: new loader with the reference word at 1.
     IImageLoader* atc = createImageLoaderATC();

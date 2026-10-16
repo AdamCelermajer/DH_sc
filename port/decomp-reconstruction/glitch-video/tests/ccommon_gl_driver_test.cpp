@@ -1,6 +1,7 @@
 // Render-state setters of CCommonGLDriver. GL calls go through the function
 // table in deps/gl_function_table.hpp; this test records them.
 #include "glitch-video/ccommon_gl_driver.hpp"
+#include "glitch-video/programmable_gl_driver.hpp"
 #include "glitch-video/deps/gl_function_table.hpp"
 #include "glitch-video/texture.hpp"
 
@@ -53,18 +54,31 @@ void installRecorders() {
 }
 
 // Counts the flush hook (vtable +0x1fc in the original) and the present hook.
-class TestDriver : public CCommonGLDriver {
+class TestDriver : public CProgrammableGLDriver {
 public:
     int flushes = 0;
     int presents = 0;
     void flush() override { ++flushes; }
-    void presentHook() override { ++presents; }
+    bool swapBuffersImpl(int32_t) override { ++presents; return true; }
 };
 }  // namespace
 
 int main() {
     installRecorders();
     TestDriver d;
+
+    // The constructor defaults are the binary's (SShadowRenderState 0x6dcac0): depth test and depth mask on, depth function 3,
+    // stencil function 7 with mask 0xff, all colour channels on, clear colour opaque black, unit clear depth / line width /
+    // point size / polygon-offset units / sample-coverage value.
+    CHECK(d.getDepthTestEnable() && d.getDepthMask() && d.getDepthFunc() == 3);
+    CHECK(!d.getBlendEnable() && !d.getCullFaceEnable() && !d.getDitherEnable() && !d.getScissorEnable());
+    CHECK(d.getStencilFunc() == 7 && d.getStencilFuncRef(nullptr) == 0 && d.getStencilFuncMask(nullptr) == 0xff);
+    CHECK(d.getStencilMask(nullptr) == 0xff && d.getClearStencil() == 0);
+    CHECK(d.getColorMaskBits() == 0x01010101u);
+    CHECK(d.getClearColor().color == 0xff000000u && d.getBlendColor().color == 0);
+    CHECK(d.getClearDepth() == 1.0f && d.getLineWidth() == 1.0f && d.getPointSize() == 1.0f);
+    CHECK(d.getSampleCoverageValue() == 1.0f);
+    CHECK(d.getColorFormat() == 10);
 
     // Capability setters: enable on the first change, nothing when unchanged.
     resetRecorders();
@@ -84,16 +98,16 @@ int main() {
     CHECK(g_lastCap == 0xc11 && d.getScissorEnable());
     d.setSampleCoverageEnable(true);
     CHECK(g_lastCap == 0x80a0 && d.getSampleCoverageEnable());
-    d.setDepthTestEnable(true);
-    CHECK(g_lastCap == 0xb71 && d.getDepthTestEnable());
+    d.setDepthTestEnable(false);  // on by default
+    CHECK(g_lastCap == 0xb71 && !d.getDepthTestEnable());
 
     // Depth mask, line width, point size.
     resetRecorders();
-    d.setDepthMask(false);               // cached default is false: no GL call
+    d.setDepthMask(true);                // cached default is true: no GL call
     CHECK(g_depthMask == 0);
-    d.setDepthMask(true);
-    CHECK(g_depthMask == 1 && d.getDepthMask() == true);
-    d.setDepthMask(true);
+    d.setDepthMask(false);
+    CHECK(g_depthMask == 1 && d.getDepthMask() == false);
+    d.setDepthMask(false);
     CHECK(g_depthMask == 1);
     d.setLineWidth(2.5f);
     CHECK(g_lineWidth == 1 && d.getLineWidth() == 2.5f);
@@ -107,7 +121,7 @@ int main() {
     CHECK(g_clearDepth == 1);
     d.setClearDepth(0.5f);
     CHECK(g_clearDepth == 2);
-    CHECK(d.getClearDepth() == 0.0f);
+    CHECK(d.getClearDepth() == 1.0f);
 
     // Depth range stores both ends and is skipped when both are unchanged.
     resetRecorders();
@@ -221,16 +235,16 @@ int main() {
         CHECK(equation == 0x8007);
         m.setCullFace(1);
         CHECK(cull == 0x404);
-        m.setDepthFunc(3);
-        CHECK(depthFunc == 0x203);
+        m.setDepthFunc(5);  // 3 is the default
+        CHECK(depthFunc == 0x205);
         m.setFrontFace(1);
         CHECK(frontFace == 0x900);
         m.setStencilFuncRef(5);
-        CHECK(stencilFunc[0] == 0x200 && stencilFunc[1] == 5 && stencilFunc[2] == 0);
+        CHECK(stencilFunc[0] == 0x207 && stencilFunc[1] == 5 && stencilFunc[2] == 0xff);  // default function 7, mask 0xff
         m.setStencilFuncMask(0x0f);
         CHECK(stencilFunc[1] == 5 && stencilFunc[2] == 0x0f);
-        m.setStencilFunc(7);
-        CHECK(stencilFunc[0] == 0x207 && stencilFunc[1] == 5 && stencilFunc[2] == 0x0f);
+        m.setStencilFunc(1);
+        CHECK(stencilFunc[0] == 0x201 && stencilFunc[1] == 5 && stencilFunc[2] == 0x0f);
         m.setStencilOpFail(4);
         CHECK(stencilOp[0] == 0x8507 && stencilOp[1] == 0x1e00 && stencilOp[2] == 0x1e00);
         m.setStencilOpZFail(7);

@@ -220,9 +220,9 @@ void testSetState() {
     GameEvent e;
     Structs::v2Event data;
     char name[] = "EV_TEST.START";
-    data.m_w3 = name;
-    data.m_w4 = 0;
-    data.m_w5 = nullptr;
+    data.Script = name;
+    data.TriggersSize = 0;
+    data.Triggers = nullptr;
     e.AssignPyData(&data);
 
     e.SetState(1);
@@ -268,7 +268,7 @@ void testUpdateActive() {
     GameEvent e;
     Structs::v2Event data;
     char name[] = "EV_DONE.END";
-    data.m_w3 = name;
+    data.Script = name;
     e.AssignPyData(&data);
     e.m_state = 1;
 
@@ -338,8 +338,8 @@ void testAssignPyData() {
     GameEvent e;
     Structs::v2Event data;
     std::uint8_t block[16] = {};
-    data.m_w4 = 3;
-    data.m_w5 = block;
+    data.TriggersSize = 3;
+    data.Triggers = block;
     e.AssignPyData(&data);
     EXPECT(e.m_pyData == &data);
     EXPECT(g_assignCount == 3);

@@ -1072,7 +1072,7 @@ elf_address,symbol,status,source_file,notes
 0x70c980,FT_Bitmap_Convert,upstream,tinyxml-and-c-libs/upstream/freetype-2.3.7/src/base/ftbitmap.c,"FreeType 2.3.7, ftbitmap.c: name match + size gate (bytes/token 0.96, median 1.41)"
 0x70cd64,FT_Bitmap_Embolden,upstream,tinyxml-and-c-libs/upstream/freetype-2.3.7/src/base/ftbitmap.c,"FreeType 2.3.7, ftbitmap.c: name match + size gate (bytes/token 2.52, median 1.41)"
 0x70d334,FT_Bitmap_Copy,upstream,tinyxml-and-c-libs/upstream/freetype-2.3.7/src/base/ftbitmap.c,"FreeType 2.3.7, ftbitmap.c: name match + size gate (bytes/token 1.27, median 1.41)"
-0x70d434,OutputDebugStringA,skipped,,"OutputDebugStringA: a 4-byte branch to the Win32 import. The Android build has no such import, so it is not rebuilt"
+0x70d434,OutputDebugStringA,reconstructed,tinyxml-and-c-libs/src/ok3-OutputDebugStringA.cpp,"Bare return (BX LR), the Win32 import the FreeType panic/message helpers call. Compiled only on non-Windows hosts, where kernel32 does not supply it."
 0x70d438,ft_debug_init,upstream,tinyxml-and-c-libs/upstream/freetype-2.3.7/src/base/ftdebug.c,"FreeType 2.3.7, ftdebug.c: name match + size gate (bytes/token 1.43, median 1.41)"
 0x70d5d0,FT_Panic,upstream,tinyxml-and-c-libs/upstream/freetype-2.3.7/src/base/ftdebug.c,"FreeType 2.3.7, ftdebug.c: name match + size gate (bytes/token 2.07, median 1.41)"
 0x70d610,FT_Message,upstream,tinyxml-and-c-libs/upstream/freetype-2.3.7/src/base/ftdebug.c,"FreeType 2.3.7, ftdebug.c: name match + size gate (bytes/token 3.67, median 1.41)"
@@ -1838,7 +1838,7 @@ elf_address,symbol,status,source_file,notes
 0x8779fc,_ZL10start_pageP10stb_vorbis,upstream,,"stb_vorbis (public domain): start_page; name match only. stb_vorbis is not vendored in this repo, so the body was not compared. vox-audio owns stb_vorbis and should confirm"
 0x877b00,_ZL12start_packetP10stb_vorbis,upstream,,"stb_vorbis (public domain): start_packet; name match only. stb_vorbis is not vendored in this repo, so the body was not compared. vox-audio owns stb_vorbis and should confirm"
 0x878b38,_ZL13start_decoderP10stb_vorbis,upstream,,"stb_vorbis (public domain): start_decoder; name match only. stb_vorbis is not vendored in this repo, so the body was not compared. vox-audio owns stb_vorbis and should confirm"
-0x8960f4,crc32mpc,upstream,,zlib 1.2.3: crc32mpc (name-matched upstream symbol)
+0x8960f4,crc32mpc,reconstructed,tinyxml-and-c-libs/src/crc32mpc.cpp,"CRC-32 (0xEDB88320, init 0, lazily built table) used by libmpcdec streaminfo.c. dh2_vendor_mpc is built with -Dmpc_crc32=crc32mpc. Not zlib: zlib has its own crc32."
 0x89c910,_Z32SSEncDec_GetCharFromKeyByIndexLCi,reconstructed,tinyxml-and-c-libs/src/ssencdec.cpp,"SSEncDec key table, index to char (LC copy, same logic as 82ac58); tests/ssencdec_test.cpp"
 0x89c958,_Z25SSEncDec_GetKeyFromCharLCc,reconstructed,tinyxml-and-c-libs/src/ssencdec.cpp,"SSEncDec key table, char to key (LC copy, same logic as 82ac9c); tests/ssencdec_test.cpp"
 0x89cd60,_Z25SSEncDec_Blob2ByteArrayLCPPhPc,reconstructed,tinyxml-and-c-libs/src/ssencdec.cpp,"LC copy of 82b074: same decode loop, with SSEncDec_GetKeyFromCharLC. The blob byte is loaded signed (LDRSB) and the key is sign-extended (LSL #24, ASR #24), so the key is signed char as in 82b074. The LC key helper matches the non-LC one (checked, both signed). LC_API_STRLEN (0x89cc98) is a thunk to LC_API_STRLEN_0, which is strlen"

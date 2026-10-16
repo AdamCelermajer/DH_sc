@@ -132,7 +132,7 @@ void TouchScreenBase::touchBegan(const Point2D<short>& p, long slot) {
     s.time_ = time_now_;
     s.touched_ = true;
     s.valid_ = true;
-    slots_[slot + 1].mark_ = 0;
+    s.mark_ = 0;
     _AddToQueue(kTouchBegan, Point2D<float>{static_cast<float>(p.X), static_cast<float>(p.Y)}, slot);
 }
 
@@ -147,7 +147,7 @@ void TouchScreenBase::touchMoved(const Point2D<short>& p, long slot) {
         s.cur_[0] = p.X;
         s.cur_[1] = p.Y;
         s.time_ = time_now_;
-        slots_[slot + 1].mark_ = 1;
+        s.mark_ = 1;
         const int dx = static_cast<int>(s.begin_[0]) - static_cast<int>(s.cur_[0]);
         const int dy = static_cast<int>(s.begin_[1]) - static_cast<int>(s.cur_[1]);
         if (std::abs(dx) > 11 && std::abs(dy) < 5 && s.swipe_ == 0) {
@@ -162,7 +162,7 @@ void TouchScreenBase::touchCancelled(const Point2D<short>& p, long slot) {
     Slot& s = slots_[slot];
     s.id_ = -1;
     s.touched_ = false;
-    slots_[slot + 1].mark_ = 2;
+    s.mark_ = 2;
     if (active_ - 1 == slot) {
         active_ = static_cast<int>(slot);
     }
@@ -178,7 +178,7 @@ void TouchScreenBase::touchEnded(const Point2D<short>& p, long slot) {
 // 0x33b2ec TouchScreenBase::hasTouch()
 bool TouchScreenBase::hasTouch() {
     for (int i = 0; i < 8; ++i) {
-        if (slots_[i].touched_ && slots_[i].valid_) {
+        if (slots_[i].touched_ && slots_[i].mark_ == 0 && slots_[i].valid_) {
             return true;
         }
     }
@@ -256,6 +256,45 @@ Point2D<short> TouchScreenBase::getTouchDisplacement(long slot) const {
     out.X = static_cast<short>(s.cur_[0] - s.prev_[0]);
     out.Y = static_cast<short>(s.cur_[1] - s.prev_[1]);
     return out;
+}
+
+// 0x33aebc TouchScreenBase::isRegionPressed(rect<float> const&) const (vtable +0x30)
+// True when some active slot is touched and valid, has no pending mark in the next record (mark_, the word at
+// the slot's +0x30: the original tests the DWORD at v4 + 48), and its current point lies in the region. The point is first
+// mirrored by the orientation (1: Y, 2: X and Y, 3: X; against the 16-bit width and height) and then scaled: the
+// shorts are converted to float, multiplied by the scale (+0x1b0), truncated to a 16-bit int and converted back.
+int TouchScreenBase::isRegionPressed(const glitch::core::rect<float>& r) const {
+    if (active_ <= 0) {
+        return 0;
+    }
+    for (int i = 0; i < active_; ++i) {
+        const Slot& s = slots_[i];
+        short x = s.cur_[0];
+        short y = s.cur_[1];
+        switch (orientation_) {
+            case 2:
+                x = static_cast<short>(width_ - x);
+                y = static_cast<short>(height_ - y);
+                break;
+            case 3:
+                x = static_cast<short>(width_ - x);
+                break;
+            case 1:
+                y = static_cast<short>(height_ - y);
+                break;
+            default:
+                break;
+        }
+        const float fx = static_cast<float>(static_cast<short>(static_cast<int>(static_cast<float>(x) * scale_)));
+        if (fx >= r.UpperLeftCorner.X) {
+            const float fy = static_cast<float>(static_cast<short>(static_cast<int>(static_cast<float>(y) * scale_)));
+            if (fy >= r.UpperLeftCorner.Y && fx <= r.LowerRightCorner.X && fy <= r.LowerRightCorner.Y && s.valid_ &&
+                s.touched_ && slots_[i].mark_ == 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 // 0x33b02c TouchScreenBase::getTouchIDInitiatedInRegion(rect<float> const&) const

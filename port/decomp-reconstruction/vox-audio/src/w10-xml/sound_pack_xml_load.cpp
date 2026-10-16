@@ -3,12 +3,16 @@
 // fills the pack's record tables from them. The record tables keep the port's accessor
 // layout, and their string pointers refer to the loader records (kept alive by loaded_).
 //
+// The loader shares two stack slots between its loops, as the binary does (verified against the ARM listing):
+//   slot A = var_13C: the sound uid, the maxplaybacks / threshold of the bank loop and the event uid;
+//   slot B = var_118: the sound bank / group / priority / customparamqty values, the group uid, the group-mask
+//            mask value and the bank uid.
+// A missing uid attribute leaves the slot as it was, so the element fills the record of the stale index (the
+// record's uid word is stored only when the uid was found). A slot that nothing has written yet holds an
+// undefined stack word in the binary; an element that would use it is skipped here.
+//
 // Deviations from the binary, all in the loader only:
-//  - sounds: an element without a uid reuses the last uid read (the binary's stack slot, see
-//    the loop). Only a leading run of elements without any uid is skipped, because the slot
-//    is not initialised before the first read. An out-of-range uid is skipped (the binary
-//    writes past the array). Groups, banks and events still skip an element without a uid:
-//    their uid slots are not traced yet (NOTES.md, wave 11).
+//  - an index outside its record table is skipped (the binary writes past the array).
 //  - a custom parameter count that is not positive gives no strings, where the binary
 //    allocates and writes past the array.
 //  - the sound label is not stored in the record (its +0x08 word is an int in the accessor
@@ -54,16 +58,6 @@ int SizeAttr(const TiXmlElement* e) {
         return 0;
     }
     return n;
-}
-
-// Reads a uid attribute and returns true when it names a slot below `limit`.
-bool ReadIndex(const TiXmlElement* e, std::size_t limit, std::size_t& index) {
-    int uid = 0;
-    if (!QueryInt(e, "uid", uid) || uid < 0 || static_cast<std::size_t>(uid) >= limit) {
-        return false;
-    }
-    index = static_cast<std::size_t>(uid);
-    return true;
 }
 
 // Splits a custom parameter string at ';' into `count` pieces: the last piece keeps the rest
@@ -165,20 +159,12 @@ VoxSoundPackXML::VoxSoundPackXML(const char* path) { LoadXML(path); }
 // own destructors.
 VoxSoundPackXML::~VoxSoundPackXML() = default;
 
-// 0x88d344 _ZN3vox15VoxSoundPackXML7LoadXMLEPKc (partial: one item, the shared uid slots)
-// Verified against the ARM listing: the sound loop's uid slot is var_13C (only its
-// QueryIntAttribute("uid") writes it); the group loop's uid slot is var_118, written by
-// QueryIntAttribute("mask", &var_118) at 0x88E394 and consumed by the groupmask->uid map insert;
-// the bank loop's uid slot is the same var_118, written by QueryIntAttribute("uid", &var_118) at
-// 0x88E56C and used at record stride 0x28; the event loop's uid slot is var_13C again, written by
-// QueryIntAttribute("uid", &var_13C) at 0x88E800 and used at record stride 0x2C. Two consequences
-// the port does not reproduce, which is what keeps this row partial: (1) var_118 is shared with
-// the sound loop's other int-attribute queries and var_13C with the sound loop's uid, so what a
-// group, bank or event element sees before its own uid query is the preceding loop's last query
-// value, not a fresh variable; (2) when the uid attribute is missing the listing does not skip the
-// element - it stores the stale slot value back into the record (STREQ R3,[base + stride*slot], or
-// the map insert for the group) and keeps filling the previous element's record. The port has one
-// fresh slot per loop and skips an element whose uid is missing or out of range.
+// 0x88d344 _ZN3vox15VoxSoundPackXML7LoadXMLEPKc
+// Reconstructed. Verified against the ARM listing: the sound loop reads its uid into var_13C (R7, slot A) and its
+// bank / group / priority / customparamqty into var_118 (R8, slot B); the group loop reads its uid into var_118;
+// the group-mask loop reads "mask" into var_118; the bank loop reads "uid" into var_118 and maxplaybacks /
+// threshold into var_13C; the event loop reads "uid" into var_13C. The two slots therefore carry values from
+// loop to loop, and an element without a uid fills the record at the stale index. See the header comment.
 int VoxSoundPackXML::LoadXML(const char* path) {
     sounds_.clear();
     groups_.clear();
@@ -217,31 +203,41 @@ int VoxSoundPackXML::LoadXML(const char* path) {
     // Sounds (records of 0x44 bytes in the binary). uid map: label -> uid, in document order.
     tables->sounds.resize(static_cast<std::size_t>(SizeAttr(
         TiXmlHandle(&doc).FirstChild("soundpack").FirstChild("sounds").ToElement())));
-    // The binary reads the uid into one stack slot (var_13C). A missing uid attribute leaves the
-    // slot alone, so the element writes into the record of the last uid read. Only the very
-    // first element without a uid is undetermined (the slot is not initialised) and is skipped.
-    int sound_uid_slot = 0;
-    bool sound_uid_known = false;
+    // The binary reads the uid into the stack slot A (var_13C) and the bank / group / priority / customparamqty
+    // values into slot B (var_118). A missing uid attribute leaves slot A alone, so the element writes into the
+    // record of the last uid read. Only an element before any uid was read is undetermined (the slot is not
+    // initialised) and its record writes are skipped; its slot B queries still run.
+    int slot_a = 0;
+    bool a_known = false;
+    int slot_b = 0;
+    bool b_known = false;
+    const auto query_b = [&](const TiXmlElement* e, const char* name) {
+        if (QueryInt(e, name, slot_b)) {
+            b_known = true;
+            return true;
+        }
+        return false;
+    };
     for (const TiXmlElement* e = TiXmlHandle(&doc)
                                      .FirstChild("soundpack")
                                      .FirstChild("sounds")
                                      .FirstChild("sound")
                                      .ToElement();
          e != nullptr; e = e->NextSiblingElement()) {
-        if (QueryInt(e, "uid", sound_uid_slot)) {
-            sound_uid_known = true;
+        const bool uid_found = QueryInt(e, "uid", slot_a);
+        if (uid_found) {
+            a_known = true;
         }
-        if (!sound_uid_known || sound_uid_slot < 0 ||
-            static_cast<std::size_t>(sound_uid_slot) >= tables->sounds.size()) {
-            continue;
-        }
-        const std::size_t index = static_cast<std::size_t>(sound_uid_slot);
-        SoundXMLDef& s = tables->sounds[index];
-        s.uid_ = static_cast<std::int32_t>(index);
-        int v = 0;
-        if (QueryInt(e, "bank", v)) s.bank_ = static_cast<std::int8_t>(v);
-        if (QueryInt(e, "group", v)) s.group_ = static_cast<std::int8_t>(v);
-        if (QueryInt(e, "priority", v)) s.priority_ = v;
+        const bool record_ok =
+            a_known && slot_a >= 0 && static_cast<std::size_t>(slot_a) < tables->sounds.size();
+        SoundXMLDef scratch;
+        SoundXMLDef& s = record_ok ? tables->sounds[static_cast<std::size_t>(slot_a)] : scratch;
+        const std::size_t index = record_ok ? static_cast<std::size_t>(slot_a) : 0;
+        // The uid word is stored only when the attribute was found.
+        if (uid_found) s.uid_ = static_cast<std::int32_t>(slot_a);
+        if (query_b(e, "bank")) s.bank_ = static_cast<std::int8_t>(slot_b);
+        if (query_b(e, "group")) s.group_ = static_cast<std::int8_t>(slot_b);
+        if (query_b(e, "priority")) s.priority_ = slot_b;
         if (const char* loop = Attr(e, "loop")) s.loop_ = loop[0] == 'y' ? 1 : 0;
         s.label_ = Attr(e, "label") != nullptr ? Attr(e, "label") : "";
         if (const char* format = Attr(e, "format")) ReadSoundFormat(format, s);
@@ -259,16 +255,17 @@ int VoxSoundPackXML::LoadXML(const char* path) {
             if (QueryDouble(e, kValueNames[i], d)) s.values_[i] = static_cast<float>(d);
         }
         if (Attr(e, "customparam") != nullptr) {
-            int qty = 0;
-            if (QueryInt(e, "customparamqty", qty)) s.custom_count_ = qty;
+            if (query_b(e, "customparamqty")) s.custom_count_ = slot_b;
             if (s.custom_count_ > 0) {
                 s.custom_ = SplitCustom(Attr(e, "customparam"), s.custom_count_);
             }
         }
-        // The key is a copy owned by the loaded tables, so a later element that rewrites this
-        // record's label cannot invalidate it.
-        tables->labels.push_back(s.label_);
-        sound_uids_[tables->labels.back().c_str()] = static_cast<std::int32_t>(index);
+        if (record_ok) {
+            // The key is a copy owned by the loaded tables, so a later element that rewrites this
+            // record's label cannot invalidate it.
+            tables->labels.push_back(s.label_);
+            sound_uids_[tables->labels.back().c_str()] = static_cast<std::int32_t>(index);
+        }
     }
 
     // Groups: size + 1 records, the attributes name the bus (+0x04) and the name (+0x1c).
@@ -281,12 +278,14 @@ int VoxSoundPackXML::LoadXML(const char* path) {
                                      .FirstChild("group")
                                      .ToElement();
          e != nullptr; e = e->NextSiblingElement()) {
-        std::size_t index = 0;
-        if (!ReadIndex(e, tables->groups.size(), index)) {
+        // The uid goes into slot B (var_118); without a uid the element fills the record at the stale slot value.
+        const bool found = QueryInt(e, "uid", slot_b);
+        if (found) b_known = true;
+        if (!b_known || slot_b < 0 || static_cast<std::size_t>(slot_b) >= tables->groups.size()) {
             continue;
         }
-        GroupXMLDef& g = tables->groups[index];
-        g.uid_ = static_cast<std::int32_t>(index);
+        GroupXMLDef& g = tables->groups[static_cast<std::size_t>(slot_b)];
+        if (found) g.uid_ = static_cast<std::int32_t>(slot_b);
         if (const char* pos = Attr(e, "pos3d")) {
             g.type_ = pos[0] == 'y' ? 1 : (pos[0] == 'r' ? 2 : 0);
         }
@@ -301,10 +300,9 @@ int VoxSoundPackXML::LoadXML(const char* path) {
                                      .FirstChild("groupmask")
                                      .ToElement();
          e != nullptr; e = e->NextSiblingElement()) {
-        int mask = 0;
         const char* label = Attr(e, "label");
-        if (QueryInt(e, "mask", mask) && label != nullptr) {
-            group_masks_[std::string(label)] = mask;
+        if (query_b(e, "mask") && label != nullptr) {  // the mask value goes into slot B (var_118)
+            group_masks_[std::string(label)] = slot_b;
         }
     }
 
@@ -318,15 +316,22 @@ int VoxSoundPackXML::LoadXML(const char* path) {
                                      .FirstChild("bank")
                                      .ToElement();
          e != nullptr; e = e->NextSiblingElement()) {
-        std::size_t index = 0;
-        if (!ReadIndex(e, tables->banks.size(), index)) {
-            continue;
+        // The uid goes into slot B (var_118); maxplaybacks and threshold go into slot A (var_13C).
+        const bool found = QueryInt(e, "uid", slot_b);
+        if (found) b_known = true;
+        const bool record_ok =
+            b_known && slot_b >= 0 && static_cast<std::size_t>(slot_b) < tables->banks.size();
+        BankXMLDef scratch;
+        BankXMLDef& b = record_ok ? tables->banks[static_cast<std::size_t>(slot_b)] : scratch;
+        if (found && record_ok) b.uid_ = static_cast<std::int32_t>(slot_b);
+        if (QueryInt(e, "maxplaybacks", slot_a)) {
+            a_known = true;
+            b.max_playbacks_ = slot_a;
         }
-        BankXMLDef& b = tables->banks[index];
-        b.uid_ = static_cast<std::int32_t>(index);
-        int v = 0;
-        if (QueryInt(e, "maxplaybacks", v)) b.max_playbacks_ = v;
-        if (QueryInt(e, "threshold", v)) b.threshold_ = v;
+        if (QueryInt(e, "threshold", slot_a)) {
+            a_known = true;
+            b.threshold_ = slot_a;
+        }
         b.name_ = Attr(e, "name") != nullptr ? Attr(e, "name") : "";
         if (const char* behaviour = Attr(e, "behaviour")) {
             if (std::strcmp(behaviour, "steal oldest") == 0) {
@@ -349,12 +354,14 @@ int VoxSoundPackXML::LoadXML(const char* path) {
                                      .FirstChild("event")
                                      .ToElement();
          e != nullptr; e = e->NextSiblingElement()) {
-        std::size_t index = 0;
-        if (!ReadIndex(e, tables->events.size(), index)) {
+        // The uid goes into slot A (var_13C), with whatever the bank loop left there when it is missing.
+        const bool found = QueryInt(e, "uid", slot_a);
+        if (found) a_known = true;
+        if (!a_known || slot_a < 0 || static_cast<std::size_t>(slot_a) >= tables->events.size()) {
             continue;
         }
-        EventXMLDef& ev = tables->events[index];
-        ev.uid_ = static_cast<std::int32_t>(index);
+        EventXMLDef& ev = tables->events[static_cast<std::size_t>(slot_a)];
+        if (found) ev.uid_ = static_cast<std::int32_t>(slot_a);
         ev.name_ = Attr(e, "label") != nullptr ? Attr(e, "label") : "";
         if (const char* type = Attr(e, "type")) {
             if (std::strcmp(type, "random") == 0) {

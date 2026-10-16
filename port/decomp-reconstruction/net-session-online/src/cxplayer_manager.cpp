@@ -149,7 +149,7 @@ void CXPlayerManager::Login(const char* user, const char* password) {
 // State 0 creates the login and leaderboard services and waits in state 4. State 2 logs in
 // with the stored credentials. States 4, 6, 0x0b, 0x0d and 0x0f are handled as in the
 // original. The rest print the not-implemented line.
-void CXPlayerManager::OnRequestSuccess(std::int32_t /*functionId*/, const char* data, std::int32_t dataLength) {
+void CXPlayerManager::OnRequestSuccess(std::int32_t /*functionId*/, char* data, std::int32_t dataLength) {
     std::printf("XPlayerManager: REQUESTSUCCESS data = %s, data_len = %d\n", data, dataLength);
     switch (state_) {
         case 0:
@@ -237,15 +237,4 @@ bool CXPlayerManager::UploadMyScore(std::int32_t score) {
     }
     SwitchState(10);
     return true;
-}
-
-// Observer slot 0 is OnNetworkError in the original vtable.
-void CXPlayerManager::OnDownloadError(std::int32_t /*code*/) { OnNetworkError(); }
-
-// Observer slot 3 forwards to OnRequestFailure (argument order inferred).
-void CXPlayerManager::OnResponseError(std::int32_t code, std::int32_t detail) { OnRequestFailure(code, detail); }
-
-// Observer slot 2 forwards to OnRequestSuccess.
-void CXPlayerManager::OnResponseText(std::int32_t functionId, const char* text, std::int32_t length) {
-    OnRequestSuccess(functionId, text, length);
 }

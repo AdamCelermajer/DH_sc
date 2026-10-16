@@ -16,7 +16,12 @@
 // three: the signatures would then exist twice with nothing checking that they match.
 #include "glitch-video/batch_driver.hpp"
 
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <limits>
+#include <map>
+#include <utility>
 #include <vector>
 
 // The one glitch-scene header this file needs, and it needs it for the CONSTRUCTION SITE only (operator new plus the
@@ -25,13 +30,17 @@
 // material_renderer_manager.cpp, which includes a glitch-scene-collada-gui header for the same reason, and it does not
 // put a glitch-scene header on any glitch-video header's include path.
 #include "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp"
+#include "glitch-video/batch_baker.hpp"
 #include "glitch-video/buffer.hpp"
+#include "glitch-video/vertex_attribute_map.hpp"
 #include "glitch-video/null_driver.hpp"
 #include "glitch-video/video_driver.hpp"
 
 namespace glitch::video {
 
 namespace {
+
+constexpr float kFloatMax = std::numeric_limits<float>::max();  // 0x7F7FFFFF
 
 // The option group IVideoDriver::setOption raises in the constructor: `setOption(0x100, 1)` is the first thing
 // 0x5a2e20 does after storing the members (asm 0x5a2e8c-0x5a2e94). The name is not recovered from the binary; 0x100
@@ -68,7 +77,7 @@ void releaseAppendBuffer(glitch::IReferenceCounted* buffer) {
 //   * vptr = _ZTVN6glitch5video12CBatchDriverE + 8 (the +8 is the vtable header of that toolchain; the class's
 //     vtable starts at 0x977108, the compiler adds 8 which lands on the destructor slot). The port's compiler does
 //     this itself.
-//   * +0x250 / +0x254 / +0x258 (segmentSize) and +0x25C (segmentSizeMode) = 0;
+//   * +0x250 / +0x254 / +0x258 (segmentSize) and +0x25C (maxIndices) = 0 (the mode byte at +0x260 is not written);
 //   * +0x22C = the vertex capacity argument, +0x230 = the index capacity argument;
 //   * +0x234, +0x238, +0x23C, +0x240 and +0x248 = null (the stores at 0x5a2e74-0x5a2e84);
 //   * IVideoDriver::setOption(this, 0x100, true) (0x5a90b0), which ORs 0x100 into this object's own option word
@@ -98,7 +107,7 @@ CBatchDriver::CBatchDriver(uint32_t vertexBufferCapacityBytes, uint32_t indexBuf
 // (asm 0x5a3d80-0x5a3dbc: the count word of the pointed-to CVertexStreams is decremented and, at zero, the
 // destructor 0x5a0a1c runs and the block is freed), and finally CNullDriver::~CNullDriver (0x5b9524) runs.
 // The port writes this as the ordinary member teardown: C++ destroys this class's declarations in reverse order
-// (+0x260 maxIndices, +0x25C segmentSizeMode, +0x250 segmentSize, the +0x248 mesh-buffer handle, the +0x244 raw
+// (+0x260 segmentSizeMode, +0x25C maxIndices, +0x250 segmentSize, the +0x248 mesh-buffer handle, the +0x244 raw
 // primitive-stream pointer, the +0x240 vertex-streams handle, the +0x23C callback and the +0x238 / +0x234
 // callbacks) and then the base. The two reference-counted drops the listing performs - +0x248 through the virtual
 // drop (0x5a3d64 / 0x5a3d7c) and +0x240 inline through CVertexStreams::~CVertexStreams 0x5a0a1c plus free
@@ -253,90 +262,243 @@ void CBatchDriver::flush() {
 // 0x5a6fe0 _ZN6glitch5video12CBatchDriver15thisAppendBatchERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_
 // 16CPrimitiveStreamERKNS3_IKNS_5scene11CMeshBufferEEE
 //
-// NOT WRITTEN, and this is the recovered structure of the whole body so the next pass does not have to read it out
-// of the export again (0x1aa0 bytes; Hex-Rays chunk_029.c lines 24009-25229). The Hex-Rays text prints byte offsets
-// as DWORD indices of a float* `a1` (`*((_DWORD *)a1 + 143)` is byte +0x23C); its parameters are
-// a1 = this, a2 = &streams, a3 = &primitives, a4 = &meshBuffer.
-//
-// PROLOGUE (0x5a6fe0-0x5a70d4) - recovered completely:
-//   1. local state: a vector of records (`v207/v208/v209`), the clustering result
-//      std::map<uint32, std::vector<uint32>> (`v202`..`v206`), the vertex-dedup std::map<uint16,uint16>
-//      (`v191`..`v195`) and the per-primitive box vector `p` (`v211`).
-//   2. `if (this->+0x23C == nullptr) goto CLUSTER;` - 0x5a6fec `LDR R12,[R0,#0x23C]`, 0x5a7034 `BEQ 0x5a83e0`.
-//   3. rebind +0x240: add-ref argument 1 (`++*v4`, the count is the pointee's +0x00), store it and release the old
-//      value (decrement, then CVertexStreams::~CVertexStreams 0x5a0a1c and free at zero).
-//   4. `*((_DWORD *)a1 + 145) = a3;` - +0x244 = the CPrimitiveStream* argument, not owned.
-//   5. rebind +0x248: add-ref the mesh buffer (count +0x04), store it, drop the old value through the virtual drop.
-//   6. `(**(int(**)(...))(*(_DWORD *)a1 + 0x23C) vtable + 8)(this + 0x23C, 0, 0, (int *)a1 + 144)` and test the
-//      result: non-zero enters the CLUSTER block. This is the +0x23C split-segment-choice callback called with
-//      (0, 0, &this->+0x240). 0x5a70b4-0x5a70d4.
-//
-// CLUSTER BLOCK (0x5a70d4-0x5a83e0) - entered when the choice callback is absent or answered non-zero:
-//   * gate: `((segmentSize.x || .y || .z) && !segmentSizeMode) || (maxIndices && segmentSizeMode)` (+0x250 floats,
-//     +0x260, +0x25C).
-//   * `v180 = *(uint16 *)(*a2 + 34)` = the vertex stride; the primitive stream's index buffer is mapped
-//     (`IBuffer::map(*a3, 1) + a3[1]`) and its vertex buffer likewise (`*(*a2 + 20)` mapped + `*(*a2 + 24)`).
-//   * for every primitive (`CPrimitiveStream::getPrimitiveCount`): the three vertices' floats at
-//     `vertexBase + stride * index` are clamped into +-FLT_MAX, accumulated into the run's total box and stored as
-//     a 28-byte `pair<uint32, aabbox3d<float>>` in `p`; then both mapped buffers are unbound with the inlined
-//     `--mapCount; if (!mapCount && (flags & 0x20)) vtable[0x18]()` sequence.
-//   * `maxIndices` mode: `v149 = a3[4] - a3[3]; v150 = v149 * v180 / *((_DWORD *)a1 + 151);
-//     if (v150 > 1) kdTreeClustering(&v202, (int *)&p, v149 / v150, (float *)&v196);`
-//     else `spatialGridClustering(&v202, (int *)&p, (const vector3d<float> *)(a1 + 148));`
-//     The two BL sites inside this function are 0x5a88a8 (kd-tree) and 0x5a89b8 (spatial grid); the FUNCTIONS are
-//     kdTreeClustering 0x5a6568 and spatialGridClustering 0x5a5860 (an earlier note listed the call sites as if
-//     they were the callees).
-//   * the `p` vector is released.
-//
-// RECORD BUILDING (0x5a77xx-0x5a83e0; the `v206 <= 1` test is the single-cluster shortcut):
-//   * with 0 or 1 cluster keys one record is built straight from the arguments ({streams = *a2, the primitives word
-//     for word: a3[1]..a3[4], a3[10]/a3[11]}) and pushed on the vector.
-//   * otherwise `isVertexStreamHomolaced(a2, &v219)` picks a fast path, and for every cluster key a CVertexStreams
-//     is built (a clone, or rebuilt stream by stream from the attribute map through
-//     `CVertexStreams::updateHomogeneityInternal` and `detail::SVertexAttributeTypeInspection::ValueTypeSize`) plus
-//     one IBuffer from the driver's vtable +0x78 (`(*(...)(*a1 + 120))(&out, a1, 0, 4, size, new[](size), 1)`), the
-//     cluster's indices are merged into a CPrimitiveStream, and every primitive's three vertices are looked up in
-//     the std::map<uint16,uint16> dedup table and copied once with
-//     `copyVertex(index, a2, &streams, base, &dest, homogeneous)`.
-//   * each finished record is pushed on the vector; the dedup map is erased and the temporary handles dropped.
-//
-// EMIT LOOP (0x5a83e0-0x5a8a70, `LABEL_117` in Hex-Rays):
-//   * `CAppendMeshBuffer::beginAppend(this->m_batchBuffer)` (`*((_DWORD *)a1 + 72)`, the BASE's +0x120).
-//   * per record, skipping while `(uint16)record[13] <= 3 || record[12] != 1`:
-//     - `CAppendMeshBuffer::hasEnoughSpace(buffer, record[5] - record[4], 3 * getPrimitiveCount)`, and when it
-//       answers false the original prints 28 identical `puts("@@@...")` lines and calls
-//       `(*(vtable + 508))(this)` = vtable +0x1fc = CBatchDriver::flush (0x5a7cb8);
-//     - the attribute map is the one reached through this +0xE8, or the static `IVideoDriver::DefaultAttribMap`
-//       rebuilt by `MEMSET(..., 255, 0x1E)` plus `DefaultAttribMap[entry.attribute] = index >> 4` per stream entry;
-//     - the record is handed to the batch baker's virtual at vtable +0x0C: `v80 = *((_DWORD *)a1 + 74)` = the base's
-//       +0x128 m_batchBaker, and the call takes 18 arguments (`v80, record, record + 2, +0x12c, the +0x134 byte,
-//       the attribute map, buffer + 20, buffer + 24, +0x124 material, ... , map counts, 0, primitives, -1`);
-//     - the append buffer's counters (words 5, 8, 9, 10, 15, 17, 18, 19) are advanced from the record's index
-//       counts, reproducing
-//       `word15 = max(word15, word18 * ((uint16)(record[10] - record[8]) + word15 / word18))` and the matching
-//       index-side maximum;
-//     - `if (this->+0x238) { rebind +0x240 / +0x244 / +0x248 from the record and call the +0x238 SEGMENT-COMPILE
-//       callback through vtable +0x08 with (0, 0, &this->+0x240); }`.
-//   * the record vector and the cluster map are destroyed; the function returns 0.
-//
-// MISSING, named exactly - each of these is its own reconstruction, and none of them is this class:
-//   1. glitch::video::spatialGridClustering 0x5a5860 - ledger `skipped`: the map key is a hash of an ostringstream
-//      holding the three cell indices; the hashed string range and whether the stream is reset are unidentified.
-//   2. glitch::video::kdTreeClustering 0x5a6568 - ledger `skipped`: needs CKdTree<pair<uint32, aabbox3d<float>>>
-//      (shared/include/glitch-shared/kd_tree.hpp and glitch-core-io's core/kd_tree.hpp) in glitch-video.
-//   3. glitch::video::isVertexStreamHomolaced 0x5a23f4 - `partial`, body not written.
-//   4. glitch::video::copyVertex 0x5a2b18 - `partial`: the whole-vertex branch is not written.
-//   5. the +0x23C and +0x238 call operators: neither interface declares one in the port
-//      (scene_simple_accessors.hpp gives them only destructors), so the argument lists have to come out of the
-//      callback classes' own listings (SDefaultSegmentCompileCallback 0x5891a8, SDefaultEndOfBatchCallback 0x59013c
-//      / 0x58d3d4) before either call can be written.
-//   6. IVideoDriver::DefaultAttribMap - a static table with no port definition.
-//   7. the base vtable slots the body dispatches: +0x0C and +0x14 of m_batchBaker (IBatchBaker), +0x78 (the
-//      CVertexStreams allocator) and +0x1FC (flush, already written).
-//   8. aabbox3d<float> / vector3d<float> in glitch-video's own deps (the clustering signatures).
-// (1)..(4) are the calls that produce and fill the records, so no honest sub-slice of the body exists: without them
-// the emit loop would only append whatever it was handed. The row stays `partial` with this note.
-//
+// Four phases, as the listing has them (a1 = this, a2 = &streams, a3 = &primitives, a4 = &meshBuffer):
+//   1. the split-segment choice callback (+0x23C): when set, +0x240/+0x244/+0x248 are rebound to the arguments and the
+//      callback is called with (0, 0, &this->+0x240); its result decides whether phase 2 runs (a null callback runs it);
+//   2. clustering (gate: a segment size with the grid mode, or maxIndices with the kd-tree mode): every triangle's box
+//      is built from its three vertex positions, then kdTreeClustering or spatialGridClustering groups the triangles;
+//   3. one record {streams, CPrimitiveStream} per cluster: none or one cluster keeps the arguments as they are, more
+//      are re-indexed into new streams and an index buffer, with each distinct vertex copied once (dedup by index);
+//   4. the emit loop: every triangle record is baked into the append buffer (+0x120) by the batch baker (+0x128), the
+//      buffer counters are advanced, and the segment-compile callback (+0x238) sees the record.
+// NOTES. (1) The non-homolaced cluster branch (0x5a714c-0x5a7314) writes through the null CVertexStreams that the
+// loop head stored at [SP+var_6C] (0x5a7140 STR R5(0),[var_6C]; the branch is reached with R2 == 0 and does
+// `ADD R8, R10, #0x14` on that null): the original crashes there whatever the streams hold, so it is written as an
+// abort. (2) An empty stream table reads through null in the original (entry 0) and is not modelled.
+void CBatchDriver::thisAppendBatch(const boost::intrusive_ptr<const CVertexStreams>& streams,
+                                   const CPrimitiveStream& primitives,
+                                   const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer) {
+    using Record = std::pair<boost::intrusive_ptr<const CVertexStreams>, CPrimitiveStream>;
+    using ClusterBox = std::pair<unsigned int, core::aabbox3d<float>>;
+
+    std::map<unsigned int, std::vector<unsigned int>> clusters;  // v202..v206
+    const IBuffer* const sourceIndexBuffer = primitives.m_indexBuffer.get();
+
+    // ---- phase 1 ----
+    bool clusterPhase = true;
+    if (m_choiceCallback != nullptr) {
+        m_compileInfo.vertices = streams;        // add a use, release the old one
+        m_compileInfo.primitives = &primitives;  // raw
+        m_compileInfo.meshBuffer = meshBuffer;
+        clusterPhase = (*m_choiceCallback)(nullptr, nullptr, m_compileInfo);
+    }
+
+    // ---- phase 2 ----
+    if (clusterPhase) {
+        if (((segmentSize.X != 0.0f || segmentSize.Y != 0.0f || segmentSize.Z != 0.0f) && !segmentSizeMode) ||
+            (maxIndices != 0 && segmentSizeMode)) {
+            core::aabbox3d<float> total;  // v196, v197, v198 (minimum) and v199, v200, v201 (maximum)
+            total.MinEdge.X = kFloatMax;
+            total.MinEdge.Y = kFloatMax;
+            total.MinEdge.Z = kFloatMax;
+            total.MaxEdge.X = -kFloatMax;
+            total.MaxEdge.Y = -kFloatMax;
+            total.MaxEdge.Z = -kFloatMax;
+            const SVertexStream& position = streams->m_streams.front();  // entry 0 (+0x14)
+            const unsigned int stride = streams->getVertexStride();      // v180, *(u16*)(*a2 + 34)
+            const uint16_t* indices =
+                reinterpret_cast<const uint16_t*>(sourceIndexBuffer->map(1) + primitives.m_offset);
+            const uint8_t* vertices = static_cast<const IBuffer*>(position.buffer.get())->map(1) + position.offset;
+            const unsigned int primitiveCount = primitives.getPrimitiveCount();
+            std::vector<ClusterBox, core::SAllocator<ClusterBox>> boxes(primitiveCount);
+            for (unsigned int primitive = 0; primitive < primitiveCount; ++primitive, indices += 3) {
+                float lo[3];  // v130, v133, v132: the triangle's minimum
+                float hi[3];  // v134, v135, v136: the triangle's maximum
+                for (unsigned int corner = 0; corner < 3; ++corner) {
+                    float p[3];
+                    std::memcpy(p, vertices + stride * indices[corner], sizeof p);
+                    if (corner == 0) {
+                        for (int a = 0; a < 3; ++a) {
+                            hi[a] = (p[a] > -kFloatMax) ? p[a] : -kFloatMax;  // fcmpgt / MOVEQ #0xFF7FFFFF
+                            lo[a] = (p[a] < kFloatMax) ? p[a] : kFloatMax;    // fcmplt / MOVEQ #0x7F7FFFFF
+                        }
+                    } else {
+                        for (int a = 0; a < 3; ++a) {
+                            if (p[a] > hi[a]) hi[a] = p[a];
+                            if (lo[a] > p[a]) lo[a] = p[a];
+                        }
+                    }
+                }
+                // The triangle's maximum, then its minimum, are folded into the running box in this order.
+                if (hi[0] > total.MaxEdge.X) total.MaxEdge.X = hi[0];
+                if (hi[1] > total.MaxEdge.Y) total.MaxEdge.Y = hi[1];
+                if (total.MaxEdge.Z < hi[2]) total.MaxEdge.Z = hi[2];
+                if (hi[0] < total.MinEdge.X) total.MinEdge.X = hi[0];
+                if (hi[1] < total.MinEdge.Y) total.MinEdge.Y = hi[1];
+                if (total.MinEdge.Z > hi[2]) total.MinEdge.Z = hi[2];
+                if (total.MaxEdge.X < lo[0]) total.MaxEdge.X = lo[0];
+                if (lo[1] > total.MaxEdge.Y) total.MaxEdge.Y = lo[1];
+                if (total.MaxEdge.Z < lo[2]) total.MaxEdge.Z = lo[2];
+                if (total.MinEdge.X > lo[0]) total.MinEdge.X = lo[0];
+                if (lo[1] < total.MinEdge.Y) total.MinEdge.Y = lo[1];
+                if (total.MinEdge.Z > lo[2]) total.MinEdge.Z = lo[2];
+                ClusterBox& box = boxes[primitive];
+                box.first = primitive;
+                box.second.MinEdge.X = lo[0];
+                box.second.MinEdge.Y = lo[1];
+                box.second.MinEdge.Z = lo[2];
+                box.second.MaxEdge.X = hi[0];
+                box.second.MaxEdge.Y = hi[1];
+                box.second.MaxEdge.Z = hi[2];
+            }
+            sourceIndexBuffer->unmap();
+            static_cast<const IBuffer*>(position.buffer.get())->unmap();
+            if (segmentSizeMode) {
+                const unsigned int vertexSpan = primitives.m_vertexEnd - primitives.m_vertexStart;  // v149
+                const unsigned int pieces = vertexSpan * stride / maxIndices;                         // v150
+                if (pieces > 1) {
+                    kdTreeClustering(clusters, boxes, vertexSpan / pieces, total);
+                }
+            } else {
+                spatialGridClustering(clusters, boxes, segmentSize);
+            }
+        }
+    }
+
+    // ---- phase 3 ----
+    std::vector<Record> records;  // v207..v209
+    if (clusters.size() <= 1) {
+        records.emplace_back(streams, primitives);
+    } else {
+        int32_t minimumOffset = 0;                                               // v219
+        const bool homolaced = isVertexStreamHomolaced(streams, minimumOffset);  // v165
+        for (const auto& cluster : clusters) {
+            const std::vector<unsigned int>& triangles = cluster.second;  // j[5]..j[6]
+            if (!homolaced) {
+                // 0x5a714c: see NOTES (1).
+                std::abort();
+            }
+            const unsigned int stride = streams->getVertexStride();
+            const uint32_t vertexBytes = static_cast<uint32_t>(triangles.size()) * 3 * stride;
+            boost::intrusive_ptr<IBuffer> vertexBuffer =
+                createBuffer(0, 4, vertexBytes, new uint8_t[vertexBytes], true);  // vtable +0x78, v29
+            boost::intrusive_ptr<CVertexStreams> newStreams = streams->clone();   // v196
+            for (SVertexStream& entry : newStreams->m_streams) {
+                entry.buffer = vertexBuffer;
+                newStreams->updateHomogeneityInternal(false);
+                if (minimumOffset != 0) entry.offset -= static_cast<uint32_t>(minimumOffset);
+            }
+            const uint32_t indexBytes = 6 * static_cast<uint32_t>(triangles.size());
+            boost::intrusive_ptr<IBuffer> indexBuffer =
+                createBuffer(1, 4, indexBytes, new uint8_t[indexBytes], true);  // v38 -> p
+
+            std::map<uint16_t, uint16_t> seen;  // v191..v195: source vertex -> new vertex
+            uint16_t* const indexOut = reinterpret_cast<uint16_t*>(indexBuffer->map(4));
+            uint8_t* vertexOut = vertexBuffer->map(4);
+            const IBuffer* const firstBuffer = static_cast<const IBuffer*>(streams->m_streams.front().buffer.get());
+            const uint8_t* const copyBase = firstBuffer->map(1) + minimumOffset;  // v169
+            const uint16_t* const indexIn =
+                reinterpret_cast<const uint16_t*>(sourceIndexBuffer->map(1) + primitives.m_offset);
+            uint16_t nextVertex = 0;   // v46
+            uint32_t vertexCount = 0;  // v161
+            uint16_t* slot = indexOut;
+            for (const unsigned int triangle : triangles) {
+                for (unsigned int corner = 0; corner < 3; ++corner) {
+                    const uint16_t sourceVertex = indexIn[3 * triangle + corner];  // v50
+                    const auto found = seen.find(sourceVertex);
+                    if (found != seen.end()) {
+                        *slot++ = found->second;
+                        continue;
+                    }
+                    seen[sourceVertex] = nextVertex;
+                    copyVertex(sourceVertex, streams, newStreams, copyBase, vertexOut, homolaced);
+                    *slot++ = nextVertex++;
+                    ++vertexCount;
+                }
+            }
+            indexBuffer->unmap();
+            vertexBuffer->unmap();
+            sourceIndexBuffer->unmap();
+            firstBuffer->unmap();  // homolaced only
+            newStreams->m_field08 = vertexCount;  // *((_DWORD *)v196 + 2)
+
+            Record record;
+            record.first = newStreams;
+            record.second.m_indexBuffer = indexBuffer;
+            record.second.m_offset = 0;
+            record.second.m_count = 3 * static_cast<uint32_t>(triangles.size());
+            record.second.m_vertexStart = 0;
+            record.second.m_vertexEnd = vertexCount;
+            record.second.m_indexType = 1;
+            record.second.m_primitiveType = 6;
+            records.push_back(std::move(record));
+        }
+    }
+
+    // ---- phase 4 ----
+    scene::CAppendMeshBuffer* appendBuffer = static_cast<scene::CAppendMeshBuffer*>(m_batchBuffer.get());  // +0x120
+    appendBuffer->beginAppend();
+    for (const Record& record : records) {
+        const CPrimitiveStream& recordPrimitives = record.second;
+        if (recordPrimitives.m_primitiveType <= 3 || recordPrimitives.m_indexType != 1) continue;  // v71[13], v71[12]
+        const uint32_t recordVertexCount = recordPrimitives.m_vertexEnd - recordPrimitives.m_vertexStart;
+        if (!appendBuffer->hasEnoughSpace(recordVertexCount, 3 * recordPrimitives.getPrimitiveCount())) {
+            for (int line = 0; line < 158; ++line) {
+                std::puts("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            }
+            flush();  // vtable +0x1fc
+        }
+        appendBuffer = static_cast<scene::CAppendMeshBuffer*>(m_batchBuffer.get());
+
+        const uint8_t* attributeMap;  // v79
+        if (m_stateE8 != nullptr) {
+            attributeMap = (*m_stateE8)->m_map;
+        } else {
+            std::memset(IVideoDriver::DefaultAttribMap, 0xff, sizeof IVideoDriver::DefaultAttribMap);
+            uint32_t streamIndex = 0;
+            for (const SVertexStream& entry : record.first->m_streams) {
+                IVideoDriver::DefaultAttribMap[entry.attribute] = static_cast<uint8_t>(streamIndex++);
+            }
+            attributeMap = IVideoDriver::DefaultAttribMap;
+        }
+        IBatchBaker* baker = m_batchBaker.get();     // +0x128
+        const uint8_t technique = m_batchTechnique;  // +0x134
+        const boost::intrusive_ptr<CVertexAttributeMap>& bakerMap = baker->getVertexAttributeMap();  // vtable +0x14
+        const uint32_t primitiveCount = recordPrimitives.getPrimitiveCount();
+        baker->bake(record.first, recordPrimitives, m_batchMaterialHeap, technique, attributeMap,
+                    appendBuffer->vertexStreams, appendBuffer->primitiveStream, m_batchMaterial.get(), bakerMap->m_map,
+                    this, recordPrimitives.m_vertexStart, recordPrimitives.m_vertexEnd, 0, primitiveCount,
+                    appendBuffer->vertexUsedBytes / appendBuffer->vertexStride,
+                    (appendBuffer->indexUsedBytes / appendBuffer->indexStride) / 3, 0xffffffffu);  // vtable +0x0c
+
+        // The buffer counters (v83, v86).
+        const uint32_t usedBefore = appendBuffer->vertexUsedBytes;
+        const uint32_t grown =
+            appendBuffer->vertexStride *
+            (static_cast<uint16_t>(static_cast<uint16_t>(recordPrimitives.m_vertexEnd) -
+                                   static_cast<uint16_t>(recordPrimitives.m_vertexStart)) +
+             static_cast<uint32_t>(static_cast<uint16_t>(usedBefore / appendBuffer->vertexStride)));
+        const uint32_t usedAfter = (grown >= usedBefore) ? grown : usedBefore;
+        appendBuffer->vertexUsedBytes = usedAfter;           // +0x3c
+        appendBuffer->vertexStreams->m_field08 = usedAfter;  // *(streams + 8)
+        const uint32_t indicesBefore = appendBuffer->indexUsedBytes / appendBuffer->indexStride;
+        const uint32_t indexBytes =
+            (recordPrimitives.getPrimitiveCount() + indicesBefore / 3) * 3 * appendBuffer->indexStride;
+        const uint32_t indexUsed = (indexBytes >= appendBuffer->indexUsedBytes) ? indexBytes : appendBuffer->indexUsedBytes;
+        appendBuffer->primitiveStream.m_count = indexUsed;                           // +0x20
+        appendBuffer->primitiveStream.m_vertexEnd = appendBuffer->vertexUsedBytes;   // +0x28
+        appendBuffer->indexUsedBytes = indexUsed;                                    // +0x44
+        appendBuffer->primitiveStream.m_vertexStart = 0;                             // +0x24
+
+        if (segmentCompileCallback != nullptr) {
+            m_compileInfo.vertices = record.first;
+            m_compileInfo.primitives = &recordPrimitives;
+            m_compileInfo.meshBuffer = meshBuffer;
+            (*segmentCompileCallback)(nullptr, nullptr, m_compileInfo);
+        }
+    }
+}
+
 // 0x5a8a80 _ZN6glitch5video12CBatchDriver4drawERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_
 // 16CPrimitiveStreamEPPNS0_14CDriverBindingERKNS3_IKNS_5scene11CMeshBufferEEE (vtable 0x977108 slot +0x58)
 // Reconstructed. The listing is two instructions - `LDR R3, [SP,#arg_0]` (the 4th parameter is on the stack and is

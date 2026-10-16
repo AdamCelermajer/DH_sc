@@ -14,6 +14,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <tuple>
 
 #include "pydata-accessors/element_table.hpp"
 #include "pydata-accessors/struct_strides.hpp"
@@ -46,23 +47,23 @@ void ReadStringField(IStreamBase* stream, void*& slot, std::uint32_t len) {
 // finalize, before ItemBase::finalize: frees m_w2 and m_w20 and zeroes the words the listing zeroes.
 template <class T>
 void FinalizeItemRefWords(T& self) {
-    if (self.m_w2 != nullptr) {  // +0x8
-        CustomFree(self.m_w2);
-        self.m_w1 = 0;  // +0x4
-        self.m_w2 = nullptr;
+    if (self.IconName != nullptr) {  // +0x8
+        CustomFree(self.IconName);
+        self.IconNameSize = 0;  // +0x4
+        self.IconName = nullptr;
     }
-    if (self.m_w20 != nullptr) {  // +0x50
-        CustomFree(self.m_w20);
-        self.m_w19 = 0;  // +0x4c
-        self.m_w20 = nullptr;
+    if (self.ModularModule != nullptr) {  // +0x50
+        CustomFree(self.ModularModule);
+        self.ModularModuleSize = 0;  // +0x4c
+        self.ModularModule = nullptr;
     }
 }
 
 // destructor body: frees m_w2 and m_w20 (no zeroing), the base destructor runs after it.
 template <class T>
 void ReleaseItemRefWords(T& self) {
-    if (self.m_w2 != nullptr) CustomFree(self.m_w2);  // +0x8
-    if (self.m_w20 != nullptr) CustomFree(self.m_w20);  // +0x50
+    if (self.IconName != nullptr) CustomFree(self.IconName);  // +0x8
+    if (self.ModularModule != nullptr) CustomFree(self.ModularModule);  // +0x50
 }
 
 // read body shared by the family: words 17..40 (+0x44..+0xa0). Each class's read runs ItemBase::read(stream)
@@ -72,32 +73,72 @@ void ReleaseItemRefWords(T& self) {
 // Valuable 0x4fa670, Potion 0x4faf18, GoldItem 0x4fb7c0): each is `ItemBase::read(this, a2)` first, then
 // +0x44..+0xa0 in order. The readStringEx "5th 64-bit argument" Hex-Rays prints is a register residue the
 // callee (0x317454) never reads, so it is not passed.
+// The words +0x44..+0xa0 of every ItemBase-derived record, in file order. The members are named per class in the
+// original header (items_pystruct.h), so each class supplies its own list; the read below is shared.
+
+inline auto ItemRefMembers(Item& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.BaseStat, s.BaseProp, s.BaseElement, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.Param1, s.Param2, s.Param3, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(GoldItem& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.Unused10, s.Unused11, s.Unused12, s.EquipmentSlottingType, s.MinValue, s.MaxValue, s.Unused1, s.Unused2, s.Unused3, s.Unused4, s.Unused5, s.Unused6, s.Unused7, s.Unused8, s.Unused9, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(Potion& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.Unused10, s.Unused11, s.Unused12, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.HP_Recovery_Percentage, s.HP_Recovery_Minimum, s.MP_Recovery_Percentage, s.MP_Recovery_Minimum, s.Unused1, s.Unused2, s.Unused3, s.Unused4, s.Unused5, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(Valuable& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.Unused10, s.Unused11, s.Unused12, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.Param1, s.Param2, s.Param3, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(ArmorRef& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.Unused10, s.Unused11, s.Unused12, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.ArmorRating, s.Unused1, s.Unused2, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(JewelryRef& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.Unused10, s.Unused11, s.Unused12, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.Unused1, s.Unused2, s.Unused3, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(ShieldRef& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.Unused10, s.Unused11, s.Unused12, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.ArmorRating, s.BlockModifier, s.Unused1, s.Param4, s.Param5, s.Param6);
+}
+
+inline auto ItemRefMembers(RangedWeaponRef& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.BaseStat, s.BaseProp, s.BaseElement, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.minDamage, s.maxDamage, s.DmgType, s.minRange, s.maxRange, s.ProjectileID);
+}
+
+inline auto ItemRefMembers(WeaponRef& s) {
+    return std::tie(s.Name, s.Material, s.ModularModuleSize, s.ModularModule, s.AudioVisualID, s.Type, s.BaseStat, s.BaseProp, s.BaseElement, s.EquipmentSlottingType, s.Value, s.GoldValueMultiplier, s.LevelRequirement, s.StrengthRequirement, s.DexterityRequirement, s.EnduranceRequirement, s.EnergyRequirement, s.ClassRequirement, s.minDamage, s.maxDamage, s.DmgType, s.Param4, s.maxRange, s.Param6);
+}
+
 template <class T>
 void ReadItemRefWords(T& self, IStreamBase* stream) {
-    self.m_w17 = StreamReader::readAs<std::int32_t>(stream);  // +0x44
-    self.m_w18 = StreamReader::readAs<std::int32_t>(stream);  // +0x48
-    self.m_w19 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4c
-    ReadStringField(stream, self.m_w20, self.m_w19);  // +0x50
-    self.m_w21 = StreamReader::readAs<std::int32_t>(stream);  // +0x54
-    self.m_w22 = StreamReader::readAs<std::int32_t>(stream);  // +0x58
-    self.m_w23 = StreamReader::readAs<std::int32_t>(stream);  // +0x5c
-    self.m_w24 = StreamReader::readAs<std::int32_t>(stream);  // +0x60
-    self.m_w25 = StreamReader::readAs<std::int32_t>(stream);  // +0x64
-    self.m_w26 = StreamReader::readAs<std::int32_t>(stream);  // +0x68
-    self.m_w27 = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
-    self.m_w28 = StreamReader::readAs<std::int32_t>(stream);  // +0x70
-    self.m_w29 = StreamReader::readAs<std::int32_t>(stream);  // +0x74
-    self.m_w30 = StreamReader::readAs<std::int32_t>(stream);  // +0x78
-    self.m_w31 = StreamReader::readAs<std::int32_t>(stream);  // +0x7c
-    self.m_w32 = StreamReader::readAs<std::int32_t>(stream);  // +0x80
-    self.m_w33 = StreamReader::readAs<std::int32_t>(stream);  // +0x84
-    self.m_w34 = StreamReader::readAs<std::int32_t>(stream);  // +0x88
-    self.m_w35 = StreamReader::readAs<std::int32_t>(stream);  // +0x8c
-    self.m_w36 = StreamReader::readAs<std::int32_t>(stream);  // +0x90
-    self.m_w37 = StreamReader::readAs<std::int32_t>(stream);  // +0x94
-    self.m_w38 = StreamReader::readAs<std::int32_t>(stream);  // +0x98
-    self.m_w39 = StreamReader::readAs<std::int32_t>(stream);  // +0x9c
-    self.m_w40 = StreamReader::readAs<std::int32_t>(stream);  // +0xa0
+    auto w = ItemRefMembers(self);
+    std::get<0>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x44
+    std::get<1>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x48
+    std::get<2>(w) = StreamReader::readAs<std::uint32_t>(stream);  // +0x4c, length of the string
+    ReadStringField(stream, std::get<3>(w), std::get<2>(w));  // +0x50
+    std::get<4>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x54
+    std::get<5>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x58
+    std::get<6>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x5c
+    std::get<7>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x60
+    std::get<8>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x64
+    std::get<9>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x68
+    std::get<10>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
+    std::get<11>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x70
+    std::get<12>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x74
+    std::get<13>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x78
+    std::get<14>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x7c
+    std::get<15>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x80
+    std::get<16>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x84
+    std::get<17>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x88
+    std::get<18>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x8c
+    std::get<19>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x90
+    std::get<20>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x94
+    std::get<21>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x98
+    std::get<22>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0x9c
+    std::get<23>(w) = StreamReader::readAs<std::int32_t>(stream);  // +0xa0
 }
 
 }  // namespace
@@ -106,15 +147,15 @@ void ReadItemRefWords(T& self, IStreamBase* stream) {
 
 // 0x4d0054 _ZN7Structs16v2QuestAutomatic8finalizeEv
 void v2QuestAutomatic::finalize() {
-    if (m_w5 != nullptr) {  // +0x14
-        CustomFree(m_w5);
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Str1 != nullptr) {  // +0x14
+        CustomFree(Str1);
+        Str1Size = 0;  // +0x10
+        Str1 = nullptr;
     }
-    if (m_w7 != nullptr) {  // +0x1c
-        CustomFree(m_w7);
-        m_w6 = 0;  // +0x18
-        m_w7 = nullptr;
+    if (Str2 != nullptr) {  // +0x1c
+        CustomFree(Str2);
+        Str2Size = 0;  // +0x18
+        Str2 = nullptr;
     }
     v2QuestObjectiveStub::finalize();
 }
@@ -123,8 +164,8 @@ void v2QuestAutomatic::finalize() {
 // 0x4d016c _ZN7Structs16v2QuestAutomaticD1Ev
 // The base destructor (implicit, runs after this body) frees m_w5 and m_w7 again, as the listing does.
 v2QuestAutomatic::~v2QuestAutomatic() {
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    if (m_w7 != nullptr) CustomFree(m_w7);  // +0x1c
+    if (Str1 != nullptr) CustomFree(Str1);  // +0x14
+    if (Str2 != nullptr) CustomFree(Str2);  // +0x1c
 }
 
 // 0x4d01c4 _ZN7Structs16v2QuestAutomaticD0Ev
@@ -153,10 +194,10 @@ void v2QuestAutomatic::read(IStreamBase* stream) {
 
 // 0x4d09b4 _ZN7Structs9v2CondAnd8finalizeEv
 void v2CondAnd::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        pydata::DeleteElementTable<v2ConditionStub>(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (Conds != nullptr) {  // +0x8
+        pydata::DeleteElementTable<v2ConditionStub>(Conds);
+        CondsSize = 0;  // +0x4
+        Conds = nullptr;
     }
 }
 
@@ -165,16 +206,16 @@ void v2CondAnd::finalize() {
 // (listing stride 16, vtable off_96A318 = v2ConditionStub) and every element reads itself; the word at +0xc comes
 // last. The original returns that last readAs result; read is void here.
 void v2CondAnd::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    pydata::DeleteElementTable<v2ConditionStub>(m_w2);  // +0x8
-    m_w2 = pydata::NewAndReadElementTable<v2ConditionStub>(ListingStride::v2ConditionStub, m_w1, stream);
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    CondsSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    pydata::DeleteElementTable<v2ConditionStub>(Conds);  // +0x8
+    Conds = pydata::NewAndReadElementTable<v2ConditionStub>(ListingStride::v2ConditionStub, CondsSize, stream);
+    Type = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4d0ab0 _ZN7Structs9v2CondAndD2Ev
 // 0x4d0a18 _ZN7Structs9v2CondAndD1Ev
 v2CondAnd::~v2CondAnd() {
-    pydata::DeleteElementTable<v2ConditionStub>(m_w2);  // +0x8, v2ConditionStub elements, listing stride 16
+    pydata::DeleteElementTable<v2ConditionStub>(Conds);  // +0x8, v2ConditionStub elements, listing stride 16
 }
 
 // 0x4d0a94 _ZN7Structs9v2CondAndD0Ev
@@ -187,26 +228,26 @@ void DeletingDestructor(v2CondAnd* self) {
 
 // 0x4d0b2c _ZN7Structs10SpawnGroup8finalizeEv
 void SpawnGroup::finalize() {
-    if (m_w4 != nullptr) {  // +0x10
-        pydata::DeleteElementTable<SpawnInfo>(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Spawns != nullptr) {  // +0x10
+        pydata::DeleteElementTable<SpawnInfo>(Spawns);
+        SpawnsSize = 0;  // +0xc
+        Spawns = nullptr;
     }
 }
 
 // 0x4eb244 _ZN7Structs10SpawnGroup4readEP11IStreamBase
 void SpawnGroup::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<bool>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    pydata::DeleteElementTable<SpawnInfo>(m_w4);  // +0x10
-    m_w4 = pydata::NewAndReadElementTable<SpawnInfo>(ListingStride::SpawnInfo, m_w3, stream);
+    ActiveSpotOnly = StreamReader::readAs<bool>(stream);  // +0x4
+    Delay = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    SpawnsSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    pydata::DeleteElementTable<SpawnInfo>(Spawns);  // +0x10
+    Spawns = pydata::NewAndReadElementTable<SpawnInfo>(ListingStride::SpawnInfo, SpawnsSize, stream);
 }
 
 // 0x4d0c28 _ZN7Structs10SpawnGroupD2Ev
 // 0x4d0b90 _ZN7Structs10SpawnGroupD1Ev
 SpawnGroup::~SpawnGroup() {
-    pydata::DeleteElementTable<SpawnInfo>(m_w4);  // +0x10, SpawnInfo elements, listing stride 16
+    pydata::DeleteElementTable<SpawnInfo>(Spawns);  // +0x10, SpawnInfo elements, listing stride 16
 }
 
 // 0x4d0c0c _ZN7Structs10SpawnGroupD0Ev
@@ -219,53 +260,53 @@ void DeletingDestructor(SpawnGroup* self) {
 
 // 0x4d0ca4 _ZN7Structs10CharSounds8finalizeEv
 void CharSounds::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        CustomFree(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (Die != nullptr) {  // +0x8
+        CustomFree(Die);
+        DieSize = 0;  // +0x4
+        Die = nullptr;
     }
-    if (m_w4 != nullptr) {  // +0x10
-        CustomFree(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Hurt != nullptr) {  // +0x10
+        CustomFree(Hurt);
+        HurtSize = 0;  // +0xc
+        Hurt = nullptr;
     }
-    if (m_w6 != nullptr) {  // +0x18
-        CustomFree(m_w6);
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (ImpactVsFlesh != nullptr) {  // +0x18
+        CustomFree(ImpactVsFlesh);
+        ImpactVsFleshSize = 0;  // +0x14
+        ImpactVsFlesh = nullptr;
     }
-    if (m_w8 != nullptr) {  // +0x20
-        CustomFree(m_w8);
-        m_w7 = 0;  // +0x1c
-        m_w8 = nullptr;
+    if (ImpactVsMetal != nullptr) {  // +0x20
+        CustomFree(ImpactVsMetal);
+        ImpactVsMetalSize = 0;  // +0x1c
+        ImpactVsMetal = nullptr;
     }
 }
 
 // 0x4eade4 _ZN7Structs10CharSounds4readEP11IStreamBase
 void CharSounds::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
-    m_w2 = ReadInt32Array(stream, m_w1);
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = ReadInt32Array(stream, m_w3);
-    m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
-    m_w6 = ReadInt32Array(stream, m_w5);
-    m_w7 = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
-    m_w8 = ReadInt32Array(stream, m_w7);
-    m_w9 = StreamReader::readAs<bool>(stream);  // +0x24
-    m_off37 = StreamReader::readAs<bool>(stream);  // +0x25
+    DieSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    if (Die != nullptr) CustomFree(Die);  // +0x8
+    Die = ReadInt32Array(stream, DieSize);
+    HurtSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Hurt != nullptr) CustomFree(Hurt);  // +0x10
+    Hurt = ReadInt32Array(stream, HurtSize);
+    ImpactVsFleshSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
+    if (ImpactVsFlesh != nullptr) CustomFree(ImpactVsFlesh);  // +0x18
+    ImpactVsFlesh = ReadInt32Array(stream, ImpactVsFleshSize);
+    ImpactVsMetalSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c
+    if (ImpactVsMetal != nullptr) CustomFree(ImpactVsMetal);  // +0x20
+    ImpactVsMetal = ReadInt32Array(stream, ImpactVsMetalSize);
+    IsFlesh = StreamReader::readAs<bool>(stream);  // +0x24
+    IsMetallic = StreamReader::readAs<bool>(stream);  // +0x25
 }
 
 // 0x4d0dac _ZN7Structs10CharSoundsD2Ev
 // 0x4d0d20 _ZN7Structs10CharSoundsD1Ev
 CharSounds::~CharSounds() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
+    if (Die != nullptr) CustomFree(Die);  // +0x8
+    if (Hurt != nullptr) CustomFree(Hurt);  // +0x10
+    if (ImpactVsFlesh != nullptr) CustomFree(ImpactVsFlesh);  // +0x18
+    if (ImpactVsMetal != nullptr) CustomFree(ImpactVsMetal);  // +0x20
 }
 
 // 0x4d0d90 _ZN7Structs10CharSoundsD0Ev
@@ -278,31 +319,31 @@ void DeletingDestructor(CharSounds* self) {
 
 // 0x4d0e1c _ZN7Structs5Sound8finalizeEv
 void Sound::finalize() {
-    if (m_w4 != nullptr) {  // +0x10
-        CustomFree(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (FileName != nullptr) {  // +0x10
+        CustomFree(FileName);
+        FileNameSize = 0;  // +0xc
+        FileName = nullptr;
     }
 }
 
 // 0x4eb89c _ZN7Structs5Sound4readEP11IStreamBase
 void Sound::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    ReadStringField(stream, m_w4, m_w3);  // +0x10
-    m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
-    m_w8 = StreamReader::readAs<std::int32_t>(stream);  // +0x20
-    m_w9 = StreamReader::readAs<std::int32_t>(stream);  // +0x24
-    m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
+    Bank = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    Channel = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    FileNameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    ReadStringField(stream, FileName, FileNameSize);  // +0x10
+    Format = StreamReader::readAs<std::int32_t>(stream);  // +0x14
+    Group = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    LoadType = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
+    Priority = StreamReader::readAs<std::int32_t>(stream);  // +0x20
+    Repeat = StreamReader::readAs<std::int32_t>(stream);  // +0x24
+    Volume = StreamReader::readAs<std::int32_t>(stream);  // +0x28
 }
 
 // 0x4d0ea0 _ZN7Structs5SoundD2Ev
 // 0x4d0e44 _ZN7Structs5SoundD1Ev
 Sound::~Sound() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (FileName != nullptr) CustomFree(FileName);  // +0x10
 }
 
 // 0x4d0e84 _ZN7Structs5SoundD0Ev
@@ -315,24 +356,24 @@ void DeletingDestructor(Sound* self) {
 
 // 0x4d0ee0 _ZN7Structs10SoundGroup8finalizeEv
 void SoundGroup::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        CustomFree(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (EnteringBus != nullptr) {  // +0x8
+        CustomFree(EnteringBus);
+        EnteringBusSize = 0;  // +0x4
+        EnteringBus = nullptr;
     }
 }
 
 // 0x4eb784 _ZN7Structs10SoundGroup4readEP11IStreamBase
 void SoundGroup::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    ReadStringField(stream, m_w2, m_w1);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    EnteringBusSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    ReadStringField(stream, EnteringBus, EnteringBusSize);  // +0x8
+    Positioning3D = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4d0f64 _ZN7Structs10SoundGroupD2Ev
 // 0x4d0f08 _ZN7Structs10SoundGroupD1Ev
 SoundGroup::~SoundGroup() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (EnteringBus != nullptr) CustomFree(EnteringBus);  // +0x8
 }
 
 // 0x4d0f48 _ZN7Structs10SoundGroupD0Ev
@@ -345,10 +386,10 @@ void DeletingDestructor(SoundGroup* self) {
 
 // 0x4d30ec _ZN7Structs7HideHUD8finalizeEv
 void HideHUD::finalize() {
-    if (m_w4 != nullptr) {  // +0x10, HideFlash field
-        CustomFree(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Name != nullptr) {  // +0x10, HideFlash field
+        CustomFree(Name);
+        NameSize = 0;  // +0xc
+        Name = nullptr;
     }
     HideFlash::finalize();
 }
@@ -363,7 +404,7 @@ void HideHUD::read(IStreamBase* stream) {
 // 0x4d31c8 _ZN7Structs7HideHUDD1Ev
 // The base destructor (implicit, runs after this body) frees m_w4 again, as the listing does.
 HideHUD::~HideHUD() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Name != nullptr) CustomFree(Name);  // +0x10
 }
 
 // 0x4d3210 _ZN7Structs7HideHUDD0Ev
@@ -376,10 +417,10 @@ void DeletingDestructor(HideHUD* self) {
 
 // 0x4d32a4 _ZN7Structs7ShowHUD8finalizeEv
 void ShowHUD::finalize() {
-    if (m_w4 != nullptr) {  // +0x10, ShowFlash field
-        CustomFree(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Name != nullptr) {  // +0x10, ShowFlash field
+        CustomFree(Name);
+        NameSize = 0;  // +0xc
+        Name = nullptr;
     }
     ShowFlash::finalize();
 }
@@ -394,7 +435,7 @@ void ShowHUD::read(IStreamBase* stream) {
 // 0x4d3380 _ZN7Structs7ShowHUDD1Ev
 // The base destructor (implicit, runs after this body) frees m_w4 again, as the listing does.
 ShowHUD::~ShowHUD() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Name != nullptr) CustomFree(Name);  // +0x10
 }
 
 // 0x4d33c8 _ZN7Structs7ShowHUDD0Ev
@@ -407,24 +448,24 @@ void DeletingDestructor(ShowHUD* self) {
 
 // 0x4d3ab8 _ZN7Structs9SceneFile8finalizeEv
 void SceneFile::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        CustomFree(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (Name != nullptr) {  // +0x8
+        CustomFree(Name);
+        NameSize = 0;  // +0x4
+        Name = nullptr;
     }
 }
 
 // 0x4dd4ec _ZN7Structs9SceneFile4readEP11IStreamBase
 // The listing returns the readStringEx result (a bool); the port's read returns void.
 void SceneFile::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    ReadStringField(stream, m_w2, m_w1);  // +0x8
+    NameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    ReadStringField(stream, Name, NameSize);  // +0x8
 }
 
 // 0x4d3b3c _ZN7Structs9SceneFileD2Ev
 // 0x4d3ae0 _ZN7Structs9SceneFileD1Ev
 SceneFile::~SceneFile() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (Name != nullptr) CustomFree(Name);  // +0x8
 }
 
 // 0x4d3b20 _ZN7Structs9SceneFileD0Ev
@@ -437,20 +478,20 @@ void DeletingDestructor(SceneFile* self) {
 
 // 0x4d3b7c _ZN7Structs16ItemTypeListList8finalizeEv
 void ItemTypeListList::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        CustomFree(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (list_entries != nullptr) {  // +0x8
+        CustomFree(list_entries);
+        list_entriesSize = 0;  // +0x4
+        list_entries = nullptr;
     }
 }
 
 // 0x4dd2c4 _ZN7Structs16ItemTypeListList4readEP11IStreamBase
 void ItemTypeListList::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
-    auto* bytes = static_cast<std::int8_t*>(::operator new[](m_w1, kPydataBufferHint));
-    m_w2 = bytes;
-    for (std::uint32_t i = 0; i < m_w1; ++i) {
+    list_entriesSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    if (list_entries != nullptr) CustomFree(list_entries);  // +0x8
+    auto* bytes = static_cast<std::int8_t*>(::operator new[](list_entriesSize, kPydataBufferHint));
+    list_entries = bytes;
+    for (std::uint32_t i = 0; i < list_entriesSize; ++i) {
         StreamReader::readAs<std::int8_t>(stream, &bytes[i]);
     }
 }
@@ -458,7 +499,7 @@ void ItemTypeListList::read(IStreamBase* stream) {
 // 0x4d3c00 _ZN7Structs16ItemTypeListListD2Ev
 // 0x4d3ba4 _ZN7Structs16ItemTypeListListD1Ev
 ItemTypeListList::~ItemTypeListList() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
+    if (list_entries != nullptr) CustomFree(list_entries);  // +0x8
 }
 
 // 0x4d3be4 _ZN7Structs16ItemTypeListListD0Ev
@@ -471,26 +512,26 @@ void DeletingDestructor(ItemTypeListList* self) {
 
 // 0x4d3c40 _ZN7Structs8Merchant8finalizeEv
 void Merchant::finalize() {
-    if (m_w4 != nullptr) {  // +0x10
-        pydata::DeleteElementTable<MerchandiseListEntry>(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (MerchandiseList != nullptr) {  // +0x10
+        pydata::DeleteElementTable<MerchandiseListEntry>(MerchandiseList);
+        MerchandiseListSize = 0;  // +0xc
+        MerchandiseList = nullptr;
     }
 }
 
 // 0x4ff604 _ZN7Structs8Merchant4readEP11IStreamBase
 void Merchant::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    pydata::DeleteElementTable<MerchandiseListEntry>(m_w4);  // +0x10
-    m_w4 = pydata::NewAndReadElementTable<MerchandiseListEntry>(ListingStride::MerchandiseListEntry, m_w3, stream);
+    BuyMultiplier = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    SellMultiplier = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    MerchandiseListSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    pydata::DeleteElementTable<MerchandiseListEntry>(MerchandiseList);  // +0x10
+    MerchandiseList = pydata::NewAndReadElementTable<MerchandiseListEntry>(ListingStride::MerchandiseListEntry, MerchandiseListSize, stream);
 }
 
 // 0x4d3d44 _ZN7Structs8MerchantD2Ev
 // 0x4d3ca8 _ZN7Structs8MerchantD1Ev
 Merchant::~Merchant() {
-    pydata::DeleteElementTable<MerchandiseListEntry>(m_w4);  // +0x10, MerchandiseListEntry elements, listing stride 12
+    pydata::DeleteElementTable<MerchandiseListEntry>(MerchandiseList);  // +0x10, MerchandiseListEntry elements, listing stride 12
 }
 
 // 0x4d3d28 _ZN7Structs8MerchantD0Ev
@@ -503,24 +544,24 @@ void DeletingDestructor(Merchant* self) {
 
 // 0x4d3dc4 _ZN7Structs14TileOffsetList8finalizeEv
 void TileOffsetList::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        pydata::DeleteElementTable<TileOffset>(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (list_entries != nullptr) {  // +0x8
+        pydata::DeleteElementTable<TileOffset>(list_entries);
+        list_entriesSize = 0;  // +0x4
+        list_entries = nullptr;
     }
 }
 
 // 0x4dc4e0 _ZN7Structs14TileOffsetList4readEP11IStreamBase
 void TileOffsetList::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    pydata::DeleteElementTable<TileOffset>(m_w2);  // +0x8
-    m_w2 = pydata::NewAndReadElementTable<TileOffset>(ListingStride::TileOffset, m_w1, stream);
+    list_entriesSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    pydata::DeleteElementTable<TileOffset>(list_entries);  // +0x8
+    list_entries = pydata::NewAndReadElementTable<TileOffset>(ListingStride::TileOffset, list_entriesSize, stream);
 }
 
 // 0x4d3ec0 _ZN7Structs14TileOffsetListD2Ev
 // 0x4d3e28 _ZN7Structs14TileOffsetListD1Ev
 TileOffsetList::~TileOffsetList() {
-    pydata::DeleteElementTable<TileOffset>(m_w2);  // +0x8, TileOffset elements, listing stride 8
+    pydata::DeleteElementTable<TileOffset>(list_entries);  // +0x8, TileOffset elements, listing stride 8
 }
 
 // 0x4d3ea4 _ZN7Structs14TileOffsetListD0Ev
@@ -533,24 +574,24 @@ void DeletingDestructor(TileOffsetList* self) {
 
 // 0x4d3f3c _ZN7Structs11NumProbList8finalizeEv
 void NumProbList::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        pydata::DeleteElementTable<NumProb>(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (list_entries != nullptr) {  // +0x8
+        pydata::DeleteElementTable<NumProb>(list_entries);
+        list_entriesSize = 0;  // +0x4
+        list_entries = nullptr;
     }
 }
 
 // 0x4dc638 _ZN7Structs11NumProbList4readEP11IStreamBase
 void NumProbList::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    pydata::DeleteElementTable<NumProb>(m_w2);  // +0x8
-    m_w2 = pydata::NewAndReadElementTable<NumProb>(ListingStride::NumProb, m_w1, stream);
+    list_entriesSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    pydata::DeleteElementTable<NumProb>(list_entries);  // +0x8
+    list_entries = pydata::NewAndReadElementTable<NumProb>(ListingStride::NumProb, list_entriesSize, stream);
 }
 
 // 0x4d4038 _ZN7Structs11NumProbListD2Ev
 // 0x4d3fa0 _ZN7Structs11NumProbListD1Ev
 NumProbList::~NumProbList() {
-    pydata::DeleteElementTable<NumProb>(m_w2);  // +0x8, NumProb elements, listing stride 8
+    pydata::DeleteElementTable<NumProb>(list_entries);  // +0x8, NumProb elements, listing stride 8
 }
 
 // 0x4d401c _ZN7Structs11NumProbListD0Ev
@@ -563,17 +604,17 @@ void DeletingDestructor(NumProbList* self) {
 
 // 0x4d40b4 _ZN7Structs17ItemListEntryList8finalizeEv
 void ItemListEntryList::finalize() {
-    if (m_w2 != nullptr) {  // +0x8
-        pydata::DeleteElementTable<ItemListEntry>(m_w2);
-        m_w1 = 0;  // +0x4
-        m_w2 = nullptr;
+    if (list_entries != nullptr) {  // +0x8
+        pydata::DeleteElementTable<ItemListEntry>(list_entries);
+        list_entriesSize = 0;  // +0x4
+        list_entries = nullptr;
     }
 }
 
 // 0x4d41b8 _ZN7Structs17ItemListEntryListD2Ev
 // 0x4d411c _ZN7Structs17ItemListEntryListD1Ev
 ItemListEntryList::~ItemListEntryList() {
-    pydata::DeleteElementTable<ItemListEntry>(m_w2);  // +0x8, ItemListEntry elements, listing stride 12
+    pydata::DeleteElementTable<ItemListEntry>(list_entries);  // +0x8, ItemListEntry elements, listing stride 12
 }
 
 // 0x4d419c _ZN7Structs17ItemListEntryListD0Ev
@@ -586,29 +627,29 @@ void DeletingDestructor(ItemListEntryList* self) {
 
 // 0x4d4238 _ZN7Structs4Loot8finalizeEv
 void Loot::finalize() {
-    if (m_w4 != nullptr) {  // +0x10
-        pydata::DeleteElementTable<LootEntry>(m_w4);
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (RandomLootEntries != nullptr) {  // +0x10
+        pydata::DeleteElementTable<LootEntry>(RandomLootEntries);
+        RandomLootEntriesSize = 0;  // +0xc
+        RandomLootEntries = nullptr;
     }
-    if (m_w6 != nullptr) {  // +0x18
-        pydata::DeleteElementTable<LootEntry>(m_w6);
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (FixedLootEntries != nullptr) {  // +0x18
+        pydata::DeleteElementTable<LootEntry>(FixedLootEntries);
+        FixedLootEntriesSize = 0;  // +0x14
+        FixedLootEntries = nullptr;
     }
-    if (m_w8 != nullptr) {  // +0x20
-        CustomFree(m_w8);
-        m_w7 = 0;  // +0x1c
-        m_w8 = nullptr;
+    if (SubLoots != nullptr) {  // +0x20
+        CustomFree(SubLoots);
+        SubLootsSize = 0;  // +0x1c
+        SubLoots = nullptr;
     }
 }
 
 // 0x4d4414 _ZN7Structs4LootD2Ev
 // 0x4d4318 _ZN7Structs4LootD1Ev
 Loot::~Loot() {
-    pydata::DeleteElementTable<LootEntry>(m_w4);  // +0x10, LootEntry elements, listing stride 36
-    pydata::DeleteElementTable<LootEntry>(m_w6);  // +0x18, LootEntry elements, listing stride 36
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
+    pydata::DeleteElementTable<LootEntry>(RandomLootEntries);  // +0x10, LootEntry elements, listing stride 36
+    pydata::DeleteElementTable<LootEntry>(FixedLootEntries);  // +0x18, LootEntry elements, listing stride 36
+    if (SubLoots != nullptr) CustomFree(SubLoots);  // +0x20
 }
 
 // 0x4d43f8 _ZN7Structs4LootD0Ev

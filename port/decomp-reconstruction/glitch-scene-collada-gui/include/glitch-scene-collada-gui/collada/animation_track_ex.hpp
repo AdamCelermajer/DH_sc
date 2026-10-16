@@ -23,6 +23,8 @@ namespace glitch::collada::animation_track {
 // +0x2c and +0x70 (applyValue).
 class CFloatEx : public CAnimationTrackEx {
 public:
+    // The one object of the class (the data symbol 0x9f8350): getAnimationTrackEx hands it out.
+    static CFloatEx s_Instance;
     ~CFloatEx() override;                                                           // 0x6e31e4 (empty)
     std::uint32_t getValueSize() const override;                                    // 0x6e3110: 4
     void getIdentityValue(void* out) const override;                                // 0x6e3118: 0.0
@@ -55,6 +57,8 @@ public:
 // (+0x18), applyKeyBasedValue (+0x40, +0x48) and the new slots +0x90 applyAddedValue (4 arguments) and +0x94 applyKeyBasedValue.
 class CWeightEx : public CAnimationTrackEx {
 public:
+    // The one object of the class (the data symbol 0x9f8390): getAnimationTrackEx hands it out.
+    static CWeightEx s_Instance;
     ~CWeightEx() override;                                                          // 0x6e4f48 (empty)
     std::uint32_t getValueSize() const override;                                    // 0x6e4db4: 4
     void getIdentityValue(void* out) const override;                                // 0x6e4dbc: 0.0
@@ -99,6 +103,8 @@ public:
 // +0x90 / +0x94 (applyKeyBasedValue).
 class CVisibilityEx : public CAnimationTrackEx {
 public:
+    // The one object of the class (the data symbol 0x9f8380): getAnimationTrackEx hands it out.
+    static CVisibilityEx s_Instance;
     ~CVisibilityEx() override;                                                      // 0x6e4a24 (empty)
     std::uint32_t getValueSize() const override;                                    // 0x6e494c: 4
     void getIdentityValue(void* out) const override;                                // 0x6e4954: 1
@@ -152,6 +158,8 @@ public:
 // +0x30 getBlendedValue, +0x38 and +0x3c getKeyBasedValue (the value is mixed into the output with the weight).
 class CVector3dEx : public CAnimationTrackEx {
 public:
+    // The one object of the class (the data symbol 0x9f8370): getAnimationTrackEx hands it out.
+    static CVector3dEx s_Instance;
     ~CVector3dEx() override;                                                        // 0x6e43ac (empty)
     std::uint32_t getValueSize() const override;                                    // 0x6e42b4: 12
     void getIdentityValue(void* out) const override;                                // 0x6e42bc: zero
@@ -197,6 +205,8 @@ public:
 // retrieveValue (+0x8c) and the new slots +0x90 applyBlendedValue / +0x94 applyAddedValue (4 arguments).
 class CTextureTransformEx : public CAnimationTrackEx {
 public:
+    // The one object of the class (the data symbol 0x9f8360): getAnimationTrackEx hands it out.
+    static CTextureTransformEx s_Instance;
     // The five components (20 bytes).
     struct SData {
         float translateX = 0.0f;  // +0x00

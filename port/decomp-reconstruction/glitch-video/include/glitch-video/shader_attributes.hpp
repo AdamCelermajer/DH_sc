@@ -27,24 +27,21 @@
 
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/shader_parameter_def.hpp"
 #include "glitch-video/video_types.hpp"
 
 namespace glitch::video {
 
 // 8-byte entry in the original (SShaderVertexAttributeDef).
 struct SShaderVertexAttributeDef {
-    uint32_t field00 = 0;      // +0x00, not identified
+    const glitch::core::detail::SSharedStringData* name = nullptr;  // +0x00, the attribute's name (a shared string; its text is +0x04)
     uint16_t attribute = 0;    // +0x04, E_VERTEX_ATTRIBUTE
-    uint16_t field06 = 0;      // +0x06, not identified
-};
+    uint16_t index = 0;        // +0x06 ("Index")
 
-// 16-byte entry in the original (SShaderParameterDef). Only the type is used here.
-struct SShaderParameterDef {
-    uint32_t field00 = 0;          // +0x00, not identified
-    uint16_t parameterType = 0;    // +0x04, E_SHADER_PARAMETER_TYPE
-    uint16_t field06 = 0;          // +0x06, not identified
-    uint32_t field08 = 0;          // +0x08, not identified
-    uint32_t field0c = 0;          // +0x0c, not identified
+    // 0x5e4e64: a group named after the attribute with its Type (a choice name) and Index.
+    void serializeAttributes(io::IAttributes* attributes) const;
+    // 0x5e4c34: reads the Type and Index back.
+    void deserializeAttributes(io::IAttributes* attributes);
 };
 
 // Per-stage parameter list (8 bytes in the original: pointer, halfword, halfword count).
@@ -63,8 +60,8 @@ public:
     ~IShader() override;
 
     // ---- vtable slots after the IReferenceCounted ones ----
-    // 0x5e5188 / 0x5e4f68: partial. The IAttributes vtable slots are not identified, so
-    // the attribute traversal is not translated.
+    // 0x5e5188 / 0x5e4f68: the name, the vertex attribute definitions, the vertex attribute mask and the two stages' parameter
+    // definitions as attributes (groups "Vertex Attributes", "Stage 0", "Stage 1", "Parameters").
     virtual void serializeAttributes(io::IAttributes* attributes) const;  // +0x0c
     virtual void deserializeAttributes(io::IAttributes* attributes);      // +0x10
     virtual void releaseDriverSpecificResources() = 0;                    // +0x14
@@ -73,9 +70,10 @@ public:
     // 0x5e48e4: index of the parameter with the given type in stage's list, 0xffff when absent.
     // Stage 2 and above are not identified in the original and always return 0xffff here.
     uint32_t getParameterID(E_SHADER_PARAMETER_TYPE parameterType, uint32_t stage, uint16_t index) const;
-    // 0x5e4b74: lookup by name. Partial: the name comparison needs SSharedString, not in the port.
-    uint32_t getParameterID(const char* name, uint32_t stage, uint16_t index) const;
-    // 0x5e4998: partial. IShaderManager::getBatchBaker is not ported; returns null.
+    // 0x5e4b74: lookup by name (the name is looked up in the shared string heap without creating it, then compared by identity).
+    uint32_t getParameterID(const char* name, uint32_t stage, uint16_t index) const
+        asm("_ZNK6glitch5video7IShader14getParameterIDEPKcNS0_14E_SHADER_STAGEEt");
+    // 0x5e4998: the shader manager's batch baker for this shader (IShaderManager::getBatchBaker with the id).
     boost::intrusive_ptr<IBatchBaker> getBatchBaker() const;
     // 0x5e49b8: the same through IShaderManager::removeBatchBaker. Declared only.
     void removeBatchBaker() const;

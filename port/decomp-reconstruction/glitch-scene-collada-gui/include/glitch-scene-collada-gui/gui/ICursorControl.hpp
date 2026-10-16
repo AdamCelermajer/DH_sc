@@ -24,7 +24,7 @@ public:
     virtual void setPosition(float x, float y) = 0;                             // K 0x18
     virtual void setPosition(const core::position2d<int>& position) = 0;       // K 0x1c
     virtual void setPosition(int x, int y) = 0;                                 // K 0x20
-    virtual const core::position2d<int>& getPosition() = 0;                     // K 0x24
+    virtual core::position2d<int> getPosition() = 0;                           // K 0x24 (by value through the hidden result pointer: CAndroidOSDevice::CCursorControl::getPosition 0x6a0164 writes the two words into it)
     virtual core::position2d<float> getRelativePosition() = 0;                  // K 0x28
     virtual void setReferenceRect(core::rect<int>* rect = nullptr) = 0;         // K 0x2c
 };

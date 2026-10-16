@@ -4,6 +4,7 @@
 #pragma once
 
 #include <algorithm>
+#include <vector>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -116,6 +117,72 @@ inline void findFarthestElemInternal(const KdTree& tree, const KdElement*& farth
             bestDistance = d;
             farthest = &e;
         }
+    }
+}
+
+
+// CKdTree<...>::SKdDistance: the heap entry of findKNearest, 8 bytes in the original (distance at +0x00, the element
+// pointer at +0x04); the std::less specialisation the priority_queue uses compares the distance only.
+struct SKdDistance {
+    float distance = 0.0f;
+    const KdElement* element = nullptr;
+    bool operator<(const SKdDistance& other) const { return distance < other.distance; }
+};
+
+// 0x5a4e24 _ZNK6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE25findKNearestElemsInternalERjRKS5_RSt14priority_queue
+// INS6_11SKdDistanceESt6vectorISB_SaISB_EESt4lessISB_EEPKNS6_7SKdNodeERf
+// `remaining` is the number of slots still free in the heap (K minus its size), `maxDistance` the largest distance
+// held. A node with a child visits the child on the query's side first; the other side is visited only while the heap
+// is not full or the squared distance to the split plane is below maxDistance. A leaf offers each element: while
+// slots remain it is pushed; once the heap is full an element closer than the top replaces the top.
+inline void findKNearestElemsInternal(const KdTree& tree, unsigned int& remaining, const KdElement& query,
+                                      std::vector<SKdDistance>& heap, const KdNode* node, float& maxDistance) {
+    if (node == nullptr) return;
+    if (node->lower != nullptr || node->upper != nullptr) {  // +0x10, +0x14
+        const int axis = node->axis;                         // +0x18
+        const bool lowerSide = glitch::lessThanPlane(query, node->plane, static_cast<char>(axis));
+        const KdNode* nearChild = lowerSide ? node->lower : node->upper;
+        const KdNode* farChild = lowerSide ? node->upper : node->lower;
+        findKNearestElemsInternal(tree, remaining, query, heap, nearChild, maxDistance);
+        const float planeDistance = glitch::distanceKdTree(query, node->plane, static_cast<char>(axis));
+        if (remaining != 0 || planeDistance < maxDistance) {
+            findKNearestElemsInternal(tree, remaining, query, heap, farChild, maxDistance);
+        }
+        return;
+    }
+    for (const KdElement& e : node->elements) {
+        SKdDistance entry;
+        entry.distance = glitch::distanceKdTree(query, e);
+        entry.element = &e;
+        if (remaining == 0) {
+            // The heap is full: only an element closer than the current farthest (the heap top) gets in.
+            if (!(entry.distance < heap.front().distance)) continue;
+            std::pop_heap(heap.begin(), heap.end());
+            // The original reads the top of the heap storage again after the pop_back, which for a one-slot heap is
+            // the stale first slot (its begin pointer is unchanged), so the same storage word is read here.
+            heap.pop_back();
+            maxDistance = heap.data()->distance;
+            ++remaining;
+        }
+        if (maxDistance < entry.distance) maxDistance = entry.distance;
+        heap.push_back(entry);
+        std::push_heap(heap.begin(), heap.end());
+        --remaining;
+    }
+}
+
+// 0x5a5030 _ZNK6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE12findKNearestEjRKS5_RSt6vectorIS5_NS0_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE
+// The k nearest elements to `query`, appended to `out` farthest first (the heap is drained from the top).
+template <class Out>
+inline void findKNearest(const KdTree& tree, unsigned int k, const KdElement& query, Out& out) {
+    unsigned int remaining = k;
+    float maxDistance = 0.0f;
+    std::vector<SKdDistance> heap;
+    findKNearestElemsInternal(tree, remaining, query, heap, &tree.root, maxDistance);
+    while (!heap.empty()) {
+        out.push_back(*heap.front().element);
+        std::pop_heap(heap.begin(), heap.end());
+        heap.pop_back();
     }
 }
 

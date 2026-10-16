@@ -1,9 +1,10 @@
 // vox::DriverAndroid: the Android output driver. Its two back ends are the audio thread
-// (AT, mode 1 at +0x54) and the OpenSL-style output (OSL, mode 2). The JNI audio device
-// the original drives is not ported; the functions that depend on it are declared and
-// marked partial in driver_android.cpp. The original derives from DriverCallbackInterface,
-// which is not ported yet, so this class derives from DriverInterface for now.
+// (AT, mode 1 at +0x54) and the OpenSL-style output (OSL, mode 2, empty in the original). The audio thread drives
+// android.media.AudioTrack through JNI (the JavaVM set by VoxSetJavaVM). It derives from DriverCallbackInterface, whose
+// mutex (+0x04), active byte (+0x08), source counter (+0x0c) and source list (+0x10) it shares.
 #pragma once
+
+#include <jni.h>
 
 #include <thread>
 
@@ -11,49 +12,34 @@
 #include "vox-audio/vox/driver_callback.hpp"
 #include "vox-audio/vox/mutex.hpp"
 
-struct _JavaVM;
-struct _jarray;
-
 namespace vox {
 
-class DriverAndroid : public DriverInterface {
+class DriverAndroid : public DriverCallbackInterface {
 public:
-    // C1 0x88fa80, C2 0x88fae4: the base constructor (the composed callback_ member, built before
-    // the body), mode 0 and then Init(nullptr).
+    // C1 0x88fa80, C2 0x88fae4: the base constructor, mode 0 and then Init(nullptr).
     DriverAndroid();
-    // D1 0x88f9ec and D2 0x88fa44, same body: Shutdown then the base destructor (the composed
-    // callback_ member, destroyed after the body). D0 0x88fa28 is the deleting form.
+    // D1 0x88f9ec and D2 0x88fa44, same body: Shutdown then the base destructor. D0 0x88fa28 is the deleting form.
     ~DriverAndroid() override;
 
     // 0x88ee78: dispatches Update to the audio thread (mode 1) or OSL (mode 2).
     void Update(float dt) override;
-    // 0x88f028: dispatches Resume by the mode word; the body matches the listing.
+    // 0x88f028: dispatches Resume by the mode word.
     void Resume() override;
-    // 0x88f130: dispatches Suspend by the mode word; the body matches the listing.
+    // 0x88f130: dispatches Suspend by the mode word.
     void Suspend() override;
-    // The binary's DriverAndroid derives from DriverCallbackInterface, which is where these four
-    // slots are defined (+0x24 Set3DParameter, +0x40 PrintDebug, +0x4c FillBuffer) or forwarded
-    // from (+0x10 Suspend, +0x14 Resume, which driver_callback.cpp does not override). The port's
-    // DriverAndroid derives from DriverInterface directly, so it forwards to a
-    // DriverCallbackInterface member to keep the same slots working. Not virtual in the original.
-    void Set3DParameter(int which, const void* value) override;
-    void FillBuffer(std::int16_t* out, int count) override;
-    // 0x88f644 (partial): dispatches Shutdown; _ShutdownAT joins the thread.
-    void Shutdown();
+    // 0x88f644: dispatches Shutdown; _ShutdownAT joins the thread.
+    void Shutdown() override;
 
-    // 0x88f9a0: the lock, DriverCallbackInterface::Init, SetDefaultParameter, _InitAT,
-    // SetDefaultParameter and the unlock, all reached through the composed callback_ member.
-    void Init(void* context);
-    // 0x88fbe8 (partial): takes the lock; no source is created because the base counter
-    // (DriverCallbackInterface::field_0c_ +0x0c) and the base source list (list_head_ +0x10) are
-    // not exposed by the composed callback_ member, so this returns null.
+    // 0x88f9a0: the lock, DriverCallbackInterface::Init, SetDefaultParameter, _InitAT, SetDefaultParameter and the unlock.
+    void Init(void* context) override;
+    // 0x88fbe8: under the lock, an active driver creates a DriverAndroidSource (the base source counter at +0x0c is the
+    // source's flags), links it at the tail of the base source list and counts it; an inactive one returns null.
     DriverSourceInterface* CreateDriverSource(const std::int32_t* params, void* user, int flags) override;
-    // 0x88f59c (partial): destroys and frees the source under the lock; the unlink from the base
-    // list (list_head_ +0x10, DriverCallbackNode) is not reachable.
+    // 0x88f59c: under the lock, unlinks and frees the source's list node, runs the source's destructor and frees it.
     void DestroyDriverSource(DriverSourceInterface* source) override;
 
     // 0x88ee6c: the original prints nothing here.
-    void PrintDebug();
+    void PrintDebug() override;
 
     // OSL and audio-thread bodies. 0x88ee5c, 0x88ee60, 0x88ee64, 0x88ee68 and
     // 0x88ee70, 0x88ee74 are empty in the original.
@@ -64,20 +50,21 @@ public:
     void _UpdateOSL(float dt);
     void _UpdateAT(float dt);
 
-    // 0x88f328 (partial): the audio thread entry; the AudioTrack calls are JNI and not ported.
+    // 0x88f328: the audio thread entry: attaches the thread to the JavaVM, creates and plays the AudioTrack
+    // (3 = STREAM_MUSIC, 44100 Hz, 12 = CHANNEL_OUT_STEREO, 2 = ENCODING_PCM_16BIT, 4 * frames bytes, 1 = MODE_STREAM), then
+    // writes chunks (DoCallbackAT) until m_running clears, and stops and releases the track.
     int UpdateThreadedAT(void* unused);
-    // 0x88f14c (partial): the timing tail is ported; the JNI write pass is not, so m_dataDuration
-    // does not grow here.
-    void DoCallbackAT(_jarray*& array);
-    // 0x88f660 (partial): stores the sample rate 44100 (the original never reads its argument) and
-    // returns 44100 when s_javaVM is null; the AudioTrack setup under a JavaVM is JNI and not ported.
+    // 0x88f14c: one chunk: mixes `chunk_` frames into the byte array (the base _FillBuffer under the lock), writes it to the
+    // track, and sleeps when the buffered duration is ahead of the clock by more than the threshold.
+    void DoCallbackAT(jarray& array);
+    // 0x88f660: stores the sample rate 44100 and, under a JavaVM, caches the AudioTrack class and method ids, sizes the
+    // ring from getMinBufferSize / 4, sets the timing statics, selects mode 1 and starts the audio thread.
     int _InitAT(void* context);
 
-    // 0x88f618: running flag cleared, then the thread is joined (pthread_join in the
-    // original, std::thread::join here).
+    // 0x88f618: running flag cleared, then the thread is joined (pthread_join in the original).
     void _ShutdownAT();
-    // 0x88f044 and 0x88ef6c: the flag and timing part matches the listing; the AudioTrack
-    // pause()/play() JNI calls are dropped (no host JavaVM, JNIEnv or AudioTrack jobject).
+    // 0x88f044 and 0x88ef6c: under the lock and while the audio thread is active: AudioTrack pause()/play(), the paused byte
+    // and the buffered duration / start time.
     void _SuspendAT();
     void _ResumeAT();
 
@@ -94,17 +81,22 @@ public:
     static double m_dataThreshold;        // _ZN3vox13DriverAndroid15m_dataThresholdE
     static double m_dataDuration;         // _ZN3vox13DriverAndroid14m_dataDurationE
 
-private:
+    // android.media.AudioTrack: the class (a global reference) and the method ids _InitAT caches.
+    static jclass cAudioTrack;            // _ZN3vox13DriverAndroid11cAudioTrackE
+    static jmethodID mAudioTrack;         // "<init>" (IIIIII)V
+    static jmethodID mGetMinBufferSize;   // static (III)I
+    static jmethodID mPlay;               // ()V
+    static jmethodID mPause;              // ()V
+    static jmethodID mStop;               // ()V
+    static jmethodID mRelease;            // ()V
+    static jmethodID mWrite;              // ([BII)I
+
     friend struct DriverAndroidTestAccess;
-    // The base mix and listener object. The binary's DriverAndroid derives from
-    // DriverCallbackInterface; the port holds it as a member, so the slots the engine calls
-    // through the driver's vtable (+0x10 Suspend, +0x14 Resume, +0x24 Set3DParameter,
-    // +0x40 PrintDebug, +0x4c FillBuffer) are forwarded to it.
-    DriverCallbackInterface callback_;
-    Mutex mutex_;                  // +0x04
-    bool at_active_ = false;       // +0x08: read by the audio-thread suspend and resume
     int mode_ = 0;                 // +0x54: 1 audio thread, 2 OSL
+    std::int32_t frames_ = 0;      // +0x58: the ring frames (getMinBufferSize / 4)
+    std::int32_t chunk_ = 0;       // +0x5c: frames per write, min(frames_, 1024)
     bool paused_ = false;          // +0x60: set by _SuspendAT, cleared by _ResumeAT and _InitAT
+    jobject track_ = nullptr;      // +0x64: the AudioTrack object
     std::thread thread_;           // +0x68 (pthread_t in the original)
 };
 

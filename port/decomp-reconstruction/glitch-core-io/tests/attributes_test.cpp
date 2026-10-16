@@ -20,7 +20,7 @@ struct Recorder : io::IAttribute {
     int getInt() const override { return 42; }
     float getFloat() const override { return 1.5f; }
     bool getBool() const override { return true; }
-    int getEnum() const override { return 3; }
+    const char* getEnum() const override { return "three"; }
     int getType() const override { return 7; }
     void setInt(int v) override { ++ints; lastInt = v; }
     void setFloat(float v) override { ++floats; lastFloat = v; }
@@ -60,7 +60,7 @@ int main() {
     CHECK(b.floats == 1 && b.lastFloat == 2.5f);
     CHECK(a.bools == 1 && a.lastBool);
     CHECK(attrs.getInt(0) == 42 && attrs.getFloat(1) == 1.5f);
-    CHECK(attrs.getBool(0) && attrs.getEnum(1) == 3);
+    CHECK(attrs.getBool(0) && std::string(attrs.getEnum(1)) == "three");
     CHECK(attrs.getAttributeType(0) == 7);
 
     // Out-of-range: setters ignored, getters return defaults.

@@ -77,14 +77,14 @@ const char* OpenableContainer::GetScript() const {
     if (m_dataId == -1) {  // +0x374
         return nullptr;
     }
-    return TableRow(m_dataId).m_w6;
+    return TableRow(m_dataId).Script;
 }
 
 // 0x3a1670 _ZNK17OpenableContainer9GetVisualEv
 // The visual index is the row's m_w9 (+0x24). Without a row the original returns m_dataId itself, which is -1.
 int OpenableContainer::GetVisual() const {
     if (m_dataId != -1) {  // +0x374
-        return TableRow(m_dataId).m_w9;
+        return TableRow(m_dataId).Visual;
     }
     return m_dataId;
 }
@@ -112,7 +112,7 @@ bool OpenableContainer::KeepPhysics() const {
     if (row == -1) {
         return false;
     }
-    return TableRow(row).m_w3;
+    return TableRow(row).KeepSolid;
 }
 
 // 0x3a17c4 _ZNK17OpenableContainer8GetSoundEv
@@ -120,7 +120,7 @@ bool OpenableContainer::KeepPhysics() const {
 int OpenableContainer::GetSound() const {
     const int row = Arrays::GetMemberIDByString<Arrays::OpenableContainers>(m_dataDesc.c_str());
     if (row != -1) {
-        return TableRow(row).m_w2;  // +0x08
+        return TableRow(row).InteractSound;  // +0x08
     }
     return row;
 }
@@ -130,7 +130,7 @@ int OpenableContainer::GetSound() const {
 int OpenableContainer::GetLoot() const {
     const int row = Arrays::GetMemberIDByString<Arrays::OpenableContainers>(m_dataDesc.c_str());
     if (row != -1) {
-        return TableRow(row).m_w4;  // +0x10
+        return TableRow(row).Loot;  // +0x10
     }
     return row;
 }

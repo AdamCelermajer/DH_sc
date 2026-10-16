@@ -12,15 +12,20 @@
 #include "glitch-scene-collada-gui/collada/CCameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaFactory.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CGlitchNewParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CImage.hpp"
 #include "glitch-scene-collada-gui/collada/CLightSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CMeshSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CModularSkinnedMesh.hpp"
+#include "glitch-scene-collada-gui/collada/CParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp"
 #include "glitch-scene-collada-gui/collada/CSkinnedMesh.hpp"
 #include "glitch-scene-collada-gui/collada/IParticleSystemSceneNode.hpp"
+#include "glitch-core-io/io/interfaces.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
 
@@ -30,14 +35,14 @@ CColladaFactory CColladaDatabase::DefaultFactory;
 
 namespace {
 
-// The particle systems the factory builds derive from IParticleSystemSceneNode as their primary base (constructors 0x64ed94 and the GNPS
-// one), and the coronas node from scene::ISceneNode; their classes are not canonical yet, so the builders below reach the base through the
-// pointer value, which is the same.
+// The particle systems the factory builds derive from IParticleSystemSceneNode (collada/CParticleSystemSceneNode.hpp and
+// collada/CGlitchNewParticleSystemSceneNode.hpp); the coronas node is reached from scene::ISceneNode through the pointer value, which is
+// the same.
 IParticleSystemSceneNode* asParticleSystem(CParticleSystemSceneNode* node) {
-    return reinterpret_cast<IParticleSystemSceneNode*>(node);
+    return node;
 }
 IParticleSystemSceneNode* asParticleSystem(CGlitchNewParticleSystemSceneNode* node) {
-    return reinterpret_cast<IParticleSystemSceneNode*>(node);
+    return node;
 }
 scene::ISceneNode* asSceneNode(CCoronasSceneNode* node) {
     return reinterpret_cast<scene::ISceneNode*>(node);
@@ -132,15 +137,30 @@ CImage* CColladaDatabase::constructImage(const char* name, CRootSceneNode* root)
 // ---------------------------------------------------------------------------------------------------------------------
 
 // 0x61cca8 _ZNK6glitch7collada16CColladaDatabase17constructMaterialEPNS_5video12IVideoDriverEPNS0_9SMaterialEPNS0_14CRootSceneNodeE
-// PARTIAL: with a record, the original takes the driver's file system (driver +0xd4, then its file system at +0x34), remembers the
-// working directory, changes it to the directory of this file while the factory builds the material (slot 0x20, so that the relative
-// texture paths resolve), and restores it. The driver's device and the file system's directory calls are not reachable from the port's
-// video classes, so the factory is called without the directory switch.
+// With a record: the driver's file system (device +0x34) is given the directory of this database's file as a folder archive (with a closing
+// slash) while the factory builds the material, so that the relative texture paths resolve, and the archive is removed again when it was
+// added. A file in no directory goes straight to the factory. Host guard: a driver without a device builds the material directly.
 video::CMaterial* CColladaDatabase::constructMaterial(video::IVideoDriver* driver, SMaterial* material, CRootSceneNode* root) const {
     if (material == nullptr) {
         return nullptr;
     }
-    return factory->createMaterial(*this, driver, material, root);
+    io::IFileSystem* fileSystem = driver != nullptr && driver->m_device != nullptr ? driver->m_device->fileSystem : nullptr;
+    if (fileSystem == nullptr) {
+        return factory->createMaterial(*this, driver, material, root);
+    }
+    std::string directory = fileSystem->getFileDir(std::string(record != nullptr ? record->fileName : ""));
+    if (directory.empty()) {
+        return factory->createMaterial(*this, driver, material, root);
+    }
+    if (directory.back() != '\\' && directory.back() != '/') {
+        directory += "/";
+    }
+    const bool added = fileSystem->addFolderFileArchive(directory.c_str(), true, true);
+    video::CMaterial* built = factory->createMaterial(*this, driver, material, root);
+    if (added) {
+        fileSystem->removeFileArchive(directory.c_str());
+    }
+    return built;
 }
 
 // 0x61cefc _ZNK6glitch7collada16CColladaDatabase17constructMaterialEPNS_5video12IVideoDriverEPKcPNS0_14CRootSceneNodeE
@@ -587,7 +607,7 @@ void* CColladaDatabase::constructAnimator() const {
     const SDatabaseTables& table = tables();
     int imageSequences = 0;
     for (std::size_t i = 0; i < table.images.size(); ++i) {
-        if (table.images[i]->reserved04[2] == 1) {
+        if (table.images[i]->external == 1) {
             ++imageSequences;
         }
     }

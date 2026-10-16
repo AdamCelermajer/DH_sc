@@ -188,7 +188,7 @@ void CSSpawn::OnFocus(int, Character* character, CharStateMachine*, int fromStat
         (fromState == kPreSpawnState) && ((character->m_stateFlags & kInteractiveBit) != 0);
     character->m_stateFlags = kSpawnFocusFlags;
 
-    const int animId = character->GetCharAnimTable()->m_w32;
+    const int animId = character->GetCharAnimTable()->Spawn;
     int stance = ApplicationGetPyDataConstants()->getConstant("AnimStancedAnim", "SL__LIST_IPHONE") & kSpawnStanceBit;
     if (stance != 0) {
         stance = character->GetAnimStance();
@@ -254,7 +254,7 @@ void CSStunned::OnFocus(int, Character* character, CharStateMachine*, int, int, 
 
     character->m_stateFlags = kStunFocusFlags;
 
-    const int animId = character->GetCharAnimTable()->m_w35;
+    const int animId = character->GetCharAnimTable()->Stunned;
     int stance = ApplicationGetPyDataConstants()->getConstant("AnimStancedAnim", "SL__LIST_IPHONE") & kStunStanceBit;
     if (stance != 0) {
         stance = character->GetAnimStance();

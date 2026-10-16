@@ -2,6 +2,8 @@
 
 #include <cstdio>
 
+#include "net-transport/default_data_packet.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
@@ -30,7 +32,8 @@ int main() {
     lobby.OnMPLoginSuccess(nullptr);
     CHECK(lobby.LoggedInForTest());
     CHECK(lobby.StateForTest() == 3);
-    lobby.OnMPGetLobbyInfo(nullptr);            // game started flag is set: state 6
+    DefaultDataPacket infoPacket;
+    lobby.OnMPGetLobbyInfo(&infoPacket);            // game started flag is set: state 6
     CHECK(lobby.StateForTest() == 6);
     lobby.OnMPStartGameSuccess(nullptr);
     CHECK(lobby.StateForTest() == 8);

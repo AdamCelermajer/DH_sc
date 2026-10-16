@@ -11,9 +11,9 @@
 // 0x331944 _ZN7ConsoleD1Ev and 0x331a2c _ZN7ConsoleD2Ev
 // Both listings have the same body. One definition is kept here for both symbols.
 Console::~Console() {
-    if (g_eventManager) {
-        g_eventManager->Detach(4, this);
-        g_eventManager->Detach(5, this);
+    if (EventManager* const events = ConsoleEventManager()) {
+        events->Detach(4, this);
+        events->Detach(5, this);
     }
     _destroyList();
     // The string, vector and list storage are released by the member destructors.
@@ -28,8 +28,9 @@ void ConsoleDeletingDestructor(Console* self) {
 // 0x333a4c _ZN7ConsoleC1Ev and 0x33401c _ZN7ConsoleC2Ev
 // Both listings have the same body. Member initialisers set the zeroed fields.
 Console::Console() {
-    g_eventManager->Attach(4, this, 15);
-    g_eventManager->Attach(5, this, 15);
+    EventManager* const events = ConsoleEventManager();
+    events->Attach(4, this, 15);
+    events->Attach(5, this, 15);
 
     DebugSwitches& sw = DebugSwitches::s_inst;
     sw.load();
@@ -71,6 +72,26 @@ Console::Console() {
     sw.load();
     (void)sw.GetSwitch("isTracingItemPctRoll");
 }
+
+// 0x999708 _ZN7Console14COMMAND_LABELSE: 15 string pointers (60 bytes in .data.rel.ro, strings at 0x8bfba0..0x8bfd30), the
+// labels of the console's COMMANDS page in the order _setMenuCommands lists them.
+const char* const Console::COMMAND_LABELS[15] = {
+    "Reload Level",
+    "Add Every Known Items To Mankind To The Player's Inventory",
+    "Remove All Unequipped Items From Player's Inventory",
+    "Give current level loots to player",
+    "Level Up!!!",
+    "Toggle God Mode",
+    "Unlock All Difficulties",
+    "Reset Stats",
+    "Checkpoint",
+    "Unlock all fast travel locations",
+    "Unlock and increase all faeries",
+    "Unlock all achievements",
+    "Give Gold",
+    "End Game Character",
+    "Finish All Quests",
+};
 
 // 0x332488 _ZN7Console16_setMenuCommandsEv
 void Console::_setMenuCommands() {

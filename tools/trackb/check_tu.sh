@@ -27,7 +27,7 @@ includes_for() {  # one include set for every folder: own include dir first, the
     echo "$d"
   done
   for v in vendor-lua/upstream/lua-5.1.4/src vendor-box2d/upstream/box2d-2.0.1/Include \
-           vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714 tinyxml-and-c-libs/upstream/tinyxml-2.5.3; do
+           vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714 tinyxml-and-c-libs/upstream/tinyxml-2.5.3            ../irrlicht-prototype/upstream/irrlicht-1.8.5/source/Irrlicht/zlib; do
     echo "-isystem"
     cygpath -m "$dr/$v" 2>/dev/null || echo "$dr/$v"
   done

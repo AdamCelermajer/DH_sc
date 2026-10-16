@@ -182,9 +182,9 @@ void TestObjectCommands() {
     {
         Script_AISetInt cmd{};
         Structs::AISetInt record;
-        SetName(record.m_w5, "Guard01");
-        SetName(record.m_w3, "alarm");
-        record.m_w6 = 5;
+        SetName(record.Target, "Guard01");
+        SetName(record.Name, "alarm");
+        record.Value = 5;
         cmd.m_args = &record;
         g_objectFound = false;
         CheckProbeAndLookup("Script_AISetInt", cmd, "Guard01");
@@ -195,7 +195,7 @@ void TestObjectCommands() {
     {
         Script_ActivateTriggerPlate cmd{};
         Structs::ActivateTriggerPlate record;
-        SetName(record.m_w3, "Plate03");
+        SetName(record.Target, "Plate03");
         cmd.m_args = &record;
 
         g_objectFound = false;
@@ -222,7 +222,7 @@ void TestObjectCommands() {
     {
         Script_AutoEquip cmd{};
         Structs::AutoEquip record;
-        SetName(record.m_w3, "Hero");
+        SetName(record.Target, "Hero");
         cmd.m_args = &record;
         g_objectFound = true;
         CheckProbeAndLookup("Script_AutoEquip", cmd, "Hero");

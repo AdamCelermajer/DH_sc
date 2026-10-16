@@ -126,12 +126,12 @@ bool Script_AISetInt::IsBlocking() const { return false; }
 void Script_AISetInt::Execute(bool /*skipping*/, int module) {
     const auto* record = static_cast<const Structs::AISetInt*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w5, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = handle.GetObject(false);
     if (object != nullptr && object->IsCharacter()) {
         Character* character = static_cast<Character*>(object);
         if (character->CharAI::m_script != nullptr) {
-            static_cast<LuaScript*>(character->CharAI::m_script)->SetInt(record->m_w3, record->m_w6);
+            static_cast<LuaScript*>(character->CharAI::m_script)->SetInt(record->Name, record->Value);
         }
     }
 }
@@ -147,7 +147,7 @@ bool Script_ActivateTriggerPlate::IsBlocking() const { return false; }
 void Script_ActivateTriggerPlate::Execute(bool /*skipping*/, int module) {
     const auto* record = static_cast<const Structs::ActivateTriggerPlate*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = handle.GetObject(false);
     if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == 18) {
         m_triggerPlate = object;
@@ -168,7 +168,7 @@ bool Script_AutoEquip::IsBlocking() const { return false; }
 void Script_AutoEquip::Execute(bool /*skipping*/, int module) {
     const auto* record = static_cast<const Structs::AutoEquip*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     if (handle.GetObject(false) != nullptr) {
         Character* character = handle;
         if (character != nullptr) {

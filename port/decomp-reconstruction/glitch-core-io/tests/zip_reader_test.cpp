@@ -38,33 +38,33 @@ public:
 
 static void testEntryCopy() {
     SZipFileEntry a;
-    a.path = "dir/a.txt";
-    a.name = "a.txt";
-    a.extra = "x";
-    a.f48 = 11;
-    a.f68 = 3;
+    a.zipFileName = "dir/a.txt";
+    a.simpleFileName = "a.txt";
+    a.path = "x";
+    a.fileDataPosition = 11;
+    a.header.ExtraFieldLength = 3;
     SZipFileEntry b(a);
-    CHECK(b.path == "dir/a.txt" && b.name == "a.txt" && b.extra == "x");
-    CHECK(b.f48 == 11 && b.f68 == 3);
+    CHECK(b.zipFileName == "dir/a.txt" && b.simpleFileName == "a.txt" && b.path == "x");
+    CHECK(b.fileDataPosition == 11 && b.header.ExtraFieldLength == 3);
     SZipFileEntry c;
     c = b;
-    CHECK(c.name == "a.txt" && c.f48 == 11);
+    CHECK(c.simpleFileName == "a.txt" && c.fileDataPosition == 11);
     c = c;
-    CHECK(c.path == "dir/a.txt");
+    CHECK(c.zipFileName == "dir/a.txt");
 }
 
 static void testDirectory() {
     CZipReader zip;
     CHECK(zip.getFileCount() == 0);
     SZipFileEntry first;
-    first.name = "one";
+    first.simpleFileName = "one";
     zip.entries.push_back(first);
     SZipFileEntry second;
-    second.name = "two";
-    second.f4c = 99;
+    second.simpleFileName = "two";
+    second.header.Sig = 99;
     zip.entries.push_back(second);
     CHECK(zip.getFileCount() == 2);
-    CHECK(zip.getFileInfo(1)->name == "two" && zip.getFileInfo(1)->f4c == 99);
+    CHECK(zip.getFileInfo(1)->simpleFileName == "two" && zip.getFileInfo(1)->header.Sig == 99);
 }
 
 static void testDeletePath() {
@@ -116,15 +116,15 @@ int main() {
     {
         CZipReader indexed;
         SZipFileEntry first;
-        first.name = "a.txt";
+        first.simpleFileName = "a.txt";
         SZipFileEntry second;
-        second.name = "b.txt";
+        second.simpleFileName = "b.txt";
         indexed.entries = {first, second};
         CHECK(indexed.findFile("b.txt") == 1);
         CHECK(indexed.findFile("zz.txt") == -1);
-        indexed.flagA = true;
+        indexed.ignoreCase = true;
         CHECK(indexed.findFile("B.TXT") == 1);
-        indexed.flagB = true;
+        indexed.ignorePaths = true;
         CHECK(indexed.findFile("dir/a.txt") == 0);
     }
     testIrrXmlCallback();

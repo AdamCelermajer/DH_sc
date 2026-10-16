@@ -88,6 +88,9 @@ public:
     void setColor(glitch::video::SColor value) override;                    // 0x3249f8
     void setColor(glitch::video::SColorf value) override;                   // 0x324b78
     void setMatrix(const glitch::core::CMatrix4<float>& value) override;    // 0x325bc4
+    // 0x325070: zeroes the list, then reads up to count numbers from the text: before each number the text is
+    // skipped to the next digit or '-', and each number is read by fast_atof_move (an int list truncates it).
+    void setString(const char* text) override;
     std::string getString() const override;     // 0x32d220 (partial: float formatting inferred)
     std::wstring getStringW() const override;   // 0x32d52c (partial: float formatting inferred)
 

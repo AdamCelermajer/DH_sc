@@ -118,7 +118,7 @@ void NetBitStream::Reset() {
 
 // 0x80e42c _ZN12NetBitStream8WriteBitEj
 void NetBitStream::WriteBit(std::uint32_t bit) {
-    if ((flags_ & kWriteOverflow) == 0 && write_pos_ < size_ * 8) {
+    if ((flags_ & kWriteOverflow) == 0 && write_pos_ != size_ * 8) {  // the original compares for equality
         std::uint32_t pos = write_pos_;
         std::uint8_t mask = static_cast<std::uint8_t>(1u << (7 - (pos & 7)));
         if (bit != 0) {
@@ -135,7 +135,8 @@ void NetBitStream::WriteBit(std::uint32_t bit) {
 // 0x80e498 _ZN12NetBitStream7ReadBitEv
 int NetBitStream::ReadBit() {
     std::uint32_t pos = read_pos_;
-    if ((pos >> 3) < size_) {
+    // The original tests size_ < (pos + 1) >> 3 (Hex-Rays), one bit earlier than a plain bounds check.
+    if (!(size_ < ((pos + 1) >> 3))) {
         read_pos_ = pos + 1;
         return (buffer_[pos >> 3] >> (7 - (pos & 7))) & 1;
     }
@@ -167,7 +168,7 @@ void NetBitStream::WriteByte(std::uint8_t value, std::uint32_t bits) {
 // 0x80e564 _ZN12NetBitStream8ReadByteEj
 std::uint32_t NetBitStream::ReadByte(std::uint32_t bits) {
     std::uint32_t pos = read_pos_;
-    if (write_pos_ < pos + bits) {  // unsigned (write - read) < bits in the original
+    if (bits > write_pos_ - pos) {  // unsigned compare of the count with (write - read), as the original does
         flags_ |= kReadOverflow;
         return 0;
     }

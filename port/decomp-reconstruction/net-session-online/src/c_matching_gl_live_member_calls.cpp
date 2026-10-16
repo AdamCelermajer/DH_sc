@@ -26,13 +26,13 @@ constexpr std::size_t kMaxPlayerParamBytes = 0x80;
 }  // namespace
 
 // 0x81c138 _ZN15CMatchingGLLive18GetGLFriendsNumberEi
-// Returns the user number of friend `index` when 0 <= index < the friend count, else 0. A null
-// friend list returns 0 here; the original would dereference it.
-std::int32_t CMatchingGLLive::GetGLFriendsNumber(std::int32_t index) {
+// The user number text of friend `index` when 0 <= index < the friend count, else 0 (null). A null friend list returns
+// null here; the original would dereference it.
+const char* CMatchingGLLive::GetGLFriendsNumber(std::int32_t index) {
     if (glxUserFriend_ == nullptr || index < 0 || index >= glxUserFriend_->GetFriendsCount()) {
-        return 0;
+        return nullptr;
     }
-    return static_cast<std::int32_t>(glxUserFriend_->GetUserNumber(index));
+    return glxUserFriend_->GetUserNumber(index);
 }
 
 // 0x81c174 _ZN15CMatchingGLLive23SendRequestLostPasswordEPc
@@ -116,20 +116,38 @@ std::int32_t CMatchingGLLive::GetMemberId() const {
 }
 
 // 0x81dd04 _ZNK15CMatchingGLLive17GetGLLiveMemberIdEv
-// Partial: returns -1 when the Game Center flag is set or the user is not signed in, as the original
-// does. The original then creates the lobby observer (on first use; reproduced) and searches the lobby
-// member list (tMemberInfo, not in the port) for the signed-in user name, ignoring case. That search is not
-// reproduced, so a signed-in lookup returns -1.
+// Reconstructed. -1 when the Game Center flag (+0x67e8) is set or the user is not signed in. Otherwise the lobby
+// observer member vector is copied, the signed-in user name (CSignIn +0x04) is lower-cased, and the index of the
+// last member whose lower-cased name (+0x28) equals it is returned, scanning GetMemberCount() (vtable +0x60)
+// entries; -1 when none. Host-necessitated deviation: the original indexes the copied vector without a range check,
+// so a count beyond the vector reads past it; the port stops at the end of the vector.
 std::int32_t CMatchingGLLive::GetGLLiveMemberId() const {
     if (gameCenterActive_) {
         return -1;
     }
     CSignIn* signIn = CSignIn::Get();
-    if (signIn == nullptr || !signIn->LoggedIn()) {
+    if (!signIn->LoggedIn()) {
         return -1;
     }
-    (void)GetGLXPlayerMPLobbyObserver();
-    return -1;
+    const std::vector<tMemberInfo> members = GetGLXPlayerMPLobbyObserver()->MemberList();
+    const auto lower = [](std::string text) {
+        for (char& c : text) {
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
+        return text;
+    };
+    const char* userName = signIn->CredentialsName();
+    const std::string wanted = lower(userName != nullptr ? std::string(userName) : std::string());
+    std::int32_t result = -1;
+    for (std::int32_t i = 0; i < GetMemberCount(); ++i) {
+        if (static_cast<std::size_t>(i) >= members.size()) {
+            break;
+        }
+        if (lower(std::string(members[static_cast<std::size_t>(i)].Name())) == wanted) {
+            result = i;
+        }
+    }
+    return result;
 }
 
 // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamESsb

@@ -136,6 +136,7 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x5604fc
     const wchar_t* getTypeString() const override;  // 0x560504
+    glitch::core::quaternion getQuaternion() const override;  // 0x561da0: the matrix (getMatrix, slot +0x44) converted by quaternion::operator=(CMatrix4)
 };
 
 class CQuaternionAttribute : public CNumbersAttribute {
@@ -145,6 +146,7 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x560514
     const wchar_t* getTypeString() const;  // 0x56051c
+    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x563bc4: getQuaternion (slot +0x40), flag +0x40 cleared, quaternion::getMatrix_transposed
 };
 
 class CBBoxAttribute : public CNumbersAttribute {
@@ -284,10 +286,18 @@ public:
     const wchar_t* getTypeString() const override;  // 0x560698: literal "texture" from the IDA listing
     boost::intrusive_ptr<glitch::video::ITexture> getTexture() const override;  // 0x560638
     void setTexture(const boost::intrusive_ptr<glitch::video::ITexture>& value) override;  // 0x560664
+    std::string getString() const override;   // 0x561e00: io::toString(texture, driver)
+    std::wstring getStringW() const override; // 0x564834: the string widened (empty when there is no texture)
+    void getString(char* buf);                // 0x564a20 (non-const): the string copied out, "" without a texture
+    void setString(const char* value) override;  // 0x56522c: io::fromString(value, driver) then setTexture
 };
 
-class CBinaryAttribute : public IAttribute {
+// A string attribute with its own type (CBinaryAttribute derives from CStringAttribute: its D1 0x5650dc runs the
+// CStringAttribute destructor, and CAttributes::addStringAsBinary builds a CStringAttribute and writes this vtable over it).
+class CBinaryAttribute : public CStringAttribute {
 public:
+    CBinaryAttribute() = default;
+    CBinaryAttribute(const char* attrName, void* data, int size, bool f) : CStringAttribute(attrName, data, size, f) {}
     int getType() const override;  // 0x560620 (returns 0x19)
     const wchar_t* getTypeString() const override;  // 0x560628: literal "binary" from the IDA listing
 };

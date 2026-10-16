@@ -212,25 +212,25 @@ void SetUpTables() {
     Arrays::SkillListTable::members = g_listRows;
     Arrays::SkillListTable::size = 4;
     Structs::SkillList* lists = Lists();
-    lists[3].m_w1 = 3;
-    lists[3].m_w2 = g_ids;
+    lists[3].ListSize = 3;
+    lists[3].List = g_ids;
 
     // List 2 holds skill ids {11, 12}, so a test can move the list id away from 3 and see the lookups follow it.
-    lists[2].m_w1 = 2;
-    lists[2].m_w2 = g_ids2;
+    lists[2].ListSize = 2;
+    lists[2].List = g_ids2;
 
     Arrays::SkillTable::members = g_skillRows;
     Arrays::SkillTable::size = 32;
     Structs::Skill* skills = Skills();
-    skills[10].m_w8 = 2;
-    skills[10].m_w7 = 0;
-    skills[10].m_w18 = 7;
-    skills[11].m_w8 = 3;
-    skills[11].m_w7 = 0x2000000;  // flag bit the sneak cancel looks for
-    skills[11].m_w18 = 7;
-    skills[12].m_w8 = 4;
-    skills[12].m_w7 = 0;
-    skills[12].m_w18 = -1;
+    skills[10].Level = 2;
+    skills[10].Flags = 0;
+    skills[10].Type = 7;
+    skills[11].Level = 3;
+    skills[11].Flags = 0x2000000;  // flag bit the sneak cancel looks for
+    skills[11].Type = 7;
+    skills[12].Level = 4;
+    skills[12].Flags = 0;
+    skills[12].Type = -1;
 }
 
 PlayerSavegame::SkillRecord g_rows[3];
@@ -286,10 +286,10 @@ void TestSkillListLookups() {
     Check(Self()->GetSkillIDFromOID(12) == 2, "GetSkillIDFromOID finds id 12 at 2");
     Check(Self()->GetSkillIDFromOID(99) == -1, "GetSkillIDFromOID returns -1 for an absent oid");
 
-    const std::uint32_t saved = Lists()[3].m_w1;
-    Lists()[3].m_w1 = 0;
+    const std::uint32_t saved = Lists()[3].ListSize;
+    Lists()[3].ListSize = 0;
     Check(Self()->GetSkillIDFromOID(10) == -1, "GetSkillIDFromOID returns -1 for an empty list");
-    Lists()[3].m_w1 = saved;
+    Lists()[3].ListSize = saved;
 
     Check(Self()->IsUsingFreezingRay() == false, "IsUsingFreezingRay is false");
 
@@ -413,7 +413,7 @@ void TestCancelSneakingHelpers() {
     SetUpTables();
     AttachSavegame();
     ResetRecorders();
-    Check((Skills()[11].m_w7 & 0x2000000) != 0 && (Skills()[10].m_w7 & 0x2000000) == 0,
+    Check((Skills()[11].Flags & 0x2000000) != 0 && (Skills()[10].Flags & 0x2000000) == 0,
           "skill 11 carries the sneak flag and skill 10 does not");
     Check(g_cancelSkillCalls == 0 && g_delBuffCalls == 0, "no recorded cancel before CancelSneaking runs");
 }

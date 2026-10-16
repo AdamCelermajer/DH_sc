@@ -1,4 +1,5 @@
 #include "net-session-online/online_game_state.hpp"
+#include "dh2/global/net_singletons.hpp"
 
 #include "net-session-online/c_online.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
@@ -46,20 +47,19 @@ void OnlineGameState::Destroy() {
 }
 
 // 0x4a039c _ZN15OnlineGameState6UpdateEv
-// Partial. The original, in order (asm 0x4a03a4..0x4a03d8):
-//   1. When the online-game flag is set (*(GetOnline() + 5), COnline::IsOnlineGame), call
-//      processEvents() on OnlineSingleton<OnlineGameState>::GetInstance().
-//   2. Under the same gate, call processMessages() on the same instance.
-//   3. Return MultiplayerStateMachine::runStateMachine() on the instance's +0x14 state machine.
-// Step 2 is reproduced below. Step 1 is not: processEvents (0x49db80) is skipped (53 KB of UI and gameswf
-// dispatch over types absent from this category), so there is no body to call. The returned handler result
-// is not produced either: runStateMachine is void in this port. The gate is re-read for step 2 in the
-// original, which the single COnline::GetInstance() read below also does.
+// In order (asm 0x4a03a4..0x4a03d8): while the online-game flag is set (*(GetOnline() + 5), COnline::IsOnlineGame),
+// processEvents() on OnlineSingleton<OnlineGameState>::GetInstance(); the flag is read again, and while it is set
+// processMessages() on the same instance; then the instance's state machine (+0x14) runs.
+// Deviation: the original returns runStateMachine's result (the last state callback's r0); runStateMachine is void in
+// this port and no caller reads the value.
 void OnlineGameState::Update() {
-    if (COnline::GetInstance()->IsOnlineGame()) {
+    if (GetOnline()->IsOnlineGame()) {
+        OnlineSingleton<OnlineGameState>::GetInstance()->processEvents();
+    }
+    if (GetOnline()->IsOnlineGame()) {
         OnlineSingleton<OnlineGameState>::GetInstance()->processMessages();
     }
-    stateMachine_.runStateMachine();
+    OnlineSingleton<OnlineGameState>::GetInstance()->stateMachine_.runStateMachine();
 }
 
 // 0x4a02f8 _ZN15OnlineGameState32GlliveRoomCreationTimeOutExpiredEv

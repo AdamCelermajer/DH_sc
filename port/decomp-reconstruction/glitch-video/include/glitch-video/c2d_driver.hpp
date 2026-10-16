@@ -14,9 +14,11 @@
 #include <cstdint>
 #include <vector>
 
+#include "core-platform/stlport_alloc.hpp"  // core::SAllocator: the vector overloads mangle it
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-shared/glitch_core.hpp"
+#include "glitch-video/material.hpp"
 #include "glitch-video/video_types.hpp"
 
 namespace glitch::video {
@@ -35,7 +37,7 @@ public:
     void freeTextures();                                                                                        // 0x59f300
     void init();                                                                                                // 0x59f398
     boost::intrusive_ptr<CMaterial> get2DMaterial(const boost::intrusive_ptr<ITexture>& texture, bool alpha);   // 0x59f4e4
-    void set2DTexture(const boost::intrusive_ptr<ITexture>& texture, bool alpha);                               // 0x59f5bc
+    boost::intrusive_ptr<CMaterial> set2DTexture(const boost::intrusive_ptr<ITexture>& texture, bool alpha);                               // 0x59f5bc
     void draw2DRectangle(const core::rect<int32_t>& position, SColor colorLeftUp, SColor colorRightUp,
                          SColor colorLeftDown, SColor colorRightDown, const core::rect<int32_t>* clip);        // 0x59f61c
     void draw2DRectangle(SColor color, const core::rect<int32_t>& position, const core::rect<int32_t>* clip); // 0x59f79c
@@ -46,7 +48,8 @@ public:
                      const core::rect<int32_t>& source, const core::rect<int32_t>* clip, SColor color,
                      bool useAlpha);                                                                           // 0x59f990
     void draw2DImage(const boost::intrusive_ptr<ITexture>& texture, const core::position2d<int32_t>& destination,
-                     const std::vector<core::rect<int32_t>>& sources, const std::vector<int32_t>& indices,
+                     const std::vector<core::rect<int32_t>, core::SAllocator<core::rect<int32_t>>>& sources,
+                     const std::vector<int32_t, core::SAllocator<int32_t>>& indices,
                      int32_t count, const core::rect<int32_t>* clip, SColor color, bool useAlpha);             // 0x59fa94
     void draw2DImage(const boost::intrusive_ptr<ITexture>& texture, const core::position2d<int32_t>& destination);  // 0x59fb78
 
@@ -60,7 +63,7 @@ public:
     static void freeTextures(IVideoDriver* driver);                                                            // 0x59f38c
     static boost::intrusive_ptr<CMaterial> get2DMaterial(IVideoDriver* driver, const boost::intrusive_ptr<ITexture>& texture,
                                                          bool alpha);                                          // 0x59f5a0
-    static void set2DTexture(IVideoDriver* driver, const boost::intrusive_ptr<ITexture>& texture, bool alpha);  // 0x59f600
+    static boost::intrusive_ptr<CMaterial> set2DTexture(IVideoDriver* driver, const boost::intrusive_ptr<ITexture>& texture, bool alpha);  // 0x59f600
     static void draw2DRectangle(IVideoDriver* driver, const core::rect<int32_t>& position, SColor colorLeftUp,
                                 SColor colorRightUp, SColor colorLeftDown, SColor colorRightDown,
                                 const core::rect<int32_t>* clip);                                              // 0x59f780
@@ -73,20 +76,23 @@ public:
                             const core::position2d<int32_t>& destination, const core::rect<int32_t>& source,
                             const core::rect<int32_t>* clip, SColor color, bool useAlpha);                     // 0x59fa80
     static void draw2DImage(IVideoDriver* driver, const boost::intrusive_ptr<ITexture>& texture,
-                            const core::position2d<int32_t>& destination, const std::vector<core::rect<int32_t>>& sources,
-                            const std::vector<int32_t>& indices, int32_t count, const core::rect<int32_t>* clip,
+                            const core::position2d<int32_t>& destination,
+                            const std::vector<core::rect<int32_t>, core::SAllocator<core::rect<int32_t>>>& sources,
+                            const std::vector<int32_t, core::SAllocator<int32_t>>& indices, int32_t count, const core::rect<int32_t>* clip,
                             SColor color, bool useAlpha);                                                      // 0x59fb58
     static void draw2DImage(IVideoDriver* driver, const boost::intrusive_ptr<ITexture>& texture,
                             const core::position2d<int32_t>& destination);                                     // 0x59fbd4
 
     // +0x04 is IReferenceCounted::referenceCounter.
     IVideoDriver* m_driver = nullptr;  // +0x08, the driver passed to the constructor
-    uint32_t unk_0c = 0;               // +0x0c
-    uint32_t unk_10 = 0;               // +0x10
-    uint16_t unk_14 = 0;               // +0x14
-    uint32_t unk_18 = 0;               // +0x18
-    uint16_t unk_1c = 0;               // +0x1c
-    uint8_t unk_1e = 0;                // +0x1e
+    // The three 2D materials, made by init (0x59f398) from the renderer manager's built-in types, and the id of the texture parameter of the
+    // last two.
+    boost::intrusive_ptr<CMaterial> m_untexturedMaterial;  // +0x0c, type 4 (Unlit Non Textured Blend Material Color)
+    boost::intrusive_ptr<CMaterial> m_alphaMaterial;       // +0x10, type 10 (texture alpha, no culling, no depth)
+    uint16_t m_alphaTextureParameter = 0;                  // +0x14
+    boost::intrusive_ptr<CMaterial> m_texturedMaterial;    // +0x18, type 7 (Unlit Textured Blend No Depth)
+    uint16_t m_texturedTextureParameter = 0;               // +0x1c
+    uint8_t m_initialized = 0;                             // +0x1e, set by init
 };
 
 }  // namespace glitch::video

@@ -103,7 +103,7 @@ Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel() {}
 
 // 0x478ba4 _ZN25Condition_IsPlayerInLevel37DBG_TraceDetailedConditionInformationEP7__sFILE
 std::size_t Condition_IsPlayerInLevel::DBG_TraceDetailedConditionInformation(__sFILE* stream) {
-    const std::int32_t levelIndex = m_stub->m_w2;  // row +0x08
+    const std::int32_t levelIndex = m_stub->Op1;  // row +0x08
     const char* levelName = "na";
     if (levelIndex >= 0 && static_cast<std::uint32_t>(levelIndex) < Arrays::LevelList::size) {
         levelName = Arrays::LevelListMemberNameAt(levelIndex);
@@ -115,7 +115,7 @@ std::size_t Condition_IsPlayerInLevel::DBG_TraceDetailedConditionInformation(__s
 // 0x478d78 _ZN25Condition_IsPlayerInLevel4EvalEv
 bool Condition_IsPlayerInLevel::Eval() {
     // The row's level index (+0x08) against the current level's index in the level list (Level +0x3c).
-    return m_stub->m_w2 == ApplicationGetInstance().GetCurrentLevel()->m_levelListIndex;
+    return m_stub->Op1 == ApplicationGetInstance().GetCurrentLevel()->m_levelListIndex;
 }
 
 // 0x479230 _ZN25Condition_IsPlayerInLevelD0Ev: deleting destructor, compiler generated. Not written here.
@@ -141,8 +141,8 @@ Condition_IsQuestInStateGeneric::~Condition_IsQuestInStateGeneric() {}
 // 0x478cc4 _ZN31Condition_IsQuestInStateGeneric37DBG_TraceDetailedConditionInformationEP7__sFILE
 std::size_t Condition_IsQuestInStateGeneric::DBG_TraceDetailedConditionInformation(__sFILE* stream) {
     std::FILE* out = reinterpret_cast<std::FILE*>(stream);
-    const std::int32_t questIndex = m_stub->m_w2;      // row +0x08: the quest's row in Arrays::v2Quests
-    const std::int32_t requiredState = m_stub->m_w3;   // row +0x0c
+    const std::int32_t questIndex = m_stub->Op1;      // row +0x08: the quest's row in Arrays::v2Quests
+    const std::int32_t requiredState = m_stub->Op2;   // row +0x0c
     const char* questName = "na";
     if (questIndex >= 0 && static_cast<std::uint32_t>(questIndex) < Arrays::v2Quests::size) {
         questName = Arrays::v2QuestsMemberNameAt(questIndex);
@@ -160,12 +160,12 @@ bool Condition_IsQuestInStateGeneric::Eval() {
     if (character == nullptr) {
         return false;
     }
-    Quest* quest = character->SG_GetQuestByID(row->m_w2, -1);  // quest id (row +0x08), difficulty -1
+    Quest* quest = character->SG_GetQuestByID(row->Op1, -1);  // quest id (row +0x08), difficulty -1
     if (quest == nullptr) {
         return false;
     }
     const std::int32_t actual = quest->m_state;     // Quest +0x00
-    const std::int32_t required = row->m_w3;        // row +0x0c
+    const std::int32_t required = row->Op2;        // row +0x0c
     switch (m_comparator) {  // Condition_IsQuestInStateGeneric +0x08
         case COMPARE_EQUAL:
             return required == actual;

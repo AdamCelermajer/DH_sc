@@ -36,6 +36,7 @@ class IVideoDriver;
 namespace glitch::scene {
 
 class CBatchSceneNode;
+class SDefaultSegmentCompileCallback;
 
 class CAppendMeshBuffer : public CMeshBuffer {
 public:
@@ -127,7 +128,7 @@ public:
     void finalize();
 
     CBatchSceneNode* node = nullptr;                        // +0x04 the batch node whose mesh receives the buffers
-    void* compileState = nullptr;                           // +0x08 the compiler's state; its word at +0x10 is the key of the next batch
+    SDefaultSegmentCompileCallback* compileState = nullptr; // +0x08 the compiler's state (compileInternal's stack callback); its word at +0x10 is the key of the next batch
     video::IVideoDriver* driver = nullptr;                  // +0x0c
     video::E_BUFFER_USAGE usage = 0;                        // +0x10 the usage of the copies
     std::map<std::uint32_t, SBatchConfig> configs;          // +0x14 (STLport _Rb_tree: header at +0x14, node count at +0x24)

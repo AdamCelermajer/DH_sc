@@ -172,8 +172,7 @@ bool CRootSceneNode::addURLToResolve(const boost::intrusive_ptr<video::CMaterial
 // For each queued entry: a URL that starts with '#' is looked up among the lights; otherwise (or when that finds nothing) the database
 // asks its factory for the external light of the entry's renderer or material. A light that is not found logs "failed to resolve light
 // parameter" (level 3) and the entry is skipped. The list is freed at the end.
-// PARTIAL: the found light's CLight handle (light +0x134) is written into the renderer's or material's parameter with
-// IMaterialParameters<...>::setParameter<intrusive_ptr<CLight>>, which glitch-video does not expose on CMaterial / CMaterialRenderer.
+// The found light's CLight handle (light +0x134) is written into the renderer's or material's parameter.
 void CRootSceneNode::resolveURLs() {
     for (SURLToResolve& entry : urlsToResolve) {
         scene::CLightSceneNode* light = nullptr;
@@ -193,17 +192,23 @@ void CRootSceneNode::resolveURLs() {
             os::Printer::log("failed to resolve light parameter", ELL_ERROR);
             continue;
         }
-        // PARTIAL: the parameter write (see above) is not available.
+        if (entry.forRenderer) {
+            // IMaterialParameters<CMaterialRenderer>::setParameter<intrusive_ptr<CLight>> (0x5d4f34).
+            entry.target.renderer->parameters.template setParameter<boost::intrusive_ptr<video::CLight>>(entry.parameterId, entry.arrayIndex, light->light);
+        } else {
+            entry.target.material->parameters.template setParameter<boost::intrusive_ptr<video::CLight>>(entry.parameterId, entry.arrayIndex, light->light);
+        }
     }
     urlsToResolve.clear();
 }
 
 // 0x65c4f8 _ZN6glitch7collada14CRootSceneNode20setIFLAnimationValueEPNS0_10SAnimationEN5boost13intrusive_ptrINS_5video8ITextureEEE
-// PARTIAL: finds (creating it when missing, as std::map::operator[] does) the list of the animation and sets the animation's texture
-// on every material parameter in it with IMaterialParameters<CMaterial>::setParameter<intrusive_ptr<ITexture>>(parameterId, 0, texture),
-// which glitch-video does not expose on CMaterial. The lookup is done; the writes are not.
-void CRootSceneNode::setIFLAnimationValue(SAnimation* animation, boost::intrusive_ptr<video::ITexture> /*texture*/) {
-    (void)iflAnimations[animation];
+// Finds (creating it when missing, as std::map::operator[] does) the list of the animation and sets the animation's texture on every
+// material parameter in it (array element 0).
+void CRootSceneNode::setIFLAnimationValue(SAnimation* animation, boost::intrusive_ptr<video::ITexture> texture) {
+    for (CMaterialParameterInfo& info : iflAnimations[animation]) {
+        info.material->parameters.template setParameter<boost::intrusive_ptr<video::ITexture>>(info.parameterId, 0, texture);
+    }
 }
 
 // 0x65c5b0 _ZN6glitch7collada14CRootSceneNode15addIFLAnimationEPNS0_10SAnimationEN5boost13intrusive_ptrINS_5video9CMaterialEEEt

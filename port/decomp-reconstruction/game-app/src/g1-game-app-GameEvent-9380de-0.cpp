@@ -37,7 +37,7 @@ void GameEvent::SetState(int state) {
     if (static_cast<std::uint32_t>(state) <= 2u) {
         m_state = state;
         if (state == EVENT_COMPLETED) {
-            ExecScript(TempHackScriptIDAreStrings(m_pyData->m_w3));
+            ExecScript(TempHackScriptIDAreStrings(m_pyData->Script));
         }
     }
 }
@@ -95,8 +95,8 @@ void GameEvent::DBG_TraceDetailedInformation() const {
 // block is passed through the original's v2QuestObjectiveStub* type, which is how ObjectiveList::AssignPyData takes it.
 void GameEvent::AssignPyData(Structs::v2Event* data) {
     m_pyData = data;
-    m_objectives.AssignPyData(reinterpret_cast<Structs::v2QuestObjectiveStub*>(data->m_w5),
-                              static_cast<int>(data->m_w4));
+    m_objectives.AssignPyData(reinterpret_cast<Structs::v2QuestObjectiveStub*>(data->Triggers),
+                              static_cast<int>(data->TriggersSize));
 }
 
 // 0x47957c GameEvent::~GameEvent() (D1), 0x479594 GameEvent::~GameEvent() (D2)

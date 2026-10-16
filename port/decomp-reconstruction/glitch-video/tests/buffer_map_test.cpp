@@ -3,6 +3,7 @@
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/ccommon_gl_driver.hpp"
 #include "glitch-video/deps/gl_function_table.hpp"
+#include "glitch-video/programmable_gl_driver.hpp"
 #include "video_test_types.hpp"
 
 #include <cstdio>
@@ -27,7 +28,7 @@ struct TestRenderTarget : glitch::video::CCommonGLDriverBase::CRenderTargetBase 
 
 
 
-struct TestBufferDriver : glitch::video::CCommonGLDriver {};
+struct TestBufferDriver : glitch::video::CProgrammableGLDriver {};
 
 int main() {
     using namespace glitch::video;
@@ -100,20 +101,25 @@ int main() {
     // getTargetCount: type 0 returns the count byte, 1 and 2 test the handles,
     // 3 needs both handles equal, anything else is zero.
     TestRenderTarget target(nullptr);
-    int handleA = 0;
-    int handleB = 0;
+    struct Handle : glitch::IReferenceCounted {};
+    Handle handleAObject;
+    Handle handleBObject;
+    ++handleAObject.referenceCounter;  // the stack objects must outlive the target's references
+    ++handleBObject.referenceCounter;
+    Handle* handleA = &handleAObject;
+    Handle* handleB = &handleBObject;
     target.setTargetStateForTest(nullptr, nullptr, 3);
     CHECK(target.getTargetCount(0) == 3);
     CHECK(target.getTargetCount(1) == 0);
     CHECK(target.getTargetCount(2) == 0);
     CHECK(target.getTargetCount(3) == 0);
-    target.setTargetStateForTest(&handleA, nullptr, 0);
+    target.setTargetStateForTest(handleA, nullptr, 0);
     CHECK(target.getTargetCount(1) == 1);
     CHECK(target.getTargetCount(2) == 0);
     CHECK(target.getTargetCount(3) == 0);
-    target.setTargetStateForTest(&handleA, &handleA, 0);
+    target.setTargetStateForTest(handleA, handleA, 0);
     CHECK(target.getTargetCount(3) == 1);
-    target.setTargetStateForTest(&handleA, &handleB, 0);
+    target.setTargetStateForTest(handleA, handleB, 0);
     CHECK(target.getTargetCount(2) == 1);
     CHECK(target.getTargetCount(3) == 0);
     CHECK(target.getTargetCount(9) == 0);
@@ -131,14 +137,15 @@ int main() {
         };
         TestBufferDriver d;
         const char payload[4] = {1, 2, 3, 4};
-        d.registerBufferMap(7, 70, 0x8892, 0x88E4, 4, payload);
-        d.registerBufferMap(3, 30, 0x8893, 0x88E0, 4, payload);
+        // The first argument is the GL buffer name and also the map key (0x5b5be4).
+        d.registerBufferMap(70, 0x8892, 0x88E4, 4, payload);
+        d.registerBufferMap(30, 0x8893, 0x88E0, 4, payload);
         d.ReloadbufferMap();
         CHECK(n == 14);
-        CHECK(log[0] == 0xB093 && log[1] == 30);  // key 3 first: bind (target 0x8893, name 30)
+        CHECK(log[0] == 0xB093 && log[1] == 30);  // name 30 first: bind (target 0x8893, name 30)
         CHECK(log[2] == 0xDA93 && log[3] == (4u | 0x100u) && log[4] == 0x88E0);
         CHECK(log[5] == 0xB093 && log[6] == 0);
-        CHECK(log[7] == 0xB092 && log[8] == 70);  // then key 7
+        CHECK(log[7] == 0xB092 && log[8] == 70);  // then name 70
         CHECK(log[11] == 0x88E4 && log[13] == 0);
         t.bindBuffer = nullptr;
         t.bufferData = nullptr;

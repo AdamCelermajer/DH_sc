@@ -50,12 +50,12 @@ Structs::Item* RowOf(int id) {
 
 void SetRow(int id, int type, int category, int subtype, int a, int b, int c) {
     Structs::Item* row = RowOf(id);
-    row->m_w22 = type;      // +0x58
-    row->m_w26 = category;  // +0x68
-    row->m_w37 = subtype;   // +0x94
-    row->m_w38 = a;         // +0x98
-    row->m_w39 = b;         // +0x9c
-    row->m_w40 = c;         // +0xa0
+    row->Type = type;      // +0x58
+    row->EquipmentSlottingType = category;  // +0x68
+    row->Param3 = subtype;   // +0x94
+    row->Param4 = a;         // +0x98
+    row->Param5 = b;         // +0x9c
+    row->Param6 = c;         // +0xa0
 }
 
 int g_failures = 0;

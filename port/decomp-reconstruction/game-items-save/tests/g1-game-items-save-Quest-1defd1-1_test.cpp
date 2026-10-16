@@ -185,7 +185,7 @@ void CloseQuestWithRewards(const std::string& rewards) {
     ResetRecorders();
     g_rewardText = rewards;
     Structs::v2Quest record;
-    record.m_w2 = kTitleId;
+    record.Description = kTitleId;
     Quest quest(0);
     quest.m_pyData = &record;
     quest.SetState(Quest::QUEST_CLOSED);
@@ -222,7 +222,7 @@ void TestClosedStateStamp() {
     g_app.m_lastTickTime = kStampTime;
     ResetRecorders();
     Structs::v2Quest record;
-    record.m_w2 = kTitleId;
+    record.Description = kTitleId;
     Quest quest(0);
     quest.m_pyData = &record;
     quest.SetState(Quest::QUEST_CLOSED);

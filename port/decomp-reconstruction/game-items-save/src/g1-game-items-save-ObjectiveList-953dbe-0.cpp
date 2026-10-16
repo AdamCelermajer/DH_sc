@@ -54,7 +54,7 @@ const ObjectiveFactory s_ObjectiveImplDataMap[13] = {
 }  // namespace
 
 Objective* ObjectiveList::CreateObjectiveWithPyData(Structs::v2QuestObjectiveStub* stub) {
-    const int type = stub->m_w1;  // row +0x04
+    const int type = stub->Type;  // row +0x04
     Objective* objective = s_ObjectiveImplDataMap[type]();
     objective->m_pyData = stub;   // +0x0c
     objective->m_type = type;     // +0x04

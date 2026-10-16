@@ -49,7 +49,7 @@ const Structs::AnimFXTpl& RowOf(const VisualFXManager::AnimFXSetInfo& set) {
 
 // The step records of an effect table row (Structs::AnimFX, the row's +0x10 members, 48 bytes each in the original).
 const Structs::AnimFX* StepsOf(const Structs::AnimFXTpl& row) {
-    return static_cast<const Structs::AnimFX*>(row.m_w4);
+    return static_cast<const Structs::AnimFX*>(row.Steps);
 }
 
 // The EffectDict row (Structs::ColladaFile, 12 bytes each in the original) for an effect id.
@@ -97,18 +97,18 @@ VisualFXManager::AnimFXData VisualFXManager::GetAnimFXData(AnimFXSetInfo info, A
     const Structs::AnimFX& step = StepsOf(row)[setData->m_stepIndex];
 
     AnimFXData data{};
-    data.unk_00 = step.m_off17;                       // record +17
-    data.unk_01 = step.m_w4;                          // record +16
-    data.unk_02 = step.m_w8;                          // record +32
-    data.m_speed = step.m_w9;                         // record +36, a float word
+    data.unk_00 = step.OrientWithAnchor;                       // record +17
+    data.unk_01 = step.OrientOnce;                          // record +16
+    data.unk_02 = step.ScaleWithAnchor;                          // record +32
+    data.m_speed = step.Speed;                         // record +36, a float word
     data.m_setData = setData;                         // +0x10 of the result
-    data.unk_0c = step.m_w5;                          // record +20
-    if (row.m_w5 == 1) {
-        data.m_playTime = step.m_w3;                  // record +12, unscaled
-    } else if (step.m_w3 == -1 || setData->m_timeScale == -1) {
+    data.unk_0c = step.PlayTime;                          // record +20
+    if (row.Type == 1) {
+        data.m_playTime = step.Loop;                  // record +12, unscaled
+    } else if (step.Loop == -1 || setData->m_timeScale == -1) {
         data.m_playTime = -1;
-    } else if (step.m_w3 != 0) {
-        std::int32_t playTime = step.m_w3;
+    } else if (step.Loop != 0) {
+        std::int32_t playTime = step.Loop;
         if (setData->m_timeScale != 0) {
             playTime *= setData->m_timeScale;
         }
@@ -170,13 +170,13 @@ void VisualFXManager::DropAnimatedFXSetByID(int effectTableId) {
     }
     AnimFXSetInfo& set = m_animFXSets[static_cast<std::size_t>(effectTableId)];
     const Structs::AnimFXTpl& row = RowOf(set);
-    AnimFXSetData* setData = GetAnimFXSetData(effectTableId, row.m_w2, 0, nullptr, nullptr, Vec3f_Origin, Vec3f_Origin);
+    AnimFXSetData* setData = GetAnimFXSetData(effectTableId, row.LoopAFX, 0, nullptr, nullptr, Vec3f_Origin, Vec3f_Origin);
 
     // The result is not used by the original; the call is kept for its reads.
     static_cast<void>(GetAnimFXData(set, setData));
 
     // The pool of the step: the step record's +4 word (Structs::AnimFX::m_w1) is the EffectDict id.
-    const std::int32_t dictId = StepsOf(row)[setData->m_stepIndex].m_w1;
+    const std::int32_t dictId = StepsOf(row)[setData->m_stepIndex].File;
     AnimatedFXInfo& pool = m_animatedFXPools[static_cast<std::size_t>(dictId)];
     delete setData;
 
@@ -245,7 +245,7 @@ AnimatedFX* VisualFXManager::_GetAnimFX(int effectDictId) {
             return nullptr;
         }
         instance = new AnimatedFX(effectDictId);
-        instance->Load(EffectRow(static_cast<std::uint32_t>(effectDictId)).m_w2, "", 1.0f, -1, true);
+        instance->Load(EffectRow(static_cast<std::uint32_t>(effectDictId)).Name, "", 1.0f, -1, true);
     }
     pool.m_activeFX.push_back(instance);
     return instance;
@@ -335,7 +335,7 @@ void VisualFXManager::_BuildAnimFXDict() {
     const std::uint32_t count = Arrays::EffectDict::size;
     for (std::uint32_t i = 0; i < count; ++i) {
         AnimatedFXInfo info;
-        info.m_dictName = EffectRow(i).m_w2;
+        info.m_dictName = EffectRow(i).Name;
         m_animatedFXPools.push_back(info);
     }
 }
@@ -354,18 +354,18 @@ AnimatedFX* VisualFXManager::GrabAnimFX(int effectTableId, GameObject* object) {
 
     AnimFXSetInfo& set = m_animFXSets[static_cast<std::size_t>(effectTableId)];
     const Structs::AnimFXTpl& row = RowOf(set);
-    AnimatedFX* instance = _GetAnimFX(StepsOf(row)[0].m_w1);
+    AnimatedFX* instance = _GetAnimFX(StepsOf(row)[0].File);
     if (instance == nullptr) {
         return nullptr;
     }
 
     // The original calls the clone of GetRandom that the ordinary stream uses (Random::s_seed), so the flag is false.
     int stepIndex = 0;
-    if (row.m_w5 == 2) {
-        stepIndex = static_cast<int>(Random::GetRandom(static_cast<int>(row.m_w3), false));
+    if (row.Type == 2) {
+        stepIndex = static_cast<int>(Random::GetRandom(static_cast<int>(row.StepsSize), false));
     }
 
-    AnimFXSetData* setData = GetAnimFXSetData(effectTableId, row.m_w2, stepIndex, object, nullptr,
+    AnimFXSetData* setData = GetAnimFXSetData(effectTableId, row.LoopAFX, stepIndex, object, nullptr,
                                               Vec3f_Origin, Vec3f_Origin);
     const AnimFXData data = GetAnimFXData(set, setData);
     set.m_setData.push_back(setData);

@@ -52,19 +52,19 @@ public:
 
     static int Startup();                           // 0x842208 _ZN14CAndroidSocket7StartupEv (sigaction result)
     static void Clearup();                          // 0x84210c _ZN14CAndroidSocket7ClearupEv
-    static hostent* GetHostIP(const char* name);    // 0x841e4c (static: r0 is the name)
+    static hostent* GetHostIP(char* name);    // 0x841e4c (static: r0 is the name)
 
     void Init();                                    // 0x840880 _ZN14CAndroidSocket4InitEv
 
     // Platform slots, in vtable order. Each overrides the GLXPlayerSocket slot of the same name.
     int GetLocalIP(char* out) override;             // +0x08, 0x841fbc, 1 on success
-    hostent* GetHostByName(const char* name) override;  // +0x20, 0x841ca8
+    hostent* GetHostByName(char* name) override;  // +0x20, 0x841ca8
     void GetHostName(char** out) override;          // +0x24, 0x840c60
     bool CreateSocket() override;                   // +0x28, 0x840f68
     int GetLastError() override;                    // +0x2c, 0x841b98
     bool SetNonBlocking() override;                 // +0x30, 0x841ad0
     int Connect() override;                         // +0x34, 0x84152c, 1 when done
-    int ConnectByName(const char* name, std::uint16_t port) override;  // +0x38, 0x841790, 1 when done
+    int ConnectByName(char* name, std::uint16_t port) override;  // +0x38, 0x841790, 1 when done
     bool CloseSocket() override;                    // +0x3c, 0x8412b4
     int Select(XSocketSelectFlag flag) override;    // +0x40, 0x8411e8
     int Send(const char* data, int length) override;  // +0x44, 0x8410f8

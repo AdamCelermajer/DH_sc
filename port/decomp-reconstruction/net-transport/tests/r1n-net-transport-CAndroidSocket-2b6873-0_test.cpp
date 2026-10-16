@@ -48,7 +48,7 @@ void TestHostCache() {
     CAndroidSocket s("", 0, nullptr);
     CHECK(s.GetHostByName(nullptr) == nullptr);
     const std::string too_long(1025, 'a');
-    CHECK(s.GetHostByName(too_long.c_str()) == nullptr);
+    CHECK(s.GetHostByName(const_cast<char*>(too_long.c_str())) == nullptr);
 
     // First lookup stores an entry; the same name hits the cache and gets the same entry.
     hostent* first = s.GetHostByName("127.0.0.1");

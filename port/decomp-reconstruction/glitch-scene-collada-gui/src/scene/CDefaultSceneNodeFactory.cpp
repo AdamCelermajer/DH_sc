@@ -4,15 +4,18 @@
 
 #include <cstring>
 
+#include "glitch-scene-collada-gui/scene/CAnimatedMeshSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CDummyTransformationSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CLightSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/CSkyBoxSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CTerrainSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CTextSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneNodeAnimatorCameraFPS.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneNodeAnimatorCameraMaya.hpp"
@@ -106,15 +109,15 @@ ISceneNode* CDefaultSceneNodeFactory::addSceneNode(const char* typeName, ISceneN
 }
 
 // 0x6b9f30 _ZN6glitch5scene24CDefaultSceneNodeFactory12addSceneNodeENS0_17E_SCENE_NODE_TYPEEPNS0_10ISceneNodeE
-// PARTIAL. Cases built here: cube and sphere (a mesh node over the generated mesh: createCubeMesh(0x60003, driver, 1.0) and
-// createSphereMesh(0x60003, driver, 5.0, 16, 16); both generators return a null mesh in this port, see scene/mesh_creators.cpp),
-// mesh (a mesh node without a mesh), light (CLightSceneNode(1)), empty, dummyTransformation, skyBox (six empty textures), text (no
-// font, the manager's collision manager, the text "e", colour 0x64ffffff), camera (made the active camera), cameraMaya (with
-// CSceneNodeAnimatorCameraMaya(cursor, -1500, 200, 1500), made active), cameraFPS (with CSceneNodeAnimatorCameraFPS(cursor, 100,
-// 500, 0, no key map, no vertical lock), made active) and billBoard (CBillboardSceneNode(driver, -1, origin, size 0 x 0, white, white)).
-// Cases the original builds that this port cannot yet: particleSystem (CParticleSystemSceneNode), terrain (CTerrainSceneNode(&fileSystem,
-// -1, 4, 17, 17)) and animatedMesh (CAnimatedMeshSceneNode): those return null. shadowVolume has no case in the original either.
-// A node that was made is added to `parent` (vptr+0x5c) when there is one, and the creator's use is dropped.
+// Verified against the decompilation. A new node by type: cube and sphere (a mesh node over createCubeMesh(0x60003, driver, 1.0) and
+// createSphereMesh(0x60003, driver, 5.0, 16, 16)), mesh (a mesh node without a mesh), light (CLightSceneNode(1)), empty,
+// dummyTransformation, skyBox (six empty textures), text (no font, the manager's collision manager, the text "e", colour 0x64ffffff),
+// camera (made the active camera), cameraMaya (with CSceneNodeAnimatorCameraMaya(cursor, -1500, 200, 1500), made active), cameraFPS (with
+// CSceneNodeAnimatorCameraFPS(cursor, 100, 500, 0, no key map, no vertical lock), made active), billBoard (CBillboardSceneNode(driver, -1,
+// origin, size 0 x 0, white, white)), particleSystem (CParticleSystemSceneNode(true, -1, origin, origin, unit scale)), terrain
+// (CTerrainSceneNode(fileSystem, -1, attribute mask 4, 17, 17)) and animatedMesh (CAnimatedMeshSceneNode without a mesh). shadowVolume
+// has no case in the original either (null). A node that was made is added to `parent` (vptr+0x5c) when there is one, and the creator's
+// use is dropped.
 ISceneNode* CDefaultSceneNodeFactory::addSceneNode(E_SCENE_NODE_TYPE type, ISceneNode* parent) {
     ISceneNode* node = nullptr;
     video::IVideoDriver* driver = sceneManager != nullptr ? sceneManager->driver : nullptr;
@@ -158,6 +161,15 @@ ISceneNode* CDefaultSceneNodeFactory::addSceneNode(E_SCENE_NODE_TYPE type, IScen
         case ESNT_BILLBOARD:
             node = new CBillboardSceneNode(driver, -1, kZero, core::dimension2d<float>{0.0f, 0.0f}, video::SColor{0xFFFFFFFFu},
                                            video::SColor{0xFFFFFFFFu});
+            break;
+        case ESNT_PARTICLE_SYSTEM:
+            node = new CParticleSystemSceneNode(true, -1, kZero, kZero, kOne);
+            break;
+        case ESNT_TERRAIN:
+            node = new CTerrainSceneNode(fileSystem, -1, 4u, 17, 17, kZero, kIdentity, kOne);
+            break;
+        case ESNT_ANIMATED_MESH:
+            node = new CAnimatedMeshSceneNode(boost::intrusive_ptr<IAnimatedMesh>(), -1, kZero, kIdentity, kOne);
             break;
         case ESNT_EMPTY:
             node = new CEmptySceneNode(-1);

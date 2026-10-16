@@ -9,33 +9,6 @@
 #include "net-session-online/glx_player_login.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
 
-// Seams for the parts of the original that the port does not reach yet. Each one names the
-// original accessor it stands for. They are file-local, so the class header keeps the
-// layout only. Remove each seam when its accessor is reconstructed.
-namespace {
-
-// CMatchingGLLive::GetGLXPlayerLogin (0x81c5e8). Its body is in another slice and is not in the
-// port. Null here, so the login requests are not sent.
-GLXPlayerLogin* LoginService() { return nullptr; }
-
-// CMatchingGLLive::GetGGI on the matching singleton (0x81c18c). The instance is not reachable
-// from here, so the GGI reads as 0.
-unsigned long MatchingGgi() { return 0UL; }
-
-// dword_A3387C (0xa3387c): a global char* used as the Game Center user id. It is not recovered
-// yet, so it is null here.
-const char* GameCenterUserIdGlobal() { return nullptr; }
-
-// CMatching+0x67e8 (the Game Center flag, a byte of the matching object). The port has no getter,
-// so it reads as false and the Game Center branches are not taken.
-bool GameCenterFlag() { return false; }
-
-// GLXPlayerMPLobby+0x60 (the lobby state), read through GLXPlayerMPLobby::State(). A null lobby
-// reads as 0 (the original would dereference it).
-std::uint8_t LobbyState(const GLXPlayerMPLobby* lobby) { return lobby != nullptr ? lobby->State() : 0; }
-
-}  // namespace
-
 // 0x824204 _ZN13CSignInGLLive10InitializeEv
 // The original sets the active flag at +0x10 when it is clear and returns 0. That is the
 // CSignIn::Initialize body, so the base is called.
@@ -63,10 +36,9 @@ std::int32_t CSignInGLLive::SignIn(CSignInCredentials& credentials) {
     if (!active_) {
         return 0;
     }
-    if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
-        login->SendLogin(credentials.Name(), credentials.Password(), nullptr, 1,
-                         static_cast<char*>(credentials.Context()), const_cast<char*>("EN"), true);
-    }
+    CMatchingGLLive::GetGLXPlayerLogin()->SendLogin(credentials.Name(), credentials.Password(), nullptr, 1,
+                                                    static_cast<char*>(credentials.Context()), const_cast<char*>("EN"),
+                                                    true);
     credentials_ = CSignInCredentials(credentials.Name(), credentials.Password(), credentials.Context());
     events_.AddEvent(1, nullptr, 0);
     loginEvents_.AddEvent(1, nullptr, 0);
@@ -77,9 +49,7 @@ std::int32_t CSignInGLLive::SignIn(CSignInCredentials& credentials) {
 // Sends the logout when logged in, then posts event 4 to the CSignIn queue.
 void CSignInGLLive::SignOut() {
     if (loggedIn_) {
-        if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
-            login->SendLogout();
-        }
+        CMatchingGLLive::GetGLXPlayerLogin()->SendLogout();
     }
     events_.AddEvent(4, nullptr, 0);
 }
@@ -106,110 +76,88 @@ void CSignInGLLive::Terminate() {
 }
 
 // 0x8242b4 _ZN13CSignInGLLive10LoginLobbyEv
-// Partial. The original returns the result of the lobby send; the port's sends return nothing.
-// The gate is the lobby observer byte at +0x05 (Hex-Rays and the ARM listing), which is the
-// connected flag: OnMPEstablishConnectionSuccess sets it, while OnMPLoginSuccess sets the
-// logged-in flag at +0x04. The Game Center branch is taken only when the Game Center flag is
-// set (see the seam; it is not, yet). The other branch needs the login service, so with no login
-// service it sends nothing.
+// Runs when the lobby observer reports the connection up (+0x05). With Game Center active the lobby login is
+// mpSendLobbyLoginWithGameCenter(the matching object's GGI, the user UID, its length, 1, 1, the UID, "NON"); otherwise
+// mpSendLobbyLogin(the login component's GGI, its UID, the UID length, 1). The original returns the send's leftover;
+// the port returns void.
 void CSignInGLLive::LoginLobby() {
-    CMatchingGLLiveLobbyObserver* lobbyObserver = CMatchingGLLive::s_GLXPlayerMPLobbyObserver;
-    if (lobbyObserver == nullptr || !lobbyObserver->Connected()) {
+    CMatchingGLLive::GetGLXPlayerMPLobbyObserver();
+    if (!CMatchingGLLive::GetGLXPlayerMPLobbyObserver()->Connected()) {
         return;
     }
-    GLXPlayerMPLobby* lobby = CMatchingGLLive::s_GLXPlayerMPLobby;
-    if (lobby == nullptr) {
-        return;
-    }
-    if (GameCenterFlag()) {
-        // Original: mpSendLobbyLoginWithGameCenter(ggi, id, strlen(id), 1, 1, id, "NON").
-        const char* userId = GameCenterUserIdGlobal();
+    auto* live = dynamic_cast<CMatchingGLLive*>(CMatching::Get());
+    if (live != nullptr && live->gameCenterActive_) {
+        GLXPlayerMPLobby* lobby = CMatchingGLLive::GetGLXPlayerMPLobby();
+        const unsigned long ggi = live->GetGGI();
+        const char* userId = CMatchingGLLive::s_GameCenterInfo.userUid_;  // dword_A3387C
         const auto userIdLength = static_cast<std::int32_t>(userId != nullptr ? std::strlen(userId) : 0);
-        lobby->mpSendLobbyLoginWithGameCenter(static_cast<long>(MatchingGgi()), const_cast<char*>(userId),
-                                              userIdLength, 1, 1, const_cast<char*>(userId),
-                                              const_cast<char*>("NON"));
+        lobby->mpSendLobbyLoginWithGameCenter(static_cast<long>(ggi), const_cast<char*>(userId), userIdLength, 1, 1,
+                                              const_cast<char*>(userId), const_cast<char*>("NON"));
         return;
     }
-    GLXPlayerLogin* login = LoginService();
-    if (login == nullptr) {
-        return;
-    }
-    // Original: mpSendLobbyLogin(login GGI, login UID, strlen(UID), 1).
+    GLXPlayerMPLobby* lobby = CMatchingGLLive::GetGLXPlayerMPLobby();
+    GLXPlayerLogin* login = CMatchingGLLive::GetGLXPlayerLogin();
     const unsigned long ggi = login->GetGGI();
-    const char* uid = login->GetUID();
+    const char* uid = CMatchingGLLive::GetGLXPlayerLogin()->GetUID();
     const auto uidLength = static_cast<std::int32_t>(uid != nullptr ? std::strlen(uid) : 0);
     lobby->mpSendLobbyLogin(static_cast<long>(ggi), const_cast<char*>(uid), uidLength, 1);
 }
 
 // 0x82447c _ZN13CSignInGLLive6UpdateEv
-// Partial. One step of the login state machine per call, in the original's order:
-//   1. login observer configured: GLXPlayerLogin::Update (through the login seam).
-//   2. lobby pending: the original calls GLXPlayerMPLobby::Update (vtable +0x08). That slot is
-//      not declared in the port, so this step is omitted.
-//   3. event 1 with the login observer logged in: SendGetLobbyServer, post event 2. The Game
-//      Center variant is taken only with the Game Center flag (seam).
-//   4. event 2 with the login observer's server byte set: lobby pending, mpSendEstablishConnection,
-//      post event 4. The byte is the first byte of the observer's server address (+0x06).
+// One step of the login state machine per call, in the original's order (nothing happens until the sign-in is active):
+//   1. login observer configured: GLXPlayerLogin::Update (vtable +0x08).
+//   2. lobby pending (+0x28): GLXPlayerMPLobby::Update (vtable +0x08).
+//   3. event 1 with the login observer logged in: SendGetLobbyServer, post event 2; with Game Center active instead
+//      SendGetLobbyServerWithGameCenter(user UID, 0, 0), post event 2.
+//   4. event 2 with the login observer's server buffer (+0x06) not empty: lobby pending, mpSendEstablishConnection
+//      (vtable +0x0c), post event 4 (the login UID is read and discarded).
 //   5. event 4 with the lobby observer connected (+0x05): LoginLobby, post event 6.
 //   6. event 6 with lobby state > 1: consume, post CSignIn event 2, logged in, SetGCState(2).
 void CSignInGLLive::Update() {
     if (!active_) {
         return;
     }
-    CSignInGLLiveObserver* loginObserver = CMatchingGLLive::s_GLXPlayerLoginObserver;
-    if (loginObserver != nullptr && loginObserver->Configured()) {
-        if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
-            login->Update();
-        }
+    if (CMatchingGLLive::GetGLXPlayerLoginObserver()->Configured()) {
+        CMatchingGLLive::GetGLXPlayerLogin()->Update();
+    }
+    if (lobbyPending_) {
+        CMatchingGLLive::GetGLXPlayerMPLobby()->Update();
     }
 
     if (loginEvents_.HasEventOccured(1, false)) {
-        const bool serverLoggedIn = loginObserver != nullptr && loginObserver->LoggedIn();
-        if (serverLoggedIn) {
+        if (CMatchingGLLive::GetGLXPlayerLoginObserver()->LoggedIn()) {
             loginEvents_.ConsumeEvent(1);
-            if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
-                login->SendGetLobbyServer();
-            }
+            CMatchingGLLive::GetGLXPlayerLogin()->SendGetLobbyServer();
             loginEvents_.AddEvent(2, nullptr, 0);
-        } else if (GameCenterFlag()) {
+        } else if (auto* live = dynamic_cast<CMatchingGLLive*>(CMatching::Get());
+                   live != nullptr && live->gameCenterActive_) {
             loginEvents_.ConsumeEvent(1);
-            if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
-                login->SendGetLobbyServerWithGameCenter(GameCenterUserIdGlobal(), nullptr, nullptr);
-            }
+            CMatchingGLLive::GetGLXPlayerLogin()->SendGetLobbyServerWithGameCenter(
+                CMatchingGLLive::s_GameCenterInfo.userUid_, nullptr, nullptr);
             loginEvents_.AddEvent(2, nullptr, 0);
         }
     }
 
-    if (loginEvents_.HasEventOccured(2, false) && loginObserver != nullptr &&
-        loginObserver->Server()[0] != '\0') {
+    if (loginEvents_.HasEventOccured(2, false) && CMatchingGLLive::GetGLXPlayerLoginObserver()->Server()[0] != '\0') {
         lobbyPending_ = true;
         loginEvents_.ConsumeEvent(2);
-        // The original also reads the login UID here and discards it, so that read is omitted.
-        if (GLXPlayerMPLobby* lobby = CMatchingGLLive::s_GLXPlayerMPLobby; lobby != nullptr) {
-            lobby->mpSendEstablishConnection();
-        }
+        CMatchingGLLive::GetGLXPlayerMPLobby()->mpSendEstablishConnection();
         loginEvents_.AddEvent(4, nullptr, 0);
+        (void)CMatchingGLLive::GetGLXPlayerLogin()->GetUID();
     }
 
-    if (loginEvents_.HasEventOccured(4, false)) {
-        CMatchingGLLiveLobbyObserver* lobbyObserver = CMatchingGLLive::s_GLXPlayerMPLobbyObserver;
-        if (lobbyObserver != nullptr && lobbyObserver->Connected()) {  // +0x05, as in LoginLobby
-            loginEvents_.ConsumeEvent(4);
-            LoginLobby();
-            loginEvents_.AddEvent(6, nullptr, 0);
-        }
+    if (loginEvents_.HasEventOccured(4, false) && CMatchingGLLive::GetGLXPlayerMPLobbyObserver()->Connected()) {
+        loginEvents_.ConsumeEvent(4);
+        LoginLobby();
+        loginEvents_.AddEvent(6, nullptr, 0);
     }
 
-    if (loginEvents_.HasEventOccured(6, false)) {
-        if (LobbyState(CMatchingGLLive::s_GLXPlayerMPLobby) > 1) {
-            loginEvents_.ConsumeEvent(6);
-            events_.AddEvent(2, nullptr, 0);
-            loggedIn_ = true;
-            // The original calls CMatchingGLLive::SetGCState on the matching singleton. The port's
-            // CMatching stand-in forwards the call, and its default is a no-op.
-            if (CMatching* matching = CMatching::Get(); matching != nullptr) {
-                matching->SetGCState(2);
-            }
+    if (loginEvents_.HasEventOccured(6, false) && CMatchingGLLive::GetGLXPlayerMPLobby()->State() > 1) {
+        loginEvents_.ConsumeEvent(6);
+        events_.AddEvent(2, nullptr, 0);
+        loggedIn_ = true;
+        if (CMatching* matching = CMatching::Get(); matching != nullptr) {
+            matching->SetGCState(2);
         }
     }
 }

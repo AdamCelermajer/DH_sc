@@ -9,7 +9,14 @@
 #include <stdexcept>
 
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/collada/CLightSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/IMesh.hpp"
+#include "glitch-scene-collada-gui/collada/IParticleSystemSceneNode.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 #include "glitch-scene-collada-gui/tb/glitch_collada_detail.hpp"
 
@@ -156,13 +163,166 @@ void ISceneNodeAnimator::onUnbindAll() {
     forceUnbindAll();
 }
 
-// 0x667f18 _ZN6glitch7collada18ISceneNodeAnimator9forceBindEv
-// PARTIAL, body not reconstructed. The original (30320 bytes) takes the bound scene node (+0x10) and walks the targets. For
-// each target it reads the channel type through vptr+0x54 (word +0x08), then runs a switch over 0x01..0x5b. The cases look up
-// particle systems, morphing meshes, lights and materials by name through CRootSceneNode (getParticleSystem, getMorphingMesh,
-// getLight, getMaterial) and bind them through vptr+0x68 with the CApplicatorInfo of that channel. The CRootSceneNode lookups
-// and the applicator values are not reconstructed, so this does nothing.
-void ISceneNodeAnimator::forceBind() {}
+namespace {
+
+// What a particle-system channel type binds: the name of the system parameter, and (for the four "scale" channels) the index of the flag
+// byte of the node (IParticleSystemSceneNode flags13c) that must be clear for the channel to bind at all; -1 for none.
+struct SParticleBinding {
+    const char* parameter;
+    int flagByte;
+};
+
+const SParticleBinding* particleBinding(std::uint32_t type) {
+    static const SParticleBinding kBirthRate{"BirthRate", -1};
+    static const SParticleBinding kBirthRateVariation{"BirthRateVariation", -1};
+    static const SParticleBinding kLife{"Life", -1};
+    static const SParticleBinding kLifeVariation{"LifeVariation", -1};
+    static const SParticleBinding kTargetSize{"TargetSize", -1};
+    static const SParticleBinding kSizeVariation{"SizeVariation", -1};
+    static const SParticleBinding kSizeScale{"SizeScale", 0};
+    static const SParticleBinding kSpeed{"Speed", -1};
+    static const SParticleBinding kSpeedVariation{"SpeedVariation", -1};
+    static const SParticleBinding kSpeedScale{"SpeedScale", 1};
+    static const SParticleBinding kDirection{"Direction", -1};
+    static const SParticleBinding kDirectionVariation{"DirectionVariation", -1};
+    static const SParticleBinding kRadiusLength{"RadiusLength", -1};
+    static const SParticleBinding kWidth{"Width", -1};
+    static const SParticleBinding kHeight{"Height", -1};
+    static const SParticleBinding kSpinTime{"SpinTime", -1};
+    static const SParticleBinding kSpinVariation{"SpinVariation", -1};
+    static const SParticleBinding kSpinPhase{"SpinPhase", -1};
+    static const SParticleBinding kSpinPhaseVariation{"SpinPhaseVariation", -1};
+    static const SParticleBinding kSpinScale{"SpinScale", 2};
+    static const SParticleBinding kSpinAxis{"SpinAxis", -1};
+    static const SParticleBinding kSpinAxisVariation{"SpinAxisVariation", -1};
+    static const SParticleBinding kSpinPivotPoint{"SpinPivotPoint", -1};
+    static const SParticleBinding kAnimOffset{"AnimOffset", -1};
+    static const SParticleBinding kAnimOffsetVariation{"AnimOffsetVariation", -1};
+    static const SParticleBinding kAnimLength{"AnimLength", -1};
+    static const SParticleBinding kAnimLengthVariation{"AnimLengthVariation", -1};
+    static const SParticleBinding kAnimScaleMultiplier{"AnimScaleMultiplier", -1};
+    static const SParticleBinding kAnimScaleMultiplierVariation{"AnimScaleMultiplierVariation", -1};
+    static const SParticleBinding kMotionRandom{"MotionRandom", -1};
+    static const SParticleBinding kMotionRandomVariation{"MotionRandomVariation", -1};
+    static const SParticleBinding kMotionRandomScale{"MotionRandomScale", 3};
+    switch (type) {
+        case 0x1C: case 0x2F: return &kBirthRate;
+        case 0x30: return &kBirthRateVariation;
+        case 0x31: return &kLife;
+        case 0x32: return &kLifeVariation;
+        case 0x1D: case 0x33: return &kTargetSize;
+        case 0x1E: case 0x34: return &kSizeVariation;
+        case 0x35: return &kSizeScale;
+        case 0x1F: case 0x36: return &kSpeed;
+        case 0x20: case 0x37: return &kSpeedVariation;
+        case 0x38: return &kSpeedScale;
+        case 0x21: case 0x39: return &kDirection;
+        case 0x22: case 0x3A: return &kDirectionVariation;
+        case 0x3B: return &kRadiusLength;
+        case 0x3C: return &kWidth;
+        case 0x3D: return &kHeight;
+        case 0x23: case 0x40: return &kSpinTime;
+        case 0x24: case 0x41: return &kSpinVariation;
+        case 0x25: case 0x3E: return &kSpinPhase;
+        case 0x26: case 0x3F: return &kSpinPhaseVariation;
+        case 0x42: return &kSpinScale;
+        case 0x27: return &kSpinAxis;
+        case 0x28: return &kSpinAxisVariation;
+        case 0x43: return &kSpinPivotPoint;
+        case 0x29: return &kAnimOffset;
+        case 0x2A: return &kAnimOffsetVariation;
+        case 0x2B: return &kAnimLength;
+        case 0x2C: return &kAnimLengthVariation;
+        case 0x2D: return &kAnimScaleMultiplier;
+        case 0x2E: return &kAnimScaleMultiplierVariation;
+        case 0x44: return &kMotionRandom;
+        case 0x45: return &kMotionRandomVariation;
+        case 0x46: return &kMotionRandomScale;
+        default: return nullptr;
+    }
+}
+
+}  // namespace
+
+// 0x667f18 _ZN6glitch7collada18ISceneNodeAnimator9forceBindEv (30320 bytes)
+// With a bound node (the root node of the file), every target is bound to the object its bind URI names, chosen by the channel type:
+//   1..5, 9..13, 20  the scene node with that UID below the root (the node also takes this animator, ISceneNode slot +0x78);
+//   14               the weight of the morph target (flag byte + 1) of the morphing mesh with that name;
+//   15               the root node itself;  16  the light's CLight;  0x1A  the material (by name, no driver);
+//   0x1C .. 0x46     a parameter of the particle system with that name (the table above; the four scale channels bind only
+//                    when their flag byte of the system is clear, and otherwise leave the target alone);
+//   0x56 .. 0x5B     the material with an applicator for the channel's parameter (id from the renderer by the channel's text);
+// anything else, and every lookup that finds nothing, clears the target.
+// Host note: the applicator's word at +0x04 (the channel's text pointer in the original) is not stored; nothing reads it.
+void ISceneNodeAnimator::forceBind() {
+    if (boundNode == nullptr) {
+        return;
+    }
+    CRootSceneNode* root = static_cast<CRootSceneNode*>(boundNode);
+    const std::int32_t count = getTargetCount();
+    for (std::int32_t i = 0; i < count; ++i) {
+        const char* uid = getBindURI(i);
+        const SChannel* channel = getAnimationTrack(i);
+        const std::uint32_t type = channel->type;
+        switch (type) {
+            case 1: case 2: case 3: case 4: case 5: case 9: case 10: case 11: case 12: case 13: case 0x14: {
+                scene::ISceneNode* node = boundNode->getSceneNodeFromUID(uid);
+                setTarget(i, node, nullptr);
+                if (node != nullptr) {
+                    node->addAnimator(this);
+                }
+                break;
+            }
+            case 0xE: {
+                CMorphingMesh* mesh = root->getMorphingMesh(uid);
+                if (mesh == nullptr) {
+                    setTarget(i, nullptr, nullptr);
+                } else {
+                    setTarget(i, &mesh->targets[static_cast<std::size_t>(channel->flag) + 1].weight, nullptr);
+                }
+                break;
+            }
+            case 0xF:
+                setTarget(i, boundNode, nullptr);
+                break;
+            case 0x10: {
+                CLightSceneNode* light = root->getLight(uid);
+                setTarget(i, light != nullptr ? light->light.get() : nullptr, nullptr);
+                break;
+            }
+            case 0x1A: {
+                boost::intrusive_ptr<video::CMaterial> material = root->getMaterial(uid, nullptr);
+                setTarget(i, material.get(), nullptr);
+                break;
+            }
+            case 0x56: case 0x57: case 0x58: case 0x59: case 0x5A: case 0x5B: {
+                boost::intrusive_ptr<video::CMaterial> material = root->getMaterial(uid, nullptr);
+                if (material) {
+                    animation_track::CMaterialApplicatorInfo info;
+                    info.parameterId = material->m_renderer->getParameterID(channel->extra, 0);
+                    setTarget(i, material.get(), &info);
+                } else {
+                    setTarget(i, nullptr, nullptr);
+                }
+                break;
+            }
+            default: {
+                const SParticleBinding* binding = particleBinding(type);
+                if (binding == nullptr) {
+                    setTarget(i, nullptr, nullptr);
+                    break;
+                }
+                IParticleSystemSceneNode* system = root->getParticleSystem(uid);
+                if (system == nullptr) {
+                    setTarget(i, nullptr, nullptr);
+                } else if (binding->flagByte < 0 || system->flags13c[binding->flagByte] == 0) {
+                    setTarget(i, system->getParticleSystemParameter(binding->parameter), nullptr);
+                }
+                break;
+            }
+        }
+    }
+}
 
 // 0x667d18 _ZN6glitch7collada18ISceneNodeAnimator11forceUnbindEPKc
 // Clears the target of every track whose bind URI (the channel name at +0x04) equals `name`.

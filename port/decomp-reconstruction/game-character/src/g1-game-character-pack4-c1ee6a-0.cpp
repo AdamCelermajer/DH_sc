@@ -123,7 +123,7 @@ void CSLiftingIdle::OnUpdate(int eventId, Character* character, CharStateMachine
 void CSLiftingIdle::OnFocus(int, Character* character, CharStateMachine*, int, int, void*) {
     ProbeTracingSwitch();
     character->m_stateFlags = kLiftingIdleFlags;
-    const int idleAnim = character->GetCharAnimTable()->m_w20;
+    const int idleAnim = character->GetCharAnimTable()->LiftIdle;
     character->CharAnimator::ANIM_Set(idleAnim + StanceOffset(character));
 }
 
@@ -198,7 +198,7 @@ void CSLiftingMove::OnUpdate(int, Character* character, CharStateMachine*) {
 void CSLiftingMove::OnFocus(int, Character* character, CharStateMachine*, int, int, void*) {
     ProbeTracingSwitch();
     character->m_stateFlags = kLiftingMoveFlags;
-    const int moveAnim = character->GetCharAnimTable()->m_w21;
+    const int moveAnim = character->GetCharAnimTable()->LiftMove;
     character->CharAnimator::ANIM_Set(moveAnim + StanceOffset(character));
     const std::int32_t speedBits = character->CharProperties::PROPS_GetWalkSpeed();
     character->CharAnimator::ANIM_SetSpeed(FloatFromBits(speedBits));

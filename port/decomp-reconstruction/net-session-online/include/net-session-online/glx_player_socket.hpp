@@ -89,13 +89,13 @@ public:
 
     // The platform slots, all pure in the original base (null in the vtable). Names and signatures are
     // CAndroidSocket's overrides, shifted to this class's vptr.
-    virtual hostent* GetHostByName(const char* name) = 0;                              // +0x20
+    virtual hostent* GetHostByName(char* name) = 0;                              // +0x20
     virtual void GetHostName(char** out) = 0;                                          // +0x24
     virtual bool CreateSocket() = 0;                                                   // +0x28
     virtual int GetLastError() = 0;                                                    // +0x2c
     virtual bool SetNonBlocking() = 0;                                                 // +0x30
     virtual int Connect() = 0;                                                         // +0x34
-    virtual int ConnectByName(const char* name, std::uint16_t port) = 0;               // +0x38
+    virtual int ConnectByName(char* name, std::uint16_t port) = 0;               // +0x38
     virtual bool CloseSocket() = 0;                                                    // +0x3c
     virtual int Select(XSocketSelectFlag flag) = 0;                                    // +0x40
     virtual int Send(const char* data, int length) = 0;                                // +0x44

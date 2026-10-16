@@ -38,20 +38,20 @@ public:
 
     static void Startup();                              // 0x89feec _ZN15LCAndroidSocket7StartupEv
     static void Clearup();                              // 0x89fc78 _ZN15LCAndroidSocket7ClearupEv
-    static hostent* GetHostIP(const char* server_name); // 0x89f9a0
+    static hostent* GetHostIP(char* server_name); // 0x89f9a0
     static void TransToIp(char*& name);                 // 0x89fc1c
 
     void Init();                                        // 0x89e5b0 _ZN15LCAndroidSocket4InitEv
 
     // Platform slots, in vtable order. Each overrides the LCXPlayerSocket slot of the same name.
     bool GetLocalIP(char* szLocalIP) override;          // +0x08, 0x89fd84
-    hostent* GetHostByName(const char* server_name) override;  // +0x20, 0x89fb04
+    hostent* GetHostByName(char* server_name) override;  // +0x20, 0x89fb04
     void* GetHostName(char** name) override;            // +0x24, 0x89e998 (always returns nullptr)
     bool CreateSocket() override;                       // +0x28, 0x89ec70
     int GetLastError() override;                        // +0x2c, 0x89f890
     bool SetNonBlocking() override;                     // +0x30, 0x89f7c8
     bool Connect() override;                            // +0x34, 0x89f290 (true when connected)
-    bool ConnectByName(const char* server_name) override;  // +0x38, 0x89f4fc (true when connected)
+    bool ConnectByName(char* server_name) override;  // +0x38, 0x89f4fc (true when connected)
     bool CloseSocket() override;                        // +0x3c, 0x89f004
     int Select(XSocketSelectFlag flag) override;        // +0x40, 0x89ef3c
     int Send(const char* data, int size) override;      // +0x44, 0x89ee4c

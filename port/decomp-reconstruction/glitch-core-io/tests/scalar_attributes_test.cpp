@@ -35,12 +35,24 @@ int main() {
     CHECK(f.getType() == 1);
     CHECK(std::wcscmp(f.getTypeString(), L"float") == 0);
 
-    CEnumAttribute e;
-    e.setInt(2);
-    e.enumValue = 2;
-    CHECK(e.getEnum() == 2 && e.getFloat() == 2.f && e.getBool());
+    static const char* const kChoices[] = {"zero", "One", "two", nullptr};
+    CEnumAttribute e("mode", "two", kChoices, false);
+    CHECK(e.getInt() == 2 && e.getFloat() == 2.f && e.getBool());
+    CHECK(std::strcmp(e.getEnum(), "two") == 0 && e.literals.size() == 3u);
     e.setFloat(1.5f);
-    CHECK(e.getInt() == 1 && e.getType() == 4);
+    CHECK(e.getInt() == 1 && e.getType() == 4 && std::strcmp(e.getEnum(), "One") == 0);
+    e.setString("ONE");  // the index search ignores case
+    CHECK(e.getInt() == 1);
+    e.setInt(9);  // out of range: the value becomes empty
+    CHECK(e.getString().empty());
+    e.setInt(-1);
+    CHECK(e.getString().empty());
+    e.setEnum("zero", kChoices);  // appends the table again (it is never cleared)
+    CHECK(e.literals.size() == 6u && e.getInt() == 0 && !e.getBool());
+    CEnumAttribute empty;
+    CHECK(empty.getInt() == -1);
+    e.setString("a\xe9");  // bytes are sign-extended when widened
+    CHECK(e.getStringW().size() == 2u && e.getStringW()[1] == static_cast<wchar_t>(-23));
 
     int marker = 0;
     CUserPointerAttribute p;

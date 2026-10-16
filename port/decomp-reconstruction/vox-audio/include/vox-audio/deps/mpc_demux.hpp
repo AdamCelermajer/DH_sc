@@ -17,12 +17,17 @@ struct MpcFrameInfo {
     float* buffer = nullptr;         // +0x08, decoded float samples go here
 };
 
-// The libmpcdec entry points, called by name as the original does.
+// The libmpcdec entry points, called by name as the original does. libmpcdec is C, so the symbols are unmangled
+// (mpc_demux_init, ... in the binary's symbol table); the vendored mpc_demux.c (dh2_vendor_mpc) defines them.
+extern "C" {
 mpc_demux* mpc_demux_init(mpc_reader_t* reader);
 void mpc_demux_exit(mpc_demux* demux);
 // Fills the stream info block. The cursor reads word 0 (sample rate), word 1 (channels) and
 // word 14 (total sample frames).
 void mpc_demux_get_info(mpc_demux* demux, std::uint32_t* info);
 void mpc_demux_decode(mpc_demux* demux, MpcFrameInfo* frame);
-// The original passes 0, 0 for the last two arguments on every call the cursor makes.
-int mpc_demux_seek_sample(mpc_demux* demux, std::uint32_t sample, int unknown_a, int unknown_b);
+// mpc_status mpc_demux_seek_sample(mpc_demux* d, mpc_uint64_t destsample) (mpcdec.h:122). The 64-bit sample travels in r2:r3 on
+// ARM (r1 is padding); both calls the cursor makes pass 0 there, so they seek back to the start of the stream.
+int mpc_demux_seek_sample(mpc_demux* demux, std::uint64_t destsample);
+
+}  // extern "C"

@@ -14,18 +14,12 @@
 
 class DataReloaderManager;  // Type not recovered; the constructors only store the pointer.
 
-// Loader used by PyDataArrays::Load. The listing reaches it through the engine global dword_99F73C
-// (its +52 word) and makes two virtual calls: vtable +144 opens "pydata/<name>" and returns a stream or
-// null; vtable +120 releases the stream slot. The loader class is not recovered, so this interface is a
-// stand-in that names only what the listing calls.
-class PyDataFileLoader {
-public:
-    virtual ~PyDataFileLoader() = default;
-    virtual IStreamBase* OpenFile(const char* path) = 0;  // original vtable +0x90
-    virtual void ReleaseFile(IStreamBase** slot) = 0;      // original vtable +0x78
-};
-
-extern PyDataFileLoader* g_pyDataLoader;  // dword_99F73C + 52; defined by the owning slice
+// Loader used by PyDataArrays::Load and PyDataConstants::Load. The listing reaches it through the engine global
+// dword_99F73C (Application::m_device, its +52 word is the file system) and makes two virtual calls: vtable +144 opens
+// "pydata/<name>" (FileSystemBase::openResource) and returns a stream or null; vtable +120 releases the stream slot
+// (FileSystemBase::closeFile). PyDataFileSystem() is that +52 word; it is null before the device exists.
+class FileSystemBase;
+FileSystemBase* PyDataFileSystem();
 extern int gAssertLevel;                  // engine assert level read by registerClassByName
 
 class PyDataArrays {

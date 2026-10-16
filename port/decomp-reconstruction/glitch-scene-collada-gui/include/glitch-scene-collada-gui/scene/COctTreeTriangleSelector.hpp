@@ -31,7 +31,6 @@ public:
     };
 
     // 0x588654 (C2) and 0x5887ec (C1): builds the base from the mesh, then the tree when the base holds triangles.
-    // PARTIAL, see src: the tree build logs its timing through the Printer and Timer, which are not ported.
     COctTreeTriangleSelector(const IMesh* mesh, const ISceneNode* node, int minimalPolysPerNode, bool bakeNodeTransform);
 
     // 0x586620 (D1), 0x5866ac (D2), 0x586690 (D0, skipped): deletes the tree, then runs ~CTriangleSelector.

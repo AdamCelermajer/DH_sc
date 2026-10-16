@@ -1,8 +1,8 @@
 // DriverAndroid redo batch (r1-vox-audio-vox_DriverAndroid-72f056-0): the parts of the
 // audio-thread state that run without a JavaVM. Suspend and resume update the flag and the
 // buffered duration, DoCallbackAT runs its timing tail, _InitAT stores the 44100 rate and
-// returns it on the no-JavaVM path, and DestroyDriverSource runs the virtual destructor and
-// frees the block.
+// returns it on the no-JavaVM path, CreateDriverSource links a new source into the base list and
+// DestroyDriverSource unlinks it, runs the virtual destructor and frees the block.
 #include <chrono>
 #include <cmath>
 #include <cstdio>
@@ -15,9 +15,11 @@ namespace vox {
 
 // Test-only access to the private audio-thread state (DriverAndroid befriends this name).
 struct DriverAndroidTestAccess {
-    static void SetActive(DriverAndroid& driver, bool active) { driver.at_active_ = active; }
+    static void SetActive(DriverAndroid& driver, bool active) { driver.active_ = active; }
     static bool Paused(const DriverAndroid& driver) { return driver.paused_; }
     static int Mode(const DriverAndroid& driver) { return driver.mode_; }
+    static int SourceCount(const DriverAndroid& driver) { return driver.field_0c_; }
+    static bool ListEmpty(const DriverAndroid& driver) { return driver.list_head_.next == &driver.list_head_; }
 };
 
 }  // namespace vox
@@ -92,9 +94,21 @@ int main() {
     driver.DoCallbackAT(array);
     CHECK(array == nullptr);
 
-    // CreateDriverSource never builds a source in the port (the base counter and list are not
-    // reachable), so it returns null.
-    CHECK(driver.CreateDriverSource(nullptr, nullptr, 0) == nullptr);
+    // CreateDriverSource: with the driver active it builds a DriverAndroidSource, links its node at the tail of the base list
+    // and counts it (the base counter starts at 1); DestroyDriverSource unlinks and frees it again.
+    CHECK(vox::DriverAndroidTestAccess::ListEmpty(driver));
+    CHECK(vox::DriverAndroidTestAccess::SourceCount(driver) == 1);
+    const std::int32_t format[4] = {2, 44100, 16, 0};
+    vox::DriverSourceInterface* created = driver.CreateDriverSource(format, nullptr, 0);
+    CHECK(created != nullptr);
+    CHECK(!vox::DriverAndroidTestAccess::ListEmpty(driver));
+    CHECK(vox::DriverAndroidTestAccess::SourceCount(driver) == 2);
+    driver.DestroyDriverSource(created);
+    CHECK(vox::DriverAndroidTestAccess::ListEmpty(driver));
+    // An inactive driver creates nothing.
+    vox::DriverAndroidTestAccess::SetActive(driver, false);
+    CHECK(driver.CreateDriverSource(format, nullptr, 0) == nullptr);
+    CHECK(vox::DriverAndroidTestAccess::SourceCount(driver) == 2);
 
     // DestroyDriverSource: null is a no-op; a live source gets its virtual destructor run once.
     driver.DestroyDriverSource(nullptr);

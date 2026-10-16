@@ -47,7 +47,7 @@ public:
     std::string sent;
     int closeCalls = 0;
 
-    hostent* GetHostByName(const char*) override { return reinterpret_cast<hostent*>(this); }
+    hostent* GetHostByName(char*) override { return reinterpret_cast<hostent*>(this); }
     bool CreateSocket() override { return true; }
     int GetLastError() override { return 0; }
     bool Connect() override { return connectOk; }

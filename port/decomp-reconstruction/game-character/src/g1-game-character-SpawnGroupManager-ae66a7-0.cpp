@@ -116,7 +116,7 @@ namespace spawn_group_detail {
 const Structs::SpawnInfo* ChooseSpawnEntry(const Structs::SpawnInfo* entries, std::uint32_t count, int roll) {
     int remaining = roll;
     for (std::uint32_t i = 0; i < count; ++i) {
-        remaining -= entries[i].m_w2;  // +0x08 weight
+        remaining -= entries[i].Prob;  // +0x08 weight
         if (remaining < 0) {
             return &entries[i];
         }
@@ -210,15 +210,15 @@ void SpawnGroupManager::update(double /*dt*/) {
         // The countdown ran out. The first probe runs here, before the interval is stored.
         ProbeTracingSpawnGroupManager();
         const Structs::SpawnGroup& record = SpawnGroupRecord(id);
-        group.m_timer = record.m_w2;  // +0x08 of the record: the interval
-        const std::uint32_t entryCount = record.m_w3;  // +0x0c
-        const auto* entries = static_cast<const Structs::SpawnInfo*>(record.m_w4);  // +0x10
+        group.m_timer = record.Delay;  // +0x08 of the record: the interval
+        const std::uint32_t entryCount = record.SpawnsSize;  // +0x0c
+        const auto* entries = static_cast<const Structs::SpawnInfo*>(record.Spawns);  // +0x10
         if (entryCount == 0) {
             continue;
         }
         int totalWeight = 0;
         for (std::uint32_t i = 0; i < entryCount; ++i) {
-            totalWeight += entries[i].m_w2;
+            totalWeight += entries[i].Prob;
         }
         if (totalWeight <= 0) {
             continue;
@@ -232,7 +232,7 @@ void SpawnGroupManager::update(double /*dt*/) {
             continue;
         }
         // probe: the chosen entry's +0x0c is zero.
-        if (chosen->m_w3 == 0) {
+        if (chosen->Qty == 0) {
             ProbeTracingSpawnGroupManager();
             continue;
         }
@@ -242,7 +242,7 @@ void SpawnGroupManager::update(double /*dt*/) {
         candidates.clear();
         for (const SpawnEntry* entry = group.m_spotsFirst; entry != nullptr; entry = entry->next) {
             SpawnSpot* spot = entry->spot;
-            if (record.m_w1 && spot->IsZonable() && spot->m_zoningEnabled && !spot->m_inZone) {
+            if (record.ActiveSpotOnly && spot->IsZonable() && spot->m_zoningEnabled && !spot->m_inZone) {
                 continue;
             }
             candidates.push_back(spot);
@@ -253,7 +253,7 @@ void SpawnGroupManager::update(double /*dt*/) {
             continue;
         }
         ProbeTracingSpawnGroupManager();  // candidates exist
-        if (chosen->m_w3 <= 0) {
+        if (chosen->Qty <= 0) {
             continue;
         }
 
@@ -271,13 +271,13 @@ void SpawnGroupManager::update(double /*dt*/) {
             ObjectHandle handle = dword_99F764->Spawn("Character", name, true, true);
             Character* character = handle;
             if (character != nullptr) {
-                character->InitSpawned(chosen->m_w1, spot->m_position);  // +0x04 of the entry: the character props id
+                character->InitSpawned(chosen->Char, spot->m_position);  // +0x04 of the entry: the character props id
                 spot->PlaceObject(character);
                 ProbeTracingSpawnGroupManager();  // after a placed character
             }
 
             ++spawned;
-            if (chosen->m_w3 <= spawned) {
+            if (chosen->Qty <= spawned) {
                 break;
             }
             if (candidates.empty()) {

@@ -50,23 +50,24 @@ struct DriverCallbackNode {
     DriverCallbackSourceInterface* source = nullptr;  // +0x08
 };
 
-// vox::DriverCallbackInterface: the listener state and the mix of every attached source.
-// The Android driver derives from it in the original; the port does not link them yet.
-class DriverCallbackInterface {
+// vox::DriverCallbackInterface: the listener state and the mix of every attached source. It derives from
+// DriverInterface (its vtable fills +0x08 Init, +0x24 Set3DParameter and +0x4c FillBuffer; Shutdown, Suspend, Resume,
+// PrintDebug and DestroyDriverSource stay pure, so it is abstract, as in the binary) and the Android driver derives from it.
+class DriverCallbackInterface : public DriverInterface {
 public:
     // 0x8912b0 (C1) and 0x891334 (C2).
     DriverCallbackInterface();
     // D1 0x891028 and D2 0x891120 (both bodies are identical); D0 0x891104 is the deleting form.
-    virtual ~DriverCallbackInterface();
+    ~DriverCallbackInterface() override;
 
     // 0x8902a8: clears the two static scratch buffer records (the originals are not freed).
-    void Init(void* context);
+    void Init(void* context) override;
     // 0x89039c: default listener (doppler 1, speed of sound 343.3, distance model 2, front -z, up +y).
     void SetDefaultParameter();
     // 0x8906e4: locks, then _Set3DParameter.
-    void Set3DParameter(int which, const void* value);
+    void Set3DParameter(int which, const void* value) override;
     // 0x8906a0: mixes into a 16-bit output when the object is active.
-    void FillBuffer(std::int16_t* out, int count);
+    void FillBuffer(std::int16_t* out, int count) override;
     // 0x8904e8: returns the work scratch buffer, growing it to at least size bytes.
     static DriverScratchBuffer& GetWorkBuffer(int size);
 
@@ -76,13 +77,15 @@ protected:
     // 0x890548: sets the 3D state, clears and fills the mix buffer, converts to 16 bits.
     void _FillBuffer(std::int16_t* out, int count);
 
-private:
+    // The derived driver (DriverAndroid) locks the one mutex at +0x04, tests the active byte at +0x08 and links its sources
+    // into the list at +0x10; the members are protected for it.
     Mutex mutex_;                          // +0x04
     bool active_ = false;                  // +0x08: FillBuffer mixes only when set
-    std::int32_t field_0c_ = 1;            // +0x0c: set to 1 by the constructor
+    std::int32_t field_0c_ = 1;            // +0x0c: set to 1 by the constructor; counts the sources created
     DriverCallbackNode list_head_;         // +0x10: sentinel of the source list
     DriverListener3D listener_;            // +0x18..+0x53
 
+private:
     static DriverScratchBuffer s_work_;    // m_sWorkBuffer (size) and dword_A33EA0 (data)
     static DriverScratchBuffer s_mixing_;  // m_sMixingBuffer (count) and dword_A33EA8 (data)
 };

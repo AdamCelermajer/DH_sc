@@ -85,14 +85,14 @@ int RandomGroup::GetGroupElementPosition() {
     const int value = chosen->value_;
 
     if (exclusion_window_ > 0) {
-        LinkRemovedAtTail(removed_, AllocRemovedNode(chosen));
+        LinkRemovedAtTail(sentinel(), AllocRemovedNode(chosen));
         total_weight_ -= chosen->weight_;
         elements_[static_cast<std::size_t>(current)] = elements_.back();
         elements_.pop_back();
 
-        const std::int32_t removed_count = CountRemoved(removed_);
+        const std::int32_t removed_count = CountRemoved(sentinel());
         if (exclusion_window_ < removed_count) {
-            RandomGroupNode* head = removed_.next;
+            RandomGroupNode* head = sentinel().next;
             elements_.push_back(head->element);
             total_weight_ += head->element->weight_;
             UnlinkRemoved(head);

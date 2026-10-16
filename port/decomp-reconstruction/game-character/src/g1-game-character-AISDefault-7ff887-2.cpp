@@ -260,11 +260,11 @@ void AISDefault::OnAnimEvent(const char* name) {
         rightFoot ? m_character->GetRightFootPosition() : m_character->GetLeftFootPosition();
     Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(m_character->GetFXFootprint(), footPosition, nullptr, nullptr);
 
-    const std::int32_t effectIndex = m_character->m_props.m_w8;
+    const std::int32_t effectIndex = m_character->m_props.Effects;
     const auto* effects = reinterpret_cast<const Structs::CharEffect*>(Arrays::CharEffectTable::members);
     const bool footstepsAllowed = (effectIndex < 0 || effectIndex >= static_cast<std::int32_t>(Arrays::CharEffectTable::size))
-                                      ? effects[0].m_w5
-                                      : effects[effectIndex].m_w5;
+                                      ? effects[0].TriggerFloorFX
+                                      : effects[effectIndex].TriggerFloorFX;
     const char* material = nullptr;
     if (PFFloor* floor = m_character->m_pfObject.m_floor) {
         material = floor->m_floorTypes.c_str();
@@ -272,8 +272,8 @@ void AISDefault::OnAnimEvent(const char* name) {
     if (footstepsAllowed && material != nullptr) {
         const auto* footsteps = reinterpret_cast<const Structs::FootstepEffect*>(Arrays::FootstepEffectTable::members);
         for (std::uint32_t i = 0; i < Arrays::FootstepEffectTable::size; ++i) {
-            if (std::strcmp(footsteps[i].m_w3, material) == 0) {
-                Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(footsteps[i].m_w1, footPosition, nullptr, nullptr);
+            if (std::strcmp(footsteps[i].Floortype, material) == 0) {
+                Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(footsteps[i].Effect, footPosition, nullptr, nullptr);
                 break;
             }
         }

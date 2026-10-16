@@ -3,30 +3,33 @@
 // The original works on 32-bit addresses: file words hold addresses that are
 // relative to the image base, and fixed-up words hold absolute addresses. This
 // code keeps that arithmetic in std::uint32_t, so the control flow matches the
-// Hex-Rays body exactly. Converting an address to a host pointer (Words, Bytes)
-// and storing one back into a 32-bit file word (Addr) truncate on a 64-bit
-// host. The representation of fixed-up pointers is still open (TRACK-B decision
-// 2), so Init() is partial.
+// Hex-Rays body exactly. A 64-bit host cannot hold its addresses in those
+// words (TRACK-B decision 2), so the blocks the loader works in are placed in
+// a 32-bit address space of their own (AddressSpace32, glitch_res_AddressSpace.hpp):
+// Addr() gives the 32-bit address of a block's byte and Bytes()/Words() map an
+// address back to the host. The fix-up then stores and compares exactly the words
+// the original does, and the decoder reads the image through the same mapping.
 
 #include <cstdint>
 #include <cstring>
 
+#include "glitch-video/tb/glitch_res_AddressSpace.hpp"
 #include "glitch-video/tb/glitch_res_File.hpp"
 
 namespace {
 
 // Address of a host object, in the 32-bit address space of the file image.
 inline std::uint32_t Addr(const void* p) {
-    return static_cast<std::uint32_t>(reinterpret_cast<std::uintptr_t>(p));
+    return glitch::res::AddressSpace32::toAddress(p);
 }
 
 // Host pointer for a 32-bit address (see the note at the top of this file).
 inline std::uint8_t* Bytes(std::uint32_t addr) {
-    return reinterpret_cast<std::uint8_t*>(static_cast<std::uintptr_t>(addr));
+    return glitch::res::AddressSpace32::toPointer(addr);
 }
 
 inline std::uint32_t* Words(std::uint32_t addr) {
-    return reinterpret_cast<std::uint32_t*>(static_cast<std::uintptr_t>(addr));
+    return reinterpret_cast<std::uint32_t*>(glitch::res::AddressSpace32::toPointer(addr));
 }
 
 // Little-endian 32-bit and 16-bit field access into the file image at a byte offset.
@@ -82,6 +85,10 @@ namespace res {
 // 0x69a40c _ZN6glitch3res4File4InitEv
 int File::Init() {
     std::uint8_t* const hdr = header;
+    if (Addr(hdr) == 0) {
+        // A caller that did not place the image in the address space (the whole file in one block).
+        glitch::res::AddressSpace32::map(hdr, Rd32(hdr, 0x0c));
+    }
     const std::uint32_t hdrAddr = Addr(hdr);
 
     // Copies taken from the header, before the magic check (as in the original).

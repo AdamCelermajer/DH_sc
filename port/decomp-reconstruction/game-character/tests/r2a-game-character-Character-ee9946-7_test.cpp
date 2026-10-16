@@ -398,10 +398,10 @@ void Reset() {
     std::memset(g_skillRowMem, 0, sizeof(g_skillRowMem));
     std::memset(g_faeryListRowMem, 0, sizeof(g_faeryListRowMem));
     std::memset(g_faeryRowMem, 0, sizeof(g_faeryRowMem));
-    reinterpret_cast<Structs::SkillList*>(g_skillRowMem)->m_w1 = 3;
-    reinterpret_cast<Structs::FaeryList*>(g_faeryListRowMem)->m_w1 = 2;
-    reinterpret_cast<Structs::Faery*>(g_faeryRowMem[0])->m_w2 = 0;
-    reinterpret_cast<Structs::Faery*>(g_faeryRowMem[1])->m_w2 = 0;
+    reinterpret_cast<Structs::SkillList*>(g_skillRowMem)->ListSize = 3;
+    reinterpret_cast<Structs::FaeryList*>(g_faeryListRowMem)->ListSize = 2;
+    reinterpret_cast<Structs::Faery*>(g_faeryRowMem[0])->Elemental = 0;
+    reinterpret_cast<Structs::Faery*>(g_faeryRowMem[1])->Elemental = 0;
     g_currentFaery = 0;
     g_aggroReturn = 0;
     g_buffResult = nullptr;

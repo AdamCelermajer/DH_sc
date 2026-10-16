@@ -106,7 +106,7 @@ bool GLXPlayerLogin::OnUpdateFailure(std::int32_t code) {
         uErrorToken_ = GLXCopy(GetNextResponseToken(token));
     }
     if (observer_ != nullptr) {
-        observer_->OnResponseError(code, detail);
+        observer_->OnRequestFailure(code, detail);
     }
     return true;
 }
@@ -122,7 +122,7 @@ void GLXPlayerLogin::OnUpdateSuccess(std::int32_t arg) {
             case 17:
                 keepAliveEnabled_ = false;
                 if (observer_ != nullptr) {
-                    observer_->OnResponseText(17, text.c_str(), static_cast<std::int32_t>(text.size()));
+                    observer_->OnRequestSuccess(17, const_cast<char*>(text.c_str()), static_cast<std::int32_t>(text.size()));
                 }
                 return;
             case 16:
@@ -148,14 +148,14 @@ void GLXPlayerLogin::OnUpdateSuccess(std::int32_t arg) {
 
     if (!IsNextResponseStringToken("u")) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(15, 40);
+            observer_->OnRequestFailure(15, 40);
         }
         return;
     }
     SetUID(GetNextResponseToken(token));
     if (!IsNextResponseStringToken("t")) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(15, 40);
+            observer_->OnRequestFailure(15, 40);
         }
         return;
     }
@@ -172,7 +172,7 @@ void GLXPlayerLogin::OnUpdateSuccess(std::int32_t arg) {
     keepAliveEnabled_ = true;
     if (observer_ != nullptr) {
         const char* rest = cursor_ != nullptr ? cursor_ : "";
-        observer_->OnResponseText(15, rest, static_cast<std::int32_t>(std::strlen(rest)));
+        observer_->OnRequestSuccess(15, const_cast<char*>(rest), static_cast<std::int32_t>(std::strlen(rest)));
     }
 }
 

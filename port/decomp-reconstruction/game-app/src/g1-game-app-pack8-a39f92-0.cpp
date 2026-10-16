@@ -96,18 +96,18 @@ void Script_MoveActor::Execute(bool skipping, int module) {
     TraceScriptCmdSwitch();
     ObjectManager* objects = ApplicationGetInstance().m_objectManager;
 
-    ObjectHandle actorHandle = objects->GetObjectByName(record->m_w6, module, false, nullptr);
+    ObjectHandle actorHandle = objects->GetObjectByName(record->Target, module, false, nullptr);
     Character* actor = nullptr;
     if (actorHandle.GetObject(false) != nullptr) {
         actor = static_cast<Character*>(actorHandle);
     }
-    ObjectHandle targetHandle = objects->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle targetHandle = objects->GetObjectByName(record->Destination, module, false, nullptr);
     GameObject* target = nullptr;
     if (targetHandle.GetObject(false) != nullptr) {
         target = static_cast<GameObject*>(targetHandle);
     }
 
-    unk_10 = record->m_w7;
+    unk_10 = record->Wait;
     m_actor = actor;
     m_wasStatic = actor != nullptr ? static_cast<std::uint8_t>(actor->m_static) : 0;
     if (actor == nullptr || target == nullptr) {
@@ -116,13 +116,13 @@ void Script_MoveActor::Execute(bool skipping, int module) {
     }
 
     v2Controller* controller = actor->m_controller;
-    if (record->m_w4) {
+    if (record->Forced) {
         actor->DisableCollisions();
     }
     controller->unk_009 = true;
     if (!skipping) {
         if (m_wasStatic != 0) {
-            if (!record->m_w7) {
+            if (!record->Wait) {
                 controller->unk_009 = false;
                 return;
             }
@@ -159,11 +159,11 @@ bool Script_OpenDoor::IsBlocking() const {
 void Script_OpenDoor::Execute(bool skipping, int module) {
     const Structs::OpenDoor* record = static_cast<const Structs::OpenDoor*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle doorHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle doorHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = doorHandle.GetObject(false);
     if (object != nullptr && object->m_goId == ObjectBase::GO_DOOR) {
         m_door = static_cast<Door*>(object);
-        m_instant = record->m_w4;
+        m_instant = record->Wait;
         m_door->Open(skipping);
     } else {
         m_door = nullptr;
@@ -177,14 +177,14 @@ void Script_OpenDoor::Execute(bool skipping, int module) {
 // character AI code (ObjectBase::GO_IDS names only GO_DOOR; every other caller passes 0).
 bool Script_PlayActorAnim::IsBlocking() const {
     const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
-    if (!record->m_w7) {
+    if (!record->Wait) {
         return false;
     }
     const ObjectBase* object = m_actor.GetObject(false);
     if (object == nullptr || static_cast<std::int32_t>(object->m_goId) != 0) {
         return false;
     }
-    return record->m_w4 + 2 == static_cast<const Character*>(object)->m_currentAnim;
+    return record->Slot + 2 == static_cast<const Character*>(object)->m_currentAnim;
 }
 
 // 0x45a2ec void Script_PlayActorAnim::Init()
@@ -193,7 +193,7 @@ bool Script_PlayActorAnim::IsBlocking() const {
 // (Character +0x49c) with ANIM_AddAnimDictToSet.
 void Script_PlayActorAnim::Init() {
     const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
-    ObjectHandle actorHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, -1, false, nullptr);
+    ObjectHandle actorHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->Target, -1, false, nullptr);
     if (actorHandle.GetObject(false) == nullptr) {
         return;
     }
@@ -202,8 +202,8 @@ void Script_PlayActorAnim::Init() {
         return;
     }
     CharAnimator* animator = actor;
-    animator->ANIM_AddAnimDictToSet(record->m_w2);
-    animator->ANIM_AddAnimDictToSet(record->m_w3);
+    animator->ANIM_AddAnimDictToSet(record->Anim);
+    animator->ANIM_AddAnimDictToSet(record->Next);
 }
 
 // 0x45e890 void Script_PlayActorAnim::Execute(bool, int)
@@ -219,14 +219,14 @@ void Script_PlayActorAnim::Execute(bool skipping, int module) {
     }
     const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
     TraceScriptCmdSwitch();
-    m_actor = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, module, false, nullptr);
+    m_actor = ApplicationGetInstance().m_objectManager->GetObjectByName(record->Target, module, false, nullptr);
     if (m_actor.GetObject(false) != nullptr) {
         Character* character = m_actor;
         if (character != nullptr) {
-            const std::int32_t anim = record->m_w4;
+            const std::int32_t anim = record->Slot;
             auto* rows = static_cast<Structs::AnimTpl*>(static_cast<void*>(Arrays::AnimTable::members));
-            static_cast<Structs::AnimStep*>(rows[anim + 2].m_w3)->m_w2 = record->m_w2;
-            static_cast<Structs::AnimStep*>(rows[anim + 8].m_w3)->m_w2 = record->m_w3;
+            static_cast<Structs::AnimStep*>(rows[anim + 2].Steps)->Anim = record->Anim;
+            static_cast<Structs::AnimStep*>(rows[anim + 8].Steps)->Anim = record->Next;
             character->CharStateMachine::SM_SetAnimState(anim + 2, false, true);
         }
     }
@@ -249,7 +249,7 @@ void Script_PlayAnimById::Execute(bool skipping, int module) {
     }
     const Structs::PlayAnimById* record = static_cast<const Structs::PlayAnimById*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle objectHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w5, module, false, nullptr);
+    ObjectHandle objectHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->Target, module, false, nullptr);
     if (objectHandle.GetObject(false) == nullptr) {
         return;
     }
@@ -261,7 +261,7 @@ void Script_PlayAnimById::Execute(bool skipping, int module) {
     if (controller == nullptr) {
         return;
     }
-    (void)controller->PlayClip(static_cast<unsigned int>(record->m_w2), record->m_w3, 0, 0);
+    (void)controller->PlayClip(static_cast<unsigned int>(record->AnimID), record->Loop, 0, 0);
 }
 
 // 0x4556a4 bool Script_PlayAnimByName::IsBlocking() const
@@ -281,7 +281,7 @@ void Script_PlayAnimByName::Execute(bool skipping, int module) {
     }
     const Structs::PlayAnimByName* record = static_cast<const Structs::PlayAnimByName*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle objectHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, module, false, nullptr);
+    ObjectHandle objectHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->Target, module, false, nullptr);
     if (objectHandle.GetObject(false) == nullptr) {
         return;
     }
@@ -293,7 +293,7 @@ void Script_PlayAnimByName::Execute(bool skipping, int module) {
     if (controller == nullptr) {
         return;
     }
-    (void)controller->PlayClip(record->m_w3, record->m_w4, 0, 0);
+    (void)controller->PlayClip(record->AnimName, record->Loop, 0, 0);
 }
 
 // 0x459370 bool Script_PlayCamera::IsBlocking() const
@@ -302,7 +302,7 @@ void Script_PlayAnimByName::Execute(bool skipping, int module) {
 // m_zoomAnimActive, +0x84).
 bool Script_PlayCamera::IsBlocking() const {
     const auto* args = static_cast<const Structs::PlayCamera*>(m_args);
-    if (!args->m_w3) {
+    if (!args->Wait) {
         return false;
     }
     Level* level = ApplicationGetInstance().GetCurrentLevel();
@@ -326,9 +326,9 @@ void Script_PlayCamera::Execute(bool skipping, int /*module*/) {
     int clip;
     if (skipping) {
         const auto* sets = static_cast<const Structs::CamAnimSet*>(static_cast<const void*>(Arrays::CamAnimSetTable::members));
-        clip = sets[level->m_camera->m_camTableIndex].m_w4;
+        clip = sets[level->m_camera->m_camTableIndex].Idle;
     } else {
-        clip = args->m_w2;
+        clip = args->Anim;
     }
     level->m_camera->PlayAnim(clip, 0, false);
 }
@@ -343,7 +343,7 @@ bool Script_PlayEffect::IsBlocking() const {
 // The whole original body is one call: VisualFXManager::RegisterFXSetToLoad(&Singleton<VisualFXManager>::s_inst, record +0x08), so the
 // effect set is loaded with the level.
 void Script_PlayEffect::Init() {
-    Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(static_cast<const Structs::PlayEffect*>(m_args)->m_w2);
+    Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(static_cast<const Structs::PlayEffect*>(m_args)->Effect);
 }
 
 // 0x45fa9c void Script_PlayEffect::Execute(bool, int)
@@ -357,16 +357,16 @@ void Script_PlayEffect::Execute(bool skipping, int module) {
     }
     const Structs::PlayEffect* record = static_cast<const Structs::PlayEffect*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w8, module, false, nullptr);
+    ObjectHandle handle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->Target, module, false, nullptr);
     GameObject* object = nullptr;
     if (handle.GetObject(false) != nullptr) {
         object = handle;
     }
     Point3D<float> position;
-    position.X = static_cast<float>(record->m_w3.m_w1);
-    position.Y = static_cast<float>(record->m_w3.m_w2);
-    position.Z = static_cast<float>(record->m_w3.m_w3);
-    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(record->m_w2, position, object, nullptr);
+    position.X = static_cast<float>(record->Offset.x);
+    position.Y = static_cast<float>(record->Offset.y);
+    position.Z = static_cast<float>(record->Offset.z);
+    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(record->Effect, position, object, nullptr);
 }
 
 // 0x455660 bool Script_PlayLevelMusic::IsBlocking() const
@@ -387,7 +387,7 @@ void Script_PlayLevelMusic::Execute(bool /*skipping*/, int /*module*/) {
     }
     const auto* args = static_cast<const Structs::PlayLevelMusic*>(m_args);
     VoxSoundManager* sound = VoxSoundManager::s_instance;
-    sound->PlayMusic(level->m_musicSoundId, true, false, args->m_w2);
+    sound->PlayMusic(level->m_musicSoundId, true, false, args->FadeoutTime);
     sound->SetMusicState(sound->music_slot_ ? "ambient" : "combat");
 }
 
@@ -404,12 +404,12 @@ bool Script_PlaySound::IsBlocking() const {
 // m_w2, m_w3, m_w3), where the flag is clear.
 void Script_PlaySound::Execute(bool skipping, int /*module*/) {
     const auto* args = static_cast<const Structs::PlaySound*>(m_args);
-    if (!skipping || args->m_w3) {
+    if (!skipping || args->IsMusic) {
         TraceScriptCmdSwitch();
-        if (args->m_w3) {
-            VoxSoundManager::s_instance->PlayMusic(args->m_w4, args->m_off13, args->m_w2 != 0, 2000);
+        if (args->IsMusic) {
+            VoxSoundManager::s_instance->PlayMusic(args->SoundID, args->Loop, args->FadeoutTime != 0, 2000);
         } else {
-            VoxSoundManager::s_instance->Play(args->m_w4, args->m_off13, args->m_w2, args->m_w3, args->m_w3);
+            VoxSoundManager::s_instance->Play(args->SoundID, args->Loop, args->FadeoutTime, args->IsMusic, args->IsMusic);
         }
     }
 }

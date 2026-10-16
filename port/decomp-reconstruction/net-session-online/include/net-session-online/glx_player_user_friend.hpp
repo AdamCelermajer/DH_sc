@@ -30,12 +30,12 @@ public:
     // 0x82b9f4 _ZN19GLXPlayerUserFriend15GetFriendsCountEv
     std::int32_t GetFriendsCount() const { return count_; }
 
-    // 0x82b9fc GetUserNumber(int): default 0.
-    std::uint32_t GetUserNumber(std::int32_t index) const;
+    // 0x82b9fc GetUserNumber(int): the user number text (a char* in the original), default null.
+    const char* GetUserNumber(std::int32_t index) const;
     // 0x82ba2c GetName(int): default null. Index is strictly less than the count here.
     const char* GetName(std::int32_t index) const;
     // 0x82ba5c GetCountry(int): default 0.
-    std::int32_t GetCountry(std::int32_t index) const;
+    const char* GetCountry(std::int32_t index) const;
     // 0x82ba8c GetReputation(int): default -1.0.
     double GetReputation(std::int32_t index) const;
     // 0x82baf8 GetGoodReputationCount(int): default -1.
@@ -45,22 +45,21 @@ public:
     // 0x82bb28 GetState(int): default -1.
     std::int32_t GetState(std::int32_t index) const;
     // 0x82bb58 GetCurrentGame(int): default 0.
-    std::int32_t GetCurrentGame(std::int32_t index) const;
+    const char* GetCurrentGame(std::int32_t index) const;
     // 0x82bb88 GetTrophy(int): default -1.
     std::int32_t GetTrophy(std::int32_t index) const;
     // 0x82bbb8 GetTotalTrophyScore(int): default -1.
     std::int32_t GetTotalTrophyScore(std::int32_t index) const;
     // 0x82bbe8 GetLanguage(int): default 0.
-    std::int32_t GetLanguage(std::int32_t index) const;
+    const char* GetLanguage(std::int32_t index) const;
     // 0x82bc18 GetAvatarLastUpdate(int): default 0.
-    std::int32_t GetAvatarLastUpdate(std::int32_t index) const;
+    const char* GetAvatarLastUpdate(std::int32_t index) const;
     // 0x82bc48 GetAvatarKey(int): default 0.
-    std::int32_t GetAvatarKey(std::int32_t index) const;
+    const char* GetAvatarKey(std::int32_t index) const;
 
     // 0x82bc78 _ZN19GLXPlayerUserFriend16clearFriendsListEv: empties all 13 per-entry arrays, count = 0.
     void clearFriendsList();
-    // 0x82bfd8 _ZN19GLXPlayerUserFriend18processFriendsListEPc. Partial: six text fields are not stored
-    // (see the .cpp).
+    // 0x82bfd8 _ZN19GLXPlayerUserFriend18processFriendsListEPc
     void processFriendsList(const char* text);
     // 0x82ca20 _ZN19GLXPlayerUserFriend15OnUpdateSuccessEi. Code 61 parses, 73 clears and reads the count.
     void OnUpdateSuccess(std::int32_t arg) override;
@@ -88,17 +87,17 @@ public:
 
 private:
     std::int32_t count_ = 0;                  // +0x3c
-    std::vector<std::uint32_t> userNumber_;   // +0x40
+    std::vector<std::string> userNumber_;     // +0x40 (text)
     std::vector<std::string> name_;           // +0x44
-    std::vector<std::int32_t> country_;       // +0x48
+    std::vector<std::string> country_;        // +0x48 (text)
     std::vector<double> reputation_;          // +0x4c
     std::vector<std::int32_t> badRep_;        // +0x50
     std::vector<std::int32_t> goodRep_;       // +0x54
     std::vector<std::int32_t> state_;         // +0x58
-    std::vector<std::int32_t> currentGame_;   // +0x5c
+    std::vector<std::string> currentGame_;    // +0x5c (text)
     std::vector<std::int32_t> trophy_;        // +0x60
-    std::vector<std::int32_t> language_;      // +0x64
-    std::vector<std::int32_t> avatarKey_;     // +0x68
-    std::vector<std::int32_t> avatarLastUpdate_;  // +0x6c
+    std::vector<std::string> language_;       // +0x64 (text)
+    std::vector<std::string> avatarKey_;      // +0x68 (text)
+    std::vector<std::string> avatarLastUpdate_;  // +0x6c (text)
     std::vector<std::int32_t> totalTrophy_;   // +0x70
 };

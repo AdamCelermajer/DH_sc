@@ -48,11 +48,11 @@ const std::uint8_t kCSWTCH_6217[12] = {1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0};
 // v2QuestScripts +0x08 + 8k (m_w2, m_w4, ..., m_w28).
 using ScriptNameField = void* Structs::v2QuestScripts::*;
 const ScriptNameField kScriptNameFields[14] = {
-    &Structs::v2QuestScripts::m_w2,  &Structs::v2QuestScripts::m_w4,  &Structs::v2QuestScripts::m_w6,
-    &Structs::v2QuestScripts::m_w8,  &Structs::v2QuestScripts::m_w10, &Structs::v2QuestScripts::m_w12,
-    &Structs::v2QuestScripts::m_w14, &Structs::v2QuestScripts::m_w16, &Structs::v2QuestScripts::m_w18,
-    &Structs::v2QuestScripts::m_w20, &Structs::v2QuestScripts::m_w22, &Structs::v2QuestScripts::m_w24,
-    &Structs::v2QuestScripts::m_w26, &Structs::v2QuestScripts::m_w28,
+    &Structs::v2QuestScripts::OnActive,  &Structs::v2QuestScripts::OnAvailable,  &Structs::v2QuestScripts::OnClosed,
+    &Structs::v2QuestScripts::OnComplete,  &Structs::v2QuestScripts::OnFailed, &Structs::v2QuestScripts::OnPostActive,
+    &Structs::v2QuestScripts::OnPostAvailable, &Structs::v2QuestScripts::OnPostClosed, &Structs::v2QuestScripts::OnPostComplete,
+    &Structs::v2QuestScripts::OnPostLocked, &Structs::v2QuestScripts::OnPreActive, &Structs::v2QuestScripts::OnPreAvailable,
+    &Structs::v2QuestScripts::OnPreClosed, &Structs::v2QuestScripts::OnPreComplete,
 };
 
 // The original's ASSERT. Level 2 aborts (it writes to address 0 to force a crash), level 1 prints the message.
@@ -66,7 +66,7 @@ void ReportAssert(const char* expr, int line) {
 
 // The pydata priority (+0x114) against one v2QuestPriority constant.
 bool HasPriority(const Structs::v2Quest* pyData, const char* name) {
-    return pyData->m_w69 == ApplicationGetPyDataConstants()->getConstant("v2QuestPriority", name);
+    return pyData->Priority == ApplicationGetPyDataConstants()->getConstant("v2QuestPriority", name);
 }
 
 // A title or description string id: the StringManager text, or "not specified" when the id is unset or negative.
@@ -145,7 +145,7 @@ bool Quest::IsPrimary() const {
 // 0x47f94c Quest::GetPostDescription() const
 // "not specified" when the post-description id (+0x0c) is unset, otherwise an empty string.
 const char* Quest::GetPostDescription() const {
-    if (m_pyData->m_w3 == kUnsetStringId) {
+    if (m_pyData->PostDescription == kUnsetStringId) {
         return "not specified";
     }
     return "";
@@ -153,12 +153,12 @@ const char* Quest::GetPostDescription() const {
 
 // 0x47f984 Quest::GetPreDescription() const
 const char* Quest::GetPreDescription() const {
-    return TextOrNotSpecified(m_pyData->m_w2);
+    return TextOrNotSpecified(m_pyData->Description);
 }
 
 // 0x47f9dc Quest::GetTitle() const
 const char* Quest::GetTitle() const {
-    return TextOrNotSpecified(m_pyData->m_w1);
+    return TextOrNotSpecified(m_pyData->Name);
 }
 
 // 0x47fa80 Quest::GetScriptIDFromID(int) const
@@ -168,7 +168,7 @@ int Quest::GetScriptIDFromID(int scriptSlot) const {
     if (scriptSlot < 0 || scriptSlot > 13) {
         return -1;
     }
-    const Structs::v2QuestScripts& scripts = m_pyData->m_sub160;  // +0xa0
+    const Structs::v2QuestScripts& scripts = m_pyData->Scripts;  // +0xa0
     const void* name = scripts.*(kScriptNameFields[scriptSlot]);
     return TempHackScriptIDAreStrings(static_cast<const char*>(name));
 }
@@ -298,7 +298,7 @@ void Quest::ReInit() {
         default:
             break;
     }
-    m_state = m_pyData->m_w39;
+    m_state = m_pyData->State;
 }
 
 // 0x48015c Quest::GiveRewards()
@@ -332,15 +332,15 @@ void Quest::Compile() {
     // The pydata priority (+0x114) is read only on the branches that use it, as in the original.
     if (m_state == QUEST_ACTIVE) {
         m_objectives.Register();
-        m_objectives.InstallObjectiveMarkers(m_pyData->m_w69, m_state);
+        m_objectives.InstallObjectiveMarkers(m_pyData->Priority, m_state);
         return;
     }
     if (m_state == QUEST_COMPLETED) {
         m_endType->Register();                                                // vtable slot 0x18
-        m_endType->InstallObjectiveMarker(m_pyData->m_w69, m_state);          // vtable slot 0x10
+        m_endType->InstallObjectiveMarker(m_pyData->Priority, m_state);          // vtable slot 0x10
     } else if (m_state == QUEST_AVAILABLE) {
         m_acceptType->Register();
-        m_acceptType->InstallObjectiveMarker(m_pyData->m_w69, m_state);
+        m_acceptType->InstallObjectiveMarker(m_pyData->Priority, m_state);
     }
 }
 

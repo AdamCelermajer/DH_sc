@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "glitch-scene-collada-gui/recon/v2/wave_10.hpp"
+#include "recon_src/wave_10.cpp"  // the recon body is compiled into this test only: it is a superseded stand-in layer whose placeholders have no definition
 
 // The factory is only ever compared by address (the canonical CColladaFactory is abstract), so the tests use tagged storage.
 namespace {

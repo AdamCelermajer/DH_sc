@@ -88,7 +88,7 @@ int TriggerPlate::GetVisual() const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return TriggerPlateRow(m_dataIndex).m_w7;
+    return TriggerPlateRow(m_dataIndex).Visual;
 }
 
 // 0x39a3d8 _ZNK12TriggerPlate10GetSoundOnEv
@@ -97,7 +97,7 @@ int TriggerPlate::GetSoundOn() const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return TriggerPlateRow(m_dataIndex).m_w4;
+    return TriggerPlateRow(m_dataIndex).SoundOn;
 }
 
 // 0x39a40c _ZNK12TriggerPlate11GetSoundOffEv
@@ -106,7 +106,7 @@ int TriggerPlate::GetSoundOff() const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return TriggerPlateRow(m_dataIndex).m_w3;
+    return TriggerPlateRow(m_dataIndex).SoundOff;
 }
 
 // 0x39a440 _ZNK12TriggerPlate14GetTriggerTypeEv
@@ -115,7 +115,7 @@ int TriggerPlate::GetTriggerType() const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return TriggerPlateRow(m_dataIndex).m_w6;
+    return TriggerPlateRow(m_dataIndex).TriggerType;
 }
 
 // 0x39a474 _ZNK12TriggerPlate11GetBehaviorEv
@@ -124,7 +124,7 @@ int TriggerPlate::GetBehavior() const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return TriggerPlateRow(m_dataIndex).m_w1;
+    return TriggerPlateRow(m_dataIndex).Behavior;
 }
 
 // 0x39a4a8 _ZNK12TriggerPlate17GetSpecificObjectEv
@@ -133,7 +133,7 @@ int TriggerPlate::GetSpecificObject() const {
     if (m_dataIndex == -1) {
         return -1;
     }
-    return TriggerPlateRow(m_dataIndex).m_w5;
+    return TriggerPlateRow(m_dataIndex).SpecificObject;
 }
 
 // 0x39a510 _ZNK12TriggerPlate18IsObjectActivatingEi
@@ -325,9 +325,9 @@ void TriggerPlate::InitPost() {
 
         m_dataIndex = pydata::FindMemberName(Arrays::TriggerPlates::m_memberNames, static_cast<int>(Arrays::TriggerPlates::size), m_data.c_str());
         if (m_dataIndex != -1) {
-            const int visual = TriggerPlateRow(m_dataIndex).m_w7;  // row +0x1c, a GameObjectDict index
+            const int visual = TriggerPlateRow(m_dataIndex).Visual;  // row +0x1c, a GameObjectDict index
             if (visual != -1) {
-                m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[visual].m_w2;
+                m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[visual].Name;
             }
         }
         Trigger::InitPost();
@@ -339,7 +339,7 @@ void TriggerPlate::InitPost() {
             m_visualObject->m_animController->PlayClip("idle", true, 0, 0);
         }
         if (m_dataIndex >= 0) {
-            m_enabled = TriggerPlateRow(m_dataIndex).m_w2;  // +0x779 from row +0x08
+            m_enabled = TriggerPlateRow(m_dataIndex).IsActive;  // +0x779 from row +0x08
         }
         if (GetTriggerType() == 1) {
             m_numberOfObjects = 1;                    // +0x734

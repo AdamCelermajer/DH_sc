@@ -148,7 +148,7 @@ void MenuCharMenu_Map::ShowLevelName() {
     }
     const int index = level->m_levelListIndex == -1 ? 0 : level->m_levelListIndex;
     const Structs::LevelDeclaration& row = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[index];
-    m_menu->SetText(m_mapName, ApplicationGetStringManager()->getString(row.m_w9), false);
+    m_menu->SetText(m_mapName, ApplicationGetStringManager()->getString(row.LevelName), false);
 }
 
 // 0x4533ec MenuCharMenu_Map::IsPointInsideRenderZone(int, int)
@@ -205,7 +205,7 @@ void MenuCharMenu_Map::CreateMapCamera() {
     upVector.Z = 0.0f;
     camera->m_camera->setUpVector(upVector);
     camera->SetActive();
-    camera->PlayAnim(reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[camera->m_camTableIndex].m_w4, 0,
+    camera->PlayAnim(reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[camera->m_camTableIndex].Idle, 0,
                      false);
     PlayerInfo* localPlayer = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true);
     camera->SetTarget(localPlayer->unk_660, 0);

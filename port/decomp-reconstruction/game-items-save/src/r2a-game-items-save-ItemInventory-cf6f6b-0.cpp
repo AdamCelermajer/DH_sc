@@ -85,7 +85,7 @@ bool ItemInventory::IsItemEquipped(unsigned int itemIdx) const {
     if (slot->m_item == nullptr) {
         return false;
     }
-    const int category = FoldEquipCategory(slot->m_item->GetItem()->m_w26);  // +0x68
+    const int category = FoldEquipCategory(slot->m_item->GetItem()->EquipmentSlottingType);  // +0x68
     return slot->m_equipSlot[GetCurrentEquipSet(category)] != -1;
 }
 
@@ -109,15 +109,15 @@ bool ItemInventory::IsItemEquippable(unsigned int itemIdx, unsigned int slot) co
         return false;
     }
     const Structs::Item* row = item->GetItem();
-    int category = row->m_w26;                                   // +0x68
-    const bool plainType = row->m_w22 != 5 && row->m_w22 != 4;  // +0x58 is neither 5 nor 4
+    int category = row->EquipmentSlottingType;                                   // +0x68
+    const bool plainType = row->Type != 5 && row->Type != 4;  // +0x58 is neither 5 nor 4
     if (plainType) {
         if (category == 1) {
-            if (m_character->m_props.m_w203 != 0) {  // Character +0x1320: hands pair, slots 1 and 2
+            if (m_character->m_props.Special_Equip_Main_In_Offhand != 0) {  // Character +0x1320: hands pair, slots 1 and 2
                 return slot - 1u <= 1u;
             }
         } else if (category == -4) {
-            if (m_character->m_props.m_w204 == 0) {  // Character +0x1324: two-hander, main hand only
+            if (m_character->m_props.Special_Equip_2H_In_One == 0) {  // Character +0x1324: two-hander, main hand only
                 return slot == 1u;
             }
             category = 1;

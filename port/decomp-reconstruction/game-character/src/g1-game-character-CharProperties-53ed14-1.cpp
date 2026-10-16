@@ -115,7 +115,7 @@ void CharProperties::_LoadFromCharTable(Structs::CharacterProperties& sheet, int
     if (charTableId < 0 || static_cast<std::uint32_t>(charTableId) >= Arrays::CharacterTable::size) return;
     const auto* row =
         reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members) + charTableId;
-    std::memcpy(&sheet.m_w1, &row->m_w1, kPropertyCount * sizeof(std::int32_t));
+    std::memcpy(&sheet.AIFaction, &row->AIFaction, kPropertyCount * sizeof(std::int32_t));
 }
 
 // 0x3df2a4 CharProperties::LoadBaseProperties(int)
@@ -215,7 +215,7 @@ int CharProperties::PROPS_GetMagicDamageBonus() const {
     Character* character = m_character;
     const int faeryId = character->Character::SG_GetCurrentFaerieId(-1);
     const auto* faery = static_cast<const Structs::Faery*>(character->Character::GetCharFaery(faeryId));
-    const int propBase = faery->m_w2;  // +0x08
+    const int propBase = faery->Elemental;  // +0x08
     if (propBase == -1) return 0;
     return character->CharProperties::_GetProperty(character->CharProperties::m_props, AddWrap(propBase, 166));
 }
@@ -226,7 +226,7 @@ int CharProperties::PROPS_GetMagicToHit() const {
     Character* character = m_character;
     const int faeryId = character->Character::SG_GetCurrentFaerieId(-1);
     const auto* faery = static_cast<const Structs::Faery*>(character->Character::GetCharFaery(faeryId));
-    const int propBase = faery->m_w2;  // +0x08
+    const int propBase = faery->Elemental;  // +0x08
     if (propBase == -1) return kMagicToHitBase;
     return AddWrap(character->CharProperties::_GetProperty(character->CharProperties::m_props,
                                                            AddWrap(propBase, 159)),
@@ -241,7 +241,7 @@ int CharProperties::PROPS_GetBonusCritRating(bool offHand) const {
     const unsigned int slot = offHand ? 2u : 1u;
     ItemInstance* equipped = inventory.ItemInventory::GetEquippedItem(slot);
     if (equipped == nullptr) return 0;
-    const int propBase = equipped->ItemInstance::GetItem()->m_w37;  // Structs::Item +0x94
+    const int propBase = equipped->ItemInstance::GetItem()->Param3;  // Structs::Item +0x94
     if (propBase == -1) return 0;
     return _GetProperty(m_props, AddWrap(propBase, 64));
 }
@@ -254,7 +254,7 @@ int CharProperties::PROPS_GetBonusAttackRating(bool offHand) const {
     const unsigned int slot = offHand ? 2u : 1u;
     ItemInstance* equipped = inventory.ItemInventory::GetEquippedItem(slot);
     if (equipped == nullptr) return 0;
-    const int propBase = equipped->ItemInstance::GetItem()->m_w37;  // Structs::Item +0x94
+    const int propBase = equipped->ItemInstance::GetItem()->Param3;  // Structs::Item +0x94
     if (propBase == -1) return 0;
     const int property = _GetProperty(m_props, AddWrap(propBase, 51));
     if (inventory.ItemInventory::IsDualWielding()) {

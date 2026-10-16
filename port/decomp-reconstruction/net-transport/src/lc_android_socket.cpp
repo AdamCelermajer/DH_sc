@@ -550,7 +550,7 @@ bool LCAndroidSocket::Connect() {
 // whose result the binary discards). Resolves server_name through GetHostByName,
 // which returns null until the lookup finishes. The lookup is given 9999 ms. The connect is the
 // same as Connect's. The port is the stored serverPort_ (ConnectByName takes only the name).
-bool LCAndroidSocket::ConnectByName(const char* server_name) {
+bool LCAndroidSocket::ConnectByName(char* server_name) {
     if (nonBlockConnectState_ != 0) {
         if (nonBlockConnectState_ != 1) {
             return false;
@@ -615,7 +615,7 @@ int LCAndroidSocket::GetLastError() {
 // address are skipped; the original dereferences them. The debug log is an LC_DEBUG_OUT call
 // (omitted). A cache hit (same name) returns the cached entry. A miss is resolved with
 // gethostbyname, returned as is, and cached while fewer than four entries exist.
-hostent* LCAndroidSocket::GetHostIP(const char* server_name) {
+hostent* LCAndroidSocket::GetHostIP(char* server_name) {
     for (int i = 0; i < l_countLC; ++i) {
         hostent* entry = l_hostLC[i];
         if (entry != nullptr && entry->h_name != nullptr && std::strcmp(server_name, entry->h_name) == 0) {
@@ -647,7 +647,7 @@ hostent* LCAndroidSocket::GetHostIP(const char* server_name) {
 // overwrites the pthread id. The debug log is dropped exactly (an empty stub in the binary). The
 // cache and the flag are unguarded, as in the original. The function is not static and reads this
 // at +0x860, matching the listing's use of the object pointer.
-hostent* LCAndroidSocket::GetHostByName(const char* server_name) {
+hostent* LCAndroidSocket::GetHostByName(char* server_name) {
     if (server_name == nullptr || std::strlen(server_name) > kHostNameLimit) {
         return nullptr;
     }

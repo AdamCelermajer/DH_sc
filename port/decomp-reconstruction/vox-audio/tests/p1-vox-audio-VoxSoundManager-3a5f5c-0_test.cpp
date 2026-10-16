@@ -10,8 +10,11 @@
 #include <string>
 #include <vector>
 
+#include "dh2/Point3D.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/Singleton.hpp"
 #include "vox-audio/vox/engine_handles.hpp"
 #include "vox-audio/vox/memory.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
@@ -101,7 +104,7 @@ alignas(16) unsigned char g_sound_records[sizeof(Structs::SoundAutoGen) * kSound
 
 // Points record `sound` at data index `index` of the manager's sounds_ array.
 void SetRecordDataIndex(int sound, int index) {
-    reinterpret_cast<Structs::SoundAutoGen*>(g_sound_records)[sound].m_w1 = index;
+    reinterpret_cast<Structs::SoundAutoGen*>(g_sound_records)[sound].Id = index;
 }
 
 void ResetSoundRecords() {
@@ -442,7 +445,7 @@ void TestEmitterLoops() {
     m.sounds_ = new vox::DataHandle*[2]{};
     SetRecordDataIndex(3, 1);  // sound id 3 -> sounds_[1]
 
-    // An empty slot: every body returns at the null test of sounds_[record.m_w1].
+    // An empty slot: every body returns at the null test of sounds_[record.Id].
     m.Stop(3, 100);
     m.Stop3D(3, 100, nullptr, 1.0f);
     m.Resume(3);
@@ -472,11 +475,11 @@ void TestEmitterLoops() {
     CHECK(CountCalls("Stop") == 4);
 
     // Stop3D with a pos: a handle beyond the radius is stopped, one within it is not.
-    const float pos[3] = {0.0f, 0.0f, 0.0f};
+    Point3D<float> pos{0.0f, 0.0f, 0.0f};
     g_emitter_3d[0] = 10.0f;       // distance to the handle position is 10
-    m.Stop3D(3, 100, pos, 1.0f);   // radius < distance: both handles are stopped
+    m.Stop3D(3, 100, &pos, 1.0f);   // radius < distance: both handles are stopped
     CHECK(CountCalls("Stop") == 6);
-    m.Stop3D(3, 100, pos, 20.0f);  // radius > distance: neither is
+    m.Stop3D(3, 100, &pos, 20.0f);  // radius > distance: neither is
     CHECK(CountCalls("Stop") == 6);
     CHECK(CountCalls("Get3DEmitterPosition") == 4);
     g_emitter_3d[0] = 0.0f;
@@ -750,6 +753,14 @@ int vox::VoxSoundPackXML::LoadXML(const char* path) {
 }
 
 int vox::VoxSoundPackXML::GetSoundCount() const { return 0; }
+
+// The Application the constructor reads (the sounds.zip flag at +0xa8). Application has two virtuals (the destructor and
+// onEvent); the stubs define both so the vtable links, and the test instantiates Singleton<Application> itself (the game
+// does in game-app/src/Globals.cpp). The flag stays clear, so no archive is attached.
+template class Singleton<Application>;
+Application::Application() {}
+Application::~Application() {}
+bool Application::onEvent(const glitch::SEvent&) { return false; }
 
 // The destructor's body is in batch p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp, which this test does not link.
 // The test's stack objects only need the members destroyed, so an empty body is enough here.

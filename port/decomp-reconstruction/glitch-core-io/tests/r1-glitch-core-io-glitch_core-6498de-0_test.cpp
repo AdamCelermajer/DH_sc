@@ -75,38 +75,38 @@ void testQuantize() {
 void testPakOrder() {
     // The name is compared as signed chars: 0xff is -1, below 'a' (0x61).
     std::vector<glitch::io::SPakFileEntry> entries(4);
-    entries[0].name = "b";
-    entries[1].name = std::string("\xff", 1);
-    entries[2].name = "a";
-    entries[3].name = "ab";
+    entries[0].simpleFileName = "b";
+    entries[1].simpleFileName = std::string("\xff", 1);
+    entries[2].simpleFileName = "a";
+    entries[3].simpleFileName = "ab";
     CHECK(entries[1] < entries[2]);
     glitch::core::heapsort(entries.data(), static_cast<int>(entries.size()));
-    CHECK(entries[0].name == std::string("\xff", 1));
-    CHECK(entries[1].name == "a");
-    CHECK(entries[2].name == "ab");
-    CHECK(entries[3].name == "b");
+    CHECK(entries[0].simpleFileName == std::string("\xff", 1));
+    CHECK(entries[1].simpleFileName == "a");
+    CHECK(entries[2].simpleFileName == "ab");
+    CHECK(entries[3].simpleFileName == "b");
 
     glitch::io::SPakFileEntry key;
-    key.name = "ab";
+    key.simpleFileName = "ab";
     CHECK(glitch::core::binary_search(entries, key) == 2);
-    key.name = "zz";
+    key.simpleFileName = "zz";
     CHECK(glitch::core::binary_search(entries, key) == -1);
-    key.name = "";
+    key.simpleFileName = "";
     CHECK(glitch::core::binary_search(entries, key) == -1);
 }
 
 void testZipOrder() {
     std::vector<glitch::io::SZipFileEntry> entries(3);
-    entries[0].name = "data/b.bin";
-    entries[1].name = "data/a.bin";
-    entries[2].name = "data";
+    entries[0].simpleFileName = "data/b.bin";
+    entries[1].simpleFileName = "data/a.bin";
+    entries[2].simpleFileName = "data";
     glitch::core::heapsort(entries.data(), static_cast<int>(entries.size()));
-    CHECK(entries[0].name == "data");
-    CHECK(entries[1].name == "data/a.bin");
-    CHECK(entries[2].name == "data/b.bin");
+    CHECK(entries[0].simpleFileName == "data");
+    CHECK(entries[1].simpleFileName == "data/a.bin");
+    CHECK(entries[2].simpleFileName == "data/b.bin");
 
     glitch::io::SZipFileEntry key;
-    key.name = "data/a.bin";
+    key.simpleFileName = "data/a.bin";
     CHECK(glitch::core::binary_search(entries, key) == 1);
 }
 

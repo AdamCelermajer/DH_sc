@@ -94,8 +94,8 @@ bool Reward_CharacterProps::Give() {
     if (!m_compiled) {
         return m_compiled;  // the original returns the flag itself, which is false here
     }
-    const std::int32_t property = m_compiledStub->m_w3;  // +0x0c of the stub
-    const std::uint32_t shifted = static_cast<std::uint32_t>(m_compiledStub->m_w2) << 8;  // amount << 8, as the original
+    const std::int32_t property = m_compiledStub->Param2;  // +0x0c of the stub
+    const std::uint32_t shifted = static_cast<std::uint32_t>(m_compiledStub->Param1) << 8;  // amount << 8, as the original
     m_character->ModifyCharProps(property, static_cast<std::int32_t>(shifted));
     return true;
 }
@@ -106,11 +106,11 @@ int Reward_CharacterProps::DBG_TraceDetailedRewardInformation(__sFILE* s) {
     const Structs::v2QuestRewardStub* record = m_pyData;  // +0x0c
     static_cast<void>(std::fwrite("\t  v2QuestRewardGiveCharProps\n", 1, 30, out));
     const char* typeName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", record->m_w1);  // stub +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", record->Type);  // stub +0x04
     std::fprintf(out, "\t    Type        : %s\n", typeName);
-    std::fprintf(out, "\t    Amount      : %d \n", record->m_w2);  // stub +0x08
+    std::fprintf(out, "\t    Amount      : %d \n", record->Param1);  // stub +0x08
     // The property name comes from the owner's CharProperties base (Character +0x560).
-    const char* propName = m_character->CharProperties::DBG_PROPS_GetName(record->m_w3);  // stub +0x0c
+    const char* propName = m_character->CharProperties::DBG_PROPS_GetName(record->Param2);  // stub +0x0c
     return std::fprintf(out, "\t\t Property    : %s \n\n", propName);
 }
 
@@ -119,7 +119,7 @@ Reward_ConsumeLoot::~Reward_ConsumeLoot() {}
 
 // 0x4828d0 Reward_ConsumeLoot::Compile(void)
 Reward* Reward_ConsumeLoot::Compile() {
-    if (m_pyData->m_w3 >= 0) {  // stub +0x0c: the item row
+    if (m_pyData->Param2 >= 0) {  // stub +0x0c: the item row
         m_compiled = true;
     }
     return this;
@@ -133,10 +133,10 @@ bool Reward_ConsumeLoot::Give() {
     const Structs::v2QuestRewardStub* record = m_pyData;  // +0x0c
     // The owner's inventory is the ItemInventory base of Character at +0x37c. Both calls are direct in the original.
     ItemInventory* inventory = static_cast<ItemInventory*>(m_owner);
-    if (inventory->ItemInventory::TryConsuming(record->m_w3, record->m_w2) != 0) {  // item row, then quantity
+    if (inventory->ItemInventory::TryConsuming(record->Param2, record->Param1) != 0) {  // item row, then quantity
         return false;
     }
-    inventory->ItemInventory::FindItem(record->m_w3);
+    inventory->ItemInventory::FindItem(record->Param2);
     return false;
 }
 
@@ -145,9 +145,9 @@ int Reward_ConsumeLoot::DBG_TraceDetailedRewardInformation(__sFILE* s) {
     std::FILE* out = reinterpret_cast<std::FILE*>(s);
     const Structs::v2QuestRewardStub* record = m_pyData;  // +0x0c
     static_cast<void>(std::fwrite("\t  v2QuestRewardConsumeLoot\n", 1, 28, out));
-    std::fprintf(out, "\t\t  Loot=ItemTable.%s\n", ItemTableRowName(record->m_w3));  // item row, stub +0x0c
+    std::fprintf(out, "\t\t  Loot=ItemTable.%s\n", ItemTableRowName(record->Param2));  // item row, stub +0x0c
     // The original passes the quantity row's name pointer to "%d" (see the notes above).
-    const char* qtyName = ItemTableRowName(record->m_w2);  // stub +0x08
+    const char* qtyName = ItemTableRowName(record->Param1);  // stub +0x08
     return std::fprintf(out, "\t\t  Qty=%d\n",
                         static_cast<int>(reinterpret_cast<std::uintptr_t>(qtyName)));
 }

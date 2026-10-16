@@ -10,16 +10,19 @@
 #pragma once
 
 #include <cstdint>
+#include <deque>
 
 #include "glitch-core-io/deps/glitch_core.hpp"
+#include "glitch-core-io/os/event_receiver.hpp"
 
 class FileSystemWin32;  // core-platform/filesystem_win32.hpp: the file system the game reaches through the device (+0x34)
 
 namespace glitch {
 
 namespace video { class IVideoDriver; }
-namespace scene { class ISceneManager; }
+namespace scene { class ISceneManager; class CSceneManager; }
 namespace os { class Timer; }
+class CTimer;
 namespace gui { class IGUIEnvironment; }
 namespace collada { class CResFileManager; class CAnimationStreamingManager; }
 
@@ -49,6 +52,24 @@ public:
     virtual void setEventReceiver(IEventReceiver* receiver);
     // vtable +0x30 (CAndroidOSDevice::closeDevice 0x6a02a4 clears the running flag at +0x109). Application::Quit calls it.
     virtual void closeDevice() {}
+    // 0x671554 _ZN6glitch7IDevice17createGUIAndSceneEv: makes the GUI environment (+0x18), the scene manager (+0x1c) and the 2D driver (+0x14) through the
+    // CIrrFactory. Declared for CAndroidOSDevice (0x6a0634); the body is a glitch-core-io row (link stub).
+    void createGUIAndScene();
+    // 0x671444 _ZN6glitch7IDevice29setInputReceivingSceneManagerEPNS_5scene13CSceneManagerE (non-virtual): the scene manager that receives the
+    // user's input events instead of the device's own (+0x38); the new manager gets a use, the old one is dropped first.
+    void setInputReceivingSceneManager(scene::CSceneManager* manager);
+    // 0x671a00 _ZN6glitch7IDevice17postEventFromUserERKNS_6SEventEb (non-virtual): with `queued` the event is appended to the event deque
+    // (+0xb4) and true returned; otherwise it is offered to the event receiver (+0x28), then, when that did not consume it, to the GUI
+    // environment (+0x18, vtable +0x30), and, when neither did, to the input-receiving scene manager (+0x38), else the scene manager (+0x1c).
+    bool postEventFromUser(const SEvent& event, bool queued);
+    // 0x671aec _ZN6glitch7IDevice22postMouseEventFromUserERNS_6SEventEb (non-virtual): the event's X and Y lose the screen framebuffer's
+    // offset (the first render target of the video driver, +0x24/+0x28) and it is posted as above.
+    bool postMouseEventFromUser(SEvent& event, bool queued);
+    // 0x671b24 _ZN6glitch7IDevice3runEv (non-virtual): drains the input event queue; the app loop (appUpdate) steps a frame
+    // only when it returns true. Body: glitch-core-io ledger, row skipped ("input: other session").
+    bool run();
+    // vtable +0x40 (IDevice has none; CAndroidOSDevice::runImpl 0x6a0440): one step of the device's own loop, answered by run().
+    virtual int runImpl() { return 0; }
     // 0x671e84: true when the application's compiled version string equals the library version
     // (0.1.0.2). Otherwise it logs a warning at ELL_WARNING and returns false.
     bool checkVersion(const char* compiledVersion);
@@ -76,8 +97,9 @@ public:
     gui::IGUIEnvironment* guiEnvironment = nullptr;
     // +0x1c: the scene manager (the game's GSViewer reads it from Application::m_device)
     scene::ISceneManager* sceneManager = nullptr;
-    // +0x20: the timer the constructor creates (0x8 bytes, vptr and a flag)
-    os::Timer* timer = nullptr;
+    // +0x20: the timer the constructor creates (0x8 bytes, vptr and a flag): the CTimer facade (ctimer.hpp). CAndroidOSDevice::sleep
+    // (0x6a0374) calls its isStopped / stop / start slots.
+    CTimer* timer = nullptr;
     // +0x24: cleared by the constructor, role not identified
     void* unk_24 = nullptr;
     // +0x28
@@ -106,11 +128,15 @@ public:
     // openSavefile (+0x94), deleteSavefile (+0x9c) and doesSavefileExists (+0xb0).
     io::IFileSystem* fileSystem = nullptr;
     // +0x38: cleared by the constructor, role not identified
-    void* unk_38 = nullptr;
+    // IDENTIFIED (0x671444, 0x671a00): the scene manager that gets the user's events (IDevice::setInputReceivingSceneManager); counted.
+    scene::CSceneManager* inputReceivingSceneManager = nullptr;
     // +0x3c
     video::CVideoModeList videoModeList;
     // +0x5c
     SCreationParameters creationParameters;
+    // +0xb4 .. +0xdc: std::deque<glitch::SEvent> (24-byte events, 5 per 120-byte node; _M_initialize_map 0x671bd8 in the constructor):
+    // the events posted with `queued` set, drained by run().
+    std::deque<SEvent> eventQueue;
 };
 
 }  // namespace glitch

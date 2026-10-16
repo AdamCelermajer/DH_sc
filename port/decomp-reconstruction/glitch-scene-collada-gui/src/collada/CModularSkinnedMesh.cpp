@@ -4,9 +4,12 @@
 // A comment `// 0xADDR symbol` precedes each function; PARTIAL in the comment means the ledger row stays partial.
 #include "glitch-scene-collada-gui/collada/CModularSkinnedMesh.hpp"
 
+#include <cstdio>
 #include <cstring>
 
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-core-io/os/logging.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/material.hpp"
@@ -16,6 +19,22 @@
 #include "glitch-video/video_driver.hpp"
 
 namespace glitch::collada {
+
+namespace {
+
+// glitch::video::CVertexStreams::setStream(SVertexStream*, SVertexStream const&, int, bool) with the flag folded to true (the clone
+// 0x647ee0): the stream takes the source's buffer, its offset plus `delta`, value type, component count and stride, then the table's
+// homogeneity is recomputed. The general function (0x5abb58) has no body in glitch-video yet.
+void setStreamFromStream(video::CVertexStreams& table, video::SVertexStream* stream, const video::SVertexStream& source, std::int32_t delta) {
+    stream->buffer = source.buffer;
+    stream->field0a = source.field0a;
+    stream->field0c = source.field0c;
+    stream->offset = source.offset + static_cast<std::uint32_t>(delta);
+    stream->field0e = source.field0e;
+    table.updateHomogeneityInternal(true);
+}
+
+}  // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
 // SModularBuffer
@@ -67,7 +86,7 @@ int CModularSkinnedMesh::SModularBuffer::reallocate(std::uint32_t vertexBytes, s
 // (C2 0x64928c). Reference count 0, the database copied (a use), uid empty, the root and the instance stored, skinning enabled, the
 // box (-1,-1,-1)..(1,1,1), the dirty byte set, the word at +0x3c set to 1 when `mergeFlag` is zero. One module slot is made per
 // category (plus the extra slots) and each slot gets the category's default module (looked up by name) without updating; updateBuffer
-// runs last with the `update` argument. PARTIAL: updateBuffer is not reconstructed.
+// runs last with the `update` argument.
 CModularSkinnedMesh::CModularSkinnedMesh(const CColladaDatabase& source, SInstanceModularSkin* instanceRecord, CRootSceneNode* rootNode,
                                          int mergeFlag, bool update, video::IVideoDriver* /*driver*/) {
     referenceCounter = 0;
@@ -220,19 +239,69 @@ void CModularSkinnedMesh::updateTechnique(std::uint32_t index) {
 }
 
 // 0x647fcc _ZN6glitch7collada19CModularSkinnedMesh4skinEj
-// PARTIAL: an unmerged buffer skins each contributing module that exists (K 0x4c, buffer 0). The merged path (map the buffer's vertex
-// data, for each module: skin it, ask whether it needs an output buffer, and copy its streams into the merged stream table with
-// CVertexStreams::setStream records and SVertexStreamData) is not reconstructed.
+// An unmerged buffer skins each contributing module that exists (K 0x4c, buffer 0). A merged buffer maps the merged vertex buffer for
+// writing and walks its modules: each one updates its technique (K 0x48); a module that needs an output buffer has its position stream
+// (and its normal stream, when both it and the merged table have one) repointed into the merged buffer at the running vertex offset
+// (the module's own stream descriptions are saved first), is skinned (K 0x4c), advances the offset by its vertex count and gets its
+// stream descriptions back; any other module is simply skinned. The mapping is released at the end.
 void CModularSkinnedMesh::skin(std::uint32_t index) {
-    const SModularBuffer& entry = buffers[index];
-    if (entry.merged) {
+    SModularBuffer& entry = buffers[index];
+    if (!entry.merged) {
+        for (std::uint32_t moduleIndex : entry.moduleIndices) {
+            ISkinnedMesh* module = modules[moduleIndex].mesh.get();
+            if (module != nullptr) {
+                module->skin(0);
+            }
+        }
         return;
     }
+    video::CVertexStreams& mergedTable = *entry.buffer->vertexStreams;
+    video::SVertexStream* mergedEntries = mergedTable.m_streams.data();
+    video::SVertexStream* mergedNormals =
+        (mergedTable.m_attributeMask & 0x20000u) != 0 ? &mergedTable.m_streams[static_cast<std::uint8_t>(mergedTable.m_count0c + 1u)] : nullptr;
+    boost::intrusive_ptr<video::IBuffer> mergedVertexBuffer = mergedEntries[0].buffer;
+    std::uint8_t* mapped = mergedVertexBuffer->map(4);
+    video::SVertexStreamData savedNormals;
+    savedNormals.field08 = 0xff;  // the listing starts the record from the word 0xff
+    std::int32_t running = 0;
     for (std::uint32_t moduleIndex : entry.moduleIndices) {
-        const boost::intrusive_ptr<ISkinnedMesh>& module = modules[moduleIndex].mesh;
-        if (module) {
-            module->skin(0);
+        ISkinnedMesh* module = modules[moduleIndex].mesh.get();
+        if (module == nullptr) {
+            continue;
         }
+        module->updateTechnique(0);
+        if (!module->needOutputBuffer()) {
+            module->skin(0);
+            continue;
+        }
+        boost::intrusive_ptr<scene::CMeshBuffer> moduleBuffer = module->getMeshBuffer(0);
+        video::CVertexStreams& moduleTable = *moduleBuffer->vertexStreams;
+        video::SVertexStream* moduleEntries = moduleTable.m_streams.data();
+        video::SVertexStreamData savedPositions;
+        savedPositions.buffer = moduleEntries[0].buffer;
+        savedPositions.offset = moduleEntries[0].offset;
+        savedPositions.field08 = moduleEntries[0].field0a;
+        savedPositions.field0a = 0;
+        savedPositions.field0c = moduleEntries[0].field0c;
+        savedPositions.field0e = moduleEntries[0].field0e;
+        const std::int32_t delta = running - static_cast<std::int32_t>(moduleBuffer->primitiveStream.m_vertexStart * mergedEntries[0].field0e);
+        setStreamFromStream(moduleTable, &moduleEntries[0], mergedEntries[0], delta);
+        if ((moduleTable.m_attributeMask & 0x20000u) != 0 && mergedNormals != nullptr) {
+            video::SVertexStream* moduleNormals = &moduleEntries[static_cast<std::uint8_t>(moduleTable.m_count0c + 1u)];
+            savedNormals = *moduleNormals;
+            setStreamFromStream(moduleTable, moduleNormals, *mergedNormals, delta);
+            module->skin(0);
+            running += static_cast<std::int32_t>(moduleTable.m_field08 * mergedEntries[0].field0e);
+            moduleTable.setStream(&moduleEntries[0], savedPositions, true);
+            moduleTable.setStream(moduleNormals, savedNormals, true);
+        } else {
+            module->skin(0);
+            running += static_cast<std::int32_t>(moduleTable.m_field08 * mergedEntries[0].field0e);
+            moduleTable.setStream(&moduleEntries[0], savedPositions, true);
+        }
+    }
+    if (mapped != nullptr) {
+        mergedVertexBuffer->unmap();
     }
 }
 
@@ -262,9 +331,155 @@ int CModularSkinnedMesh::reallocate(std::uint32_t /*size*/) {
 }
 
 // 0x6483c8 _ZN6glitch7collada19CModularSkinnedMesh12updateBufferEb
-// PARTIAL: not reconstructed. The 2488-byte body rebuilds the merged buffers of the current modules (regrouping the modules by
-// material, resizing the vertex and index buffers with SModularBuffer::reallocate and copying the module streams).
-int CModularSkinnedMesh::updateBuffer(bool /*flag*/) {
+// Rebuilds the merged buffers. The old buffers go. Every module that exists is put into a buffer: one that needs an output buffer joins
+// the first buffer with an equal material (K 0x18 buffer 0), any other module (or the first of a material) opens a new buffer whose
+// merged flag is the module's needOutputBuffer. Then, per merged buffer: a vertex stream table for the vertex attribute mask of the
+// material's technique is made, a new driver vertex buffer (type 0, usage 4) is laid out for it (with `flag` the position and normal
+// streams are left buffer-less, because they are skinned into the process buffer; the mask leaves out attribute 17 and 0), the vertex
+// and index totals of the contributing output modules are counted, the merged mesh buffer is built over a new index buffer, and the
+// buffers are sized by the mode word (+0x3c: 0 and 1 reallocate, 1 exactly; 2 only checks the existing size and logs "failed to allocate
+// buffer of size" with the answer 2; others do nothing). The module streams are copied into the table (copyStreams, with a running vertex
+// offset) and their 16-bit indices, raised by the vertices before them, into the index buffer. Answers 0.
+int CModularSkinnedMesh::updateBuffer(bool flag) {
+    const std::uint32_t moduleCount = static_cast<std::uint32_t>(modules.size());
+    buffers.clear();
+    for (std::uint32_t i = 0; i < moduleCount; ++i) {
+        ISkinnedMesh* module = modules[i].mesh.get();
+        if (module == nullptr) {
+            continue;
+        }
+        boost::intrusive_ptr<video::CMaterial> material = module->getMaterial(0);
+        bool joined = false;
+        if (module->needOutputBuffer() && !buffers.empty()) {
+            for (SModularBuffer& candidate : buffers) {
+                if (*candidate.material == *material) {
+                    candidate.moduleIndices.push_back(i);
+                    joined = true;
+                    break;
+                }
+            }
+        }
+        if (!joined) {
+            buffers.push_back(SModularBuffer());
+            SModularBuffer& added = buffers.back();
+            added.moduleIndices.push_back(i);
+            added.material = material;
+            added.merged = module->needOutputBuffer();
+        }
+    }
+    outputBufferNeeded = false;
+    for (SModularBuffer& entry : buffers) {
+        if (!entry.merged) {
+            continue;
+        }
+        outputBufferNeeded = true;
+        video::CMaterial* material = entry.material.get();
+        const video::STechnique& technique = material->m_renderer->m_techniques[material->getTechnique()];
+        boost::intrusive_ptr<video::CVertexStreams> table =
+            video::CVertexStreams::allocate(static_cast<const video::IShader*>(technique.passes[0].shader)->m_vertexAttributeMask);
+        video::IVideoDriver* driver = entry.material->m_renderer->m_driver;
+        entry.vertexBuffer = driver->createBuffer(0, 4, 0, nullptr, true);
+        std::uint32_t stride;
+        if (flag) {
+            stride = table->setupStreams(entry.vertexBuffer, 0xFFFDFFFEu);
+            video::SVertexStreamData description;
+            description.field08 = 6;
+            description.field0a = 0;
+            description.field0c = 3;
+            description.field0e = 0;
+            table->setStream(&table->m_streams[0], description, true);
+            if ((table->m_attributeMask & 0x20000u) != 0) {
+                table->setStream(&table->m_streams[table->m_count0c + 1u], description, true);
+            }
+        } else {
+            stride = table->setupStreams(entry.vertexBuffer, 0xFFFFFFFFu);
+        }
+        std::uint32_t vertexTotal = 0;
+        std::uint32_t indexTotal = 0;
+        for (std::uint32_t moduleIndex : entry.moduleIndices) {
+            ISkinnedMesh* module = modules[moduleIndex].mesh.get();
+            if (module != nullptr && module->needOutputBuffer()) {
+                boost::intrusive_ptr<scene::CMeshBuffer> moduleBuffer = module->getMeshBuffer(0);
+                indexTotal += moduleBuffer->primitiveStream.m_count;  // +0x20
+                vertexTotal += module->getVertexCount();
+            }
+        }
+        table->m_field08 = vertexTotal;
+        if (entry.buffer == nullptr) {
+            boost::intrusive_ptr<video::IBuffer> indexBuffer = driver->createBuffer(1, 4, 0, nullptr, true);
+            boost::intrusive_ptr<scene::CMeshBuffer> created(new scene::CMeshBuffer());
+            created->vertexStreams = table;                          // +0x14
+            created->primitiveStream.m_indexBuffer = indexBuffer;    // +0x18
+            created->primitiveStream.m_offset = 0;                   // +0x1c
+            created->primitiveStream.m_count = indexTotal;           // +0x20
+            created->primitiveStream.m_vertexStart = 0;              // +0x24
+            created->primitiveStream.m_vertexEnd = vertexTotal;      // +0x28
+            created->primitiveStream.m_indexType = 1;                // +0x2c
+            created->primitiveStream.m_primitiveType = 6;            // +0x2e
+            created->owner = nullptr;                                // +0x30
+            created->flag_34 = 1;                                    // +0x34
+            entry.buffer = created;
+        }
+        const std::uint32_t vertexBytes = stride * vertexTotal;
+        const std::uint32_t indexBytes = 2 * indexTotal;
+        if (unk_3c == 0 || unk_3c == 1) {
+            const int result = entry.reallocate(vertexBytes, indexBytes, unk_3c != 0);
+            if (result != 0) {
+                return result;
+            }
+        } else if (unk_3c == 2) {
+            char text[128];
+            if (vertexBytes > entry.vertexBuffer->m_size) {
+                std::sprintf(text, "failed to allocate buffer of size %u (max set to %u)", vertexBytes, entry.vertexBuffer->m_size);
+                os::Printer::log("updateBuffer", text, ELL_ERROR);
+                return 2;
+            }
+            if (indexBytes > entry.buffer->primitiveStream.m_indexBuffer->m_size) {
+                std::sprintf(text, "failed to allocate buffer of size %u (max set to %u)", indexBytes,
+                             entry.buffer->primitiveStream.m_indexBuffer->m_size);
+                os::Printer::log("updateBuffer", text, ELL_ERROR);
+                return 2;
+            }
+        }
+        scene::CMeshBuffer& merged = *entry.buffer;
+        std::uint8_t* mappedIndices = merged.primitiveStream.m_indexBuffer->map(4);
+        std::uint8_t* writeAt = mappedIndices != nullptr ? mappedIndices + merged.primitiveStream.m_offset : nullptr;
+        std::uint32_t vertexOffset = 0;
+        std::uint32_t indexBase = 0;
+        for (std::uint32_t moduleIndex : entry.moduleIndices) {
+            ISkinnedMesh* module = modules[moduleIndex].mesh.get();
+            if (module == nullptr) {
+                continue;
+            }
+            boost::intrusive_ptr<video::CVertexStreams> moduleTable = module->getMeshBuffer(0)->vertexStreams;
+            table->copyStreams(boost::intrusive_ptr<const video::CVertexStreams>(moduleTable.get()), 0, moduleTable->m_field08,
+                               static_cast<std::int32_t>(vertexOffset), 0xFFFDFFFEu);
+            vertexOffset += moduleTable->m_field08;
+            boost::intrusive_ptr<scene::CMeshBuffer> moduleBuffer = module->getMeshBuffer(0);
+            const video::IBuffer* sourceIndices = moduleBuffer->primitiveStream.m_indexBuffer.get();
+            std::uint8_t* source = sourceIndices->map(1);
+            if (source != nullptr) {
+                source += moduleBuffer->primitiveStream.m_offset;
+            }
+            const std::uint32_t count = moduleBuffer->primitiveStream.m_count;
+            if (count != 0 && source != nullptr && writeAt != nullptr) {
+                for (std::uint32_t n = 0; n < count; ++n) {
+                    std::uint16_t value;
+                    std::memcpy(&value, source + 2 * n, 2);
+                    value = static_cast<std::uint16_t>(indexBase + value);
+                    std::memcpy(writeAt + 2 * n, &value, 2);
+                }
+                writeAt += 2 * count;
+            }
+            if (source != nullptr) {
+                moduleBuffer->primitiveStream.m_indexBuffer->unmap();
+            }
+            indexBase += moduleTable->m_field08;
+        }
+        if (mappedIndices != nullptr) {
+            merged.primitiveStream.m_indexBuffer->unmap();
+        }
+    }
     return 0;
 }
 
@@ -324,8 +539,7 @@ int CModularSkinnedMesh::setModules(const boost::intrusive_ptr<ISkinnedMesh>* li
 // When the category's slot does not already hold `module`: drops the module in the slot (id -1), and for a module other than -1
 // constructs its controller from the category's module record (CColladaDatabase::constructController with the driver, the record,
 // the root and the flag true), storing the result and the module id. Rebuilds the buffers when `update` is set.
-// PARTIAL: the driver is read from the resource file manager's device (device +0x10), which glitch::IDevice does not map; null is
-// passed.
+// The driver is the video driver of the resource file manager's device (Inst +0x20, device +0x10).
 void CModularSkinnedMesh::setCategoryModule(int category, int module, bool update) {
     SModule& slot = modules[category];
     if (slot.moduleId == module) {
@@ -336,7 +550,7 @@ void CModularSkinnedMesh::setCategoryModule(int category, int module, bool updat
         slot.moduleId = -1;
     }
     if (module != -1) {
-        video::IVideoDriver* driver = nullptr;
+        video::IVideoDriver* driver = CResFileManager::Inst->device->videoDriver;
         IMesh* built = database.constructController(driver, instance->categories[category].modules[module].controller, root, true);
         if (built != nullptr) {
             slot.mesh = boost::intrusive_ptr<ISkinnedMesh>(static_cast<ISkinnedMesh*>(built));

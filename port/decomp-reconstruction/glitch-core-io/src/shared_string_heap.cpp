@@ -352,6 +352,12 @@ void releaseSharedString(SSharedStringHeapTable& table, SSharedStringData* data)
     delete data;
 }
 
+// The original-symbol forms of get (0x6a5074) and release (0x6a4d9c): the same operations on the process-wide table.
+SSharedStringData* sharedStringDataGet(const char* text, bool create) {
+    return getSharedString(sharedStringHeapTable(), text, !create);
+}
+void sharedStringDataRelease(SSharedStringData* data) { releaseSharedString(sharedStringHeapTable(), data); }
+
 }  // namespace glitch::core::detail
 
 namespace glitch::core {

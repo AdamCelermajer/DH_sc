@@ -1,6 +1,6 @@
 // vox::DecoderMPC8::CreateNewCursor (0x8704ac), the vtable slot +0x10 of DecoderMPC8 that the
 // binary installs. DecoderMPC8 is therefore concrete, as in the original (the factory
-// DecoderMPC8Factory 0x8704dc constructs one).
+// DecoderMPC8Factory below constructs one).
 #include <new>
 
 #include "vox-audio/vox/decoder_mpc8.hpp"
@@ -23,6 +23,18 @@ DecoderCursorInterface* DecoderMPC8::CreateNewCursor(StreamCursorInterface* stre
         return nullptr;
     }
     return new (storage) DecoderMPC8Cursor(this, stream);
+}
+
+// 0x8704dc _ZN3vox18DecoderMPC8FactoryEPv
+// ARM: VoxAlloc(8, 0) into r4, then DecoderMPC8::DecoderMPC8(r4, params), then r4 returned. The parameter block is the
+// DecoderMPC8Params the constructor reads (first word). Unchecked in the original; the port returns null when the
+// storage is unavailable.
+void* DecoderMPC8Factory(void* params) {
+    void* storage = VoxAlloc(sizeof(DecoderMPC8), kVoxMemHintDefault);
+    if (storage == nullptr) {
+        return nullptr;
+    }
+    return new (storage) DecoderMPC8(static_cast<const DecoderMPC8Params*>(params));
 }
 
 // The free-function spelling of the same body, kept for callers that hold a DecoderMPC8*.

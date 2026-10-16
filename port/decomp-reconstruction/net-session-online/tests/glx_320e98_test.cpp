@@ -19,6 +19,8 @@ public:
     }
     int LocalMemberId() const override { return 0; }
     int ServerMemberId() const override { return 7; }
+    bool IsInRoom() override { return false; }  // vtable +0x64
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     bool IsServer() const override { return false; }
     std::uint32_t GetRoomMask() const override { return 0; }
 
@@ -28,19 +30,19 @@ public:
         lastB = b;
         return 11;
     }
-    std::int32_t vtReadPacketData(std::int32_t a, std::int32_t b, NetBitStream&) override {
+    std::int32_t ReadPacketData(std::int32_t a, std::int32_t b, NetBitStream&) override {
         lastSlot = 0x10;
         lastA = a;
         lastB = b;
         return 12;
     }
-    std::int32_t vtProcessAcknowledgedPacket(std::int32_t a, std::int32_t b) override {
+    std::int32_t ProcessAcknowledgedPacket(std::int32_t a, std::int32_t b) override {
         lastSlot = 0x14;
         lastA = a;
         lastB = b;
         return 14;
     }
-    std::int32_t vtProcessLostPacket(std::int32_t a, std::int32_t b) override {
+    std::int32_t ProcessLostPacket(std::int32_t a, std::int32_t b) override {
         lastSlot = 0x18;
         lastA = a;
         lastB = b;

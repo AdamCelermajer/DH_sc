@@ -26,6 +26,10 @@ public:
     CVertexAttributeMap(const boost::intrusive_ptr<const CVertexStreams>& streams, uint32_t count,
                         const uint8_t* pairs, bool sorted);
 
+    // 0x5a0958 (C1), 0x5a099c (C2): the default map of a stream table (makeDefaultAttributeMap), or every slot unset
+    // when the pointer is null.
+    explicit CVertexAttributeMap(const boost::intrusive_ptr<const CVertexStreams>& streams);
+
     // 0x5a0788: copies the map.
     CVertexAttributeMap& operator=(const CVertexAttributeMap& other);
 

@@ -1,6 +1,12 @@
 #include "glitch-core-io/os/device.hpp"
 
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
+#include "glitch-scene-collada-gui/os/CLogger.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-scene-collada-gui/irr_factory.hpp"
+#include "glitch-video/c2d_driver.hpp"
 
 #include <cstring>
 #include <string>
@@ -17,9 +23,11 @@ namespace glitch {
 // stores the logger into the Printer global, takes the file system from the CIrrFactory instance
 // (+0x34), logs the "Glitch Engine version " + "0.1.0.2" text at ELL_INFORMATION and runs
 // checkVersion on the parameters string at +0x3c.
-// PARTIAL, missing item: none of those collaborators are declared in the port (collada's
-// CResFileManager / CAnimationStreamingManager, glitch::os::Timer, CLogger and CIrrFactory), so the
-// constructor only copies the parameters block here.
+// PARTIAL, exact missing item: the creation parameters are a 32-bit block (the receiver pointer at +0x28 and the compiled-version
+// string pointer at +0x3c are 4-byte words in it), which a host build cannot read as pointers (TRACK-B decision 2, the 4-byte
+// pointer slot model). Without those two words the constructor cannot take the receiver or run checkVersion on the string, so
+// it only copies the parameters block; the rest (resource and animation-streaming managers, timer, logger hookup, file system,
+// the "Glitch Engine version 0.1.0.2" log line) is left out with them rather than half-run in the tests' zero-filled blocks.
 IDevice::IDevice(const SCreationParameters& parameters) {
     std::memcpy(creationParameters.bytes, parameters.bytes, sizeof(creationParameters.bytes));
 }
@@ -49,14 +57,79 @@ int IDevice::getColorFormat() const {
 }
 
 // 0x6714c8 _ZN6glitch7IDevice16setEventReceiverEPNS_14IEventReceiverE
-// Re-read from the listing: receiver stored at +0x28; then, when the logger at +0x2c is non-null,
-// CLogger::setReceiver (0x6a093c) is called with it; then, when the pointer at +0x18 is non-null,
-// the virtual at that object's vtable +0x34 is called with the receiver.
-// PARTIAL, missing item: glitch::CLogger is not declared in the port (the +0x2c member is a void*)
-// and the type of the object at +0x18 is not recovered (the header keeps +0x18 as void*), so neither
-// call can be written. The store is all that can be reproduced.
+// Stores the receiver (+0x28); a logger attached at +0x2c is handed it (CLogger::setReceiver 0x6a093c); the GUI environment at
+// +0x18 is handed it too (vtable +0x34, IGUIEnvironment::setUserEventReceiver). The original returns the last call's value; the
+// declared result is void.
 void IDevice::setEventReceiver(IEventReceiver* receiver) {
     eventReceiver = receiver;
+    if (logger != nullptr) reinterpret_cast<CLogger*>(logger)->setReceiver(receiver);
+    if (guiEnvironment != nullptr) guiEnvironment->setUserEventReceiver(receiver);
+}
+
+// 0x671444 _ZN6glitch7IDevice29setInputReceivingSceneManagerEPNS_5scene13CSceneManagerE
+// The previous manager (+0x38) is dropped first, the new one is stored and gets a use (both through its IReferenceCounted base).
+void IDevice::setInputReceivingSceneManager(scene::CSceneManager* manager) {
+    if (inputReceivingSceneManager != nullptr) inputReceivingSceneManager->drop();
+    inputReceivingSceneManager = manager;
+    if (manager != nullptr) ++manager->referenceCounter;
+}
+
+// 0x671554 _ZN6glitch7IDevice17createGUIAndSceneEv
+// With a video driver (+0x10) a C2DDriver is made over it (+0x14). The GUI environment (+0x18) comes from the CIrrFactory instance's
+// createGUIEnvironment(file system (+0x34), driver, OS operator (+0x30)); the scene manager (+0x1c) from its createSceneManager(driver,
+// file system, cursor control (+0x24), the GUI environment); then the event receiver (+0x28) is passed to setEventReceiver.
+void IDevice::createGUIAndScene() {
+    if (videoDriver != nullptr) unk_14 = new video::C2DDriver(videoDriver);
+    CIrrFactory* factory = CIrrFactory::getInstance();
+    boost::intrusive_ptr<io::IFileSystem> files(fileSystem);
+    guiEnvironment = factory->createGUIEnvironment(files, videoDriver, static_cast<IOSOperator*>(unk_30));
+    factory = CIrrFactory::getInstance();
+    // (the port declares the +0x1c member as the opaque scene::ISceneManager; the object is the CSceneManager the factory made)
+    sceneManager = reinterpret_cast<scene::ISceneManager*>(
+        factory->createSceneManager(videoDriver, files, static_cast<gui::ICursorControl*>(unk_24), guiEnvironment));
+    setEventReceiver(eventReceiver);
+}
+
+// 0x671a00 _ZN6glitch7IDevice17postEventFromUserERKNS_6SEventEb
+// Queued: the event is appended to the deque (+0xb4) and the answer is true. Otherwise the event receiver's onEvent (vtable +0x08) is tried,
+// and when there is none or it did not consume the event the GUI environment's postEventFromUser (vtable +0x30; false without one). The
+// scene manager that gets the event is the input-receiving one (+0x38), or else the device's own (+0x1c); it is asked only when
+// nothing consumed the event so far, and only when there is one.
+bool IDevice::postEventFromUser(const SEvent& event, bool queued) {
+    if (queued) {
+        eventQueue.push_back(event);
+        return true;
+    }
+    bool handled = false;
+    if (eventReceiver == nullptr || !(handled = eventReceiver->onEvent(event))) {
+        handled = guiEnvironment != nullptr ? guiEnvironment->postEventFromUser(event) : false;
+    }
+    scene::CSceneManager* receiver = inputReceivingSceneManager;
+    if (receiver == nullptr) receiver = reinterpret_cast<scene::CSceneManager*>(sceneManager);
+    if (handled || receiver == nullptr) return handled;
+    return receiver->postEventFromUser(event);
+}
+
+// 0x671aec _ZN6glitch7IDevice22postMouseEventFromUserERNS_6SEventEb
+// The window origin is the screen framebuffer's offset (the first render target of the video driver, +0x24 and +0x28 of it): X (+0x08) and
+// Y (+0x0c) of the mouse payload lose it before the event is posted.
+bool IDevice::postMouseEventFromUser(SEvent& event, bool queued) {
+    const auto* screen = static_cast<const video::IVideoDriver::IFramebuffer*>(videoDriver->m_renderTargets[0].get());
+    event.MouseInput.X -= screen->m_screenX;
+    event.MouseInput.Y -= screen->m_screenY;
+    return postEventFromUser(event, queued);
+}
+
+// 0x671b24 _ZN6glitch7IDevice3runEv
+// Every queued event is taken from the front of the deque and posted immediately (not queued); then the device's own step (vtable +0x40)
+// answers.
+bool IDevice::run() {
+    while (!eventQueue.empty()) {
+        const SEvent event = eventQueue.front();
+        eventQueue.pop_front();
+        postEventFromUser(event, false);
+    }
+    return runImpl() != 0;
 }
 
 // 0x671e84 _ZN6glitch7IDevice12checkVersionEPKc

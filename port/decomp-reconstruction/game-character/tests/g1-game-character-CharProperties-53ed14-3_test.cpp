@@ -151,11 +151,11 @@ static int failures = 0;
 // A ClassFunc with the given fields (m_w1 = target property, m_w2 = type, m_w3..m_w5 = operands).
 static Structs::ClassFunc MakeFn(int target, int type, int w3, int w4 = 0, int w5 = 0) {
     Structs::ClassFunc fn;
-    fn.m_w1 = target;
-    fn.m_w2 = type;
-    fn.m_w3 = w3;
-    fn.m_w4 = w4;
-    fn.m_w5 = w5;
+    fn.DestProp = target;
+    fn.Formula = type;
+    fn.Param1 = w3;
+    fn.Param2 = w4;
+    fn.Param3 = w5;
     return fn;
 }
 
@@ -171,8 +171,8 @@ static void SetClasses(const std::vector<std::vector<Structs::ClassFunc>>& class
         for (std::size_t i = 0; i < classes[c].size(); ++i) {
             entries[i] = classes[c][i];
         }
-        g_classRows[c].m_w1 = static_cast<std::uint32_t>(classes[c].size());
-        g_classRows[c].m_w2 = entries;
+        g_classRows[c].list_entriesSize = static_cast<std::uint32_t>(classes[c].size());
+        g_classRows[c].list_entries = entries;
     }
     Arrays::ClassTable::members = reinterpret_cast<std::uint8_t*>(g_classRows);
     Arrays::ClassTable::size = static_cast<std::uint32_t>(g_classCount);
@@ -183,10 +183,10 @@ static Structs::Item* g_itemRows = nullptr;
 
 static void SetItem(int id, int type, int w25, int w35, int w36) {
     Structs::Item& row = g_itemRows[id];
-    row.m_w22 = type;
-    row.m_w25 = w25;
-    row.m_w35 = w35;
-    row.m_w36 = w36;
+    row.Type = type;
+    row.BaseElement = w25;
+    row.Param1 = w35;
+    row.Param2 = w36;
 }
 
 // Power rows: m_w3 effect count, m_w4 the effect elements (type m_w1, value m_w2).
@@ -195,11 +195,11 @@ static Structs::ItemPowerRef* g_powerRows = nullptr;
 static void SetPower(int id, const std::vector<std::pair<int, int>>& effects) {
     Structs::AttrBonusEntry* elems = new Structs::AttrBonusEntry[effects.size()];
     for (std::size_t i = 0; i < effects.size(); ++i) {
-        elems[i].m_w1 = effects[i].first;
-        elems[i].m_w2 = effects[i].second;
+        elems[i].Attr = effects[i].first;
+        elems[i].Bonus = effects[i].second;
     }
-    g_powerRows[id].m_w3 = static_cast<std::uint32_t>(effects.size());
-    g_powerRows[id].m_w4 = elems;
+    g_powerRows[id].AttrBonusListSize = static_cast<std::uint32_t>(effects.size());
+    g_powerRows[id].AttrBonusList = elems;
 }
 
 static void TestClassFuncOperations() {

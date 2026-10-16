@@ -109,7 +109,12 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
+#include <utility>
+#include <vector>
 
+#include "core-platform/stlport_alloc.hpp"
+#include "glitch-video/compile_callbacks.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/null_driver.hpp"
 #include "glitch-video/primitive_stream.hpp"
@@ -133,8 +138,7 @@ class CBatchSceneNode;  // the node the compile call comes from
 // below, so they are re-declared here (a repeated class declaration is legal). The append buffer itself needs no
 // declaration at all: the base IVideoDriver holds it as an intrusive_ptr<glitch::IReferenceCounted>.
 class IEndOfBatchCallback;
-class ISegmentCompileCallback;
-class ISplitSegmentChoiceCallback;
+// ISegmentCompileCallback, ISplitSegmentChoiceCallback and SCompileInfo: glitch-video/compile_callbacks.hpp.
 }  // namespace glitch::scene
 
 namespace glitch::video {
@@ -168,13 +172,9 @@ public:
     // +0x120, drops the base's +0x128 and calls IVideoDriver::clearImplementationDependentData (0x5adfe0, itself a
     // skipped row, so this adds an undefined symbol the integrator already tracks).
     void releaseBuffer();
-    // 0x5a6fe0 (0x1aa0 bytes, 1221 decompiled lines): the append path - rebinds THIS class's own batch state at
-    // +0x23C / +0x240 / +0x244 / +0x248 (the base's +0x110 / +0x120 / +0x124 / +0x128 is a different state and is
-    // read later in the body), clusters the primitives (spatialGridClustering 0x5a5860 or kdTreeClustering 0x5a6568
-    // according to +0x25C; 0x5a89b8 and 0x5a88a8 are the two BL SITES inside this function, not the functions) and
-    // copies or deduplicates the vertices into the base's current append buffer. NOT WRITTEN - the recovered
-    // structure of the whole body is recorded in glitch-video/src/batch_driver.cpp, and the pieces that block it are
-    // named there and in the ledger row.
+    // 0x5a6fe0 (0x1aa0 bytes): the append path. Reconstructed in glitch-video/src/batch_driver.cpp (choice callback, clustering by
+    // spatialGridClustering 0x5a5860 or kdTreeClustering 0x5a6568 according to the mode byte at +0x260, per-cluster record
+    // building, then the emit loop into the append buffer through the batch baker).
     void thisAppendBatch(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
                          const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer);
     // 0x5a3a20 _ZN6glitch5video12CBatchDriver5flushEv (vtable 0x977108 slot +0x1fc, the IVideoDriver::flush slot)
@@ -188,7 +188,7 @@ public:
 
     // ---- vtable slots this class overrides -------------------------------------------------------------------
     // 0x5a8a80, slot +0x58 of the vtable at 0x977108: a two-instruction thunk (`LDR R3,[SP,#arg_0]; B 0x5a6fe0`) into
-    // thisAppendBatch, i.e. IVideoDriver::draw with an extra mesh-buffer argument. Declared, not written. `flush` above
+    // thisAppendBatch, i.e. IVideoDriver::draw with an extra mesh-buffer argument. Written (it forwards to thisAppendBatch). `flush` above
     // is the other overridden slot.
     void draw(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
               CDriverBinding** binding, const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer) override;
@@ -249,15 +249,39 @@ public:
     //           virtual drop (0x5a3d64 / 0x5a3d7c), so it is a counted handle.
     //   +0x24C  no listing read in this batch names it, so no field is invented for it. (In the original the four
     //           words above end at +0x24B, making +0x24C the one word of the 0x264-byte object left unclaimed.)
-    scene::ISplitSegmentChoiceCallback* m_choiceCallback = nullptr;             // +0x23C
-    boost::intrusive_ptr<const CVertexStreams> m_currentVertices;               // +0x240
-    const CPrimitiveStream* m_primitives;                                       // +0x244 (deliberately uninitialised)
-    boost::intrusive_ptr<const scene::CMeshBuffer> m_meshBuffer;                // +0x248
+    scene::ISplitSegmentChoiceCallback* m_choiceCallback = nullptr;  // +0x23C
+    // +0x240 .. +0x24B: the three-word SCompileInfo block thisAppendBatch rebinds and hands to both callbacks by address
+    // (vertices +0x240 counted, primitives +0x244 raw and never cleared by the constructor, meshBuffer +0x248 counted).
+    scene::SCompileInfo m_compileInfo;                               // +0x240
 
-    // +0x250, +0x25C and +0x260 (evidence in the file comment).
+    // +0x250, +0x25C and +0x260. thisAppendBatch reads the mode as a BYTE at +0x260 (LDRB R3,[R12,#0x260], asm 0x5a83fc
+    // and 0x5a8858) and maxIndices as the WORD at +0x25C (`LDR R3,[LR,#0x25C]` 0x5a840c, `LDR R1,[R0,#0x25C]` 0x5a8874);
+    // the constructor clears +0x250/+0x254/+0x258 and +0x25C (`STR R6,[R4,#0x25C]`, 0x5a2e88) and does not write +0x260.
+    // (The earlier version of this header had the two swapped.)
     core::vector3d<float> segmentSize;  // +0x250, cleared by the constructor
-    bool segmentSizeMode = false;       // +0x25C, byte; non-zero selects the kd-tree clustering path
-    uint32_t maxIndices = 0;            // +0x260
+    uint32_t maxIndices = 0;            // +0x25C, cleared by the constructor
+    bool segmentSizeMode = false;       // +0x260, byte; non-zero selects the kd-tree clustering path
 };
+
+
+// 0x5a5860 / 0x5a6568 (src/batch_clustering.cpp): the two primitive clusterings thisAppendBatch picks between.
+void spatialGridClustering(std::map<unsigned int, std::vector<unsigned int>>& clusters,
+                           const std::vector<std::pair<unsigned int, core::aabbox3d<float>>,
+                                             core::SAllocator<std::pair<unsigned int, core::aabbox3d<float>>>>& boxes,
+                           const core::vector3d<float>& cellSize);
+void kdTreeClustering(std::map<unsigned int, std::vector<unsigned int>>& clusters,
+                      const std::vector<std::pair<unsigned int, core::aabbox3d<float>>,
+                                        core::SAllocator<std::pair<unsigned int, core::aabbox3d<float>>>>& boxes,
+                      unsigned int perCluster, const core::aabbox3d<float>& bounds);
+// 0x5a5bd4 (src/ok2-Clustering.cpp): k-means over the box centres with k rounded up to a power of two; the initial means come
+// from distributeMeans (0x5a33a8), which splits the box `depth` times, cycling the axis, and puts a random point into each
+// leaf box until `remaining` points have been made.
+void kMeansClustering(std::map<unsigned int, std::vector<unsigned int>>& clusters,
+                      const std::vector<std::pair<unsigned int, core::aabbox3d<float>>,
+                                        core::SAllocator<std::pair<unsigned int, core::aabbox3d<float>>>>& boxes,
+                      unsigned int clusterCount, const core::aabbox3d<float>& bounds);
+void distributeMeans(unsigned int depth, const core::aabbox3d<float>& box,
+                     std::vector<core::vector3d<float>, core::SAllocator<core::vector3d<float>>>& means, unsigned int axis,
+                     unsigned int& remaining);
 
 }  // namespace glitch::video

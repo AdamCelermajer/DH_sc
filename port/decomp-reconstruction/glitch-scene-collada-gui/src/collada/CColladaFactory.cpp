@@ -8,16 +8,28 @@
 
 #include "glitch-core-io/os/device.hpp"
 #include "glitch-scene-collada-gui/collada/CBillboardSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CCoronasSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CCameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CForceSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CGlitchNewParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CLightSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CMeshSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaMaterial.hpp"
+#include "glitch-scene-collada-gui/collada/SEffectList.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-video/vertex_attribute_map.hpp"
 #include "glitch-scene-collada-gui/collada/CModularSkinnedMesh.hpp"
+#include "glitch-scene-collada-gui/collada/CParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CSceneNode.hpp"
 #include "glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp"
 #include "glitch-scene-collada-gui/collada/CSkinnedMesh.hpp"
 #include "glitch-scene-collada-gui/collada/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/mesh_functions.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
 
@@ -45,6 +57,23 @@ CLightSceneNode* CColladaFactory::createLight(const CColladaDatabase& db, SLight
     return new CLightSceneNode(db, *light);  // operator new(0x16c)
 }
 
+namespace {
+
+// CVertexAttributeMap::CVertexAttributeMap(intrusive_ptr<CVertexStreams const> const&) (0x5a0958, not declared by the port's header): the
+// default map of the streams, or every slot unset (0xff) when there are none.
+boost::intrusive_ptr<video::CVertexAttributeMap> makeDefaultAttributeMapObject(
+    const boost::intrusive_ptr<const video::CVertexStreams>& streams) {
+    std::uint8_t data[video::CVertexAttributeMap::kMapSize];
+    if (streams) {
+        video::makeDefaultAttributeMap(streams.get(), data);
+    } else {
+        std::memset(data, 0xFF, sizeof(data));
+    }
+    return boost::intrusive_ptr<video::CVertexAttributeMap>(new video::CVertexAttributeMap(data), true);  // born with count 0
+}
+
+}  // namespace
+
 // 0x62ff04 _ZN6glitch7collada15CColladaFactory19getAdditionalEffectsERKNS0_16CColladaDatabaseEPNS0_7SEffectERNS0_11SEffectListE
 void CColladaFactory::getAdditionalEffects(const CColladaDatabase&, SEffect*, SEffectList&) {}
 
@@ -61,43 +90,118 @@ video::CMaterialRenderer* CColladaFactory::createMaterialRenderer(const CCollada
 }
 
 // 0x636c8c _ZN6glitch7collada15CColladaFactory22createMaterialRendererERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_7SEffectEPKcSA_PNS0_14CRootSceneNodeE
-// PARTIAL: with an effect, the original asks slot 0x14 (getEffectName) for the renderer's name, looks it up in the driver's renderer
-// collection (the driver's material renderer manager, driver +0xdc) and, when it is missing, builds the list of effects through
-// slot 0x10 (getAdditionalEffects) and calls the free function createMaterialRenderer, which is not reconstructed. Without an effect
-// it logs "Effect could not be loaded, using pink wireframe." and asks the manager for the pink wireframe renderer; neither the
-// manager nor the printer's formatted log is reachable from the port's driver. Null is returned.
-video::CMaterialRenderer* CColladaFactory::createMaterialRenderer(const CColladaDatabase&, video::IVideoDriver*, SEffect*, const char*,
-                                                                  const char*, CRootSceneNode*) {
-    return nullptr;
+// With an effect: the renderer's name comes from slot 0x14 (getEffectName); when the driver's renderer collection (driver +0xdc) knows
+// that name its renderer is returned, otherwise the list of effects is made (the effect, then slot 0x10 getAdditionalEffects) and the free
+// createMaterialRenderer builds the renderer. Without an effect the failure is logged and the manager's pink wireframe renderer is made.
+// The result carries one reference the caller adopts.
+video::CMaterialRenderer* CColladaFactory::createMaterialRenderer(const CColladaDatabase& db, video::IVideoDriver* driver, SEffect* effect,
+                                                                  const char* name, const char* fileName, CRootSceneNode* root) {
+    boost::intrusive_ptr<video::CMaterialRenderer> result;
+    video::CMaterialRendererManager* manager = driver->m_materialRendererManager;
+    if (effect != nullptr) {
+        const std::string rendererName = getEffectName(db, name, fileName);
+        const std::uint16_t id = manager->getId(rendererName.c_str());
+        if (id == 0xFFFF) {
+            SEffectList effects(db, effect);
+            getAdditionalEffects(db, effect, effects);
+            result = collada::createMaterialRenderer(db, driver, rendererName.c_str(), effects, root);
+        } else {
+            result = manager->getMaterialRenderer(id);
+        }
+    } else {
+        os::Printer::logf(ELL_ERROR, "Effect could not be loaded, using pink wireframe.");
+        result = manager->createPinkWireFrameMaterialRenderer("Material PinkWireFrame");
+    }
+    return result.detach();
 }
 
 // 0x6323d0 _ZN6glitch7collada15CColladaFactory14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_9SMaterialEPNS0_14CRootSceneNodeE
-// PARTIAL: with a root, the material the root already built for the record's name is returned (CRootSceneNode::hasMaterial). Otherwise the
-// renderer is created through slot 0x1c (the record's effect, file name and URL), and the material is built over it by the free function
-// createMaterial(db, driver, renderer, *record, root), which is not reconstructed. Null is returned when the root has none.
-video::CMaterial* CColladaFactory::createMaterial(const CColladaDatabase&, video::IVideoDriver*, SMaterial* material,
+// With a root, the material the root already built for the record's name is returned (CRootSceneNode::hasMaterial). Otherwise the renderer is
+// created through slot 0x1c (the record's effect, its effect name - the URL without its '#' - and file name) and, when there is one, the
+// material is built over it by the free createMaterial. The result carries one reference the caller adopts.
+video::CMaterial* CColladaFactory::createMaterial(const CColladaDatabase& db, video::IVideoDriver* driver, SMaterial* material,
                                                   CRootSceneNode* root) {
+    boost::intrusive_ptr<video::CMaterial> result;
     if (root != nullptr) {
-        boost::intrusive_ptr<video::CMaterial> existing = root->hasMaterial(material->name);
-        if (existing) {
-            return existing.detach();
+        result = root->hasMaterial(material->name);
+        if (result) {
+            return result.detach();
         }
     }
-    return nullptr;
+    boost::intrusive_ptr<video::CMaterialRenderer> renderer(
+        createMaterialRenderer(db, driver, material->effect, material->effectUrl + 1, material->fileName, root), false);
+    if (renderer) {
+        result = collada::createMaterial(db, driver, renderer, *material, root);
+    }
+    return result.detach();
 }
 
 // 0x634520 _ZN6glitch7collada15CColladaFactory29createMaterialVertexAttributeMapERKNS0_16CColladaDatabaseEPNS0_17SInstanceMaterialERKN5boost13intrusive_ptrINS0_5IMeshEEERKNS8_INS_5video9CMaterialEEEjb
-// PARTIAL: with the instance's map set and `flag` clear the existing map is returned. Otherwise the original asks the material's renderer for
-// its technique (CMaterialRenderer slot +0x5c), builds one CVertexAttributeMap per technique over the mesh buffer's streams and links the
-// instance (linkInstanceMaterial); the technique table and the vertex-attribute-map builder are not reachable from the port's video
-// classes, so null is returned.
+// The map the instance already has is returned unless `flag` asks for a new one. Otherwise the renderer of the material (and its driver's
+// family) chooses which of the instance's four binding groups applies (a driver of no known family gives null); a map is made over the
+// renderer and, when the instance has none yet, kept by the instance and linked into the database's list. For every technique the group
+// names that the renderer has, each pass gets a vertex-attribute map over the vertex streams of the mesh buffer `index`, set from the
+// binding's (slot, attribute) pairs. Afterwards every pass of every technique of the renderer that has no map yet gets one with the
+// default attribute map of the streams (one shared object).
 boost::intrusive_ptr<video::CMaterialVertexAttributeMap> CColladaFactory::createMaterialVertexAttributeMap(
-    const CColladaDatabase&, SInstanceMaterial* instance, const boost::intrusive_ptr<IMesh>&,
-    const boost::intrusive_ptr<video::CMaterial>&, unsigned int, bool flag) {
-    if (instance != nullptr && instance->vertexAttributeMap != nullptr && !flag) {
-        return boost::intrusive_ptr<video::CMaterialVertexAttributeMap>(instance->vertexAttributeMap);
+    const CColladaDatabase& db, SInstanceMaterial* instance, const boost::intrusive_ptr<IMesh>& mesh,
+    const boost::intrusive_ptr<video::CMaterial>& material, unsigned int index, bool flag) {
+    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> map(instance->vertexAttributeMap);
+    if (map && !flag) {
+        return map;
     }
-    return boost::intrusive_ptr<video::CMaterialVertexAttributeMap>();
+    boost::intrusive_ptr<video::CMaterialRenderer> renderer = material->m_renderer;
+    const std::uint32_t family = static_cast<std::uint32_t>(renderer->m_driver->getDriverType()) & 0xFFFFu;
+    const SVertexInputGroup* group = nullptr;
+    if ((family & 0x7u) != 0) {
+        group = &instance->vertexInput[1];
+    } else if ((family & 0x18u) != 0) {
+        group = &instance->vertexInput[2];
+    } else if ((family & 0x60u) != 0) {
+        group = &instance->vertexInput[0];
+    } else if ((family & 0x300u) != 0) {
+        group = &instance->vertexInput[3];
+    } else {
+        return boost::intrusive_ptr<video::CMaterialVertexAttributeMap>();
+    }
+    map = video::CMaterialVertexAttributeMap::allocate(renderer);
+    if (instance->vertexAttributeMap == nullptr) {
+        instance->vertexAttributeMap = map.get();
+        video::intrusive_ptr_add_ref(map.get());
+        linkInstanceMaterial(const_cast<SDatabaseTables&>(db.tables()), instance);
+    }
+    boost::intrusive_ptr<const video::CVertexStreams> streams;
+    {
+        const boost::intrusive_ptr<scene::CMeshBuffer> buffer = mesh->getMeshBuffer(index);
+        streams = buffer->vertexStreams;
+    }
+    for (std::int32_t t = 0; t < group->techniqueCount; ++t) {
+        const SVertexInputTechnique& technique = group->techniques[t];
+        const std::uint8_t techniqueId = renderer->getTechniqueID(technique.name);
+        if (techniqueId == 0xFF) {
+            continue;
+        }
+        for (std::int32_t b = 0; b < technique.bindingCount; ++b) {
+            boost::intrusive_ptr<video::CVertexAttributeMap> attributes(makeDefaultAttributeMapObject(streams));
+            attributes->set(streams, technique.bindings[b].count, technique.bindings[b].pairs, false);
+            map->set(techniqueId, static_cast<std::uint8_t>(b), attributes);
+        }
+    }
+    boost::intrusive_ptr<video::CVertexAttributeMap> shared;
+    for (std::uint32_t t = 0; t < renderer->m_techniqueCount; ++t) {
+        const video::STechnique& entry = renderer->m_techniques[t];
+        for (std::uint32_t pass = 0; pass < entry.passCount; ++pass) {
+            const std::ptrdiff_t slot = (entry.passes + pass) - renderer->m_passBase;
+            if (slot >= 0 && static_cast<std::size_t>(slot) < map->m_maps.size() && map->m_maps[static_cast<std::size_t>(slot)]) {
+                continue;
+            }
+            if (!shared) {
+                shared = makeDefaultAttributeMapObject(streams);
+            }
+            map->set(static_cast<std::uint8_t>(t), static_cast<std::uint8_t>(pass), shared);
+        }
+    }
+    return map;
 }
 
 // 0x62ff08 _ZN6glitch7collada15CColladaFactory21getVertexBufferConfigERKNS0_16CColladaDatabaseEPNS0_9SGeometryE
@@ -193,37 +297,209 @@ CModularSkinnedMesh* CColladaFactory::createModularSkin(const CColladaDatabase& 
 }
 
 // 0x631518 _ZN6glitch7collada15CColladaFactory13createCoronasERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_8SCoronasEPNS0_14CRootSceneNodeE
-// PARTIAL: the original is operator new(0x20c) and CCoronasSceneNode(db, driver, *coronas, root); CCoronasSceneNode is not canonical.
-CCoronasSceneNode* CColladaFactory::createCoronas(const CColladaDatabase&, video::IVideoDriver*, SCoronas*, CRootSceneNode*) {
-    return nullptr;
+// operator new(0x20c) and CCoronasSceneNode(db, driver, *coronas, root).
+CCoronasSceneNode* CColladaFactory::createCoronas(const CColladaDatabase& db, video::IVideoDriver* driver, SCoronas* coronas,
+                                                  CRootSceneNode* root) {
+    return new CCoronasSceneNode(db, driver, *coronas, root);
 }
 
 // 0x63133c _ZN6glitch7collada15CColladaFactory26createGlitchNewParticleSystemERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_12SGNPSEmitterEPNS_3res6vectorINSB_6StringEEEPNS0_14CRootSceneNodeE
-// PARTIAL: operator new(0x198), CGlitchNewParticleSystemSceneNode(driver, materials, root, ...) and the emitter set-up (slot 0xf4 and the
-// axis locks of the context); the particle system node is not canonical.
-CGlitchNewParticleSystemSceneNode* CColladaFactory::createGlitchNewParticleSystem(const CColladaDatabase&, video::IVideoDriver*,
-                                                                                  SGNPSEmitter*, res::vector<res::String>*,
-                                                                                  CRootSceneNode*) {
-    return nullptr;
+// operator new(0x198) and the node constructor. Emitter mesh type 0 sets the system up as a billboard system and orients its quads by the
+// emitter's billboard record; mesh type 1 sets it up without a billboard (the mesh comes later through setParticleMesh).
+CGlitchNewParticleSystemSceneNode* CColladaFactory::createGlitchNewParticleSystem(const CColladaDatabase& db, video::IVideoDriver* driver,
+                                                                                  SGNPSEmitter* emitter,
+                                                                                  res::vector<res::String>* materials, CRootSceneNode* root) {
+    auto* node = new CGlitchNewParticleSystemSceneNode(db, *emitter, materials, root);
+    if (emitter->meshType != 0) {
+        if (emitter->meshType == 1) {
+            node->initParticleSystem(driver, false);
+        }
+        return node;
+    }
+    node->initParticleSystem(driver, true);
+    const SGNPSBillboard* record = emitter->billboard;
+    ps::IParticleContext<ps::GNPSParticle>& context = *node->system;
+    if (record->enabled != 0) {
+        if (record->mode == 0) {
+            context.axisLocked[1] = 1;
+            context.axisLocked[0] = 0;
+            context.alignToMotion = 1;
+        } else if (record->mode == 1) {
+            context.lockAxis(1, core::vector3d<float>{record->axisB[0], record->axisB[1], record->axisB[2]});
+        } else if (record->mode == 2) {
+            if (record->lockAxis0 != 0) {
+                context.lockAxis(0, core::vector3d<float>{record->axisA[0], record->axisA[1], record->axisA[2]});
+            }
+            if (record->lockAxis1 != 0) {
+                context.lockAxis(1, core::vector3d<float>{record->axisB[0], record->axisB[1], record->axisB[2]});
+            }
+            context.transformAxes = record->transformAxes != 0 ? 1 : 0;
+        }
+    }
+    return node;
 }
+
+namespace {
+
+// The indices of the three crossed quads of the particle mesh of kind 2 (the static `indices` of 0x634c64, 0x99b808): two triangles per
+// quad, six quads of four vertices.
+const std::uint16_t kCrossIndices[36] = {0,  1,  2,  0,  2,  3,  4,  5,  6,  4,  6,  7,  8,  9,  10, 8,  10, 11,
+                                          12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23};
+
+// The 24 vertices of the three crossed quads (each quad twice, once per side): positions and normals. Vertices 0 .. 7 stand in the xy
+// plane (normals +z and -z), 8 .. 15 in the xz plane (normals +y and -y), 16 .. 23 in the yz plane (normals +x and -x).
+const float kCrossPositions[24][3] = {
+    {-0.5f, -0.5f, 0.0f}, {-0.5f, 0.5f, 0.0f}, {0.5f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f},
+    {-0.5f, -0.5f, 0.0f}, {-0.5f, 0.5f, 0.0f}, {0.5f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f},
+    {-0.5f, 0.0f, -0.5f}, {-0.5f, 0.0f, 0.5f}, {0.5f, 0.0f, 0.5f}, {0.5f, 0.0f, -0.5f},
+    {-0.5f, 0.0f, -0.5f}, {-0.5f, 0.0f, 0.5f}, {0.5f, 0.0f, 0.5f}, {0.5f, 0.0f, -0.5f},
+    {0.0f, -0.5f, -0.5f}, {0.0f, -0.5f, 0.5f}, {0.0f, 0.5f, 0.5f}, {0.0f, 0.5f, -0.5f},
+    {0.0f, -0.5f, -0.5f}, {0.0f, -0.5f, 0.5f}, {0.0f, 0.5f, 0.5f}, {0.0f, 0.5f, -0.5f},
+};
+const float kCrossNormals[6][3] = {{0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f},
+                                   {0.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}};
+
+}  // namespace
 
 // 0x634c64 _ZN6glitch7collada15CColladaFactory20createParticleSystemERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_8SEmitterEPNS_3res6vectorINSB_6StringEEEPNS0_14CRootSceneNodeE
-// PARTIAL: 2864 bytes that build CParticleSystemSceneNode from the emitter record; the node is not canonical.
-CParticleSystemSceneNode* CColladaFactory::createParticleSystem(const CColladaDatabase&, video::IVideoDriver*, SEmitter*,
-                                                                res::vector<res::String>*, CRootSceneNode*) {
-    return nullptr;
+// operator new(0x198) and the node constructor, then the particle mesh by the emitter's mesh type:
+//   type 2: the first mesh buffer of the mesh of the file the emitter's URL names (no billboard);
+//   type 0, kind 1: a unit cube; kind 7: a unit sphere (15 x 15); kind 2: three crossed quads built here (24 vertices); kinds 3 and 4:
+//   billboards, oriented by the record (its mode 2 locks axis 1 to the second vector, mode 3 aligns to the motion, mode 1 locks the axes
+//   the flags bits 2 and 4 name). Other kinds: no mesh.
+// Deviation: the generators of the cube and the sphere (mesh_creators.cpp) hand back no mesh in this port; the original dereferences the
+// result, the port sets the system up without a mesh buffer then.
+CParticleSystemSceneNode* CColladaFactory::createParticleSystem(const CColladaDatabase& db, video::IVideoDriver* driver, SEmitter* emitter,
+                                                                res::vector<res::String>* materials, CRootSceneNode* root) {
+    auto* node = new CParticleSystemSceneNode(db, *emitter, materials, root);
+    if (emitter->meshType != 0) {
+        if (emitter->meshType == 2) {
+            boost::intrusive_ptr<IMesh> geometry(db.constructGeometry(driver, emitter->mesh->geometryUrl + 1), false);
+            boost::intrusive_ptr<scene::CMeshBuffer> buffer = geometry->getMeshBuffer(0);
+            node->initParticleSystem(driver, false);
+            node->setParticleMesh(buffer);
+        }
+        return node;
+    }
+    const SEmitterMesh& mesh = *emitter->mesh;
+    switch (mesh.kind) {
+        case 1: {
+            boost::intrusive_ptr<scene::IMesh> cube = scene::createCubeMesh(0x60003u, driver, 1.0f);
+            boost::intrusive_ptr<scene::CMeshBuffer> buffer;
+            if (cube) {
+                buffer = cube->getMeshBuffer(0);
+            }
+            node->initParticleSystem(driver, false);
+            if (buffer) {
+                node->setParticleMesh(buffer);
+            }
+            break;
+        }
+        case 2: {
+            boost::intrusive_ptr<video::IBuffer> indices =
+                driver->createBuffer(1, 4, sizeof(kCrossIndices), const_cast<std::uint16_t*>(kCrossIndices), false);
+            video::CPrimitiveStream stream;
+            stream.m_indexBuffer = indices;
+            stream.m_offset = 0;
+            stream.m_count = 36;
+            stream.m_vertexStart = 0;
+            stream.m_vertexEnd = 24;
+            stream.m_indexType = 1;
+            stream.m_primitiveType = 6;
+            boost::intrusive_ptr<scene::CMeshBuffer> buffer(new scene::CMeshBuffer(0x60003u, stream, false));
+            video::CVertexStreams* streams = buffer->vertexStreams.get();
+            boost::intrusive_ptr<video::IBuffer> vertices = driver->createBuffer(0, 4, 0, nullptr, true);
+            const std::uint32_t bytes = 24u * streams->setupStreams(vertices, 0xFFFFFFFFu);
+            vertices->reset(bytes, new std::uint8_t[bytes], true);
+            // Entry 0 holds the positions, entry 1 the texture coordinates (mapped, never written here) and entry 2 the normals.
+            video::SVertexStream& positionStream = streams->m_streams[0];
+            video::SVertexStream& textureStream = streams->m_streams[1];
+            video::SVertexStream& normalStream = streams->m_streams[2];
+            std::uint8_t* textureBase = textureStream.buffer->map(4) + textureStream.offset;
+            std::uint8_t* positions = positionStream.buffer->map(4) + positionStream.offset;
+            for (int vertex = 0; vertex < 24; ++vertex) {
+                float* p = reinterpret_cast<float*>(positions + vertex * positionStream.field0e);
+                p[0] = kCrossPositions[vertex][0];
+                p[1] = kCrossPositions[vertex][1];
+                p[2] = kCrossPositions[vertex][2];
+            }
+            std::uint8_t* normals = normalStream.buffer->map(4) + normalStream.offset;
+            for (int vertex = 0; vertex < 24; ++vertex) {
+                float* n = reinterpret_cast<float*>(normals + vertex * normalStream.field0e);
+                n[0] = kCrossNormals[vertex / 4][0];
+                n[1] = kCrossNormals[vertex / 4][1];
+                n[2] = kCrossNormals[vertex / 4][2];
+            }
+            streams->m_field08 = 24;
+            node->initParticleSystem(driver, false);
+            node->setParticleMesh(buffer);
+            normalStream.unmapBuffer();
+            positionStream.unmapBuffer();
+            if (textureBase != nullptr) {
+                textureStream.unmapBuffer();
+            }
+            break;
+        }
+        case 3:
+        case 4: {
+            node->initParticleSystem(driver, true);
+            const std::uint32_t flags = mesh.billboardFlags;
+            if (flags != 0) {
+                ps::IParticleContext<ps::SParticle>& context = *node->system;
+                switch (mesh.axisMode) {
+                    case 2:
+                        context.lockAxis(1, core::vector3d<float>{mesh.axisB[0], mesh.axisB[1], mesh.axisB[2]});
+                        break;
+                    case 3:
+                        context.axisLocked[1] = 1;
+                        context.axisLocked[0] = 0;
+                        context.alignToMotion = 1;
+                        break;
+                    case 1:
+                        if ((flags & 2u) != 0) {
+                            context.lockAxis(0, core::vector3d<float>{mesh.axisA[0], mesh.axisA[1], mesh.axisA[2]});
+                        }
+                        if ((flags & 4u) != 0) {
+                            context.lockAxis(1, core::vector3d<float>{mesh.axisB[0], mesh.axisB[1], mesh.axisB[2]});
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+        }
+        case 7: {
+            boost::intrusive_ptr<scene::IMesh> sphere = scene::createSphereMesh(0x60003u, driver, 1.0f, 15u, 15u);
+            boost::intrusive_ptr<scene::CMeshBuffer> buffer;
+            if (sphere) {
+                buffer = sphere->getMeshBuffer(0);
+            }
+            node->initParticleSystem(driver, false);
+            if (buffer) {
+                node->setParticleMesh(buffer);
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    return node;
 }
 
-// 0x631274, 0x631244, 0x631138. PARTIAL: operator new(0x158 / 0x164 / 0x168) and the force node constructors; the force nodes are not
-// canonical.
-void* CColladaFactory::createParticleSystemGravityForce(const CColladaDatabase&, SForce*) {
-    return nullptr;
+// 0x631274 _ZN6glitch7collada15CColladaFactory32createParticleSystemGravityForceERKNS0_16CColladaDatabaseEPNS0_6SForceE (operator new(0x158))
+void* CColladaFactory::createParticleSystemGravityForce(const CColladaDatabase& db, SForce* force) {
+    return new particle_system::CGravityForceSceneNode(db, *force);
 }
-void* CColladaFactory::createParticleSystemWindForce(const CColladaDatabase&, SForce*) {
-    return nullptr;
+
+// 0x631244 _ZN6glitch7collada15CColladaFactory29createParticleSystemWindForceERKNS0_16CColladaDatabaseEPNS0_6SForceE (operator new(0x164))
+void* CColladaFactory::createParticleSystemWindForce(const CColladaDatabase& db, SForce* force) {
+    return new particle_system::CWindForceSceneNode(db, *force);
 }
-void* CColladaFactory::createParticleSystemDeflectorForce(const CColladaDatabase&, SForce*) {
-    return nullptr;
+
+// 0x631138 _ZN6glitch7collada15CColladaFactory34createParticleSystemDeflectorForceERKNS0_16CColladaDatabaseEPNS0_6SForceE (operator new(0x168))
+void* CColladaFactory::createParticleSystemDeflectorForce(const CColladaDatabase& db, SForce* force) {
+    return new particle_system::CDeflectorForceSceneNode(db, *force);
 }
 
 // 0x62ff80 _ZN6glitch7collada12_GLOBAL__N_132getExternalLightSceneNodeDefaultEPKc. This is the shared body of BOTH

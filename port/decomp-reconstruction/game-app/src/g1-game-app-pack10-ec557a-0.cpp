@@ -70,7 +70,7 @@ void ReadTracingScriptCmdSwitch() {
 // exist.
 bool Script_SetCameraTarget::IsBlocking() const {
     const auto* args = static_cast<const Structs::SetCameraTarget*>(m_args);
-    if (!args->m_w5) {
+    if (!args->Wait) {
         return false;
     }
     Level* level = ApplicationGetInstance().GetCurrentLevel();
@@ -92,8 +92,8 @@ void Script_SetCameraTarget::Execute(bool skipping, int module) {
         return;
     }
     CameraTarget* camera = level->m_camera;
-    const char* name = args->m_w4;
-    const int transitionMs = skipping ? 0 : args->m_w2;
+    const char* name = args->Target;
+    const int transitionMs = skipping ? 0 : args->Delay;
     if (*name != '\0') {
         camera->SetTarget(name, transitionMs);
     } else {
@@ -116,7 +116,7 @@ void Script_SetFaeryState::Execute(bool skipping, int module) {
     ReadTracingScriptCmdSwitch();
     Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
     if (character != nullptr) {
-        character->SetFaeryState(static_cast<unsigned int>(args->m_w2), args->m_w3);
+        character->SetFaeryState(static_cast<unsigned int>(args->Faery), args->State);
     }
 }
 
@@ -135,7 +135,7 @@ void Script_SetLevelState::Execute(bool skipping, int module) {
     ReadTracingScriptCmdSwitch();
     Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
     if (character != nullptr) {
-        character->SG_SetLevelState(args->m_w2, args->m_w3, -1);
+        character->SG_SetLevelState(args->Level, args->State, -1);
     }
 }
 
@@ -153,12 +153,12 @@ void Script_SetStatic::Execute(bool skipping, int module) {
     (void)skipping;
     const auto* args = static_cast<const Structs::SetStatic*>(m_args);
     ReadTracingScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(args->m_w4, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(args->Target, module, false, nullptr);
     Character* character = nullptr;
     if (handle.GetObject(false) != nullptr) {
         character = handle;  // ObjectHandle::operator Character*()
     }
-    if (args->m_w2 && character != nullptr) {
+    if (args->Static && character != nullptr) {
         character->m_static = 1;
     }
 }
@@ -178,7 +178,7 @@ void Script_SetWorldMapLocationState::Execute(bool skipping, int module) {
     ReadTracingScriptCmdSwitch();
     Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
     if (character != nullptr) {
-        character->SG_SetMapLocState(args->m_w2, args->m_w3, -1);
+        character->SG_SetMapLocState(args->MapLoc, args->State, -1);
     }
 }
 
@@ -196,7 +196,7 @@ void Script_ShowActor::Execute(bool skipping, int module) {
     ReadTracingScriptCmdSwitch();
     const auto* args = static_cast<const Structs::ShowActor*>(m_args);
     ReadTracingScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(args->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(args->Target, module, false, nullptr);
     if (handle.GetObject(false) != nullptr) {
         GameObject* object = handle;  // ObjectHandle::operator GameObject*()
         if (object != nullptr) {
@@ -211,13 +211,13 @@ void Script_ShowActor::Execute(bool skipping, int module) {
 // above the menu's finished-animation count (MenuBase +0x78, m_animOverCount).
 bool Script_ShowFlash::IsBlocking() const {
     const auto* args = static_cast<const Structs::ShowFlash*>(m_args);
-    if (m_menu == nullptr || !args->m_w5) {
+    if (m_menu == nullptr || !args->Wait) {
         return false;
     }
-    if (args->m_w2 <= 0) {
+    if (args->Loop <= 0) {
         return false;
     }
-    return static_cast<std::uint32_t>(args->m_w2) > m_menu->m_animOverCount;
+    return static_cast<std::uint32_t>(args->Loop) > m_menu->m_animOverCount;
 }
 
 // 0x45983c Script_ShowFlash::Init()
@@ -226,10 +226,10 @@ bool Script_ShowFlash::IsBlocking() const {
 void Script_ShowFlash::Init() {
     MenuManager* menus = MenuManager::GetInstance();
     const auto* args = static_cast<const Structs::ShowFlash*>(m_args);
-    if (LC_API_STRSTR(args->m_w4, "HUD") != nullptr) {
+    if (LC_API_STRSTR(args->Name, "HUD") != nullptr) {
         m_menu = nullptr;
     } else {
-        m_menu = menus->GetMenuByName(args->m_w4);
+        m_menu = menus->GetMenuByName(args->Name);
     }
 }
 
@@ -247,7 +247,7 @@ void Script_ShowFlash::Execute(bool skipping, int module) {
         return;
     }
     MenuManager::GetInstance();
-    if (LC_API_STRSTR(args->m_w4, "HUD") != nullptr) {
+    if (LC_API_STRSTR(args->Name, "HUD") != nullptr) {
         MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
         hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "DisplayRightHud", nullptr, 0);
         gameswf::as_value icon;

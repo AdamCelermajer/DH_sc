@@ -100,7 +100,7 @@ void as_boolean_valueof(const fn_call& fn)
 //   - the backward scan from the '<' of "</" compares the pointer to the string start at each step, but
 //     both pointers move together, so the bound never ends the loop. The binary reads below the string
 //     when no '>' precedes "</". That is undefined; this body stops at the start of the string and leaves
-//     the string unchanged. Partial for that case only.
+//     the string unchanged. Partial for that case only (undefined in the binary).
 //   - the first test of the byte at the '<' against '>' is dead (it is '<'), and is not written.
 //   - text length zero: the string becomes "".
 // The binary's tu_string layout (+0 length-or-0xFF, +1 inline text, +0x0c heap text) is handled by

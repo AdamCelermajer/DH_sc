@@ -284,6 +284,9 @@ public:
     // difference of the table vector's begin and end pointers (its +0x64 and +0x68 members), and
     // VoxSoundManager::sound_count_ (+0x1C) is what it stores there.
     int GetSoundCount() const;
+    // The number of bank records (the banks vector at +0x18, 40 bytes each): VoxSoundManager::Initialize counts them from the raw
+    // vector words.
+    int GetBankCount() const;
 
     // Event selection and reset. The used list (+0x08) keeps the sounds taken out of the pool.
     int GetEventSoundUid(int index, int& sound_uid);                            // 0x88bb6c

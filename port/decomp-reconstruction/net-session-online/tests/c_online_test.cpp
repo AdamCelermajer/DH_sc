@@ -20,6 +20,8 @@ public:
     std::uint32_t MemberBit(int) const override { return 0; }
     int LocalMemberId() const override { return localId; }
     int ServerMemberId() const override { return 0; }
+    bool IsInRoom() override { return false; }  // vtable +0x64
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     bool IsServer() const override { return server; }
     std::uint32_t GetRoomMask() const override { return 0; }
     int localId = 6;

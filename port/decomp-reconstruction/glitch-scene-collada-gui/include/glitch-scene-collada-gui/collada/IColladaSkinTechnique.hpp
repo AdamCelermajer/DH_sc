@@ -50,7 +50,7 @@ public:
     virtual int onPrepareBufferForRendering(E_PREPARE_BUFFER_STEP step, video::IVideoDriver* driver, SSkinBuffer& buffer,
                                             scene::CMeshBuffer* meshBuffer) = 0;
 
-    // 0x670ec8 (1368 bytes): makes the proxy buffer of the mesh buffer for the skin. PARTIAL: the vertex stream records are not mapped.
+    // 0x670ec8 (1368 bytes): makes the proxy buffer of the mesh buffer for the skin (reconstructed, owner B2).
     boost::intrusive_ptr<glitch::IReferenceCounted> initProxyBuffer(scene::CMeshBuffer* meshBuffer, SSkinBuffer& buffer, SSkin& skin,
                                                                     video::IVideoDriver* driver);
 
@@ -69,6 +69,13 @@ struct SQuatHardwareData {
     std::uint16_t realParameterId = 0xffff;     // +0x00 the rotation part of the dual quaternions
     std::uint16_t dualParameterId = 0xffff;     // +0x02 the translation part
     std::uint16_t unitParameterId = 0xffff;     // +0x04 the weight-count selector (shader parameter type 15)
+};
+
+// The ids the texture technique writes for one material (map value of CColladaHardwareTextureSkinTechnique; from 0x66ec14).
+struct STextureHardwareData {
+    std::uint16_t textureParameterId = 0xffff;  // +0x00 the joint matrix texture (shader parameter type 12)
+    std::uint16_t scaleParameterId = 0xffff;    // +0x02 the texel size (type 13)
+    std::uint16_t unitParameterId = 0xffff;     // +0x04 the weight-count selector (type 15)
 };
 
 class CColladaHardwareTextureSkinTechnique : public IColladaSkinTechnique {
@@ -95,7 +102,7 @@ public:
     scene::ISceneNode* attachedNode = nullptr;  // +0x14
     video::IVideoDriver* driver = nullptr;      // +0x18 stored by init; prepareCache reads the driver's capabilities
     float invTextureSize = 0.0f;                // +0x1c written by prepareCache, read by skin
-    std::map<std::uint32_t, std::uint32_t> hardwareData;  // +0x20 (count +0x30); the value record is not mapped
+    std::map<std::uint32_t, STextureHardwareData> hardwareData;  // +0x20 (count +0x30), keyed by the material's hash code
 };
 
 class CColladaHardwareMatrixSkinTechnique : public IColladaSkinTechnique {

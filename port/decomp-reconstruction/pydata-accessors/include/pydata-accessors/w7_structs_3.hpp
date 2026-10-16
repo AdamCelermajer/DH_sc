@@ -29,10 +29,10 @@ public:
     virtual ~ItemAudioVisual();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc (string length)
-    void* m_w4 = nullptr;  // +0x10 (string buffer, freed)
+    std::int32_t AudioDrop = 0;  // +0x4
+    std::int32_t AudioPickup = 0;  // +0x8
+    std::uint32_t VisualSize = 0;  // +0xc (string length)
+    void* Visual = nullptr;  // +0x10 (string buffer, freed)
 };
 
 class ItemBonusAttrList {
@@ -42,8 +42,8 @@ public:
     virtual ~ItemBonusAttrList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4 (count)
-    void* m_w2 = nullptr;  // +0x8 (int32 array of count elements, freed)
+    std::uint32_t list_entriesSize = 0;  // +0x4 (count)
+    void* list_entries = nullptr;  // +0x8 (int32 array of count elements, freed)
 };
 
 // Element table at m_w4: header words at m_w4-8 (stride) and m_w4-4 (count), elements from m_w4.
@@ -54,15 +54,15 @@ public:
     virtual ~ItemPowerRef();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::int8_t m_w1 = 0;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc (element count)
-    void* m_w4 = nullptr;  // +0x10 (element table)
-    std::int32_t m_w5 = 0;  // +0x14
-    std::int32_t m_w6 = 0;  // +0x18
-    std::int32_t m_w7 = 0;  // +0x1c
-    std::int32_t m_w8 = 0;  // +0x20
-    std::int32_t m_w9 = 0;  // +0x24
+    std::int8_t Palette = 0;  // +0x4
+    std::int32_t SpecialEffect = 0;  // +0x8
+    std::uint32_t AttrBonusListSize = 0;  // +0xc (element count)
+    void* AttrBonusList = nullptr;  // +0x10 (element table)
+    std::int32_t Description = 0;  // +0x14
+    std::int32_t GoldBonusMultiplier = 0;  // +0x18
+    std::int32_t SortingOrder = 0;  // +0x1c
+    std::int32_t GoldBonus = 0;  // +0x20
+    std::int32_t AttrMonopoly = 0;  // +0x24
 };
 
 // The 42 ItemPowerRef derived classes: read is a thunk to ItemPowerRef::read; finalize releases the element

@@ -4,6 +4,9 @@
 #include "glitch-scene-collada-gui/recon/slice_00.hpp"
 
 #include "glitch-core-io/io/attributes.hpp"  // glitch::io::CAttributes (setValue, loadGroup)
+#include "glitch-core-io/io/read_file.hpp"
+#include "glitch-core-io/io/xml_attributes.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "glitch-scene-collada-gui/debugger/CTweakable.hpp"
 
 #include <cstring>
@@ -204,6 +207,33 @@ int CTweakable::loadGroup(glitch::io::CAttributes& attributes, bool flag) {
         ++i;
     } while (i != count);
     return 0;
+}
+
+// 0x32b6b8 _ZN6glitch8debugger10CTweakable7loadXMLEPKcb
+// The flag is unused. Host guard: a file system that gives no reader ends the load.
+void CTweakable::loadXML(const char* file, bool) {
+    glitch::io::CReadFile readFile(file, false);
+    if (!readFile.isOpen()) {
+        return;
+    }
+    glitch::io::IXMLReader* xml = device->fileSystem->createXMLReader(&readFile);
+    if (xml == nullptr) {
+        return;
+    }
+    {
+        glitch::io::CXMLAttributesReader reader(static_cast<glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>*>(xml), false, nullptr);
+        glitch::io::CAttributes attributes(device->videoDriver);
+        reader.read(&attributes);
+        while (!attributes.getGroupName().empty()) {
+            attributes.pop();
+        }
+        const std::string root = attributes.getString("Tweakable");
+        if (!root.empty()) {
+            rootGroup = root;
+        }
+        loadGroup(attributes, false);
+    }
+    xml->drop();
 }
 
 }  // namespace glitch::debugger

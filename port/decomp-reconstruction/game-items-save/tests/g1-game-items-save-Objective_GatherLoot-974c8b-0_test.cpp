@@ -86,9 +86,9 @@ void ResetCounters() {
 
 // The row fields the objective reads: +0x20 level list index, +0x24 loot id, +0x28 required quantity.
 void Configure(Objective_GatherLoot& g, Structs::v2QuestObjectiveStub& row, int levelId, int lootId, int qty) {
-    row.m_w8 = levelId;
-    row.m_w9 = lootId;
-    row.m_w10 = qty;
+    row.OID1 = levelId;
+    row.OID2 = lootId;
+    row.Value = qty;
     g.m_type = 0;
     g.m_valid = false;
     g.m_pyData = &row;

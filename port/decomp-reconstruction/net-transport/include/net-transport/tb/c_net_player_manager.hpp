@@ -131,6 +131,8 @@ public:
 
     // Packet reads. AddPlayer(NetBitStream&, ...) is the server-side join request read by ReadPacketData.
     void AddPlayer(NetBitStream& stream, int a2, int a3);               // 0x811be8
+    int AddPlayer(int member_id, int gamepad_id);                       // 0x8118d8, src/od2-CNetPlayerManager-AddPlayer.cpp
+    std::string GetPlayerName(int member_id);                           // 0x81181c
     NetBitStream* ReadPacketData(int a2, int a3, NetBitStream& stream); // 0x811d74
     static NetBitStream* sReadPacketData(int a2, int a3, NetBitStream& stream);  // 0x811e94
 

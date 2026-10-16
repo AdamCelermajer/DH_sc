@@ -11,9 +11,9 @@
 // +0x3b0, +0x3d8, +0x400, +0x428, +0x450, +0x478, +0x4a0, +0x4c8, +0x4e8, +0x508, +0x528, then +0x548..+0x638), then calls
 // Reset(). It is partial there (the stale-value SetChanged in the member constructors is not reproduced).
 
-// 0x3777d0 PlayerInfo::PlayerInfo(PlayerInfo const&) and 0x378808 PlayerInfo::operator=(PlayerInfo const&): not written.
-// Both begin by calling the CNetPlayerInfo copy constructor (0x377448) or operator= (0x378708). The port deletes those
-// (cnet_player_info.hpp), so the PlayerInfo copy and assignment are deleted too (dh2/PlayerInfo.hpp). Ledger: skipped.
+// 0x3777d0 PlayerInfo::PlayerInfo(PlayerInfo const&) and 0x378808 PlayerInfo::operator=(PlayerInfo const&): written in
+// game-character/src/ok3-PlayerInfo.cpp, on top of the CNetPlayerInfo copy constructor (0x377448) and operator= (0x378708)
+// that net-transport now has.
 
 // 0x459900 PlayerInfo::SetInCutscene(bool)
 // PARTIAL. Not reproduced: the stale-temporary SetChanged (NetStructBool temporary; counter advance).

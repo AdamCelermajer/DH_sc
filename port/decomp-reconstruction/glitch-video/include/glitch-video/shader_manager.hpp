@@ -51,6 +51,10 @@
 #include <vector>
 
 #include "glitch-core-io/core/sided_collection.hpp"
+#include "glitch-shared/shared_string.hpp"
+#include "glitch-video/batch_baker.hpp"
+#include "glitch-video/shader_parameter_def.hpp"
+#include "glitch-video/video_types.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
 
 namespace glitch {
@@ -66,8 +70,22 @@ class CGenericBaker;
 // Record handed out by SIDedCollection::getProperties for a shader entry (SIdValue+0x00).
 // Only the first word is recovered: the cached batch baker.
 struct SShaderProperties {
-    glitch::IReferenceCounted* batchBaker = nullptr;  // SIdValue+0x00 (0x5e4798, 0x5e4878)
+    boost::intrusive_ptr<IBatchBaker> batchBaker;  // SIdValue+0x00 (0x5e4798, 0x5e4878)
 };
+
+// 0x5e2284 glitch::video::guessShaderParameterType(char const*): the parameter type a shader parameter name implies (255 when none).
+E_SHADER_PARAMETER_TYPE guessShaderParameterType(const char* name);
+// 0x6dbb50 glitch::video::guessShaderVertexAttribute(char const*): the E_VERTEX_ATTRIBUTE a vertex attribute name implies (255 when none).
+int32_t guessShaderVertexAttribute(const char* name);
+// 0x5e7e00 (defined with CTextureManager): the number after `key` in the name.
+int32_t guessSubIdFromName(const char* name, const char* key);
+// 0x5e7f80: the sub id of a parameter of that type, from its name (255: none).
+int32_t guessSubIdFromName(const char* name, E_SHADER_PARAMETER_TYPE type);
+// 0x5e7b50: moves the automatic parameters (types 34..62) behind the others; returns the number that are not.
+uint16_t sortParameters(SShaderParameterDef* parameters, uint16_t count);
+// 0x5e7974 glitch::video::getLightParameterName(char const*): the interned name "light<digits>" of a light parameter name (the first
+// run of digits after "light", compared in lower case), "light" without digits; null with no "light". The result holds a use.
+glitch::core::SSharedString getLightParameterName(const char* name);
 
 class IShaderManager {
 public:
@@ -100,7 +118,7 @@ public:
 
     // 0x5e4798 (const): returns the cached baker of entry id, or creates one through vtable +0x18
     // and caches it. Null for an out-of-range id or an unset entry.
-    boost::intrusive_ptr<glitch::IReferenceCounted> getBatchBaker(uint16_t id) const;
+    boost::intrusive_ptr<IBatchBaker> getBatchBaker(uint16_t id) const;
 
     // 0x5e4878: clears the cached baker of entry id. Returns 1 when the entry is set, else 0.
     int removeBatchBaker(uint16_t id);
@@ -118,12 +136,11 @@ public:
 
     // 0x5e72bc: searches the search paths for the file, reads it through the file system
     // (vtable +0x44 and +0x50) and builds the object from it. Pseudocode return type kept.
-    glitch::IReferenceCounted* loadShader(const char* name);
+    bool loadShader(const char* name);  // 1 once the shader is loaded and added, else 0 (the pseudocode returns the reference result as a word)
 
     // 0x5e59ac: writes the shader's attributes (IShader vtable +0x0c) into a .shd XML file named
     // after name and the base path. Pseudocode return type kept (a reference-counted writer result).
-    glitch::IReferenceCounted* serializeShader(const boost::intrusive_ptr<IShader>& shader,
-                                               const char* name);
+    bool serializeShader(boost::intrusive_ptr<IShader> shader, const char* name);  // 1 when written, else 0
 
     // Layout (see the header comment for the offsets). The C++ members are the stand-ins.
     // m_shaders is +0x04..+0x2c in the original; m_driver is +0x2c; m_searchPaths is +0x30..+0x38;

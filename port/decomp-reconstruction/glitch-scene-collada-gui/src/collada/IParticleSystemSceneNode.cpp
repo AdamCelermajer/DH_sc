@@ -5,6 +5,7 @@
 #include "glitch-scene-collada-gui/collada/IParticleSystemSceneNode.hpp"
 
 #include "core-platform/memory.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 #include "glitch-video/material.hpp"
 
@@ -17,7 +18,7 @@ IParticleSystemSceneNode::IParticleSystemSceneNode(const CColladaDatabase& sourc
     : ISceneNode(-1, core::vector3d<float>{0.0f, 0.0f, 0.0f}, core::quaternion{0.0f, 0.0f, 0.0f, 1.0f},
                  core::vector3d<float>{1.0f, 1.0f, 1.0f}) {
     copyDatabase(database, source);
-    unk_170 = 0;
+    hasTextureTransform = false;
     uid = "";
     materialNames = names;
     root = rootNode;
@@ -29,12 +30,10 @@ IParticleSystemSceneNode::IParticleSystemSceneNode(const CColladaDatabase& sourc
 // Frees the block at +0x164, destroys the material vector, drops the reference at +0x140 and the database handle; ISceneNode's
 // destructor follows.
 IParticleSystemSceneNode::~IParticleSystemSceneNode() {
-    if (unk_164 != nullptr) {
-        GlitchFree(unk_164);
-        unk_164 = nullptr;
-    }
+    forces.clear();
+    forces.shrink_to_fit();  // GlitchFree of the storage at +0x164
     materials.clear();
-    unk_140.reset();
+    meshBuffer.reset();
     dropDatabase(database);
 }
 

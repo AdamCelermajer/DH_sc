@@ -46,31 +46,31 @@ void CCommonGLDriver::applyRenderStateBlend(const detail::renderpass::SRenderSta
     const uint32_t word0 = state.m_word00;
 
     // +0x1c4 (452): blend enable cache. Enable GL_BLEND once.
-    if (!m_blendEnable) {
+    if (!m_shadow.m_blendEnable) {
         glEnableCap(kGLBlend);
-        m_blendEnable = true;
+        m_shadow.m_blendEnable = true;
     }
 
     // Blend equation: bits 24..26 of word0.
     const uint32_t equation = (word0 >> 24) & 0x7u;
-    if (static_cast<int32_t>(equation) != m_blendEquation) {
+    if (static_cast<int32_t>(equation) != m_shadow.m_blendEquation) {
         auto& t = deps::activeGLFunctionTable();
         if (equation < 5u && t.blendEquation) t.blendEquation(kBlendEquationMap[equation]);
-        m_blendEquation = static_cast<E_BLEND_EQUATION>(equation);  // +0x1fc
+        m_shadow.m_blendEquation = static_cast<E_BLEND_EQUATION>(equation);  // +0x1fc
     }
 
     // Blend factors: src = bits 0..3, dst = bits 4..7 of word0. The cache holds src at
     // +0x200 and dst at +0x201, which is the same as the original's 16-bit src | dst << 8.
     const uint32_t src = word0 & 0xFu;
     const uint32_t dst = (word0 >> 4) & 0xFu;
-    const uint32_t cachedFactors = static_cast<uint32_t>(m_blendSrc) | (static_cast<uint32_t>(m_blendDst) << 8);
+    const uint32_t cachedFactors = static_cast<uint32_t>(m_shadow.m_blendSrc) | (static_cast<uint32_t>(m_shadow.m_blendDst) << 8);
     if ((src | (dst << 8)) != cachedFactors) {
         auto& t = deps::activeGLFunctionTable();
         if (src < 15u && dst < 15u && t.blendFunc) {
             t.blendFunc(kBlendFactorMap[src], kBlendFactorMap[dst]);
         }
-        m_blendSrc = static_cast<uint8_t>(src);
-        m_blendDst = static_cast<uint8_t>(dst);
+        m_shadow.m_blendSrc = static_cast<uint8_t>(src);
+        m_shadow.m_blendDst = static_cast<uint8_t>(dst);
     }
 
     // Blend colour: four bytes of the render state (r, g, b, a at +0x08..+0x0b). The cache at
@@ -80,13 +80,13 @@ void CCommonGLDriver::applyRenderStateBlend(const detail::renderpass::SRenderSta
     const uint32_t b = state.m_byte0a;
     const uint32_t a = state.m_byte0b;
     const uint32_t packed = r | (g << 8) | (b << 16) | (a << 24);
-    if (packed != m_blendColor) {
+    if (packed != m_shadow.m_blendColor) {
         auto& t = deps::activeGLFunctionTable();
         if (t.blendColor) {
             t.blendColor(static_cast<float>(r) * kInv255, static_cast<float>(g) * kInv255,
                          static_cast<float>(b) * kInv255, static_cast<float>(a) * kInv255);
         }
-        m_blendColor = packed;
+        m_shadow.m_blendColor = packed;
     }
 }
 
@@ -94,15 +94,15 @@ void CCommonGLDriver::applyRenderStateBlend(const detail::renderpass::SRenderSta
 // Complete: the 3-bit depth function index is 0..7 and CompareFuncMap has 8 entries.
 void CCommonGLDriver::applyRenderStateDepthTest(const detail::renderpass::SRenderState& state) {
     // +0x1c6 (454): depth test enable cache. Enable GL_DEPTH_TEST once.
-    if (!m_depthTestEnable) {
+    if (!m_shadow.m_depthTestEnable) {
         glEnableCap(kGLDepthTest);
-        m_depthTestEnable = true;
+        m_shadow.m_depthTestEnable = true;
     }
 
     // Depth function: bits 27..29 of word0.
     const uint32_t func = (state.m_word00 >> 27) & 0x7u;
-    if (static_cast<int32_t>(func) != m_depthFunc) {
-        m_depthFunc = static_cast<E_COMPARE_FUNC>(func);  // +0x1e0, stored before the GL call
+    if (static_cast<int32_t>(func) != m_shadow.m_depthFunc) {
+        m_shadow.m_depthFunc = static_cast<E_COMPARE_FUNC>(func);  // +0x1e0, stored before the GL call
         auto& t = deps::activeGLFunctionTable();
         if (t.depthFunc) t.depthFunc(kCompareFuncMap[func]);
     }

@@ -21,6 +21,10 @@
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/material_parameters_typed.hpp"
 
+namespace glitch::io {
+class IAttributes;
+}  // namespace glitch::io
+
 namespace glitch::video {
 
 class CGlobalMaterialParameterManager;
@@ -112,6 +116,31 @@ public:
     bool getParameterCvt(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
     bool getParameterCvt(uint16_t id, core::CMatrix4<float>& out) const;
 
+    // 0x5cdb3c / 0x5d6a60 and 0x5cd3ec / 0x5d6080: every parameter of the table as a group of attributes (definition and elements) and back.
+    // Defined in src/ok1-MaterialSerialize.cpp for CMaterial and CMaterialRenderer.
+    void serializeAttributes(io::IAttributes* attributes) const;
+    void deserializeAttributes(io::IAttributes* attributes);
+
+    // getThis (empty in the original, G 0x5ba0b8 / M 0x5c6094 / R 0x5cef60; const G 0x5ba0bc / M 0x5c6098 / R 0x5cef64): the CRTP
+    // downcast, which leaves r0 (this) as it is. getParameterBlock (M 0x5c609c: the object + 0x20; R 0x5cef68: the buffer pointer at
+    // +0x24; const forms 0x5c60a4 / 0x5cef70): the value area.
+    IMaterialParameters* getThis() { return this; }
+    const IMaterialParameters* getThis() const { return this; }
+    uint8_t* getParameterBlock() { return m_values; }
+    const uint8_t* getParameterBlock() const { return m_values; }
+
+    // M 0x5cb8dc / R 0x5d47b4 grabParameters: after the value bytes were copied from another owner, the matrix slots are made private
+    // copies (the pool matrix of each non-null slot) and the texture and light slots take a use (the port's slot maps hold counted
+    // pointers, so those are already counted). R 0x5d48f8 / 0x5d4a68 dropParameter / dropParameters: every matrix of the entry goes to
+    // the pool, every texture and light reference is dropped. M 0x5cca58 / R 0x5d5b88 initParametersToIdentity: the first element of
+    // every parameter takes its identity value (0 for numbers, 1 for the float4 / colorf types, 0xff bytes for a colour), and the
+    // matrix, texture and light slots are released. M's dropParameter(s) are CMaterial's (material.cpp).
+    // Defined in src/ok1b-MaterialParameters.cpp for CMaterial and CMaterialRenderer.
+    void grabParameters();
+    void dropParameter(uint16_t id);
+    void dropParameters();
+    void initParametersToIdentity();
+
     // Test helpers, not in the original.
     uint32_t dirtyWord0() const { return m_dirty0; }
     uint32_t dirtyWord1() const { return m_dirty1; }
@@ -165,6 +194,13 @@ template <>
 part1c::SParameterTable IMaterialParameters<CMaterial, true>::table() const;
 template <>
 void IMaterialParameters<CMaterial, true>::setParameterAt(SColorf* dst, const SColor& src);
+
+// CMaterialRenderer typed view with pointer slots (defined in src/ok1b-MaterialParameters.cpp): the inline header, the value buffer and
+// the pointer slot maps; the renderer has no dirty words.
+template <>
+part1c::SParameterTable IMaterialParameters<CMaterialRenderer, false>::table();
+template <>
+part1c::SParameterTable IMaterialParameters<CMaterialRenderer, false>::table() const;
 
 // Explicit specializations of the matrix accessors (defined in src/material_parameters.cpp).
 template <>

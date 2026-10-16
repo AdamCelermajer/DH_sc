@@ -14,7 +14,7 @@ int main() {
     CHECK(base.getInt() == 0);
     CHECK(base.getFloat() == 0.f);
     CHECK(base.getBool() == false);
-    CHECK(base.getEnum() == 0);
+    CHECK(base.getEnum() == nullptr);
     CHECK(base.getColor().color == 0xffffffffu);
     CHECK(base.getColorf().r == 1.f && base.getColorf().a == 1.f);
     CHECK(base.getVector2d().X == 0.f && base.getVector2d().Y == 0.f);

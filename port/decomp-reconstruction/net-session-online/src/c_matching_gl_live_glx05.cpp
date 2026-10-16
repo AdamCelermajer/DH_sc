@@ -1,19 +1,34 @@
 #include "net-session-online/c_matching_gl_live.hpp"
 
+#include <cstdio>
+
+#include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/c_sign_in_gl_live.hpp"
+#include "net-session-online/c_sign_in_gl_live_observer.hpp"
 #include "net-session-online/game_center_info.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
 
 // Single definitions of the statics this slice owns. The other statics of the class
 // (s_IsGameStarting, s_eventQueueGLLiveInternal, the observers) are defined by their own slice.
 GLXPlayerMPLobby* CMatchingGLLive::s_GLXPlayerMPLobby = nullptr;
-GameCenterInfo* CMatchingGLLive::s_GameCenterInfo = nullptr;
+GameCenterInfo CMatchingGLLive::s_GameCenterInfo;
+std::string CMatchingGLLive::m_GameVersion;
 
 // 0x81ef7c _ZN15CMatchingGLLive19GetGLXPlayerMPLobbyEv
-// Partial: the original creates the lobby on first use. That path needs the login observer
-// accessor and the socket URL, which are not reconstructed. This returns the existing instance,
-// which is what the original returns on its "already created" branch.
-GLXPlayerMPLobby* CMatchingGLLive::GetGLXPlayerMPLobby() { return s_GLXPlayerMPLobby; }
+// Creates the lobby on first use: "socket://%s" from the login observer's server buffer (+0x06) into a 512-byte
+// buffer, the lobby observer singleton (created on first use), and the 0x94-byte GLXPlayerMPLobby built from that
+// observer and the URL. The original also copy-constructs a temporary lobby observer from the singleton and destroys it
+// after the construction; it is never used and is not made here (its destructor would free the shared room records of a
+// non-empty list; the list is empty when the lobby is created).
+GLXPlayerMPLobby* CMatchingGLLive::GetGLXPlayerMPLobby() {
+    if (s_GLXPlayerMPLobby == nullptr) {
+        char url[512];
+        std::snprintf(url, sizeof(url), "socket://%s", GetGLXPlayerLoginObserver()->Server());
+        CMatchingGLLiveLobbyObserver* observer = GetGLXPlayerMPLobbyObserver();
+        s_GLXPlayerMPLobby = new GLXPlayerMPLobby(observer, url);
+    }
+    return s_GLXPlayerMPLobby;
+}
 
 // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
 void CMatchingGLLive::StartGame() {
@@ -42,7 +57,7 @@ void CMatchingGLLive::SetGCState(std::int32_t state) {
             }
             break;
         case 2:
-            SetGCState(s_GameCenterInfo != nullptr ? 3 : 4);
+            SetGCState(s_GameCenterInfo.isHost_ != 0 ? 3 : 4);
             break;
         case 3:
             CreateJoinRoom(true, gcRoomAttributes_);  // by-value copy, as the original's CRoomAttributes copy
@@ -56,8 +71,8 @@ void CMatchingGLLive::SetGCState(std::int32_t state) {
 }
 
 // 0x81f44c _ZN15CMatchingGLLive19SendSetPlayerStatusEc
-// Partial: the original returns the lobby call's result. mpSendSetPlayerStatus is void in
-// glx_player_mp_lobby.hpp, so the port returns 0.
+// Calls mpSendSetPlayerStatus on the lobby (GetGLXPlayerMPLobby) and returns its result. That result is the leftover of the
+// callee's last call (the trace function or the observer callback), not a value the source produces, so 0 is returned.
 std::int32_t CMatchingGLLive::SendSetPlayerStatus(std::uint8_t status) {
     GetGLXPlayerMPLobby()->mpSendSetPlayerStatus(status);
     return 0;

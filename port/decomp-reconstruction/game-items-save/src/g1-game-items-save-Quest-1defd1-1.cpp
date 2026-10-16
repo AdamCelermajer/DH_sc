@@ -91,12 +91,12 @@ int Quest::DBG_TraceDetailedQuestInformation(__sFILE* stream) const {
     }
     std::fprintf(out, "\tPyDataName : %s\n", pyDataName);
 
-    const char* name = IsSetStringId(m_pyData->m_w1) ? ApplicationGetStringManager()->getString(m_pyData->m_w1)
+    const char* name = IsSetStringId(m_pyData->Name) ? ApplicationGetStringManager()->getString(m_pyData->Name)
                                                        : "not specified";
     std::fprintf(out, "\tName : %s\n", name);
 
-    const char* description = IsSetStringId(m_pyData->m_w2)
-                                  ? ApplicationGetStringManager()->getString(m_pyData->m_w2)
+    const char* description = IsSetStringId(m_pyData->Description)
+                                  ? ApplicationGetStringManager()->getString(m_pyData->Description)
                                   : "not specified";
     std::fprintf(out, "\tDescription : %s\n", description);
 
@@ -115,13 +115,13 @@ int Quest::DBG_TraceDetailedQuestInformation(__sFILE* stream) const {
     std::fwrite("\tEnd Type :\n", 1, 0xC, out);
     m_endType->DBG_TraceDetailedObjectiveInformation(stream);
 
-    std::fprintf(out, "\tTargetLevel : %d\n", m_pyData->m_w37);
-    std::fprintf(out, "\tRepeatable : %s\n", m_pyData->m_w38 ? "true" : "false");
+    std::fprintf(out, "\tTargetLevel : %d\n", m_pyData->TargetLevel);
+    std::fprintf(out, "\tRepeatable : %s\n", m_pyData->Repeatable ? "true" : "false");
 
-    const char* stateName = ApplicationGetPyDataConstants()->getConstantName("v2QuestState", m_pyData->m_w39);
+    const char* stateName = ApplicationGetPyDataConstants()->getConstantName("v2QuestState", m_pyData->State);
     std::fprintf(out, "\tState : %s\n", stateName);
 
-    const char* priorityName = ApplicationGetPyDataConstants()->getConstantName("v2QuestPriority", m_pyData->m_w69);
+    const char* priorityName = ApplicationGetPyDataConstants()->getConstantName("v2QuestPriority", m_pyData->Priority);
     std::fprintf(out, "\tPriority : %s\n\n", priorityName);
 
     // Slot k is at pydata +168 + 8 * k; the labels follow the trace order.
@@ -161,25 +161,25 @@ void Quest::SetOwnerToChildren() {
 // and the end objective (+0x68), the owner, and m_act (+0x118).
 void Quest::AssignPyData(Structs::v2Quest* pyData) {
     m_pyData = pyData;
-    m_preReqs.AssignPyData(static_cast<Structs::v2ConditionStub*>(pyData->m_w6), static_cast<int>(pyData->m_w5));
-    m_objectives.AssignPyData(static_cast<Structs::v2QuestObjectiveStub*>(pyData->m_w8), static_cast<int>(pyData->m_w7));
+    m_preReqs.AssignPyData(static_cast<Structs::v2ConditionStub*>(pyData->PreReqs), static_cast<int>(pyData->PreReqsSize));
+    m_objectives.AssignPyData(static_cast<Structs::v2QuestObjectiveStub*>(pyData->Objectives), static_cast<int>(pyData->ObjectivesSize));
     switch (m_listIndex) {
         case 1:
-            m_rewards.AssignPyData(static_cast<Structs::v2QuestRewardStub*>(pyData->m_w12), static_cast<int>(pyData->m_w11));
+            m_rewards.AssignPyData(static_cast<Structs::v2QuestRewardStub*>(pyData->RewardsHard), static_cast<int>(pyData->RewardsHardSize));
             break;
         case 2:
-            m_rewards.AssignPyData(static_cast<Structs::v2QuestRewardStub*>(pyData->m_w14), static_cast<int>(pyData->m_w13));
+            m_rewards.AssignPyData(static_cast<Structs::v2QuestRewardStub*>(pyData->RewardsVeryHard), static_cast<int>(pyData->RewardsVeryHardSize));
             break;
         case 0:
-            m_rewards.AssignPyData(static_cast<Structs::v2QuestRewardStub*>(pyData->m_w10), static_cast<int>(pyData->m_w9));
+            m_rewards.AssignPyData(static_cast<Structs::v2QuestRewardStub*>(pyData->Rewards), static_cast<int>(pyData->RewardsSize));
             break;
         default:
             break;
     }
-    m_acceptType = ObjectiveList::CreateObjectiveWithPyData(&pyData->m_sub60);
-    m_endType = ObjectiveList::CreateObjectiveWithPyData(&pyData->m_sub104);
+    m_acceptType = ObjectiveList::CreateObjectiveWithPyData(&pyData->AcceptType);
+    m_endType = ObjectiveList::CreateObjectiveWithPyData(&pyData->EndType);
     SetOwnerToChildren();
-    m_act = pyData->m_w70;
+    m_act = pyData->Act;
 }
 
 // 0x4808e4 Quest::Quest(int) (C1), 0x480944 Quest::Quest(int) (C2)
@@ -218,7 +218,7 @@ Quest::~Quest() {
 // The objective text. The pydata field +0x10 is a StrID; the unset sentinel gives the joined description of the objective list
 // (ObjectiveList::GetDesc with the list at this +0x2c), and a negative id gives "not specified".
 std::string Quest::GetObjectiveDescription() const {
-    const int id = m_pyData->m_w4;
+    const int id = m_pyData->StaticObjective;
     if (id == kUnsetStringId) {
         return m_objectives.GetDesc();
     }
@@ -263,7 +263,7 @@ void Quest::SetState(int state) {
             break;
 
         case QUEST_PRE_AVAILABLE:  // 2
-            m_acceptType->InstallObjectiveMarker(m_pyData->m_w69, 2);
+            m_acceptType->InstallObjectiveMarker(m_pyData->Priority, 2);
             ExecScript(11);  // OnPreAvailable
             break;
 
@@ -278,7 +278,7 @@ void Quest::SetState(int state) {
             break;
 
         case QUEST_PRE_ACTIVE:  // 5
-            m_objectives.InstallObjectiveMarkers(m_pyData->m_w69, 5);
+            m_objectives.InstallObjectiveMarkers(m_pyData->Priority, 5);
             ExecScript(10);  // OnPreActive
             break;
 
@@ -287,7 +287,7 @@ void Quest::SetState(int state) {
             m_objectives.Register();
             {
                 const int titleId = ApplicationGetPyDataConstants()->getConstant("StrID", "GLOBAL_QUEST_NEW");
-                const int textId = m_pyData->m_w2;
+                const int textId = m_pyData->Description;
                 const int style = ApplicationGetPyDataConstants()->getConstant("DialogStyles", "QuestMsgDialog");
                 const DialogMsg message(titleId, textId, style, -1);
                 EnqueueDialog(message);
@@ -305,7 +305,7 @@ void Quest::SetState(int state) {
             break;
 
         case QUEST_PRE_COMPLETED:  // 8
-            m_endType->InstallObjectiveMarker(m_pyData->m_w69, 8);
+            m_endType->InstallObjectiveMarker(m_pyData->Priority, 8);
             ExecScript(13);  // OnPreComplete
             break;
 
@@ -328,7 +328,7 @@ void Quest::SetState(int state) {
         case QUEST_CLOSED: {  // 12
             ExecScript(2);    // OnClosed
             m_rewards.CreateRewardString();
-            const std::string title(ApplicationGetStringManager()->getString(m_pyData->m_w2));
+            const std::string title(ApplicationGetStringManager()->getString(m_pyData->Description));
             // The original copies the range from the reward list's +0x1c word (begin) to its +0x18 word (end), as the asm
             // loads them (LDR +0x54, LDR +0x50), and builds the body from the copy's first NUL. Those two words are the live
             // _M_start_of_storage and _M_finish of the reward string at +0x08 (layout request), so the range is that string's

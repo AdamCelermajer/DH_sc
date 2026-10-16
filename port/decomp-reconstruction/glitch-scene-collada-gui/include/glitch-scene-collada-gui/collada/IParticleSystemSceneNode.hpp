@@ -12,7 +12,7 @@
 //     +0x140 a reference the constructor clears and the destructor drops (a mesh buffer in the derived nodes)
 //     +0x148 a word cleared by the constructor
 //     +0x14c the derived nodes' transformed box pointer (not touched by this constructor)
-//     +0x150 res::vector<res::String>* the material names the node was given     +0x154 CRootSceneNode* the root (registered with it)
+//     +0x150 res::vector<res::String>* the vector the node was given (the URLs of its force nodes)   +0x154 CRootSceneNode* the root (registered with it)
 //     +0x158 vector<intrusive_ptr<CMaterial>> the node's materials               +0x164 a block the destructor frees with GlitchFree
 //     +0x168, +0x16c words cleared by the constructor                           +0x170 a byte cleared by the constructor
 //   Slots: serializeAttributes / deserializeAttributes (thunks to ISceneNode's), destructors, getMaterial (K 0x84), getMaterialCount (K 0x88),
@@ -25,9 +25,16 @@
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
+namespace glitch::scene {
+class CMeshBuffer;
+}  // namespace glitch::scene
+
 namespace glitch::collada {
 
 class CRootSceneNode;
+namespace particle_system {
+class CForceSceneNode;
+}  // namespace particle_system
 
 class IParticleSystemSceneNode : public scene::ISceneNode {
 public:
@@ -60,17 +67,18 @@ public:
 
     const char* uid = "";                                       // +0x130
     CColladaDatabase database;                                  // +0x134
-    std::uint8_t flags13c[4] = {};                              // +0x13c
-    boost::intrusive_ptr<glitch::IReferenceCounted> unk_140;    // +0x140
-    std::uint32_t unk_148 = 0;                                  // +0x148
-    const core::aabbox3d<float>* transformedBox = nullptr;      // +0x14c (set by the derived nodes)
+    std::uint8_t flags13c[4] = {};                              // +0x13c four flag bytes (CGlitchNewParticleSystemSceneNode sets them from its emitter record)
+    boost::intrusive_ptr<scene::CMeshBuffer> meshBuffer;        // +0x140 the particle mesh (setParticleMesh); dropped by the destructor
+    std::uint32_t lastAnimateTime = 0;                          // +0x144 the time the derived onAnimate was last called with
+    void* viewMatrixParameter = nullptr;                        // +0x148 the system's "ViewMatrix" slot (a core::CMatrix4<float>)
+    const core::aabbox3d<float>* transformedBox = nullptr;      // +0x14c the system's "BBox" slot (set by initParticleSystem)
+    // +0x150: the vector the node was built with. The material names of the instance are what the factory hands over, but the only reader
+    // (attach, 0x64f6f8 / 0x63db4c) takes every entry as the URL "#<uid>" of a force node: the vector lists the forces.
     res::vector<res::String>* materialNames = nullptr;          // +0x150
-    CRootSceneNode* root = nullptr;                             // +0x154
+    CRootSceneNode* root = nullptr;                             // +0x154 (registered with it)
     std::vector<boost::intrusive_ptr<video::CMaterial>> materials;  // +0x158
-    void* unk_164 = nullptr;                                    // +0x164 freed by the destructor (GlitchFree)
-    std::uint32_t unk_168 = 0;                                  // +0x168
-    std::uint32_t unk_16c = 0;                                  // +0x16c
-    std::uint8_t unk_170 = 0;                                   // +0x170
+    std::vector<particle_system::CForceSceneNode*> forces;      // +0x164 begin, +0x168 end, +0x16c capacity (GlitchAlloc storage in the original)
+    bool hasTextureTransform = false;                           // +0x170 set by init when the material has a texture transform track
 };
 
 }  // namespace glitch::collada

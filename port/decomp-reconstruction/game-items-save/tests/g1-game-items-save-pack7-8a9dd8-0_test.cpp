@@ -103,7 +103,7 @@ std::size_t CaptureTrace(Reward& reward, int& returned, char* buffer, std::size_
 
 void TestCompile() {
     Structs::v2QuestRewardStub row;
-    row.m_w1 = kGoldType;
+    row.Type = kGoldType;
 
     Reward_Gold gold;
     gold.m_pyData = &row;
@@ -126,9 +126,9 @@ void TestCompile() {
 
 void TestGoldGive() {
     Structs::v2QuestRewardStub pyRow;
-    pyRow.m_w2 = 999;      // the pydata row, which Give must not read
+    pyRow.Param1 = 999;      // the pydata row, which Give must not read
     Structs::v2QuestRewardStub compiledRow;
-    compiledRow.m_w2 = 250;  // the compiled copy, which Give reads
+    compiledRow.Param1 = 250;  // the compiled copy, which Give reads
 
     Reward_Gold gold;
     gold.m_owner = ownerObject();
@@ -150,7 +150,7 @@ void TestGoldGive() {
 
 void TestXPGive() {
     Structs::v2QuestRewardStub row;
-    row.m_w2 = 3;  // 3 << 8 = 768
+    row.Param1 = 3;  // 3 << 8 = 768
 
     Reward_XP xp;
     xp.m_owner = ownerObject();
@@ -177,14 +177,14 @@ void TestXPGive() {
     g_giveXPResult = true;
 
     // A negative amount shifts as the 32-bit word does: -1 << 8 is -256.
-    row.m_w2 = -1;
+    row.Param1 = -1;
     EXPECT(xp.Give() == true);
     EXPECT(g_lastXP == -256);
 }
 
 void TestLootGive() {
     Structs::v2QuestRewardStub row;
-    row.m_w3 = 17;
+    row.Param2 = 17;
 
     Reward_Loot loot;
     loot.m_owner = ownerObject();
@@ -206,8 +206,8 @@ void TestLootGive() {
 
 void TestGoldTrace() {
     Structs::v2QuestRewardStub row;
-    row.m_w1 = kGoldType;
-    row.m_w2 = 250;
+    row.Type = kGoldType;
+    row.Param1 = 250;
 
     Reward_Gold gold;
     gold.m_pyData = &row;
@@ -223,8 +223,8 @@ void TestGoldTrace() {
 
 void TestXPTrace() {
     Structs::v2QuestRewardStub row;
-    row.m_w1 = kXPType;
-    row.m_w2 = 40;
+    row.Type = kXPType;
+    row.Param1 = 40;
 
     Reward_XP xp;
     xp.m_pyData = &row;
@@ -242,8 +242,8 @@ void TestLootTraceHeader() {
     // The header, the Type line and the Loot line; a loot index outside Arrays::LootTable::size prints "na". The return value is
     // the Loot line's count.
     Structs::v2QuestRewardStub row;
-    row.m_w1 = kLootType;
-    row.m_w3 = 17;
+    row.Type = kLootType;
+    row.Param2 = 17;
 
     Reward_Loot loot;
     loot.m_pyData = &row;

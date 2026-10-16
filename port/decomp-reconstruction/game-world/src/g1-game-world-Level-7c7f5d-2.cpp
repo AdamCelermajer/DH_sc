@@ -164,7 +164,7 @@ void Level::UpdateListener() {
     Point3D<float> tmp{};                  // v25, scratch that survives between the arms
     glitch::scene::ICameraSceneNode* cameraNode = m_camera->m_camera;  // Level +0x128, CameraBase +0x08
 
-    switch (curListener->m_w1) {  // row +0x04
+    switch (curListener->Anchor) {  // row +0x04
         case 0: {
             if (cameraNode == nullptr) {
                 break;
@@ -217,7 +217,7 @@ void Level::UpdateListener() {
             break;
     }
 
-    const int frontMode = curListener->m_w3;  // row +0x0c
+    const int frontMode = curListener->Orientation;  // row +0x0c
     if (frontMode == 1) {
         if (localPlayer() != nullptr) {
             localPlayer()->GetLookAtVec(tmp);
@@ -239,7 +239,7 @@ void Level::UpdateListener() {
         front.Z = look.Z;
     }
 
-    const int upMode = curListener->m_w6;  // row +0x18
+    const int upMode = curListener->UpVector;  // row +0x18
     if (upMode != 0) {
         if (upMode == 1 && localPlayer() != nullptr) {
             const float* m = localPlayer()->m_visualObject->m_node->getAbsoluteTransformation().M;  // GameObject +0x2d8, VisualObject +0x08
@@ -257,7 +257,7 @@ void Level::UpdateListener() {
         up.Z = camUp.Z;
     }
     if (cameraNode != nullptr) {
-        VoxSoundManager::s_instance->SetListenerPos(pos, front, up, curListener->m_w4, curListener->m_w2, curListener->m_w5);  // row +0x10, +0x08, +0x14
+        VoxSoundManager::s_instance->SetListenerPos(pos, front, up, curListener->RefDistance, curListener->MaxDistance, curListener->RolloffFactor);  // row +0x10, +0x08, +0x14
     }
 }
 
@@ -289,7 +289,7 @@ void Level::_LoadCamera() {
     m_camera->SetActive();
     // Clip id of the row CameraLevel::Load found (row +0x10; stride 28 in the original).
     const int clipId =
-        reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[m_camera->m_camTableIndex].m_w4;
+        reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[m_camera->m_camTableIndex].Idle;
     m_camera->PlayAnim(clipId, 0, false);                                              // (clip, controller arg, keep zoom)
     m_camera->SetTarget(dword_99F76C->GetLocalPlayer(0, true)->unk_660, 0);            // PlayerInfo +0x660, transition 0
     ApplicationGetInstance().m_zoomHandler->setCamera(m_camera);                       // dword_99F77C is Application +0x50
@@ -590,12 +590,12 @@ Level::Level(const char* name, int entryPointId, uint32_t savegameSlot, uint32_t
         const auto* rows = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
         for (std::uint32_t row = 0; row < Arrays::LevelList::size; ++row) {
             char lowered[1024];
-            std::strcpy(lowered, static_cast<const char*>(rows[row].m_w8));
+            std::strcpy(lowered, static_cast<const char*>(rows[row].LevelFile));
             ToLowerCase(lowered, 0, -1);
             if (std::strstr(m_levelName.c_str(), lowered)) {
                 m_levelListIndex = static_cast<int>(row);          // +0x3c
-                m_isRandomLevel = rows[row].m_w5;                  // +0xe8
-                m_levelListSubId = rows[row].m_w4;                 // +0x40
+                m_isRandomLevel = rows[row].IsRandom;                  // +0xe8
+                m_levelListSubId = rows[row].Hub;                 // +0x40
                 break;
             }
         }

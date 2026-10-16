@@ -36,7 +36,7 @@ std::uint32_t StreamBuffer::size() const {
 // Bytes in block `block`: the remaining size after `block` whole blocks, capped at one block.
 std::uint32_t StreamBuffer::size(int block) const {
     std::uint32_t block_size = buffer_.block_size();
-    std::uint32_t remaining = size() - block_size * static_cast<std::uint32_t>(block);
+    std::uint32_t remaining = buffer_.size() - block_size * static_cast<std::uint32_t>(block);  // the member, not the virtual (0x31643c reads +0x28)
     return std::min(block_size, remaining);
 }
 
@@ -81,7 +81,7 @@ std::uint64_t StreamBuffer::write(const void* src, std::uint64_t n) {
 // 0x3164d8 _ZN12StreamBuffer4seekEy
 // Positions past the end clamp to the size.
 void StreamBuffer::seek(std::uint64_t pos) {
-    read_pos_ = (pos <= size()) ? pos : size();
+    read_pos_ = (pos <= buffer_.size()) ? pos : buffer_.size();  // reads the size member (+0x28), not the virtual size()
 }
 
 // 0x3164cc _ZNK12StreamBuffer4tellEv
@@ -96,7 +96,7 @@ void StreamBuffer::skip(std::uint64_t n) {
 
 // 0x316510 _ZN12StreamBuffer9seekWriteEy
 void StreamBuffer::seekWrite(std::uint64_t pos) {
-    write_pos_ = (pos <= size()) ? pos : size();
+    write_pos_ = (pos <= buffer_.size()) ? pos : buffer_.size();  // reads the size member (+0x28), not the virtual size()
 }
 
 // 0x316488 _ZNK12StreamBuffer9tellWriteEv

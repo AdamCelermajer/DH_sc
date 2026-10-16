@@ -89,28 +89,28 @@ void ItemInventory::_AddLootTable(int lootTableId, std::vector<const Structs::Lo
     const Structs::Loot& loot = reinterpret_cast<const Structs::Loot*>(Arrays::LootTable::members)[lootTableId];
 
     // A. Direct entries (m_w6, count m_w5). One trace read per entry, before the entry is added.
-    const auto* direct = static_cast<const Structs::LootEntry*>(loot.m_w6);
-    for (std::uint32_t i = 0; i < loot.m_w5; ++i) {
+    const auto* direct = static_cast<const Structs::LootEntry*>(loot.FixedLootEntries);
+    for (std::uint32_t i = 0; i < loot.FixedLootEntriesSize; ++i) {
         ReadLootTraceSwitch();
         out.push_back(&direct[i]);
     }
 
     // B. Table with count m_w3 (+0x0c) and entries m_w4 (+0x10).
-    if (loot.m_w3 != 0) {
-        const auto* tableB = static_cast<const Structs::LootEntry*>(loot.m_w4);
+    if (loot.RandomLootEntriesSize != 0) {
+        const auto* tableB = static_cast<const Structs::LootEntry*>(loot.RandomLootEntries);
         if (extra != nullptr) {
-            for (std::uint32_t i = 0; i < loot.m_w3; ++i) {
+            for (std::uint32_t i = 0; i < loot.RandomLootEntriesSize; ++i) {
                 extra->push_back(&tableB[i]);
             }
         } else {
-            const int count = _GetProbQuantity(loot.m_w2, 0);
+            const int count = _GetProbQuantity(loot.NumRandomItemProbs, 0);
             ReadLootTraceSwitch();  // after the table B count
             for (int k = 0; k < count; ++k) {
                 const unsigned int pick = _GetRandomLootEntry(loot);
                 ReadLootTraceSwitch();  // per table B pick
                 out.push_back(&tableB[pick]);
             }
-            _DoPctRolls(out, tableB, static_cast<int>(loot.m_w3));
+            _DoPctRolls(out, tableB, static_cast<int>(loot.RandomLootEntriesSize));
         }
     } else {
         ReadLootTraceSwitch();  // the m_w3 == 0 branch
@@ -120,14 +120,14 @@ void ItemInventory::_AddLootTable(int lootTableId, std::vector<const Structs::Lo
     // table B entries to `extra` or to the local list.
     std::vector<const Structs::LootEntry*> local;
     ReadLootTraceSwitch();  // after the local list is initialised, before the sub-tables are walked
-    const auto* subIds = static_cast<const std::int32_t*>(loot.m_w8);
-    for (std::uint32_t i = 0; i < loot.m_w7; ++i) {
+    const auto* subIds = static_cast<const std::int32_t*>(loot.SubLoots);
+    for (std::uint32_t i = 0; i < loot.SubLootsSize; ++i) {
         _AddLootTable(subIds[i], out, extra != nullptr ? extra : &local);
     }
 
     // D. The local list, only when there is no extra: picks from it, then its percentages are rolled.
     if (extra == nullptr && !local.empty()) {
-        const int count = _GetProbQuantity(loot.m_w2, 0);
+        const int count = _GetProbQuantity(loot.NumRandomItemProbs, 0);
         for (int r = 0; r < 4; ++r) {  // the original makes four trace reads after the count
             ReadLootTraceSwitch();
         }
@@ -184,7 +184,7 @@ void ItemInventory::AddLoot(int lootTableId, int a, int b, int c, bool flag) {
     ReadLootTraceSwitch();
     for (LootInfo& info : infos) {
         int copies = 1;
-        if (static_cast<std::uint32_t>(info.m_row->m_w4 - 2) <= 1u) {
+        if (static_cast<std::uint32_t>(info.m_row->DistType - 2) <= 1u) {
             copies = dword_99F76C->m_numCharacters;
             if (copies <= 0) {
                 continue;

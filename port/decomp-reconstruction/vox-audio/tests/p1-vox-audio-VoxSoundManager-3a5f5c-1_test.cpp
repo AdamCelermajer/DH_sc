@@ -147,7 +147,7 @@ alignas(16) unsigned char g_sound_records[sizeof(Structs::SoundAutoGen) * kSound
 
 // Points record `sound` at data index `index` of the manager's sounds_ array.
 void SetRecordDataIndex(int sound, int index) {
-    reinterpret_cast<Structs::SoundAutoGen*>(g_sound_records)[sound].m_w1 = index;
+    reinterpret_cast<Structs::SoundAutoGen*>(g_sound_records)[sound].Id = index;
 }
 
 void ResetSoundRecords() {
@@ -443,7 +443,7 @@ void TestPauseHandles() {
     m.Pause(0);
     CHECK(CountCalls("Pause") == 3);
     CHECK(HasCall("Pause", {0.05}));
-    // An empty slot returns before the fill (sounds_[record.m_w1] is null).
+    // An empty slot returns before the fill (sounds_[record.Id] is null).
     SetRecordDataIndex(1, 1);
     const size_t fills = CountCalls("GetEmitterHandles");
     m.Pause(1);

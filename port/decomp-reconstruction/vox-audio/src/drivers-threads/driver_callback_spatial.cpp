@@ -212,7 +212,7 @@ int DriverCallbackSourceInterface::GetDirectionalGain() {
     const float dot = (vx * dx + vy * dy) + vz * dz;
     const float cosine = std::sqrt((dot * dot) / (((vx * vx + vy * vy) + vz * vz) *
                                                   ((dx * dx + dy * dy) + dz * dz)));
-    float angle = static_cast<float>(static_cast<float>(std::acos(cosine) * 180.0) / 3.14159265);
+    float angle = static_cast<float>(static_cast<float>(std::acos(cosine) * 180.0) / 3.141592653589793);
     if (dot < 0.0f) {
         angle = 180.0f - angle;
     }

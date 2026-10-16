@@ -69,9 +69,9 @@ StringManager* ApplicationGetStringManager() {
 int main() {
     // Three actor rows. Row 0 is string id 100 ("Guard"), row 1 is id 101 ("Hero"), row 2 is id 102 ("Merchant").
     std::vector<Structs::DialogActor> actors(3);
-    actors[0].m_w4 = 100;
-    actors[1].m_w4 = 101;
-    actors[2].m_w4 = 102;
+    actors[0].Name = 100;
+    actors[1].Name = 101;
+    actors[2].Name = 102;
     Arrays::DialogActors::members = reinterpret_cast<std::uint8_t*>(actors.data());
     g_strings = {{100, "Guard"}, {101, "Hero"}, {102, "Merchant"}, {1, "Quest Title"}, {2, "Quest Text"}};
 

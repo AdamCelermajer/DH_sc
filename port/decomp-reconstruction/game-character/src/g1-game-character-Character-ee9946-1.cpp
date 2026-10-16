@@ -63,7 +63,7 @@ const Structs::AIProps* Character::GetCharAI() const {
 // 0x3a3054 _ZNK9Character11GetCharTypeEv
 // The word at +0x38 of the AI row (Structs::AIProps m_w14).
 int Character::GetCharType() const {
-    return GetCharAI()->m_w14;
+    return GetCharAI()->Type;
 }
 
 // 0x3a3064 _ZNK9Character9IsMonsterEv
@@ -117,19 +117,19 @@ bool Character::IsNPC() const {
 // 0x3a3144 _ZNK9Character10IsMiniBossEv
 // Bit 1 of the AI row flag word (Structs::AIProps m_w5, +0x14).
 bool Character::IsMiniBoss() const {
-    return FlagBit(GetCharAI()->m_w5, 1);
+    return FlagBit(GetCharAI()->Flags, 1);
 }
 
 // 0x3a3158 _ZNK9Character6IsBossEv
 // Bit 2 of the AI row flag word (Structs::AIProps m_w5, +0x14).
 bool Character::IsBoss() const {
-    return FlagBit(GetCharAI()->m_w5, 2);
+    return FlagBit(GetCharAI()->Flags, 2);
 }
 
 // 0x3a316c _ZNK9Character13IsCharSittingEv
 // Bit 3 of the AI row flag word (Structs::AIProps m_w5, +0x14).
 bool Character::IsCharSitting() const {
-    return FlagBit(GetCharAI()->m_w5, 3);
+    return FlagBit(GetCharAI()->Flags, 3);
 }
 
 // 0x3a3180 _ZNK9Character18GetCharAIFactionIdEv

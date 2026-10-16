@@ -12,6 +12,8 @@
 namespace glitch {
 namespace res {
 
+class FileReader;  // glitch-scene-collada-gui/res/File.hpp: the reader the second Init overload loads through
+
 class File {
 public:
     std::uint8_t* header = nullptr;               // +0x00 BRES header block, points into the file image
@@ -24,10 +26,14 @@ public:
     const std::uint32_t* rangeTable = nullptr;    // +0x1c caller table of range records; record k key is word 2k+1
     const std::uint32_t* rangeTargets = nullptr;  // +0x20 caller table; one 32-bit target per range record
     std::uint32_t unk_0x28 = 0;                   // +0x28 copy of header+0x38 (role not confirmed)
+    bool separateRanges = false;                  // +0x24 header+0x34 != 0: every range record has its own block (set by Init(FileReader*))
 
     // 0x69a40c _ZN6glitch3res4File4InitEv
     int Init();
-    // NOTE: the two Init overloads at 0x657fa0 and 0x69a880 are separate batches.
+    // 0x657fa0 _ZN6glitch3res4File4InitEPv and 0x69a880 _ZN6glitch3res4File4InitEPNS0_10FileReaderE: the file image in memory / read through a
+    // reader (src/ok2-res.cpp). Both return 0 on success and 1 on failure. Declared for glitch::collada::CResFile.
+    int Init(void* memory);
+    int Init(FileReader* reader);
 
     // Shared statics. Declared inline (C++17) so every translation unit that
     // includes this header refers to one object.

@@ -123,11 +123,11 @@ void AISPlayer::OnAggro(Character* c) {
     if (!GetOnlineGameFlag() || dword_99F76C->IsLocalPlayer(m_character)) {
         VoxSoundManager* sound = VoxSoundManager::s_instance;
         Level* level = ApplicationGetInstance().GetCurrentLevel();
-        m_aggroForMusic += c->GetCharAI()->m_w5;
+        m_aggroForMusic += c->GetCharAI()->Flags;
         if (level) {
             LevelConfig* config = level->GetLevelConfig();
             const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
-            if (config->m_combatMusicEnabled && sound->music_slot_ && m_aggroForMusic >= design->m_w5) {
+            if (config->m_combatMusicEnabled && sound->music_slot_ && m_aggroForMusic >= design->CombatMusicTrigger) {
                 sound->SetMusicState("combat");
                 sound->music_slot_ = false;
             }
@@ -156,7 +156,7 @@ void AISPlayer::OnDeAggro(Character* c) {
     if (!GetOnlineGameFlag() || dword_99F76C->IsLocalPlayer(m_character)) {
         VoxSoundManager* sound = VoxSoundManager::s_instance;
         ApplicationGetInstance().GetCurrentLevel();
-        m_aggroForMusic -= c->GetCharAI()->m_w5;
+        m_aggroForMusic -= c->GetCharAI()->Flags;
         if (!sound->music_slot_ && m_aggroForMusic == 0) {
             sound->SetMusicState("ambient");
             const bool inSafeZone = sound->in_safe_zone_;

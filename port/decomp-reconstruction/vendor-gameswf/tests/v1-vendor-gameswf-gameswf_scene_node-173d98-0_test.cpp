@@ -392,7 +392,7 @@ void test_constructor() {
     Rig rig(/*with_material=*/true);
     ITexture* made = nullptr;
     const int parent_count_before = rig.parent->referenceCounter;
-    g_param_id_result = 7;
+    g_param_id_result = 0xffff;  // a real texture parameter id would reach CMaterial::parameters.setParameter, which the bare CMaterial double cannot take
     {
         scene_node* node = new scene_node(rig.player(), rig.parent, glitch::core::dimension2d<int>{320, 480});
 
@@ -441,7 +441,7 @@ void test_constructor() {
         check(rig.parent->get_mesh_calls == 3, "getMesh three times (two in init_corners, one for the material)");
         check(rig.mesh->material_calls == 1 && rig.mesh->material_index == 0, "material 0 asked once");
         check(g_param_calls == 1 && g_param_type_arg == 2 && g_param_index_arg == 0, "getParameterID(2, 0)");
-        check(node->m_texture_param_id == 7, "m_texture_param_id is the renderer's answer");
+        check(node->m_texture_param_id == 0xffff, "m_texture_param_id is the renderer answer");
 
         // init_corners: the selector holds no triangles here, so collect_uvs runs with 0 points.
         check(g_collect_calls.size() == 1 && g_collect_calls[0].count == 0, "collect runs once, with 0 triangles");

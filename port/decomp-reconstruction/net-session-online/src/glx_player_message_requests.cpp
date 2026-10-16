@@ -40,7 +40,7 @@ std::int32_t GLXPlayerMessage::SendOnlineMessage(char* text, std::int32_t type, 
                                                  bool flag) {
     const auto refuse = [this]() -> std::int32_t {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(77, -100);
+            observer_->OnRequestFailure(77, -100);
         }
         return 0;
     };

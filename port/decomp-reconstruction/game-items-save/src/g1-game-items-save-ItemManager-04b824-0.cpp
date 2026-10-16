@@ -95,7 +95,7 @@ ItemObject* ItemManager::Spawn(ItemInventory& inventory, unsigned int itemIndex,
         return nullptr;
     }
     ItemInstance* instance = inventory.GetItem(itemIndex);
-    const int category = instance->GetItem()->m_w21;  // Structs::Item +0x54, the Arrays::ItemAudioVisualTable row
+    const int category = instance->GetItem()->AudioVisualID;  // Structs::Item +0x54, the Arrays::ItemAudioVisualTable row
     if (category < 0 || category >= static_cast<int>(m_categories.size())) {
         return nullptr;
     }

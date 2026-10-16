@@ -53,47 +53,6 @@ float distanceKdTree(const KdEntry& a, const KdEntry& b);
 // 0x5a2370 Reconstructed.
 float distanceKdTree(const KdEntry& entry, float plane, char axis);
 
-// --- glitch::collada animation streaming -----------------------------------
-// Opaque here: the owning classes are not reconstructed in this category.
-struct CColladaDatabase;
-struct CAnimationStreamingManager;
-struct SAnimationBlockSearchKey;
-
-// glitch::collada::CAnimationBlock: the canonical class (collada/CColladaDatabase.hpp). The count is at +0x00 and
-// the next block at +0x18.
-using glitch::collada::CAnimationBlock;
-
-// 0x60b2b4 Reconstructed: empty non-deleting destructor of COnDemandReader.
-void COnDemandReader_D1(void* self);
-// 0x60b2b8 Partial: reader vtable slots +0x18 and +0x0c are not modelled.
-std::int32_t COnDemandReader_read(void* self, std::int32_t size, std::int32_t offset, void* dst);
-// 0x60b304 Partial: same as the three-argument read, the callback is not invoked.
-std::int32_t COnDemandReader_read_callback(void* self, std::int32_t size, std::int32_t offset,
-                                           void* dst, void (*callback)(int, int, void*, void*),
-                                           void* user);
-// 0x60b350 Partial: the search tree walk is not reconstructed in this pass.
-CAnimationBlock* CAnimationBlock_getBlock(CAnimationBlock* root, SAnimationBlockSearchKey& key);
-// 0x60b918 Partial: the cache-entry erase and size bookkeeping are not reconstructed.
-void CAnimationStreamingManager_release(CAnimationStreamingManager& self, CColladaDatabase* db);
-// 0x60b990 Partial: the cache trim loop is not reconstructed; the log text is kept as a comment.
-void CAnimationStreamingManager_checkMemoryUsage(CAnimationStreamingManager& self);
-// 0x60ba2c / 0x60bbd8 Partial: destructor releases the cached previous block and the database.
-void CAnimationBlock_D1(CAnimationBlock* self);
-// 0x60bb64 Partial: binary search and erase of the registry entry are not reconstructed.
-void CAnimationStreamingManager_unregisterAnimationBlock(CAnimationStreamingManager& self,
-                                                         CAnimationBlock* block);
-// 0x60bc7c Partial: cache insertion and eviction are not reconstructed.
-void CAnimationStreamingManager_cache(CAnimationStreamingManager& self, CAnimationBlock* block);
-// 0x60c05c / 0x60c610 / 0x60c7a8 / 0x60c940 Partial: constructors load the segment from the database.
-void CAnimationBlock_ctor(CAnimationBlock* self, const CColladaDatabase& db,
-                          SAnimationBlockSearchKey& key, std::int32_t begin, std::int32_t end);
-// 0x60c220 Partial: lookup then allocate-and-construct; allocation is not modelled.
-CAnimationBlock* CAnimationStreamingManager_getAnimationBlock(CAnimationStreamingManager& self,
-                                                              SAnimationBlockSearchKey& key);
-// 0x60c414 Partial: sorted insert into the registry is not reconstructed.
-void CAnimationStreamingManager_registerAnimationBlock(CAnimationStreamingManager& self,
-                                                       CAnimationBlock* block);
-
 // --- glitch::collada scene nodes -------------------------------------------
 struct CSceneNode;
 // 0x60ce44 Partial: base-class destructor chain (multiple inheritance) is not modelled.

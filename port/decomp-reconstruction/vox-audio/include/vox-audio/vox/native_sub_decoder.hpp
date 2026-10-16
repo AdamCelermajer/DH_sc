@@ -147,7 +147,10 @@ public:
 protected:
     StreamCursorInterface* stream_ = nullptr;  // +0x04
     std::uint16_t mode_ = 0;                   // +0x08: 17 selects the extra path in StopSegment
+    std::int16_t channels_ = 0;                // +0x0a
+    std::int32_t field_0c_ = 0;                // +0x0c (returned as the second track parameter)
     std::int16_t bytes_per_sample_ = 0;        // +0x10 (bytes per frame; the decoders multiply by it)
+    std::int16_t bits_ = 0;                    // +0x12 (bits per sample; the byte width is bits >> 3)
     std::int32_t base_offset_ = 0;             // +0x14: added to chunk offsets to get the stream position
     AudioSegments* chunks_ = nullptr;          // +0x18 (the segment table, see native_containers.hpp)
     TransitionRules* transition_rules_ = nullptr;  // +0x1c
@@ -173,9 +176,6 @@ protected:
     std::int32_t next_event_ = -1;             // +0x164
     std::int32_t pending_seek_ = 0;            // +0x168: frames to skip after a seek to the current segment
     bool has_data_ = false;                    // +0x16c
-    std::int16_t channels_ = 0;                // +0x0a
-    std::int32_t field_0c_ = 0;                // +0x0c (returned as the second track parameter)
-    std::int16_t bits_ = 0;                    // +0x12 (bits per sample; the byte width is bits >> 3)
 };
 
 class VoxNativeSubDecoderPCM : public VoxNativeSubDecoder {

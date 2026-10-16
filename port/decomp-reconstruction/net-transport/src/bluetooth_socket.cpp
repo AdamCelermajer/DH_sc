@@ -1,5 +1,8 @@
 #include "net-transport/bluetooth_socket.hpp"
 
+CEventQueueBase CBluetoothSocketAbstract::s_eventQueue(100);
+std::string CBluetoothSocketAbstract::s_DisplayName;
+
 // 0x828c14 _ZN24CBluetoothSocketAbstract16SetSocketOptionsEj
 int CBluetoothSocketAbstract::SetSocketOptions(unsigned int options) {
     (void)options;

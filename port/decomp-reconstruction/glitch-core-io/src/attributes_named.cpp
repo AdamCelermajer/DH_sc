@@ -14,12 +14,12 @@ constexpr unsigned int kNotFound = 0xffffffffu;
 }  // namespace
 
 namespace {
-// The first index whose choice equals the text, or -1. The list is null-terminated; an empty
-// list (no first entry) gives -1, as the original's loop does.
-int choiceIndex(const std::string& text, const char* const* choices) {
-    if (choices == nullptr || choices[0] == nullptr) return -1;
+// The first index whose choice equals the text (strcmp), or -1. The list is null-terminated; an empty list (no first
+// entry) and a null text give -1, as the original's loop does.
+int choiceIndex(const char* text, const char* const* choices) {
+    if (text == nullptr || choices == nullptr || choices[0] == nullptr) return -1;
     for (int i = 0; choices[i] != nullptr; ++i) {
-        if (text == choices[i]) return i;
+        if (std::strcmp(text, choices[i]) == 0) return i;
     }
     return -1;
 }
@@ -71,9 +71,9 @@ bool CAttributes::getBool(const char* name) const {
 }
 
 // 0x5624c4 _ZN6glitch2io11CAttributes7getEnumEPKc
-int CAttributes::getEnum(const char* name) const {
+const char* CAttributes::getEnum(const char* name) const {
     IAttribute* a = getAttributeP(name);
-    return a ? a->getEnum() : 0;
+    return a ? a->getEnum() : nullptr;
 }
 
 // 0x5624ec _ZN6glitch2io11CAttributes13getBinaryDataEPKcPvi
@@ -233,22 +233,22 @@ void CAttributes::getStringW(const char* name, wchar_t* out) const {
 }
 
 // 0x562458 _ZN6glitch2io11CAttributes7getEnumEPKcPKS3_
-// PARTIAL: compares getString() of the attribute. The original compares slot +0x80, which is
-// IAttribute::getEnum (0x31d814, returns null in the base), so a non-enumeration attribute gives -1 there.
+// Compares the text of the attribute's slot +0x80 (IAttribute::getEnum, null in the base, so a non-enumeration attribute
+// gives -1).
 int CAttributes::getEnum(const char* name, const char* const* choices) const {
     const IAttribute* a = getAttributeP(name);
     if (a == nullptr || choices == nullptr) return -1;
-    return choiceIndex(a->getString(), choices);
+    return choiceIndex(a->getEnum(), choices);
 }
 
 // 0x561f04 _ZN6glitch2io11CAttributes7getEnumEiPKPKc
-// PARTIAL: as the name form, for the attribute at index. Out-of-range indices give -1.
+// As the name form, for the attribute at index. Out-of-range indices give -1.
 int CAttributes::getEnum(int index, const char* const* choices) const {
     const auto& attributes = currentAttributes();
     if (index < 0 || static_cast<std::size_t>(index) >= attributes.size()) return -1;
     const IAttribute* a = attributes[static_cast<std::size_t>(index)];
     if (a == nullptr || choices == nullptr) return -1;
-    return choiceIndex(a->getString(), choices);
+    return choiceIndex(a->getEnum(), choices);
 }
 
 }  // namespace glitch::io

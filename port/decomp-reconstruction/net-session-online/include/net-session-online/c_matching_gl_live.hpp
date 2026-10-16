@@ -34,6 +34,7 @@
 #include "net-session-online/c_event_queue_base.hpp"
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_room_attributes.hpp"
+#include "net-session-online/game_center_info.hpp"
 #include "net-session-online/c_room_search_filter.hpp"
 #include "net-transport/sync.hpp"
 #include "net-session-online/gl_friend_info.hpp"
@@ -52,12 +53,12 @@ class CSignInGLLiveObserver;
 class GLXPlayerLeaderboard;
 class GLXPlayerMPLobby;
 class GLXPlayerSereverConfig;
-class GameCenterInfo;
 class GLXPlayerLogin;
 class GLXPlayerUserFriend;
 class GLXPlayerUser;
 class GLXPlayerMessage;
 class tFriendInfo;
+class tMemberInfo;
 
 class CMatchingGLLive : public CMatching {
 public:
@@ -133,12 +134,12 @@ public:
     // Lobby singleton (0x81ef7c creates it in the original) and the Game Center record.
     // Both are defined in src/c_matching_gl_live_glx05.cpp.
     static GLXPlayerMPLobby* s_GLXPlayerMPLobby;
-    static GameCenterInfo* s_GameCenterInfo;
-    // dword_A33870: the game version string that Initialize hands to the GLXPlayerSereverConfig
-    // constructor. It is a zero-initialised bss pointer in the binary and its only recovered reference
-    // is the literal pool of Initialize, so no writer is known. Defined in
-    // src/e2-net-session-online-CMatchingGLLive-07f9f6-0.cpp.
-    static const char* s_serverConfigGameVersion;
+    // The Game Center record (0xa33878, 0x18 bytes): host flag, user and host UIDs, player count, player list. Its
+    // fields at 0xa3387c/0xa33880 are the dword_A3387C/dword_A33880 globals of the listings.
+    static GameCenterInfo s_GameCenterInfo;
+    // CMatchingGLLive::m_GameVersion (0xa3385c): the game version string. OnlineGameState::Init assigns it; Initialize
+    // hands its text (dword_A33870, the string's start pointer) to the GLXPlayerSereverConfig constructor.
+    static std::string m_GameVersion;
 
     // ---- Virtual slots, in vtable order. The byte offset of the slot (32-bit vtable) is in the
     // comment. Slots that CMatching implements and CMatching declares non-virtual (+0x1c
@@ -151,15 +152,15 @@ public:
     // +0x04 0x81f948 _ZN15CMatchingGLLive20CreateJoinRoomInternalEbR15CRoomAttributes. Partial, see the cpp.
     virtual std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes);
     // +0x08 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
-    virtual std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
+    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode) override;
     // +0x0c 0x81f53c _ZN15CMatchingGLLive15WritePacketDataEiiR12NetBitStream. Partial, see the cpp.
-    virtual std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) override;
     // +0x10 0x81e4d0 _ZN15CMatchingGLLive14ReadPacketDataEiiR12NetBitStream. Partial, see the cpp.
-    virtual void ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) override;
     // +0x14 0x81c034 _ZN15CMatchingGLLive23ProcessAcknowledgedPacketEii. Partial, see the cpp.
-    virtual void ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3);
+    std::int32_t ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3) override;
     // +0x18 0x81bfe4 _ZN15CMatchingGLLive17ProcessLostPacketEii. Partial, see the cpp.
-    virtual void ProcessLostPacket(std::int32_t a2, std::int32_t a3);
+    std::int32_t ProcessLostPacket(std::int32_t a2, std::int32_t a3) override;
     // +0x20/+0x24 destructors: declared above.
     // +0x28 0x81f264 _ZN15CMatchingGLLive10InitializeEi. Partial, see the cpp.
     std::int32_t Initialize(std::int32_t memberCapacity) override;
@@ -179,26 +180,26 @@ public:
     // +0x40 0x81f6f8 _ZN15CMatchingGLLive10KickMemberEi. Partial, see the cpp.
     virtual std::int32_t KickMember(std::int32_t memberId);
     // +0x44 0x81bc24 _ZN15CMatchingGLLive8OpenRoomEb: returns 0.
-    virtual std::int32_t OpenRoom(bool value) const;
+    virtual std::int32_t OpenRoom(bool value);
     // +0x48 0x81bc1c _ZN15CMatchingGLLive9CloseRoomEv: returns 0.
-    virtual std::int32_t CloseRoom() const;
+    virtual std::int32_t CloseRoom();
     // +0x4c 0x81bc34 _ZN15CMatchingGLLive8ShowRoomEv: returns 0.
-    virtual std::int32_t ShowRoom() const;
+    virtual std::int32_t ShowRoom();
     // +0x50 0x81bc2c _ZN15CMatchingGLLive8HideRoomEv: returns 0.
-    virtual std::int32_t HideRoom() const;
+    virtual std::int32_t HideRoom();
     // +0x54 0x81bc3c _ZN15CMatchingGLLive12IsRoomClosedEv
-    virtual bool IsRoomClosed() const { return baseRoomClosed_; }
+    virtual bool IsRoomClosed() { return baseRoomClosed_; }
     // +0x58 0x81bc44 _ZN15CMatchingGLLive12IsRoomHiddenEv
-    virtual bool IsRoomHidden() const { return roomHidden_; }
+    virtual bool IsRoomHidden() { return roomHidden_; }
     // +0x5c 0x81df90 _ZN15CMatchingGLLive13GetMemberNameEi. Partial, see the cpp.
     virtual std::string GetMemberName(std::int32_t memberId);
     // +0x60 0x81c524 _ZNK15CMatchingGLLive14GetMemberCountEv. Partial, see the cpp.
     virtual std::int32_t GetMemberCount() const;
     // +0x64 0x81c4ac _ZN15CMatchingGLLive6IsInRoomEv. Partial, see the cpp. The body only reads state, so
-    // the port declares it const to serve CMatching::UnknownGate.
-    virtual bool IsInRoom() const;
+    // it is the CMatching +0x64 pure slot and, like the binary's symbol, not const.
+    bool IsInRoom() override;
     // +0x68 0x81ded4 _ZN15CMatchingGLLive6IsInRoomEi. Partial, see the cpp.
-    virtual bool IsInRoom(std::int32_t memberId);
+    bool IsInRoom(std::int32_t memberId) override;
     // +0x6c 0x81dea0 _ZNK15CMatchingGLLive11GetMemberIdEv
     virtual std::int32_t GetMemberId() const;
     // +0x70 0x81bbe8 _ZN15CMatchingGLLive11SetMemberIdEi
@@ -209,13 +210,15 @@ public:
     virtual std::int32_t GetMemberMask(std::int32_t memberId) const;
     // +0x8c 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb. Partial, see the cpp.
     virtual std::vector<tFriendInfo> GetFriendsList(bool notInState3);
-    // +0x90 GetRoomList (0x82051c) returns std::vector<tRoomInfo>; it is not reconstructed (queued).
+    // +0x90 0x82051c _ZN15CMatchingGLLive11GetRoomListEv: the lobby observer's rooms as tRoomInfo records; it also
+    // rebuilds the room attribute map at +0x6720.
+    std::vector<tRoomInfo> GetRoomList() override;
     // +0x94 0x81cf30 _ZN15CMatchingGLLive14SendInvitationEPKcS1_b. Partial, see the cpp.
     virtual std::int32_t SendInvitation(const char* from, const char* to, bool flag);
     // +0x98 0x81bc08 _ZN15CMatchingGLLive17ReceiveInvitationEv: returns 0.
-    virtual std::int32_t ReceiveInvitation() const;
+    virtual std::int32_t ReceiveInvitation();
     // +0xa0 0x81bc10 _ZN15CMatchingGLLive19GetInvitationRoomIdEv: returns 0 (64-bit).
-    virtual std::uint64_t GetInvitationRoomId() const;
+    virtual std::uint64_t GetInvitationRoomId();
     // +0xa4 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
     // The original uses std::map<unsigned long long, CRoomAttributes> at +0x6720; the key is the int at +0x680c.
     CRoomAttributes* GetRoomAttributes() override;
@@ -223,19 +226,18 @@ public:
     // under the key, or default settings when the key is not in the map.
     virtual CRoomAttributes GetSearchRoomAttributes(std::uint64_t key);  // not const: _ZN15CMatchingGLLive23GetSearchRoomAttributesEy (link-1)
     // +0xac 0x81bbf4 _ZN15CMatchingGLLive19GenerateNewMemberIdEv: always -1 (no generation here).
-    virtual std::int32_t GenerateNewMemberId() const;
+    std::int32_t GenerateNewMemberId() override;  // NON-const: the binary symbol has no K
     // +0xb0 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv. Partial, see the cpp.
     virtual std::int64_t GetRoomId();
 
     // ---- CMatching slots served by the methods above (the base names them by use).
-    // +0x6c LocalMemberId(), +0x74 ServerMemberId(), +0x84 MemberBit(int), +0x64 UnknownGate(),
+    // +0x6c LocalMemberId(), +0x74 ServerMemberId(), +0x84 MemberBit(int), +0x64 IsInRoom(),
     // +0x88 ConnectedMemberIds(): CMatching::GetMemberIdList(), +0xa4 GetRoomAttributes() (above).
     int LocalMemberId() const override { return GetMemberId(); }
     int ServerMemberId() const override { return GetServerMemberId(); }
     std::uint32_t MemberBit(int memberId) const override {
         return static_cast<std::uint32_t>(GetMemberMask(memberId));
     }
-    bool UnknownGate() const override { return IsInRoom(); }
     std::vector<int> ConnectedMemberIds() const override { return GetMemberIdList(); }
     // CMatching::IsServer is non-virtual in the original; the base keeps it virtual so tests can override.
     bool IsServer() const override { return CMatching::IsServer(); }
@@ -291,12 +293,13 @@ public:
     // 0x81c18c _ZN15CMatchingGLLive6GetGGIEv: GGI of the GLX server config component (+0x6710), 0 when none.
     unsigned long GetGGI();
     // 0x81c32c _ZN15CMatchingGLLive30GetGLXPlayerUserFriendObserverEv
-    CMatchingGLLiveFriendObserver* GetGLXPlayerUserFriendObserver();
-    // 0x81c410 _ZN15CMatchingGLLive27GetGLXPlayerMPLobbyObserverEv. Only the static singleton is touched, so the
-    // port declares it const to serve the const slots (IsInRoom, GetMemberCount).
-    CMatchingGLLiveLobbyObserver* GetGLXPlayerMPLobbyObserver() const;
+    static CMatchingGLLiveFriendObserver* GetGLXPlayerUserFriendObserver();
+    // 0x81c410 _ZN15CMatchingGLLive27GetGLXPlayerMPLobbyObserverEv. Only the static singleton is touched and the
+    // original never uses `this`; declaring it static keeps the very same mangled name (no K) and lets the const
+    // slots (GetMemberCount, GetGLLiveMemberId) call it.
+    static CMatchingGLLiveLobbyObserver* GetGLXPlayerMPLobbyObserver();
     // 0x81c598 _ZN15CMatchingGLLive25GetGLXPlayerLoginObserverEv
-    CSignInGLLiveObserver* GetGLXPlayerLoginObserver();
+    static CSignInGLLiveObserver* GetGLXPlayerLoginObserver();
     // 0x81c1a0 _ZN15CMatchingGLLive26ProcessChangeServerMessageEiR12NetBitStream
     void ProcessChangeServerMessage(int from, NetBitStream& stream);
     // 0x81c8b8 _ZN15CMatchingGLLive24ProcessRoomStatusMessageEiR12NetBitStream
@@ -307,18 +310,17 @@ public:
     // 0x81ca24 _ZN15CMatchingGLLive19ProcessGLLiveEventsEv
     std::int32_t ProcessGLLiveEvents();
 
-    // 0x81ef7c _ZN15CMatchingGLLive19GetGLXPlayerMPLobbyEv. Partial: the original creates the
-    // lobby on first use (socket URL from the login observer, a copy of the lobby observer,
-    // a 0x94-byte allocation). That path is not reconstructed; this returns s_GLXPlayerMPLobby.
-    GLXPlayerMPLobby* GetGLXPlayerMPLobby();
-    // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv. Partial: creates the singleton on first use;
-    // the observer copy and the RegisterObserver call are not reproduced (see the cpp).
-    GLXPlayerLogin* GetGLXPlayerLogin();
+    // 0x81ef7c _ZN15CMatchingGLLive19GetGLXPlayerMPLobbyEv. Creates the lobby on first use (socket URL from the login
+    // observer, the lobby observer singleton, a 0x94-byte allocation).
+    static GLXPlayerMPLobby* GetGLXPlayerMPLobby();
+    // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv. Creates the singleton on first use and
+    // registers the login observer on it.
+    static GLXPlayerLogin* GetGLXPlayerLogin();
 
-    // 0x81c37c _ZN15CMatchingGLLive22GetGLXPlayerUserFriendEv. Partial, see the cpp.
-    GLXPlayerUserFriend* GetGLXPlayerUserFriend();
+    // 0x81c37c _ZN15CMatchingGLLive22GetGLXPlayerUserFriendEv.
+    static GLXPlayerUserFriend* GetGLXPlayerUserFriend();
     // 0x81c138 _ZN15CMatchingGLLive18GetGLFriendsNumberEi
-    std::int32_t GetGLFriendsNumber(std::int32_t index);
+    const char* GetGLFriendsNumber(std::int32_t index);
     // 0x81c174 _ZN15CMatchingGLLive23SendRequestLostPasswordEPc
     std::int32_t SendRequestLostPassword(char* name);
     // 0x81c748 _ZN15CMatchingGLLive16InitializeFriendEv
@@ -349,8 +351,9 @@ public:
     void ProcessMemberJoinMessage(std::int32_t a2, NetBitStream& stream);
     // 0x81c2c4 _ZN15CMatchingGLLive17SendClientRequestEv. Partial, see the cpp.
     std::int32_t SendClientRequest();
-    // 0x81c494 _ZN15CMatchingGLLive20GetMemberByMemberIdEi. Partial, see the cpp.
-    std::int32_t GetMemberByMemberId(std::int32_t memberId);
+    // 0x81c494 _ZN15CMatchingGLLive20GetMemberByMemberIdEi. The original returns the observer's tMemberInfo pointer
+    // in its int result register; the return type is not part of the symbol, so the port returns the pointer.
+    tMemberInfo* GetMemberByMemberId(std::int32_t memberId);
     // 0x81c6cc _ZN15CMatchingGLLive10IsMyFriendEPc. Partial, see the cpp.
     std::int32_t IsMyFriend(char* name);
     // 0x81c9e8 _ZN15CMatchingGLLive23sPacketReceiverCallbackEiPci. Partial, see the cpp.
@@ -421,7 +424,7 @@ public:
     // The message observer sets unk_6c02 for response codes 0x6f and 0x70 (0x8241e0). Access only.
     friend class CMatchingGLLiveMessageObserver;
 
-private:
+public:  // members are public (Track B decision 9)
     // Members in the original order. Offsets are 32-bit; the CMatching part occupies +0x00..+0x362f.
     bool roomOperationPending_ = false;            // +0x3630 (set by Create/Search in the sibling classes, cleared by Join; AddServer posts 8388622 when set)
     std::uint8_t pad_3631[7] = {};                 // +0x3631

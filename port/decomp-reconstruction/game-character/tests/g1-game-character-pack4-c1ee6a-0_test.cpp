@@ -290,8 +290,8 @@ void CheckFocus() {
     // Lifting idle: flags 0x2380, anim is row m_w20, stance added when the constant has bit 0x1000000.
     std::memset(g_rowStorage, 0, sizeof g_rowStorage);
     g_row = reinterpret_cast<Structs::CharAnim*>(g_rowStorage);
-    g_row->m_w20 = 40;
-    g_row->m_w21 = 77;
+    g_row->LiftIdle = 40;
+    g_row->LiftMove = 77;
 
     ResetRecords();
     g_stanceConstant = 0;

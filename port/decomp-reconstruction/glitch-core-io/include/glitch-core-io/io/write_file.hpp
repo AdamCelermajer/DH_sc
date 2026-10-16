@@ -7,7 +7,9 @@
 #include <cstdio>
 #include <string>
 
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
+#include "glitch-core-io/io/file.hpp"
 #include "glitch-core-io/io/interfaces.hpp"
 
 namespace glitch::io {
@@ -25,14 +27,14 @@ public:
     const char* getFileName() const override;         // 0x5708f8
     const char* getFullPath() const override;         // 0x570900
     void openFile(bool append);                       // 0x57095c
-    bool isOpen() const { return file != nullptr; }
+    bool isOpen() const { return static_cast<bool>(file); }
 
     CWriteFile(const CWriteFile&) = delete;
     CWriteFile& operator=(const CWriteFile&) = delete;
 
 private:
     std::string fileName;                 // +0x08 (0x18 bytes, through +0x20)
-    std::FILE* file = nullptr;            // +0x20
+    boost::intrusive_ptr<CFile> file;     // +0x20, the shared handle CFileSystem::open returns (its FILE* is file->file)
     long size = 0;                        // +0x24
 };
 

@@ -26,7 +26,7 @@ std::int32_t CMatchingLocal::GetMemberCount() const {
 // table yet, so the term is reproduced against the base table's element, which carries the same id
 // semantics. Deviation (host-necessitated): when GetMemberIndex answers -1, the binary reads element -1
 // (out of bounds); the port answers false there.
-bool CMatchingLocal::IsInRoom(std::int32_t memberId) const {
+bool CMatchingLocal::IsInRoom(std::int32_t memberId) {
     if (memberId_ == memberId) {
         return IsInRoom();  // vtable +0x64
     }

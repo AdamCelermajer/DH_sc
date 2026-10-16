@@ -66,7 +66,7 @@
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance()
 #include "dh2/global/net_singletons.hpp"  // GetOnline, GetNetPlayerMgr, GetConnectionMgr, GetMessaging
-#include "net-session-online/c_matching_base.hpp"  // CMatching::Get(), UnknownGate(), LocalMemberId()
+#include "net-session-online/c_matching_base.hpp"  // CMatching::Get(), IsInRoom(), LocalMemberId()
 #include "net-transport/connection_manager.hpp"    // CConnectionManager::GetConnectionCount
 #include "net-transport/packet_manager.hpp"        // CPacketManager::ClearLastSendTime (+0x2c)
 #include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager
@@ -96,7 +96,7 @@ bool OnlineMatchingReady() {
     if (!OnlineSingleton<OnlineGameState>::GetInstance()->flag24_) {
         return false;
     }
-    if (!CMatching::Get()->UnknownGate()) {
+    if (!CMatching::Get()->IsInRoom()) {
         return false;
     }
     (void)GetNetPlayerMgr();
@@ -1057,8 +1057,8 @@ int PlayerManager::_ManageCharacters() {
             // word 20) and +0x5b8 (the base sheet's word 20), >> 8. When the record's level moved, the character's level
             // is set and its sheet level is derived from the record's level and the same base word; a one-step gain on an
             // in-game character runs the level-up presentation.
-            const std::int32_t savedWord20 = character->m_savedProps.m_w20;  // +0x93c
-            const std::int32_t baseWord20 = character->m_baseProps.m_w20;    // +0x5b8
+            const std::int32_t savedWord20 = character->m_savedProps.Level;  // +0x93c
+            const std::int32_t baseWord20 = character->m_baseProps.Level;    // +0x5b8
             const int derivedLevel = (savedWord20 + baseWord20) >> 8;
             if (character->SG_GetPlayerLevel() != player->m_characterLevel.GetValue()) {
                 character->SG_SetPlayerLevel(player->m_characterLevel.GetValue());

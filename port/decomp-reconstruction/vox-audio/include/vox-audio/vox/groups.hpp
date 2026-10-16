@@ -89,9 +89,14 @@ struct RandomGroupElement {
 
 // Ring node of the removed-elements list: next +0x00, prev +0x04, element +0x08.
 // The list sentinel is RandomGroup::removed_ (its next and prev sit at +0x30 and +0x34).
-struct RandomGroupNode {
+struct RandomGroupNode;
+// The two link words of a node; the list sentinel RandomGroup::removed_ is only this part (8 bytes at +0x30), the next member of the
+// group (element_count_ at +0x38) sits where a node's element word would be.
+struct RandomGroupLink {
     RandomGroupNode* next = nullptr;
     RandomGroupNode* prev = nullptr;
+};
+struct RandomGroupNode : RandomGroupLink {
     RandomGroupElement* element = nullptr;
 };
 
@@ -139,7 +144,10 @@ public:
 private:
     friend struct RandomGroupTestAccess;
     std::vector<RandomGroupElement*> elements_;  // +0x24..+0x2c
-    RandomGroupNode removed_;                    // +0x30 (sentinel), +0x34
+    RandomGroupLink removed_;                    // +0x30 (sentinel), +0x34
+    // The sentinel viewed as a node (as the original does: the ring links point at it). Its element word is never read.
+    RandomGroupNode& sentinel() { return reinterpret_cast<RandomGroupNode&>(removed_); }
+    const RandomGroupNode& sentinel() const { return reinterpret_cast<const RandomGroupNode&>(removed_); }
     std::int32_t element_count_;                 // +0x38 (not written by the two-argument constructor)
     std::int32_t exclusion_window_ = 0;          // +0x3c
     std::int32_t raw_window_ = 0;                // +0x40

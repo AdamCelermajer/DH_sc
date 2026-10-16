@@ -21,8 +21,13 @@
 #include <new>
 #include <vector>
 
+#include "dh2/Application.hpp"  // the sounds.zip flag (+0xa8)
+#include "dh2/Singleton.hpp"
+#include "dh2/Point3D.hpp"  // Stop3D takes a Point3D<float>*
+#include "glitch-core-io/io/file_system.hpp"  // getObfuscatedFileName
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
+#include "vox-audio/deps/vox_file_system.hpp"
 #include "vox-audio/vox/engine_handles.hpp"
 #include "vox-audio/vox/memory.hpp"
 #include "vox-audio/vox/sound_pack_xml.hpp"
@@ -63,7 +68,7 @@ constexpr int kEmitterSlots = 10;
 
 // Arrays::Sounds element `sound`. members points at element 0 of host Structs::SoundAutoGen records
 // (pydata element_table.hpp); the original's 12-byte listing stride is not applied to bytes. +0x4
-// (m_w1) is the sound's data index, the index the callers use for sounds_; +0x8 (m_w2) is the kind.
+// (Id) is the sound's data index, the index the callers use for sounds_; +0x8 (Type) is the kind.
 Structs::SoundAutoGen& SoundRecord(int sound) {
     return reinterpret_cast<Structs::SoundAutoGen*>(Arrays::Sounds::members)[sound];
 }
@@ -88,48 +93,35 @@ void DestroyDataHandle(vox::DataHandle* handle) {
 
 // 0x36c7b0 _ZN15VoxSoundManagerC1Ev
 // 0x36cad0 _ZN15VoxSoundManagerC2Ev (the same body)
-// Reconstructed from the ARM listing (tools/decomp_asm.py --address 0x36c7b0). The stores at
-// 0x36c7dc..0x36c820 are the member defaults; the port names them instead of writing raw words.
-// 0x36c8b8's _DEBUG_OUT calls are dropped (logging only, as in the other rows of this file).
-// The _String_base::_M_allocate_block(0x10) at 0x36c82c is the std::string member's own block.
-// The listing's byte_99F7D4 block (FileSystemInterface::GetInstance and the obfuscated
-// "data/sounds/sounds.zip" open) is not ported: it is a zip-reader path with no counterpart here.
+// Reconstructed from the ARM listing (tools/decomp_asm.py --address 0x36c7b0), in its order: the member defaults
+// (0x36c7dc..0x36c820), the std::string member's block, the embedded VoxSoundPackXML's fields, the "In start..." traces
+// (_DEBUG_OUT, logging only, dropped), the sounds.zip archive when the Application's byte at +0xa8 (byte_99F7D4) is set,
+// RES_PATH + "data/sounds/" + "sounds.xml" into the pack (LoadXML), the sound count from the pack's table size, the two
+// zeroed slot arrays, and last the engine: VoxEngine::GetVoxEngine() into +0x00 and its vtable +0x08 (Initialize).
 // Deviations, all named:
-//   (a) the two allocations at 0x36c968 and 0x36c998 are `operator new[](4 * count, 4)` in the
-//       listing. The port has no allocate-only form of that operator (its four-argument VoxAlloc
-//       takes file/function/line), so it stores the block returned by VoxAlloc(size, 4). The size is
-//       the listing's: 4 * count bytes, which is one pointer short of the count, so the last slot
-//       gets its zero from the memset and is then written with a null explicitly.
-//   (b) the listing reaches the sound table's size through the embedded pack's raw vector words
-//       (+0x64 and +0x68) because the ARM pack object is not typed. The port asks the pack for the
-//       same number (VoxSoundPackXML::GetSoundCount, the table vector's size).
-//   (c) the ENGINE. The listing ends with VoxEngine::GetVoxEngine() (0x36c9c8) into +0x00 and
-//       Initialize through +0x08 of that object's vtable (0x36c9d8). This port does not create the
-//       engine here: engine_ keeps the header's null default, and the engine is created on first use
-//       by the static facade (vox::VoxEngine::GetVoxEngine inside every facade entry point), which is
-//       what VoxSoundManager::Initialize (0x36c2e4) and the game's GSInit observe. Reason
-//       (host-necessitated): this category's manager tests drive the facade with recording stubs and
-//       require the constructor to reach no engine entry point -- p1-...-0_test's
-//       TestStopAllSoundsPauseResume starts at `m.StopAllSounds(500)` with engine_ null and CHECKs
-//       that nothing was recorded. Observable difference: engine_ is null after construction instead
-//       of the process engine, so StopAllSounds/ResumeAllSounds/PauseAllSounds skip their facade call
-//       until the game sets the slot. No reconstructed body reads +0x00 except for that null test.
-// Side effects kept: LoadXML runs on the embedded pack, and the two sound slot arrays are
-// allocated and zeroed.
+//   (a) the two allocations at 0x36c968 and 0x36c998 are `operator new[](4 * count, 4)` in the listing. The port has no
+//       allocate-only form of that operator (its four-argument VoxAlloc takes file/function/line), so it stores the block
+//       returned by VoxAlloc(size, 4). The size is the listing's: 4 * count bytes.
+//   (b) the listing reaches the sound table's size through the embedded pack's raw vector words (+0x64 and +0x68)
+//       because the ARM pack object is not typed. The port asks the pack for the same number
+//       (VoxSoundPackXML::GetSoundCount, the table vector's size).
+//   (c) Initialize is called only when GetVoxEngine returned an engine (the real one never returns null; the test
+//       stubs of this category answer null so that the constructor reaches no engine entry point).
+//   (d) the sounds.zip archive is attached through FileSystemInterface::SetArchive (the binary calls the same member
+//       through vtable +0x10) with the name from glitch::io::CFileSystem::getObfuscatedFileName.
 VoxSoundManager::VoxSoundManager() {
-    // The names for the listing's stores at 0x36c7dc..0x36c820. The +0x1C store is sound_count_,
-    // which the pack's table size below overwrites. The byte at +0x18 and the (begin,end,end_of_
-    // storage) triple at +0x30..+0x34 belong to containers this port models as C++ types (see the
-    // layout note in sound_manager.hpp), so they are not written here.
+    // The listing's member stores. The +0x1C store is sound_count_, which the pack's table size below overwrites. The
+    // (begin, end, end_of_storage) triple at +0x0c..+0x14 and the string at +0x38 are C++ containers here.
     engine_ = nullptr;
     unk_04 = nullptr;
     sounds_ = nullptr;
+    unk_18 = true;
     sound_count_ = 0;
     music_id_ = -1;
     prev_music_id_ = -1;
     beat_id_ = -1;
     initial_volume_set_ = false;
-    music_loop_ = false;
+    music_loop_ = true;
     music_slot_ = true;
     in_safe_zone_ = false;
     ipod_playlist_set_ = false;
@@ -137,6 +129,12 @@ VoxSoundManager::VoxSoundManager() {
     unk_58 = 1000;
     unk_5c = 1.0f;
     ipod_paused_ = 0;
+
+    // The sounds.zip archive, when the Application flag at +0xa8 asks for it.
+    if (Singleton<Application>::s_inst.unk_a8) {
+        vox::FileSystemInterface::GetInstance()->SetArchive(
+            glitch::io::CFileSystem::getObfuscatedFileName("data/sounds/sounds.zip"), true, true, true);
+    }
 
     // RES_PATH + "data/sounds/" + "sounds.xml" (the 512-byte stack buffer at sp+0xC of the listing).
     char path[512];
@@ -157,15 +155,12 @@ VoxSoundManager::VoxSoundManager() {
         static_cast<vox::DataHandle**>(VoxAlloc(slot_bytes, static_cast<vox::VoxMemHint>(4)));
     sounds_ = sound_slots;
     std::memset(sound_slots, 0, slot_bytes);
-    if (sound_count_ > 0) {
-        // The block is 4 * count bytes, so only the first pointer is fully inside it.
-        sound_slots[sound_count_ - 1] = nullptr;
-    }
 
-    // Deviation (c), the engine, is documented above: the listing ends with
-    // VoxEngine::GetVoxEngine() into +0x00 and Initialize (+0x08 of its vtable). The port leaves the
-    // slot null and creates the engine on first use in the facade, which is what the manager's tests
-    // require (they run the facade with recording stubs and assert the constructor recorded none).
+    // The engine: VoxEngine::GetVoxEngine() into +0x00, then its vtable +0x08 (Initialize).
+    engine_ = vox::VoxEngine::GetVoxEngine();
+    if (engine_ != nullptr) {
+        engine_->Initialize();
+    }
 }
 
 // 0x36921c _ZN15VoxSoundManager11UnloadSoundEi
@@ -206,7 +201,7 @@ void VoxSoundManager::SetMusicState(const char* state) {
     if (music_id_ < 0 || JAVA_SOUNDS) {
         return;
     }
-    vox::DataHandle* data = sounds_[SoundRecord(music_id_).m_w1];
+    vox::DataHandle* data = sounds_[SoundRecord(music_id_).Id];
     if (data == nullptr) {
         return;
     }
@@ -254,7 +249,7 @@ bool VoxSoundManager::IsMusicPlaying() {
     if (music_id_ == -1) {
         return false;
     }
-    vox::DataHandle* data = sounds_[SoundRecord(music_id_).m_w1];
+    vox::DataHandle* data = sounds_[SoundRecord(music_id_).Id];
     std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(1);
     if (data == nullptr) {
         return false;
@@ -442,7 +437,7 @@ void VoxSoundManager::Stop(int sound, int fade_ms) {
         nativeStopSoundBig(sound);
         return;
     }
-    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    vox::DataHandle* data = sounds_[SoundRecord(sound).Id];
     if (data == nullptr) {
         return;
     }
@@ -485,13 +480,9 @@ void VoxSoundManager::StopMusic(int fade_ms) {
 // are filled by GetEmitterHandles(data, handles, 10) and each of the first count is stopped with
 // VoxEngine::Stop(handle, fade): with a null pos every handle is stopped, otherwise the handle's
 // position comes from VoxEngine::Get3DEmitterPosition(handle, x, y, z) and the handle is stopped
-// when radius < the Euclidean distance (__aeabi_f2d, sqrt, __aeabi_d2f in the listing). Named
-// deviation: the third parameter. The original takes Point3D<float>* (mangles P7Point3DIfE); the
-// port takes const float* (x, y, z), because the two game-world callers pass a float* -
-// &characterPos.X in g1-game-world-SoundEmitter-aa1880-0.cpp:95 and the stopPosition array in
-// g1-game-world-GameObject-5d2019-1.cpp:179 - and those files are not in this batch, so the
-// signature cannot be corrected here without breaking them (rule 10 deviation).
-void VoxSoundManager::Stop3D(int sound, int fade_ms, const float* pos, float radius) {
+// when radius < the Euclidean distance (__aeabi_f2d, sqrt, __aeabi_d2f in the listing). The third
+// parameter is the original Point3D<float>* (mangles P7Point3DIfE).
+void VoxSoundManager::Stop3D(int sound, int fade_ms, Point3D<float>* pos, float radius) {
     if (sound < 0) {
         return;
     }
@@ -499,7 +490,7 @@ void VoxSoundManager::Stop3D(int sound, int fade_ms, const float* pos, float rad
         nativeStopSoundBig(sound);
         return;
     }
-    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    vox::DataHandle* data = sounds_[SoundRecord(sound).Id];
     if (data == nullptr) {
         return;
     }
@@ -515,9 +506,9 @@ void VoxSoundManager::Stop3D(int sound, int fade_ms, const float* pos, float rad
             float y = 0.0f;
             float z = 0.0f;
             vox::VoxEngine::Get3DEmitterPosition(handles[i], x, y, z);
-            const float dx = x - pos[0];
-            const float dy = y - pos[1];
-            const float dz = z - pos[2];
+            const float dx = x - pos->X;
+            const float dy = y - pos->Y;
+            const float dz = z - pos->Z;
             const float distance =
                 static_cast<float>(std::sqrt(static_cast<double>((dx * dx + dy * dy) + dz * dz)));
             if (!(radius < distance)) {
@@ -542,7 +533,7 @@ void VoxSoundManager::Resume(int sound) {
         nativeResumeSoundBig(sound);
         return;
     }
-    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    vox::DataHandle* data = sounds_[SoundRecord(sound).Id];
     if (data == nullptr) {
         return;
     }

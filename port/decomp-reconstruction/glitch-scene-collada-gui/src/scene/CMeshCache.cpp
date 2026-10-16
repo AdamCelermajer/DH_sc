@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cstring>
 
+#include "glitch-core-io/core/sort.hpp"
+
 #include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
 #include "glitch-scene-collada-gui/scene/mesh_functions.hpp"
 
@@ -116,11 +118,11 @@ boost::intrusive_ptr<IAnimatedMesh> CMeshCache::getMeshByIndex(std::uint32_t ind
 boost::intrusive_ptr<IAnimatedMesh> CMeshCache::getMeshByFilename(const char* name) {
     MeshEntry key;
     key.filename = lowerCased(name);
-    const auto it = std::lower_bound(entries.begin(), entries.end(), key);
-    if (it == entries.end() || key < *it) {
+    const int index = glitch::core::binary_search(entries, key);  // binary_search<MeshEntry> 0x6bfa64
+    if (index == -1) {
         return boost::intrusive_ptr<IAnimatedMesh>();
     }
-    return it->mesh;
+    return entries[static_cast<std::size_t>(index)].mesh;
 }
 
 // 0x6be60c _ZNK6glitch5scene10CMeshCache15getMeshFilenameEj
@@ -158,7 +160,7 @@ bool CMeshCache::setMeshFilename(std::uint32_t index, const char* name) {
     }
     entries[index].filename = name;
     if (entries.size() > 1) {
-        std::sort(entries.begin(), entries.end());  // glitch::core::heapsort<MeshEntry>
+        glitch::core::heapsort(entries.data(), static_cast<int>(entries.size()));  // heapsort<MeshEntry> 0x6bf228 (heapsink 0x6beffc)
     }
     return true;
 }
@@ -169,7 +171,7 @@ bool CMeshCache::setMeshFilename(const boost::intrusive_ptr<const IAnimatedMesh>
         if (entry.mesh.get() == mesh.get()) {
             entry.filename = name;
             if (entries.size() > 1) {
-                std::sort(entries.begin(), entries.end());
+                glitch::core::heapsort(entries.data(), static_cast<int>(entries.size()));
             }
             return true;
         }
@@ -185,7 +187,7 @@ bool CMeshCache::setMeshFilename(const boost::intrusive_ptr<const IMesh>& mesh, 
             if (frame.get() == mesh.get()) {
                 entries[i].filename = name;
                 if (entries.size() > 1) {
-                    std::sort(entries.begin(), entries.end());
+                    glitch::core::heapsort(entries.data(), static_cast<int>(entries.size()));
                 }
                 return true;
             }

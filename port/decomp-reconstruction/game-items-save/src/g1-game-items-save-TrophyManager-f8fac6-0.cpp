@@ -218,14 +218,14 @@ void TrophyManager::InitTrophies() {
         void* block = CustomAlloc(static_cast<unsigned int>(sizeof(TrophyData)));  // operator new(0x28, 0) in the original
         TrophyData* trophy = new (block) TrophyData();
         trophy->m_id = static_cast<std::int32_t>(i);
-        trophy->m_nameTextId = row->m_w6;
-        trophy->m_descTextId = row->m_w1;
+        trophy->m_nameTextId = row->Name;
+        trophy->m_descTextId = row->Desc;
         trophy->m_unlocked = false;
-        trophy->m_type = row->m_w7;
-        trophy->m_grade = row->m_w4;
-        trophy->m_label = row->m_w5;
-        trophy->m_glLive = row->m_w3;
-        trophy->m_glIndex = row->m_w2;
+        trophy->m_type = row->Type;
+        trophy->m_grade = row->Grade;
+        trophy->m_label = row->Label;
+        trophy->m_glLive = row->GLLive;
+        trophy->m_glIndex = row->GLIndex;
         QueryTraceTrophiesSwitch();
         m_trophies.push_back(trophy);
     }

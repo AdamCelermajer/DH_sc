@@ -185,8 +185,8 @@ void CheckHideFlashIsBlocking() {
     MenuBase* menu = reinterpret_cast<MenuBase*>(g_menuStorage);
 
     command.m_menu = nullptr;
-    record.m_w2 = 2;
-    record.m_w5 = true;
+    record.Loop = 2;
+    record.Wait = true;
     Check(!command.IsBlocking(), "Script_HideFlash::IsBlocking", "no menu, no block");
 
     command.m_menu = menu;
@@ -199,19 +199,19 @@ void CheckHideFlashIsBlocking() {
     menu->m_animOverCount = 0;
     Check(command.IsBlocking(), "Script_HideFlash::IsBlocking", "count 2 above 0 finished animations blocks");
 
-    record.m_w5 = false;
+    record.Wait = false;
     Check(!command.IsBlocking(), "Script_HideFlash::IsBlocking", "flag clear does not block");
 
-    record.m_w5 = true;
-    record.m_w2 = 0;
+    record.Wait = true;
+    record.Loop = 0;
     Check(!command.IsBlocking(), "Script_HideFlash::IsBlocking", "zero count does not block");
 
-    record.m_w2 = -3;
+    record.Loop = -3;
     Check(!command.IsBlocking(), "Script_HideFlash::IsBlocking", "negative count does not block");
 
     // The asm compares the count and m_animOverCount as signed (CMP R3,R0 with MOVLE/MOVGT). An unsigned compare would
     // give the opposite results for these two cases, so they pin the signed behaviour.
-    record.m_w2 = 5;
+    record.Loop = 5;
     menu->m_animOverCount = 0xFFFFFFFFu;  // -1 as int32
     Check(command.IsBlocking(), "Script_HideFlash::IsBlocking", "signed: count 5 above animOver -1 blocks");
 
@@ -219,11 +219,11 @@ void CheckHideFlashIsBlocking() {
     Check(command.IsBlocking(), "Script_HideFlash::IsBlocking", "signed: count 5 above animOver 0x80000000 blocks");
 
     // Equal values never block, at the top of the positive range too.
-    record.m_w2 = 0x7FFFFFFF;
+    record.Loop = 0x7FFFFFFF;
     menu->m_animOverCount = 0x7FFFFFFFu;
     Check(!command.IsBlocking(), "Script_HideFlash::IsBlocking", "count equal to animOver 0x7fffffff does not block");
 
-    record.m_w2 = 0x7FFFFFFF;
+    record.Loop = 0x7FFFFFFF;
     menu->m_animOverCount = 0x7FFFFFFEu;
     Check(command.IsBlocking(), "Script_HideFlash::IsBlocking", "count 0x7fffffff above animOver 0x7ffffffe blocks");
 }
@@ -231,7 +231,7 @@ void CheckHideFlashIsBlocking() {
 void CheckHideFlashInit() {
     Script_HideFlash hud;
     Structs::HideFlash hudRecord;
-    SetName(hudRecord.m_w4, "HUDStatus");
+    SetName(hudRecord.Name, "HUDStatus");
     hud.m_args = &hudRecord;
     hud.m_menu = reinterpret_cast<MenuBase*>(g_menuStorage);
     g_lastMenuName.clear();
@@ -241,7 +241,7 @@ void CheckHideFlashInit() {
 
     Script_HideFlash named;
     Structs::HideFlash namedRecord;
-    SetName(namedRecord.m_w4, "DialogBox");
+    SetName(namedRecord.Name, "DialogBox");
     named.m_args = &namedRecord;
     g_menuToReturn = reinterpret_cast<MenuBase*>(g_menuStorage);
     named.Init();
@@ -256,7 +256,7 @@ void CheckHideFlashInit() {
 void CheckHideFlashExecuteTraceOnly() {
     Script_HideFlash command;
     Structs::HideFlash record;
-    SetName(record.m_w4, "DialogBox");
+    SetName(record.Name, "DialogBox");
     command.m_args = &record;
     command.m_menu = nullptr;
 

@@ -11,10 +11,14 @@
 #include <vector>
 
 #include "core-platform/lc_api.hpp"
-#include "net-session-online/deps/config_file_stand_in.hpp"
-#include "net-session-online/deps/jni_stand_in.hpp"
+#include "core-platform/config_file.hpp"
 #include "net-session-online/lcx_player_http.hpp"
+#include "tinyxml-and-c-libs/nvthread_jni.hpp"
 #include "tinyxml-and-c-libs/ssencdec.hpp"
+
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 
 jclass ALicenseCheck::cGame = nullptr;
 jclass ALicenseCheck::cContext = nullptr;
@@ -107,8 +111,8 @@ void UpperInto(const char* text, std::size_t length, char* out) {
 void ALicenseCheck::ValidateNative() {}
 
 // 0x89a6e8 _ZN13ALicenseCheck6LOGGEREPKcz
-// Partial: the Android log call is dropped. The original formats into a buffer of at least
-// 1024 bytes (its frame reserves 0x404 bytes); the port uses 1024.
+// Formats into a buffer (vsprintf into the frame's 1 KB; vsnprintf here), prints it, and logs it with priority 4 (info) under
+// the tag "LicenseCheck" (__android_log_print, available on Android only: the host builds skip that call).
 void ALicenseCheck::LOGGER(const char* fmt, ...) {
     char text[1024];
     va_list args;
@@ -116,6 +120,9 @@ void ALicenseCheck::LOGGER(const char* fmt, ...) {
     std::vsnprintf(text, sizeof(text), fmt, args);
     va_end(args);
     std::printf("%s", text);
+#ifdef __ANDROID__
+    __android_log_print(ANDROID_LOG_INFO, "LicenseCheck", "%s", text);
+#endif
 }
 
 // 0x89a798 _ZN13ALicenseCheck11currentTimeEv
@@ -156,32 +163,55 @@ void ALicenseCheck::XOR(const char* value, const char* key, char* output) {
 }
 
 // 0x89a8e0 _ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_
-// Calls the static method with one string argument and copies its byte[] result.
-// Partial: the JNI bridge is a stand-in, so out stays empty.
-void ALicenseCheck::CallJNIFuncChar(jclass javaClass, jmethodID javaMethod, char* out, int max,
-                                    char* param) {
-    NVThreadGetCurrentJNIEnv();
+// Zeroes out, then calls the static method with one string argument (NewStringUTF of param) and copies its byte[] result
+// (GetArrayLength, GetByteArrayRegion) into out; both local references are released.
+// Deviation: without a JNI environment (the host builds have no JVM) the output stays zeroed; the byte count is clamped
+// to the buffer (the original copies the whole array).
+void ALicenseCheck::CallJNIFuncChar(jclass javaClass, jmethodID javaMethod, char* out, int max, char* param) {
+    JNIEnv* env = NVThreadGetCurrentJNIEnv();
     std::memset(out, 0, static_cast<std::size_t>(max));
-    JniCopyStaticByteArray(javaClass, javaMethod, param, out, max);
+    if (env == nullptr) {
+        return;
+    }
+    jstring argument = env->NewStringUTF(param);
+    jobject array = env->CallStaticObjectMethod(javaClass, javaMethod, argument);
+    jsize length = env->GetArrayLength(static_cast<jarray>(array));
+    if (length > max) {
+        length = max;
+    }
+    env->GetByteArrayRegion(static_cast<jbyteArray>(array), 0, length, reinterpret_cast<jbyte*>(out));
+    env->DeleteLocalRef(array);
+    env->DeleteLocalRef(argument);
 }
 
 // 0x89a9a4 _ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPci
-// Partial: as the overload above, without the string argument.
+// As the overload above, without the string argument.
 void ALicenseCheck::CallJNIFuncChar(jclass javaClass, jmethodID javaMethod, char* out, int max) {
-    NVThreadGetCurrentJNIEnv();
+    JNIEnv* env = NVThreadGetCurrentJNIEnv();
     std::memset(out, 0, static_cast<std::size_t>(max));
-    JniCopyStaticByteArray(javaClass, javaMethod, out, max);
+    if (env == nullptr) {
+        return;
+    }
+    jobject array = env->CallStaticObjectMethod(javaClass, javaMethod);
+    jsize length = env->GetArrayLength(static_cast<jarray>(array));
+    if (length > max) {
+        length = max;
+    }
+    env->GetByteArrayRegion(static_cast<jbyteArray>(array), 0, length, reinterpret_cast<jbyte*>(out));
+    env->DeleteLocalRef(array);
 }
 
 // 0x89aed4 _ZN13ALicenseCheck15CallJNIFuncVoidEP7_jclassP10_jmethodID
+// CallStaticVoidMethod on the thread's JNI environment (skipped without one).
 void ALicenseCheck::CallJNIFuncVoid(jclass javaClass, jmethodID javaMethod) {
-    NVThreadGetCurrentJNIEnv();
-    JniCallStaticVoidMethod(javaClass, javaMethod);
+    if (JNIEnv* env = NVThreadGetCurrentJNIEnv()) {
+        env->CallStaticVoidMethod(javaClass, javaMethod);
+    }
 }
 
 // 0x89aa38 _ZN13ALicenseCheck10LoadConfigEv
-// Reads the encrypted config through CallJNIFuncChar and decodes it into EKEY, EPID and
-// SERVER. The 256 KB buffer is on the heap here, not the stack.
+// Reads the encrypted config through CallJNIFuncChar (the "db" method, 0x40000 bytes; on the heap here, the original's is
+// the stack) and decodes it into EKEY, EPID and SERVER with ConfigFile::Decode.
 void ALicenseCheck::LoadConfig() {
     std::vector<char> buffer(kConfigBufferSize, 0);
     CallJNIFuncChar(cGame, mFileConfig, buffer.data(), static_cast<int>(kConfigBufferSize));
@@ -190,18 +220,22 @@ void ALicenseCheck::LoadConfig() {
 }
 
 // 0x89ab08 _ZN13ALicenseCheck4InitEP7_JNIEnvP7_jclass
-// Partial: the JNI lookups go through the stand-ins. The method names and signatures are
-// the ones in the listing ("d", "db", "dc", "da", and the Context class).
+// Keeps a global reference to the game class and looks up its static methods "d" ()V, "db" ()[B, "dc" ()[B and "da"
+// ()Landroid/app/Activity;, and the Context class (a global reference); with the Context class found the three config
+// buffers are cleared and the config loaded.
+// Deviation: a null JNI environment (no JVM, the host tests) does nothing; the original dereferences it.
 void ALicenseCheck::Init(JNIEnv* env, jclass game) {
-    static_cast<void>(env);
-    cGame = JniNewGlobalRef(game);
-    mLicense = JniGetStaticMethodID(cGame, "d", "()V");
-    mFileConfig = JniGetStaticMethodID(cGame, "db", "()[B");
-    mKEY = JniGetStaticMethodID(cGame, "dc", "()[B");
-    mInstance = JniGetStaticMethodID(cGame, "da", "()Landroid/app/Activity;");
-    cContext = JniFindClass("android/content/Context");
+    if (env == nullptr) {
+        return;
+    }
+    cGame = static_cast<jclass>(env->NewGlobalRef(game));
+    mLicense = env->GetStaticMethodID(cGame, "d", "()V");
+    mFileConfig = env->GetStaticMethodID(cGame, "db", "()[B");
+    mKEY = env->GetStaticMethodID(cGame, "dc", "()[B");
+    mInstance = env->GetStaticMethodID(cGame, "da", "()Landroid/app/Activity;");
+    cContext = env->FindClass("android/content/Context");
     if (cContext != nullptr) {
-        cContext = JniNewGlobalRef(cContext);
+        cContext = static_cast<jclass>(env->NewGlobalRef(cContext));
         std::memset(EKEY, 0, 0xFF);
         std::memset(EPID, 0, 0xFF);
         std::memset(SERVER, 0, 0x200);
@@ -210,11 +244,35 @@ void ALicenseCheck::Init(JNIEnv* env, jclass game) {
 }
 
 // 0x89acfc _ZN13ALicenseCheck7getIMEIEPci
-// Partial: the TELEPHONY_SERVICE lookup (getSystemService, then getDeviceId) is a stand-in
-// that yields an empty string.
+// out is zeroed; Context.TELEPHONY_SERVICE (GetStaticFieldID/GetStaticObjectField) is passed to the activity's
+// getSystemService (the activity from the static method "da"), and the telephony manager's getDeviceId() string is
+// copied into out. The original leaves the string chars and the objects but the service name unreleased.
+// Deviation: skipped without a JNI environment; the copy is clamped to max - 1 so out stays terminated.
 void ALicenseCheck::getIMEI(char* out, int max) {
+    JNIEnv* env = NVThreadGetCurrentJNIEnv();
     std::memset(out, 0, static_cast<std::size_t>(max));
-    JniTelephonyDeviceId(out, static_cast<std::size_t>(max));
+    if (env == nullptr) {
+        return;
+    }
+    jfieldID serviceField = env->GetStaticFieldID(cContext, "TELEPHONY_SERVICE", "Ljava/lang/String;");
+    jobject serviceName = env->GetStaticObjectField(cContext, serviceField);
+    jobject activity = env->CallStaticObjectMethod(cGame, mInstance);
+    jclass activityClass = env->GetObjectClass(activity);
+    jmethodID getSystemService =
+        env->GetMethodID(activityClass, "getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;");
+    jobject telephony = env->CallObjectMethod(activity, getSystemService, serviceName);
+    jclass telephonyClass = env->GetObjectClass(telephony);
+    jmethodID getDeviceId = env->GetMethodID(telephonyClass, "getDeviceId", "()Ljava/lang/String;");
+    jstring id = static_cast<jstring>(env->CallObjectMethod(telephony, getDeviceId));
+    const char* text = env->GetStringUTFChars(id, nullptr);
+    if (text != nullptr) {
+        std::size_t length = std::strlen(text);
+        if (max > 0 && length > static_cast<std::size_t>(max) - 1) {
+            length = static_cast<std::size_t>(max) - 1;
+        }
+        std::memcpy(out, text, length);
+    }
+    env->DeleteLocalRef(serviceName);
 }
 
 // 0x89aef4 _ZN13ALicenseCheck7DestroyEv

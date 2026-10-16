@@ -2,7 +2,9 @@
 // Owner: glitch::collada::CColladaDatabase. Layouts (SAnimation +0x10, SChannel, SNode, SVisualScene,
 // SLight +0x0c) are declared in collada_database.hpp; the member declarations for this batch are there too.
 #include <cstring>
+#include <string>
 
+#include "glitch-core-io/os/logging.hpp"
 #include "glitch-scene-collada-gui/collada_database.hpp"
 
 namespace glitch::collada {
@@ -92,22 +94,19 @@ SNode* CColladaDatabase::getNode(const char* name) const {
 }
 
 // 0x61c2f8 glitch::collada::CColladaDatabase::getDefaultValue(char const*, glitch::collada::SChannel::Type, void**, void*) const
-// Every path that does not produce a value stores null into *out and returns false, as the original's
-// LABEL_3 does. The value is the address of a node field, looked up by name:
+// Every path that does not produce a value stores null into *out and returns false, as the original's LABEL_3 does. The value is the address
+// of a field of a record found by name:
 //   case 1..4   node translation (+0x0c)
 //   case 5..9   node rotation (+0x18)
 //   case 10, 11 node scale (+0x28)
 //   case 12     scale word 1 (+0x2c)
 //   case 13     scale word 2 (+0x30)
+//   case 14     the weight of a morph controller, element *(unsigned char*)flag of the weights array (SMorph +0x1c)
 //   case 16     light block (SLight +0x0c)
 //   case 20     node bool word (+0x34)
-// Kinds 0, 15, 17..26, 71..85 and 87..91 and the default give null. PARTIAL:
-//   - case 14 (controller value): only the controller lookup is reproduced. The value is controller +0x08,
-//     then its array at +0x1c indexed by *flag. Neither the controller record nor the array is mapped, so
-//     this path returns null even when the controller exists.
-//   - case 86 (material parameters): the original logs "TODO - SetParam Default Values" for each parameter
-//     whose key matches *flag, and logs an error when the material is missing. The log calls are not
-//     reproduced. The return value (always null and false) is reproduced.
+// Kinds 0, 15, 17..26, 71..85 and 87..91 and the default give null. Case 86 (material parameters) logs "TODO - SetParam Default Values"
+// (information) for each parameter of the material whose word at +0x04 equals *(int*)flag, or `Material "<name>" not found.` (warning)
+// when the material is missing; it gives null in every case.
 bool CColladaDatabase::getDefaultValue(const char* name, SChannel::Type type, void** out, void* flag) const {
     const std::uint32_t kind = static_cast<std::uint32_t>(type);
     const auto fail = [out]() {
@@ -167,9 +166,13 @@ bool CColladaDatabase::getDefaultValue(const char* name, SChannel::Type type, vo
             return true;
         }
         case 14: {
-            // PARTIAL: see the function comment. The controller value cannot be produced yet.
-            (void)getController(tables(), name);
-            return fail();
+            SController* controller = getController(tables(), name);
+            if (controller == nullptr) {
+                return fail();
+            }
+            const SMorph* morph = static_cast<const SMorph*>(controller->morph);
+            *out = const_cast<float*>(morph->weights) + *static_cast<const std::uint8_t*>(flag);
+            return true;
         }
         case 16: {
             SLight* light = getLight(tables(), name);
@@ -188,8 +191,18 @@ bool CColladaDatabase::getDefaultValue(const char* name, SChannel::Type type, vo
             return true;
         }
         case 86: {
-            // PARTIAL: the material lookup is reproduced; the parameter logs are not (see the function comment).
-            (void)getMaterial(tables(), name);
+            const SMaterial* material = getMaterial(tables(), name);
+            if (material != nullptr) {
+                const std::int32_t key = *static_cast<const std::int32_t*>(flag);
+                for (std::int32_t i = 0; i < material->paramCount; ++i) {
+                    if (key == static_cast<std::int32_t>(material->params[i].reserved04)) {
+                        os::Printer::log("TODO - SetParam Default Values", ELL_INFORMATION);
+                    }
+                }
+            } else {
+                const std::string message = std::string("Material \"") + name + "\" not found.";
+                os::Printer::log(message.c_str(), ELL_WARNING);
+            }
             return fail();
         }
         default:

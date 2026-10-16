@@ -37,8 +37,8 @@ vector3d<float>& vector3d<float>::operator/=(const vector3d<float>& other) {
 // The listing returns the new Y in r0; the Irrlicht-style void signature is kept here.
 template <>
 void vector3d<float>::rotateXYBy(double degrees, const vector3d<float>& center) {
-    const double radians = degrees * 0.0174532925;
-    const float c = static_cast<float>(std::cos(degrees * 0.0174532925));
+    const double radians = degrees * 0.017453292519943295;
+    const float c = static_cast<float>(std::cos(degrees * 0.017453292519943295));
     const float s = static_cast<float>(std::sin(radians));
     const float x = X - center.X;  // +0x00
     const float y = Y - center.Y;  // +0x04
@@ -55,8 +55,8 @@ void vector3d<float>::rotateXYBy(double degrees, const vector3d<float>& center) 
 // (Hex-Rays: new Y = cos*y - sin*z, new Z = sin*y + cos*z.) Returns void; see rotateXYBy.
 template <>
 void vector3d<float>::rotateYZBy(double degrees, const vector3d<float>& center) {
-    const double radians = degrees * 0.0174532925;
-    const float c = static_cast<float>(std::cos(degrees * 0.0174532925));
+    const double radians = degrees * 0.017453292519943295;
+    const float c = static_cast<float>(std::cos(degrees * 0.017453292519943295));
     const float s = static_cast<float>(std::sin(radians));
     const float y = Y - center.Y;  // +0x04
     const float z = Z - center.Z;  // +0x08
@@ -73,8 +73,8 @@ void vector3d<float>::rotateYZBy(double degrees, const vector3d<float>& center) 
 // Returns void; see rotateXYBy.
 template <>
 void vector3d<float>::rotateXZBy(double degrees, const vector3d<float>& center) {
-    const double radians = degrees * 0.0174532925;
-    const float c = static_cast<float>(std::cos(degrees * 0.0174532925));
+    const double radians = degrees * 0.017453292519943295;
+    const float c = static_cast<float>(std::cos(degrees * 0.017453292519943295));
     const float s = static_cast<float>(std::sin(radians));
     const float x = X - center.X;  // +0x00
     const float z = Z - center.Z;  // +0x08
@@ -93,7 +93,7 @@ template <>
 vector3d<float> vector3d<float>::getHorizontalAngle() const {
     vector3d<float> out{0.f, 0.f, 0.f};
 
-    const float yaw = static_cast<float>(std::atan2(X, Z) * 57.2957795);
+    const float yaw = static_cast<float>(std::atan2(X, Z) * 57.29577951308232);
     out.Y = yaw;
     float yawWrapped = yaw;
     if (yaw < 0.f) {
@@ -103,7 +103,7 @@ vector3d<float> vector3d<float>::getHorizontalAngle() const {
     if (yawWrapped >= 360.f) out.Y = yawWrapped - 360.f;
 
     const double horizontal = std::sqrt((X * X) + (Z * Z));
-    const float pitch = static_cast<float>(std::atan2(horizontal, static_cast<double>(Y)) * 57.2957795 - 90.0);
+    const float pitch = static_cast<float>(std::atan2(horizontal, static_cast<double>(Y)) * 57.29577951308232 - 90.0);
     out.X = pitch;
     float pitchWrapped = pitch;
     if (pitch < 0.f) {

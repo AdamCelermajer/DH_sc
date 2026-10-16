@@ -24,7 +24,8 @@ Not vendored: `src/libtess/memalloc.c` (not in the binary; see the DH2 changes),
 ## DH2 changes (marked `// DH2:`)
 
 1. `include/GL/glu.h`: the `extern "C"` blocks are off (`#if 0`). The binary's GLU entry points have C++ linkage (mangled names, `_Z10gluNewTessv`, ...), and `vendor-gameswf/include/vendor-gameswf/glu_tessellator.hpp` declares them that way.
-2. `src/libtess/memalloc.h`: `memInit(maxFast)` is `(1)`. `memalloc.c` is not in the DH2 build, and the binary's `gluNewTess` has no `memInit` call. `memAlloc` stays `malloc`.
+2. `include/GL/glu.h`: after `#include <GL/gl.h>`, `#define GLenum int`. The binary's libtess takes `int` where the system header has `unsigned` (`gluTessProperty`, `gluTessCallback`, `gluNextContour`, `gluGetTessProperty`, `__gl_noBeginData`, ... all mangle with `i`), and the callers reference those symbols.
+3. `src/libtess/memalloc.h`: `memInit(maxFast)` is `(1)`. `memalloc.c` is not in the DH2 build, and the binary's `gluNewTess` has no `memInit` call. `memAlloc` stays `malloc`.
 
 ## Build
 

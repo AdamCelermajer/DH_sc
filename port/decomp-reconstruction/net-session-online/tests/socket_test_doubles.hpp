@@ -15,13 +15,13 @@ public:
         : GLXPlayerSocket(host, port, observer) {}
 
     int GetLocalIP(char*) override { return 0; }
-    hostent* GetHostByName(const char*) override { return nullptr; }
+    hostent* GetHostByName(char*) override { return nullptr; }
     void GetHostName(char**) override {}
     bool CreateSocket() override { return false; }
     int GetLastError() override { return 0; }
     bool SetNonBlocking() override { return false; }
     int Connect() override { return 0; }
-    int ConnectByName(const char*, std::uint16_t) override { return 0; }
+    int ConnectByName(char*, std::uint16_t) override { return 0; }
     bool CloseSocket() override { return true; }
     int Select(XSocketSelectFlag) override { return -1; }
     int Send(const char*, int) override { return -1; }
@@ -50,13 +50,13 @@ public:
         : LCXPlayerSocket(serverName, port, observer) {}
 
     bool GetLocalIP(char*) override { return false; }
-    hostent* GetHostByName(const char*) override { return nullptr; }
+    hostent* GetHostByName(char*) override { return nullptr; }
     void* GetHostName(char**) override { return nullptr; }
     bool CreateSocket() override { return false; }
     int GetLastError() override { return 0; }
     bool SetNonBlocking() override { return false; }
     bool Connect() override { return false; }
-    bool ConnectByName(const char*) override { return false; }
+    bool ConnectByName(char*) override { return false; }
     bool CloseSocket() override { return true; }
     int Select(XSocketSelectFlag) override { return -1; }
     int Send(const char*, int) override { return -1; }

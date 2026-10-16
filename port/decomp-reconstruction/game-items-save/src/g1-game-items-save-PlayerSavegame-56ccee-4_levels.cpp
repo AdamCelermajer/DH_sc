@@ -28,7 +28,7 @@ void PlayerSavegame::_InitLevelStates() {
             const auto* levels =
                 static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
             for (std::uint32_t k = 0; k < levelCount; ++k) {
-                m_levelStates[d][k] = levels[k].m_w10;  // +0x28 of the row
+                m_levelStates[d][k] = levels[k].LevelState;  // +0x28 of the row
             }
         }
         if (m_worldMapStates[d] == nullptr) {
@@ -37,7 +37,7 @@ void PlayerSavegame::_InitLevelStates() {
             const auto* locations =
                 static_cast<const Structs::WldMapLocation*>(static_cast<const void*>(Arrays::WorldMap::members));
             for (std::uint32_t k = 0; k < locationCount; ++k) {
-                m_worldMapStates[d][k] = locations[k].m_w2;  // +0x08 of the row
+                m_worldMapStates[d][k] = locations[k].State;  // +0x08 of the row
             }
         }
     }

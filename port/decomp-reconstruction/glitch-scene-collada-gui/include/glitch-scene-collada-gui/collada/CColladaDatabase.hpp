@@ -18,13 +18,18 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "glitch-scene-collada-gui/collada/SAnimation.hpp"
 #include "glitch-scene-collada-gui/collada/SLibraryAnimationClips.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
+#include "glitch-scene-collada-gui/res/onDemand.hpp"
+#include "glitch-scene-collada-gui/res/File.hpp"
 #include "glitch-scene-collada-gui/scene/scene_types.hpp"
+#include "glitch-video/render_state.hpp"
 
 namespace glitch::res {
 class onDemandReader;  // layout not mapped in this category
@@ -43,6 +48,7 @@ class CMemoryReadFile;
 namespace video {
 class CMaterialVertexAttributeMap;
 class CTextureManager;
+class ITexture;
 class IBuffer;
 }  // namespace video
 }  // namespace glitch
@@ -78,28 +84,146 @@ struct SEventKeyTable;
 // SAnimationClip (name, start, end; stride 0x0c) and SLibraryAnimationClips are in collada/SLibraryAnimationClips.hpp.
 struct SImage {
     const char* name = nullptr;                                  // +0x00, stride 0x14
-    std::uint32_t reserved04[3] = {};                            // +0x04 .. +0x0c
+    std::uint32_t reserved04 = 0;                                // +0x04
+    const char* path = nullptr;                                  // +0x08 the image's file path: the name the texture is looked up under (CResFactory::getTexture)
+    std::uint32_t external = 0;                                  // +0x0c non-zero for an image whose texture is loaded outside the file (postLoadProcess skips it)
     glitch::IReferenceCounted* imageData = nullptr;              // +0x10 the loaded image (a use is taken by CImage)
 };
-struct SEffect { const char* name; /* stride 0x74 */ };
+struct SEffect;  // stride 0x74, defined after SNewParam
+// One parameter value of a material record (SMaterial +0x14, stride 0x18). `type` is SParam::E_TYPE, the value type the file gives it
+// (its names are the strings of the createMaterial diagnostics: int, int2, int3, int4, float, float2, float3, float4, float2x2, float3x3,
+// float4x4, sampler2D, sampler3D, samplerCube, samplerRect, color, colorf, light, surface, url, technique).
+struct SParam {
+    enum E_TYPE : std::int32_t {
+        ET_INT = 0, ET_INT2 = 1, ET_INT3 = 2, ET_INT4 = 3, ET_FLOAT = 4, ET_FLOAT2 = 5, ET_FLOAT3 = 6, ET_FLOAT4 = 7,
+        ET_FLOAT2X2 = 8, ET_FLOAT3X3 = 9, ET_FLOAT4X4 = 10, ET_SAMPLER2D = 11, ET_SAMPLER3D = 12, ET_SAMPLERCUBE = 13,
+        ET_SAMPLERRECT = 14, ET_COLOR = 15, ET_COLORF = 16, ET_LIGHT = 17, ET_SURFACE = 18, ET_URL = 19, ET_TECHNIQUE = 20
+    };
+    const char* name = nullptr;                // +0x00 the parameter's name (interned text in the loaded file)
+    std::uint32_t reserved04 = 0;              // +0x04
+    std::int32_t type = 0;                     // +0x08 E_TYPE
+    std::uint32_t reserved0c = 0;              // +0x0c
+    const std::uint32_t* elementCount = nullptr;  // +0x10 points at the count of the elements the value array holds
+    const void* values = nullptr;              // +0x14 the values: raw numbers for the numeric types, pointers to the image
+                                               //       records for the samplers, the text pointers for the light URLs, and for
+                                               //       ET_TECHNIQUE a record whose +0x04 is the technique name (SParamTechnique)
+};
+// The record SParam::values points at for ET_TECHNIQUE.
+struct SParamTechnique {
+    std::uint32_t reserved00 = 0;              // +0x00
+    const char* name = nullptr;                // +0x04 the technique's name
+};
+// One parameter a new-param of an effect declares (stride 0x18): the layout differs from SParam's in the position of the type.
+struct SNewParam {
+    const char* name = nullptr;                // +0x00
+    std::int32_t type = 0;                     // +0x04 SParam::E_TYPE
+    std::int32_t semantic = 0;                 // +0x08 the shader parameter type handed to addParameterInternal
+    std::int32_t dimensions = 0;               // +0x0c more than one logs "multidimensional parameters not supported yet"
+    const std::uint32_t* elementCount = nullptr;  // +0x10
+    const void* values = nullptr;              // +0x14 as SParam::values
+};
+// One sampler value cell: the word the file keeps as the index of the image record (-1: none) and that CResFileManager::postLoadProcess
+// replaces by the record's address. `values` of a sampler parameter is an array of pointers to these cells (one per element).
+struct SParamSampler {
+    SImage* image = nullptr;       // +0x00 the image record once postLoadProcess has run (null: none)
+    std::int32_t index = -1;       // +0x00 in the file: the index of the image record; kept for the postLoadProcess fix-up
+};
+
+// A binding of a render pass to a parameter of its effect (12 bytes in the file). The two profiles lay the record out differently: the
+// programmable (GLES2) profile has the shader parameter's name at +0x00, the global flag byte at +0x04 and the shader-stage byte at +0x05;
+// the fixed-function profile has the symbol id (16 bits) at +0x00, the global flag byte at +0x02 and the stage byte at +0x03. Both keep at
+// +0x08 the index of the effect's new-param, or, for a global parameter, the name of the global (a pointer).
+struct SPassBinding {
+    const char* name = nullptr;          // GLES2 +0x00: the shader parameter's name
+    std::uint16_t symbol = 0;            // fixed function +0x00: the symbol id
+    std::uint8_t global = 0;             // 1: bound to a global parameter
+    std::uint8_t stage = 0;              // the shader stage (the shader's parameter list)
+    std::uint32_t index = 0;             // +0x08 the new-param index (global == 0)
+    const char* globalName = nullptr;    // +0x08 the global parameter's name (global == 1)
+};
+
+// The state words of a pass of the fixed-function profile (SRenderStatesGLES): 0x4c bytes of fixed-function state, then the render state.
+struct SRenderStatesGLES {
+    std::uint8_t fixedFunction[0x4c] = {};  // +0x00 four texture-unit records and the lighting words (not mapped)
+    glitch::video::SRenderState renderState;  // +0x4c the 0x4c-byte render state
+};
+// The state words of a pass of the programmable profile (SRenderStatesProgrammable): the shader sources and the render state.
+struct SRenderStatesProgrammable {
+    std::uint32_t unk_0x00 = 0;                 // +0x00
+    const char* vertexFile = nullptr;           // +0x04 e.g. "ProfileCOMMON_emul_VS.glsl"
+    const char* vertexEntry = nullptr;          // +0x08 "main"
+    const char* vertexDefines = nullptr;        // +0x0c the preprocessor lines
+    const char* fragmentFile = nullptr;         // +0x10
+    const char* fragmentEntry = nullptr;        // +0x14
+    const char* fragmentDefines = nullptr;      // +0x18
+    glitch::video::SRenderState renderState;    // +0x1c
+    std::uint32_t unk_0x68 = 0;                 // +0x68
+};
+// A render pass (SPass<SRenderStatesGLES>: 0xa0 bytes in the file; SPass<SRenderStatesProgrammable>: 0x74 bytes): the states, then the bindings.
+template <typename States>
+struct SPass {
+    States states;
+    std::int32_t bindingCount = 0;               // +0x98 / +0x6c
+    SPassBinding* bindings = nullptr;            // +0x9c / +0x70, 12 bytes each in the file
+};
+// A technique of an effect (12 bytes in the file): its name and its passes.
+template <typename PassT>
+struct STechnique {
+    const char* name = nullptr;                  // +0x00
+    std::int32_t passCount = 0;                  // +0x04
+    PassT* passes = nullptr;                     // +0x08
+};
+
+// An effect (stride 0x74 in the file, 29 words): the name, the id, then four profile sections of {technique count, techniques, new-param
+// count, new-params, a count and an array that are not mapped}. Section 0 (+0x08) holds the passes of the fixed-function profile, section 1
+// (+0x20) those of the programmable GLES2 profile; sections 2 (+0x3c) and 3 (+0x58) are empty in all but 3 of the 4771 sample files and their
+// techniques are not decoded (only the counts and the new-params). The word after the unmapped pair of sections 1 to 3 is not initialised
+// in the files.
+struct SEffect {
+    const char* name = nullptr;                  // +0x00
+    const char* displayName = nullptr;           // +0x04
+    std::int32_t techniqueCount[4] = {};         // +0x08, +0x20, +0x3c, +0x58
+    STechnique<SPass<SRenderStatesGLES>>* nullTechniques = nullptr;          // +0x0c section 0
+    STechnique<SPass<SRenderStatesProgrammable>>* gles2Techniques = nullptr; // +0x24 section 1
+    std::int32_t paramCount[4] = {};             // +0x10, +0x28, +0x44, +0x60
+    SNewParam* params[4] = {};                   // +0x14, +0x2c, +0x48, +0x64
+    std::int32_t extraCount[4] = {};             // +0x18, +0x30, +0x4c, +0x68 (not mapped)
+    const std::uint32_t* extra[4] = {};          // +0x1c, +0x34, +0x50, +0x6c
+};
 struct SMaterial {
     const char* name = nullptr;           // +0x00, stride 0x24
     std::uint32_t reserved04 = 0;         // +0x04
     const char* fileName = nullptr;       // +0x08 the file of the effect (CColladaFactory::createMaterial passes it to createMaterialRenderer)
     const char* effectUrl = nullptr;      // +0x0c "#<effect>"
-    std::uint32_t reserved10[2] = {};     // +0x10 .. +0x14
-    SEffect* effect = nullptr;            // +0x18 the effect record
+    std::int32_t paramCount = 0;          // +0x10 (createMaterial 0x631ce8)
+    const SParam* params = nullptr;       // +0x14 the parameter values, stride 0x18
+    SEffect* effect = nullptr;            // +0x18 the effect record (a pointer once postLoadProcess has run)
+    std::int32_t effectIndex = 0;         // +0x18 in the file the same word is the effect's index (-1: an effect of another file, see effectUrl);
+                                          //       the host keeps it beside the pointer (the loader, collada/BdaeDecode, fills it)
 };
+struct SMesh;
 struct SGeometry {
     const char* name;                 // +0x00, stride 0x10
     std::uint32_t reserved04;         // +0x04
     std::uint32_t notInstantiated;    // +0x08, non-zero makes constructGeometry return null
-    std::uint32_t reserved0c;         // +0x0c
+    SMesh* mesh;                      // +0x0c the mesh record (collada/SMesh.hpp)
+};
+// The morph record SController +0x08 points at for a morph controller (CMorphingMesh::instanciateMesh 0x64b700, morph 0x64a6e4).
+struct SMorph {
+    const char* baseUrl = nullptr;            // +0x00 "#<geometry or controller>" of the base mesh
+    std::uint32_t relative = 0;               // +0x04 zero: the first target's weight is 1 minus the others'
+    std::uint32_t reserved08[2] = {};         // +0x08, +0x0c
+    std::int32_t targetCount = 0;             // +0x10
+    const char* const* targetNames = nullptr; // +0x14 the geometry names of the targets (no '#'); the file holds the geometries' indices (targetIndices),
+                                              //       which postLoadProcess turns into the geometry records, and the host keeps the names of those
+    std::vector<std::int32_t> targetIndices;  // +0x14 the targets' geometry indices as the file keeps them
+    std::int32_t weightCount = 0;             // +0x18
+    const float* weights = nullptr;           // +0x1c one weight per target
 };
 struct SController {
-    std::uint32_t reserved;           // +0x00
+    std::uint32_t reserved;           // +0x00 the controller kind: 0 a skin (SSkin at +0x08), 1 a morph (SMorph)
     const char* name;                 // +0x04, stride 0x0c
-    const void* morph = nullptr;      // +0x08 the morph record (a 32-bit pointer into the file data in the original; CMorphingMesh)
+    const void* morph = nullptr;      // +0x08 the morph record (an SMorph) or the skin record (a 32-bit pointer into the file data in the original)
 };
 struct SLight {
     const char* name = nullptr;      // +0x00, stride 0x18 (the uid of the light node)
@@ -125,14 +249,145 @@ struct SVisualScene {
     SNode* nodes = nullptr;       // +0x0c, base of the SNode array (stride 0x50)
 };
 struct SForce {
-    const char* name;            // +0x00, stride 0x10
-    std::uint32_t reserved04;    // +0x04
-    std::uint32_t kind;          // +0x08: 0 gravity, 1 wind, 2 deflector
-    std::uint32_t reserved0c;    // +0x0c
+    const char* name = nullptr;       // +0x00, stride 0x10
+    std::uint32_t reserved04 = 0;     // +0x04
+    std::uint32_t kind = 0;           // +0x08: 0 gravity, 1 wind, 2 deflector
+    const float* values = nullptr;    // +0x0c the force's values (a 32-bit file offset in the original): gravity strength, decay, type;
+                                      //       wind strength, decay, type, turbulence, frequency, scale; deflector bounce, variation, chaos,
+                                      //       friction, inheritVelocity, width, length (CForceSceneNode constructors 0x631274, 0x631168, 0x631050)
 };
-struct SCoronas { const char* name; /* stride 0x24 */ };
-struct SGNPSEmitter { const char* name; /* stride 0xe8 */ };
-struct SEmitter { const char* name; /* stride 0x90 */ };
+// The coronas record (stride 0x24): read by the lookups (the id) and by the CCoronasSceneNode constructor from the database (0x6e7778).
+struct SCoronas {
+    const char* name = nullptr;          // +0x00 the id the lookups compare
+    const char* displayName = nullptr;   // +0x04 the node's name (ISceneNode::setName)
+    float width = 0.0f;                  // +0x08
+    float height = 0.0f;                 // +0x0c
+    float rotationScale = 0.0f;          // +0x10 -> node +0x134
+    float rotationOffset = 0.0f;         // +0x14 -> node +0x138
+    float unk_18 = 0.0f;                 // +0x18 -> node +0x13c
+    float unk_1c = 0.0f;                 // +0x1c -> node +0x140
+    std::uint8_t flag = 0;               // +0x20 -> node +0x144 (true when non-zero)
+};
+// The record SGNPSEmitter +0x2c points at (CColladaFactory::createGlitchNewParticleSystem 0x63133c): how a billboard system's quads are
+// oriented.
+struct SGNPSBillboard {
+    std::uint8_t enabled = 0;         // +0x00 zero: nothing is set up
+    std::uint8_t mode = 0;            // +0x01 0: axis 1 locked and the quads aligned to the motion, 1: axis 1 locked to axisB, 2: by the flags below
+    std::uint8_t transformAxes = 0;   // +0x02 mode 2: the context's transformAxes byte (+0x21)
+    std::uint8_t lockAxis0 = 0;       // +0x03 mode 2: axis 0 is locked to axisA
+    std::uint8_t lockAxis1 = 0;       // +0x04 mode 2: axis 1 is locked to axisB
+    float axisA[3] = {};              // +0x08 .. +0x10
+    float axisB[3] = {};              // +0x14 .. +0x1c
+};
+// The new particle system's emitter record (SGNPSEmitter, stride 0xe8). Every field is read by CGlitchNewParticleSystemSceneNode::
+// initParticleSystem (0x642e58) and the factory; offsets in the comments are the original ones, pointers are host pointers here.
+struct SGNPSEmitter {
+    const char* name = nullptr;                // +0x00 the uid of the node, and the prefix of the "<name>_particle_size_scale" style track names
+    std::uint32_t reserved04 = 0;              // +0x04
+    std::int32_t shapeType = 0;                // +0x08 "EmitterType"; 0 box (RadiusLength, Width, Height), 1 sphere, 2 cylinder (RadiusLength, Height)
+    const float* shape = nullptr;              // +0x0c
+    float birthRate = 0.0f;                    // +0x10 "BirthRate"
+    float birthRateVariation = 0.0f;           // +0x14 "BirthRateVariation"
+    std::int32_t maxParticles = 0;             // +0x18 "MaxParticles"
+    std::int32_t maxParticlesVariation = 0;    // +0x1c "MaxParticlesVariation"
+    float life = 0.0f;                         // +0x20 "Life"
+    float lifeVariation = 0.0f;                // +0x24 "LifeVariation"
+    std::uint8_t meshType = 0;                 // +0x28 0: a billboard system (initParticleSystem(driver, true)), 1: a mesh system
+    std::uint8_t reserved29[3] = {};           // +0x29 .. +0x2b
+    const SGNPSBillboard* billboard = nullptr; // +0x2c
+    float targetSize = 0.0f;                   // +0x30 "TargetSize"
+    float sizeVariation = 0.0f;                // +0x34 "SizeVariation"
+    float sizeScale = 0.0f;                    // +0x38 "SizeScale" (used when sizeScaleOverLife is zero)
+    std::uint8_t sizeScaleOverLife = 0;        // +0x3c "SizeScaleOverLife"
+    std::uint8_t reserved3d[3] = {};           // +0x3d .. +0x3f
+    float speed = 0.0f;                        // +0x40 "Speed"
+    float speedVariation = 0.0f;               // +0x44 "SpeedVariation"
+    float speedScale = 0.0f;                   // +0x48 "SpeedScale"
+    std::uint8_t speedScaleOverLife = 0;       // +0x4c "SpeedScaleOverLife"
+    std::uint8_t reserved4d[3] = {};           // +0x4d .. +0x4f
+    float direction[3] = {};                   // +0x50 "Direction"
+    float directionVariation[3] = {};          // +0x5c "DirectionVariation"
+    std::uint8_t startAngleType = 0;           // +0x68 "StartAngleType"
+    std::uint8_t spinKeepAlignedToMotion = 0;  // +0x69 "SpinKeepAlignedToMotion"
+    std::uint8_t reserved6a[2] = {};           // +0x6a, +0x6b
+    float spinPhase = 0.0f;                    // +0x6c "SpinPhase"
+    float spinPhaseVariation = 0.0f;           // +0x70 "SpinPhaseVariation"
+    float spinTime = 0.0f;                     // +0x74 "SpinTime"
+    float spinVariation = 0.0f;                // +0x78 "SpinVariation"
+    float spinScale = 0.0f;                    // +0x7c "SpinScale"
+    std::uint8_t spinScaleOverLife = 0;        // +0x80 "SpinScaleOverLife"
+    std::uint8_t reserved81[3] = {};           // +0x81 .. +0x83
+    std::uint8_t spinAxisType = 0;             // +0x84 "SpinAxisType"
+    std::uint8_t reserved85[3] = {};           // +0x85 .. +0x87
+    float spinAxis[3] = {};                    // +0x88 "SpinAxis"
+    float spinAxisVariation[3] = {};           // +0x94 "SpinAxisVariation"
+    std::uint32_t reservedA0 = 0;              // +0xa0
+    float spinPivotPoint[3] = {};              // +0xa4 "SpinPivotPoint"
+    std::uint32_t reservedB0 = 0;              // +0xb0
+    float motionRandom = 0.0f;                 // +0xb4 "MotionRandom"
+    float motionRandomVariation = 0.0f;        // +0xb8 "MotionRandomVariation"
+    float motionRandomScale = 0.0f;            // +0xbc "MotionRandomScale"
+    std::uint8_t motionRandomScaleOverLife = 0;  // +0xc0 "MotionRandomScaleOverLife"
+    std::uint8_t reservedC1[3] = {};           // +0xc1 .. +0xc3
+    std::uint8_t textureSubDivise = 0;         // +0xc4 read for both "TextureSubDiviseH" and "TextureSubDiviseV" (0x643364, 0x64338c)
+    std::uint8_t reservedC5 = 0;               // +0xc5
+    std::uint8_t textureSubDiviseRandomPick = 0;  // +0xc6 "TextureSubDiviseRandomPick"
+    std::uint8_t reservedC7[0x21] = {};        // +0xc7 .. +0xe7
+};
+// The record SEmitter +0x54 points at (CColladaFactory::createParticleSystem 0x634c64). With SEmitter::meshType 0 the record names one of the
+// built-in particle meshes; with meshType 2 its second word is the URL "#<geometry>" of a mesh of the file.
+struct SEmitterMesh {
+    std::uint32_t kind = 0;                 // +0x00 meshType 0: 1 cube, 2 three crossed quads, 3 and 4 billboard, 7 sphere
+    union {
+        std::uint32_t billboardFlags = 0;   // +0x04 kinds 3 and 4: bit 1 locks axis 0 to axisA, bit 2 locks axis 1 to axisB
+        const char* geometryUrl;            // +0x04 meshType 2: "#<geometry>"
+    };
+    std::uint32_t axisMode = 0;             // +0x08 kinds 3 and 4: 1 lock by flags, 2 lock axis 1 to axisB, 3 align to the motion
+    float axisA[3] = {};                    // +0x0c .. +0x14
+    float axisB[3] = {};                    // +0x18 .. +0x20
+    const char* nodeUrl = nullptr;          // +0x00 with meshType 2 the first word of the record is the url "#<node>" (not `kind`)
+    const void* instance = nullptr;         // +0x04 with meshType 2 postLoadProcess stores the node's first instance record there (and the url
+                                            //       of a geometry instance in geometryUrl, which is what the factory looks the mesh up by)
+};
+// The old particle system's emitter record (SEmitter, stride 0x90). Every field is read by CParticleSystemSceneNode::initParticleSystem
+// (0x656450) and the factory (0x634c64); the pointers are 32-bit offsets into the file in the original and host pointers here.
+struct SEmitter {
+    const char* name = nullptr;             // +0x00 the uid of the particle node
+    std::uint32_t reserved04 = 0;           // +0x04
+    std::int32_t shapeType = 0;             // +0x08 "EmitterType"; 0 box (RadiusLength, Width, Height), 1 sphere (RadiusLength), 2 cylinder (RadiusLength, Height)
+    const float* shape = nullptr;           // +0x0c the shape's values in the order above
+    std::uint32_t reserved10[2] = {};       // +0x10, +0x14
+    std::int32_t maxParticles = 0;          // +0x18 "MaxParticles"
+    std::uint32_t reserved1c = 0;           // +0x1c
+    float birthRate = 0.0f;                 // +0x20 "BirthRate"
+    std::uint32_t reserved24 = 0;           // +0x24
+    float life = 0.0f;                      // +0x28 "Life"
+    float lifeVariation = 0.0f;             // +0x2c "LifeVariation"
+    float targetSize = 0.0f;                // +0x30 "TargetSize"
+    float sizeVariation = 0.0f;             // +0x34 "SizeVariation"
+    float sizeGrowthTime = 0.0f;            // +0x38 "SizeGrowthTime"
+    float sizeFadeTime = 0.0f;              // +0x3c "SizeFadeTime"
+    float speed = 0.0f;                     // +0x40 "Speed"
+    float speedVariation = 0.0f;            // +0x44 "SpeedVariation"
+    std::int32_t directionType = 0;         // +0x48 0 no direction, 1 a direction with a variation, 2 only a variation
+    const float* direction = nullptr;       // +0x4c type 1: x, y, z, variation; type 2: [1] the variation
+    std::int32_t meshType = 0;              // +0x50 0 a built-in particle mesh, 2 a mesh of the file
+    const SEmitterMesh* mesh = nullptr;     // +0x54
+    std::uint32_t reserved58 = 0;           // +0x58
+    float animOffset = 0.0f;                // +0x5c "AnimOffset"
+    float animOffsetVariation = 0.0f;       // +0x60 "AnimOffsetVariation"
+    std::int32_t animKeyMappingType = 0;    // +0x64 "AnimKeyMappingType"
+    float animLength = 0.0f;                // +0x68 "AnimLength"
+    float animLengthVariation = 0.0f;       // +0x6c "AnimLengthVariation"
+    float animScaleMultiplier = 0.0f;       // +0x70 "AnimScaleMultiplier"
+    float animScaleMultiplierVariation = 0.0f;  // +0x74 "AnimScaleMultiplierVariation"
+    float spinTime = 0.0f;                  // +0x78 "SpinTime"
+    float spinVariation = 0.0f;             // +0x7c "SpinVariation"
+    float spinPhase = 0.0f;                 // +0x80 "SpinPhase"
+    float spinPhaseVariation = 0.0f;        // +0x84 "SpinPhaseVariation"
+    std::int32_t spinAxisType = 0;          // +0x88 "SpinAxisType"; 1: the axis below is used
+    const float* spinAxis = nullptr;        // +0x8c x, y, z, variation
+};
 
 // Instance records name their target. The instance URL is "#<id>"; the original skips the leading '#' before looking the target up.
 struct SInstanceMaterial;
@@ -188,8 +443,9 @@ struct SInstanceGeometry {
     SInstanceMaterial* bindings = nullptr;  // +0x10, stride 0x3c
     std::int32_t renderingLayer = 0;  // +0x14
 };
-// The particle-system and coronas instances: the URL, the material bindings and, for the emitters, the vector of material names the
-// builder receives (embedded at +0x18).
+// The particle-system and coronas instances: the URL, the material bindings and, for the emitters, the vector the builder receives
+// (embedded at +0x18). Its entries are read by the nodes' attach (0x64f6f8, 0x63db4c) as the URLs "#<uid>" of the force nodes that act on the
+// system; the field is still called `materials` here.
 struct SInstanceEmitter {
     std::uint32_t reserved00 = 0;     // +0x00
     const char* url = nullptr;        // +0x04 "#<emitter>"
@@ -261,25 +517,65 @@ struct SNode {
     const SBillboardInfo* billboard = nullptr;  // +0x4c non-null: the node is a billboard (selects the billboard builder)
 };
 
+// The data of an animation segment: an on-demand block of the file (res::SOnDemandBlock: +0x00 the use count, +0x04 the byte offset in the
+// file, +0x08 the byte size, +0x0c the loaded bytes) plus, in the port, the output array built from the loaded bytes.
+// Evidence (SAnimationSegment::getData 0x60bee4, onDemand<SAnimationData>::get 0x60b66c, the CAnimationBlock constructors): the loaded bytes
+// are {+0x00 N, then N entries of {count, offset-relative-to-the-offset-word}}; getData turns each relative offset into an address in place,
+// so the array is the SAnimationOutput array the animators index (entry i at bytes + 4 + 8 * i). The host cannot widen the words in place
+// (the addresses do not fit 32 bits), so the fix-up builds `buffer`, an array of host SAnimationOutput records over the same bytes.
+// A holder is released with `(*count)-- == 1` -> the bytes (and the array) are freed.
+struct SAnimationDataHolder : res::SOnDemandBlock {
+    const SAnimationOutput* buffer = nullptr;  // host: the output array over `data` (the original's `data` after the in-place fix-up)
+
+    // The fix-up loop of getData: builds `buffer` from the bytes at `data`.
+    void buildOutputs();
+    // Frees the loaded bytes and the output array (the count has reached zero).
+    void freeData();
+    // Gives up one use; the last one frees the data.
+    void drop() {
+        if (count-- == 1) {
+            freeData();
+        }
+    }
+};
+
 // Segment entry: 0x18 bytes, range [begin, end). Used by getAnimationSegment.
 struct SAnimationSegment {
-    std::int32_t begin;
-    std::int32_t end;
-    std::uint32_t reserved[4];
+    std::int32_t begin = 0;       // +0x00
+    std::int32_t end = 0;         // +0x04
+    SAnimationDataHolder data;    // +0x08 the on-demand block of the segment's key data (+0x08 count, +0x0c offset, +0x10 size, +0x14 bytes)
 
     // 0x60bee4 _ZN6glitch7collada17SAnimationSegment7getDataERNS_3res14onDemandReaderE
-    // Declared only (partial). The body needs glitch::res::onDemandReader and onDemand<SAnimationData>::get, neither of which is
-    // mapped here.
-    SAnimationSegment* getData(glitch::res::onDemandReader& reader, int a3, int a4);
+    // The segment's data with a use taken for the caller (the original returns it in an intrusive pointer through a hidden slot): not loaded
+    // (count 0): loads it through `reader` and fixes the entries up; count 1: a block that is not read on demand (offset and size 0), fixed up
+    // once (the size word is then set to 1); otherwise only the use is taken.
+    SAnimationDataHolder* getData(glitch::res::onDemandReader& reader);
 };
 
 // Instance material (a material binding of a geometry, controller or particle instance, 0x3c bytes): the material it names and, once the
 // factory built it, the vertex-attribute map; the link that linkInstanceMaterial sets and the map releaseObjects drops.
+// The vertex-input bindings of an instance material: per technique name a list of (parameter, pairs) bindings.
+struct SVertexInputBinding {
+    std::uint32_t reserved00 = 0;                    // +0x00
+    std::uint32_t count = 0;                         // +0x04 the pair count handed to CVertexAttributeMap::set
+    const std::uint8_t* pairs = nullptr;             // +0x08
+};
+struct SVertexInputTechnique {
+    const char* name = nullptr;                      // +0x00 the technique's name
+    std::int32_t bindingCount = 0;                   // +0x04
+    const SVertexInputBinding* bindings = nullptr;   // +0x08, one per pass, stride 0x0c
+};
+struct SVertexInputGroup {
+    std::int32_t techniqueCount = 0;                 // +0x00
+    const SVertexInputTechnique* techniques = nullptr;  // +0x04, stride 0x0c
+};
 struct SInstanceMaterial {
     const char* file = nullptr;                      // +0x00 the file the material lives in (null: this file)
     const char* url = nullptr;                       // +0x04 "#<material>" (read when `file` is set)
     std::int32_t materialIndex = 0;                  // +0x08 the material of this file otherwise (CColladaDatabase::getMaterial(int))
-    std::uint32_t reserved0c[10] = {};               // +0x0c .. +0x33 the vertex-input bindings (read by createMaterialVertexAttributeMap)
+    std::uint32_t reserved0c[2] = {};                // +0x0c, +0x10
+    SVertexInputGroup vertexInput[4];                // +0x14, +0x1c, +0x24, +0x2c: the bindings per driver family (createMaterialVertexAttributeMap
+                                                     // 0x634520 picks +0x1c for the driver bits 7, +0x24 for 0x18, +0x14 for 0x60, +0x2c for 0x300)
     glitch::video::CMaterialVertexAttributeMap* vertexAttributeMap = nullptr;  // +0x34 (an intrusive pointer in the original)
     SInstanceMaterial* linkNext = nullptr;                                     // +0x38 instance list link
 };
@@ -287,15 +583,16 @@ struct SInstanceMaterial {
 // Table holder: the record the original reaches as *(*this + 0x24) + 0x20. The comments give the original count and base
 // offsets of each table. Counts are signed in the original (the lookups test `count <= 0`).
 struct SDatabaseTables {
-    std::uint32_t version = 0;                    // +0x00 read by getVersion()
+    std::uint32_t version = 0;                    // +0x00 read by getVersion(); in the file the word is the version text (versionText); the host keeps its number
+    const char* versionText = nullptr;            // +0x00 the file's version text ("0,0,0,777"; postLoadProcess compares it)
     const char* sourceName = nullptr;             // +0x04 the name string CResFileManager::postLoadProcess stores (a heap string in the
                                                   //       original; null when the file has no reader name, stage D)
     SInstanceMaterial* instanceMaterials = nullptr;  // +0x08, head of the instance-material list
     std::uint32_t upAxis = 0;                     // +0x0c the file's up axis: 0 X_UP, 1 Y_UP, 2 Z_UP (CCameraSceneNode ctor 0x6e5550)
     std::uint32_t externalResourcesDone = 0;      // +0x10 set to 1 by postLoadProcess when the external resources were resolved
     std::uint32_t animationFlag = 0;              // +0x14 non-zero when the animations are streamed (CSceneNodeAnimator +0x34)
-    std::int32_t animationStart = 0;              // +0x1c start time of the whole animation, milliseconds (CSceneNodeAnimator +0x38)
-    std::int32_t animationEnd = 0;                // +0x20 end time, milliseconds (CSceneNodeAnimator +0x3c)
+    SAnimationClip animationRange;                // +0x18 name (unmapped), +0x1c start and +0x20 end of the whole animation, milliseconds (CSceneNodeAnimator +0x38 / +0x3c);
+                                                  //       the original hands the address of this record out as a clip when the file has no clip library (0x64fd60)
     std::vector<SAnimation*> animations;          // +0x24 / +0x28
     std::vector<SAnimationSegment> segments;      // segment record at +0x30 of the holder: {count, base}, stride 0x18
     const SEventKeyTable* eventKeyTable = nullptr;  // +0x2c the events track CSceneNodeAnimatorSet::setCurrentAnimation hands to setEventsTrack
@@ -345,74 +642,97 @@ struct SColladaFileData {
 
 // The loaded COLLADA file. CColladaDatabase::record points here; a CResFile is constructed with new(0x50). The inline
 // glitch::res::File starts at +0x24 and its first word is the header block `data`.
+//
+// Evidence (CResFile::CResFile 0x658048, ~CResFile 0x658a2c, releaseObjects 0x658744, releaseRemovableBuffer 0x657d58): the vtable is at +0x00
+// (D1 0x658a2c, D2 0x658b6c, D0 0x658b50), the count at +0x04 (the constructor stores 1), the file the record was read from at +0x08 (a use is
+// taken when the file is wholly in memory), the name (an STLport string) at +0x0c with its character pointer at +0x20, the inline res::File at
+// +0x24 (its first word is the header block), and the file-image memory: +0x38 the number of chunks, +0x40 a buffer, +0x44 the chunk pointer
+// array (+0x48 selects whether every chunk is freed or only the first).
 class CResFile {
 public:
     // Not part of the original (which has only the loading constructor): an empty record for tests and the stand-in loaders.
     CResFile() = default;
-    // 0x658048 (C1) / 0x65815c (C2): reads the header of `reader` and builds the record named `name`; `flag` selects the
-    // on-demand reading. Declared only: the file reader (glitch::res::File::read) is not reconstructed.
+    // 0x658048 (C1) / 0x65815c (C2): the record named `name` for `reader`. A reader whose data is all in memory (and `flag`) is kept and the
+    // file is initialised from its buffer; otherwise the file is initialised through a CResFileReader over the manager's read file (a memory copy
+    // for zipped archives). The initialisation is the res::File loader (glitch-core-io; a link stub here).
     CResFile(const char* name, glitch::io::IReadFile* reader, bool flag);
-    // ~CResFile(): 0x658a2c (D1), 0x658b6c (D2), 0x658b50 (D0, skipped): the original drops the reader, frees the buffer at +0x40 and releases the
-    // pointer array at +0x44. Not reproduced: the implicit destructor leaves them.
-    // 0x657c8c: releases one buffer reference held by the record (the IBuffer handle is reset).
-    // 0x657cf8 / 0x657d58: releases a removable buffer, by handle and by index. Declared only.
+    // 0x658a2c (D1) / 0x658b6c (D2): releases the objects, drops the reader, frees the file-image memory. D0 (0x658b50) is the deleting thunk.
+    virtual ~CResFile();
+    // Not in the original: a shallow copy, for the tests that reset a record by assignment (the arrays and the name pointer are shared).
+    CResFile(const CResFile&) = default;
+    CResFile& operator=(const CResFile&) = default;
+
+    // IReferenceCounted::drop: the last use deletes the record.
+    void drop() {
+        if (refCount-- == 1) {
+            delete this;
+        }
+    }
+
+    // 0x657c8c: releases one buffer reference held by the record: the last user drops it; otherwise the buffer gives its data back (a
+    // driver-mapped buffer keeps its size, with no data) and the handle is cleared.
     void releaseBuffer(boost::intrusive_ptr<video::IBuffer>& buffer);
+    // 0x657cf8: a driver-mapped buffer gives its data back; one that is not mapped and not owned is logged ("Buffer released is not in VRAM") and
+    // copied into private memory.
     void releaseRemovableBuffer(boost::intrusive_ptr<video::IBuffer>& buffer);
-    void releaseRemovableBuffer(std::uint8_t index);
-    // 0x658744: releases the objects the record created (instance materials, buffers). Declared only.
+    // 0x657d58: releases the removable buffers of the file (bit 0 of `kinds`: the geometries' vertex and index buffers; bit 1: the skins'; only
+    // a file without skins), then frees the file-image memory (+0x44 chunks, +0x40 buffer).
+    void releaseRemovableBuffer(std::uint8_t kinds);
+    // 0x658744: releases the objects the record created: the textures of the images (removed from the texture manager when the manager unloads
+    // automatically and the record held the last use), the vertex-attribute maps of the instance materials, and the buffers of every geometry
+    // (the mesh buffers' index buffers and cached scene buffers, the vertex buffers) and of the skins.
     void releaseObjects();
 
-    std::uint32_t vptr_0x00 = 0;                 // +0x00 vtable pointer word (the virtual slots are not modelled)
     std::uint32_t refCount = 1;                  // +0x04 intrusive count
     glitch::io::IReadFile* reader = nullptr;     // +0x08 file the record was read from (refcounted)
-    std::uint8_t name_0x0c[0x14] = {};           // +0x0c..+0x1f name string (inline buffer at +0x0c)
-    const char* fileName = nullptr;              // +0x20 name string data; passed to unload() and matched by the streaming cache
+    std::string name;                            // +0x0c the file name (the string object)
+    const char* fileName = nullptr;              // +0x20 the name's character data; passed to unload() and matched by the streaming cache
     SColladaFileData* data = nullptr;            // +0x24 first word of the inline res::File
     std::uint8_t flag_0x28 = 0;                  // +0x28 bool, zeroed by the constructor (role not confirmed)
-    std::uint8_t pad_0x29[0x03] = {};            // +0x29..+0x2b
     std::uint32_t word_0x2c = 0;                 // +0x2c zeroed by the constructor (role not confirmed)
-    std::uint8_t pad_0x30[0x08] = {};            // +0x30..+0x37
-    std::int32_t arrayCount_0x38 = 0;            // +0x38 bound of the pointer array at +0x44 in the destructor
-    void* buffer_0x40 = nullptr;                 // +0x40 buffer released with operator delete[] (type not confirmed)
-    void** array_0x44 = nullptr;                 // +0x44 pointer array, elements released in the destructor
-    std::uint8_t flag_0x48 = 0;                  // +0x48 bool (role not confirmed)
-    std::uint8_t pad_0x49[0x07] = {};            // +0x49..+0x4f
+    std::int32_t arrayCount_0x38 = 0;            // +0x38 the number of chunks of the pointer array at +0x44
+    void* buffer_0x40 = nullptr;                 // +0x40 file-image buffer (an operator new[] array)
+    void** array_0x44 = nullptr;                 // +0x44 chunk pointer array (operator new[] arrays)
+    std::uint8_t flag_0x48 = 0;                  // +0x48 bool: every chunk of the array is freed (else only the first)
+    std::uint32_t keepSourceName = 0;            // +0x4c a word of the inline res::File (set by its loader, not by the constructor): non-zero makes
+                                                 //       postLoadProcess keep the name of the file it was read from (SDatabaseTables::sourceName)
+    std::string sourceNameStorage;               // host: the text sourceName points at
+    std::uint8_t* image = nullptr;               // host: the file image the loader fixed up (the first word of the inline res::File, +0x24 in the original);
+                                                 //       owned (and freed with the record) unless the reader's own memory holds it
+    std::shared_ptr<void> hostModel;             // host: the decoded records (collada/BdaeDecode) that `data` and `data->tables` point into
 };
 
-// glitch::collada::CResFactory. Its members are not observed in the reconstructed bodies (getTexture and getTextureImpl do not
-// touch `this`). The object is held through a pointer in CResFileManager. Polymorphic in the original.
+// glitch::collada::CResFactory: the factory the file manager builds the textures of a file's images with (vtable: D1 0x657890, D0
+// 0x657a08, slot +0x08 getTexture). The object is held through a pointer in CResFileManager (the game may install a derived one).
 class CResFactory {
 public:
     // 0x65788c _ZN6glitch7collada11CResFactoryD2Ev (empty, same as D1)
     // 0x657890 _ZN6glitch7collada11CResFactoryD1Ev (empty)
-    ~CResFactory() = default;
-    // 0x657a08 (D0, skipped).
-    // 0x6594a0: the texture named `name`, loaded from `file` through the texture manager (the two strings are directories); the
-    // original returns an intrusive_ptr through a hidden out slot (the first argument). Declared only.
-    glitch::IReferenceCounted** getTextureImpl(glitch::IReferenceCounted** out, const std::string& name, glitch::io::IReadFile* file,
-                                               glitch::video::CTextureManager* manager, const char* directory,
-                                               const char* fallback);
-    // 0x659704: as getTextureImpl for the image record `image` of `resFile`. Declared only.
-    glitch::IReferenceCounted** getTexture(glitch::IReferenceCounted** out, CResFile* resFile, const std::string& name,
-                                           glitch::io::IReadFile* file, glitch::video::CTextureManager* manager, SImage* image);
+    virtual ~CResFactory() = default;
+    // K 0x08, 0x659704: the texture of the image record `image` of `resFile`, looked up in the texture manager `manager` with `directory` as the
+    // directory of the file; the name is the image's name (+0x00), or when CResFileManager::flag_0x29 is set the image's first word.
+    virtual boost::intrusive_ptr<video::ITexture> getTexture(CResFile* resFile, const std::string& directory, glitch::io::IReadFile* file,
+                                                             glitch::video::CTextureManager* manager, SImage* image);
+    // 0x6594a0: the texture `fallback` as "directory/name" (or by name alone) from the manager; failing that, the file's external buffer of
+    // that name (slot +0x34) as a memory file of the same name.
+    boost::intrusive_ptr<video::ITexture> getTextureImpl(const std::string& directory, glitch::io::IReadFile* file,
+                                                         glitch::video::CTextureManager* manager, const char* name, const char* fallback);
 };
 
 // glitch::collada::CResFileReader. Its vtable pointer is at +0x00 and the wrapped IReadFile is at +0x04. CResFile builds one on
 // the stack. Polymorphic in the original.
-class CResFileReader {
+class CResFileReader : public res::FileReader {
 public:
-    // 0x657888 _ZN6glitch7collada14CResFileReaderD1Ev (empty)
-    ~CResFileReader() = default;
+    explicit CResFileReader(glitch::io::IReadFile* readFile = nullptr) : file(readFile) {}
+    // 0x657888 _ZN6glitch7collada14CResFileReaderD1Ev (empty); D0 0x6579e0 is the deleting thunk.
+    ~CResFileReader() override = default;
 
-    // 0x6579e0 (D0, skipped).
-    // 0x657818, 0x657834, 0x657850, 0x65786c: forward to the wrapped file's position, read, seek and size slots. Declared only (the
-    // IReadFile interface is not included here).
-    std::int32_t tell();
-    std::int32_t read(void* buffer, std::uint32_t size);
-    std::int32_t seek(std::int32_t position, bool relative);
-    std::int32_t getSize();
+    // 0x657818, 0x657834, 0x657850, 0x65786c: forward to the wrapped file's position, read, seek and size slots.
+    std::int32_t tell() override;
+    std::int32_t read(void* buffer, std::uint32_t size) override;
+    std::int32_t seek(std::int32_t position, bool relative) override;
+    std::int32_t getSize() override;
 
-    std::uint32_t vptr_0x00 = 0;                 // +0x00 vtable pointer
     glitch::io::IReadFile* file = nullptr;       // +0x04 wrapped file (tell/read/seek/getSize forward to it)
 };
 
@@ -424,37 +744,34 @@ public:
 
     std::uint32_t vptr_0x00 = 0;                 // +0x00 vtable pointer (constructed with off_983030)
     std::uint32_t refCount = 1;                  // +0x04 set to 1 by the constructor
-    // std::map<std::string, CResFile*> of loaded records. The rb-tree header node is at +0x08 (color +0x08, parent +0x0c, left
-    // +0x10, right +0x14), and the node count is at +0x18.
-    std::uint8_t files_0x08[0x14] = {};          // +0x08..+0x1b
-    std::uint8_t pad_0x1c[0x04] = {};            // +0x1c..+0x1f
+    // +0x08..+0x1b: the loaded records by absolute file name (std::map<std::string, CResFile*>; the tree header, 20 bytes, is at +0x08).
+    std::map<std::string, CResFile*> files;
     glitch::IDevice* device = nullptr;           // +0x20 file system is read from device +0x34
     CResFactory* resFactory = nullptr;           // +0x24 set to &DefaultResFactory
     bool autoUnloadEnabled = true;               // +0x28 streaming/unload path of ~CColladaDatabase; get() clears it temporarily
-    bool flag_0x29 = false;                      // +0x29 read by CResFactory::getTexture (role not confirmed)
+    bool flag_0x29 = false;                      // +0x29 read by CResFactory::getTexture: the image's name is its first word
     bool zipLoadingEnabled = true;               // +0x2a enables the zip path in getReadFile
     bool disableZipAfterFirstUse = true;         // +0x2b when set, getReadFile clears zipLoadingEnabled after one use
 
     // 0x657894 (C1) / 0x657914 (C2): zeroes the members, stores the device and the default factory and publishes the
-    // singleton. Reconstructed; see src/tb_scene-collada-gui-glitch_collada_CResFileManager-0.cpp. The C2 is emitted from
-    // the same declaration (both symbols verified in that translation unit).
+    // singleton. Reconstructed; see src/collada/CResFileManager.cpp.
     explicit CResFileManager(glitch::IDevice* device);
     CResFileManager() = default;
-    // ~CResFileManager() 0x6582c4 (D1), 0x6583c4 (D2), 0x6583a8 (D0, skipped) is still NOT declared. It walks the
-    // std::map in order dropping each entry's +0x28 slot, unpublishes the singleton, then erases the map; the walk is
-    // expressible, but declaring the destructor would make the class non-trivially destructible and reach every user that
-    // currently relies on the implicit one. That decision is left to the integrator.
-    // 0x65799c: the version check of a file by name. Declared only.
+    // 0x6582c4 (D1) / 0x6583c4 (D2): drops every record, unpublishes the singleton and clears the map. D0 (0x6583a8) is the deleting thunk.
+    ~CResFileManager();
+    // 0x65799c: the version check of a file by name (the file is opened and checked through checkVersion(IReadFile*)).
     std::int32_t checkVersion(const char* fileName);
-    // 0x657bd0: the read file the loaders use for `file` (a memory copy for zipped archives). Declared only.
-    glitch::io::CMemoryReadFile* getReadFile(glitch::io::IReadFile* file);
-    // 0x658564: resolves the external resources of `file` once (the SDatabaseTables flag). Declared only; the body in
-    // PARTIAL: the body is empty in src/tb_scene-collada-gui-glitch_collada_CResFileManager-0.cpp (the recon/slice_32 free stand-in was retired).
+    // 0x657bd0: the read file the loaders use for `file`: the "little_endian_not_quantized.bdae" entry of a zip archive, else the file itself
+    // (with a use taken).
+    glitch::io::IReadFile* getReadFile(glitch::io::IReadFile* file);
+    // 0x658564: resolves the external resources of `file` (the textures of its images) through the factory.
     void updateExternalResources(CResFile* file, glitch::io::IReadFile* reader);
-    // 0x6584fc: unload(iterator into the loaded-file map); the STLport iterator is not declared here.
-    // 0x659b60, 0x659cfc, 0x659c3c: unload by name, by SCollada record, and everything.
+    // 0x6584fc: unload(iterator into the loaded-file map): 3 for the end iterator, 2 when the record has other users (and `flag` is clear), 1
+    // when it is unloaded in spite of them, else 0.
+    std::int32_t unload(std::map<std::string, CResFile*>::iterator position, bool flag);
+    // 0x659b60, 0x659cfc, 0x659c3c: unload by name, by SCollada record, and everything (answers how many were unloaded).
     std::int32_t unload(const char* fileName, bool flag);
-    void* unload(const SCollada* collada, bool flag);  // returns the map node after the erased one
+    std::int32_t unload(const SCollada* collada, bool flag);
     std::int32_t unloadAll();
     // 0x65a748, 0x65a9a8, 0x65ac74: the loaded record for a read file / a file name / a name relative to a record; loads it when
     // missing. 0x65a98c, 0x65ac5c: load with an optional completion callback.
@@ -467,18 +784,20 @@ public:
     // 0x657994 _ZN6glitch7collada15CResFileManager12checkVersionEPNS_2io9IReadFileE: returns 0 (the original body is a constant).
     std::uint32_t checkVersion(glitch::io::IReadFile* file);
     // 0x658c90 _ZN6glitch7collada15CResFileManager15postLoadProcessEPNS0_8CResFileEPNS_2io9IReadFileE
-    // Partial: see src/tb_scene-collada-gui-glitch_collada_CResFileManager-0.cpp.
+    // Partial: see src/collada/CResFileManager.cpp.
     int postLoadProcess(CResFile* file, glitch::io::IReadFile* reader);
 };
 
 // glitch::collada::CAnimationStreamingManager, a singleton (static Instance). The object is 0x20 bytes of data (no vptr): its
-// constructor (0x60b3cc / 0x60b410) zeroes the eight words.
+// constructor (0x60b3cc / 0x60b410) zeroes the eight words. The two vectors of the original (the registry at +0x00, the cache at +0x0c) are
+// std::vectors here.
 class CAnimationStreamingManager {
 public:
-    // Cache entry, 12 bytes. Stored in the cache vector at +0x0c..+0x14.
+    // Cache entry, 12 bytes in the original: the bytes charged to the cache, a counted pointer to the on-demand block of the cached data (an
+    // entry is evicted when the cache holds the only use) and the name of the file the block belongs to (matched by release()).
     struct SegmentCacheEntry {
         std::uint32_t size;              // +0x00 bytes charged to cacheUsage
-        std::int32_t* refCount;          // +0x04 refcount word of the cached block data (evicted when it is 1)
+        SAnimationDataHolder* holder;    // +0x04 the block (a use is held for the entry)
         const char* fileName;            // +0x08 owning record's fileName, matched by release()
     };
 
@@ -490,29 +809,27 @@ public:
     static CAnimationStreamingManager* Instance;
 
     // 0x60c59c _ZN6glitch7collada26CAnimationStreamingManager17getAnimationBlockERNS0_24SAnimationBlockSearchKeyERN5boost13intrusive_ptrINS0_15CAnimationBlockEEE
-    // Finds (or loads) the block that holds the keys of the clip at the key's time and stores it in `block`, replacing the held one.
-    // PARTIAL: the block registry (the sorted vector at +0x00, CAnimationBlock::getBlock 0x60b350, the block constructors
-    // 0x60c05c .. 0x60c940 and the cache) is not reconstructed, so no block is found and `block` is left unchanged.
+    // Finds (or loads) the block that holds the keys of the clip at the key's time and stores it in `block` (a counted slot), replacing the held
+    // one: the held block's neighbours are asked first (CAnimationBlock::getBlock), then the registry.
     void getAnimationBlock(SAnimationBlockSearchKey& key, CAnimationBlock*& block);
-    // 0x60c220: the one-argument form; returns the block (null when none). Declared only (see the registry note above).
+    // 0x60c220: the one-argument form; the registered block for the key or a new one (null when the file has no animations).
     CAnimationBlock* getAnimationBlock(SAnimationBlockSearchKey& key);
-    // 0x60b918: drops the cached and registered blocks of `database`'s file. 0x60b990: evicts cached blocks while the usage is above
-    // the limit. 0x60bc7c: adds a block's data to the cache. 0x60c414 / 0x60bb64: insert into / remove from the sorted registry.
-    // Declared only: the registry and the cache are not reconstructed.
+    // 0x60b918: drops the cached entries of `database`'s file. 0x60b990: evicts cached blocks while the usage is above the limit (logging when
+    // it cannot). 0x60bc7c: adds a block's data to the cache. 0x60c414 / 0x60bb64: insert into / remove from the sorted registry.
     void release(CColladaDatabase* database);
     void checkMemoryUsage();
     void cache(CAnimationBlock* block);
     void registerAnimationBlock(CAnimationBlock* block);
     void unregisterAnimationBlock(CAnimationBlock* block);
 
-    CAnimationBlock** registryBegin = nullptr;        // +0x00 sorted registry of blocks
-    CAnimationBlock** registryEnd = nullptr;          // +0x04
-    CAnimationBlock** registryCapacityEnd = nullptr;  // +0x08
-    SegmentCacheEntry* cacheBegin = nullptr;          // +0x0c
-    SegmentCacheEntry* cacheEnd = nullptr;            // +0x10
-    SegmentCacheEntry* cacheCapacityEnd = nullptr;    // +0x14
+    std::vector<CAnimationBlock*> registry;           // +0x00..+0x08 sorted registry of blocks (database presence, clip, segment start)
+    std::vector<SegmentCacheEntry> cacheEntries;      // +0x0c..+0x14
     std::int32_t cacheLimit = 0;                      // +0x18 maximum cache bytes; caching is off when not positive
     std::int32_t cacheUsage = 0;                      // +0x1c bytes currently cached
+
+private:
+    // The vector's erase (0x60b888): the entry gives up its use of the block (the last use frees the data) and the following entries move down.
+    std::vector<SegmentCacheEntry>::iterator eraseEntry(std::vector<SegmentCacheEntry>::iterator position);
 };
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -636,6 +953,10 @@ public:
     SAnimation* getAnimation(const char* name, SChannel::Type type, std::uint8_t flag) const;
     // 0x61c1e0 getBlendableAnimation(SChannel const*) const
     SAnimation* getBlendableAnimation(const SChannel* channel) const;
+    // 0x611ae0 getAnimationTrackEx(SAnimation const*): the track that reads the key data of the animation and writes its target: chosen by
+    // the channel type (and the key width of the offset / scale record, or the material parameter's type and component), one of the
+    // singletons of the animation_track classes; null for a type or width with no track. (A static: the original takes no database.)
+    static IAnimationTrackEx* getAnimationTrackEx(const SAnimation* animation);
     // 0x61c214 getNode(char const*, SNode&) const
     // Returns `node` when its name matches, else the first match among its descendants.
     SNode* getNode(const char* name, SNode& node) const;
@@ -746,54 +1067,53 @@ public:
 //   record gets a use), +0x0c the clip range the block was built for (when 0 it becomes the database clip at +24), +0x10 the animation
 //   segment (count +0x00, index +0x04, users +0x08), +0x14 the data holder (SAnimationDataHolder), +0x18 / +0x1c the next and previous
 //   blocks (prepareNextBlock links them; the destructor clears the peer's link).
-// The data holder keeps the loaded key data: its +0x00 is the reference count (the buffer is freed when it reaches one) and +0x0c the
-// buffer, the output array the animators build their SAnimationAccessor over.
+// The data holder (SAnimationDataHolder, defined with SAnimationSegment) keeps the loaded key data: its +0x00 is the reference count and
+// `buffer` the output array the animators build their SAnimationAccessor over.
 // ---------------------------------------------------------------------------------------------------------------------
-struct SAnimationDataHolder {
-    std::uint32_t refCount = 0;               // +0x00 (decremented; the buffer is freed at 1)
-    std::uint32_t unk_04 = 0;                 // +0x04, not mapped
-    std::uint32_t unk_08 = 0;                 // +0x08, not mapped
-    const SAnimationOutput* buffer = nullptr; // +0x0c the output array (operator delete[] target)
-};
-
 class CAnimationBlock {
 public:
+    // 0x60c05c (C1) / 0x60c940 (C2): the block for the clip range `range` (null: the whole animation) at `time`: the segment of that time is
+    // loaded through a reader over the file the database came from, and the block is registered (and cached) with the streaming manager.
+    CAnimationBlock(const CColladaDatabase& source, const SAnimationClip* range, std::int32_t time);
+    // 0x60c610 (C1) / 0x60c7a8 (C2): the same for a given segment. The original opens the file for the reader and never drops it.
+    CAnimationBlock(const CColladaDatabase& source, const SAnimationClip* range, SAnimationSegment* segment);
+    // 0x60ba2c (D1) / 0x60bbd8 (D2): releases the neighbours' links (the next block is freed when this holds its last use), the data holder and
+    // the database handle. D0 (0x60bbd8's deleting variant) is the compiler's thunk.
+    ~CAnimationBlock();
+
     std::uint32_t refCount = 0;               // +0x00
     CColladaDatabase database;                // +0x04 / +0x08
     const SAnimationClip* range = nullptr;    // +0x0c
     SAnimationSegment* segment = nullptr;     // +0x10
-    SAnimationDataHolder* dataHolder = nullptr;  // +0x14
+    SAnimationDataHolder* dataHolder = nullptr;  // +0x14 (a counted pointer to segment->data)
     CAnimationBlock* next = nullptr;          // +0x18 the next block, or this block when there is none
     CAnimationBlock* previous = nullptr;      // +0x1c
 
-    // ~CAnimationBlock(): 0x60ba2c (D1), 0x60bbd8 (D0, skipped): unregisters the block, drops the data holder and the database handle. Not reproduced.
-    // 0x60bad0: frees the block's key data. 0x60c31c: loads the next block of the chain. 0x60c3f0: takes a use of the block.
-    // Declared only.
+    // 0x60b350: the block of the chain (this one, then the next ones forward when the time is past this segment, the previous ones backward
+    // when before) whose segment holds the key's time, for the same clip range and database presence; null when none does.
+    CAnimationBlock* getBlock(SAnimationBlockSearchKey& key);
+    // 0x60bad0: unregisters the block from the streaming manager (which gives up the registry's use) and deletes it.
     void free();
+    // 0x60c31c: links the block that follows this one (the key is the same clip range at the end of this segment plus one, or the clip's start
+    // when the range is covered; this block's next is itself when there is nothing left to load).
     void prepareNextBlock();
+    // 0x60c3f0: takes a use of the block; the second use loads the next block when none is linked.
     void grab();
-    // 0x60bb1c: drops a use; frees the block when the count falls to one. (The free-function stand-ins of recon/slice_07 were retired.)
+    // 0x60bb1c: drops a use; at a count of one the block is freed when it has no previous block, or the previous one holds the last use of
+    // its own, or else (the original frees the NEXT block there) when the next one holds only its own use.
     void drop();
 };
 
-// The key the streaming manager looks a block up by (SAnimationBlockSearchKey): the database handle, the clip and the time.
+// The key the streaming manager looks a block up by (SAnimationBlockSearchKey): the database handle, the clip range and the time.
 struct SAnimationBlockSearchKey {
     SAnimationBlockSearchKey() = default;
-    // 0x65d6d8: copies the database handle (a use of the record) and stores the clip and the time.
+    // 0x65d6d8: copies the database handle (a use of the record); the clip is the library's clip `clipIndex` (the whole-animation record when
+    // the file has no clip library) and the time is clamped into the clip's range.
     SAnimationBlockSearchKey(const CColladaDatabase& source, std::int32_t clipIndex, std::int32_t timeMs);
     CColladaDatabase database;                // +0x00 / +0x04 (a copy of the animator's handle; the destructor drops it)
-    std::int32_t clip = 0;                    // +0x08 the clip of the timeline controller (vptr+0x38)
+    const SAnimationClip* clip = nullptr;     // +0x08 the clip range
     std::int32_t time = 0;                    // +0x0c
 };
-
-inline SAnimationBlockSearchKey::SAnimationBlockSearchKey(const CColladaDatabase& source, std::int32_t clipIndex, std::int32_t timeMs)
-    : clip(clipIndex), time(timeMs) {
-    database.record = source.record;
-    database.factory = source.factory;
-    if (database.record != nullptr && database.record->refCount != 0) {
-        ++database.record->refCount;
-    }
-}
 
 // The copy of a database handle that the original inlines at each member copy (e.g. 0x65dbd8, 0x644eb8, 0x64b9c8): the record gets
 // a use only when its count is not zero. CColladaDatabase keeps plain pointers (see the file comment), so the copy takes the use.
@@ -805,14 +1125,22 @@ inline void copyDatabase(CColladaDatabase& to, const CColladaDatabase& from) {
     }
 }
 
-// The first part of ~CColladaDatabase (0x619474): the record loses the use the handle held. PARTIAL: when the count is then 1 and the
-// manager's auto-unload is on, the original also calls CAnimationStreamingManager::release and CResFileManager::unload (stand-ins in
-// recon/slice_07.cpp and recon/slice_11.cpp), which are not reconstructed.
-// 0x619784 ~CColladaDatabase is this helper: the original's destructor decrements the record count and unloads the file when
-// the last handle goes (the auto-unload is not modelled).
+// ~CColladaDatabase (0x619474 D1, 0x619784 D2): the record loses the use the handle held (only when its count is not zero); when the file
+// manager unloads automatically and the record is then held only by the manager (count 1), the streaming manager forgets the cached
+// segments of the file and the manager unloads it by name. The handle is cleared. The handles are plain pointers in the port (the copies
+// take their use through copyDatabase), so the destructor is this function, called where the original's destructor runs.
+// Host deviations: the use is given up by decrementing (a record built outside the manager, with a count of one, is not deleted here), and
+// the unload is skipped for a record with no name.
 inline void dropDatabase(CColladaDatabase& database) {
-    if (database.record != nullptr && database.record->refCount != 0) {
-        --database.record->refCount;
+    CResFile* record = database.record;
+    if (record != nullptr && record->refCount != 0) {
+        --record->refCount;
+        if (CResFileManager::Inst != nullptr && CResFileManager::Inst->autoUnloadEnabled && record->refCount == 1 && record->fileName != nullptr) {
+            if (CAnimationStreamingManager::Instance != nullptr) {
+                CAnimationStreamingManager::Instance->release(&database);
+            }
+            CResFileManager::Inst->unload(record->fileName, false);
+        }
     }
     database.record = nullptr;
 }

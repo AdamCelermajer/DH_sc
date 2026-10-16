@@ -238,11 +238,11 @@ void InfoHUDManager::FastUpdate() {
 
     // Property sheet words: HP m_w37 / total m_w39, MP m_w42 / total m_w44, XP m_w34 / next m_w35 (Character +0x1088, +0x1090,
     // +0x109c, +0x10a4, +0x107c, +0x1080).
-    const int hpFrameRaw = 100 * ch->m_props.m_w37 / ch->m_props.m_w39;
+    const int hpFrameRaw = 100 * ch->m_props.HP / ch->m_props.Max_HP;
     int hpFrame = hpFrameRaw - 1;
     hpFrame = hpFrame & ~(hpFrame >> 31);
-    int mpFrame = 100 * ch->m_props.m_w42 / ch->m_props.m_w44 - 1;
-    int xpFrame = 100 * ch->m_props.m_w34 / ch->m_props.m_w35;
+    int mpFrame = 100 * ch->m_props.MP / ch->m_props.Max_MP - 1;
+    int xpFrame = 100 * ch->m_props.XP / ch->m_props.Max_XP;
     if (xpFrame >= 99) {
         xpFrame = 99;
     }
@@ -383,7 +383,7 @@ void InfoHUDManager::FastUpdate() {
     if (enemy != nullptr) {
         if (enemy != m_lastEnemy) {
             m_lastEnemy = enemy;
-            const char* nameText = ApplicationGetStringManager()->getString(enemy->m_props.m_w19);  // Character +0x1040
+            const char* nameText = ApplicationGetStringManager()->getString(enemy->m_props.Name);  // Character +0x1040
             char levelText[32];
             if (enemy->IsBoss() || enemy->GetLevel() == -1) {
                 std::strcpy(levelText, "??");

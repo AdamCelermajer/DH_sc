@@ -400,21 +400,21 @@ void CheckCancelAndEndSkill() {
     auto* s0 = new CharAISkillScript(nullptr, "s0", 0);
     g_ai->*get(TagSkills{}) = {s0};
 
-    SkillRow(0)->m_w18 = 1;
+    SkillRow(0)->Type = 1;
     g_ai->AI_CancelSkill(0);
     EXPECT(g_log.size() == 1);
     EXPECT(LogIs(0, s0, 'R'));
 
     ResetState();
     g_ai->*get(TagSkills{}) = {s0};
-    SkillRow(0)->m_w18 = 2;
+    SkillRow(0)->Type = 2;
     g_ai->AI_CancelSkill(0);
     EXPECT(g_log.empty());
 
     // EndSkill: type 2 with the step not begun marks the step ended.
     ResetState();
     g_smUsingSkill = true;
-    SkillRow(1)->m_w18 = 2;
+    SkillRow(1)->Type = 2;
     g_ai->AI_EndSkill(1);
     EXPECT(g_ai->*get(TagStepEnded{}));
     EXPECT(g_stopLoopCalls == 0);
@@ -422,7 +422,7 @@ void CheckCancelAndEndSkill() {
     // With the step begun the looping animation stops.
     ResetState();
     g_smUsingSkill = true;
-    SkillRow(1)->m_w18 = 2;
+    SkillRow(1)->Type = 2;
     g_ai->*get(TagStepBegun{}) = true;
     g_ai->AI_EndSkill(1);
     EXPECT(g_stopLoopCalls == 1);
@@ -431,7 +431,7 @@ void CheckCancelAndEndSkill() {
     // Another type does nothing.
     ResetState();
     g_smUsingSkill = true;
-    SkillRow(1)->m_w18 = 1;
+    SkillRow(1)->Type = 1;
     g_ai->AI_EndSkill(1);
     EXPECT(g_stopLoopCalls == 0);
     EXPECT(!(g_ai->*get(TagStepEnded{})));
@@ -443,7 +443,7 @@ void CheckBeginSkillAndUse() {
     g_ai->*get(TagSkills{}) = {s0};
 
     // Already active: the pre-skill hook runs and the call succeeds.
-    SkillRow(0)->m_w18 = 1;
+    SkillRow(0)->Type = 1;
     g_smUsingSkill = true;
     g_ai->*get(TagCurSkill{}) = 0;
     EXPECT(g_ai->AI_BeginSkill(0));
@@ -453,7 +453,7 @@ void CheckBeginSkillAndUse() {
     // Usability fails: nothing is set.
     ResetState();
     g_ai->*get(TagSkills{}) = {s0};
-    SkillRow(0)->m_w18 = 0;
+    SkillRow(0)->Type = 0;
     g_usable = false;
     EXPECT(!g_ai->AI_BeginSkill(0));
     EXPECT(g_ai->*get(TagCurSkill{}) == -1);
@@ -462,7 +462,7 @@ void CheckBeginSkillAndUse() {
     // UseSkill on an active skill runs BeginSkill then EndSkill and reports success.
     ResetState();
     g_ai->*get(TagSkills{}) = {s0};
-    SkillRow(0)->m_w18 = 1;
+    SkillRow(0)->Type = 1;
     g_smUsingSkill = true;
     g_ai->*get(TagCurSkill{}) = 0;
     EXPECT(g_ai->AI_UseSkill(0));
@@ -478,7 +478,7 @@ void CheckSpells() {
     g_faeryId = 1;
 
     // Faery already active: pre-skill hook, then CastSpell ends the spell and reports success.
-    FaeryRow()->m_w7 = 1;
+    FaeryRow()->SpellType = 1;
     g_spellActive = true;
     EXPECT(g_ai->AI_BeginSpell(false));
     EXPECT(g_log.size() == 1);
@@ -492,7 +492,7 @@ void CheckSpells() {
     ResetState();
     g_ai->*get(TagSpells{}) = {sp0, sp1};
     g_faeryId = 0;
-    FaeryRow()->m_w7 = 0;
+    FaeryRow()->SpellType = 0;
     EXPECT(g_ai->AI_BeginSpell(false));
     EXPECT(g_setCastCalls == 1);
     EXPECT(g_endSpellCalls == 0);

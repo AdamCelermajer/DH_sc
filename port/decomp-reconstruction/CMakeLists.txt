@@ -45,6 +45,7 @@ set(DH2_GAMESWF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-gameswf/upstream/gameswf-
 set(DH2_TINYXML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/tinyxml-2.5.3)
 set(DH2_FREETYPE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/freetype-2.3.7)
 set(DH2_JPEG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/libjpeg-6b)
+set(DH2_PNG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/libpng-1.2.32)
 set(DH2_TESS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/libtess-glu-9.0.0)
 set(DH2_MPC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vox-audio/upstream/libmpcdec-r475)
 set(DH2_STB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vox-audio/upstream/stb_vorbis-0.99996)
@@ -89,26 +90,24 @@ target_include_directories(dh2_vendor_box2d SYSTEM PUBLIC ${DH2_BOX2D_DIR}/Inclu
 if(NOT MSVC)
   target_compile_options(dh2_vendor_box2d PRIVATE -w -fno-fast-math -ffp-contract=off -include cstring)
 endif()
-# zlib: libDungeonHunter2.so carries zlib 1.2.3 statically (deflate/inflate/crc32 symbols), but no zlib source
-# is under tinyxml-and-c-libs (its zlib rows are name-matched "upstream" without a source file) and the
-# WinLibs MinGW has no zlib headers or libz. The repo already carries pristine zlib sources as part of the
-# vendored Irrlicht 1.8.5 (zlib 1.2.8, same API and inflate behaviour), so the library is built from those
-# files in place, nothing copied. -DDH2_SYSTEM_ZLIB=ON links the toolchain's own libz instead.
+# zlib 1.2.3: libDungeonHunter2.so carries it statically (zlibVersion "1.2.3", " inflate 1.2.3 Copyright 1995-2005"), vendored
+# under tinyxml-and-c-libs/upstream (see its README.md). -DDH2_SYSTEM_ZLIB=ON links the toolchain's own libz instead.
 option(DH2_SYSTEM_ZLIB "Link the system zlib (-lz) instead of building the vendored sources" OFF)
-set(DH2_ZLIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../irrlicht-prototype/upstream/irrlicht-1.8.5/source/Irrlicht/zlib)
+set(DH2_ZLIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/zlib-1.2.3)
 if(DH2_SYSTEM_ZLIB)
   add_library(dh2_vendor_zlib INTERFACE)
   target_link_libraries(dh2_vendor_zlib INTERFACE z)
 else()
-  set(zlib_srcs adler32 compress crc32 deflate gzclose gzlib gzread gzwrite infback inffast inflate inftrees trees uncompr zutil)
+  set(zlib_srcs adler32 compress crc32 deflate gzio infback inffast inflate inftrees trees uncompr zutil)
   list(TRANSFORM zlib_srcs PREPEND ${DH2_ZLIB_DIR}/)
   list(TRANSFORM zlib_srcs APPEND .c)
   add_library(dh2_vendor_zlib STATIC ${zlib_srcs})
   set_target_properties(dh2_vendor_zlib PROPERTIES C_STANDARD 99)
   if(ANDROID)
-    target_compile_definitions(dh2_vendor_zlib PRIVATE Z_HAVE_UNISTD_H)   # gz*.c call read/write/close/lseek
+    target_compile_definitions(dh2_vendor_zlib PRIVATE Z_HAVE_UNISTD_H)   # gzio.c calls read/write/close
   endif()
   target_include_directories(dh2_vendor_zlib SYSTEM PUBLIC ${DH2_ZLIB_DIR})
+  list(APPEND DH2_VENDOR_INCLUDES ${DH2_ZLIB_DIR})   # <zlib.h> for CZipReader::openFile (0x576f18, inflate)
   if(NOT MSVC)
     target_compile_options(dh2_vendor_zlib PRIVATE -w)
   endif()
@@ -173,6 +172,20 @@ if(NOT MSVC)
   target_compile_options(dh2_vendor_jpeg PRIVATE -w)
 endif()
 
+# libpng 1.2.32 (pinned from the binary's version strings): the 15 portable units, no x86 assembler. ImageIO declares the
+# png_* entry points itself, so the library only has to link; png.h is public for the loaders that include it.
+set(png_srcs)
+foreach(u IN ITEMS png pngerror pngget pngmem pngpread pngread pngrio pngrtran pngrutil pngset pngtrans pngwio pngwrite pngwtran pngwutil)
+  list(APPEND png_srcs ${DH2_PNG_DIR}/${u}.c)
+endforeach()
+add_library(dh2_vendor_png STATIC ${png_srcs})
+target_include_directories(dh2_vendor_png SYSTEM PUBLIC ${DH2_PNG_DIR})
+target_compile_definitions(dh2_vendor_png PRIVATE PNG_NO_ASSEMBLER_CODE)
+target_link_libraries(dh2_vendor_png PUBLIC dh2_vendor_zlib)
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_png PRIVATE -w)
+endif()
+
 # SGI libtess (GLU tessellator, glu-9.0.0 src/libtess): the nine units of the binary, compiled as C++ because the binary's
 # symbols are C++-mangled. memalloc.c is not in the binary (see libtess-glu-9.0.0/README.md).
 set(tess_srcs)
@@ -198,6 +211,8 @@ foreach(u IN ITEMS mpc_bits_reader mpc_decoder mpc_demux huffman requant streami
 endforeach()
 add_library(dh2_vendor_mpc STATIC ${mpc_srcs})
 target_include_directories(dh2_vendor_mpc PRIVATE ${DH2_MPC_DIR}/include ${DH2_MPC_DIR}/libmpcdec)
+# streaminfo.c calls mpc_crc32; the binary's copy of that CRC is crc32mpc (tinyxml-and-c-libs/src/crc32mpc.cpp).
+target_compile_definitions(dh2_vendor_mpc PRIVATE mpc_crc32=crc32mpc)
 if(NOT MSVC)
   target_compile_options(dh2_vendor_mpc PRIVATE -w)
 endif()
@@ -243,7 +258,7 @@ if(game_srcs)
   list(APPEND DH2_LIBS dh2_game)
 endif()
 list(APPEND DH2_LIBS dh2_vendor_lua dh2_vendor_box2d dh2_vendor_gameswf dh2_vendor_tinyxml dh2_vendor_freetype
-  dh2_vendor_jpeg dh2_vendor_libtess dh2_vendor_mpc dh2_vendor_stb_vorbis)
+  dh2_vendor_jpeg dh2_vendor_png dh2_vendor_libtess dh2_vendor_mpc dh2_vendor_stb_vorbis)
 if(NOT DH2_SYSTEM_ZLIB)
   list(APPEND DH2_LIBS dh2_vendor_zlib)
 endif()

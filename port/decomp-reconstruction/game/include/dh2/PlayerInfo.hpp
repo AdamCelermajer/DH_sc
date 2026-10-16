@@ -31,10 +31,13 @@ class PlayerInfo : public CNetPlayerInfo {
 public:
     PlayerInfo();                                                       // 0x37418c (C1), 0x374cc0 (C2)
     ~PlayerInfo() override;                                             // slot 0: 0x371294 (D1); slot 1: 0x371670 (D0, deleting); 0x37168c (D2)
-    // Deleted, as CNetPlayerInfo's copy is (cnet_player_info.hpp). Both originals start by copying the NetStruct base
-    // with memcpy (CNetPlayerInfo 0x377448 and 0x378708), which would declare the source's blocks. Ledger: skipped.
-    PlayerInfo(const PlayerInfo& other) = delete;                       // 0x3777d0 (C1)
-    PlayerInfo& operator=(const PlayerInfo& other) = delete;            // 0x378808
+    // Copy constructor 0x3777d0: CNetPlayerInfo's copy (0x377448), then every block copied field by field (the byte arrays
+    // through ByteArray::SetBuffer), then the plain fields. operator= 0x378808: CNetPlayerInfo::operator= (0x378708), then
+    // every block through its SetValue (vtable +0x1c) with the source's value, then the plain fields (shallow, the Character
+    // and the loading-info pointers included). Both in game-character/src/ok3-PlayerInfo.cpp. As in the binary, the copy keeps
+    // the base's member pointer array, so its registry still addresses the source's blocks (cnet_player_info.hpp).
+    PlayerInfo(const PlayerInfo& other);                                // 0x3777d0 (C1)
+    PlayerInfo& operator=(const PlayerInfo& other);                     // 0x378808
 
     // Factory: operator new(0x688), then the C1 constructor. Delete calls the object's virtual deleting destructor.
     static PlayerInfo* Create();                                        // 0x374ca0

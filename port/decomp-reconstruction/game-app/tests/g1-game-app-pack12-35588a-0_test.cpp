@@ -177,15 +177,15 @@ StopSound::~StopSound() {}
 void StopSound::finalize() {}
 void StopSound::read(IStreamBase* /*stream*/) {}
 
-UnEquipHands::~UnEquipHands() { std::free(m_w3); }
+UnEquipHands::~UnEquipHands() { std::free(Target); }
 void UnEquipHands::finalize() {}
 void UnEquipHands::read(IStreamBase* /*stream*/) {}
 
-UnEquipItemFromSlot::~UnEquipItemFromSlot() { std::free(m_w4); }
+UnEquipItemFromSlot::~UnEquipItemFromSlot() { std::free(Target); }
 void UnEquipItemFromSlot::finalize() {}
 void UnEquipItemFromSlot::read(IStreamBase* /*stream*/) {}
 
-UnlockCharacter::~UnlockCharacter() { std::free(m_w3); }
+UnlockCharacter::~UnlockCharacter() { std::free(Target); }
 void UnlockCharacter::finalize() {}
 void UnlockCharacter::read(IStreamBase* /*stream*/) {}
 
@@ -265,7 +265,7 @@ int main() {
         EXPECT(!wait.IsBlocking());
 
         Structs::Wait record;
-        record.m_w2 = 450;
+        record.Time = 450;
         wait.m_args = &record;
         const int before = g_traceCalls;
         wait.Execute(false, 0);
@@ -280,30 +280,30 @@ int main() {
     // StopSound body reads its record, but its ObjectManager and VoxSoundManager calls are still missing (partial).
     {
         Structs::StopSound stopRecord;
-        stopRecord.m_w2 = 7;
-        stopRecord.m_w3 = false;
-        stopRecord.m_w4 = 9;
+        stopRecord.FadeoutTime = 7;
+        stopRecord.IsMusic = false;
+        stopRecord.SoundID = 9;
         Script_StopSound stop;
         stop.m_args = &stopRecord;
 
         Structs::UnEquipHands handsRecord;
-        handsRecord.m_w3 = CopyName("Hero");
+        handsRecord.Target = CopyName("Hero");
         Script_UnEquipHands hands;
         hands.m_args = &handsRecord;
 
         Structs::UnEquipItemFromSlot slotRecord;
-        slotRecord.m_w2 = 2;
-        slotRecord.m_w4 = CopyName("Villain");
+        slotRecord.SlotID = 2;
+        slotRecord.Target = CopyName("Villain");
         Script_UnEquipItemFromSlot slot;
         slot.m_args = &slotRecord;
 
         Structs::UnlockCharacter unlockAllRecord;
-        unlockAllRecord.m_w3 = CopyName("All");
+        unlockAllRecord.Target = CopyName("All");
         Script_UnlockCharacter unlockAll;
         unlockAll.m_args = &unlockAllRecord;
 
         Structs::UnlockCharacter unlockNamedRecord;
-        unlockNamedRecord.m_w3 = CopyName("Hero");
+        unlockNamedRecord.Target = CopyName("Hero");
         Script_UnlockCharacter unlockNamed;
         unlockNamed.m_args = &unlockNamedRecord;
 

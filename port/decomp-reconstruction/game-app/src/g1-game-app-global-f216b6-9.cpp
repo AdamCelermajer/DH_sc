@@ -198,7 +198,7 @@ void NativeHUDSpell(const gameswf::fn_call& /*call*/) {
 void NativeGetLoadingTipStrID(const gameswf::fn_call& call) {
     const unsigned int page = Random::GetRandom(static_cast<int>(Arrays::HintPages::size), false);
     const Structs::HintPage* rows = reinterpret_cast<const Structs::HintPage*>(Arrays::HintPages::members);
-    call.result->set_double(static_cast<double>(rows[page].m_w2));
+    call.result->set_double(static_cast<double>(rows[page].HintStringID));
 }
 
 // 0x43cc00 NativeGetIPodPlaylistCount(gameswf::fn_call const&): the platform player's playlist count as a number.
@@ -219,7 +219,7 @@ void NativeGetMonsterHUDHP(const gameswf::fn_call& call) {
             return;
         }
         const Structs::CharacterProperties& sheet = static_cast<Character*>(target)->CharProperties::m_props;
-        percent = sheet.m_w39 != 0 ? 100 * sheet.m_w37 / sheet.m_w39 : 0;
+        percent = sheet.Max_HP != 0 ? 100 * sheet.HP / sheet.Max_HP : 0;
     }
     call.result->set_double(static_cast<double>(percent));
 }

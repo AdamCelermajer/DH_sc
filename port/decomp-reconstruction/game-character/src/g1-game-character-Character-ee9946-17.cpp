@@ -170,9 +170,9 @@ const void* Character::GetCharSkillList() const {
 // of the oid, or -1 when it is not in the list (or the list is empty).
 int Character::GetSkillIDFromOID(int oid) const {
     const auto* list = static_cast<const Structs::SkillList*>(GetCharSkillList());
-    const std::uint32_t count = list->m_w1;
+    const std::uint32_t count = list->ListSize;
     if (count != 0) {
-        const auto* ids = static_cast<const std::int32_t*>(list->m_w2);
+        const auto* ids = static_cast<const std::int32_t*>(list->List);
         if (ids[0] == oid) {
             return 0;
         }
@@ -211,11 +211,11 @@ void Character::CancelSneaking() {
     }
     if (IsSneaking()) {
         const auto* list = static_cast<const Structs::SkillList*>(GetCharSkillList());
-        const std::uint32_t count = list->m_w1;
+        const std::uint32_t count = list->ListSize;
         if (count != 0) {
-            const auto* ids = static_cast<const std::int32_t*>(list->m_w2);
+            const auto* ids = static_cast<const std::int32_t*>(list->List);
             for (std::uint32_t i = 0; i != count; ++i) {
-                if ((SkillRow(ids[i]).m_w7 & 0x2000000) != 0) {
+                if ((SkillRow(ids[i]).Flags & 0x2000000) != 0) {
                     CharAI::AI_CancelSkill(i);
                     return;
                 }
@@ -231,12 +231,12 @@ void Character::CancelSneaking() {
 // that need a row treat nullptr as the no-skill answer.
 const void* Character::GetCharSkill(int skill) const {
     const Structs::SkillList& list = SkillListRow(GetCharSkillListId());
-    const int count = static_cast<int>(list.m_w1);
+    const int count = static_cast<int>(list.ListSize);
     if (skill < 0 || skill >= count) {
         ReportAssertFailure("skillId >= 0 && skillId < (int)charSkillList.ListSize", kCharacterSkillsFile, 61);
         return nullptr;
     }
-    const auto* ids = static_cast<const std::int32_t*>(list.m_w2);
+    const auto* ids = static_cast<const std::int32_t*>(list.List);
     return &SkillRow(ids[skill]);
 }
 
@@ -297,7 +297,7 @@ bool Character::CanIncrementSkill(int skill) {
     if (record == nullptr) {
         return false;
     }
-    return required <= level - record->m_w8;
+    return required <= level - record->Level;
 }
 
 // 0x3bca50 Character::IsSkillAvailable(int) const
@@ -309,7 +309,7 @@ bool Character::IsSkillAvailable(int skill) const {
     if (record == nullptr) {
         return false;
     }
-    return level >= record->m_w8;
+    return level >= record->Level;
 }
 
 // 0x3bca84 Character::IsSkillEquippable(int) const
@@ -323,5 +323,5 @@ bool Character::IsSkillEquippable(int skill) const {
     if (record == nullptr) {
         return false;
     }
-    return record->m_w18 != -1 && SG_GetSkillLevel(static_cast<unsigned int>(skill)) > 0;
+    return record->Type != -1 && SG_GetSkillLevel(static_cast<unsigned int>(skill)) > 0;
 }

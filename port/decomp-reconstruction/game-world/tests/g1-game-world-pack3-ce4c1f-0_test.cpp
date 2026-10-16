@@ -189,7 +189,7 @@ void TestActivateTrap() {
     trap->m_active = false;
 
     Structs::ActivateProjectileTrap* record = reinterpret_cast<Structs::ActivateProjectileTrap*>(g_activateRecord);
-    record->m_w3 = const_cast<char*>("TrapA");
+    record->Target = const_cast<char*>("TrapA");
     Script_ActivateProjectileTrap* cmd = reinterpret_cast<Script_ActivateProjectileTrap*>(g_activateStorage);
     cmd->m_args = record;
 
@@ -230,7 +230,7 @@ void TestDeactivateTrap() {
 
     Structs::DeactivateProjectileTrap* record =
         reinterpret_cast<Structs::DeactivateProjectileTrap*>(g_deactivateRecord);
-    record->m_w3 = const_cast<char*>("TrapB");
+    record->Target = const_cast<char*>("TrapB");
     Script_DeactivateProjectileTrap* cmd = reinterpret_cast<Script_DeactivateProjectileTrap*>(g_deactivateStorage);
     cmd->m_args = record;
 

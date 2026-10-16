@@ -68,7 +68,7 @@ ninja dh2                                    # -Wl,--no-undefined: fails, listin
 cmake -DDH2_ANDROID_ABORT_STUBS=ON . && ninja dh2    # aborting stubs for those symbols: libdh2.so links
 ```
 
-The first form is the honest one: with `--no-undefined` the link stops with 160 undefined symbols (lld, 2026-10-15 22:56), listed with the
+The first form is the honest one: with `--no-undefined` the link stops with the undefined symbols of the CSV (160 at 2026-10-15 22:56, 92 after owner F), listed with the
 library object that references each one in `reports/decomp-reconstruction/android-link-missing.csv`. The second form
 defines them (functions that print `DH2 android link stub called (not reconstructed yet): <symbol>` and abort, zeroed
 4 KiB for data) from that same CSV, and produces a 105 MB (unstripped,

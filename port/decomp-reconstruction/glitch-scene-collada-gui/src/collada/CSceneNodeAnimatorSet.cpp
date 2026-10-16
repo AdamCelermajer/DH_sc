@@ -129,14 +129,11 @@ const char* CSceneNodeAnimatorSet::getAnimationVisualSceneID(std::int32_t index)
 }
 
 // 0x65f364 _ZN6glitch7collada21CSceneNodeAnimatorSet16getAnimationDataEi
-// PARTIAL: as CSceneNodeAnimator::getAnimationData (the key is built from the database of the current animation); the streaming
-// manager's block registry is not reconstructed, so the held block, and with it the data, stays null.
+// As CSceneNodeAnimator::getAnimationData (0x65d768), with the key built from the database of the current animation (the animation set's
+// getDatabase at +0x50).
 const SAnimationOutput* CSceneNodeAnimatorSet::getAnimationData(std::int32_t time) {
     scene::ITimelineController* controller = getTimelineCtrl();
-    SAnimationBlockSearchKey key;
-    copyDatabase(key.database, *animationSet->getDatabase(currentAnimation));
-    key.clip = controller != nullptr ? controller->getCurrentClipIndex() : 0;  // vptr+0x38
-    key.time = time;
+    SAnimationBlockSearchKey key(*animationSet->getDatabase(currentAnimation), controller != nullptr ? controller->getCurrentClipIndex() : 0, time);
     if (CAnimationStreamingManager::Instance != nullptr) {  // the original dereferences it unconditionally
         CAnimationStreamingManager::Instance->getAnimationBlock(key, animationBlock);
     }
@@ -158,8 +155,9 @@ std::int32_t sampleTime(scene::ITimelineController* controller, std::uint32_t le
 }  // namespace
 
 // 0x65f5dc _ZN6glitch7collada21CSceneNodeAnimatorSet22computeAnimationValuesEj
-// PARTIAL (the animation data, see getAnimationData). For every enabled track with a target: the binding's default value is copied
-// into the target, and an animated binding (kind 2) is read through the accessor at the sample time.
+// Verified against the decompilation 0x65f5dc. For every enabled track with a target: the binding's default value is copied into the
+// target, and an animated binding (kind 2) is read through the accessor at the sample time. Deviation, named: an animated binding is skipped
+// when there is no animation data (the original hands the null data to the accessor).
 void CSceneNodeAnimatorSet::computeAnimationValues(std::uint32_t timeMs) {
     if (animationSet->animatedTrackCount == 0 && !eventsTrack) {
         return;
@@ -193,8 +191,8 @@ void CSceneNodeAnimatorSet::computeAnimationValues(std::uint32_t timeMs) {
 }
 
 // 0x65f418 _ZN6glitch7collada21CSceneNodeAnimatorSet20applyAnimationValuesEj
-// PARTIAL (the animation data). As computeAnimationValues, but the default value is applied through the track's applyValue(value,
-// target, applicator) (vptr+0x70) and an animated binding through the accessor's applyValue with the track's applicator.
+// Verified against the decompilation 0x65f418. As computeAnimationValues, but the default value is applied through the track's
+// applyValue(value, target, applicator) (vptr+0x70) and an animated binding through the accessor's applyValue with the track's applicator.
 void CSceneNodeAnimatorSet::applyAnimationValues(std::uint32_t timeMs) {
     if (animationSet->animatedTrackCount == 0 && !eventsTrack) {
         return;
@@ -227,7 +225,8 @@ void CSceneNodeAnimatorSet::applyAnimationValues(std::uint32_t timeMs) {
 }
 
 // 0x65f7b4 _ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationValueEiiPv
-// PARTIAL (the animation data). Copies the binding's default value and reads the animated value at `time` with the key cache off.
+// Verified against the decompilation 0x65f7b4. Copies the binding's default value and reads the animated value at `time` with the key cache off
+// (the data is fetched only for an animated binding; a missing block gives no animated value here, where the original passes null data on).
 void CSceneNodeAnimatorSet::getAnimationValue(std::int32_t trackIndex, std::int32_t time, void* out) {
     const bool interpolate = interpolationType != 1;
     const bool streamed = animationSet->getDatabase(currentAnimation)->tables().animationFlag != 0;

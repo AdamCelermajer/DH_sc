@@ -1,7 +1,7 @@
 #include <cstdio>
+#include <memory>
 #include <cstring>
 
-#include "net-session-online/deps/connection_transport.hpp"
 #include "net-session-online/glx_player_mp_base.hpp"
 #include "net-session-online/lc_api_net.hpp"
 #include "net-session-online/lcx_player_http.hpp"
@@ -35,12 +35,17 @@ int main() {
     CHECK(base.Field50ForTest() == 0);
     CHECK(base.Field71ForTest() == 0);
 
-    ConnectionTransport transport;
-    base.SetTransportForTest(&transport);
-    base.mpSendDisconnect();
+    auto connection = std::make_unique<Connection>(nullptr, 0);
+    Connection* raw = connection.get();
+    base.SetConnectionForTest(std::move(connection));
+    base.mpSendDisconnect();  // not connected: result 0, OnMPDisconnectSuccess
     CHECK(base.Field50ForTest() == 0);
     CHECK(base.Field71ForTest() == 0);
-    CHECK(transport.timeMs == 0);
+
+    raw->set_connected(true);
+    base.mpSendDisconnect();  // connected: result -1, finish package queued, flag set
+    CHECK(base.Field50ForTest() == -1);
+    CHECK(base.Field71ForTest() == 1);
 
     // LCXPlayerHttp over the socket its constructor makes (state none: not in progress).
     LCXPlayerHttp http("lobby.local", "4", "/php/game.php");

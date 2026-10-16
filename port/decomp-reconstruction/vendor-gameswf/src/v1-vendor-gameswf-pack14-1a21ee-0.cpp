@@ -9,9 +9,8 @@
 // as_transform (rows 0x7a72e8 D1, 0x7a7360 set_member, 0x7a74b4 get_member, 0x7a75c0 init, 0x7a7a8c / 0x7a7bd8 C1 and C2,
 //   0x7a7ae4 as_global_transform_ctor): written here against the DH2 layout, compiled. The class is in
 //   include/vendor-gameswf/as_transform.hpp (m_movie weak_ptr<character> at +0x38, 0x40 bytes).
-// PARTIAL (2), written but not complete (see each comment):
-//   0x7a9698 bitmap_glyph_provider C2: the new bitmap_glyph_texture_cache is not wired (see its comment).
-//   0x7c6048 bitmap_glyph_provider::get_font_entity: the scan over the loaded entities is not written.
+// bitmap_glyph_provider C2 (0x7a9698) makes the bitmap_glyph_texture_cache (operator new(size, MemHint) pairs with the
+// free_internal of the destructor), and get_font_entity (0x7c6048) scans the loaded entities.
 // SKIPPED (3): deleting destructors 0x7a7344 (as_transform D0), 0x7a99f8 (default_bitmap_glyph_provider D0) and
 //   0x7c646c (bitmap_glyph_provider D0). The compiler emits them from delete; they run D1 then free the object.
 // UPSTREAM (6), no body here: grid_index_point / grid_index_box<float,bool>::get_containing_cell_clamped (0x7b054c,
@@ -33,6 +32,7 @@
 #include "base/container.h"
 #include "base/smart_ptr.h"
 #include "vendor-gameswf/bitmap_glyph_provider.hpp"  // bitmap_glyph_provider, default_bitmap_glyph_provider (DH2)
+#include "vendor-gameswf/bitmap_glyph_texture_cache.hpp"  // the cache the constructor makes
 #include "vendor-gameswf/gameswf_alloc.hpp"          // gameswf::malloc_internal, gameswf::free_internal
 #include "vendor-gameswf/render_fx_search_hash.hpp"  // the set_raw_capacity specialization for the RenderFX search table
 #include "vendor-gameswf/texture_cache.hpp"          // gameswf::texture_cache
@@ -113,15 +113,17 @@ void hash<tu_string, array<RenderFX::SearchIndex::Entry>*, string_hash_functor<t
 namespace gameswf {
 
 // 0x7a9698 gameswf::bitmap_glyph_provider::bitmap_glyph_provider(int, int, bool) (C2)
-// PARTIAL: the binary makes the bitmap_glyph_texture_cache (operator new(0x40), then its constructor with the two sizes) and
-// stores it at +0x0c. The class is in the tree now (batch pack18), but the call is not written: ~bitmap_glyph_provider
-// releases the cache with free_internal, and new does not pair with free_internal on the host, so m_texture_cache stays null.
+// The vptr, the flag (+0x08), the entity hash (+0x04) and the cache pointer (+0x0c) are cleared; when both sizes are positive
+// the bitmap_glyph_texture_cache is made (operator new(0x40, swf::MemHint 0), then its constructor with the two sizes) and
+// stored at +0x0c. operator new(size, swf::MemHint) allocates through SwfAlloc and ~bitmap_glyph_provider releases the cache
+// with free_internal (SwfFree), so the two pair.
 bitmap_glyph_provider::bitmap_glyph_provider(int texture_width, int texture_height, bool flag)
 	: m_flag(flag)
 {
 	// Binary: vptr, +0x08 = flag, +0x04 (the hash table) = 0, +0x0c = 0. The cache is made only when both sizes are positive.
 	if (texture_width > 0 && texture_height > 0) {
-		// MISSING: operator new(0x40), bitmap_glyph_texture_cache(texture_width, texture_height), store at +0x0c.
+		void* memory = ::operator new(sizeof(bitmap_glyph_texture_cache), static_cast<swf::MemHint>(0));
+		m_texture_cache = new (memory) bitmap_glyph_texture_cache(texture_width, texture_height);
 	}
 }
 

@@ -8,7 +8,9 @@
 #include "net-session-online/deps/stream_bytes.hpp"
 #include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 #include "net-session-online/deps/matching_queue.hpp"
+#include "net-session-online/glx_player_leaderboard.hpp"
 #include "net-session-online/glx_player_login.hpp"
+#include "net-session-online/glx_player_message.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
 #include "net-session-online/glx_player_serever_config.hpp"
 #include "net-session-online/glx_player_user.hpp"
@@ -35,24 +37,40 @@ CMatchingGLLive::CMatchingGLLive(bool gameCenterActive) {
     unk_0f = 3;                       // +0x0f
 }
 
-// 0x81d2b4 _ZN15CMatchingGLLiveD1Ev (the D2 twin at 0x81d614 is the same body; the D0 thunk at
-// 0x81d5f8 frees the object after this).
-// Partial. Released here: the lobby parameter and query (+0x6808), the server config (+0x6710) and the
-// GLXPlayerUser (+0x6718); the original does not delete the GLXPlayerUser (it leaks), the port frees it
-// because Initialize creates it. The message, friend, observer and leaderboard objects (+0x6700..+0x670c,
-// +0x671c) are not created by the port (Update's bootstrap is partial), and the friend list pointer is
-// handed in by the tests as a stack object, so none of them is deleted. The original also deletes the
-// GLXPlayerLogin, login observer, lobby and lobby observer singletons and resets them to null; the port
-// keeps those, because the tests hand in stack objects through the statics. The containers and the base
-// are destroyed by the compiler. Only the Game Center started flag is cleared, as in the original.
+// 0x81d2b4 _ZN15CMatchingGLLiveD1Ev (the D2 twin at 0x81d614 is the same body; the D0 thunk at 0x81d5f8 frees the object
+// after this).
+// In the original's order: the lobby query (+0x6808), the server config (+0x6710), the message service (+0x6708), the
+// message observer (+0x670c), the friend service (+0x6700) and its observer (+0x6704) are deleted and cleared; then the
+// GLXPlayerLogin, login observer, lobby and lobby observer singletons are deleted and reset to null, the started flag is
+// cleared, the friend list is emptied, and the remaining members and the CMatching base are destroyed.
+// Deviation: the original never frees the GLXPlayerUser (+0x6718) and the leaderboard (+0x671c); they are freed here.
 CMatchingGLLive::~CMatchingGLLive() {
     delete lobbyQuery_;
     lobbyQuery_ = nullptr;
     delete glxServerConfig_;
     glxServerConfig_ = nullptr;
+    delete glxMessage_;
+    glxMessage_ = nullptr;
+    delete messageObserver_;
+    messageObserver_ = nullptr;
+    delete glxUserFriend_;
+    glxUserFriend_ = nullptr;
+    delete friendObserver_;
+    friendObserver_ = nullptr;
+    delete s_GLXPlayerLogin;
+    s_GLXPlayerLogin = nullptr;
+    delete s_GLXPlayerLoginObserver;
+    s_GLXPlayerLoginObserver = nullptr;
+    delete s_GLXPlayerMPLobby;
+    s_GLXPlayerMPLobby = nullptr;
+    delete s_GLXPlayerMPLobbyObserver;
+    s_GLXPlayerMPLobbyObserver = nullptr;
+    s_IsGameStarting = false;
+    glFriends_.clear();
     delete glxUser_;
     glxUser_ = nullptr;
-    s_IsGameStarting = false;
+    delete glxLeaderboard_;
+    glxLeaderboard_ = nullptr;
 }
 
 // CMatching seams for CConnectionManager ((*CConnectionManager::GetInstance()) in the original). Not virtual slots of
@@ -71,31 +89,29 @@ void CMatchingGLLive::DisconnectMember(int memberId) {
 }
 
 // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv
-// Partial: creates the GLXPlayerLogin singleton on first use. The original then fetches the login observer
-// (created on first use as well; that side effect is reproduced) and copies its fields into a temporary
-// object. It then registers the login observer through RegisterObserver, which takes a GLXPlayerObserver*
-// and cannot take the port's CSignInGLLiveObserver (CSignInGLLiveObserver is not a GLXPlayerObserver), so
-// the copy and the registration are not reproduced.
+// Creates the GLXPlayerLogin singleton on first use, fetches the login observer (created on first use), copies it into a
+// temporary (vptr, +0x04, +0x05, 128 bytes from +0x06, the int at +0x88: the implicit copy), registers the login
+// observer singleton on the component, and destroys the temporary. The temporary is never used.
 GLXPlayerLogin* CMatchingGLLive::GetGLXPlayerLogin() {
     if (s_GLXPlayerLogin == nullptr) {
         s_GLXPlayerLogin = new GLXPlayerLogin();
-        (void)GetGLXPlayerLoginObserver();
+        CSignInGLLiveObserver temporary(*GetGLXPlayerLoginObserver());
+        s_GLXPlayerLogin->RegisterObserver(s_GLXPlayerLoginObserver);
     }
     return s_GLXPlayerLogin;
 }
 
 // 0x81c37c _ZN15CMatchingGLLive22GetGLXPlayerUserFriendEv
-// Partial: creates the GLXPlayerUserFriend singleton on first use and keeps it in the static
-// s_GLXPlayerUserFriend, as the decompiled body does. The original then fetches the friend observer (created
-// on first use; that side effect is reproduced) and copies its flag byte into a temporary object that is
-// destroyed unused (the copy has no visible effect and is not made). It registers the login observer on the
-// friend component (RegisterObserver takes a
-// GLXPlayerObserver*, see GetGLXPlayerLogin), which is not reproduced. The member at +0x6700 (glxUserFriend_)
-// is a different slot and is not written here.
+// Creates the GLXPlayerUserFriend singleton on first use (kept in s_GLXPlayerUserFriend), fetches the friend observer
+// (created on first use) and copies it into a temporary that is destroyed unused. The component gets
+// s_GLXPlayerLoginObserver registered, not the friend observer: the listing loads that global (it is null when no login
+// observer was created yet), and the port does the same. The member at +0x6700 (glxUserFriend_) is a different slot and
+// is not written here.
 GLXPlayerUserFriend* CMatchingGLLive::GetGLXPlayerUserFriend() {
     if (s_GLXPlayerUserFriend == nullptr) {
         s_GLXPlayerUserFriend = new GLXPlayerUserFriend();
-        (void)GetGLXPlayerUserFriendObserver();
+        CMatchingGLLiveFriendObserver temporary(*GetGLXPlayerUserFriendObserver());
+        s_GLXPlayerUserFriend->RegisterObserver(s_GLXPlayerLoginObserver);
     }
     return s_GLXPlayerUserFriend;
 }

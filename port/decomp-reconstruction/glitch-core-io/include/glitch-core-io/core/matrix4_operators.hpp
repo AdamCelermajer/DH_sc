@@ -5,6 +5,15 @@
 #include "glitch-core-io/core/matrix4_base.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 
+namespace glitch::collada {
+// glitch::collada::SMatrix: a 4x4 float matrix as stored in a Collada skin record (16 floats, no identity flag: the listing of
+// operator*<float, SMatrix> reads a3[0..15] only). Used as the right operand of the product below.
+struct SMatrix {
+    float M[16];
+    float operator[](int index) const { return M[index]; }
+};
+}  // namespace glitch::collada
+
 namespace glitch::core {
 
 // 0x35e998 CMatrix4<float>::operator*(const CMatrix4&) const. The original copies the result of

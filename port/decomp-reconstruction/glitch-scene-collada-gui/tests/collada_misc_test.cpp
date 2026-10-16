@@ -18,7 +18,7 @@ int main() {
 
     CAnimationStreamingManager streaming;
     CHECK(CAnimationStreamingManager::Instance == &streaming);
-    CHECK(streaming.cacheUsage == 0 && streaming.registryBegin == nullptr);
+    CHECK(streaming.cacheUsage == 0 && streaming.registry.empty() && streaming.cacheEntries.empty());
     CAnimationStreamingManager::Instance = nullptr;
 
     std::printf("%s\n", failures ? "collada_misc: FAILED" : "collada_misc: ok");

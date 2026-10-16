@@ -31,14 +31,14 @@ int main() {
         CHECK(m.GetGLXPlayerUserFriend() == m.GetGLXPlayerUserFriend());
     }
 
-    // GetRoomId: -1 while signed in (CSignIn +0x11), otherwise the observer's room id, which is not
-    // modelled and reads 0. The lobby observer is created on first use.
+    // GetRoomId: -1 while signed in (CSignIn +0x11), otherwise the observer's room id at +0x08 (-1 from its
+    // constructor, until a create or join handler stores the host id). The lobby observer is created on first use.
     {
         CMatchingGLLive m;
         CSignIn* signIn = CSignIn::Get();
         CHECK(signIn != nullptr);
         signIn->SetLoggedInForTest(false);
-        CHECK(m.GetRoomId() == 0);
+        CHECK(m.GetRoomId() == -1);
         CHECK(CMatchingGLLive::s_GLXPlayerMPLobbyObserver != nullptr);
         signIn->SetLoggedInForTest(true);
         CHECK(m.GetRoomId() == -1);
@@ -51,16 +51,32 @@ int main() {
         CMatchingGLLive m;
         CHECK(m.GetMemberCount() == 0);
         m.GetGLXPlayerMPLobbyObserver()->SetFlagsForTest(true, true, true);
-        CHECK(m.GetMemberCount() == 0);
+        CHECK(m.GetMemberCount() == 0);  // game started, empty member vector
+        tMemberInfo joined;
+        joined.SetForTest(7, 0);
+        joined.SetNameForTest("Alice");
+        m.GetGLXPlayerMPLobbyObserver()->PushMemberForTest(joined);
+        CHECK(m.GetMemberCount() == 1);  // the size of the member vector (0x81c524)
+        CHECK(m.GetMemberName(7) == "Alice");
+        CHECK(m.GetMemberName(8).empty());
+        CHECK(m.IsInRoom(0) && !m.IsInRoom(1));
         m.GetGLXPlayerMPLobbyObserver()->SetFlagsForTest(false, false, false);
+        CHECK(m.GetMemberCount() == 0);
     }
 
-    // GetMemberByMemberId and GetGLLiveMemberIdList: the observer lookups are partial (null and empty),
-    // so the results are 0 and an empty list.
+    // GetMemberByMemberId and GetGLLiveMemberIdList read the lobby observer member vector (one entry, id 7,
+    // is pushed here: the destructor deletes the observer singleton, as the original does, so nothing is left over
+    // from the block above): a missing id gives the observer invalid-member sentinel (id -1).
     {
         CMatchingGLLive m;
-        CHECK(m.GetMemberByMemberId(3) == 0);
-        CHECK(m.GetGLLiveMemberIdList().empty());
+        tMemberInfo joined;
+        joined.SetForTest(7, 0);
+        joined.SetNameForTest("Alice");
+        m.GetGLXPlayerMPLobbyObserver()->PushMemberForTest(joined);
+        CHECK(m.GetMemberByMemberId(7) != nullptr && m.GetMemberByMemberId(7)->MemberId() == 7);
+        CHECK(m.GetMemberByMemberId(3) != nullptr && m.GetMemberByMemberId(3)->MemberId() == -1);
+        const std::vector<std::int32_t> ids = m.GetGLLiveMemberIdList();
+        CHECK(ids.size() == 1 && ids[0] == 7);
         CHECK(CMatchingGLLive::s_GLXPlayerMPLobbyObserver != nullptr);
     }
 

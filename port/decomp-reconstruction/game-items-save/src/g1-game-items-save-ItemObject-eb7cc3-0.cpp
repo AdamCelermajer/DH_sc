@@ -281,11 +281,11 @@ void ItemObject::InitAgain(ItemInventory& source, unsigned int index, const Char
     ItemInstance* item = ItemInventory::GetItem(0);
     if (item) {
         const Structs::Item* row = item->GetItem();
-        if (row->m_w21 != -1) {
-            const Structs::ItemAudioVisual* audio = ItemAudioVisualRow(row->m_w21);
+        if (row->AudioVisualID != -1) {
+            const Structs::ItemAudioVisual* audio = ItemAudioVisualRow(row->AudioVisualID);
             // The original loads these as 16-bit halfwords (LDRH / STRH).
-            m_spawnSoundId = static_cast<std::int16_t>(audio->m_w1);
-            m_pickupSoundId = static_cast<std::int16_t>(audio->m_w2);
+            m_spawnSoundId = static_cast<std::int16_t>(audio->AudioDrop);
+            m_pickupSoundId = static_cast<std::int16_t>(audio->AudioPickup);
         }
         if (m_visualObject) {
             item->GetColor();

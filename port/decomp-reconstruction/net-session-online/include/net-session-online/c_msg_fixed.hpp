@@ -125,8 +125,22 @@ public:
         sendMode_ = 1;
     }
 
+    // The payload at +0x50 (28 bytes), named from MultiplayerCallback::HandleStartGameMessage (reader) and HandlePlayerJoined (writer).
+    struct Fields {
+        std::int32_t levelListIndex;   // +0x50 index into Arrays::LevelList
+        std::int32_t entryPointId;     // +0x54 (0 from the host)
+        std::uint8_t resume;           // +0x58
+        std::uint8_t useSpawnPoint;    // +0x59
+        std::uint8_t pad_5a[2];        // +0x5a
+        std::int32_t difficulty;       // +0x5c
+        std::int32_t seed;             // +0x60
+        std::int32_t syncedSeed;       // +0x64
+        std::int32_t hostMatchingId;   // +0x68 matching member id of the player who starts the game, -1 for everybody
+    };
+    Fields& Payload() { return *reinterpret_cast<Fields*>(payload_); }
+
 private:
-    std::uint8_t payload_[28] = {};  // +0x50
+    alignas(4) std::uint8_t payload_[28] = {};  // +0x50
 };
 
 class CMsgInitialSetup : public CMessage {

@@ -25,6 +25,7 @@ bool EqualIgnoreCase(const char* a, const char* b) {
 // Number of sound table slots. Not a symbol of the original: the same number as 0x36c7b0 reads
 // from the table vector (begin and end at +0x64 and +0x68), through the STL type instead of bytes.
 int VoxSoundPackXML::GetSoundCount() const { return static_cast<int>(sounds_.size()); }
+int VoxSoundPackXML::GetBankCount() const { return static_cast<int>(banks_.size()); }
 
 // 0x889498 _ZNK3vox15VoxSoundPackXML11GetBankInfoEiRiS1_RNS_20PriorityBankBehaviorE
 int VoxSoundPackXML::GetBankInfo(int index, int& field_0c, int& field_08,

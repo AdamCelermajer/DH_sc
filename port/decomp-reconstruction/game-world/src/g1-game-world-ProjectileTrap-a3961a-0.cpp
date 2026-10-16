@@ -64,13 +64,13 @@ const char* ProjectileTrap::GetScript() const {
     if (m_dataIndex == -1) {
         return "";
     }
-    return TrapRow(m_dataIndex).m_w7;  // row +0x1c, Script
+    return TrapRow(m_dataIndex).Script;  // row +0x1c, Script
 }
 
 // 0x39cb74 ProjectileTrap::GetVisual() const
 int ProjectileTrap::GetVisual() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w9;  // row +0x24, Visual
+        return TrapRow(m_dataIndex).Visual;  // row +0x24, Visual
     }
     return m_dataIndex;
 }
@@ -78,7 +78,7 @@ int ProjectileTrap::GetVisual() const {
 // 0x39cbac ProjectileTrap::GetDamagerId() const
 int ProjectileTrap::GetDamagerId() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w1;  // row +0x04, Damage
+        return TrapRow(m_dataIndex).Damage;  // row +0x04, Damage
     }
     return m_dataIndex;
 }
@@ -92,13 +92,13 @@ int ProjectileTrap::GetHurtChance() const {
     if (m_dataIndex == -1) {  // +0x3c0
         return m_damagerIndex;
     }
-    return TrapRow(m_dataIndex).m_w3;  // row +0x0c, HurtChance
+    return TrapRow(m_dataIndex).HurtChance;  // row +0x0c, HurtChance
 }
 
 // 0x39cc34 ProjectileTrap::GetSound() const
 int ProjectileTrap::GetSound() const {
     if (m_dataIndex != -1) {
-        return TrapRow(m_dataIndex).m_w8;  // row +0x20, Sound
+        return TrapRow(m_dataIndex).Sound;  // row +0x20, Sound
     }
     return m_dataIndex;
 }
@@ -108,7 +108,7 @@ int ProjectileTrap::GetDelay() const {
     if (m_dataIndex == -1) {
         return 0;
     }
-    return TrapRow(m_dataIndex).m_w2;  // row +0x08, Delay (ms)
+    return TrapRow(m_dataIndex).Delay;  // row +0x08, Delay (ms)
 }
 
 // 0x39cca8 ProjectileTrap::_HandleProjectile(Projectile*, void*)
@@ -211,8 +211,8 @@ void ProjectileTrap::InitPost() {
     TimerTrap::InitPost();
     if (m_dataIndex >= 0) {
         const Structs::ProjectileTrap& row = TrapRow(m_dataIndex);
-        m_projectileId = row.m_w5;  // row +0x14, Projectile (the table row id that SpecificUpdate spawns)
-        m_active = row.m_w4;        // row +0x10, IsActive
+        m_projectileId = row.Projectile;  // row +0x14, Projectile (the table row id that SpecificUpdate spawns)
+        m_active = row.IsActive;        // row +0x10, IsActive
     }
 }
 

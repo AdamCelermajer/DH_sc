@@ -201,31 +201,31 @@ void TestConstructorDefaults() {
 void TestOptionAccessors() {
     // Rows as the file lays them out: m_w1 Default, m_w2 Label, m_w3 Max, m_w4 Min, m_w5 Step, m_w6 Type, m_w7 ValueStr.
     Structs::GameOption volume;
-    volume.m_w1 = 5;
-    volume.m_w2 = 10;
-    volume.m_w3 = 10;
-    volume.m_w4 = 0;
-    volume.m_w5 = 2;
-    volume.m_w6 = 1;
-    volume.m_w7 = 3;
+    volume.Default = 5;
+    volume.Label = 10;
+    volume.Max = 10;
+    volume.Min = 0;
+    volume.Step = 2;
+    volume.Type = 1;
+    volume.ValueStr = 3;
 
     Structs::GameOption slider;  // Type 2: the clamp is Max - 1 = 5.
-    slider.m_w1 = 0;
-    slider.m_w2 = 20;
-    slider.m_w3 = 6;
-    slider.m_w4 = 0;
-    slider.m_w5 = 1;
-    slider.m_w6 = 2;
-    slider.m_w7 = 0;
+    slider.Default = 0;
+    slider.Label = 20;
+    slider.Max = 6;
+    slider.Min = 0;
+    slider.Step = 1;
+    slider.Type = 2;
+    slider.ValueStr = 0;
 
     Structs::GameOption toggle;  // Type 0: inc and dec do nothing.
-    toggle.m_w1 = 1;
-    toggle.m_w2 = 30;
-    toggle.m_w3 = 1;
-    toggle.m_w4 = 0;
-    toggle.m_w5 = 1;
-    toggle.m_w6 = 0;
-    toggle.m_w7 = 0;
+    toggle.Default = 1;
+    toggle.Label = 30;
+    toggle.Max = 1;
+    toggle.Min = 0;
+    toggle.Step = 1;
+    toggle.Type = 0;
+    toggle.ValueStr = 0;
 
     SavegameManager mgr;
     mgr.m_options.emplace("Volume", SavegameManager::_GameOption{&volume, 9});
@@ -318,9 +318,9 @@ void TestTutorialsRoundTrip() {
 
 void TestSaveOptionsLayout() {
     Structs::GameOption volume;
-    volume.m_w6 = 1;
+    volume.Type = 1;
     Structs::GameOption toggle;
-    toggle.m_w6 = 0;
+    toggle.Type = 0;
 
     SavegameManager mgr;
     mgr.m_options.emplace("Volume", SavegameManager::_GameOption{&volume, 7});

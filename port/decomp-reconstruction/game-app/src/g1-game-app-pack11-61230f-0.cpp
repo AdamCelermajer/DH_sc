@@ -132,7 +132,7 @@ bool Script_SpawnCharacter::IsBlocking() const {
 void Script_SpawnCharacter::Execute(bool /*skipping*/, int module) {
     const auto* args = static_cast<const Structs::SpawnCharacter*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(args->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(args->Target, module, false, nullptr);
     Character* character = handle;
     if (character != nullptr) {
         CharStateMachine& machine = *character;
@@ -152,7 +152,7 @@ bool Script_SpawnContainer::IsBlocking() const {
 void Script_SpawnContainer::Execute(bool /*skipping*/, int module) {
     const auto* args = static_cast<const Structs::SpawnContainer*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = dword_99F764->GetObjectByName(args->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(args->Target, module, false, nullptr);
     Container* container = handle;
     if (container != nullptr) {
         container->Spawn();
@@ -172,7 +172,7 @@ void Script_StartDialog::Init() {
     const auto* args = static_cast<const Structs::StartDialog*>(m_args);
     const int enterLocation =
         ApplicationGetInstance().m_pyDataConstants->getConstant("DialogStyles", "EnterLocationDialog");
-    unk_04 = args->m_w3 == enterLocation;
+    unk_04 = args->Style == enterLocation;
 }
 
 // 0x460fe8 Script_StartDialog::Execute(bool, int)
@@ -190,8 +190,8 @@ void Script_StartDialog::Execute(bool skipping, int /*module*/) {
     MenuMessageManager<DialogMsg, 1>& manager = MenuMessageManager<DialogMsg, 1>::s_inst;
     const int enterLocation =
         ApplicationGetInstance().m_pyDataConstants->getConstant("DialogStyles", "EnterLocationDialog");
-    if (args->m_w3 != enterLocation || manager.m_queues[0].empty()) {
-        DialogMsg message(0, args->m_w4, args->m_w3, args->m_w2);
+    if (args->Style != enterLocation || manager.m_queues[0].empty()) {
+        DialogMsg message(0, args->Text, args->Style, args->Actor);
         manager.EnqueueMessage(message, 0, true);
     } else {
         manager.FlushEnqueuedMessages(0);
@@ -215,7 +215,7 @@ void Script_StartDialogID::Execute(bool skipping, int /*module*/) {
     const auto* args = static_cast<const Structs::StartDialogID*>(m_args);
     TraceScriptCmdSwitch();
     std::vector<DialogMsg> messages;
-    if (GetDialogMsgListById(args->m_w2, messages)) {
+    if (GetDialogMsgListById(args->DialogID, messages)) {
         MenuMessageManager<DialogMsg, 1>& manager = MenuMessageManager<DialogMsg, 1>::s_inst;
         for (const DialogMsg& message : messages) {
             manager.EnqueueMessage(message, 0, false);
@@ -238,7 +238,7 @@ bool Script_StopActor::IsBlocking() const {
 void Script_StopActor::Execute(bool /*skipping*/, int module) {
     const auto* args = static_cast<const Structs::StopActor*>(m_args);
     TraceScriptCmdSwitch();
-    const char* name = args->m_w3;
+    const char* name = args->Target;
     auto stop = [](Character* character) {
         character->m_controller->unk_009 = true;
         character->m_controller->Cmd_Stop();
@@ -277,5 +277,5 @@ void Script_StopEffect::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
     const Structs::StopEffect* record = static_cast<const Structs::StopEffect*>(m_args);
-    VisualFXManager::s_inst.DropAnimatedFXSetByID(record->m_w2);
+    VisualFXManager::s_inst.DropAnimatedFXSetByID(record->Effect);
 }

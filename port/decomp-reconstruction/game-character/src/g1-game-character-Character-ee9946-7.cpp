@@ -305,7 +305,7 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
         const float dz = pos.Z - candidatePos.Z;
         const float distanceSquared = (dx * dx + dy * dy) + dz * dz;
         if (bestDistanceSquared > distanceSquared) {
-            const float radius = AI_IsEnemy(candidate) ? design->m_w11 : design->m_w20;
+            const float radius = AI_IsEnemy(candidate) ? design->EnemyClickSensitivity : design->NPCClickSensitivity;
             if (candidate->IsNearby(pos, radius)) {
                 bestDistanceSquared = distanceSquared;
                 target = candidate;
@@ -342,7 +342,7 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
             const float dy = pos.Y - candidatePos.Y;
             const float distanceSquared = ((pos.X - candidatePos.X) * (pos.X - candidatePos.X) + dy * dy) +
                                           (pos.Z - candidatePos.Z) * (pos.Z - candidatePos.Z);
-            if (nearestDistanceSquared > distanceSquared && candidate->IsNearby(pos, design->m_w21)) {
+            if (nearestDistanceSquared > distanceSquared && candidate->IsNearby(pos, design->ObjectClickSensitivity)) {
                 nearestObject = candidate;
                 nearestDistanceSquared = distanceSquared;
             }
@@ -374,7 +374,7 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
 // The faery list index is the CharProperties m_props sheet word m_w30 (+0x78 of the sheet, Character +0x106c). Returns 0
 // when the index is below 0 or not below Arrays::FaeryListTable::size.
 int Character::GetCharFaeryListId() const {
-    const int index = CharProperties::m_props.m_w30;
+    const int index = CharProperties::m_props.FaeryList;
     if (index < 0 || index >= static_cast<int>(Arrays::FaeryListTable::size)) {
         return 0;
     }

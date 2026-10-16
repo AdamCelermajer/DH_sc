@@ -237,16 +237,18 @@ int Connection::connect() {
 }
 
 // 0x845944 _ZN10Connection17addIncomingPacketEP10DataPacket
-// Partial: the original's error branch (a head without a tail, debug print) cannot occur with the
-// queue, so it is not reproduced. The packet is taken by the queue. The original links the queue
-// through the packet (ARM 0x845944: tail->setNextPacket(a2) with a2 still in r1), and the deque keeps
-// the same order. The return value is not reproduced: the original returns this on the empty-queue
-// path and a call result otherwise; 0 is returned here, and receiveDataLen ignores it.
+// The packet is taken by the queue. The original links the queue through the packet (ARM 0x845944:
+// tail->setNextPacket(a2) with a2 still in r1), and the deque keeps the same order; the head-without-tail
+// error branch (debug print) cannot occur with a deque. The return value is the 32-bit register the
+// original leaves: this for a null packet or an empty queue, and on a non-empty queue the result of
+// tail->setNextPacket(), which is the receiver (both DataPacket classes store and BX LR with r0 = this), so the old tail.
 int Connection::addIncomingPacket(DataPacket* packet) {
-    if (packet) {
-        incoming_.emplace_back(packet);
+    if (!packet) {
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(this));
     }
-    return 0;
+    DataPacket* const tail = incoming_.empty() ? nullptr : incoming_.back().get();
+    incoming_.emplace_back(packet);
+    return static_cast<int>(reinterpret_cast<std::uintptr_t>(tail != nullptr ? static_cast<void*>(tail) : static_cast<void*>(this)));
 }
 
 // 0x8459b4 _ZN10Connection17addOutgoingPacketEP10DataPacket
@@ -257,7 +259,7 @@ int Connection::addIncomingPacket(DataPacket* packet) {
 // as the original). Partial too in the same error branch as addIncomingPacket (debug print dropped).
 int Connection::addOutgoingPacket(DataPacket* packet) {
     if (!packet) {
-        return 0;
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(this));  // the original returns this
     }
     std::unique_ptr<DataPacket> owned(packet);
     if (!connected_) {
@@ -301,10 +303,11 @@ bool Connection::keepConnectionAlive() {
 }
 
 // 0x845b60 _ZN10Connection24sendKickOutPlayerPackageEPc
-// Partial: the original returns `this` on the null-name path; 0 is returned here.
+// The original returns `this` on the null-name path (done). Partial: the other path returns
+// addOutgoingPacket's result (see there).
 int Connection::sendKickOutPlayerPackage(char* name) {
     if (!name) {
-        return 0;
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(this));
     }
     auto packet = NewPacket();
     packet->addByte('g');
@@ -442,8 +445,11 @@ int Connection::sendQuickGamePackage() {
 }
 
 // 0x846288 _ZN10Connection24sendCreateSessionPackageEPcS0_i
-// Partial: a null password is sent as the original's one-space string, but with the original's
-// byte count, which reads past that literal. The port sends that many spaces instead.
+// A null password is the original's one-space literal (0x8c1438) passed with max_players as the byte count, so the bytes
+// after the literal in .rodata (read from the binary: runs of spaces broken by zero bytes) are sent.
+namespace {
+const unsigned char kAfterSpaceLiteral[256] = {32,0,0,0,0,0,0,0,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,0,0,0,0,0,0,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,0,0,0,0,0,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32};
+}
 int Connection::sendCreateSessionPackage(char* name, char* password, int max_players) {
     const auto count = static_cast<unsigned char>(max_players);
     auto packet = NewPacket();
@@ -454,8 +460,7 @@ int Connection::sendCreateSessionPackage(char* name, char* password, int max_pla
     if (password) {
         packet->addByteLenString(password, count);
     } else {
-        const std::string spaces(count, ' ');
-        packet->addByteLenString(spaces.c_str(), count);
+        packet->addByteLenString(reinterpret_cast<const char*>(kAfterSpaceLiteral), count);
     }
     packet->packMessage();
     saveRetryData(packet.get());

@@ -58,6 +58,8 @@ public:
     // sent and acknowledged on the send side). Queues skip it and PurgeMessagesFromQueue removes it.
     bool IsFinished() const { return finished_; }
     void SetFinished() { finished_ = true; }
+    // The byte at +0x32 (set by the CMsg* SetProperties; AddToSendQueue resets the packet manager's send time when it is set).
+    bool Flag32() const { return flag32_; }
 
     void Initialize();
     void Serialize(NetBitStream& stream);
@@ -102,18 +104,19 @@ protected:
     // SetDefaultProperties fills the default text; each CMsg* constructor and SetProperties
     // assign their own class name.
     std::string typeName_;                // +0x14
+    std::uint32_t sendMode_ = 0;          // +0x2c: 0 = route via server, 1 = remote, >1 never local
     bool reliable_ = false;               // +0x30
     bool local_ = false;                  // +0x31
-    std::uint32_t sendMode_ = 0;          // +0x2c: 0 = route via server, 1 = remote, >1 never local
+    bool flag32_ = false;                 // +0x32 (set by the CMsg* SetProperties)
     bool includeLocalMember_ = false;     // +0x33
     std::uint32_t timestamp_ = 0;         // +0x34
-    bool flag32_ = false;                 // +0x32 (set by the CMsg* SetProperties)
     // +0x38: an int in the original. SetDefaultProperties stores 100 and the
     // SetSentFlag check tests it as a flag. The name is inferred; CompareMsgSendPriority
     // orders messages by it, so it is also a priority.
     std::int32_t trackSent_ = 0;          // +0x38
     bool finished_ = false;               // +0x3c (name inferred from PurgeMessagesFromQueue; see IsFinished)
     std::uint32_t ackMask_ = 0;           // +0x40
+    std::uint32_t unk_44_ = 0;            // +0x44 not accessed by any recovered function
     std::uint32_t sentMask_ = 0;          // +0x48
     std::uint32_t lifetime_ = 0;          // +0x4c
 

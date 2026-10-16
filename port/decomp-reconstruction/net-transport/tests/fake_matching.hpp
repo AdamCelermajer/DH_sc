@@ -20,6 +20,7 @@ public:
     int ServerMemberId() const override { return 0; }
     bool IsServer() const override { return server; }
     std::uint32_t GetRoomMask() const override { return roomMask; }
+    bool IsInRoom() override { return false; }  // vtable +0x64
     bool IsInRoom(int /*memberIndex*/) override { return inRoom; }
 
     bool server = false;

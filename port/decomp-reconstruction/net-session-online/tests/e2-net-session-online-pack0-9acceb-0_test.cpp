@@ -1,3 +1,4 @@
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager (the transcription calls the singleton)
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
 
@@ -22,7 +23,8 @@ public:
     std::uint32_t MemberBit(int memberId) const override {
         return (memberId >= 0 && memberId < 32) ? (1u << memberId) : 0u;
     }
-    bool UnknownGate() const override { return true; }
+    bool IsInRoom() override { return true; }  // vtable +0x64 (was UnknownGate)
+    bool IsInRoom(int /*memberIndex*/) override { return false; }  // vtable +0x68
     std::vector<int> ConnectedMemberIds() const override { return {}; }
     CRoomAttributes* GetRoomAttributes() override { return &room; }
     bool IsServer() const override { return server; }
@@ -120,16 +122,18 @@ int main() {
         CHECK(out == 9);
     }
 
-    // 0x800007 for a connected member disconnects it and posts nothing.
+    // 0x800007 for a connected member disconnects it (through the connection manager singleton) and posts nothing.
     {
         Reset();
+        connection_manager_test::Reset();
         TestMatching m;
         m.SetInitialized(true);
-        m.connected.insert(5);
+        connection_manager_test::ConnectPeer(5);
+        CHECK(CConnectionManager::GetInstance()->IsConnected(5));
         std::int32_t member = 5;
         MatchingInternalEventQueue().AddEvent(0x800007, &member, 4);
         m.ProcessEvents();
-        CHECK(m.connected.count(5) == 0);
+        CHECK(!CConnectionManager::GetInstance()->IsConnected(5));
         CHECK(!Has(MatchingOutputEventQueue(), 0x40000d));
     }
 

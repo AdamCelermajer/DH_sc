@@ -21,6 +21,7 @@
 
 #include "bitmap_info_ogl_test_types.hpp"
 #include "dh2/BufferedRenderer.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/primitive_stream.hpp"
 #include "glitch-video/vertex_streams.hpp"
@@ -251,3 +252,16 @@ void gameswf::triangle_intersector::process(point* a, point* b, array<point>& ou
     }
     ++log.next_answer;
 }
+
+// ---- the blend-mode materials of the constructor ---------------------------------------------------------------------------
+// The constructor opens "gameswf_effects.bdae" with glitch::collada::CColladaDatabase and asks BufferedRenderer for seven
+// materials; the doubles stand in for both (the database has no file here and the real BufferedRenderer is replaced above).
+void BufferedRenderer::createBlendModeMaterial(boost::intrusive_ptr<glitch::video::CMaterialRenderer>, int, const char*) {}
+
+namespace glitch::collada {
+CColladaDatabase::CColladaDatabase(const char*, CColladaFactory*) {}
+glitch::video::CMaterialRenderer* CColladaDatabase::constructEffect(glitch::video::IVideoDriver*, const char*,
+                                                                    CRootSceneNode*) const {
+    return nullptr;
+}
+}  // namespace glitch::collada

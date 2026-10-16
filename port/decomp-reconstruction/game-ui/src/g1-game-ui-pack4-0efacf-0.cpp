@@ -41,15 +41,15 @@ using ItemFloatField = float Structs::ItemBase::*;
 
 ItemFloatField ValueMultiplierField(int charPropsId) {
     switch (charPropsId) {
-        case 263: return &Structs::ItemBase::m_w8;   // +0x20
-        case 264: return &Structs::ItemBase::m_w12;  // +0x30
-        case 265: return &Structs::ItemBase::m_w11;  // +0x2c
-        case 290: return &Structs::ItemBase::m_w9;   // +0x24
-        case 291: return &Structs::ItemBase::m_w16;  // +0x40
-        case 292: return &Structs::ItemBase::m_w15;  // +0x3c
-        case 325: return &Structs::ItemBase::m_w10;  // +0x28
-        case 326: return &Structs::ItemBase::m_w14;  // +0x38
-        case 327: return &Structs::ItemBase::m_w13;  // +0x34
+        case 263: return &Structs::ItemBase::WarriorEquipValue;   // +0x20
+        case 264: return &Structs::ItemBase::BerserkerEquipValue;  // +0x30
+        case 265: return &Structs::ItemBase::PaladdinEquipValue;  // +0x2c
+        case 290: return &Structs::ItemBase::MageEquipValue;   // +0x24
+        case 291: return &Structs::ItemBase::IllusionistEquipValue;  // +0x40
+        case 292: return &Structs::ItemBase::NecromancerEquipValue;  // +0x3c
+        case 325: return &Structs::ItemBase::RogueEquipValue;  // +0x28
+        case 326: return &Structs::ItemBase::ArcherEquipValue;  // +0x38
+        case 327: return &Structs::ItemBase::AssassinEquipValue;  // +0x34
         default: return nullptr;                     // no multiplier: the values are compared as they are
     }
 }

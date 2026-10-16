@@ -76,7 +76,7 @@ std::int32_t GLXPlayerWebComponent::GetFunctionID(char kind, std::int32_t id) {
 void GLXPlayerWebComponent::OnUpdateSuccess(std::int32_t arg) {
     const char* text = cursor_ != nullptr ? cursor_ : "";
     if (observer_ != nullptr) {
-        observer_->OnResponseText(arg, text, static_cast<std::int32_t>(std::strlen(text)));
+        observer_->OnRequestSuccess(arg, const_cast<char*>(text), static_cast<std::int32_t>(std::strlen(text)));
     }
 }
 
@@ -122,7 +122,7 @@ void GLXPlayerWebComponent::OnUpdateParse() {
 
     const auto notifyDownloadError = [this]() {
         if (observer_ != nullptr) {
-            observer_->OnDownloadError(0);
+            observer_->OnNetworkError();
         }
     };
     if (cursor_ == nullptr || functionId_ == 0) {
@@ -229,7 +229,7 @@ void GLXPlayerWebComponent::Update() {
         Cancel();
         if (observer_ != nullptr) {
             // The original calls observer slot 0 with no argument; the port passes 0.
-            observer_->OnDownloadError(0);
+            observer_->OnNetworkError();
         }
     } else {
         OnUpdateParse();
@@ -240,7 +240,7 @@ void GLXPlayerWebComponent::Update() {
 bool GLXPlayerWebComponent::OnUpdateFailure(std::int32_t code) {
     const std::int32_t detail = GetNextResponseIntToken();
     if (observer_ != nullptr) {
-        observer_->OnResponseError(code, detail);
+        observer_->OnRequestFailure(code, detail);
     }
     return true;
 }

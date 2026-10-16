@@ -31,7 +31,7 @@ import abi  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3]
 DR = ROOT / "port" / "decomp-reconstruction"
-OUT_ROOT = ROOT / "build" / "tb-arm32"
+OUT_ROOT = Path(os.environ["DH2_ARMDIFF_OUT"]) if os.environ.get("DH2_ARMDIFF_OUT") else ROOT / "build" / "tb-arm32"
 
 DEFAULT_NDK = Path(r"C:/Users/nacworkstation/Documents/Codex/2026-10-09/find/work/tools/android-sdk/ndk/29.0.14206865")
 TARGET = "armv7a-linux-androideabi21"
@@ -93,6 +93,8 @@ def base_flags(opt: str, exceptions: bool) -> list[str]:
          "-fdata-sections", "-Wno-everything", "-DDH2_ARMDIFF=1"]
     if not exceptions:
         f.append("-fno-exceptions")
+    if os.environ.get("DH2_ARMDIFF_PACK"):
+        f.append("-fpack-struct=" + os.environ["DH2_ARMDIFF_PACK"])   # experiment: the original aligns 8-byte members to 4
     return f
 
 

@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+#include "glitch-core-io/core/process_buffer.hpp"
+#include "glitch-core-io/core/shared_string_heap_ops.hpp"
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"  // 0x5d8b28 loads DefaultEffects.bdae and calls constructEffect
 #include "glitch-video/material.hpp"
 #include "glitch-video/deps/os_logging.hpp"
@@ -13,9 +15,8 @@ namespace glitch::video {
 // Verified instruction by instruction (six instructions): LDRH R3,[R0,#8] reads this record's materialType,
 // CMP R3,#0x10 bounds it by the 17-entry table, ADDLS R3,R1,R3,LSL#1 forms owner + 2*type, MOVLS/STRHLS write
 // 0xffff at [R3,#0x2c], and the entry id (the second parameter) is never read. Deviation: the table lives in the
-// manager's own member instead of at manager +0x2c, and the shared SIDedCollection template does not call this
-// hook (glitch-shared/sid_collection.hpp says it belongs to this manager), so the port's remove path does not yet
-// reach it; the body itself is the original's.
+// manager's own member instead of at manager +0x2c. The shared SIDedCollection template (glitch-shared/sid_collection.hpp)
+// calls this hook from remove() before it erases the node, as 0x5d9f74 does; material_renderer_remove_test covers it.
 void detail::materialrenderermanager::SProperties::onRemove(void* owner, uint16_t /*id*/) {
     if (materialType >= materialrenderermanager_layout::kMaterialTypeCount) return;
     static_cast<CMaterialRendererManager*>(owner)->m_materialTypeIds[materialType] =
@@ -170,14 +171,56 @@ CMaterialRendererManager::SCreationState::SCreationState(char* name) : m_name(na
     m_passCursor = nullptr;
 }
 
-// Frees the pink-bind nodes. The original destructor is not reconstructed; this only releases
-// the nodes that addPinkBind allocates.
+// 0x5dafe8 _ZN6glitch5video24CMaterialRendererManager14SCreationStateD1Ev
+// Drops the shader of every pass of every technique made so far, releases the name text (the process-buffer block the manager
+// allocated; the port only releases a name it was told it owns), the pass arrays, the parameter map (each key and each definition
+// drops its name), the pink-bind nodes, the pending pass list (each node drops its shader) and the technique list (each node
+// drops its name), then the name of the technique being defined. The binding tables that passes still point at (they are
+// replaced and released by endMaterialRenderer) are not freed here: the original's SRenderPass destructor is not recovered.
 CMaterialRendererManager::SCreationState::~SCreationState() {
-    SPinkBindNode* node = m_pinkSentinel.next;
-    while (node != &m_pinkSentinel) {
-        SPinkBindNode* next = node->next;
-        delete node;
-        node = next;
+    for (const detail::material_renderer_manager::STechniqueNode* n = m_techniques.begin(); n != m_techniques.end(); n = n->next) {
+        for (uint8_t i = 0; i < n->technique.passCount; ++i) {
+            if (n->technique.passes[i].shader != nullptr) n->technique.passes[i].shader->drop();
+        }
+    }
+    if (m_nameOwned && m_name != nullptr) glitch::core::releaseProcessBuffer(m_name);
+    m_name = nullptr;
+    m_passArrays.clear();
+    for (auto& entry : m_parameters) {  // the key's use (taken by addParameter); the definition drops its own name
+        glitch::core::detail::SSharedStringData* key = const_cast<glitch::core::detail::SSharedStringData*>(entry.first);
+        if (key != nullptr && key->useCount-- == 1) {
+            glitch::core::detail::releaseSharedString(glitch::core::detail::sharedStringHeapTable(), key);
+        }
+    }
+    m_parameters.clear();
+    m_firstParameter = m_lastParameter = nullptr;
+    SPinkBindNode* pink = m_pinkSentinel.next;
+    while (pink != &m_pinkSentinel) {
+        SPinkBindNode* next = pink->next;
+        delete pink;
+        pink = next;
+    }
+    m_pinkSentinel.next = m_pinkSentinel.prev = &m_pinkSentinel;
+    for (SPassNode* p = m_passSentinel.next; p != &m_passSentinel;) {
+        SPassNode* next = p->next;
+        if (p->pass.shader != nullptr) p->pass.shader->drop();
+        delete p;
+        p = next;
+    }
+    m_passSentinel.next = m_passSentinel.prev = &m_passSentinel;
+    for (detail::material_renderer_manager::STechniqueNode* n = m_techniques.head.next; n != &m_techniques.head;) {
+        detail::material_renderer_manager::STechniqueNode* next = n->next;
+        glitch::core::detail::SSharedStringData* name = static_cast<glitch::core::detail::SSharedStringData*>(n->technique.name);
+        if (name != nullptr && name->useCount-- == 1) {
+            glitch::core::detail::releaseSharedString(glitch::core::detail::sharedStringHeapTable(), name);
+        }
+        delete n;
+        n = next;
+    }
+    m_techniques.head.next = m_techniques.head.prev = &m_techniques.head;
+    glitch::core::detail::SSharedStringData* open = m_techniqueName.data();
+    if (open != nullptr && open->useCount-- == 1) {
+        glitch::core::detail::releaseSharedString(glitch::core::detail::sharedStringHeapTable(), open);
     }
 }
 
@@ -220,13 +263,13 @@ CMaterialRendererManager::CMaterialRendererManager(IVideoDriver* driver) : m_dri
 }
 
 // 0x5d7cf4 _ZNK6glitch5video24CMaterialRendererManager12getTechniqueENS1_12STemporaryIDE
-int32_t CMaterialRendererManager::getTechnique(STemporaryID id) const {
-    return (m_creationState != nullptr && id.value != 0) ? static_cast<int32_t>(id.value) : 0;
+uintptr_t CMaterialRendererManager::getTechnique(STemporaryID id) const {
+    return (m_creationState != nullptr && id.value != 0) ? id.value : 0;
 }
 
 // 0x5d7d14 _ZNK6glitch5video24CMaterialRendererManager15getParameterDefENS1_12STemporaryIDE
-int32_t CMaterialRendererManager::getParameterDef(STemporaryID id) const {
-    return (m_creationState != nullptr && id.value != 0) ? static_cast<int32_t>(id.value) : 0;
+uintptr_t CMaterialRendererManager::getParameterDef(STemporaryID id) const {
+    return (m_creationState != nullptr && id.value != 0) ? id.value : 0;
 }
 
 // 0x5dd0e4 _ZN6glitch5video24CMaterialRendererManager19getMaterialInstanceEtb
@@ -292,7 +335,7 @@ bool CMaterialRendererManager::isCreatingTechnique(const char* name) const {
     if (m_creationState == nullptr) {
         return false;
     }
-    if (m_creationState->m_inProgress04 != 0) {
+    if (m_creationState->m_techniqueName.data() != nullptr) {
         return true;
     }
     if (name == nullptr) {

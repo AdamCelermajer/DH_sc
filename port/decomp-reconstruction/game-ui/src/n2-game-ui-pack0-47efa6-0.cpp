@@ -50,10 +50,8 @@ char* RenderFX::Event::GetCharacterPath() {
     return path;
 }
 
-// 0x42ca80 RenderFX::EventListener::CanHandleEvent(RenderFX::Event&): the default listener handles every event.
-bool RenderFX::EventListener::CanHandleEvent(Event& /*e*/) {
-    return true;
-}
+// 0x42ca80 RenderFX::EventListener::CanHandleEvent(RenderFX::Event&): the default listener handles every event. Defined
+// inline in RenderFX.hpp (the binary's symbol is weak), together with the pure OnEvent and OnFSCommand.
 
 // 0x7a84c4 RenderFX::Controller::Reset(): clears the five character pointers (slots 4 to 8 of the record).
 void RenderFX::Controller::Reset() {

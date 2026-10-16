@@ -2,7 +2,38 @@
 
 #include <algorithm>
 
+#include "glitch-core-io/io/interfaces.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/image_loaders.hpp"
+#include "glitch-video/texture_loaders.hpp"
+#include "glitch-video/video_driver.hpp"
+
 namespace glitch::video {
+
+// 0x5eaa7c _ZN6glitch5video15CTextureManagerC1EPNS0_12IVideoDriverE / 0x5eaed8 C2
+// The collection base, the driver (+0x28), the device's file system (device +0x34, one use taken, +0x2c), the empty
+// loader / writer / placeholder / unloadable-texture tables and the word 67 at +0x74; then the bundled image loaders
+// (BMP, JPG, TGA, ATC, PNG, DDS, PVR in that order; each is grabbed by hand, appended to the loader vector with a second
+// use and dropped once, which leaves the two uses the destructor gives back) and the writers (JPG, TGA, PNG; the
+// vector stores the pointers the factories return with their use of 1).
+// Port guard: a driver without a device or file system leaves the file system empty (the original dereferences both).
+CTextureManager::CTextureManager(IVideoDriver* driver) {
+    m_driver = driver;  // +0x28
+    io::IFileSystem* fileSystem = (driver != nullptr && driver->m_device != nullptr) ? driver->m_device->fileSystem : nullptr;
+    m_fileSystem = boost::intrusive_ptr<glitch::IReferenceCounted>(fileSystem, true);  // +0x2c, one use taken
+    unk_74 = 67;
+    IImageLoader* const loaders[7] = {createImageLoaderBMP(), createImageLoaderJPG(), createImageLoaderTGA(),
+                                      createImageLoaderATC(), createImageLoaderPNG(), createImageLoaderDDS(),
+                                      createImageLoaderPVR()};
+    for (IImageLoader* loader : loaders) {
+        ++loader->referenceCounter;
+        m_externalImageLoaders.push_back(boost::intrusive_ptr<IImageLoader>(loader, true));
+        loader->drop();
+    }
+    m_externalImageWriters.push_back(boost::intrusive_ptr<IImageWriter>(createImageWriterJPG()));
+    m_externalImageWriters.push_back(boost::intrusive_ptr<IImageWriter>(createImageWriterTGA()));
+    m_externalImageWriters.push_back(boost::intrusive_ptr<IImageWriter>(createImageWriterPNG()));
+}
 
 // 0x5ea050 _ZN6glitch5video15CTextureManagerD2Ev / 0x5ea138 D1
 // clearPlaceHolders(), removeAll() on the collection, then the explicit drop of every loader (each loader carries the

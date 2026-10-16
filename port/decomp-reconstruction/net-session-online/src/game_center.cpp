@@ -27,7 +27,7 @@ bool GameCenter::IsHost() const {
     if (hostUid_ == nullptr || userUid_ == nullptr) {
         return false;
     }
-    return std::strcmp(hostUid_.get(), userUid_.get()) == 0;
+    return std::strcmp(hostUid_, userUid_.get()) == 0;
 }
 
 void GameCenter::SetUidsForTest(const char* host, const char* user) {
@@ -40,12 +40,14 @@ void GameCenter::SetUidsForTest(const char* host, const char* user) {
         std::memcpy(out.get(), text, length);
         return out;
     };
-    hostUid_ = copy(host);
+    hostUidStorage_ = copy(host);
+    hostUid_ = hostUidStorage_.get();
     userUid_ = copy(user);
 }
 
 // 0x4999b8 _ZN10GameCenter15ResetPlayerListEv
 void GameCenter::ResetPlayerList() {
+    hostUid_ = hostUidStorage_.get();  // deviation: +0x30 may point into the list that is cleared next (dangling in the binary)
     playerList_.clear();
     playerList_.emplace_back(userUid_ != nullptr ? userUid_.get() : "");
 }
@@ -105,22 +107,16 @@ void GameCenter::ReportGCAchievement(const char* name) {
 }
 
 // 0x499efc _ZN10GameCenter15CoinTossForHostEv
-// Asm/Hex-Rays: std::priv::_S_sort<std::string,std::allocator<std::string>,std::less<std::string>>((int*)this + 9),
-// then `return *(_DWORD*)(*((_DWORD*)this + 9) + 28)`. this+9 dwords is the player list at +0x24 (its sentinel's
-// next is the first node, so *((_DWORD*)this+9) is that node) and +28 is the SGI std::string's data pointer
-// inside the node, i.e. c_str() of the FIRST element of the ascending sort. There is no random toss: the
-// "toss" is the sort.
-// Reproduced: the ascending sort and the not-until-empty guard. Deviation: the binary returns that char* as
-// the int the caller stores into the GameCenter word at +0x30 (the slot the port types as the host-UID
-// pointer); such an address cannot be reproduced, and 0 is the one value that cannot collide with a real
-// pointer. With an empty list the binary dereferences the sentinel's +0x1c (hostUid_ here) and crashes; the
-// port returns 0.
-std::int32_t GameCenter::CoinTossForHost() {
+// std::priv::_S_sort<std::string,..., std::less<std::string>> on the player list at +0x24 (ascending), then the data pointer
+// of the first node's string (node +0x1c). There is no random toss: the "toss" is the sort. The caller
+// (GCStartMultiplayerGame) stores the pointer in the host UID word (+0x30).
+// Deviation: an empty list returns null (the binary reads the sentinel's string slot and crashes).
+const char* GameCenter::CoinTossForHost() {
     playerList_.sort();
     if (playerList_.empty()) {
-        return 0;  // the binary reads the sentinel's string slot here (undefined)
+        return nullptr;
     }
-    return static_cast<std::int32_t>(reinterpret_cast<std::uintptr_t>(playerList_.front().c_str()));
+    return playerList_.front().c_str();
 }
 
 // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc
@@ -151,10 +147,6 @@ bool GameCenter::GCStartGameTimeoutExpired() const {
 // MenuManager chain is written here. The invocation is the RenderFX::InvokeASCallback(const char*, const char*,
 // const as_value*, int) overload (0x7ad7e8), which is the one the listing resolves at asm 0x499fa8.
 // Fixed this pass (kept): the entry guard polarity -- the binary runs the tail when the gate is SET.
-// Still not reproduced: the store of CoinTossForHost's result into the singleton's +0x30 (hostUid_). The binary
-// stores the 32-bit word of a char* into that slot; on this 64-bit host the same value would have to be a real
-// pointer into playerList_ written through an owning unique_ptr, which would be a fabricated ownership claim,
-// not a reproduction. CoinTossForHost's own row documents the narrowing.
 // Deviation: on the 64-bit host both return values are addresses narrowed to the binary's 32-bit word.
 int GameCenter::GCStartMultiplayerGame() {
     GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
@@ -164,7 +156,7 @@ int GameCenter::GCStartMultiplayerGame() {
     OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ = true;  // +0x28
     singleton->startFlag_ = true;                                     // +0x11
     GetTimeOfDay(&singleton->gameStartTime_);                         // +0x1c
-    (void)singleton->CoinTossForHost();  // its word goes to +0x30, which cannot be reproduced (see above)
+    singleton->hostUid_ = singleton->CoinTossForHost();  // +0x30 now points at the first sorted player id
     DumpPlayerIDStatusList();
     MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen", nullptr, 0);
     return static_cast<int>(

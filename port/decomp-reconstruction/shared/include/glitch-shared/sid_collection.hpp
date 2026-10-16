@@ -8,6 +8,13 @@
 // Canonical definition (engine unification, u1-core): this template replaces the older
 // glitch-core-io/core/sided_collection.hpp implementation, which now forwards here.
 //
+// Names (decision 10, the original mangled symbols): the class is glitch::core::detail::SIDedCollection<T, unsigned short, false,
+// Props, Traits> with the nested SName / SIdValue / SEntry, and the traits are glitch::core::detail::sidedcollection::SValueTraits
+// and SEmptyProperties, so the instances' member functions are emitted under the binary's names. The id type and the bool are
+// template parameters as in the binary (every instance has unsigned short and false); the id arithmetic is fixed at 16 bits and the
+// bool is not modelled (its use is not recovered). glitch::core::detail::sid_layout keeps the former three-parameter spelling as an
+// alias.
+//
 // Collection (this):
 //   +0x00  name map header (rb-tree header node): color byte (cleared), parent (0), left = leftmost
 //          node at +0x08 (idBegin, 0x5e8398), right = rightmost at +0x0c. The header address is the
@@ -74,7 +81,9 @@
 #include <map>
 #include <vector>
 
-namespace glitch::core::detail::sid_layout {
+namespace glitch::core::detail {
+
+namespace sidedcollection {
 
 // Value traits for the instances: a value is set when it is non-null, and its use count is the
 // reference count at +0x04 of the pointed-to object (the intrusive_ptr copies and destructions do the
@@ -83,16 +92,28 @@ struct SValueTraits {
     template <class P>
     static bool isSet(const P& p) { return static_cast<bool>(p); }
     template <class P>
-    static int useCount(const P& p) { return p->referenceCounter; }
+    static int useCount(const P& p) { return countOf(*p, 0); }
+
+private:
+    // IReferenceCounted objects keep the count in referenceCounter (+0x04); CMaterialRenderer and CMaterial are not
+    // IReferenceCounted and keep it in their first word, m_refCount (+0x00).
+    template <class T>
+    static auto countOf(const T& object, int) -> decltype(static_cast<int>(object.referenceCounter)) {
+        return static_cast<int>(object.referenceCounter);
+    }
+    template <class T>
+    static auto countOf(const T& object, long) -> decltype(static_cast<int>(object.m_refCount)) {
+        return static_cast<int>(object.m_refCount);
+    }
 };
-// The name the shared template used before the unification.
-using IntrusiveTraits = SValueTraits;
 
 // Property record of the collections without per-entry properties (IShaderCode): an empty class, so the
 // SIdValue that derives from it keeps its id at +0x00.
 struct SEmptyProperties {};
 
-template <class T, class Props, class Traits = SValueTraits>
+}  // namespace sidedcollection
+
+template <class T, class IdT, bool Flag, class Props, class Traits = sidedcollection::SValueTraits>
 class SIDedCollection {
 public:
     // Name key. The rb node copy duplicates a managed name, so every key owns its own buffer.
@@ -232,6 +253,25 @@ public:
         return insert(owned, value, true);
     }
 
+    // The Props hook of the CMaterialRenderer instance (SProperties::onRemove 0x5d7c44, called by 0x5d9f74 before the node is erased
+    // with the record, the collection and the id); a Props without one (every other instance) does nothing.
+    template <class P>
+    static auto invokeOnRemove(P& props, void* owner, std::uint16_t id, int) -> decltype(props.onRemove(owner, id), void()) {
+        props.onRemove(owner, id);
+    }
+    // The use count remove() tests: the traits' count of the value, or, for an instance whose traits count through the record
+    // (the shader-parameter instance counts the users in its Props word at node +0x18), their count of value and record.
+    template <class Tr, class V, class P>
+    static auto useCountOf(const V& value, const P& props, int) -> decltype(Tr::useCount(value, props)) {
+        return Tr::useCount(value, props);
+    }
+    template <class Tr, class V, class P>
+    static int useCountOf(const V& value, const P&, long) {
+        return Tr::useCount(value);
+    }
+    template <class P>
+    static void invokeOnRemove(P&, void*, std::uint16_t, long) {}
+
     // 0x5e9348. Fails (false) when the id is out of range or unset, or when the new name already
     // exists. Otherwise the new name is linked to the same id, the old node is erased, the managed
     // flag is set on the new key when asked, and the entry points at the new node. Count and next
@@ -253,12 +293,13 @@ public:
     // id lowered to id when that is smaller, and the trailing unset entries are cut from the vector
     // only when at least one set entry remains (an all-unset vector keeps its length).
     // The CMaterialRenderer instance (0x5d9f74) calls materialrenderermanager::SProperties::onRemove
-    // before the erase; that hook belongs to glitch-video's manager and is not part of this template.
+    // before the erase; that hook belongs to glitch-video's manager, and the template calls it when the Props has one.
     bool remove(std::uint16_t id, bool force = false) {
         if (id >= entries.size()) return false;
         SEntry& entry = entries[id];
         if (!Traits::isSet(entry.value)) return false;
-        if (Traits::useCount(entry.value) != 1 && !force) return false;
+        if (useCountOf<Traits>(entry.value, entry.iterator->second, 0) != 1 && !force) return false;
+        invokeOnRemove(entry.iterator->second, static_cast<void*>(this), id, 0);  // the record's onRemove hook, when it has one
         ids.erase(entry.iterator);
         entry.reset();
         if (id < nextId) nextId = id;
@@ -294,7 +335,16 @@ private:
     SEntry invalidEntry{};  // the original's shared invalid entry
 };
 
-}  // namespace glitch::core::detail::sid_layout
+namespace sid_layout {
+// The former spelling of the shared template and its traits.
+using SValueTraits = sidedcollection::SValueTraits;
+using IntrusiveTraits = sidedcollection::SValueTraits;
+using SEmptyProperties = sidedcollection::SEmptyProperties;
+template <class T, class Props, class Traits = sidedcollection::SValueTraits>
+using SIDedCollection = glitch::core::detail::SIDedCollection<T, std::uint16_t, false, Props, Traits>;
+}  // namespace sid_layout
+
+}  // namespace glitch::core::detail
 
 // Open questions (not coded as fact):
 //   - The ITexture instance's Props (STextureProperties) holds a glitch string and the int 39 (0x27) that

@@ -49,10 +49,10 @@ std::uint32_t Arrays::CharEffectTable::size = 0;
 // m_w(i+1), the mapping the Character id getters are written against.
 int CharProperties::PROPS_Get(int propId, bool /*useTemp*/) const {
     switch (propId) {
-        case 0: return m_props.m_w1;
-        case 1: return m_props.m_w2;
-        case 2: return m_props.m_w3;
-        case 3: return m_props.m_w4;
+        case 0: return m_props.AIFaction;
+        case 1: return m_props.AI;
+        case 2: return m_props.AnimTable;
+        case 3: return m_props.ModelFile;
         default: return 0;
     }
 }
@@ -153,24 +153,24 @@ void TestFocusScaleLoot() {
     EXPECT(ch->Character::GetFocusObject() == nullptr);
 
     // The FX scale is the base sheet word m_w18 times 0.01f, on all three components.
-    ch->CharProperties::m_baseProps.m_w18 = 250;
+    ch->CharProperties::m_baseProps.FX_Scale = 250;
     const Point3D<float> scale = ch->Character::GetFXScale();
     EXPECT(Near(scale.X, 2.5f));
     EXPECT(Near(scale.Y, 2.5f));
     EXPECT(Near(scale.Z, 2.5f));
     EXPECT(ch->Character::GetFXScaleValue() == 250);
-    ch->CharProperties::m_baseProps.m_w18 = -100;
+    ch->CharProperties::m_baseProps.FX_Scale = -100;
     const Point3D<float> negative = ch->Character::GetFXScale();
     EXPECT(Near(negative.X, -1.0f));
     EXPECT(ch->Character::GetFXScaleValue() == -100);
-    ch->CharProperties::m_baseProps.m_w18 = 0;
+    ch->CharProperties::m_baseProps.FX_Scale = 0;
     EXPECT(Near(ch->Character::GetFXScale().Z, 0.0f));
 
     // Loot is the final sheet word m_w10; -1 means none.
-    ch->CharProperties::m_props.m_w10 = 42;
+    ch->CharProperties::m_props.Loot = 42;
     EXPECT(ch->Character::GetLoot() == 42);
     EXPECT(ch->Character::HasLoot());
-    ch->CharProperties::m_props.m_w10 = -1;
+    ch->CharProperties::m_props.Loot = -1;
     EXPECT(ch->Character::GetLoot() == -1);
     EXPECT(!ch->Character::HasLoot());
 }
@@ -184,16 +184,16 @@ void TestSoundAndEffectRows() {
     RowBuffer<Structs::CharSounds> sounds(4);
     Arrays::CharSoundsTable::members = sounds.data();
     Arrays::CharSoundsTable::size = 3;
-    ch->CharProperties::m_props.m_w9 = 1;
+    ch->CharProperties::m_props.Sounds = 1;
     EXPECT(ch->Character::GetCharSoundsId() == 1);
     EXPECT(ch->Character::GetCharSounds() == sounds.rows() + 1);
-    ch->CharProperties::m_props.m_w9 = 0;
+    ch->CharProperties::m_props.Sounds = 0;
     EXPECT(ch->Character::GetCharSoundsId() == 0);
     EXPECT(ch->Character::GetCharSounds() == sounds.rows());
-    ch->CharProperties::m_props.m_w9 = 3;
+    ch->CharProperties::m_props.Sounds = 3;
     EXPECT(ch->Character::GetCharSoundsId() == 2);
     EXPECT(ch->Character::GetCharSounds() == sounds.rows() + 2);
-    ch->CharProperties::m_props.m_w9 = -1;
+    ch->CharProperties::m_props.Sounds = -1;
     EXPECT(ch->Character::GetCharSoundsId() == 2);
 
     // CharEffect rows: the index is m_w8. Row 0 when it is negative or at or past the table size.
@@ -201,23 +201,23 @@ void TestSoundAndEffectRows() {
     Arrays::CharEffectTable::members = effects.data();
     Arrays::CharEffectTable::size = 3;
     for (int i = 0; i < 3; ++i) {
-        effects.rows()[i].m_w1 = 10 + i;  // blood death (+0x04)
-        effects.rows()[i].m_w2 = 20 + i;  // blood (+0x08)
-        effects.rows()[i].m_w3 = 30 + i;  // footprint (+0x0c)
+        effects.rows()[i].BloodDeathEffect = 10 + i;  // blood death (+0x04)
+        effects.rows()[i].BloodEffect = 20 + i;  // blood (+0x08)
+        effects.rows()[i].FootprintEffect = 30 + i;  // footprint (+0x0c)
     }
-    ch->CharProperties::m_props.m_w8 = 1;
+    ch->CharProperties::m_props.Effects = 1;
     EXPECT(ch->Character::GetFXBloodDeath() == 11);
     EXPECT(ch->Character::GetFXBlood() == 21);
     EXPECT(ch->Character::GetFXFootprint() == 31);
-    ch->CharProperties::m_props.m_w8 = 2;
+    ch->CharProperties::m_props.Effects = 2;
     EXPECT(ch->Character::GetFXBloodDeath() == 12);
     EXPECT(ch->Character::GetFXBlood() == 22);
     EXPECT(ch->Character::GetFXFootprint() == 32);
-    ch->CharProperties::m_props.m_w8 = 3;  // at the size: row 0
+    ch->CharProperties::m_props.Effects = 3;  // at the size: row 0
     EXPECT(ch->Character::GetFXBloodDeath() == 10);
     EXPECT(ch->Character::GetFXBlood() == 20);
     EXPECT(ch->Character::GetFXFootprint() == 30);
-    ch->CharProperties::m_props.m_w8 = -1;  // negative: row 0
+    ch->CharProperties::m_props.Effects = -1;  // negative: row 0
     EXPECT(ch->Character::GetFXFootprint() == 30);
 }
 
@@ -228,18 +228,18 @@ void TestAIAndAnimRows() {
     RowBuffer<Structs::AIProps> ai(9);
     Arrays::AITable::members = ai.data();
     Arrays::AITable::size = 9;
-    ai.rows()[2].m_w1 = 15;
-    ai.rows()[0].m_w1 = 7;
-    ai.rows()[8].m_w1 = 99;
-    ch->CharProperties::m_props.m_w2 = 2;
+    ai.rows()[2].AttackDelay = 15;
+    ai.rows()[0].AttackDelay = 7;
+    ai.rows()[8].AttackDelay = 99;
+    ch->CharProperties::m_props.AI = 2;
     EXPECT(ch->Character::GetCharAIId() == 2);
     EXPECT(ch->Character::GetAttackDelay() == 15);
-    ch->CharProperties::m_props.m_w2 = 0;
+    ch->CharProperties::m_props.AI = 0;
     EXPECT(ch->Character::GetAttackDelay() == 7);
-    ch->CharProperties::m_props.m_w2 = 9;  // at the size: fallback row 8
+    ch->CharProperties::m_props.AI = 9;  // at the size: fallback row 8
     EXPECT(ch->Character::GetCharAIId() == 8);
     EXPECT(ch->Character::GetAttackDelay() == 99);
-    ch->CharProperties::m_props.m_w2 = -1;
+    ch->CharProperties::m_props.AI = -1;
     EXPECT(ch->Character::GetAttackDelay() == 99);
 
     // Animation rows: the id is m_w3 (PROPS_Get(2)). The CharAnim row word m_w1 indexes AnimTable, whose row word
@@ -251,19 +251,19 @@ void TestAIAndAnimRows() {
     Arrays::AnimTable::members = animTable.data();
     Arrays::AnimTable::size = 2;
 
-    ch->CharProperties::m_props.m_w3 = 1;
+    ch->CharProperties::m_props.AnimTable = 1;
     EXPECT(ch->Character::GetCharAnimTableId() == 1);
-    anim.rows()[1].m_w1 = 0;
-    animTable.rows()[0].m_w4 = 1;
+    anim.rows()[1].Attack = 0;
+    animTable.rows()[0].Type = 1;
     EXPECT(ch->Character::HasComboAttack() == true);
-    animTable.rows()[0].m_w4 = 0;
+    animTable.rows()[0].Type = 0;
     EXPECT(ch->Character::HasComboAttack() == false);
-    anim.rows()[1].m_w1 = 1;
-    animTable.rows()[1].m_w4 = 1;
+    anim.rows()[1].Attack = 1;
+    animTable.rows()[1].Type = 1;
     EXPECT(ch->Character::HasComboAttack() == true);
-    anim.rows()[1].m_w1 = 2;  // at the AnimTable size: no combo
+    anim.rows()[1].Attack = 2;  // at the AnimTable size: no combo
     EXPECT(ch->Character::HasComboAttack() == false);
-    anim.rows()[1].m_w1 = -1;  // negative: no combo
+    anim.rows()[1].Attack = -1;  // negative: no combo
     EXPECT(ch->Character::HasComboAttack() == false);
 }
 

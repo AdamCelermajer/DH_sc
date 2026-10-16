@@ -21,11 +21,19 @@ public:
     CFile(const CFile&) = delete;
     CFile& operator=(const CFile&) = delete;
 
-    std::uint32_t unk_00 = 0;    // +0x00: stored as 0 by the constructor; owner not identified
+    // +0x00: the shared-handle use count (glitch::ISharedObject<CFile>: drop() is `if ((*count)-- == 1) { ~CFile; CustomFree }`,
+    // 0x34f038). The constructor stores 0; CFileSystem::open raises it to 1 for the handle it returns.
+    mutable std::uint32_t m_refCount = 0;
     std::FILE* file = nullptr;   // +0x04
     std::string name;            // +0x08
     std::size_t baseNameOffset = 0;  // +0x20 (as an offset into name)
     bool obfuscated = false;     // +0x24
 };
+
+// ISharedObject<CFile>::drop (0x34f038) as the add/release pair of boost::intrusive_ptr<CFile>.
+inline void intrusive_ptr_add_ref(const CFile* p) { ++p->m_refCount; }
+inline void intrusive_ptr_release(const CFile* p) {
+    if (p->m_refCount-- == 1) delete p;
+}
 
 }  // namespace glitch::io

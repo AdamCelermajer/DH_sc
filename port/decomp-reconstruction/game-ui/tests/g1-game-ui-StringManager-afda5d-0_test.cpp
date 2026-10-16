@@ -212,11 +212,11 @@ void TestSheetNamesAndFilenames() {
     static char file0[] = "menu/main.txt";
     static char name0[] = "NAME0";
     static char name1[] = "NAME1";
-    sheets0[5].m_w2 = file0;
-    sheets0[5].m_w4 = name0;
-    sheets1[5].m_w4 = name1;
-    packs[0].m_w2 = sheets0;
-    packs[1].m_w2 = sheets1;
+    sheets0[5].filename = file0;
+    sheets0[5].name = name0;
+    sheets1[5].name = name1;
+    packs[0].list = sheets0;
+    packs[1].list = sheets1;
     Arrays::StrID_Languages::members = reinterpret_cast<std::uint8_t*>(packs);
 
     StringManager sm;

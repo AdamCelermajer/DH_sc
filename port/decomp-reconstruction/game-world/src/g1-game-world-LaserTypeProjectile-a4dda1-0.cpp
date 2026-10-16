@@ -58,7 +58,7 @@ const Structs::Projectile& ProjectileRow(int tableIndex) {
 
 // Arrays::ProjectileDict row (12 bytes in the original, Structs::ColladaFile here). +0x08 is the dae name.
 const char* ProjectileDaeName(int dictIndex) {
-    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ProjectileDict::members)[dictIndex].m_w2;
+    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ProjectileDict::members)[dictIndex].Name;
 }
 
 // Integer subtraction as the ARM code does it (RSB / SUB, wrapping). Used for the countdown (+0x3e0) and the lifetime
@@ -101,18 +101,18 @@ bool LaserTypeProjectile::OnCollision(GameObject* other, const Point2D<float>& p
         m_target = other;  // +0x384
         const Point3D<float> targetPosition = other->GetTargetPosition();
         Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(
-            row.m_w5, Point3D<float>{position.X, position.Y, targetPosition.Z}, nullptr, nullptr);
+            row.ImpactFX, Point3D<float>{position.X, position.Y, targetPosition.Z}, nullptr, nullptr);
         m_expiring = true;  // +0x3d1
         return true;
     }
 
     // A character hit. Table +0x04 makes a homing laser hit only its target.
-    if (row.m_w1 && m_target != other) {
+    if (row.Dedicated && m_target != other) {
         return false;
     }
     // Table +0x10 set: any character is hit. Clear: the character must be an enemy of the owner. The owner is m_owner,
     // which is null here (see the comment above the function).
-    if (!row.m_w4) {
+    if (!row.FriendlyFire) {
         Character* ownerCharacter = nullptr;
         if (m_owner != nullptr) {
             ObjectHandle ownerHandle = m_owner->GetHandle();
@@ -124,7 +124,7 @@ bool LaserTypeProjectile::OnCollision(GameObject* other, const Point2D<float>& p
     }
 
     m_target = other;  // +0x384
-    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(row.m_w5, other->m_position, nullptr, nullptr);  // +0x160 of the hit
+    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(row.ImpactFX, other->m_position, nullptr, nullptr);  // +0x160 of the hit
     m_expiring = true;  // +0x3d1
     return true;
 }
@@ -142,9 +142,9 @@ void LaserTypeProjectile::Update() {
     if (m_expiring) {  // +0x3d1
         if (m_onFinish != nullptr && unk_3e0 < 0) {  // +0x3bc
             m_onFinish(this, m_userData);            // +0x3c0
-            unk_3e0 = ProjectileRow(m_projectileId).m_w14;  // table +0x38, int32
+            unk_3e0 = ProjectileRow(m_projectileId).TimeBetweenHit;  // table +0x38, int32
         }
-        if (ProjectileRow(m_projectileId).m_off5 || m_lifetimeMs <= 0) {  // table +0x05; +0x3b4
+        if (ProjectileRow(m_projectileId).DisappearOnHit || m_lifetimeMs <= 0) {  // table +0x05; +0x3b4
             m_dead = true;        // +0x3d0
             m_expiring = false;   // +0x3d1
             m_manager->DeSpawn(this, true);  // +0x378
@@ -163,7 +163,7 @@ void LaserTypeProjectile::Update() {
     }
 
     const Structs::Projectile& row = ProjectileRow(m_projectileId);
-    if (row.m_off53 && m_target != nullptr) {  // table +0x35: home on the target
+    if (row.TargetLock && m_target != nullptr) {  // table +0x35: home on the target
         SetDestination(m_target->GetTargetPosition());
     } else {
         // The destination is 1000 units along the direction from the current position to the destination, normalized.
@@ -284,7 +284,7 @@ void LaserTypeProjectile::SetInfo(int projectileId, GameObject* owner, GameObjec
     const Point3D<float> ownerPosition = m_laserOwner->GetTargetPosition();
     m_startPosition = ownerPosition;      // +0x388..+0x390
     m_launchHeight = ownerPosition.Z;     // +0x3a0
-    m_rangeSquared = row.m_w8 >= 0.0f ? row.m_w8 * row.m_w8 : -1.0f;  // +0x3a8, table +0x20 squared
+    m_rangeSquared = row.MaxDistance >= 0.0f ? row.MaxDistance * row.MaxDistance : -1.0f;  // +0x3a8, table +0x20 squared
 
     m_projectileNode = nullptr;  // +0x3a4
     VisualObject* ownerVisual = owner->m_visualObject;  // owner +0x2d8
@@ -297,15 +297,15 @@ void LaserTypeProjectile::SetInfo(int projectileId, GameObject* owner, GameObjec
         }
     }
 
-    m_speed = row.m_w16;         // +0x3ac, table +0x40
-    m_deceleration = row.m_w17;  // +0x3b0, table +0x44
+    m_speed = row.Velocity;         // +0x3ac, table +0x40
+    m_deceleration = row.VelocityDamping;  // +0x3b0, table +0x44
     unk_3e0 = -1;                // +0x3e0 countdown
-    m_lifetimeMs = row.m_w15;    // +0x3b4, table +0x3c
+    m_lifetimeMs = row.Timer;    // +0x3b4, table +0x3c
 
-    if (row.m_w10 < 0) {  // table +0x28: visual dict index, negative for none
+    if (row.Model < 0) {  // table +0x28: visual dict index, negative for none
         SetVisualObject(nullptr);
     } else {
-        SetVisualObject(ProjectileDaeName(row.m_w10), nullptr, false);
+        SetVisualObject(ProjectileDaeName(row.Model), nullptr, false);
         VisualObject* visual = m_visualObject;  // +0x2d8
         if (visual != nullptr) {
             m_boneOrigin = visual->GetSpecificNode("_bone_origin");  // +0x3d4

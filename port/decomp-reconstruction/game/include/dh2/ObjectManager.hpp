@@ -97,11 +97,10 @@ public:
     void LoadGameObjectNetData(int objectId, int member, NetBitStream& stream);                        // 0x34735c
     static void sReadPacketData(int objectId, int member, NetBitStream& stream);                       // 0x347d90 (static: no this, forwards to dword_99F764)
 
-    // Object id map. Key is the object id; the value is the ObjectListItem resolved by ObjectHandle.
-    std::map<int, ObjectListItem> m_objectMap;                                                         // +0x0c header, root, count (20 bytes)
-
     // Lists and maps, in original offset order. Each list is 8 bytes (node pointer and prev).
     std::list<ObjectBase*> m_objects;                                                                  // +0x04 every object registered by Add
+    // Object id map. Key is the object id; the value is the ObjectListItem resolved by ObjectHandle.
+    std::map<int, ObjectListItem> m_objectMap;                                                         // +0x0c header, root, count (20 bytes)
     uint8_t pad_20[4];                                                                                 // +0x20
     std::list<RoomZone*> unk_24;                                                                    // +0x24 RoomZone* nodes (UpdateRooms, ForceEverythingVisible); freed node by node in the dtor
     std::list<ObjectBase*> m_updateList;                                                               // +0x2c active update list (Update splices Spawn rows here)

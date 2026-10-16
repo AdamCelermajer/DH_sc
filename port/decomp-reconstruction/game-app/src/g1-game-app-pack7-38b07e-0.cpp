@@ -89,7 +89,7 @@ void IncFaeryLevelOfLocalPlayer(unsigned int amount) {
 void Script_HideFlash::Init() {
     MenuManager* manager = MenuManager::GetInstance();
     const Structs::HideFlash* record = static_cast<const Structs::HideFlash*>(m_args);
-    const char* name = record->m_w4;
+    const char* name = record->Name;
     if (LC_API_STRSTR(name, "HUD") != nullptr) {
         m_menu = nullptr;
     } else {
@@ -109,7 +109,7 @@ void Script_HideFlash::Execute(bool /*skipping*/, int /*module*/) {
         return;
     }
     MenuManager* menuManager = MenuManager::GetInstance();
-    if (LC_API_STRSTR(record->m_w4, "HUD") != nullptr) {
+    if (LC_API_STRSTR(record->Name, "HUD") != nullptr) {
         MenuFX* hud = menuManager->GetHUDRoot();
         gameswf::as_value current;
         current.set_bool(false);
@@ -128,8 +128,8 @@ void Script_HideFlash::Execute(bool /*skipping*/, int /*module*/) {
 // at least 0x80000000.
 bool Script_HideFlash::IsBlocking() const {
     const Structs::HideFlash* record = static_cast<const Structs::HideFlash*>(m_args);
-    if (m_menu != nullptr && record->m_w5 && record->m_w2 > 0) {
-        return record->m_w2 > static_cast<std::int32_t>(m_menu->m_animOverCount);
+    if (m_menu != nullptr && record->Wait && record->Loop > 0) {
+        return record->Loop > static_cast<std::int32_t>(m_menu->m_animOverCount);
     }
     return false;
 }
@@ -141,11 +141,11 @@ bool Script_HideFlash::IsBlocking() const {
 void Script_IncFaeryLevel::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
     if (!GetOnlineGameFlag()) {
-        IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->m_w2);
+        IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->Faery);
         return;
     }
     if (dword_99F76C->IsLocalPlayerHosting() != 0 && !dword_99F76C->m_hostChanged) {
-        IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->m_w2);
+        IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->Faery);
     }
 }
 
@@ -161,7 +161,7 @@ bool Script_IncFaeryLevel::IsBlocking() const {
 void Script_KillActor::Execute(bool /*skipping*/, int module) {
     const Structs::KillActor* record = static_cast<const Structs::KillActor*>(m_args);
     TraceScriptCmdSwitch();
-    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->Target, module, false, nullptr);
     if (handle.GetObject(false) != nullptr) {
         Character* character = static_cast<Character*>(handle);
         if (character != nullptr) {
@@ -203,7 +203,7 @@ void Script_LockCharacter::Execute(bool skipping, int module) {
     }
     const Structs::LockCharacter* record = static_cast<const Structs::LockCharacter*>(m_args);
     TraceScriptCmdSwitch();
-    const char* name = record->m_w3;
+    const char* name = record->Target;
     if (LC_API_STRCASECMP(name, "All") != 0) {
         ObjectHandle handle = ObjectManagerOf()->GetObjectByName(name, module, false, nullptr);
         if (handle.GetObject(false) != nullptr) {
@@ -233,7 +233,7 @@ void Script_LockTutorial::Execute(bool /*skipping*/, int /*module*/) {
         return;
     }
     SavegameManager* savegame = dword_99F778;
-    savegame->m_tutorials[record->m_w2] = 0;
+    savegame->m_tutorials[record->Tutorial] = 0;
     if (lastOpenMenuID == 17) {
         savegame->saveSettings();
     } else {
@@ -259,7 +259,7 @@ void Script_LookActor::Execute(bool /*skipping*/, int module) {
     TraceScriptCmdSwitch();
     ObjectManager* objects = ObjectManagerOf();
 
-    ObjectHandle lookerHandle = objects->GetObjectByName(record->m_w5, module, false, nullptr);
+    ObjectHandle lookerHandle = objects->GetObjectByName(record->Target, module, false, nullptr);
     Character* looker = nullptr;
     if (lookerHandle.GetObject(false) != nullptr) {
         looker = static_cast<Character*>(lookerHandle);
@@ -267,10 +267,10 @@ void Script_LookActor::Execute(bool /*skipping*/, int module) {
 
     // The original constructs an empty handle first and copies the lookup result over it.
     ObjectHandle target;
-    if (LC_API_STRCMP(record->m_w3, "HighestThreatPlayer") != 0) {
-        target = objects->GetObjectByName(record->m_w3, module, false, nullptr);
+    if (LC_API_STRCMP(record->Object, "HighestThreatPlayer") != 0) {
+        target = objects->GetObjectByName(record->Object, module, false, nullptr);
     } else {
-        target = objects->GetObjectByName(record->m_w3, module, false, record->m_w5);
+        target = objects->GetObjectByName(record->Object, module, false, record->Target);
     }
     GameObject* targetObject = nullptr;
     if (target.GetObject(false) != nullptr) {
@@ -337,8 +337,8 @@ void Script_MarkCharacterAsScripted::Execute(bool /*skipping*/, int module) {
     const Structs::MarkCharacterAsScripted* record = static_cast<const Structs::MarkCharacterAsScripted*>(m_args);
     TraceScriptCmdSwitch();
     using Callback = void (*)(ObjectBase*);
-    Callback callback = record->m_w2 ? &Script_MarkCharacterAsScripted::Set : &Script_MarkCharacterAsScripted::Unset;
-    Script_CharacterState_Callback(record->m_w4, module, callback);
+    Callback callback = record->Enable ? &Script_MarkCharacterAsScripted::Set : &Script_MarkCharacterAsScripted::Unset;
+    Script_CharacterState_Callback(record->Target, module, callback);
 }
 
 // 0x455794 Script_MarkCharacterAsScripted::IsBlocking() const

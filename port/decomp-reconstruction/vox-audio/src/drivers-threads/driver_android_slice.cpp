@@ -1,6 +1,5 @@
 // vox::DriverAndroid and vox::DriverAndroidSource: the destructor, the JNI-bound audio
-// thread helpers (not ported; their status is partial) and the callback source
-// constructor.
+// thread (AudioTrack through the JavaVM) and the callback source constructor.
 #include <chrono>
 #include <thread>
 
@@ -31,82 +30,127 @@ DriverAndroidSource::DriverAndroidSource(const std::int32_t* format,
 void DriverAndroidSource::PrintDebug() {}
 
 // D1 0x88f9ec and D2 0x88fa44, same body; D0 0x88fa28 is the deleting form.
-// Verified against the listing (0x88f9ec..0x88fa1c and 0x88fa44..0x88fa74): the vtable is
-// stored, then Shutdown() (0x88f644), then DriverCallbackInterface::~DriverCallbackInterface
-// (0x891120). 0x88fa28 calls this destructor and then LC_API_FREE_0 on the object. The port runs
-// Shutdown, and its callback_ member is destroyed automatically after the body, which is that
-// base destructor call. Deviation: the base is composed as a member, so the base destructor runs
-// as part of the member's destruction instead of as an explicit base call. D0 (0x88fa28) is the
-// compiler's deleting form, which releases the block with operator delete where the listing calls
-// C free; that is the project's convention for deleting destructors.
+// Verified against the listing (0x88f9ec..0x88fa1c and 0x88fa44..0x88fa74): the vtable is stored, then Shutdown() (0x88f644),
+// then DriverCallbackInterface::~DriverCallbackInterface (0x891120), which the base-class destructor runs after this body.
+// 0x88fa28 calls this destructor and then LC_API_FREE_0 on the object (the deleting form releases the block with operator
+// delete, the project's convention).
 DriverAndroid::~DriverAndroid() {
     Shutdown();
 }
 
-// 0x88f328 _ZN3vox13DriverAndroid16UpdateThreadedATEPv (partial)
-// Verified against the listing (0x88f328..0x88f574). A null this returns 0 without locking.
-// Otherwise: lock, AttachCurrentThread (the JavaVM vtable slot at +0x10, called with 0), and when
-// an env comes back: PushLocalFrame(2); NewObject(cAudioTrack, mAudioTrack, 3, 44100, 12, 2,
-// 4 * frames at +0x58, 1) into the track word +0x64; CallNonvirtualVoidMethod(track, cAudioTrack,
-// mPlay); NewByteArray(4 * frames); then the active byte +0x08 = 1, unlock,
-// m_updateStartTime = _GetTime(), and the loop: while m_running, while the byte at +0x60 is set
-// usleep(m_updateTime * 1e6), otherwise DoCallbackAT(&array); at the end the active byte takes
-// m_running, the lock is retaken, CallNonvirtualVoidMethod(mStop) and (mRelease) run,
-// PopLocalFrame(env, 0) and DetachCurrentThread (JavaVM slot +0x14) follow. Every failure path
-// only detaches. Missing item: the whole JNI block - AttachCurrentThread, PushLocalFrame,
-// NewObject, NewByteArray, CallNonvirtualVoidMethod (mPlay/mStop/mRelease), PopLocalFrame and
-// DetachCurrentThread - because the host has no JNIEnv and vox-audio has no AudioTrack class
-// handle. The port never starts this thread either, since _InitAT's JavaVM branch is not ported.
+// 0x88f328 _ZN3vox13DriverAndroid16UpdateThreadedATEPv
+// Verified against the listing (0x88f328..0x88f574). A null this returns 0 without locking (not expressible on a member).
+// Otherwise: lock, AttachCurrentThread (the JavaVM vtable slot at +0x10, called with 0), and when an env comes back:
+// PushLocalFrame(2); NewObject(cAudioTrack, mAudioTrack, 3, 44100, 12, 2, 4 * frames at +0x58, 1) into the track word +0x64;
+// CallNonvirtualVoidMethod(track, cAudioTrack, mPlay); NewByteArray(4 * frames); then the active byte +0x08 = 1, unlock,
+// m_updateStartTime = _GetTime(), and the loop: while m_running, while the byte at +0x60 is set usleep(m_updateTime * 1e6),
+// otherwise DoCallbackAT(&array); at the end the active byte takes m_running, the lock is retaken,
+// CallNonvirtualVoidMethod(mStop) and (mRelease) run, PopLocalFrame(env, 0) and DetachCurrentThread (JavaVM slot +0x14)
+// follow. Every failure path only detaches; the lock taken first is released at the end on every path.
+// Deviation: without a JavaVM (s_javaVM null, the host tests) nothing can be attached, so the thread does nothing (the
+// original dereferences the null JavaVM); the PopLocalFrame argument is the running byte the listing leaves in r6 (it is
+// 0, since the loop only ends when m_running is clear), i.e. a null result reference.
 int DriverAndroid::UpdateThreadedAT(void* unused) {
     (void)unused;
+    JNIEnv* env = nullptr;
+    jarray array = nullptr;
     mutex_.Lock();
+    if (s_javaVM != nullptr) {
+        s_javaVM->AttachCurrentThread(&env, nullptr);
+    }
+    if (env != nullptr) {
+        env->PushLocalFrame(2);
+        track_ = env->NewObject(cAudioTrack, mAudioTrack, 3, 44100, 12, 2, 4 * frames_, 1);
+        if (track_ != nullptr) {
+            env->CallNonvirtualVoidMethod(track_, cAudioTrack, mPlay);
+            array = env->NewByteArray(4 * frames_);
+        }
+        if (track_ != nullptr && array != nullptr) {
+            active_ = true;
+            mutex_.Unlock();
+            m_updateStartTime = DriverAndroidNowSeconds();
+            while (m_running) {
+                bool stopped = false;
+                while (paused_) {
+                    std::this_thread::sleep_for(
+                        std::chrono::microseconds(static_cast<unsigned int>(m_updateTime * 1000000.0)));
+                    if (!m_running) {
+                        stopped = true;
+                        break;
+                    }
+                }
+                if (stopped) {
+                    break;
+                }
+                DoCallbackAT(array);
+            }
+            active_ = m_running;
+            mutex_.Lock();
+            env->CallNonvirtualVoidMethod(track_, cAudioTrack, mStop);
+            env->CallNonvirtualVoidMethod(track_, cAudioTrack, mRelease);
+            env->PopLocalFrame(nullptr);
+            s_javaVM->DetachCurrentThread();
+        } else {
+            s_javaVM->DetachCurrentThread();
+        }
+    }
     mutex_.Unlock();
     return 0;
 }
 
-// 0x88f14c _ZN3vox13DriverAndroid12DoCallbackATERP7_jarray (partial)
+// 0x88f14c _ZN3vox13DriverAndroid12DoCallbackATERP7_jarray
 // Verified against the listing (0x88f14c..0x88f2dc): GetEnv (JavaVM slot +0x18, version 0x10002);
 // GetPrimitiveArrayCritical(env, array, 0) into a buffer; when it is non-null, Lock,
 // DriverCallbackInterface::_FillBuffer(this, buffer, frames at +0x5C), Unlock,
 // ReleasePrimitiveArrayCritical(env, array, buffer, 0), then CallNonvirtualIntMethod(track,
 // cAudioTrack, mWrite, array, 0, 4 * frames) and m_dataDuration += m_updateTime. The timing tail
-// then runs on both paths: the first call stores m_updateStartTime = _GetTime(), and the function
-// returns usleep(m_updateTime * 1e6) when m_dataDuration - (now - m_updateStartTime) exceeds
-// m_dataThreshold. The port reproduces the tail exactly (with std::this_thread::sleep_for for
-// usleep, and the first-call flag as a function-local static). Missing item: the JNI block -
-// GetEnv, GetPrimitiveArrayCritical, the base _FillBuffer call, ReleasePrimitiveArrayCritical and
-// CallNonvirtualIntMethod with mWrite - plus m_dataDuration += m_updateTime. Without a JNIEnv
-// there is no array to fill, and DriverCallbackInterface::_FillBuffer is not reachable from the
-// composed callback_ member, so m_dataDuration does not grow. The listing's usleep result is not
-// returned here because the only caller (UpdateThreadedAT) ignores it.
-void DriverAndroid::DoCallbackAT(_jarray*& array) {
-    (void)array;
-    static bool is_first = true;  // DoCallbackAT(_jarray*&)::isFirst: set by the first call only
-    if (is_first) {
-        is_first = false;
-        m_updateStartTime = DriverAndroidNowSeconds();
+// then runs on both paths: the first call stores m_updateStartTime = _GetTime() (the function-local flag isFirst, initially
+// 1), and the function sleeps usleep(m_updateTime * 1e6) when m_dataDuration - (now - m_updateStartTime) exceeds
+// m_dataThreshold. The original returns the usleep result (or the comparison); the only caller (UpdateThreadedAT) ignores it.
+// Deviation: without a JavaVM or an env (the host tests) there is no array to fill, so the JNI block is skipped and the
+// timing tail still runs; std::this_thread::sleep_for stands in for usleep.
+void DriverAndroid::DoCallbackAT(jarray& array) {
+    JNIEnv* env = nullptr;
+    if (s_javaVM != nullptr) {
+        s_javaVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_2);
     }
-    const double remaining = m_dataDuration - (DriverAndroidNowSeconds() - m_updateStartTime);
-    if (remaining > m_dataThreshold) {
+    if (env != nullptr) {
+        void* buffer = env->GetPrimitiveArrayCritical(array, nullptr);
+        if (buffer != nullptr) {
+            const int frames = chunk_;
+            mutex_.Lock();
+            _FillBuffer(static_cast<std::int16_t*>(buffer), frames);
+            mutex_.Unlock();
+            env->ReleasePrimitiveArrayCritical(array, buffer, 0);
+            env->CallNonvirtualIntMethod(track_, cAudioTrack, mWrite, array, 0, 4 * frames);
+            m_dataDuration = m_dataDuration + m_updateTime;
+        }
+    }
+    static bool is_first = true;  // DoCallbackAT(_jarray*&)::isFirst
+    if (is_first) {
+        const double time = DriverAndroidNowSeconds();
+        is_first = false;
+        m_updateStartTime = time;
+    }
+    const double buffered = m_dataDuration;
+    if (buffered - (DriverAndroidNowSeconds() - m_updateStartTime) > m_dataThreshold) {
         std::this_thread::sleep_for(
             std::chrono::microseconds(static_cast<unsigned int>(m_updateTime * 1000000.0)));
     }
 }
 
-// 0x88f660 _ZN3vox13DriverAndroid7_InitATEPv (partial)
-// Verified against the listing (0x88f660..0x88f7C4): the first call is SetDriverSampleRate with
-// the immediate 44100 (MOVW R0,#0xAC44 at 0x88f664) and the argument is never read; the function
-// then returns whatever r0 holds from that void call, so the no-JavaVM path returns 44100. With a
-// JavaVM: GetEnv (slot +0x18, 0x10002); FindClass("android/media/AudioTrack") into cAudioTrack,
-// NewGlobalRef of it, GetMethodID("<init>", "(IIIIII)V") into mAudioTrack, GetStaticMethodID
-// ("getMinBufferSize", "(III)I") into mGetMinBufferSize, GetMethodID for "play", "pause", "stop",
-// "release" ("()V") and "write" ("([BII)I"); then CallStaticIntMethod(mGetMinBufferSize, 44100,
-// 12, 2) / 4 into the ring frames word (+0x58), the chunk word (+0x5C) = min(frames, 1024),
-// m_updateTime = chunk / 44100.0, m_dataThreshold = -(frames / 44100.0 * m_dataThresholdRatio),
-// m_dataDuration = 0, mode (+0x54) = 1, m_running = 1, the byte at +0x60 = 0 and pthread_create
-// with the thread handle at +0x68 and UpdateThreadedAT. Missing item: that whole JavaVM branch -
-// no JNIEnv, no java.lang.Class handle and no AudioTrack method IDs exist on the host - so the
-// port returns 0 there instead of the pthread_create result.
+// 0x88f660 _ZN3vox13DriverAndroid7_InitATEPv
+// Verified against the listing (0x88f660..0x88f7C4): the first call is SetDriverSampleRate with the immediate 44100 (MOVW
+// R0,#0xAC44 at 0x88f664) and the argument is never read; with no JavaVM the function returns whatever that void call leaves
+// in r0 (44100 here). With a JavaVM: GetEnv (slot +0x18, 0x10002); when cAudioTrack is not cached yet:
+// FindClass("android/media/AudioTrack") into cAudioTrack (a failed lookup returns), NewGlobalRef of it, GetMethodID("<init>",
+// "(IIIIII)V") into mAudioTrack, GetStaticMethodID("getMinBufferSize", "(III)I") into mGetMinBufferSize, GetMethodID for
+// "play", "pause", "stop", "release" ("()V") and "write" ("([BII)I"); then CallStaticIntMethod(mGetMinBufferSize, 44100,
+// 12, 2) / 4 into the ring frames word (+0x58), the chunk word (+0x5C) = min(frames, 1024), m_updateTime = chunk / 44100.0,
+// m_dataThreshold = -(frames / 44100.0 * m_dataThresholdRatio), m_dataDuration = 0, mode (+0x54) = 1, m_running = 1, the byte
+// at +0x60 = 0 and pthread_create with the thread handle at +0x68 and UpdateThreadedAT (std::thread here).
+// Deviation: an env that GetEnv does not supply ends the function (the original dereferences it); the original returns the
+// pthread_create result, 0 on success, which is what a started std::thread gives.
 int DriverAndroid::_InitAT(void* context) {
     (void)context;
     constexpr int kDriverSampleRate = 44100;
@@ -114,6 +158,40 @@ int DriverAndroid::_InitAT(void* context) {
     if (s_javaVM == nullptr) {
         return kDriverSampleRate;
     }
+    JNIEnv* env = nullptr;
+    s_javaVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_2);
+    if (env == nullptr) {
+        return 0;
+    }
+    if (cAudioTrack == nullptr) {
+        cAudioTrack = env->FindClass("android/media/AudioTrack");
+        if (cAudioTrack == nullptr) {
+            return 0;
+        }
+        cAudioTrack = static_cast<jclass>(env->NewGlobalRef(cAudioTrack));
+        mAudioTrack = env->GetMethodID(cAudioTrack, "<init>", "(IIIIII)V");
+        mGetMinBufferSize = env->GetStaticMethodID(cAudioTrack, "getMinBufferSize", "(III)I");
+        mPlay = env->GetMethodID(cAudioTrack, "play", "()V");
+        mPause = env->GetMethodID(cAudioTrack, "pause", "()V");
+        mStop = env->GetMethodID(cAudioTrack, "stop", "()V");
+        mRelease = env->GetMethodID(cAudioTrack, "release", "()V");
+        mWrite = env->GetMethodID(cAudioTrack, "write", "([BII)I");
+    }
+    int frames = env->CallStaticIntMethod(cAudioTrack, mGetMinBufferSize, 44100, 12, 2) / 4;
+    chunk_ = 1024;
+    frames_ = frames;
+    if (frames < 1024) {
+        chunk_ = frames;
+    } else {
+        frames = 1024;
+    }
+    m_updateTime = static_cast<double>(frames) / 44100.0;
+    m_dataThreshold = -(static_cast<double>(frames_) / 44100.0 * m_dataThresholdRatio);
+    m_dataDuration = 0.0;
+    mode_ = 1;
+    m_running = true;
+    paused_ = false;
+    thread_ = std::thread([this]() { UpdateThreadedAT(nullptr); });
     return 0;
 }
 

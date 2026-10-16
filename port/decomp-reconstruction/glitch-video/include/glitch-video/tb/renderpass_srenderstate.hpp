@@ -6,10 +6,29 @@
 
 #include <cstdint>
 
+namespace glitch::io {
+class IAttributes;
+}  // namespace glitch::io
+
+namespace glitch::video {
+struct SRenderState;
+}  // namespace glitch::video
+
 namespace glitch::video::detail::renderpass {
 
 struct SRenderState {
     SRenderState();  // 0x588ddc
+    // 0x5d7a10: packs a full glitch::video::SRenderState (render_state.hpp) into the two flag words and the scalar members:
+    //   word 0: bits 0-3 blend factor source, 4-7 destination (byte 0 of the source), bits 8-15 stencil reference (source byte 2),
+    //   16-23 stencil mask (byte 3), 24-26 blend equation, 27-29 depth function, 30-31 cull face;
+    //   word 1: bits 0-2 stencil function, 3-5 / 6-8 / 9-11 stencil operations fail / z-fail / z-pass, 12-13 / 14-15 polygon modes
+    //   front / back, 16 blend, 17 cull face, 18 front face, 19 depth test, 20 depth mask, 21-23 polygon offset fill / line / point,
+    //   24 sample alpha to coverage, 25 sample coverage, 26 coverage invert, 27 stencil test.
+    explicit SRenderState(const glitch::video::SRenderState& source);
+    // 0x5e0bac: writes the state as named attributes (the enums as their choice names).
+    void serializeAttributes(glitch::io::IAttributes* attributes) const;
+    // 0x5e1104: reads the same attributes back into the words.
+    void deserializeAttributes(glitch::io::IAttributes* attributes);
 
     uint32_t m_word00;  // +0x00, set to 0x18ff0001 by the constructor
     uint32_t m_word04;  // +0x04, set to 0x00180007 by the constructor

@@ -18,7 +18,7 @@ public:
     explicit CGenericBaker(const IShader* shader);
 
     // 0x609a18 (D1) / 0x609a70 (D0): releases the attribute map. Not reconstructed: the map reference is not released here.
-    ~CGenericBaker() override = default;
+    ~CGenericBaker() override;  // defined in src/ok1b-CGenericBaker.cpp (releases the batch material, then the attribute map)
 
     // ---- IBatchBaker slots ----
     void bake(const boost::intrusive_ptr<const CVertexStreams>& streams, const CPrimitiveStream& primitives,
@@ -37,8 +37,8 @@ public:
     // +0x04 is IReferenceCounted::referenceCounter.
     const IShader* m_shader = nullptr;             // +0x08
     boost::intrusive_ptr<CVertexAttributeMap> m_attributeMap;  // +0x0c, counted through its first word
-    uint16_t m_unknown10 = 0xffff;                 // +0x10
-    uint32_t m_unknown14 = 0;                      // +0x14
+    uint16_t m_unknown10 = 0xffff;                 // +0x10, the id of the batch renderer in the material renderer manager (0xffff before it is made)
+    boost::intrusive_ptr<CMaterial> m_batchMaterial;  // +0x14, the batch material getBatchMaterial makes (counted through its first word)
 };
 
 }  // namespace glitch::video

@@ -38,7 +38,7 @@ bool ProbeSwitch(const char* name) {
 // Arrays::DesignSettingsTable::members + 48: the m_w12 float of the first DesignSettings record (file offset +0x30).
 float FirstDesignSettingsSpotAggro() {
     const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
-    return design->m_w12;
+    return design->EnemySpottedAggro;
 }
 
 }  // namespace

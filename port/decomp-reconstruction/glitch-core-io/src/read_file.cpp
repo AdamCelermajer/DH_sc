@@ -1,5 +1,7 @@
 #include "glitch-core-io/io/read_file.hpp"
 
+#include "glitch-core-io/io/file_system.hpp"
+
 #include <cstdint>
 
 namespace glitch::io {
@@ -13,9 +15,7 @@ CReadFile::CReadFile(const char* name, bool obfuscatedFlag) : fileName(name ? na
 }
 
 // 0x570660 _ZN6glitch2io9CReadFileD1Ev
-CReadFile::~CReadFile() {
-    if (file) std::fclose(file);  // the original drops the shared handle
-}
+CReadFile::~CReadFile() = default;  // the shared handle (+0x0c) is dropped by the member
 
 // 0x570808 _ZNK6glitch2io9CReadFile5cloneEv
 CReadFile* CReadFile::clone() const {
@@ -27,7 +27,7 @@ CReadFile* CReadFile::clone() const {
 
 // 0x5703e4 _ZNK6glitch2io9CReadFile6isOpenEv
 bool CReadFile::isOpen() const {
-    return file != nullptr;
+    return static_cast<bool>(file);
 }
 
 // 0x57044c _ZNK6glitch2io9CReadFile7getSizeEv
@@ -51,14 +51,13 @@ const char* CReadFile::getFullPath() const {
 // SEEK_CUR (1), false is SEEK_SET (0).
 bool CReadFile::seek(long offset, bool relative) {
     if (!isOpen()) return false;
-    return std::fseek(file, offset, relative ? SEEK_CUR : SEEK_SET) == 0;
+    return std::fseek(file->file, offset, relative ? SEEK_CUR : SEEK_SET) == 0;
 }
 
 // 0x5705a8 _ZNK6glitch2io9CReadFile6getPosEv
-// The original returns ftell of the handle's FILE* (handle +0x04) with no null test. PARTIAL: the
-// port keeps the FILE* at +0x0c and returns 0 when the file is closed (the original has no such case).
+// ftell of the handle's FILE* (the CFile at +0x0c holds it at +0x04), with no null test in the original.
 long CReadFile::getPos() const {
-    return file ? std::ftell(file) : 0;
+    return std::ftell(file->file);
 }
 
 // 0x5705b4 _ZN6glitch2io9CReadFile4readEPvj
@@ -68,7 +67,7 @@ long CReadFile::getPos() const {
 std::int32_t CReadFile::read(void* buffer, std::uint32_t count) {
     if (!isOpen()) return 0;
     const std::uint32_t pos = static_cast<std::uint32_t>(getPos());
-    const std::size_t got = std::fread(buffer, 1, count, file);
+    const std::size_t got = std::fread(buffer, 1, count, file->file);
     if (obfuscated && static_cast<std::int32_t>(pos) < 4) {
         std::uint32_t n = 4 - pos;
         if (count <= n) n = count;
@@ -82,20 +81,20 @@ std::int32_t CReadFile::read(void* buffer, std::uint32_t count) {
 }
 
 // 0x5704cc _ZN6glitch2io9CReadFile8openFileEv
-// PARTIAL: the original takes the handle from CFileSystem::open and then reads
-// the obfuscation flag from the shared CFile (+0x24). That flag is not
-// reconstructed; the constructor argument is kept.
+// An empty file name just drops the handle. Otherwise CFileSystem::open(name, "rb") supplies the shared handle (the
+// previous one is dropped by the assignment); when it opened, the size is the position after a seek to the end (slot
+// +0x24, getPos), the file is rewound, and the reader's obfuscation byte (+0x2c) is copied from the handle's (+0x24).
 void CReadFile::openFile() {
-    if (file) {
-        std::fclose(file);
+    if (fileName.empty()) {
         file = nullptr;
+        return;
     }
-    if (fileName.empty()) return;
-    file = std::fopen(fileName.c_str(), "rb");
+    file = CFileSystem::open(fileName.c_str(), "rb");
     if (file) {
-        std::fseek(file, 0, SEEK_END);
-        size = std::ftell(file);
-        std::fseek(file, 0, SEEK_SET);
+        std::fseek(file->file, 0, SEEK_END);
+        size = getPos();
+        std::fseek(file->file, 0, SEEK_SET);
+        obfuscated = file->obfuscated;
     }
 }
 

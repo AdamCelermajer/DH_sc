@@ -46,8 +46,8 @@ bool SavegameManager::isOptionAtMax(const char* name) const {
     const auto it = m_options.find(name);
     if (it == m_options.end()) return false;
     const Structs::GameOption* def = it->second.m_definition;
-    if (def->m_w6 == 2) return it->second.m_value == def->m_w3 - 1;
-    return it->second.m_value == def->m_w3;
+    if (def->Type == 2) return it->second.m_value == def->Max - 1;
+    return it->second.m_value == def->Max;
 }
 
 // 0x46d418 SavegameManager::isOptionToggled(char const*) const
@@ -56,7 +56,7 @@ bool SavegameManager::isOptionToggled(const char* name) const {
     const auto it = m_options.find(name);
     if (it == m_options.end()) return false;
     const Structs::GameOption* def = it->second.m_definition;
-    return def->m_w6 == 0 && it->second.m_value == def->m_w3;
+    return def->Type == 0 && it->second.m_value == def->Max;
 }
 
 // 0x46d474 SavegameManager::getOption(char const*) const
@@ -93,11 +93,11 @@ void SavegameManager::toggleOption(const char* name) {
     const auto it = m_options.find(name);
     if (it == m_options.end()) return;
     const Structs::GameOption* def = it->second.m_definition;
-    if (def->m_w6 != 0) return;  // Type 0 only
-    if (it->second.m_value == def->m_w4) {  // value == Min
-        it->second.m_value = def->m_w3;     // -> Max
+    if (def->Type != 0) return;  // Type 0 only
+    if (it->second.m_value == def->Min) {  // value == Min
+        it->second.m_value = def->Max;     // -> Max
     } else {
-        it->second.m_value = def->m_w4;     // -> Min
+        it->second.m_value = def->Min;     // -> Min
     }
     if (handle_cheats_inGame) {
         if (std::strcmp(name, "LevelUp") != 0) {
@@ -142,7 +142,7 @@ void SavegameManager::_initSettings(bool languageOnly) {
             const char* name = Arrays::GameOptionTable::m_memberNames.names[i];
             const Structs::GameOption* row = &rows[i];
             m_options[name].m_definition = row;
-            m_options[name].m_value = row->m_w1;
+            m_options[name].m_value = row->Default;
         }
     }
     for (int i = 0; i != 14; ++i) {

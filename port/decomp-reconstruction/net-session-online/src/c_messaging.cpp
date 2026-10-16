@@ -1,4 +1,5 @@
 #include "net-session-online/c_messaging.hpp"
+#include "dh2/global/net_singletons.hpp"
 
 #include <cstdint>
 
@@ -343,9 +344,9 @@ void CMessaging::AddToRecvQueue(CMessage* message) {
 // A local message goes to ReceiveMessage, which takes ownership, and is not queued. Otherwise the
 // message is acknowledged for the local member, appended to the send queue, and the queue is sorted
 // by send priority (the Hex-Rays body is an inlined std::list::sort on CMessage::CompareMsgSendPriority).
-// Partial: when the message's flag32 (+0x32) is set, the original also empties a temporary copy of the
-// type name and stores 0 at CPacketManager::last_send_time_ (+0x2c, via GetPacketManager()). That field
-// is private to CPacketManager and has no setter, so the store is omitted.
+// When the message's flag32 (+0x32) is set, the original also builds and destroys a temporary copy of the type name (no
+// effect) and stores 0 at CPacketManager::last_send_time_ (+0x2c, via GetPacketManager()), so that the next packet round
+// sends at once (ClearLastSendTime). The inlined list sort is a stable merge sort in both runtimes.
 void CMessaging::AddToSendQueue(CMessage* message) {
     if (message->IsLocal()) {
         ReceiveMessage(message);
@@ -355,6 +356,9 @@ void CMessaging::AddToSendQueue(CMessage* message) {
     message->AcknowledgeMember(CMatching::Get()->LocalMemberId());
     sendQueue_.push_back(message);
     sendQueue_.sort(&CMessage::CompareMsgSendPriority);
+    if (message->Flag32()) {
+        GetPacketManager()->ClearLastSendTime();
+    }
     sendMutex_.Unlock();
 }
 

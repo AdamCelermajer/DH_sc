@@ -31,7 +31,7 @@ int main() {
     CHECK(driver.queryMaxLightCount() == 8);
     CHECK(driver.getMaxUserClipPlanes() == 6);
     CHECK(driver.getDriverType() == 0x78);
-    CHECK(driver.getShaderManager() == nullptr);
+    CHECK(driver.getShaderManager() != nullptr);  // the constructor builds a CGLSLShaderManager (0x5b5c40)
     driver.setTextureLODBiasTexEnv(nullptr);
 
     // Shader program: createProgram stores the GL name; commitShader binds it.

@@ -72,6 +72,13 @@ int computeSizeInBytes(E_PIXEL_FORMAT format, uint32_t width, uint32_t height, u
 // of each entry, indexed by the destination row. Returns table, as the original does.
 uint8_t* computeRelativeSwizzleTable(E_PIXEL_FORMAT from, E_PIXEL_FORMAT to, uint8_t* table);
 
+// 0x5ee104 unpackPalettized(src, srcPitch, bpp, paletteFormat, palette, dst, dstPitch, width, height, flip): expands a 1, 2, 4
+// or 8 bit palettised image into the palette's format (1, 2 or 4 bytes per entry), bottom row first when flip is set. 1 on
+// success, 0 (with a log line) for an in-place call, a bad bpp or a palette format of another size.
+int unpackPalettized(const void* src, uint32_t srcPitch, uint8_t bpp, E_PIXEL_FORMAT paletteFormat, const void* palette,
+                     void* dst, uint32_t dstPitch, uint32_t width, uint32_t height, bool flip)
+    asm("_ZN6glitch5video12pixel_format16unpackPalettizedEPKvjhNS0_14E_PIXEL_FORMATES3_Pvjjjb");
+
 // 0x5edd9c swapBytes(format, src, size, flag, dst): byte-swaps size bytes of src into dst
 // for packed types 1 and 3 (32-bit words) and fully reverses each 32-bit word for others.
 // Returns 1 when it copied, 0 when the format or flag rules out a swap (dst untouched).

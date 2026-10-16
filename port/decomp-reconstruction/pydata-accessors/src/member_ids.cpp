@@ -29,6 +29,8 @@ template int GetMemberIDByString<LevelList>(const char* name);
 template int GetMemberIDByString<DestructibleContainers>(const char* name);
 // 0x3a1708 _ZN6Arrays19GetMemberIDByStringINS_18OpenableContainersEEEiPKc
 template int GetMemberIDByString<OpenableContainers>(const char* name);
+// TrophyTable (0x3a3f70), CharacterTable (0x3fa188) and ItemTable (0x4ad5f8) are defined as explicit specializations
+// in tb_accessors-Arrays-0.cpp; instantiating them here as well would define each symbol twice.
 // 0x3e8bcc _ZN6Arrays19GetMemberIDByStringINS_11SpawnGroupsEEEiPKc
 template int GetMemberIDByString<SpawnGroups>(const char* name);
 // 0x4ac5c0 _ZN6Arrays19GetMemberIDByStringINS_15StrID_LanguagesEEEiPKc

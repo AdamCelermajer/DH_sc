@@ -12,8 +12,8 @@
 //
 // Stride of the pointer forms: bytes (0 means contiguous), as in parts d and 1c.
 //
-// Intrusive pointer rows (codes 12..15 and 18) and the matrix code 11 are not bound. The dispatchers return 0
-// for them, so the dispatchers are partial (see the ledger notes).
+// Intrusive pointer rows (codes 12..15 and 18) are part 1c rows over R's table with its pointer slots (IMaterialParameters::table(),
+// src/ok1b-MaterialParameters.cpp), and the matrix code 11 goes to the class matrix accessors, so the eight dispatchers handle every code.
 #include <cstdint>
 #include <type_traits>
 
@@ -45,10 +45,7 @@ rparams::SRendererValueTable rendererTable(const RParams& r) {
 }
 
 part1c::SParameterTable paramTable(const RParams& r) {
-    part1c::SParameterTable t;
-    t.header = &r.parameterHeader();
-    t.values = r.valueBuffer();
-    return t;  // dirtyFirst, dirtyLast and pointers stay null: R has no dirty words and no pointer rows here
+    return r.table();  // header, value buffer and the pointer slots; R has no dirty words (dirtyFirst, dirtyLast stay null)
 }
 
 using V2i = vector2d<int>;
@@ -57,6 +54,11 @@ using V4i = vector4d<int>;
 using V2f = vector2d<float>;
 using V3f = vector3d<float>;
 using V4f = vector4d<float>;
+
+// The pointer value types (intrusive_ptr<ITexture>, intrusive_ptr<CLight>): their rows are part 1c's over R's table with its pointer
+// slots (the rows of M without the dirty marks, as the listings show).
+template <class T>
+constexpr bool kIsPointer = std::is_same_v<T, boost::intrusive_ptr<ITexture>> || std::is_same_v<T, boost::intrusive_ptr<CLight>>;
 
 // Indexed getParameter routes: part 1c instances for the first six types, part d for the rest.
 template <class T>
@@ -69,41 +71,58 @@ constexpr bool kIndexedGetInPart1c = std::is_same_v<T, int> || std::is_same_v<T,
 
 template <>
 struct MixinBackend<IMaterialParameters<CMaterialRenderer, false>> {
-    // Codes 12..15 and 18 are not bound, and the class matrix accessors are not reached from the dispatchers.
-    static constexpr bool kPointerRows = false;
-    static constexpr bool kMatrixPtrGet = false;
-    static constexpr bool kMatrixPtrSet = false;
-    static constexpr bool kMatrixPtrGetCvt = false;
-    static constexpr bool kMatrixPtrSetCvt = false;
-    static constexpr bool kMatrixIdxGet = false;
-    static constexpr bool kMatrixIdxSet = false;
-    static constexpr bool kMatrixIdxGetCvt = false;
-    static constexpr bool kMatrixIdxSetCvt = false;
+    // Codes 12..15 and 18 are dispatched (the pointer rows go to part 1c over R's table with pointer slots), and code 11 goes to the
+    // class matrix accessors in every dispatcher (the Cvt dispatchers call the plain accessor, see the typed_impl header).
+    static constexpr bool kPointerRows = true;
+    static constexpr bool kMatrixPtrGet = true;
+    static constexpr bool kMatrixPtrSet = true;
+    static constexpr bool kMatrixPtrGetCvt = true;
+    static constexpr bool kMatrixPtrSetCvt = true;
+    static constexpr bool kMatrixIdxGet = true;
+    static constexpr bool kMatrixIdxSet = true;
+    static constexpr bool kMatrixIdxGetCvt = true;
+    static constexpr bool kMatrixIdxSetCvt = true;
 
     // ---- Pointer forms (stride in bytes). All ten numeric types are in part d.
 
     template <class T>
     static int arrayGet(const RParams& r, uint16_t id, T* out, int stride) {
-        return rparams::getParameter(rendererTable(r), id, out, stride);
+        if constexpr (kIsPointer<T>) {
+            return part1c::getParameter<T>(paramTable(r), id, out, stride);
+        } else {
+            return rparams::getParameter(rendererTable(r), id, out, stride);
+        }
     }
     template <class T>
     static int arrayGetCvt(const RParams& r, uint16_t id, T* out, int stride) {
-        return rparams::getParameterCvt(rendererTable(r), id, out, stride);
+        if constexpr (kIsPointer<T>) {
+            return part1c::getParameterCvt<T>(paramTable(r), id, out, stride);
+        } else {
+            return rparams::getParameterCvt(rendererTable(r), id, out, stride);
+        }
     }
     template <class T>
     static int arraySet(const RParams& r, uint16_t id, const T* src, int stride) {
-        return rparams::setParameter(rendererTable(r), id, src, stride);
+        if constexpr (kIsPointer<T>) {
+            return part1c::setParameter<T>(paramTable(r), id, src, stride);
+        } else {
+            return rparams::setParameter(rendererTable(r), id, src, stride);
+        }
     }
     template <class T>
     static int arraySetCvt(const RParams& r, uint16_t id, const T* src, int stride) {
-        return rparams::setParameterCvt(rendererTable(r), id, src, stride);
+        if constexpr (kIsPointer<T>) {
+            return part1c::setParameterCvt<T>(paramTable(r), id, src, stride);
+        } else {
+            return rparams::setParameterCvt(rendererTable(r), id, src, stride);
+        }
     }
 
     // ---- Indexed forms.
 
     template <class T>
     static int indexGet(const RParams& r, uint16_t id, uint32_t index, T& out) {
-        if constexpr (kIndexedGetInPart1c<T>) {
+        if constexpr (kIndexedGetInPart1c<T> || kIsPointer<T>) {
             return part1c::getParameter<T>(paramTable(r), id, index, out);
         } else {
             return rparams::getParameter(rendererTable(r), id, index, out);
@@ -115,7 +134,11 @@ struct MixinBackend<IMaterialParameters<CMaterialRenderer, false>> {
     }
     template <class T>
     static int indexGetCvt(const RParams& r, uint16_t id, uint32_t index, T& out) {
-        return rparams::getParameterCvt(rendererTable(r), id, index, out);
+        if constexpr (kIsPointer<T>) {
+            return part1c::getParameterCvt<T>(paramTable(r), id, index, out);
+        } else {
+            return rparams::getParameterCvt(rendererTable(r), id, index, out);
+        }
     }
     template <class T>
     static int indexSetCvt(const RParams& r, uint16_t id, uint32_t index, const T& src) {
@@ -149,9 +172,16 @@ GLITCH_BIND_R_INSTANTIATE_VALUE(V4f)
 GLITCH_BIND_R_INSTANTIATE_VALUE(SColor)
 GLITCH_BIND_R_INSTANTIATE_VALUE(SColorf)
 
+// The pointer rows (intrusive_ptr<ITexture>, intrusive_ptr<CLight>): the sixteen forms of the typed table for R.
+#define GLITCH_BIND_R_INSTANTIATE_POINTER(P)                                                       template bool GLITCH_BIND_R_MIXIN::getParameter<P>(uint16_t, P*, int) const;                   template bool GLITCH_BIND_R_MIXIN::getParameterCvt<P>(uint16_t, P*, int) const;                template bool GLITCH_BIND_R_MIXIN::setParameter<P>(uint16_t, const P*, int);                   template bool GLITCH_BIND_R_MIXIN::setParameterCvt<P>(uint16_t, const P*, int);                template bool GLITCH_BIND_R_MIXIN::getParameter<P>(uint16_t, uint32_t, P&) const;              template bool GLITCH_BIND_R_MIXIN::getParameterCvt<P>(uint16_t, uint32_t, P&) const;           template bool GLITCH_BIND_R_MIXIN::setParameter<P>(uint16_t, uint32_t, const P&);              template bool GLITCH_BIND_R_MIXIN::setParameterCvt<P>(uint16_t, uint32_t, const P&);
+
+GLITCH_BIND_R_INSTANTIATE_POINTER(boost::intrusive_ptr<ITexture>)
+GLITCH_BIND_R_INSTANTIATE_POINTER(boost::intrusive_ptr<CLight>)
+
 template class GLITCH_BIND_R_MIXIN;
 
 #undef GLITCH_BIND_R_INSTANTIATE_VALUE
+#undef GLITCH_BIND_R_INSTANTIATE_POINTER
 #undef GLITCH_BIND_R_MIXIN
 
 }  // namespace glitch::video::detail

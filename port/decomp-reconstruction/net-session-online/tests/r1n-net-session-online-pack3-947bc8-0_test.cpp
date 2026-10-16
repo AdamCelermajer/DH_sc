@@ -20,8 +20,8 @@ namespace {
 struct CountingObserver : GLXPlayerMPBaseObserver {
     int finish = 0;
     int leave = 0;
-    void OnMPFinishGameSuccess() override { ++finish; }
-    void OnMPLeaveGameSuccess() override { ++leave; }
+    void OnMPNetworkError(std::int32_t) override { ++finish; }
+    void OnMPEstablishConnectionSuccess() override { ++leave; }
 };
 
 // A socket whose echo send result is fixed by the test and which counts the sends. It is a real CAndroidSocket

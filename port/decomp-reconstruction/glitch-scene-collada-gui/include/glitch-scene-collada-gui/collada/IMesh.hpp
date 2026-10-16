@@ -66,8 +66,8 @@ public:
     // not forwarded here because the driver is a stand-in.
     virtual void setTransform(video::IVideoDriver* driver, const core::CMatrix4<float>& matrix);
 
-    // 0x64834c: the vertex count of the first buffer (reads the buffer's vertex streams). Not reconstructed.
-    std::uint32_t getVertexCount();
+    // 0x64834c: the vertex count of the first buffer (the vertex count word of its vertex streams).
+    std::uint32_t getVertexCount() const;
 
     const char* uid = "";          // +0x08
     CColladaDatabase database;     // +0x0c .. +0x13
@@ -120,6 +120,12 @@ public:
 };
 
 class CRootSceneNode;
+struct SMorph;
+
+// 0x649b3c: dst = weight * src for count vertices of three floats (instantiated for core::vector3d<float>).
+template <typename T>
+void setWeightedVertex(T* destination, std::uint32_t destinationStride, const T* source, std::uint32_t sourceStride, float weight,
+                       std::uint32_t count);
 
 class CMorphingMesh : public IMesh {
 public:
@@ -136,8 +142,8 @@ public:
     };
     // One morph target: a mesh and its blend weight (8 bytes).
     struct STarget {
-        boost::intrusive_ptr<scene::IMesh> mesh;  // +0x00
-        float weight = 1.0f;                      // +0x04
+        boost::intrusive_ptr<IMesh> mesh;  // +0x00
+        float weight = 1.0f;               // +0x04
     };
 
     // Not in the binary: an empty morphing mesh (reference count 0, no targets, no root node), for tests and ports.
@@ -173,10 +179,10 @@ public:
 
     std::vector<SBuffer> buffers;          // +0x18
     std::vector<STarget> targets;          // +0x24
-    const void* morphData = nullptr;       // +0x30 the controller's morph record (SController +0x08)
+    const SMorph* morphData = nullptr;     // +0x30 the controller's morph record (SController +0x08)
     std::uint32_t unk_34 = 0;              // +0x34 not read by any listing seen
     CRootSceneNode* rootNode = nullptr;    // +0x38
-    std::int32_t lastIndex = -1;           // +0x3c
+    std::uint32_t dirtyBuffers = 0xFFFFFFFFu;  // +0x3c bit i set: buffer i has to be morphed again (onPrepareBufferForRendering clears it)
 };
 
 }  // namespace glitch::collada

@@ -1,5 +1,7 @@
 #include "net-transport/sync.hpp"
 
+#include <pthread.h>  // pthread_kill: winpthreads (the MinGW std::thread) implements the same liveness probe
+
 #include <cerrno>
 #include <cstdio>
 
@@ -79,13 +81,12 @@ Thread::~Thread() {
 }
 
 // 0x84559c _ZN6Thread22IsCurrectThreadRunningEv
-// Partial: the original probes with pthread_kill(tid, 0) and reports running unless the result is
-// EINVAL (22) or ESRCH (3); std::thread exposes no liveness probe, so joinable() stands in for it.
-// Missing: that probe. A worker that exited on its own (so the pthread_t is stale but not joined) reads
-// as running here and as not-running in the original; nothing in the tree calls this on a finished
-// worker, and pthread_kill has no portable std::thread equivalent.
-bool Thread::IsCurrentThreadRunning() const {
-    return handle_.joinable();
+// The original probes with pthread_kill(tid, 0) and reports running unless the result is EINVAL (22) or ESRCH (3). The
+// std::thread native handle is the pthread_t on both the POSIX and the MinGW (winpthreads) hosts, and winpthreads answers ESRCH
+// for a thread that has exited and is not yet joined, as the original expects (checked on the host).
+bool Thread::IsCurrectThreadRunning() {
+    const int result = pthread_kill(handle_.native_handle(), 0);
+    return result != EINVAL && result != ESRCH;
 }
 
 // 0x8455c0 _ZN6Thread3RunEv
@@ -94,13 +95,13 @@ bool Thread::IsCurrentThreadRunning() const {
 // The original's XP_DEBUG_OUT("PthredSelf: %d\n", pthread_self()) trace is dropped (logging only).
 void Thread::Run() {
     while (!stop_.load()) {
-        Step();
+        Kernel();
     }
 }
 
 // 0x855688 _ZN6Thread5StartEv
 int Thread::Start() {
-    if (Init() < 0) {
+    if (Prepare() < 0) {
         return -1;
     }
     stop_ = false;
@@ -118,11 +119,11 @@ int Thread::Stop() {
         return 0;
     }
     stop_ = true;
-    if (IsCurrentThreadRunning()) {
+    if (IsCurrectThreadRunning()) {
         if (handle_.get_id() != std::this_thread::get_id()) {
             handle_.join();
         }
     }
-    Cleanup();
+    Finish();
     return 0;
 }

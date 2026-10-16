@@ -21,13 +21,13 @@ public:
     void read(IStreamBase* stream) override;  // 0x504a90, thunk: forwards to v2QuestObjectiveStub::read
     // NO members of its own. The original header (v2quests_pystruct.h) declares
     // `class v2QuestAutomatic : public v2QuestObjectiveStub` with ZERO fields, so sizeof stays at the
-    // base's 0x2c. This class previously re-declared m_w4 and m_w6 here with `// +0x10` / `// +0x18`
+    // base's 0x2c. This class previously re-declared Str1Size and Str2Size here with `// +0x10` / `// +0x18`
     // comments: because v2QuestObjectiveStub already has those names at +0x10/+0x18, they were NEW
     // members SHADOWING the base ones, living at +0x2c/+0x30 and making sizeof 0x34. finalize then wrote
     // the shadowed members and left the real size words at +0x10/+0x18 stale. The listing at 0x4d0054
     // clears +0x10/+0x18 (CustomFree on +0x14/+0x1c, zero the +0x10/+0x18 size words) and then calls
     // v2QuestObjectiveStub::finalize(this) - i.e. the base words. Removing the two declarations makes the
-    // unqualified m_w4/m_w6 in the body resolve to the base members, at the offsets their comments claim.
+    // unqualified Str1Size/Str2Size in the body resolve to the base members, at the offsets their comments claim.
 };
 void DeletingDestructor(v2QuestAutomatic* self);
 
@@ -41,9 +41,9 @@ public:
     virtual ~v2CondAnd();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, element count
-    void* m_w2 = nullptr;  // +0x8, element array (v2ConditionStub, stride 16)
-    std::int32_t m_w3 = 0;  // +0xc
+    std::uint32_t CondsSize = 0;  // +0x4, element count
+    void* Conds = nullptr;  // +0x8, element array (v2ConditionStub, stride 16)
+    std::int32_t Type = 0;  // +0xc
 };
 void DeletingDestructor(v2CondAnd* self);
 
@@ -55,10 +55,10 @@ public:
     virtual ~SpawnGroup();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    bool m_w1 = false;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc, element count
-    void* m_w4 = nullptr;  // +0x10, element array (SpawnInfo, stride 16)
+    bool ActiveSpotOnly = false;  // +0x4
+    std::int32_t Delay = 0;  // +0x8
+    std::uint32_t SpawnsSize = 0;  // +0xc, element count
+    void* Spawns = nullptr;  // +0x10, element array (SpawnInfo, stride 16)
 };
 void DeletingDestructor(SpawnGroup* self);
 
@@ -70,16 +70,16 @@ public:
     virtual ~CharSounds();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, count of m_w2
-    void* m_w2 = nullptr;  // +0x8, int32 array
-    std::uint32_t m_w3 = 0;  // +0xc, count of m_w4
-    void* m_w4 = nullptr;  // +0x10, int32 array
-    std::uint32_t m_w5 = 0;  // +0x14, count of m_w6
-    void* m_w6 = nullptr;  // +0x18, int32 array
-    std::uint32_t m_w7 = 0;  // +0x1c, count of m_w8
-    void* m_w8 = nullptr;  // +0x20, int32 array
-    bool m_w9 = false;  // +0x24
-    bool m_off37 = false;  // +0x25
+    std::uint32_t DieSize = 0;  // +0x4, count of m_w2
+    void* Die = nullptr;  // +0x8, int32 array
+    std::uint32_t HurtSize = 0;  // +0xc, count of m_w4
+    void* Hurt = nullptr;  // +0x10, int32 array
+    std::uint32_t ImpactVsFleshSize = 0;  // +0x14, count of m_w6
+    void* ImpactVsFlesh = nullptr;  // +0x18, int32 array
+    std::uint32_t ImpactVsMetalSize = 0;  // +0x1c, count of m_w8
+    void* ImpactVsMetal = nullptr;  // +0x20, int32 array
+    bool IsFlesh = false;  // +0x24
+    bool IsMetallic = false;  // +0x25
 };
 void DeletingDestructor(CharSounds* self);
 
@@ -91,16 +91,16 @@ public:
     virtual ~Sound();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc, string length
-    void* m_w4 = nullptr;  // +0x10, string buffer (len + 1 bytes)
-    std::int32_t m_w5 = 0;  // +0x14
-    std::int32_t m_w6 = 0;  // +0x18
-    std::int32_t m_w7 = 0;  // +0x1c
-    std::int32_t m_w8 = 0;  // +0x20
-    std::int32_t m_w9 = 0;  // +0x24
-    std::int32_t m_w10 = 0;  // +0x28
+    std::int32_t Bank = 0;  // +0x4
+    std::int32_t Channel = 0;  // +0x8
+    std::uint32_t FileNameSize = 0;  // +0xc, string length
+    void* FileName = nullptr;  // +0x10, string buffer (len + 1 bytes)
+    std::int32_t Format = 0;  // +0x14
+    std::int32_t Group = 0;  // +0x18
+    std::int32_t LoadType = 0;  // +0x1c
+    std::int32_t Priority = 0;  // +0x20
+    std::int32_t Repeat = 0;  // +0x24
+    std::int32_t Volume = 0;  // +0x28
 };
 void DeletingDestructor(Sound* self);
 
@@ -112,9 +112,9 @@ public:
     virtual ~SoundGroup();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, string length
-    void* m_w2 = nullptr;  // +0x8, string buffer (len + 1 bytes)
-    std::int32_t m_w3 = 0;  // +0xc
+    std::uint32_t EnteringBusSize = 0;  // +0x4, string length
+    void* EnteringBus = nullptr;  // +0x8, string buffer (len + 1 bytes)
+    std::int32_t Positioning3D = 0;  // +0xc
 };
 void DeletingDestructor(SoundGroup* self);
 
@@ -142,8 +142,8 @@ public:
     virtual ~SceneFile();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, string length
-    void* m_w2 = nullptr;  // +0x8, string buffer (len + 1 bytes)
+    std::uint32_t NameSize = 0;  // +0x4, string length
+    void* Name = nullptr;  // +0x8, string buffer (len + 1 bytes)
 };
 void DeletingDestructor(SceneFile* self);
 
@@ -155,8 +155,8 @@ public:
     virtual ~ItemTypeListList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, byte count of m_w2
-    void* m_w2 = nullptr;  // +0x8, int8 array
+    std::uint32_t list_entriesSize = 0;  // +0x4, byte count of m_w2
+    void* list_entries = nullptr;  // +0x8, int8 array
 };
 void DeletingDestructor(ItemTypeListList* self);
 
@@ -168,10 +168,10 @@ public:
     virtual ~Merchant();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc, element count
-    void* m_w4 = nullptr;  // +0x10, element array (MerchandiseListEntry, stride 12)
+    std::int32_t BuyMultiplier = 0;  // +0x4
+    std::int32_t SellMultiplier = 0;  // +0x8
+    std::uint32_t MerchandiseListSize = 0;  // +0xc, element count
+    void* MerchandiseList = nullptr;  // +0x10, element array (MerchandiseListEntry, stride 12)
 };
 void DeletingDestructor(Merchant* self);
 
@@ -183,8 +183,8 @@ public:
     virtual ~TileOffsetList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, element count
-    void* m_w2 = nullptr;  // +0x8, element array (TileOffset, stride 8)
+    std::uint32_t list_entriesSize = 0;  // +0x4, element count
+    void* list_entries = nullptr;  // +0x8, element array (TileOffset, stride 8)
 };
 void DeletingDestructor(TileOffsetList* self);
 
@@ -196,8 +196,8 @@ public:
     virtual ~NumProbList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, element count
-    void* m_w2 = nullptr;  // +0x8, element array (NumProb, stride 8)
+    std::uint32_t list_entriesSize = 0;  // +0x4, element count
+    void* list_entries = nullptr;  // +0x8, element array (NumProb, stride 8)
 };
 void DeletingDestructor(NumProbList* self);
 
@@ -209,8 +209,8 @@ public:
     virtual ~ItemListEntryList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::uint32_t m_w1 = 0;  // +0x4, element count
-    void* m_w2 = nullptr;  // +0x8, element array (ItemListEntry, stride 12)
+    std::uint32_t list_entriesSize = 0;  // +0x4, element count
+    void* list_entries = nullptr;  // +0x8, element array (ItemListEntry, stride 12)
 };
 void DeletingDestructor(ItemListEntryList* self);
 
@@ -222,14 +222,14 @@ public:
     virtual ~Loot();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::uint32_t m_w3 = 0;  // +0xc, element count of m_w4
-    void* m_w4 = nullptr;  // +0x10, element array (LootEntry, stride 36)
-    std::uint32_t m_w5 = 0;  // +0x14, element count of m_w6
-    void* m_w6 = nullptr;  // +0x18, element array (LootEntry, stride 36)
-    std::uint32_t m_w7 = 0;  // +0x1c, element count of m_w8 (int32 elements)
-    void* m_w8 = nullptr;  // +0x20, int32 array
+    std::int32_t RollType = 0;  // +0x4
+    std::int32_t NumRandomItemProbs = 0;  // +0x8
+    std::uint32_t RandomLootEntriesSize = 0;  // +0xc, element count of m_w4
+    void* RandomLootEntries = nullptr;  // +0x10, element array (LootEntry, stride 36)
+    std::uint32_t FixedLootEntriesSize = 0;  // +0x14, element count of m_w6
+    void* FixedLootEntries = nullptr;  // +0x18, element array (LootEntry, stride 36)
+    std::uint32_t SubLootsSize = 0;  // +0x1c, element count of m_w8 (int32 elements)
+    void* SubLoots = nullptr;  // +0x20, int32 array
 };
 void DeletingDestructor(Loot* self);
 
@@ -239,31 +239,31 @@ public:
     ~WeaponRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t BaseStat = 0;  // +0x5c
+    std::int32_t BaseProp = 0;  // +0x60
+    std::int32_t BaseElement = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t minDamage = 0;  // +0x8c
+    std::int32_t maxDamage = 0;  // +0x90
+    std::int32_t DmgType = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t maxRange = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 void DeletingDestructor(WeaponRef* self);
 
@@ -273,31 +273,31 @@ public:
     ~RangedWeaponRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t BaseStat = 0;  // +0x5c
+    std::int32_t BaseProp = 0;  // +0x60
+    std::int32_t BaseElement = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t minDamage = 0;  // +0x8c
+    std::int32_t maxDamage = 0;  // +0x90
+    std::int32_t DmgType = 0;  // +0x94
+    std::int32_t minRange = 0;  // +0x98
+    std::int32_t maxRange = 0;  // +0x9c
+    std::int32_t ProjectileID = 0;  // +0xa0
 };
 void DeletingDestructor(RangedWeaponRef* self);
 
@@ -307,31 +307,31 @@ public:
     ~ShieldRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t Unused10 = 0;  // +0x5c
+    std::int32_t Unused11 = 0;  // +0x60
+    std::int32_t Unused12 = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t ArmorRating = 0;  // +0x8c
+    std::int32_t BlockModifier = 0;  // +0x90
+    std::int32_t Unused1 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 void DeletingDestructor(ShieldRef* self);
 
@@ -341,31 +341,31 @@ public:
     ~JewelryRef() override;
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t Unused10 = 0;  // +0x5c
+    std::int32_t Unused11 = 0;  // +0x60
+    std::int32_t Unused12 = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t Unused1 = 0;  // +0x8c
+    std::int32_t Unused2 = 0;  // +0x90
+    std::int32_t Unused3 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 void DeletingDestructor(JewelryRef* self);
 
@@ -374,31 +374,31 @@ class ArmorRef : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t Unused10 = 0;  // +0x5c
+    std::int32_t Unused11 = 0;  // +0x60
+    std::int32_t Unused12 = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t ArmorRating = 0;  // +0x8c
+    std::int32_t Unused1 = 0;  // +0x90
+    std::int32_t Unused2 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 
 
@@ -406,31 +406,31 @@ class Valuable : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t Unused10 = 0;  // +0x5c
+    std::int32_t Unused11 = 0;  // +0x60
+    std::int32_t Unused12 = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t Param1 = 0;  // +0x8c
+    std::int32_t Param2 = 0;  // +0x90
+    std::int32_t Param3 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 
 
@@ -438,31 +438,31 @@ class Potion : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t Unused10 = 0;  // +0x5c
+    std::int32_t Unused11 = 0;  // +0x60
+    std::int32_t Unused12 = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t HP_Recovery_Percentage = 0;  // +0x74
+    std::int32_t HP_Recovery_Minimum = 0;  // +0x78
+    std::int32_t MP_Recovery_Percentage = 0;  // +0x7c
+    std::int32_t MP_Recovery_Minimum = 0;  // +0x80
+    std::int32_t Unused1 = 0;  // +0x84
+    std::int32_t Unused2 = 0;  // +0x88
+    std::int32_t Unused3 = 0;  // +0x8c
+    std::int32_t Unused4 = 0;  // +0x90
+    std::int32_t Unused5 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 
 
@@ -470,31 +470,31 @@ class GoldItem : public ItemBase {
 public:
     void finalize() override;
     void read(IStreamBase* stream);
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer (len + 1 bytes)
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer (len + 1 bytes)
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t Unused10 = 0;  // +0x5c
+    std::int32_t Unused11 = 0;  // +0x60
+    std::int32_t Unused12 = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t MinValue = 0;  // +0x6c
+    std::int32_t MaxValue = 0;  // +0x70
+    std::int32_t Unused1 = 0;  // +0x74
+    std::int32_t Unused2 = 0;  // +0x78
+    std::int32_t Unused3 = 0;  // +0x7c
+    std::int32_t Unused4 = 0;  // +0x80
+    std::int32_t Unused5 = 0;  // +0x84
+    std::int32_t Unused6 = 0;  // +0x88
+    std::int32_t Unused7 = 0;  // +0x8c
+    std::int32_t Unused8 = 0;  // +0x90
+    std::int32_t Unused9 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 
 
@@ -504,31 +504,31 @@ public:
     static pydata::NameTable m_dataNames;
     void finalize() override;
     void read(IStreamBase* stream) override;
-    // m_w1 (+0x4, zeroed by finalize) is ItemBase::m_w1: the record does not declare a second one.
-    std::int32_t m_w17 = 0;  // +0x44
-    std::int32_t m_w18 = 0;  // +0x48
-    std::uint32_t m_w19 = 0;  // +0x4c, string length
-    void* m_w20 = nullptr;  // +0x50, string buffer
-    std::int32_t m_w21 = 0;  // +0x54
-    std::int32_t m_w22 = 0;  // +0x58
-    std::int32_t m_w23 = 0;  // +0x5c
-    std::int32_t m_w24 = 0;  // +0x60
-    std::int32_t m_w25 = 0;  // +0x64
-    std::int32_t m_w26 = 0;  // +0x68
-    std::int32_t m_w27 = 0;  // +0x6c
-    std::int32_t m_w28 = 0;  // +0x70
-    std::int32_t m_w29 = 0;  // +0x74
-    std::int32_t m_w30 = 0;  // +0x78
-    std::int32_t m_w31 = 0;  // +0x7c
-    std::int32_t m_w32 = 0;  // +0x80
-    std::int32_t m_w33 = 0;  // +0x84
-    std::int32_t m_w34 = 0;  // +0x88
-    std::int32_t m_w35 = 0;  // +0x8c
-    std::int32_t m_w36 = 0;  // +0x90
-    std::int32_t m_w37 = 0;  // +0x94
-    std::int32_t m_w38 = 0;  // +0x98
-    std::int32_t m_w39 = 0;  // +0x9c
-    std::int32_t m_w40 = 0;  // +0xa0
+    // IconNameSize (+0x4, zeroed by finalize) is ItemBase::IconNameSize: the record does not declare a second one.
+    std::int32_t Name = 0;  // +0x44
+    std::int32_t Material = 0;  // +0x48
+    std::uint32_t ModularModuleSize = 0;  // +0x4c, string length
+    void* ModularModule = nullptr;  // +0x50, string buffer
+    std::int32_t AudioVisualID = 0;  // +0x54
+    std::int32_t Type = 0;  // +0x58
+    std::int32_t BaseStat = 0;  // +0x5c
+    std::int32_t BaseProp = 0;  // +0x60
+    std::int32_t BaseElement = 0;  // +0x64
+    std::int32_t EquipmentSlottingType = 0;  // +0x68
+    std::int32_t Value = 0;  // +0x6c
+    std::int32_t GoldValueMultiplier = 0;  // +0x70
+    std::int32_t LevelRequirement = 0;  // +0x74
+    std::int32_t StrengthRequirement = 0;  // +0x78
+    std::int32_t DexterityRequirement = 0;  // +0x7c
+    std::int32_t EnduranceRequirement = 0;  // +0x80
+    std::int32_t EnergyRequirement = 0;  // +0x84
+    std::int32_t ClassRequirement = 0;  // +0x88
+    std::int32_t Param1 = 0;  // +0x8c
+    std::int32_t Param2 = 0;  // +0x90
+    std::int32_t Param3 = 0;  // +0x94
+    std::int32_t Param4 = 0;  // +0x98
+    std::int32_t Param5 = 0;  // +0x9c
+    std::int32_t Param6 = 0;  // +0xa0
 };
 
 

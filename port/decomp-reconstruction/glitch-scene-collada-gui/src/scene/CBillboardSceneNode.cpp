@@ -5,7 +5,12 @@
 #include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
 #include "glitch-core-io/io/iattributes.hpp"
 
+#include <cmath>
+
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-video/primitive_stream.hpp"
 #include "glitch-video/video_driver.hpp"
 
 namespace glitch::scene {
@@ -123,10 +128,65 @@ int CBillboardSceneNode::onRegisterSceneNode() {
 }
 
 // 0x580f58 _ZN6glitch5scene19CBillboardSceneNode6renderEPv
-// PARTIAL, stub (8609 bytes): the original works out the camera-facing corner positions from the active camera's absolute position
-// and up vectors (billboard orientation), writes them into the four vertices, binds the material and draws the quad through
-// IVideoDriver::draw with the stream table and a primitive stream. The driver draw path is glitch-video's and is not called here.
-void CBillboardSceneNode::render(void* /*renderContext*/) {}
+// With an active camera and a driver: the view direction is the normalised vector from the camera to its target; the width axis is
+// view x up (the up vector itself, in the listing's x/y/z-swapped order, when that is zero) scaled to half the width, the height axis
+// is view x width-axis scaled to half the height; the four normals are the reversed view direction; the corners are
+// P + A + B, P + A - B, P - A + B, P - A - B (P the node's absolute position) turned about P by the node's rotation. A non-null render
+// context also draws: world transform identity, the material (technique 255 without one), then the four vertices as a triangle strip.
+void CBillboardSceneNode::render(void* renderContext) {
+    video::IVideoDriver* driver = sceneManager != nullptr ? sceneManager->driver : nullptr;
+    ICameraSceneNode* camera = sceneManager != nullptr ? sceneManager->activeCamera : nullptr;
+    if (camera == nullptr || driver == nullptr) {
+        return;
+    }
+    const core::vector3d<float> position = getAbsolutePosition();
+    const core::vector3d<float> cameraPosition = camera->getAbsolutePosition();
+    const core::vector3d<float> target = camera->getTarget();
+    const core::vector3d<float> up = camera->getUpVector();
+    core::vector3d<float> view{target.X - cameraPosition.X, target.Y - cameraPosition.Y, target.Z - cameraPosition.Z};
+    view.normalize();
+    core::vector3d<float> across{view.Y * up.Z - view.Z * up.Y, view.Z * up.X - view.X * up.Z, view.X * up.Y - view.Y * up.X};
+    if (std::sqrt(across.X * across.X + across.Y * across.Y + across.Z * across.Z) == 0.0f) {
+        across = core::vector3d<float>{up.Y, up.X, up.Z};
+    }
+    across.normalize();
+    const float halfWidth = size.Width * 0.5f;
+    across = core::vector3d<float>{halfWidth * across.X, halfWidth * across.Y, halfWidth * across.Z};
+    core::vector3d<float> down{view.Y * across.Z - view.Z * across.Y, view.Z * across.X - view.X * across.Z,
+                               view.X * across.Y - view.Y * across.X};
+    down.normalize();
+    const float halfHeight = size.Height * 0.5f;
+    down = core::vector3d<float>{down.X * halfHeight, down.Y * halfHeight, down.Z * halfHeight};
+    for (SVertex& vertex : vertices) {
+        vertex.normal = core::vector3d<float>{-view.X, -view.Y, -view.Z};
+    }
+    const core::vector3d<float> corners[4] = {
+        {position.X + across.X + down.X, position.Y + across.Y + down.Y, position.Z + across.Z + down.Z},
+        {position.X + across.X - down.X, position.Y + across.Y - down.Y, position.Z + across.Z - down.Z},
+        {position.X - across.X + down.X, position.Y - across.Y + down.Y, position.Z - across.Z + down.Z},
+        {position.X - across.X - down.X, position.Y - across.Y - down.Y, position.Z - across.Z - down.Z},
+    };
+    for (int i = 0; i < 4; ++i) {
+        const core::vector3d<float> offset{corners[i].X - position.X, corners[i].Y - position.Y, corners[i].Z - position.Z};
+        const core::vector3d<float> turned = rotation * offset;
+        vertices[i].position = core::vector3d<float>{position.X + turned.X, position.Y + turned.Y, position.Z + turned.Z};
+    }
+    if (renderContext == nullptr) {
+        return;
+    }
+    static const core::CMatrix4<float> identity{core::CMatrix4<float>::EM4CONST_IDENTITY};
+    driver->setTransform(1, identity);
+    const std::uint8_t technique = material ? material->getTechnique() : 255;
+    driver->setMaterial(material, technique, nullptr);
+    const boost::intrusive_ptr<const video::CVertexStreams> streams = vertexStreams;
+    video::CPrimitiveStream primitives;
+    primitives.m_count = 4;
+    primitives.m_vertexEnd = 4;
+    primitives.m_indexType = 255;
+    primitives.m_primitiveType = 4;
+    const boost::intrusive_ptr<const CMeshBuffer> none;
+    driver->draw(streams, primitives, nullptr, none);
+}
 
 // 0x580a98 _ZNK6glitch5scene19CBillboardSceneNode14getBoundingBoxEv
 const core::aabbox3d<float>& CBillboardSceneNode::getBoundingBox() const {

@@ -17,10 +17,6 @@ bool SHARP_DEVICES = false;
 bool HTC_DEVICES = false;
 bool Is_In_Multiplayer_Mode = false;
 
-// Still read by IsFixedPipeline, whose row is not in this batch.
-static unsigned g_flags = 0;
-unsigned DeviceFeatureFlags() { return g_flags; }
-
 alignas(Application) static unsigned char g_applicationStorage[sizeof(Application)];
 Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_applicationStorage); }
 
@@ -30,6 +26,12 @@ class ProgrammableDriver : public glitch::video::CNullDriver {
 public:
     using CNullDriver::CNullDriver;
     glitch::video::E_DRIVER_TYPE getDriverType() const override { return 0x78; }
+};
+
+class FixedDriver : public glitch::video::CNullDriver {
+public:
+    using CNullDriver::CNullDriver;
+    glitch::video::E_DRIVER_TYPE getDriverType() const override { return 1; }
 };
 
 int main() {
@@ -56,10 +58,13 @@ int main() {
     CHECK(!Device::IsProgrammablePipeline());
     Is_In_Multiplayer_Mode = false;
 
-    // IsFixedPipeline still reads the DeviceFeatureFlags() stand-in (its row is not this batch).
-    g_flags = 0x1;
+    // IsFixedPipeline: the same driver call, masked with 7.
+    FixedDriver fixedDriver(&device);
+    device.videoDriver = &fixedDriver;
     CHECK(Device::IsFixedPipeline());
-    g_flags = 0x8;
+    device.videoDriver = &programmableDriver;  // 0x78
+    CHECK(!Device::IsFixedPipeline());
+    device.videoDriver = &fixedPipelineDriver;  // 0
     CHECK(!Device::IsFixedPipeline());
 
     CHECK(Device::GetModel() == -1);

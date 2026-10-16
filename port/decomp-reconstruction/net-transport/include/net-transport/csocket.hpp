@@ -56,7 +56,6 @@ public:
     int Connect(const in_addr& peer, std::uint16_t port);  // 0x828738 _ZN7CSocket7ConnectERK7in_addrt
 
 private:
-    bool can_open_ = true;                           // +0x09
     bool listening_ = false;                         // +0x0b
     std::uint32_t peer_address_ = 0;                     // +0x0c
     std::uint16_t peer_port_ = 0;                    // +0x10

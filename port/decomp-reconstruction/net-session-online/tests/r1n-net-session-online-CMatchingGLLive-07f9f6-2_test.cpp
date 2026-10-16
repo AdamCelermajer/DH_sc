@@ -1,3 +1,4 @@
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager and transport manager (AddServer asks it for host names)
 // Test for the two packet callbacks of CMatchingGLLive: BroadcastPacketReceiverCallback (0x821188)
 // and sBroadcastPacketReceiverCallback (0x821218).
 //
@@ -19,6 +20,7 @@ static int failures = 0;
 
 
 int main() {
+    connection_manager_test::Initialize();
     CNetworkId from;
     char serverMessage[2] = {1, 0};
     char clientMessage[2] = {2, 0};

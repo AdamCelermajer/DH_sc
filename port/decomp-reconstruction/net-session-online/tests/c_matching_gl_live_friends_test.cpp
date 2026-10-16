@@ -20,8 +20,9 @@ int main() {
     CHECK(m.SendGLFriendInvite("someone") == 0);
 
     // An empty friend list: count 0, so the same index guards apply.
-    GLXPlayerUserFriend friends;
-    m.SetGLFriendListForTest(&friends);
+    // The matching object owns its friend service (the destructor deletes it), so the test hands over a heap object.
+    auto* friends = new GLXPlayerUserFriend;
+    m.SetGLFriendListForTest(friends);
     CHECK(m.GetGLFriendsCount() == 0);
     CHECK(m.GetGLFriendState(-1) == -1);
     CHECK(m.GetGLFriendState(0) == -1);

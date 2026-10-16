@@ -103,19 +103,19 @@ void CharAnimator::DecAnimSetUsers() {
 // Not stopped and the kind of the current AnimTable record (Structs::AnimTpl::m_w4, listing +0x10) is 0. The record is
 // read only while playing, as the original's short-circuit does.
 bool CharAnimator::ANIM_IsUnique() const {
-    return !m_stopped && AnimTableRecord(m_animStack[m_animStackIdx].m_animId).m_w4 == 0;
+    return !m_stopped && AnimTableRecord(m_animStack[m_animStackIdx].m_animId).Type == 0;
 }
 
 // 0x3c927c _ZNK12CharAnimator13ANIM_IsRandomEv
 // Not stopped and the kind (m_w4, listing +0x10) of the current AnimTable record is 2.
 bool CharAnimator::ANIM_IsRandom() const {
-    return !m_stopped && AnimTableRecord(m_animStack[m_animStackIdx].m_animId).m_w4 == 2;
+    return !m_stopped && AnimTableRecord(m_animStack[m_animStackIdx].m_animId).Type == 2;
 }
 
 // 0x3c92d4 _ZNK12CharAnimator15ANIM_IsSequenceEv
 // Not stopped and the kind (m_w4, listing +0x10) of the current AnimTable record is 1.
 bool CharAnimator::ANIM_IsSequence() const {
-    return !m_stopped && AnimTableRecord(m_animStack[m_animStackIdx].m_animId).m_w4 == 1;
+    return !m_stopped && AnimTableRecord(m_animStack[m_animStackIdx].m_animId).Type == 1;
 }
 
 // 0x3c932c _ZNK12CharAnimator17ANIM_GetStepIndexEv
@@ -132,7 +132,7 @@ int CharAnimator::ANIM_GetStepCount() const {
     if (m_stopped) {
         return 0;
     }
-    return static_cast<int>(AnimTableRecord(m_animStack[m_animStackIdx].m_animId).m_w2);
+    return static_cast<int>(AnimTableRecord(m_animStack[m_animStackIdx].m_animId).StepsSize);
 }
 
 // 0x3c9398 _ZNK12CharAnimator31ANIM_GetCurrentlyPlayedAnimDictEv
@@ -145,8 +145,8 @@ int CharAnimator::ANIM_GetCurrentlyPlayedAnimDict() const {
         return -1;
     }
     const Structs::AnimTpl& record = AnimTableRecord(m_animStack[m_animStackIdx].m_animId);
-    const auto* steps = static_cast<const Structs::AnimStep*>(record.m_w3);  // +0x0c
-    return steps[ANIM_GetStepIndex()].m_w2;                                  // +0x08 animDict
+    const auto* steps = static_cast<const Structs::AnimStep*>(record.Steps);  // +0x0c
+    return steps[ANIM_GetStepIndex()].Anim;                                  // +0x08 animDict
 }
 
 // 0x3c93fc _ZN12CharAnimator13ANIM_SetSpeedEf

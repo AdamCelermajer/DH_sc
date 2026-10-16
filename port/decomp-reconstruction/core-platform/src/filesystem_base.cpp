@@ -2,6 +2,8 @@
 
 #include "core-platform/debug_out.hpp"
 #include "core-platform/util.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/Savegame.hpp"
 #include "glitch-core-io/os/logging.hpp"
 
 #include <cstdio>
@@ -83,13 +85,10 @@ bool FileSystemBase::doesResourceExists(const char* name) {
 }
 
 // 0x34e150 _ZN14FileSystemBase18doesSavefileExistsEPKc
-// The same body with the savefile slot: openSavefile(name, false) at +0x94, then closeFile at
-// +0x78. The open/close dispatch is reconstructed here; the listing's first call,
-// Savegame::FlushJobs(name) (0x314cfc, game-items-save, declared in dh2/Savegame.hpp), is not
-// visible from core-platform and is not reproduced in this body: the game-side wrapper
-// SavefileExists (dh2/global/savefile_fs.hpp) runs it before this probe, and every port call site
-// goes through that wrapper. STILL PARTIAL for that one missing call.
+// Savegame::FlushJobs(name) (0x314cfc) first, then openSavefile(name, false) at +0x94 and closeFile at +0x78 on the result;
+// the answer is whether the open returned a handle.
 bool FileSystemBase::doesSavefileExists(const char* name) {
+    Savegame::FlushJobs(name);
     IFileStream* handle = openSavefile(name, false);  // +0x94
     IFileStream* opened = handle;
     closeFile(handle);  // +0x78
@@ -156,19 +155,14 @@ std::string FileSystemBase::getAbsolutePath(const std::string& path) const {
 //     characters);
 //   * when the normalised name holds ".config", holds ".glsl" or starts with "/sdcard/", it is
 //     used as it is; otherwise RES_PATH is prepended (operator+(RES_PATH, name));
-//   * that path is copied into a local string and passed to a qualified call to
-//     glitch::io::CFileSystem::createAndOpenFile (0x56d4e0, a direct BL, not the +0x0c slot);
-//   * when it returns null, _DEBUG_OUT("Could not open file :  %s ", path) and
+//   * when Application::IsUsingUncompiledData(path) (0x320678, the Singleton<Application> instance) answers true, the
+//     working directory (slot +0x2c) is saved, slot +0x30 changes it to "Q:\\", and the retry is the qualified call to
+//     glitch::io::CFileSystem::createAndOpenFile (0x56d4e0, a direct BL, not the +0x0c slot). A non-null result is
+//     returned at once with the directory LEFT at "Q:\\" (LABEL_12 skips the restore); a null result restores the saved
+//     directory and falls through;
+//   * the same qualified call on the path; when it returns null, _DEBUG_OUT("Could not open file :  %s ", path) and
 //     glitch::os::Printer::log("Could not open file : ", path, 3) (ELL_ERROR);
 //   * the opened file is returned.
-// PARTIAL: the uncompiled-data branch between the path build and the open is missing. The listing
-// asks Application::IsUsingUncompiledData(path) (0x320678) and, when it answers true, saves the
-// slot +0x2c working directory, calls the slot +0x30 changeWorkingDirectoryTo("Q:\\"), retries the
-// open and restores the saved directory when the retry returned null.
-// Application::IsUsingUncompiledData is the game-app singleton member (declared in
-// game/include/dh2/Application.hpp); core-platform/include/core-platform/deps/application.hpp
-// declares no adapter for it (it has ApplicationGetDt and DeviceFeatureFlags only), so
-// core-platform cannot reach it and the branch is not reproduced.
 glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
     const std::string normalised = ApplyFilenameHacks(name);  // +0xb8
 
@@ -179,6 +173,16 @@ glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
         path = normalised;
     } else {
         path = std::string(RES_PATH) + normalised;
+    }
+
+    if (ApplicationGetInstance().IsUsingUncompiledData(path.c_str())) {
+        const std::string savedDirectory = getWorkingDirectory();  // +0x2c
+        changeWorkingDirectoryTo("Q:\\");                          // +0x30
+        glitch::io::IReadFile* retried = glitch::io::CFileSystem::createAndOpenFile(path.c_str());
+        if (retried != nullptr) {
+            return retried;
+        }
+        changeWorkingDirectoryTo(savedDirectory.c_str());
     }
 
     glitch::io::IReadFile* file = glitch::io::CFileSystem::createAndOpenFile(path.c_str());

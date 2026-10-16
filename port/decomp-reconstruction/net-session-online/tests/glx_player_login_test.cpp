@@ -1,4 +1,5 @@
 #include "net-session-online/glx_player_login.hpp"
+#include "net-session-online/xp_api.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -29,9 +30,12 @@ int main() {
     CHECK(login.getProductID(2) == -1);
     CHECK(login.getProductGGI(-1) == -1);
 
-    login.SetKeepAliveForTest(true, 0);
-    // The stand-in clock reads 0, so the elapsed time is 0 and no keep-alive is due.
+    // XP_API_GET_TIME is the real millisecond clock now: a keep-alive stamped just now is not due, one stamped more than the
+    // 90000 ms interval ago is.
+    login.SetKeepAliveForTest(true, static_cast<std::int32_t>(XP_API_GET_TIME()));
     CHECK(!login.ShouldSendKeepAlive());
+    login.SetKeepAliveForTest(true, static_cast<std::int32_t>(XP_API_GET_TIME()) - 100000);
+    CHECK(login.ShouldSendKeepAlive());
 
     std::printf("%s\n", failures ? "glx_player_login: FAILED" : "glx_player_login: ok");
     return failures != 0;

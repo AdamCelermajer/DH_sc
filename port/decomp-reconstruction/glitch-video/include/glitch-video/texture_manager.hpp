@@ -22,6 +22,7 @@
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/image.hpp"
 #include "glitch-video/image_loaders.hpp"
+#include "glitch-video/scoped_process_array.hpp"
 #include "glitch-video/texture.hpp"
 #include "glitch-video/texture_loaders.hpp"
 #include "glitch-video/video_types.hpp"
@@ -50,8 +51,22 @@ class CTextureManager : public core::detail::SIDedCollection<boost::intrusive_pt
                                                              detail::texturemanager::STextureProperties,
                                                              core::detail::sidedcollection::SValueTraits> {
 public:
-    using E_PLACE_HOLDER = int32_t;
-    struct SIterator;  // the SIDedCollection iterator of rmReloadDataTexture
+    // The two placeholder textures: the one a lookup that found nothing gets, and the one for a texture that failed to bind. Real
+    // enum, because the original symbols of setPlaceHolder / getPlaceHolder carry it as CTextureManager::E_PLACE_HOLDER.
+    enum E_PLACE_HOLDER : int32_t {
+        EPH_TEXTURE_NOT_FOUND = 0,
+        EPH_TEXTURE_BIND_FAILED = 1,
+    };
+    // The answer of getTexture (0x5ea2a8): the texture found (empty when none) and the name to create a new one under (the
+    // looked-up name, or the made-up free one).
+    struct STextureLookup {
+        boost::intrusive_ptr<ITexture> texture;
+        const char* name = nullptr;
+    };
+    // The SIDedCollection iterator of rmReloadDataTexture: a position in the name map (a node pointer in the original).
+    struct SIterator {
+        Map::const_iterator position;
+    };
 
     // Not part of the original (which constructs through the IVideoDriver constructor): lets a test build a manager.
     CTextureManager() = default;
@@ -84,16 +99,23 @@ public:
     ITexture* removeTexture(boost::intrusive_ptr<ITexture>& texture);
 
     // ---- the rest of the queue, declared only ----
-    // Placeholders: 0x5ea228 / 0x5ec1b8 (free-function form of setPlaceHolder in misc_wave4_b.hpp).
-    void setPlaceHolder(E_PLACE_HOLDER placeHolder, const boost::intrusive_ptr<ITexture>& texture, E_TEXTURE_TYPE type);
-    boost::intrusive_ptr<ITexture> getPlaceHolder(E_PLACE_HOLDER placeHolder, E_TEXTURE_TYPE type);
+    // Placeholders: 0x5ea228 / 0x5ec1b8. The E_TEXTURE_TYPE parameter is an int32_t alias in the port, so the original symbols are
+    // given by asm labels (mangled with the enum), here and for every function below whose original takes an E_PIXEL_FORMAT /
+    // E_TEXTURE_TYPE / E_TEXTURE_LAYOUT argument and that is defined.
+    void setPlaceHolder(E_PLACE_HOLDER placeHolder, const boost::intrusive_ptr<ITexture>& texture, E_TEXTURE_TYPE type)
+        asm("_ZN6glitch5video15CTextureManager14setPlaceHolderENS1_14E_PLACE_HOLDERERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_14E_TEXTURE_TYPEE");
+    ITexture* getPlaceHolder(E_PLACE_HOLDER placeHolder, E_TEXTURE_TYPE type)
+        asm("_ZN6glitch5video15CTextureManager14getPlaceHolderENS1_14E_PLACE_HOLDERENS0_14E_TEXTURE_TYPEE");
     // Images: 0x5e86f4 / 0x5e8740 / 0x5e8788 / 0x5e87d0 / 0x5e913c / 0x5e9198 / 0x5e8144 / 0x5e82c0.
     boost::intrusive_ptr<CImage> createImage(const boost::intrusive_ptr<CImage>& source, const core::position2d<int32_t>& position,
                                              const core::dimension2d<int32_t>& size);
-    boost::intrusive_ptr<CImage> createImage(E_PIXEL_FORMAT format, const boost::intrusive_ptr<CImage>& source);
-    boost::intrusive_ptr<CImage> createImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size);
+    boost::intrusive_ptr<CImage> createImage(E_PIXEL_FORMAT format, const boost::intrusive_ptr<CImage>& source)
+        asm("_ZN6glitch5video15CTextureManager11createImageENS0_14E_PIXEL_FORMATERKN5boost13intrusive_ptrINS0_6CImageEEE");
+    boost::intrusive_ptr<CImage> createImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size)
+        asm("_ZN6glitch5video15CTextureManager11createImageENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEE");
     boost::intrusive_ptr<CImage> createImageFromData(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, void* data,
-                                                     bool copy, bool own);
+                                                     bool copy, bool own)
+        asm("_ZN6glitch5video15CTextureManager19createImageFromDataENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvbb");
     boost::intrusive_ptr<CImage> createImageFromFile(io::IReadFile* file);
     boost::intrusive_ptr<CImage> createImageFromFile(const char* filename);
     boost::intrusive_ptr<IImageLoader> getImageLoader(io::IReadFile* file) const;
@@ -101,21 +123,26 @@ public:
     // Textures: 0x5e8f2c / 0x5e94a8 / 0x5e9908 / 0x5ea2a8 / 0x5ea764 / 0x5ea7f8 / 0x5ea8f8 / 0x5ec460 / 0x5ecaa4 / 0x5ecba4 /
     // 0x5ecf34 / 0x5ed0c4 / 0x5ed210 / 0x5ed380 / 0x5eb334 / 0x5ebd7c / 0x5ebf8c / 0x5e97e0.
     boost::intrusive_ptr<ITexture> findTexture(const char* name) const;
-    void renameTexture(const boost::intrusive_ptr<ITexture>& texture, const char* name);
-    uint16_t getHashName(const char* name) const;
-    boost::intrusive_ptr<ITexture> getTexture(const char* name, bool flag, core::SScopedProcessArray<char>& buffer) const;
+    bool renameTexture(const boost::intrusive_ptr<ITexture>& texture, const char* name);
+    std::string getHashName(const char* name) const;
+    STextureLookup getTexture(const char* name, bool exists, core::SScopedProcessArray<char>& buffer) const;
     boost::intrusive_ptr<ITexture> getTexture(io::IReadFile* file, const char* name, bool flag);
     boost::intrusive_ptr<ITexture> getTexture(const char* name, const char* alias);
     boost::intrusive_ptr<ITexture> getTextureInternal(io::IReadFile* file, const std::string& name, bool flag);
-    boost::intrusive_ptr<ITexture> addTexture(const boost::intrusive_ptr<ITexture>& texture, E_PIXEL_FORMAT format, const char* name);
-    boost::intrusive_ptr<ITexture> addTexture(const char* name, const STextureDesc& desc, bool flag);
+    uint16_t addTexture(const boost::intrusive_ptr<ITexture>& texture, E_PIXEL_FORMAT format, const char* name)
+        asm("_ZN6glitch5video15CTextureManager10addTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_14E_PIXEL_FORMATEPKc");
+    boost::intrusive_ptr<ITexture> addTexture(const char* name, const STextureDesc& desc, bool exists);
     boost::intrusive_ptr<ITexture> addTexture(const core::dimension2d<int32_t>& size, const char* name, E_PIXEL_FORMAT format,
-                                              bool flag);
+                                              bool exists)
+        asm("_ZN6glitch5video15CTextureManager10addTextureERKNS_4core11dimension2dIiEEPKcNS0_14E_PIXEL_FORMATEb");
     boost::intrusive_ptr<ITexture> addTexture(const char* name, const boost::intrusive_ptr<CImage>& image, bool flag,
-                                              E_TEXTURE_LAYOUT layout);
+                                              E_TEXTURE_LAYOUT layout)
+        asm("_ZN6glitch5video15CTextureManager10addTextureEPKcRKN5boost13intrusive_ptrINS0_6CImageEEEbNS0_16E_TEXTURE_LAYOUTE");
     boost::intrusive_ptr<ITexture> createTextureFromImage(const char* name, const boost::intrusive_ptr<CImage>& image,
-                                                          E_TEXTURE_LAYOUT layout);
-    boost::intrusive_ptr<ITexture> loadTextureFromFile(io::IReadFile* file, const char* name, E_PIXEL_FORMAT& format, bool flag);
+                                                          E_TEXTURE_LAYOUT layout)
+        asm("_ZN6glitch5video15CTextureManager22createTextureFromImageEPKcRKN5boost13intrusive_ptrINS0_6CImageEEENS0_16E_TEXTURE_LAYOUTE");
+    boost::intrusive_ptr<ITexture> loadTextureFromFile(io::IReadFile* file, const char* name, E_PIXEL_FORMAT& format, bool flag)
+        asm("_ZN6glitch5video15CTextureManager19loadTextureFromFileEPNS_2io9IReadFileEPKcRNS0_14E_PIXEL_FORMATEb");
     void rmReloadDataTexture(SIterator iterator, const char* name);
     void makeNormalMapTexture(const boost::intrusive_ptr<ITexture>& texture, float amplitude) const;
     void makeColorKeyTexture(const boost::intrusive_ptr<ITexture>& texture, core::position2d<int32_t> keyPixel) const;
@@ -133,5 +160,8 @@ public:
     std::vector<ITexture*> m_textures;                                       // +0x68..+0x70, raw texture pointers
     uint32_t unk_74 = 67;                                                     // +0x74, 67 after construction
 };
+
+// 0x5e7e00: the first number after `key` in the lower-cased name (modulo 256), or 255.
+int32_t guessSubIdFromName(const char* name, const char* key);
 
 }  // namespace glitch::video

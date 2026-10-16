@@ -263,15 +263,14 @@ void CAttributes::addEnum(const char* name, int value, const char* const* choice
 }
 
 // 0x568580 _ZN6glitch2io11CAttributes7addEnumEPKcS3_PKS3_b
-// PARTIAL: the constructor keeps only the name and flag (see CEnumAttribute).
+// A new CEnumAttribute (0x48 bytes) appended to the current group.
 void CAttributes::addEnum(const char* name, const char* value, const char* const* choices, bool flag) {
     currentAttributes().push_back(new CEnumAttribute(name, value, choices, flag));
 }
 
 // 0x56b400 _ZN6glitch2io11CAttributes12setAttributeEPKcS3_PKS3_
-// PARTIAL: an existing attribute takes the value through setEnum (slot +0xf8). The port's CEnumAttribute
-// has no setEnum override (0x5656c8 is skipped: the choice table is not in the layout). A new one is
-// created with the partial enumeration constructor and the flag clear.
+// An existing attribute takes the value and choices through setEnum (slot +0xf8); otherwise a new CEnumAttribute with the flag
+// clear is appended.
 void CAttributes::setAttribute(const char* name, const char* value, const char* const* choices) {
     if (IAttribute* a = getAttributeP(name)) {
         a->setEnum(value, choices);
@@ -346,18 +345,20 @@ void CAttributes::setAttribute(int index, const std::vector<std::wstring>& value
 }
 
 // 0x5641ac _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEPKcRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
-// PARTIAL: the original copies the literal vector at +0x3c when getType() is 4 (enumeration). The port's
-// CEnumAttribute has no literal vector, so the output is left unchanged.
+// The attribute with this name; when its type (slot +0x104) is 4 (enumeration) the output vector is assigned the literal
+// table at +0x3c. Anything else leaves the output alone.
 void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const {
-    (void)name;
-    (void)literals;
+    const IAttribute* a = getAttributeP(name);
+    if (a != nullptr && a->getType() == 4) literals = static_cast<const CEnumAttribute*>(a)->literals;
 }
 
 // 0x564148 _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEiRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS6_ISA_LS8_0EEEE
-// PARTIAL: as the name form (see above).
+// As the name form for the attribute at the index (an index past the end does nothing).
 void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const {
-    (void)index;
-    (void)literals;
+    const auto& attributes = currentAttributes();
+    if (index < 0 || static_cast<std::size_t>(index) >= attributes.size()) return;
+    const IAttribute* a = attributes[static_cast<std::size_t>(index)];
+    if (a->getType() == 4) literals = static_cast<const CEnumAttribute*>(a)->literals;
 }
 
 // 0x5684d8 _ZN6glitch2io11CAttributes9addBinaryEPKcPvib

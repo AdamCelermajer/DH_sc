@@ -67,8 +67,8 @@ alignas(StringManager) unsigned char g_stringStorage[sizeof(StringManager)] = {}
 unsigned char g_constantsStorage[1] = {};
 
 void SetRow(Structs::v2QuestRewardStub& row, int type, int param) {
-    row.m_w1 = type;
-    row.m_w2 = param;
+    row.Type = type;
+    row.Param1 = param;
 }
 
 }  // namespace
@@ -144,7 +144,7 @@ Reward* Reward::Compile() {
     return this;
 }
 int Reward::GetParam1() {
-    return m_pyData->m_w2;
+    return m_pyData->Param1;
 }
 int Reward::DBG_TraceDetailedRewardInformation(__sFILE*) {
     return 0;

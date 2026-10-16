@@ -70,7 +70,7 @@ template <>
 bool ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::handleEvent(
         const IEvent* event, const EventManager* /*manager*/) {
     QE_KillEnemies* kill = const_cast<QE_KillEnemies*>(static_cast<const QE_KillEnemies*>(event));
-    CountKillEvent(*this, kill, m_questRow->m_w8);  // row +0x20
+    CountKillEvent(*this, kill, m_questRow->EnemyType);  // row +0x20
     return false;
 }
 
@@ -79,7 +79,7 @@ template <>
 bool ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::handleEvent(
         const IEvent* event, const EventManager* /*manager*/) {
     QE_ClearEnemies* kill = const_cast<QE_ClearEnemies*>(static_cast<const QE_ClearEnemies*>(event));
-    CountKillEvent(*this, kill, m_questRow->m_w9);  // row +0x24
+    CountKillEvent(*this, kill, m_questRow->EnemyType);  // row +0x24
     return false;
 }
 
@@ -88,7 +88,7 @@ template <>
 bool ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::handleEvent(
         const IEvent* event, const EventManager* /*manager*/) {
     QE_KillEnemyTemplate* kill = const_cast<QE_KillEnemyTemplate*>(static_cast<const QE_KillEnemyTemplate*>(event));
-    CountKillEvent(*this, kill, m_questRow->m_w8);  // row +0x20
+    CountKillEvent(*this, kill, m_questRow->EnemyType);  // row +0x20
     return false;
 }
 
@@ -97,6 +97,6 @@ template <>
 bool ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::handleEvent(
         const IEvent* event, const EventManager* /*manager*/) {
     QE_ClearEnemyTemplate* kill = const_cast<QE_ClearEnemyTemplate*>(static_cast<const QE_ClearEnemyTemplate*>(event));
-    CountKillEvent(*this, kill, m_questRow->m_w9);  // row +0x24
+    CountKillEvent(*this, kill, m_questRow->EnemyType);  // row +0x24
     return false;
 }

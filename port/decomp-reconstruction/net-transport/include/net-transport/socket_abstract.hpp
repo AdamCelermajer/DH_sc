@@ -27,5 +27,6 @@ protected:
 
     int handle_ = -1;                // +0x04
     bool valid_ = false;             // +0x08
+    bool can_open_ = true;           // +0x09 (CSocket::OpenUDP / OpenTCP check it; the CSocket constructor sets it)
     bool connected_ = false;         // +0x0a
 };

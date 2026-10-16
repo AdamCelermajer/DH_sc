@@ -242,9 +242,9 @@ void PlayerSavegame::_InitSkills() {
         return;
     }
     const auto* list = static_cast<const Structs::SkillList*>(m_player->GetCharSkillList());
-    m_skillsSize = static_cast<std::int32_t>(list->m_w1);
+    m_skillsSize = static_cast<std::int32_t>(list->ListSize);
     m_skills = new SkillRecord[m_skillsSize]();
-    const auto* ids = static_cast<const std::int32_t*>(list->m_w2);
+    const auto* ids = static_cast<const std::int32_t*>(list->List);
     for (std::int32_t row = 0; row < m_skillsSize; ++row) {
         m_skills[row].id = ids[row];
         m_skills[row].level = 0;

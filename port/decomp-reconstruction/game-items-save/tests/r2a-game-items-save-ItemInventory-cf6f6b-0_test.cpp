@@ -59,8 +59,8 @@ Structs::Item* RowOf(int id) {
 
 void SetRow(int id, int type, int category) {
     Structs::Item* row = RowOf(id);
-    row->m_w22 = type;      // +0x58
-    row->m_w26 = category;  // +0x68
+    row->Type = type;      // +0x58
+    row->EquipmentSlottingType = category;  // +0x68
 }
 
 // A zeroed Character buffer. Only the sheet words the equip gates read are written.
@@ -68,8 +68,8 @@ alignas(Character) unsigned char g_characterStorage[sizeof(Character)];
 
 Character* MakeCharacter(int hands1320, int twoHander1324) {
     Character* c = reinterpret_cast<Character*>(g_characterStorage);
-    c->m_props.m_w203 = hands1320;     // Character +0x1320
-    c->m_props.m_w204 = twoHander1324; // Character +0x1324
+    c->m_props.Special_Equip_Main_In_Offhand = hands1320;     // Character +0x1320
+    c->m_props.Special_Equip_2H_In_One = twoHander1324; // Character +0x1324
     return c;
 }
 

@@ -34,15 +34,17 @@ namespace {
 struct NullObserver : GLXPlayerMPBaseObserver {};
 
 // Runs a lobby that accepts requests (state 2) and installs it as the singleton.
+// The lobby is a heap object: the matching object deletes the singleton it owns when it is destroyed (as in the original), so
+// a stack lobby would be freed by mistake. A fixture that outlives the matching object finds the pointer already cleared.
 struct LobbyFixture {
     NullObserver observer;
-    GLXPlayerMPLobby lobby{&observer, nullptr};
-    LobbyFixture() {
+    GLXPlayerMPLobby& lobby;
+    LobbyFixture() : lobby(*new GLXPlayerMPLobby(&observer, nullptr)) {
         lobby.AttachConnectionForTest();
         lobby.SetStateForTest(2);
         CMatchingGLLive::s_GLXPlayerMPLobby = &lobby;
     }
-    ~LobbyFixture() { CMatchingGLLive::s_GLXPlayerMPLobby = nullptr; }
+    ~LobbyFixture() { CMatchingGLLive::s_GLXPlayerMPLobby = nullptr; }  // a lobby the matching object did not delete leaks
 };
 }  // namespace
 
@@ -58,7 +60,7 @@ int main() {
         CHECK(base.MemberBit(20) == static_cast<std::uint32_t>(MemberMaskForId(20)));
         CHECK(base.GetMemberIndex(20) == 1);       // ids 17..32 share bit 1
         CHECK(base.GetMemberIndex(3) == 0);        // ids 1..16 share bit 0
-        CHECK(!base.UnknownGate());                // IsInRoom() is partial and answers false
+        CHECK(!base.IsInRoom());                // IsInRoom() is partial and answers false
         CHECK(base.ConnectedMemberIds().empty());  // CMatching::GetMemberIdList over empty slots
         CHECK(base.GetRoomAttributes() == m.GetRoomAttributes());
         CMatchingGLLive::s_IsGameStarting = false;
@@ -192,6 +194,7 @@ int main() {
     {
         CSignIn* signIn = CSignIn::Get();
         CMatchingGLLive m;
+        m.lobbyQuery_ = new CLobbyParameterAndQuery();  // Initialize creates it (the matching object deletes it)
         CRoomAttributes attributes;
         attributes.SetAttributeInt(RoomInt(3), 55);
         signIn->SetLoggedInForTest(false);

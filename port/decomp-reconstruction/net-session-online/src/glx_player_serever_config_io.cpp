@@ -178,7 +178,7 @@ void GLXPlayerSereverConfig::OnUpdateSuccess(std::int32_t arg) {
     const bool hasPhpVersion = s_urlMap.count("XPPHPVerNo") != 0;
     if (!hasUrl || !hasType || !hasPhpVersion) {
         if (observer_ != nullptr) {
-            observer_->OnResponseError(1, 40);
+            observer_->OnRequestFailure(1, 40);
         }
         return;
     }
@@ -186,7 +186,7 @@ void GLXPlayerSereverConfig::OnUpdateSuccess(std::int32_t arg) {
     SaveServerConfig();
     if (observer_ != nullptr) {
         const char* text = cursor_ != nullptr ? cursor_ : "";
-        observer_->OnResponseText(1, text, static_cast<std::int32_t>(std::strlen(text)));
+        observer_->OnRequestSuccess(1, const_cast<char*>(text), static_cast<std::int32_t>(std::strlen(text)));
     }
 }
 
@@ -214,7 +214,7 @@ bool GLXPlayerSereverConfig::OnUpdateFailure(std::int32_t code) {
         }
     }
     if (observer_ != nullptr) {
-        observer_->OnResponseError(code, token);
+        observer_->OnRequestFailure(code, token);
     }
     return true;
 }

@@ -199,7 +199,7 @@ void testInvalidateVisibleIndexCache() {
     buffer->primitiveStream.m_count = 2;
     mesh->batches[0].meshBuffer = buffer;
     CBatchSceneNode node(1, mesh);
-    node.visibleEntries = reinterpret_cast<CBatchSceneNode::SVisibleEntry*>(new std::uint32_t[12]);
+    node.visibleEntries = reinterpret_cast<CBatchSceneNode::SVisibleEntry*>(new std::uint32_t[12]());
     node.invalidateVisibleIndexCache(0xFFFFFFFFu);
 
     const auto* slots = reinterpret_cast<CBatchSceneNode::SCacheSlot*>(node.visibleIndexCache);

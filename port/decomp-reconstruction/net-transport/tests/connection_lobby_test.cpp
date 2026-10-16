@@ -18,8 +18,8 @@ int main() {
     std::list<std::string> names{"a", "bc"};
     CHECK(lobby.sendCreateLobbyPackageWithGameCenter(0, host, 1, 2, 3, host, 4, host, 5, nullptr, names) == 16556);
 
-    // A null name in sendKickOutPlayerPackage queues nothing and returns 0.
-    CHECK(lobby.sendKickOutPlayerPackage(nullptr) == 0);
+    // A null name in sendKickOutPlayerPackage queues nothing and returns the object.
+    CHECK(lobby.sendKickOutPlayerPackage(nullptr) == static_cast<int>(reinterpret_cast<std::uintptr_t>(&lobby)));
 
     // sendCreateSessionPackage sends a single space for a null second name.
     CHECK(lobby.sendCreateSessionPackage(host, nullptr, 1) == 0);

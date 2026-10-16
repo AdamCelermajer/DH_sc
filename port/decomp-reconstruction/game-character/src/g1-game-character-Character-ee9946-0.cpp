@@ -83,14 +83,14 @@ bool Character::IsValidatingCameraLimits() const {
 // The int at Character +0x5b0 is CharProperties +0x50, the base sheet word m_baseProps.m_w18. It is converted to
 // float and multiplied by 0.01f (raw word 0x3C23D70A), and the result is returned in all three components.
 Point3D<float> Character::GetFXScale() const {
-    const float scale = static_cast<float>(CharProperties::m_baseProps.m_w18) * 0.01f;
+    const float scale = static_cast<float>(CharProperties::m_baseProps.FX_Scale) * 0.01f;
     return Point3D<float>{scale, scale, scale};
 }
 
 // 0x3a2ecc _ZNK9Character15GetFXScaleValueEv
 // Returns the base sheet word m_baseProps.m_w18 (Character +0x5b0), the same word GetFXScale scales.
 int Character::GetFXScaleValue() const {
-    return CharProperties::m_baseProps.m_w18;
+    return CharProperties::m_baseProps.FX_Scale;
 }
 
 // 0x3a2ed4 _ZNK9Character6IsDeadEv
@@ -139,5 +139,5 @@ int Character::HasCharOIDInCache(int oid) {
 // 0x3a2fcc _ZNK9Character7GetLootEv
 // The int at Character +0x101c is CharProperties +0xabc, the final sheet word m_props.m_w10 (sheet offset 0x28).
 int Character::GetLoot() const {
-    return CharProperties::m_props.m_w10;
+    return CharProperties::m_props.Loot;
 }

@@ -57,12 +57,17 @@ public:
     void setDefaultAnimationLibrary(const CColladaDatabase& database);
     void setDefaultAnimationLibrary(unsigned index);
     // 0x62e204 (database + library index) and 0x62e3f8 (database + database): rebind the set's animations to another library.
-    // 0x62fa44 (by index) and 0x62fb10 (by database): unbind a library; 0x62fb2c: remove the library at `index`. Declared only.
+    // 0x62fa44 (by index) and 0x62fb10 (by database): unbind a library; 0x62fb2c: remove the library at `index`.
     void overwriteAnimationLibraryBindings(const CColladaDatabase& database, unsigned index);
     void overwriteAnimationLibraryBindings(const CColladaDatabase& database, CColladaDatabase& library);
     void remAnimationLibraryBindings(unsigned index);
     void remAnimationLibraryBindings(CColladaDatabase& library);
     void remAnimationLibrary(unsigned index);
+    // vptr+0x30, 0x62fb6c: the same for the library with this record.
+    void remAnimationLibrary(CColladaDatabase& library) override;
+    // vptr+0x10, 0x62f0cc: removes the owned channel matching the animation's channel (and its track); its index, -1 when none.
+    int remAnimation(const SAnimation* animation) override;
+    using CAnimationSet::remAnimationLibrary;
 
     CColladaDatabase defaultLibrary;           // +0x68
     bool dirty = true;                         // +0x70

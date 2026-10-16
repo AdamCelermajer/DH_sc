@@ -4,14 +4,14 @@
 
 namespace vox {
 
-// The removed-elements list is a ring whose sentinel is removed_. The sentinel must point
+// The removed-elements list is a ring whose sentinel is sentinel(). The sentinel must point
 // at itself before the list is used, so every constructor below does that.
 
 // Default constructor: the port only. The original has no such constructor; it exists so the
 // sentinel is never left with null pointers.
 RandomGroup::RandomGroup() {
-    removed_.next = &removed_;
-    removed_.prev = &removed_;
+    sentinel().next = &sentinel();
+    sentinel().prev = &sentinel();
     element_count_ = 0;
     current_ = -1;
     cycle_remaining_ = 0;
@@ -26,8 +26,8 @@ RandomGroup::RandomGroup() {
 // zeroing them, so those words hold whatever the storage held. The port matches: the header
 // has no initializer for them and this body does not set them.
 RandomGroup::RandomGroup(const GroupInfos* info, int reset_flag) : SegmentGroup(info, reset_flag) {
-    removed_.next = &removed_;
-    removed_.prev = &removed_;
+    sentinel().next = &sentinel();
+    sentinel().prev = &sentinel();
     const std::int32_t window = info->field_0c_;  // +0x0c of the record
     exclusion_window_ = window != -1 ? window : 0;
     raw_window_ = window;
@@ -40,8 +40,8 @@ RandomGroup::RandomGroup(const GroupInfos* info, int reset_flag) : SegmentGroup(
 // not copied. The element count is counted up from 0 while the elements are copied; the
 // original does not zero +0x38 first, so the port's 0 is an assumption (see the ledger).
 RandomGroup::RandomGroup(const RandomGroup& other) : SegmentGroup(other) {
-    removed_.next = &removed_;
-    removed_.prev = &removed_;
+    sentinel().next = &sentinel();
+    sentinel().prev = &sentinel();
     element_count_ = 0;
     for (RandomGroupElement* source : other.elements_) {
         auto* copy = static_cast<RandomGroupElement*>(VoxAlloc(sizeof(RandomGroupElement)));
@@ -74,19 +74,19 @@ RandomGroup::~RandomGroup() {
             VoxFree(element);
         }
     }
-    for (RandomGroupNode* node = removed_.next; node != &removed_; node = node->next) {
+    for (RandomGroupNode* node = sentinel().next; node != &sentinel(); node = node->next) {
         if (node->element != nullptr) {
             VoxFree(node->element);
         }
     }
-    RandomGroupNode* node = removed_.next;
-    while (node != &removed_) {
+    RandomGroupNode* node = sentinel().next;
+    while (node != &sentinel()) {
         RandomGroupNode* next = node->next;
         VoxFree(node);
         node = next;
     }
-    removed_.next = &removed_;
-    removed_.prev = &removed_;
+    sentinel().next = &sentinel();
+    sentinel().prev = &sentinel();
 }
 
 }  // namespace vox

@@ -203,7 +203,7 @@ void Character::_SetLevel(const sfc::script::lua::Arguments& args, sfc::script::
     const int maxLevel = ApplicationGetPyDataConstants()->getConstant("CharacterDesign", "MaxLevelDVeryHard") << 8;
     const int value = static_cast<int>(args[0].getNumber());
     const int level = (maxLevel < value) ? maxLevel : static_cast<int>(args[0].getNumber());
-    self->CharProperties::m_baseProps.m_w20 = level;
+    self->CharProperties::m_baseProps.Level = level;
     self->CharProperties::RecalcProperties(true);
     self->RegenHP(-1);
     self->RegenMP(-1);

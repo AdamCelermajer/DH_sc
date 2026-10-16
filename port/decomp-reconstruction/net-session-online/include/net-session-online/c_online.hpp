@@ -123,6 +123,8 @@ public:
     void SetTimeSyncedForTest(bool value) { timeSynced_ = value; }
     void SetInitializedForTest(bool value) { initialized_ = value; }
     CEventQueueBase& EventsForTest() { return eventQueue_; }
+    // The event queue at +0x08 (read inline by OnlineGameState::processEvents for the disconnect event 0x500003).
+    CEventQueueBase& EventQueue() { return eventQueue_; }
     std::int64_t StartTimeForTest() const { return startTime_; }
 
 protected:

@@ -18,11 +18,22 @@ int g_failures = 0;
     } while (0)
 }  // namespace
 
+// DriverCallbackInterface is abstract (the binary's vtable leaves Shutdown, Suspend, Resume, PrintDebug and
+// DestroyDriverSource null for the concrete driver); the test supplies empty ones.
+class TestMixer : public vox::DriverCallbackInterface {
+public:
+    void Shutdown() override {}
+    void Suspend() override {}
+    void Resume() override {}
+    void PrintDebug() override {}
+    void DestroyDriverSource(vox::DriverSourceInterface*) override {}
+};
+
 int main() {
     using vox::DriverCallbackInterface;
     using vox::DriverScratchBuffer;
 
-    DriverCallbackInterface mixer;
+    TestMixer mixer;
     mixer.SetDefaultParameter();
 
     // Setting the listener parameters one by one: doppler factor, speed of sound and model.

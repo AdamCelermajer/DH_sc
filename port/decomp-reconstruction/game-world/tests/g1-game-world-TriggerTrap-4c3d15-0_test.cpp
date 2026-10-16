@@ -197,16 +197,16 @@ int main() {
     Structs::TriggerTrap* rows = reinterpret_cast<Structs::TriggerTrap*>(rowStorage);
     static char kScriptA[] = "a.lua";
     static char kScriptB[] = "b.lua";
-    rows[0].m_w1 = 7;          // Damage
-    rows[0].m_w2 = 40;         // HurtChance
-    rows[0].m_w4 = kScriptA;   // Script
-    rows[0].m_w5 = 3;          // Sound
-    rows[0].m_w6 = 5;          // Visual
-    rows[1].m_w1 = 9;
-    rows[1].m_w2 = 60;
-    rows[1].m_w4 = kScriptB;
-    rows[1].m_w5 = -1;
-    rows[1].m_w6 = -1;
+    rows[0].Damage = 7;          // Damage
+    rows[0].HurtChance = 40;         // HurtChance
+    rows[0].Script = kScriptA;   // Script
+    rows[0].Sound = 3;          // Sound
+    rows[0].Visual = 5;          // Visual
+    rows[1].Damage = 9;
+    rows[1].HurtChance = 60;
+    rows[1].Script = kScriptB;
+    rows[1].Sound = -1;
+    rows[1].Visual = -1;
     Arrays::TriggerTraps::members = rowStorage;
     Arrays::TriggerTraps::size = 2;
 

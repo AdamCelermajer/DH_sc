@@ -27,7 +27,7 @@ namespace Structs {
 // 0x4d6958 _ZN7Structs12ItemPowerRefD1Ev
 // 0x4d69f0 _ZN7Structs12ItemPowerRefD2Ev
 ItemPowerRef::~ItemPowerRef() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
 }
 
 // 0x4d69d4 _ZN7Structs12ItemPowerRefD0Ev
@@ -39,7 +39,7 @@ void DeletingDestructor(ItemPowerRef* self) {
 // 0x4d6a6c _ZN7Structs24ItemPowerWandDamageBonusD1Ev
 // 0x4d6b0c _ZN7Structs24ItemPowerWandDamageBonusD2Ev
 ItemPowerWandDamageBonus::~ItemPowerWandDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -52,7 +52,7 @@ void DeletingDestructor(ItemPowerWandDamageBonus* self) {
 // 0x4d6b90 _ZN7Structs25ItemPowerStaffDamageBonusD1Ev
 // 0x4d6c30 _ZN7Structs25ItemPowerStaffDamageBonusD2Ev
 ItemPowerStaffDamageBonus::~ItemPowerStaffDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -65,7 +65,7 @@ void DeletingDestructor(ItemPowerStaffDamageBonus* self) {
 // 0x4d6cb4 _ZN7Structs25ItemPowerRangeDamageBonusD1Ev
 // 0x4d6d54 _ZN7Structs25ItemPowerRangeDamageBonusD2Ev
 ItemPowerRangeDamageBonus::~ItemPowerRangeDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -78,7 +78,7 @@ void DeletingDestructor(ItemPowerRangeDamageBonus* self) {
 // 0x4d6dd8 _ZN7Structs26ItemPowerDaggerDamageBonusD1Ev
 // 0x4d6e78 _ZN7Structs26ItemPowerDaggerDamageBonusD2Ev
 ItemPowerDaggerDamageBonus::~ItemPowerDaggerDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -91,7 +91,7 @@ void DeletingDestructor(ItemPowerDaggerDamageBonus* self) {
 // 0x4d6efc _ZN7Structs24ItemPowerMaceDamageBonusD1Ev
 // 0x4d6f9c _ZN7Structs24ItemPowerMaceDamageBonusD2Ev
 ItemPowerMaceDamageBonus::~ItemPowerMaceDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -104,7 +104,7 @@ void DeletingDestructor(ItemPowerMaceDamageBonus* self) {
 // 0x4d7020 _ZN7Structs23ItemPowerAxeDamageBonusD1Ev
 // 0x4d70c0 _ZN7Structs23ItemPowerAxeDamageBonusD2Ev
 ItemPowerAxeDamageBonus::~ItemPowerAxeDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -117,7 +117,7 @@ void DeletingDestructor(ItemPowerAxeDamageBonus* self) {
 // 0x4d7144 _ZN7Structs25ItemPowerSwordDamageBonusD1Ev
 // 0x4d71e4 _ZN7Structs25ItemPowerSwordDamageBonusD2Ev
 ItemPowerSwordDamageBonus::~ItemPowerSwordDamageBonus() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -130,7 +130,7 @@ void DeletingDestructor(ItemPowerSwordDamageBonus* self) {
 // 0x4d7268 _ZN7Structs19ItemPowerSpellToHitD1Ev
 // 0x4d7308 _ZN7Structs19ItemPowerSpellToHitD2Ev
 ItemPowerSpellToHit::~ItemPowerSpellToHit() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -143,7 +143,7 @@ void DeletingDestructor(ItemPowerSpellToHit* self) {
 // 0x4d738c _ZN7Structs22ItemPowerSpellCriticalD1Ev
 // 0x4d742c _ZN7Structs22ItemPowerSpellCriticalD2Ev
 ItemPowerSpellCritical::~ItemPowerSpellCritical() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -156,7 +156,7 @@ void DeletingDestructor(ItemPowerSpellCritical* self) {
 // 0x4d74b0 _ZN7Structs18ItemPowerManaLeechD1Ev
 // 0x4d7550 _ZN7Structs18ItemPowerManaLeechD2Ev
 ItemPowerManaLeech::~ItemPowerManaLeech() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -169,7 +169,7 @@ void DeletingDestructor(ItemPowerManaLeech* self) {
 // 0x4d75d4 _ZN7Structs18ItemPowerLifeLeechD1Ev
 // 0x4d7674 _ZN7Structs18ItemPowerLifeLeechD2Ev
 ItemPowerLifeLeech::~ItemPowerLifeLeech() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -182,7 +182,7 @@ void DeletingDestructor(ItemPowerLifeLeech* self) {
 // 0x4d76f8 _ZN7Structs18ItemPowerResistAllD1Ev
 // 0x4d7798 _ZN7Structs18ItemPowerResistAllD2Ev
 ItemPowerResistAll::~ItemPowerResistAll() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -195,7 +195,7 @@ void DeletingDestructor(ItemPowerResistAll* self) {
 // 0x4d781c _ZN7Structs25ItemPowerResistElectricalD1Ev
 // 0x4d78bc _ZN7Structs25ItemPowerResistElectricalD2Ev
 ItemPowerResistElectrical::~ItemPowerResistElectrical() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -208,7 +208,7 @@ void DeletingDestructor(ItemPowerResistElectrical* self) {
 // 0x4d7940 _ZN7Structs18ItemPowerResistAirD1Ev
 // 0x4d79e0 _ZN7Structs18ItemPowerResistAirD2Ev
 ItemPowerResistAir::~ItemPowerResistAir() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -221,7 +221,7 @@ void DeletingDestructor(ItemPowerResistAir* self) {
 // 0x4d7a64 _ZN7Structs20ItemPowerResistWaterD1Ev
 // 0x4d7b04 _ZN7Structs20ItemPowerResistWaterD2Ev
 ItemPowerResistWater::~ItemPowerResistWater() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -234,7 +234,7 @@ void DeletingDestructor(ItemPowerResistWater* self) {
 // 0x4d7b88 _ZN7Structs20ItemPowerResistEarthD1Ev
 // 0x4d7c28 _ZN7Structs20ItemPowerResistEarthD2Ev
 ItemPowerResistEarth::~ItemPowerResistEarth() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -247,7 +247,7 @@ void DeletingDestructor(ItemPowerResistEarth* self) {
 // 0x4d7cac _ZN7Structs19ItemPowerResistFireD1Ev
 // 0x4d7d4c _ZN7Structs19ItemPowerResistFireD2Ev
 ItemPowerResistFire::~ItemPowerResistFire() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -260,7 +260,7 @@ void DeletingDestructor(ItemPowerResistFire* self) {
 // 0x4d7dd0 _ZN7Structs11ItemPowerDRD1Ev
 // 0x4d7e70 _ZN7Structs11ItemPowerDRD2Ev
 ItemPowerDR::~ItemPowerDR() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -273,7 +273,7 @@ void DeletingDestructor(ItemPowerDR* self) {
 // 0x4d7ef4 _ZN7Structs11ItemPowerARD1Ev
 // 0x4d7f94 _ZN7Structs11ItemPowerARD2Ev
 ItemPowerAR::~ItemPowerAR() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -286,7 +286,7 @@ void DeletingDestructor(ItemPowerAR* self) {
 // 0x4d8018 _ZN7Structs14ItemPowerToHitD1Ev
 // 0x4d80b8 _ZN7Structs14ItemPowerToHitD2Ev
 ItemPowerToHit::~ItemPowerToHit() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -299,7 +299,7 @@ void DeletingDestructor(ItemPowerToHit* self) {
 // 0x4d813c _ZN7Structs15ItemPowerDamageD1Ev
 // 0x4d81dc _ZN7Structs15ItemPowerDamageD2Ev
 ItemPowerDamage::~ItemPowerDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -312,7 +312,7 @@ void DeletingDestructor(ItemPowerDamage* self) {
 // 0x4d8260 _ZN7Structs14ItemPowerArmorD1Ev
 // 0x4d8300 _ZN7Structs14ItemPowerArmorD2Ev
 ItemPowerArmor::~ItemPowerArmor() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -325,7 +325,7 @@ void DeletingDestructor(ItemPowerArmor* self) {
 // 0x4d8384 _ZN7Structs14ItemPowerBlockD1Ev
 // 0x4d8424 _ZN7Structs14ItemPowerBlockD2Ev
 ItemPowerBlock::~ItemPowerBlock() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -338,7 +338,7 @@ void DeletingDestructor(ItemPowerBlock* self) {
 // 0x4d84a8 _ZN7Structs14ItemPowerDodgeD1Ev
 // 0x4d8548 _ZN7Structs14ItemPowerDodgeD2Ev
 ItemPowerDodge::~ItemPowerDodge() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -351,7 +351,7 @@ void DeletingDestructor(ItemPowerDodge* self) {
 // 0x4d85cc _ZN7Structs17ItemPowerCriticalD1Ev
 // 0x4d866c _ZN7Structs17ItemPowerCriticalD2Ev
 ItemPowerCritical::~ItemPowerCritical() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -364,7 +364,7 @@ void DeletingDestructor(ItemPowerCritical* self) {
 // 0x4d86f0 _ZN7Structs16ItemPowerMPRegenD1Ev
 // 0x4d8790 _ZN7Structs16ItemPowerMPRegenD2Ev
 ItemPowerMPRegen::~ItemPowerMPRegen() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -377,7 +377,7 @@ void DeletingDestructor(ItemPowerMPRegen* self) {
 // 0x4d8814 _ZN7Structs16ItemPowerHPRegenD1Ev
 // 0x4d88b4 _ZN7Structs16ItemPowerHPRegenD2Ev
 ItemPowerHPRegen::~ItemPowerHPRegen() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -390,7 +390,7 @@ void DeletingDestructor(ItemPowerHPRegen* self) {
 // 0x4d8938 _ZN7Structs11ItemPowerMPD1Ev
 // 0x4d89d8 _ZN7Structs11ItemPowerMPD2Ev
 ItemPowerMP::~ItemPowerMP() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -403,7 +403,7 @@ void DeletingDestructor(ItemPowerMP* self) {
 // 0x4d8a5c _ZN7Structs11ItemPowerHPD1Ev
 // 0x4d8afc _ZN7Structs11ItemPowerHPD2Ev
 ItemPowerHP::~ItemPowerHP() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -416,7 +416,7 @@ void DeletingDestructor(ItemPowerHP* self) {
 // 0x4d8b80 _ZN7Structs22ItemPowerFireDotDamageD1Ev
 // 0x4d8c20 _ZN7Structs22ItemPowerFireDotDamageD2Ev
 ItemPowerFireDotDamage::~ItemPowerFireDotDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -429,7 +429,7 @@ void DeletingDestructor(ItemPowerFireDotDamage* self) {
 // 0x4d8ca4 _ZN7Structs23ItemPowerWaterDotDamageD1Ev
 // 0x4d8d44 _ZN7Structs23ItemPowerWaterDotDamageD2Ev
 ItemPowerWaterDotDamage::~ItemPowerWaterDotDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -442,7 +442,7 @@ void DeletingDestructor(ItemPowerWaterDotDamage* self) {
 // 0x4d8dc8 _ZN7Structs23ItemPowerEarthDotDamageD1Ev
 // 0x4d8e68 _ZN7Structs23ItemPowerEarthDotDamageD2Ev
 ItemPowerEarthDotDamage::~ItemPowerEarthDotDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -455,7 +455,7 @@ void DeletingDestructor(ItemPowerEarthDotDamage* self) {
 // 0x4d8eec _ZN7Structs25ItemPowerElectricalDamageD1Ev
 // 0x4d8f8c _ZN7Structs25ItemPowerElectricalDamageD2Ev
 ItemPowerElectricalDamage::~ItemPowerElectricalDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -468,7 +468,7 @@ void DeletingDestructor(ItemPowerElectricalDamage* self) {
 // 0x4d9010 _ZN7Structs18ItemPowerAirDamageD1Ev
 // 0x4d90b0 _ZN7Structs18ItemPowerAirDamageD2Ev
 ItemPowerAirDamage::~ItemPowerAirDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -481,7 +481,7 @@ void DeletingDestructor(ItemPowerAirDamage* self) {
 // 0x4d9134 _ZN7Structs20ItemPowerWaterDamageD1Ev
 // 0x4d91d4 _ZN7Structs20ItemPowerWaterDamageD2Ev
 ItemPowerWaterDamage::~ItemPowerWaterDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -494,7 +494,7 @@ void DeletingDestructor(ItemPowerWaterDamage* self) {
 // 0x4d9258 _ZN7Structs20ItemPowerEarthDamageD1Ev
 // 0x4d92f8 _ZN7Structs20ItemPowerEarthDamageD2Ev
 ItemPowerEarthDamage::~ItemPowerEarthDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -507,7 +507,7 @@ void DeletingDestructor(ItemPowerEarthDamage* self) {
 // 0x4d937c _ZN7Structs19ItemPowerFireDamageD1Ev
 // 0x4d941c _ZN7Structs19ItemPowerFireDamageD2Ev
 ItemPowerFireDamage::~ItemPowerFireDamage() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -520,7 +520,7 @@ void DeletingDestructor(ItemPowerFireDamage* self) {
 // 0x4d94a0 _ZN7Structs15ItemPowerEnergyD1Ev
 // 0x4d9540 _ZN7Structs15ItemPowerEnergyD2Ev
 ItemPowerEnergy::~ItemPowerEnergy() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -533,7 +533,7 @@ void DeletingDestructor(ItemPowerEnergy* self) {
 // 0x4d95c4 _ZN7Structs18ItemPowerEnduranceD1Ev
 // 0x4d9664 _ZN7Structs18ItemPowerEnduranceD2Ev
 ItemPowerEndurance::~ItemPowerEndurance() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -546,7 +546,7 @@ void DeletingDestructor(ItemPowerEndurance* self) {
 // 0x4d96e8 _ZN7Structs18ItemPowerDexterityD1Ev
 // 0x4d9788 _ZN7Structs18ItemPowerDexterityD2Ev
 ItemPowerDexterity::~ItemPowerDexterity() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
     // The base destructor (ItemPowerRef, listing) runs after this body and repeats the loop on the same m_w4.
 }
 
@@ -563,7 +563,7 @@ void DeletingDestructor(ItemPowerDexterity* self) {
 // Structs::ItemPowerRef::~ItemPowerRef (BL 0x4d69f0) repeats the loop. DestroyElementArray does the walk and
 // the free, and the base destructor runs after this body, so the double free the listing has is kept.
 ItemPowerStrength::~ItemPowerStrength() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
 }
 
 // 0x4d9890 _ZN7Structs17ItemPowerStrengthD0Ev
@@ -577,7 +577,7 @@ void DeletingDestructor(ItemPowerStrength* self) {
 // Same body as ItemPowerStrength's destructor at 0x4d980c (the only difference is the stored vtable,
 // off_96B338 against off_96B320); ItemPowerRef::~ItemPowerRef runs after it here too.
 ItemPowerAllStats::~ItemPowerAllStats() {
-    DestroyElementArray(m_w4);
+    DestroyElementArray(AttrBonusList);
 }
 
 // 0x4d99b4 _ZN7Structs17ItemPowerAllStatsD0Ev

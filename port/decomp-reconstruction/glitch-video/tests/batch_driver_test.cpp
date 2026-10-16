@@ -17,9 +17,7 @@
 //    written is unreachable in the current tree, and this definition is what makes it reachable. It is the library's
 //    own IDevice* stand-in shape (null_driver.cpp:10) over the owning driver's device; the only difference from
 //    0x5b9764 is the shader manager, which the port does not create on either path (null_driver.hpp:63).
-//  * glitch::video::CBatchDriver::thisAppendBatch (0x5a6fe0) is still not written (link_stubs.csv row 36). draw is a
-//    two-instruction tail call into it (LDR R3,[SP,#arg_0]; B 0x5a6fe0), so the seam records the call and the test
-//    checks the forwarding contract: the three arguments arrive in order and the CDriverBinding** is never read.
+//  * draw (0x5a8a80) and thisAppendBatch (0x5a6fe0) are covered with the real append path by batch_append_test.cpp.
 #include "glitch-video/batch_driver.hpp"
 
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"  // the pointee must be complete for intrusive_ptr's release
@@ -31,14 +29,6 @@
 
 namespace {
 
-struct AppendRecord {
-    int calls = 0;
-    const glitch::video::CVertexStreams* streams = nullptr;
-    glitch::video::CPrimitiveStream primitives;
-    const glitch::scene::CMeshBuffer* meshBuffer = nullptr;
-};
-
-AppendRecord g_append;
 
 }  // namespace
 
@@ -55,16 +45,6 @@ CNullDriver::CNullDriver(IVideoDriver* other)
     unk_20 = "Not available on this driver.";
     initDriver();
     init(1, 1, 0);
-}
-
-// ---- seam 2: the append path of 0x5a6fe0 (see the file comment) --------------------------------------------------
-void CBatchDriver::thisAppendBatch(const boost::intrusive_ptr<const CVertexStreams>& streams,
-                                   const CPrimitiveStream& primitives,
-                                   const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer) {
-    ++g_append.calls;
-    g_append.streams = streams.get();
-    g_append.primitives = primitives;
-    g_append.meshBuffer = meshBuffer.get();
 }
 
 }  // namespace glitch::video
@@ -124,8 +104,8 @@ int main() {
     check(a.endOfBatchCallback == nullptr, "ctor clears +0x238");
     check(a.segmentSize.X == 0.0f && a.segmentSize.Y == 0.0f && a.segmentSize.Z == 0.0f,
           "ctor clears the three words of segmentSize (+0x250)");
-    check(a.segmentSizeMode == false, "ctor clears the mode byte (+0x25C)");
-    check(a.maxIndices == 0, "maxIndices (+0x260) is zero");
+    check(a.segmentSizeMode == false, "the mode byte (+0x260) starts false (the ctor does not write it)");
+    check(a.maxIndices == 0, "maxIndices (+0x25C) is zero");
 
     // setOption(0x100, true) (0x5a90b0) ORs 0x100 into this object's own option word (IVideoDriver +0x88).
     check((a.getOptionFlags() & 0x100u) != 0u, "ctor raises option bit 0x100 on itself");
@@ -157,30 +137,9 @@ int main() {
     check(withNullDriver.segmentCompileCallback == nullptr && withNullDriver.maxIndices == 0,
           "null driver: the other members are still cleared");
 
-    // ---- draw 0x5a8a80 ------------------------------------------------------------------------------------------
+    // draw 0x5a8a80 (the tail call into thisAppendBatch) is covered with the real append path in batch_append_test.cpp.
     boost::intrusive_ptr<CVertexStreams> streams(new CVertexStreams(), true);
-    glitch::video::CPrimitiveStream primitives;
-    primitives.m_count = 0x33u;
-    primitives.m_vertexStart = 5u;
-    primitives.m_vertexEnd = 9u;
-    primitives.m_indexType = 1u;
-    primitives.m_primitiveType = 6u;
-    glitch::video::CDriverBinding* binding = reinterpret_cast<glitch::video::CDriverBinding*>(0x1234);
-    boost::intrusive_ptr<const glitch::scene::CMeshBuffer> meshBuffer;
-
-    a.draw(streams, primitives, &binding, meshBuffer);
-    check(g_append.calls == 1, "draw forwards to thisAppendBatch exactly once");
-    check(g_append.streams == streams.get(), "the vertex streams arrive unchanged");
-    check(g_append.primitives.m_count == 0x33u && g_append.primitives.m_vertexStart == 5u &&
-              g_append.primitives.m_vertexEnd == 9u && g_append.primitives.m_primitiveType == 6u,
-          "the whole CPrimitiveStream arrives unchanged");
-    check(g_append.meshBuffer == nullptr, "the mesh buffer arrives unchanged (null here)");
-    // The listing loads only the 4th parameter from the stack and branches: the CDriverBinding** third parameter is
-    // never read, so the caller's pointer is untouched and a null one is accepted as well.
-    check(binding == reinterpret_cast<glitch::video::CDriverBinding*>(0x1234),
-          "draw does not write through the CDriverBinding** parameter");
-    a.draw(streams, primitives, nullptr, meshBuffer);
-    check(g_append.calls == 2, "draw accepts a null CDriverBinding** (the parameter is ignored)");
+    (void)streams;
 
     // ---- destructor 0x5a3d50 ------------------------------------------------------------------------------------
     // The listing drops the word at +0x248 and releases the intrusive_ptr at +0x240 (count decrement, then

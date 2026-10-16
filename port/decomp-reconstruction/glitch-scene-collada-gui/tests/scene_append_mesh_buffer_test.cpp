@@ -66,7 +66,7 @@ void testMeshBuffer() {
           "clone clones the stream table");
     check(copy->primitiveStream.m_count == 12 && copy->primitiveStream.m_indexBuffer.get() == stream.m_indexBuffer.get(),
           "clone copies the primitive stream");
-    check(copy->owner == nullptr && copy->block_08 == nullptr, "clone shares neither the owner nor the blocks");
+    check(copy->owner == nullptr && !copy->indexData16, "clone shares neither the owner nor the blocks");
     copy.reset();
     boost::intrusive_ptr<CMeshBuffer> holder(buffer, true);
     holder.reset();  // destroys the buffer: its use of the index buffer goes

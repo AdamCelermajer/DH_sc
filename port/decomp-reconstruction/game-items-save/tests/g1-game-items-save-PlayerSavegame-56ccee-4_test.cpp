@@ -576,8 +576,8 @@ void TestFastTravelList() {
 
 void TestInitSkills() {
     auto* list = reinterpret_cast<Structs::SkillList*>(g_skillListStorage);
-    list->m_w1 = 2;
-    list->m_w2 = static_cast<void*>(g_skillIds);
+    list->ListSize = 2;
+    list->List = static_cast<void*>(g_skillIds);
 
     PlayerSavegame save;
     save.m_player = FakePlayer();

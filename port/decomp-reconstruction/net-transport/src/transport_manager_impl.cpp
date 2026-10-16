@@ -80,13 +80,13 @@ int CTransportManagerImpl::Sleep(unsigned int microseconds) {
 }
 
 // 0x825248 _ZN22CTransportManagerImpl20StartReceiverThreadEv
-// Partial: the original creates a joinable pthread unconditionally, passing this as the thread
-// argument (the port passes this through the lambda). The port refuses when a thread is already
-// joinable (std::thread assignment would terminate); that guard is an addition the original does
-// not have, so a second start returns -1 here and starts a second thread there.
+// The original creates a joinable pthread unconditionally (pthread_create over the id at this + 0x108,
+// attr detachstate 0), passing this as the thread argument (the port passes this through the lambda). A second
+// start overwrites the stored id, so the first thread keeps running and can no longer be joined: the held
+// std::thread is detached first (an assignment over a joinable std::thread would terminate) and the new one stored.
 int CTransportManagerImpl::StartReceiverThread() {
     if (receiver_thread_.joinable()) {
-        return -1;
+        receiver_thread_.detach();
     }
     try {
         receiver_thread_ = std::thread([this] { ReceiverThread(this); });

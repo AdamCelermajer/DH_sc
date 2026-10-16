@@ -25,11 +25,11 @@ int Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation(__sFILE* stream)
 
     static_cast<void>(std::fwrite("\t  v2QuestMoveInZone\n", 1, 0x15, out));
     const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->m_w1);  // row +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->Type);  // row +0x04
     std::fprintf(out, "\t    Type        : %s\n", constantName);
-    std::fprintf(out, "\t    Object      : %d\n", static_cast<int>(reinterpret_cast<std::uintptr_t>(row->m_w7)));
+    std::fprintf(out, "\t    Object      : %d\n", static_cast<int>(reinterpret_cast<std::uintptr_t>(row->Str2)));
 
-    const std::int32_t levelId = row->m_w8;  // row +0x20
+    const std::int32_t levelId = row->OID1;  // row +0x20
     const bool outOfRange = levelId < 0 || static_cast<std::uint32_t>(levelId) >= Arrays::LevelList::size;
     const char* levelName = outOfRange ? "na" : Arrays::LevelList::m_memberNames.names[levelId];
     std::fprintf(out, "\t    Level (OID) : %s\n\n", levelName);

@@ -220,7 +220,7 @@ void Script_ActivateProjectileTrap::Execute(bool /*skipping*/, int module) {
     const Structs::ActivateProjectileTrap* record = static_cast<const Structs::ActivateProjectileTrap*>(m_args);
     DebugSwitches::s_inst.load();
     (void)DebugSwitches::s_inst.GetSwitch("isTracingScriptCmd");
-    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = handle.GetObject(false);
     if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == kProjectileTrapGoId) {
         m_trap = object;
@@ -247,7 +247,7 @@ void Script_DeactivateProjectileTrap::Execute(bool /*skipping*/, int module) {
         static_cast<const Structs::DeactivateProjectileTrap*>(m_args);
     DebugSwitches::s_inst.load();
     (void)DebugSwitches::s_inst.GetSwitch("isTracingScriptCmd");
-    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->Target, module, false, nullptr);
     ObjectBase* object = handle.GetObject(false);
     if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == kProjectileTrapGoId) {
         ProjectileTrap* trap = static_cast<ProjectileTrap*>(object);

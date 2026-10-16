@@ -73,7 +73,7 @@ int CharProperties::PROPS_GetBonusDamage(bool offHand) const {
     if (equipped == nullptr) {
         return 0;
     }
-    const int weaponProperty = equipped->GetItem()->m_w37;  // Structs::Item +0x94
+    const int weaponProperty = equipped->GetItem()->Param3;  // Structs::Item +0x94
     if (weaponProperty == -1) {
         return 0;
     }
@@ -284,7 +284,7 @@ void CharProperties::PROPS_SetInt(int propId, int value) { PROPS_Set(propId, Shi
 // (CharProperties +0x74, read by the original as the class id). Then every property is recalculated.
 void CharProperties::RecalcProperties(bool reloadClass) {
     if (reloadClass) {
-        _LoadClass(m_baseProps, m_baseProps.m_w27, false);
+        _LoadClass(m_baseProps, m_baseProps.ClassID, false);
     }
     for (int propId = 0; propId != kPropertyCount; ++propId) {
         RecalcProperty(propId);

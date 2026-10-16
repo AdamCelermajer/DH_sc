@@ -49,14 +49,14 @@ public:
     int getPacket(DataPacket*& packet) override;
     // 0x84a460 _ZN17DefaultDataPacket9addPacketEP10DataPacket (partial, vtable +0x54): appends the
     // source's message as a big-endian 2-byte length and its body.
-    void addPacket(DataPacket* packet) override;
+    void* addPacket(DataPacket* packet) override;
     // 0x84a344 packMessage: empty in the original.
     void packMessage() override;
     int getMessageLen() override;                                                    // 0x84a330
     char* getMessageBody() override;                                                 // 0x84a33c
     // 0x84a4dc _ZN17DefaultDataPacket14setMessageBodyEPhi: copies `length` bytes into the body
     // and resets the cursors (read 0, write length). Not bounded by kBodySize, as in the original.
-    void setMessageBody(const unsigned char* data, int length) override;
+    void* setMessageBody(const unsigned char* data, int length) override;
     DataPacket* getNextPacket() override;                                            // 0x84a348
     void setNextPacket(DataPacket* next) override;                                   // 0x84a354
     bool IsSendByTcp() override;                                                     // 0x84a360
@@ -67,7 +67,7 @@ public:
     void setPort(int port) override;                                                 // 0x84a3b8
     char* getIP() override;                                                          // 0x84a3c4
     char* setIP(const char* ip) override;                                            // 0x84a7f4
-    void Packet2String(char* out, int& out_size) override;                          // 0x84a410
+    void* Packet2String(char* out, int& out_size) override;                         // 0x84a410
     int String2Packet(char* data, int size) override;                                // 0x84a3d0
 
 private:

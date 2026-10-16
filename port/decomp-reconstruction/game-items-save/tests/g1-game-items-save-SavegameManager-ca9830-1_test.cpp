@@ -67,10 +67,10 @@ PlayerInfo* FakePlayerInfo() { return reinterpret_cast<PlayerInfo*>(g_playerInfo
 // Option row: Min at m_w4 (+0x10), Max at m_w3 (+0x0c), Type at m_w6 (+0x18), Default at m_w1 (+0x04).
 void SetRow(int id, int min, int max, int type) {
     Structs::GameOption* r = RowAt(id);
-    r->m_w1 = min;
-    r->m_w3 = max;
-    r->m_w4 = min;
-    r->m_w6 = type;
+    r->Default = min;
+    r->Max = max;
+    r->Min = min;
+    r->Type = type;
 }
 
 void AddOption(SavegameManager& m, const char* name, int row, int value) {

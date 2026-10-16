@@ -1,16 +1,15 @@
-// Checks for the glitch::ps shape tags, the particle-system world-matrix
-// accessor and the empty model initialisers.
+// Checks for the glitch::ps shape tags and the particle-system heap helpers. The stand-in model templates this test used to check
+// (the empty initialisers, the world-matrix accessor, the colour track test) are the canonical members of ps/ParticleModels.hpp now;
+// tests/ps_models_test.cpp runs them inside a real particle system.
 #include "glitch-scene-collada-gui/ps_types.hpp"
 
 #include <cstdio>
+#include <cstring>
 
 using namespace glitch::ps;
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
-
-struct GNPSParticle {};
-struct SParticle {};
 
 int main() {
     CHECK(PDPoint().getType() == 3);
@@ -24,40 +23,11 @@ int main() {
     CHECK(PDPoint().size() == 1.0f);
     CHECK(PDBlob().size() == 1.0f);
 
-    float matrix[16] = {};
-    IParticleSystem<GNPSParticle> gnps;
-    CHECK(gnps.getWorldMatrixPtr() == nullptr);
-    gnps.worldMatrixPtr = matrix;
-    CHECK(gnps.getWorldMatrixPtr() == matrix);
-
-    IParticleSystem<SParticle> sps;
-    sps.worldMatrixPtr = matrix + 4;
-    CHECK(sps.getWorldMatrixPtr() == matrix + 4);
-
-    GNPSSizeModel<GNPSParticle>().initPSizeModel();
-    PSizeModel<SParticle>().initPSizeModel();
-    GNPSColorModel<GNPSParticle>().initPColorModel();
-    PColorModel<SParticle>().initPColorModel();
-    GNPSMotionModel<GNPSParticle>().initPMotionModel();
-    PMotionModel<SParticle>().initPMotionModel();
-    SParticle a, b;
-    PForcesModel<GNPSParticle>().initPForces(nullptr, nullptr);
-    PForcesModel<SParticle>().initPForces(&a, &b);
-    GNPSSpinModel<GNPSParticle>().initPSpinModel();
-    PSpinModel<SParticle>().initPSpinModel();
-    GNPSLifeModel<GNPSParticle>().initPLifeModel();
-    PLifeModel<SParticle>().initPLifeModel();
-
-    // Colour animation track presence.
-    GNPSColorModel<GNPSParticle> gnpsColor;
-    CHECK(gnpsColor.hasColorAnimationTrack() == 0);
-    int trackTag = 0;
-    gnpsColor.colorAnimationTrack = &trackTag;
-    CHECK(gnpsColor.hasColorAnimationTrack() == 1);
-    PColorModel<SParticle> pColor;
-    CHECK(pColor.hasColorAnimationTrack() == 0);
-    pColor.colorAnimationTrack = &trackTag;
-    CHECK(pColor.hasColorAnimationTrack() == 1);
+    // PS_NEW / PS_FREE: a block can be written and given back.
+    void* block = PS_NEW(64);
+    CHECK(block != nullptr);
+    std::memset(block, 0xAB, 64);
+    PS_FREE(block);
 
     std::printf("%s\n", failures ? "ps_types: FAILED" : "ps_types: ok");
     return failures != 0;

@@ -49,10 +49,13 @@ class CNetPlayerInfo : public NetStruct {
 public:
     CNetPlayerInfo();                        // 0x80fc28 (C2), 0x80f7b4 (C1)
     ~CNetPlayerInfo() override;              // 0x80f618 (D1), 0x80f6f4 (D2); the deleting form 0x80f6d8 is the compiler's
-    // The copy constructor (0x377448, 0x4417d8) and operator= (0x378708) copy the NetStruct base's member
-    // pointer array with memcpy, so a copy would declare the source's blocks; they are not ported.
-    CNetPlayerInfo(const CNetPlayerInfo&) = delete;
-    CNetPlayerInfo& operator=(const CNetPlayerInfo&) = delete;
+    // The copy constructor (0x377448 C2, 0x4417d8 C1) copies the NetStruct base's member pointer array with
+    // memcpy (so the copy's pointers keep addressing the source's blocks, as in the binary) and then each block
+    // field by field: the implicit member-wise copy does exactly that.
+    CNetPlayerInfo(const CNetPlayerInfo&) = default;
+    // operator= (0x378708): the same memcpy of the pointer array and base fields, then the eight blocks go through
+    // their virtual SetValue (vtable +0x1c), so a changed value is marked changed.
+    CNetPlayerInfo& operator=(const CNetPlayerInfo& other);
     static CNetPlayerInfo* Create();         // 0x8103d4
     static void Delete(CNetPlayerInfo* p);   // 0x81009c
 

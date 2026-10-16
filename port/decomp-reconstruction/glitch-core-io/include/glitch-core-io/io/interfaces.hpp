@@ -77,6 +77,10 @@ public:
     }
     // +0x38, 0x56eb40
     virtual bool isAllInMemory() const { return false; }
+
+    // +0x08: the base object is 12 bytes in the original (vptr, count, one more word): every derived record
+    // (CReadFile, CLimitReadFile, CMemoryReadFile, ...) starts its members at +0x0c. No constructor stores it.
+    std::uint32_t unk_08 = 0;
 };
 
 // _ZTVN6glitch2io10IWriteFileE, 44 bytes: six pure slots.

@@ -383,7 +383,7 @@ void NativeMerchantSellItem(const gameswf::fn_call& call) {
                 if (static_cast<unsigned int>(itemIndex) < static_cast<unsigned int>(playerInventory.GetNumItems()) && itemIndex >= 0) {
                     const Structs::Merchant* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + merchant->GetLoot();
                     ItemInstance* item = playerInventory.GetItem(static_cast<unsigned int>(itemIndex));
-                    const int price = MerchantTradePrice(item->m_value, row->m_w1);  // sell column +0x04
+                    const int price = MerchantTradePrice(item->m_value, row->BuyMultiplier);  // sell column +0x04
                     item->GetItem();
                     playerInventory.AddGold(price);
                     DebugSwitches::s_inst.load();
@@ -425,9 +425,9 @@ void NativeMerchantBuyItem(const gameswf::fn_call& call) {
             if (static_cast<unsigned int>(itemIndex) < static_cast<unsigned int>(merchantInventory.GetNumItems()) && itemIndex >= 0) {
                 const Structs::Merchant* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + merchant->GetLoot();
                 ItemInstance* item = merchantInventory.GetItem(static_cast<unsigned int>(itemIndex));
-                const int percent = item->unk_69 ? row->m_w1 : row->m_w2;  // sell column for a buy-back item, else the buy column
+                const int percent = item->unk_69 ? row->BuyMultiplier : row->SellMultiplier;  // sell column for a buy-back item, else the buy column
                 const int price = MerchantTradePrice(item->m_value, percent);
-                const int itemType = item->GetItem()->m_w22;  // Structs::Item +0x58
+                const int itemType = item->GetItem()->Type;  // Structs::Item +0x58
                 ItemInventory& playerInventory = *ch;
                 bool purchase = false;
                 if (price > playerInventory.m_gold) {  // ItemInventory +0x20

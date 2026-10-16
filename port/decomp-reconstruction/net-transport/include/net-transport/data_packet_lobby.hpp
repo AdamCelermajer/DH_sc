@@ -65,13 +65,13 @@ public:
     void setPort(int port) override;                // 0x849550 _ZN15DataPacketLobby7setPortEi
     char* getIP() override;                         // 0x849558 _ZN15DataPacketLobby5getIPEv
     int String2Packet(char* data, int size) override;  // 0x849560 _ZN15DataPacketLobby13String2PacketEPci
-    void Packet2String(char* out, int& out_length) override;  // 0x8495b8 _ZN15DataPacketLobby13Packet2StringEPcRi
-    void setMessageBody(const unsigned char* data, int size) override;  // 0x849600 _ZN15DataPacketLobby14setMessageBodyEPhi (vptr +0x68)
+    void* Packet2String(char* out, int& out_length) override;  // 0x8495b8 _ZN15DataPacketLobby13Packet2StringEPcRi
+    void* setMessageBody(const unsigned char* data, int size) override;  // 0x849600 _ZN15DataPacketLobby14setMessageBodyEPhi (vptr +0x68)
     char* setIP(const char* ip) override;           // 0x849714 _ZN15DataPacketLobby5setIPEPc
     int getShortLenString(char*& text, std::int16_t& length) override;  // 0x849748 _ZN15DataPacketLobby17getShortLenStringERPcRs
     int getBlob(char*& data, std::int16_t& length) override;          // 0x84980c _ZN15DataPacketLobby7getBlobERPcRs
     bool AllocateMoreMomery();                      // 0x8498bc _ZN15DataPacketLobby18AllocateMoreMomeryEv
-    void addPacket(DataPacket* packet) override;    // 0x849924 _ZN15DataPacketLobby9addPacketEP10DataPacket
+    void* addPacket(DataPacket* packet) override;  // 0x849924 _ZN15DataPacketLobby9addPacketEP10DataPacket
     int addShortLenString(const char* text, std::int16_t length) override;     // 0x8499d8 _ZN15DataPacketLobby17addShortLenStringEPKcs
     int addQueryString(const char* text, std::int16_t length) override;        // 0x849a68 _ZN15DataPacketLobby14addQueryStringEPKcs
     int addBlob(char* data, std::int16_t length) override;            // 0x849ad8 _ZN15DataPacketLobby7addBlobEPcs
@@ -85,10 +85,10 @@ private:
     // Grows the buffer (doubling) until `bytes` more bytes fit.
     bool EnsureRoom(std::size_t bytes);
 
-    std::size_t capacity_ = 4096;                   // +0x04
+    std::int32_t capacity_ = 4096;                  // +0x04 (int in the original: the comparisons are signed)
     std::unique_ptr<std::uint8_t[]> buffer_;        // +0x08
-    std::size_t position_ = 2;                      // +0x0C
-    std::size_t length_ = 0;                        // +0x10
+    std::int32_t position_ = 2;                     // +0x0C
+    std::int32_t length_ = 0;                       // +0x10
     DataPacket* next_packet_ = nullptr;             // +0x14
     int data_type_ = 1;                             // +0x18
     std::unique_ptr<char[]> ip_;                    // +0x1C

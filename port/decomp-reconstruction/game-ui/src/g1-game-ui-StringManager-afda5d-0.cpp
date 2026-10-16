@@ -107,8 +107,8 @@ int StringManager::getNumberOfStrings(int sheetIdx, int packIdx) const {
 const char* StringManager::getSheetName(unsigned int sheetIdx) const {
     const unsigned int packIdx = (m_currentPack == -1) ? 0u : static_cast<unsigned int>(m_currentPack);
     const auto* packs = static_cast<const Structs::LangSheetList*>(static_cast<const void*>(Arrays::StrID_Languages::members));
-    const auto* sheets = static_cast<const Structs::LangSheet*>(packs[packIdx].m_w2);
-    return sheets[sheetIdx].m_w4;
+    const auto* sheets = static_cast<const Structs::LangSheet*>(packs[packIdx].list);
+    return sheets[sheetIdx].name;
 }
 
 // 0x5075b0 _ZNK13StringManager13getSymbolPackEv
@@ -230,8 +230,8 @@ StringManager::~StringManager() {
 int StringManager::getSheetFilename(unsigned int packIdx, unsigned int sheetIdx, char* buffer, int bufferSize) const {
     static_cast<void>(bufferSize);
     const auto* packs = static_cast<const Structs::LangSheetList*>(static_cast<const void*>(Arrays::StrID_Languages::members));
-    const auto* sheets = static_cast<const Structs::LangSheet*>(packs[packIdx].m_w2);
-    return std::sprintf(buffer, "text/%s", sheets[sheetIdx].m_w2);
+    const auto* sheets = static_cast<const Structs::LangSheet*>(packs[packIdx].list);
+    return std::sprintf(buffer, "text/%s", sheets[sheetIdx].filename);
 }
 
 // 0x507c0c _ZN13StringManager14formatForMultiESsb

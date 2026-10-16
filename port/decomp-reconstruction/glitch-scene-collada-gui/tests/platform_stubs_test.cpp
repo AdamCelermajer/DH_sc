@@ -15,13 +15,42 @@ int main() {
     {
         IObject object;
         (void)object;
-        CLogger logger;
-        CHECK(logger.getLogLevel() == ELL_DEBUG);
+        int receiverTag = 0;
+        CLogger logger(reinterpret_cast<IEventReceiver*>(&receiverTag));
+        CHECK(logger.getLogLevel() == ELL_INFORMATION);
+        CHECK(logger.receiver == reinterpret_cast<IEventReceiver*>(&receiverTag));
         logger.setLogLevel(ELL_WARNING);
         CHECK(logger.getLogLevel() == ELL_WARNING);
-        int receiverTag = 0;
-        logger.setReceiver(reinterpret_cast<IEventReceiver*>(&receiverTag));
-        CHECK(logger.receiver == reinterpret_cast<IEventReceiver*>(&receiverTag));
+        logger.setReceiver(nullptr);
+        CHECK(logger.receiver == nullptr);
+    }
+
+    {
+        // A receiver is offered the text of a message at or above the minimum level, and consumes it.
+        struct Capture : IEventReceiver {
+            int events = 0;
+            std::string text;
+            int level = -1;
+            bool onEvent(const SEvent& event) override {
+                ++events;
+                if (event.EventType == EET_LOG_TEXT_EVENT) {
+                    text = event.LogEvent.Text;
+                    level = event.LogEvent.Level;
+                }
+                return true;
+            }
+        } capture;
+        CLogger logger(&capture);
+        logger.log("below", ELL_DEBUG);
+        CHECK(capture.events == 0);
+        logger.log("hello", ELL_ERROR);
+        CHECK(capture.events == 1 && capture.text == "hello" && capture.level == ELL_ERROR);
+        logger.log("name", "hint", ELL_WARNING);
+        CHECK(capture.text == "name: hint" && capture.level == ELL_WARNING);
+        logger.log(L"wide", ELL_INFORMATION);
+        CHECK(capture.text == "wide");
+        logger.logf(ELL_INFORMATION, "%d-%s", 7, "x");
+        CHECK(capture.text == "7-x");
     }
 
     {
@@ -36,25 +65,27 @@ int main() {
     }
 
     {
-        CAndroidOSDevice device;
-        CHECK(device.createWindow());
-        CHECK(device.isWindowActive() && device.isWindowFocused());
-        CHECK(!device.isWindowMinimized());
-        CHECK(device.getVideoModeList() == nullptr);
-        CAndroidOSDevice::CCursorControl cursor;
+        // The cursor control without a device: the position and the relative position.
+        CAndroidOSDevice::CCursorControl cursor(core::dimension2d<int>{200, 100}, nullptr);
+        CHECK(cursor.isVisible() && cursor.referenceCounter == 1);
+        cursor.visible = false;
         CHECK(!cursor.isVisible());
-        cursor.visible = true;
-        CHECK(cursor.isVisible());
-        cursor.device = &device;
-        cursor.setVisible(false);
-        CHECK(!cursor.isVisible());
-        cursor.positionX = 12;
-        cursor.positionY = 34;
-        core::position2d<std::int32_t> where = cursor.getPosition();
-        CHECK(where.X == 12 && where.Y == 34);
-        device.running = true;
-        device.closeDevice();
-        CHECK(!device.running);
+        cursor.position = core::position2d<int>{50, 25};
+        core::position2d<int> where = cursor.getPosition();
+        CHECK(where.X == 50 && where.Y == 25);
+        core::position2d<float> relative = cursor.getRelativePosition();
+        CHECK(relative.X == 0.25f && relative.Y == 0.25f);
+        core::rect<int> reference;
+        reference.UpperLeftCorner = core::position2d<int>{0, 0};
+        reference.LowerRightCorner = core::position2d<int>{100, 50};
+        cursor.setReferenceRect(&reference);
+        relative = cursor.getRelativePosition();
+        CHECK(relative.X == 0.5f && relative.Y == 0.5f);
+        reference.LowerRightCorner = core::position2d<int>{101, 50};
+        cursor.setReferenceRect(&reference);
+        CHECK(cursor.referenceRect.LowerRightCorner.X == 102 && cursor.referenceRect.LowerRightCorner.Y == 50);  // an odd width grows by one, an even height stays
+        cursor.setReferenceRect(nullptr);
+        CHECK(!cursor.useReferenceRect);
     }
 
     {

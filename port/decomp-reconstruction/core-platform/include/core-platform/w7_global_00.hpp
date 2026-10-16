@@ -41,6 +41,12 @@ struct SubtitleDeque {
     SubtitleEntry** last;    // +0x08 start.last (node end)
     SubtitleEntry*** node;   // +0x0C start.node (map slot)
     SubtitleEntry** finish;  // +0x10 finish.cur
+    // The rest of the STLport deque (LoadSubtitles' push side, 0x339830): ELF 0x9a1d90 .. 0x9a1da0.
+    SubtitleEntry** finishFirst = nullptr;  // +0x14 finish.first (node base)
+    SubtitleEntry** finishLast = nullptr;   // +0x18 finish.last (node end)
+    SubtitleEntry*** finishNode = nullptr;  // +0x1C finish.node (map slot)
+    SubtitleEntry*** map = nullptr;         // +0x20 the node map (array of node pointers)
+    unsigned int mapSize = 0;               // +0x24 slots in the map
 };
 
 extern SubtitleDeque g_SubtitlesQueue;
@@ -48,3 +54,7 @@ extern SubtitleEntry* g_CurrentSubtitle;
 
 // 0x33971c ClearSubtitles
 void ClearSubtitles();
+
+// 0x339830 LoadSubtitles: sets the skip text of the language (g_skip) and reads the trailer subtitle file of that language into the queue.
+// Returns the result of the final fclose, or 0 when the file does not open.
+int LoadSubtitles();

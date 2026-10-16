@@ -170,7 +170,7 @@ std::int32_t CMatchingLocal::WritePacketData(std::int32_t a2, std::int32_t a3, N
 // Otherwise the room counts as joined when the connection manager is initialized and has a connected
 // member (CConnectionManager::IsInitialized() is static and takes no argument; the Hex-Rays nullptr is
 // not a parameter). This is also the vtable +0x64 slot that IsInRoom(int) calls.
-bool CMatchingLocal::IsInRoom() const {
+bool CMatchingLocal::IsInRoom() {
     if (memberId_ >= 0 && memberId_ == serverMemberId_) {
         return true;
     }

@@ -47,7 +47,7 @@ void Container::InitPost() {
         m_dataId = GetDataId();                                // +0x374
         const int visual = GetVisual();
         if (visual != -1 && m_dataId != -1) {
-            m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[visual].m_w2;
+            m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[visual].Name;
         }
         GameObject::InitPost();
         if (GameObject::MeetCondition()) {

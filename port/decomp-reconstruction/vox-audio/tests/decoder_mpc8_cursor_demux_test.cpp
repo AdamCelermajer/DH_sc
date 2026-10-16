@@ -1,7 +1,7 @@
 // vox::DecoderMPC8Cursor constructor, destructor, Seek and Decode, driven through a fake
 // Musepack demuxer defined in this file (the libmpcdec functions are not in the port).
 // Checks the reader wiring, the seek arguments, 16-bit output, the end of a stream and the
-// loop restart, which seeks back to the position before the last update.
+// loop restart, which seeks back to sample 0.
 #include <cstdint>
 #include <cstdio>
 #include <new>
@@ -40,9 +40,7 @@ struct FakeDemux {
     int init_calls = 0;
     int exit_calls = 0;
     int seek_calls = 0;
-    std::uint32_t last_seek_sample = 0;
-    int last_seek_a = -1;
-    int last_seek_b = -1;
+    std::uint64_t last_seek_sample = 0;
     int seek_result = 0;  // 0 = success
     float* last_buffer = nullptr;
 };
@@ -94,12 +92,10 @@ void mpc_demux_decode(mpc_demux* demux, MpcFrameInfo* frame) {
     }
 }
 
-int mpc_demux_seek_sample(mpc_demux* demux, std::uint32_t sample, int a, int b) {
+int mpc_demux_seek_sample(mpc_demux* demux, std::uint64_t sample) {
     (void)demux;
     ++g.seek_calls;
     g.last_seek_sample = sample;
-    g.last_seek_a = a;
-    g.last_seek_b = b;
     if (g.seek_result == 0) {
         g.next = 0;  // the fake restarts its blocks from the beginning
     }
@@ -139,7 +135,7 @@ int main() {
         CHECK(g.seek_calls == 0);
         CHECK(cursor.Seek(7) == 0);
         CHECK(g.seek_calls == 1);
-        CHECK(g.last_seek_sample == 7 && g.last_seek_a == 0 && g.last_seek_b == 0);
+        CHECK(g.last_seek_sample == 0);  // the listing seeks to sample 0 whatever the request (r2:r3 = 0)
         g.seek_result = 1;
         CHECK(cursor.Seek(9) == -1);
         CHECK(g.seek_calls == 2);
@@ -190,7 +186,7 @@ int main() {
         CHECK(out[0] == 16384 && out[1] == 16384 && out[2] == -16384 && out[3] == -16384);
         CHECK(out[4] == 16384 && out[5] == 16384 && out[6] == -16384 && out[7] == -16384);
         CHECK(g.seek_calls == 2);
-        CHECK(g.last_seek_sample == 0 && g.last_seek_a == 0 && g.last_seek_b == 0);
+        CHECK(g.last_seek_sample == 0);
     }
 
     std::printf("decoder_mpc8_cursor_demux_test: %s\n", g_failures == 0 ? "ok" : "FAILED");

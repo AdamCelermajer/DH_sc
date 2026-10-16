@@ -58,6 +58,9 @@ bool plane3d<T>::getIntersectionWithPlanes(const plane3d<T>& p2, const plane3d<T
 
 template bool plane3d<float>::getIntersectionWithPlane(const plane3d<float>&, vector3d<float>&,
                                                        vector3d<float>&) const;
+// 0x40f0b4 getIntersectionWithLimitedLine (defined in the class, glitch_core.hpp): emitted here for float.
+template bool plane3d<float>::getIntersectionWithLimitedLine(const vector3d<float>&, const vector3d<float>&,
+                                                             vector3d<float>&) const;
 template bool plane3d<float>::getIntersectionWithPlanes(const plane3d<float>&, const plane3d<float>&,
                                                         vector3d<float>&) const;
 

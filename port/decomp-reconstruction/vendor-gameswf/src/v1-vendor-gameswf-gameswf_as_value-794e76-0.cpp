@@ -62,10 +62,10 @@ as_value::as_value(as_object* obj) : m_flags(0), m_type(OBJECT), m_object(obj), 
 
 // 0x797408 gameswf::as_value::as_value(wchar_t const*)  [C1]
 // 0x797448 gameswf::as_value::as_value(wchar_t const*)  [C2, same listing]
-// PARTIAL. The listing stores type 4, then calls set_string("") before +0x04 has been written, and only then
+// The listing stores type 4, then calls set_string("") before +0x04 has been written, and only then
 // encodes the wide text into +0x04. In set_string that first call (type 4) assigns through +0x04, which is not
 // initialised at that point (the pointer is whatever the stack held). This build allocates the empty string first
-// and encodes into it. The uninitialised write is not reproduced. Both symbols share this one definition.
+// and encodes into it. That first call writes through an uninitialised pointer (undefined in the binary), which is why it is not reproduced. Both symbols share this one definition.
 as_value::as_value(const wchar_t* wstr)
     : m_flags(0), m_type(STRING), m_string(nullptr), m_owner(nullptr) {
 	void* mem = operator new(sizeof(tu_string), static_cast<swf::MemHint>(0));

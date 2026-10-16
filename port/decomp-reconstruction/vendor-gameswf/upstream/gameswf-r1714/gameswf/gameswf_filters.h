@@ -12,7 +12,9 @@
 
 namespace gameswf
 {
-	void read_filter_list( stream* in );
+	// DH2: 0x758ca8. r1714 declares read_filter_list(stream*), which keeps nothing; the DH2 binary fills an effect.
+	struct effect;
+	void read_filter_list( stream* in, effect& fx );
 }
 
 #endif //GAMESWF_FILTERS_H

@@ -822,4 +822,11 @@ int CTextureTransformEx::applyAddedValue(void* values, float* weights, int count
 // 0x6e33f4 _ZNK6glitch7collada15animation_track19CTextureTransformEx13retrieveValueEPvS3_ (empty)
 void CTextureTransformEx::retrieveValue(void*, void*) const {}
 
+// The objects getAnimationTrackEx (0x611ae0) returns: 0x9f8350, 0x9f8390, 0x9f8380, 0x9f8370, 0x9f8360.
+CFloatEx CFloatEx::s_Instance;
+CWeightEx CWeightEx::s_Instance;
+CVisibilityEx CVisibilityEx::s_Instance;
+CVector3dEx CVector3dEx::s_Instance;
+CTextureTransformEx CTextureTransformEx::s_Instance;
+
 }  // namespace glitch::collada::animation_track

@@ -34,7 +34,7 @@ int main() {
     CHECK(!attrs.existsAttribute("nope"));
     CHECK(attrs.findAttribute("nope") == 0xffffffffu);
     CHECK(attrs.getInt("nope") == 0 && attrs.getFloat("nope") == 0.f);
-    CHECK(attrs.getBool("nope") == false && attrs.getEnum("nope") == 0);
+    CHECK(attrs.getBool("nope") == false && attrs.getEnum("nope") == nullptr);
     CHECK(attrs.getAttributeType("nope") == 0x1e);
     CHECK(attrs.getColorf("nope").a == 1.f && attrs.getColorf("nope").r == 0.f);
     CHECK(attrs.getColor("nope").color == 0);

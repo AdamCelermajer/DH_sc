@@ -27,8 +27,10 @@ int main() {
     CHECK(conn.getNextIncomingPacket() == nullptr);
     auto* first = new DefaultDataPacket();
     auto* second = new DefaultDataPacket();
-    CHECK(conn.addIncomingPacket(first) == 0);
-    CHECK(conn.addIncomingPacket(second) == 0);
+    // The result is the old tail, or the connection itself for an empty queue (the register the original leaves).
+    CHECK(conn.addIncomingPacket(first) == static_cast<int>(reinterpret_cast<std::uintptr_t>(&conn)));
+    CHECK(conn.addIncomingPacket(second) == static_cast<int>(reinterpret_cast<std::uintptr_t>(first)));
+    CHECK(conn.addIncomingPacket(nullptr) == static_cast<int>(reinterpret_cast<std::uintptr_t>(&conn)));
     DataPacket* out = conn.getNextIncomingPacket();
     CHECK(out == first);
     delete out;
@@ -52,7 +54,7 @@ int main() {
     CHECK(conn.sendCreateSessionPackage(host, nullptr, 3) == 0);
     CHECK(conn.sendListSessionsAllPackage(1, 2) == 0);
     CHECK(conn.sendFinishConnectionPackage() >= 0);
-    CHECK(conn.sendKickOutPlayerPackage(nullptr) == 0);
+    CHECK(conn.sendKickOutPlayerPackage(nullptr) == static_cast<int>(reinterpret_cast<std::uintptr_t>(&conn)));
 
     // Only a non-null name is stored.
     conn.setName(host);

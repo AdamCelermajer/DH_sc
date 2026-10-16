@@ -36,18 +36,18 @@ public:
     int IsLoggedIn() const;
     // 0x52e2d4 _ZN15CXPlayerManager14OnNetworkErrorEv: prints the error, sets the error code
     // to 3 and switches to state 0x11. Slot 0 of the observer calls this.
-    void OnNetworkError();
+    void OnNetworkError() override;
     // Observer slot 1: a timeout in state 0x0b moves the pending score to +0x1c.
     // 0x52e15c _ZN15CXPlayerManager16OnRequestTimeoutEi
     void OnRequestTimeout(std::int32_t requestId) override;
     // 0x52e1b4 _ZN15CXPlayerManager16OnRequestFailureEii: maps the error code to the last error.
-    void OnRequestFailure(std::int32_t functionId, std::int32_t errorCode);
+    void OnRequestFailure(std::int32_t functionId, std::int32_t errorCode) override;
     // 0x52e304 _ZN15CXPlayerManager6LogoutEv
     void Logout();
     // 0x52e358 _ZN15CXPlayerManager5LoginEPcS0_
     void Login(const char* user, const char* password);
     // Observer slot 2: 0x52e3f8 _ZN15CXPlayerManager16OnRequestSuccessEiPci
-    void OnRequestSuccess(std::int32_t functionId, const char* data, std::int32_t dataLength);
+    void OnRequestSuccess(std::int32_t functionId, char* data, std::int32_t dataLength) override;
     // 0x52e524 _ZN15CXPlayerManager4InitEv. Creates the server-config object, sends its request and
     // creates the login and leaderboard services when the status is 1 (see the .cpp).
     void Init();
@@ -58,12 +58,6 @@ public:
     // login keep-alive. Returns nothing; the original's int result is the unused this pointer.
     void Update();
 
-    // Observer slot 0 (OnDownloadError) is OnNetworkError in the original vtable.
-    void OnDownloadError(std::int32_t code) override;
-    // Observer slot 3 forwards to OnRequestFailure. The argument order is inferred.
-    void OnResponseError(std::int32_t code, std::int32_t detail) override;
-    // Observer slot 2 forwards to OnRequestSuccess (same arguments).
-    void OnResponseText(std::int32_t functionId, const char* text, std::int32_t length) override;
 
     // Not in the original: test seams.
     CXPlayerManagerState StateForTest() const { return state_; }

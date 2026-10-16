@@ -163,18 +163,17 @@ struct Part1bSetCvt<T, std::void_t<decltype(part1b::setParameterCvt(
 
 template <>
 struct MixinBackend<MaterialOwner> {
-    // Pointer rows (codes 12..15 and 18) are dispatched. Code 11 goes to the class matrix accessor in the
-    // dispatchers marked true below. The class has no pointer form of the matrix Cvt getter and no matrix Cvt
-    // setter, so the pointer Cvt dispatchers and the indexed Cvt setter dispatcher return 0 for code 11.
+    // Pointer rows (codes 12..15 and 18) are dispatched. Code 11 goes to the class matrix accessor in every dispatcher: the class
+    // has no matrix Cvt accessor, and the Cvt dispatchers of the binary call the plain matrix accessor (see the typed_impl header).
     static constexpr bool kPointerRows = true;
     static constexpr bool kMatrixPtrGet = true;
     static constexpr bool kMatrixPtrSet = true;
-    static constexpr bool kMatrixPtrGetCvt = false;
-    static constexpr bool kMatrixPtrSetCvt = false;
+    static constexpr bool kMatrixPtrGetCvt = true;
+    static constexpr bool kMatrixPtrSetCvt = true;
     static constexpr bool kMatrixIdxGet = true;
     static constexpr bool kMatrixIdxSet = true;
     static constexpr bool kMatrixIdxGetCvt = true;
-    static constexpr bool kMatrixIdxSetCvt = false;
+    static constexpr bool kMatrixIdxSetCvt = true;
 
     // ---- Pointer forms: stride in bytes. Part 1b has the numeric rows of the getter forms for some types.
 

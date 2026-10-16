@@ -22,14 +22,14 @@ void ScriptCmd::finalize() {
 
 // 0x4ff828 _ZN7Structs9ScriptCmd4readEP11IStreamBase
 void ScriptCmd::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
+    ID = StreamReader::readAs<std::int32_t>(stream);  // +0x4
 }
 
 // 0x4d2a60 _ZN7Structs14AIChangeScriptD2Ev
 // 0x4d29ec _ZN7Structs14AIChangeScriptD1Ev
 AIChangeScript::~AIChangeScript() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Script != nullptr) CustomFree(Script);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x14
 }
 
 // 0x4d2a44 _ZN7Structs14AIChangeScriptD0Ev
@@ -40,15 +40,15 @@ void DeletingDestructor(AIChangeScript* self) {
 
 // 0x4d29a0 _ZN7Structs14AIChangeScript8finalizeEv
 void AIChangeScript::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Script != nullptr) {
+        CustomFree(Script);  // +0xc
+        ScriptSize = 0;  // +0x8
+        Script = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x14
+        TargetSize = 0;  // +0x10
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -56,22 +56,22 @@ void AIChangeScript::finalize() {
 // 0x501974 _ZN7Structs14AIChangeScript4readEP11IStreamBase
 void AIChangeScript::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
+    ScriptSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Script != nullptr) CustomFree(Script);  // +0xc
+    Script = static_cast<char*>(::operator new[](static_cast<std::size_t>(ScriptSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Script, ScriptSize);
+    Script[ScriptSize] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x14
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d2b4c _ZN7Structs9AIDoSkillD2Ev
 // 0x4d2ae8 _ZN7Structs9AIDoSkillD1Ev
 AIDoSkill::~AIDoSkill() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x10
 }
 
 // 0x4d2b30 _ZN7Structs9AIDoSkillD0Ev
@@ -82,10 +82,10 @@ void DeletingDestructor(AIDoSkill* self) {
 
 // 0x4d2ab8 _ZN7Structs9AIDoSkill8finalizeEv
 void AIDoSkill::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x10
+        TargetSize = 0;  // +0xc
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -93,12 +93,12 @@ void AIDoSkill::finalize() {
 // 0x501ad8 _ZN7Structs9AIDoSkill4readEP11IStreamBase
 void AIDoSkill::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
+    Skill = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x10
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c7404 _ZN7Structs13AIEnableTimerD2Ev
@@ -121,7 +121,7 @@ void AIEnableTimer::finalize() {
 // 0x4ff9b4 _ZN7Structs13AIEnableTimer4readEP11IStreamBase
 void AIEnableTimer::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
+    Enable = StreamReader::readAs<bool>(stream);  // +0x8
 }
 
 // 0x4c7470 _ZN7Structs12AIResetTimerD2Ev
@@ -167,14 +167,14 @@ void AISetHP::finalize() {
 // 0x5030b8 _ZN7Structs7AISetHP4readEP11IStreamBase
 void AISetHP::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Percent = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4d2948 _ZN7Structs8AISetIntD2Ev
 // 0x4d28d4 _ZN7Structs8AISetIntD1Ev
 AISetInt::~AISetInt() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Name != nullptr) CustomFree(Name);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x14
 }
 
 // 0x4d292c _ZN7Structs8AISetIntD0Ev
@@ -185,15 +185,15 @@ void DeletingDestructor(AISetInt* self) {
 
 // 0x4d2888 _ZN7Structs8AISetInt8finalizeEv
 void AISetInt::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Name != nullptr) {
+        CustomFree(Name);  // +0xc
+        NameSize = 0;  // +0x8
+        Name = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x14
+        TargetSize = 0;  // +0x10
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -201,23 +201,23 @@ void AISetInt::finalize() {
 // 0x5017b4 _ZN7Structs8AISetInt4readEP11IStreamBase
 void AISetInt::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    NameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Name != nullptr) CustomFree(Name);  // +0xc
+    Name = static_cast<char*>(::operator new[](static_cast<std::size_t>(NameSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Name, NameSize);
+    Name[NameSize] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x14
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Value = StreamReader::readAs<std::int32_t>(stream);  // +0x18
 }
 
 // 0x4d1878 _ZN7Structs22ActivateProjectileTrapD2Ev
 // 0x4d1814 _ZN7Structs22ActivateProjectileTrapD1Ev
 ActivateProjectileTrap::~ActivateProjectileTrap() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d185c _ZN7Structs22ActivateProjectileTrapD0Ev
@@ -228,10 +228,10 @@ void DeletingDestructor(ActivateProjectileTrap* self) {
 
 // 0x4d17e4 _ZN7Structs22ActivateProjectileTrap8finalizeEv
 void ActivateProjectileTrap::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -239,17 +239,17 @@ void ActivateProjectileTrap::finalize() {
 // 0x500530 _ZN7Structs22ActivateProjectileTrap4readEP11IStreamBase
 void ActivateProjectileTrap::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d16c0 _ZN7Structs20ActivateTriggerPlateD2Ev
 // 0x4d165c _ZN7Structs20ActivateTriggerPlateD1Ev
 ActivateTriggerPlate::~ActivateTriggerPlate() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d16a4 _ZN7Structs20ActivateTriggerPlateD0Ev
@@ -260,10 +260,10 @@ void DeletingDestructor(ActivateTriggerPlate* self) {
 
 // 0x4d162c _ZN7Structs20ActivateTriggerPlate8finalizeEv
 void ActivateTriggerPlate::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -271,17 +271,17 @@ void ActivateTriggerPlate::finalize() {
 // 0x5003b0 _ZN7Structs20ActivateTriggerPlate4readEP11IStreamBase
 void ActivateTriggerPlate::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d1e7c _ZN7Structs9AutoEquipD2Ev
 // 0x4d1e18 _ZN7Structs9AutoEquipD1Ev
 AutoEquip::~AutoEquip() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d1e60 _ZN7Structs9AutoEquipD0Ev
@@ -292,10 +292,10 @@ void DeletingDestructor(AutoEquip* self) {
 
 // 0x4d1de8 _ZN7Structs9AutoEquip8finalizeEv
 void AutoEquip::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -303,11 +303,11 @@ void AutoEquip::finalize() {
 // 0x500af0 _ZN7Structs9AutoEquip4readEP11IStreamBase
 void AutoEquip::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c7764 _ZN7Structs20AwardEndGameTrophiesD2Ev
@@ -353,7 +353,7 @@ void AwardTrophy::finalize() {
 // 0x502e98 _ZN7Structs11AwardTrophy4readEP11IStreamBase
 void AwardTrophy::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Trophy = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c78a8 _ZN7Structs13BlockSaveGameD2Ev
@@ -382,7 +382,7 @@ void BlockSaveGame::read(IStreamBase* stream) {
 // 0x4d3994 _ZN7Structs7CONSOLED2Ev
 // 0x4d3930 _ZN7Structs7CONSOLED1Ev
 CONSOLE::~CONSOLE() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Text != nullptr) CustomFree(Text);  // +0xc
 }
 
 // 0x4d3978 _ZN7Structs7CONSOLED0Ev
@@ -393,10 +393,10 @@ void DeletingDestructor(CONSOLE* self) {
 
 // 0x4d3900 _ZN7Structs7CONSOLE8finalizeEv
 void CONSOLE::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Text != nullptr) {
+        CustomFree(Text);  // +0xc
+        TextSize = 0;  // +0x8
+        Text = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -404,17 +404,17 @@ void CONSOLE::finalize() {
 // 0x5029bc _ZN7Structs7CONSOLE4readEP11IStreamBase
 void CONSOLE::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TextSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Text != nullptr) CustomFree(Text);  // +0xc
+    Text = static_cast<char*>(::operator new[](static_cast<std::size_t>(TextSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Text, TextSize);
+    Text[TextSize] = '\0';
 }
 
 // 0x4d142c _ZN7Structs11ChangeLevelD2Ev
 // 0x4d13c8 _ZN7Structs11ChangeLevelD1Ev
 ChangeLevel::~ChangeLevel() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Level != nullptr) CustomFree(Level);  // +0x10
 }
 
 // 0x4d1410 _ZN7Structs11ChangeLevelD0Ev
@@ -425,10 +425,10 @@ void DeletingDestructor(ChangeLevel* self) {
 
 // 0x4d1398 _ZN7Structs11ChangeLevel8finalizeEv
 void ChangeLevel::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Level != nullptr) {
+        CustomFree(Level);  // +0x10
+        LevelSize = 0;  // +0xc
+        Level = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -436,18 +436,18 @@ void ChangeLevel::finalize() {
 // 0x500114 _ZN7Structs11ChangeLevel4readEP11IStreamBase
 void ChangeLevel::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
+    Entrypoint = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    LevelSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Level != nullptr) CustomFree(Level);  // +0x10
+    Level = static_cast<char*>(::operator new[](static_cast<std::size_t>(LevelSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Level, LevelSize);
+    Level[LevelSize] = '\0';
 }
 
 // 0x4d1954 _ZN7Structs9CloseDoorD2Ev
 // 0x4d18f0 _ZN7Structs9CloseDoorD1Ev
 CloseDoor::~CloseDoor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d1938 _ZN7Structs9CloseDoorD0Ev
@@ -458,10 +458,10 @@ void DeletingDestructor(CloseDoor* self) {
 
 // 0x4d18c0 _ZN7Structs9CloseDoor8finalizeEv
 void CloseDoor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -469,18 +469,18 @@ void CloseDoor::finalize() {
 // 0x5005f0 _ZN7Structs9CloseDoor4readEP11IStreamBase
 void CloseDoor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x10
 }
 
 // 0x4d179c _ZN7Structs24DeactivateProjectileTrapD2Ev
 // 0x4d1738 _ZN7Structs24DeactivateProjectileTrapD1Ev
 DeactivateProjectileTrap::~DeactivateProjectileTrap() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d1780 _ZN7Structs24DeactivateProjectileTrapD0Ev
@@ -491,10 +491,10 @@ void DeletingDestructor(DeactivateProjectileTrap* self) {
 
 // 0x4d1708 _ZN7Structs24DeactivateProjectileTrap8finalizeEv
 void DeactivateProjectileTrap::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -502,17 +502,17 @@ void DeactivateProjectileTrap::finalize() {
 // 0x500470 _ZN7Structs24DeactivateProjectileTrap4readEP11IStreamBase
 void DeactivateProjectileTrap::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d15e4 _ZN7Structs22DeactivateTriggerPlateD2Ev
 // 0x4d1580 _ZN7Structs22DeactivateTriggerPlateD1Ev
 DeactivateTriggerPlate::~DeactivateTriggerPlate() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d15c8 _ZN7Structs22DeactivateTriggerPlateD0Ev
@@ -523,10 +523,10 @@ void DeletingDestructor(DeactivateTriggerPlate* self) {
 
 // 0x4d1550 _ZN7Structs22DeactivateTriggerPlate8finalizeEv
 void DeactivateTriggerPlate::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -534,17 +534,17 @@ void DeactivateTriggerPlate::finalize() {
 // 0x5002f0 _ZN7Structs22DeactivateTriggerPlate4readEP11IStreamBase
 void DeactivateTriggerPlate::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d1238 _ZN7Structs10DoTutorialD2Ev
 // 0x4d11d4 _ZN7Structs10DoTutorialD1Ev
 DoTutorial::~DoTutorial() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (ScriptName != nullptr) CustomFree(ScriptName);  // +0xc
 }
 
 // 0x4d121c _ZN7Structs10DoTutorialD0Ev
@@ -555,10 +555,10 @@ void DeletingDestructor(DoTutorial* self) {
 
 // 0x4d11a4 _ZN7Structs10DoTutorial8finalizeEv
 void DoTutorial::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (ScriptName != nullptr) {
+        CustomFree(ScriptName);  // +0xc
+        ScriptNameSize = 0;  // +0x8
+        ScriptName = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -566,19 +566,19 @@ void DoTutorial::finalize() {
 // 0x4ffe38 _ZN7Structs10DoTutorial4readEP11IStreamBase
 void DoTutorial::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    ScriptNameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (ScriptName != nullptr) CustomFree(ScriptName);  // +0xc
+    ScriptName = static_cast<char*>(::operator new[](static_cast<std::size_t>(ScriptNameSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, ScriptName, ScriptNameSize);
+    ScriptName[ScriptNameSize] = '\0';
+    Tutorial = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 
 // 0x4d1f84 _ZN7Structs8DropLootD2Ev
 // 0x4d1f10 _ZN7Structs8DropLootD1Ev
 DropLoot::~DropLoot() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (From != nullptr) CustomFree(From);  // +0xc
+    if (To != nullptr) CustomFree(To);  // +0x14
 }
 
 // 0x4d1f68 _ZN7Structs8DropLootD0Ev
@@ -589,15 +589,15 @@ void DeletingDestructor(DropLoot* self) {
 
 // 0x4d1ec4 _ZN7Structs8DropLoot8finalizeEv
 void DropLoot::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (From != nullptr) {
+        CustomFree(From);  // +0xc
+        FromSize = 0;  // +0x8
+        From = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (To != nullptr) {
+        CustomFree(To);  // +0x14
+        ToSize = 0;  // +0x10
+        To = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -605,16 +605,16 @@ void DropLoot::finalize() {
 // 0x500bb0 _ZN7Structs8DropLoot4readEP11IStreamBase
 void DropLoot::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
+    FromSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (From != nullptr) CustomFree(From);  // +0xc
+    From = static_cast<char*>(::operator new[](static_cast<std::size_t>(FromSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, From, FromSize);
+    From[FromSize] = '\0';
+    ToSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (To != nullptr) CustomFree(To);  // +0x14
+    To = static_cast<char*>(::operator new[](static_cast<std::size_t>(ToSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, To, ToSize);
+    To[ToSize] = '\0';
 }
 
 // 0x4c768c _ZN7Structs7EndGameD2Ev
@@ -643,8 +643,8 @@ void EndGame::read(IStreamBase* stream) {
 // 0x4d1340 _ZN7Structs30EnqueueCharMenuTutorialMessageD2Ev
 // 0x4d12cc _ZN7Structs30EnqueueCharMenuTutorialMessageD1Ev
 EnqueueCharMenuTutorialMessage::~EnqueueCharMenuTutorialMessage() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Frame != nullptr) CustomFree(Frame);  // +0xc
+    if (Menu != nullptr) CustomFree(Menu);  // +0x14
 }
 
 // 0x4d1324 _ZN7Structs30EnqueueCharMenuTutorialMessageD0Ev
@@ -655,15 +655,15 @@ void DeletingDestructor(EnqueueCharMenuTutorialMessage* self) {
 
 // 0x4d1280 _ZN7Structs30EnqueueCharMenuTutorialMessage8finalizeEv
 void EnqueueCharMenuTutorialMessage::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Frame != nullptr) {
+        CustomFree(Frame);  // +0xc
+        FrameSize = 0;  // +0x8
+        Frame = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Menu != nullptr) {
+        CustomFree(Menu);  // +0x14
+        MenuSize = 0;  // +0x10
+        Menu = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -671,17 +671,17 @@ void EnqueueCharMenuTutorialMessage::finalize() {
 // 0x4fff54 _ZN7Structs30EnqueueCharMenuTutorialMessage4readEP11IStreamBase
 void EnqueueCharMenuTutorialMessage::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    FrameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Frame != nullptr) CustomFree(Frame);  // +0xc
+    Frame = static_cast<char*>(::operator new[](static_cast<std::size_t>(FrameSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Frame, FrameSize);
+    Frame[FrameSize] = '\0';
+    MenuSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Menu != nullptr) CustomFree(Menu);  // +0x14
+    Menu = static_cast<char*>(::operator new[](static_cast<std::size_t>(MenuSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Menu, MenuSize);
+    Menu[MenuSize] = '\0';
+    Text = StreamReader::readAs<std::int32_t>(stream);  // +0x18
 }
 
 // 0x4c7914 _ZN7Structs22EnqueueTutorialMessageD2Ev
@@ -704,8 +704,8 @@ void EnqueueTutorialMessage::finalize() {
 // 0x502dc4 _ZN7Structs22EnqueueTutorialMessage4readEP11IStreamBase
 void EnqueueTutorialMessage::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Duration = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Text = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c6c6c _ZN7Structs17EnterCutSceneModeD2Ev
@@ -803,7 +803,7 @@ void FlushMessages::read(IStreamBase* stream) {
 // 0x4d2458 _ZN7Structs9HideActorD2Ev
 // 0x4d23f4 _ZN7Structs9HideActorD1Ev
 HideActor::~HideActor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d243c _ZN7Structs9HideActorD0Ev
@@ -814,10 +814,10 @@ void DeletingDestructor(HideActor* self) {
 
 // 0x4d23c4 _ZN7Structs9HideActor8finalizeEv
 void HideActor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -825,17 +825,17 @@ void HideActor::finalize() {
 // 0x501294 _ZN7Structs9HideActor4readEP11IStreamBase
 void HideActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d3180 _ZN7Structs9HideFlashD2Ev
 // 0x4d311c _ZN7Structs9HideFlashD1Ev
 HideFlash::~HideFlash() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Name != nullptr) CustomFree(Name);  // +0x10
 }
 
 // 0x4d3164 _ZN7Structs9HideFlashD0Ev
@@ -846,10 +846,10 @@ void DeletingDestructor(HideFlash* self) {
 
 // 0x4d30bc _ZN7Structs9HideFlash8finalizeEv
 void HideFlash::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Name != nullptr) {
+        CustomFree(Name);  // +0x10
+        NameSize = 0;  // +0xc
+        Name = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -857,13 +857,13 @@ void HideFlash::finalize() {
 // 0x50208c _ZN7Structs9HideFlash4readEP11IStreamBase
 void HideFlash::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
-    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
+    Loop = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    NameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Name != nullptr) CustomFree(Name);  // +0x10
+    Name = static_cast<char*>(::operator new[](static_cast<std::size_t>(NameSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Name, NameSize);
+    Name[NameSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c7398 _ZN7Structs13IncFaeryLevelD2Ev
@@ -886,13 +886,13 @@ void IncFaeryLevel::finalize() {
 // 0x503130 _ZN7Structs13IncFaeryLevel4readEP11IStreamBase
 void IncFaeryLevel::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Faery = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4d237c _ZN7Structs9KillActorD2Ev
 // 0x4d2318 _ZN7Structs9KillActorD1Ev
 KillActor::~KillActor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d2360 _ZN7Structs9KillActorD0Ev
@@ -903,10 +903,10 @@ void DeletingDestructor(KillActor* self) {
 
 // 0x4d22e8 _ZN7Structs9KillActor8finalizeEv
 void KillActor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -914,11 +914,11 @@ void KillActor::finalize() {
 // 0x5011d4 _ZN7Structs9KillActor4readEP11IStreamBase
 void KillActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c71e8 _ZN7Structs13LeaveSafeZoneD2Ev
@@ -947,7 +947,7 @@ void LeaveSafeZone::read(IStreamBase* stream) {
 // 0x4d3074 _ZN7Structs13LockCharacterD2Ev
 // 0x4d3010 _ZN7Structs13LockCharacterD1Ev
 LockCharacter::~LockCharacter() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d3058 _ZN7Structs13LockCharacterD0Ev
@@ -958,10 +958,10 @@ void DeletingDestructor(LockCharacter* self) {
 
 // 0x4d2fe0 _ZN7Structs13LockCharacter8finalizeEv
 void LockCharacter::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -969,11 +969,11 @@ void LockCharacter::finalize() {
 // 0x501fcc _ZN7Structs13LockCharacter4readEP11IStreamBase
 void LockCharacter::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c7b30 _ZN7Structs12LockTutorialD2Ev
@@ -996,14 +996,14 @@ void LockTutorial::finalize() {
 // 0x502a7c _ZN7Structs12LockTutorial4readEP11IStreamBase
 void LockTutorial::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Tutorial = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4d263c _ZN7Structs9LookActorD2Ev
 // 0x4d25c8 _ZN7Structs9LookActorD1Ev
 LookActor::~LookActor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Object != nullptr) CustomFree(Object);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x14
 }
 
 // 0x4d2620 _ZN7Structs9LookActorD0Ev
@@ -1014,15 +1014,15 @@ void DeletingDestructor(LookActor* self) {
 
 // 0x4d257c _ZN7Structs9LookActor8finalizeEv
 void LookActor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Object != nullptr) {
+        CustomFree(Object);  // +0xc
+        ObjectSize = 0;  // +0x8
+        Object = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x14
+        TargetSize = 0;  // +0x10
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1030,22 +1030,22 @@ void LookActor::finalize() {
 // 0x501414 _ZN7Structs9LookActor4readEP11IStreamBase
 void LookActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
+    ObjectSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Object != nullptr) CustomFree(Object);  // +0xc
+    Object = static_cast<char*>(::operator new[](static_cast<std::size_t>(ObjectSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Object, ObjectSize);
+    Object[ObjectSize] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x14
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d2c28 _ZN7Structs23MarkCharacterAsScriptedD2Ev
 // 0x4d2bc4 _ZN7Structs23MarkCharacterAsScriptedD1Ev
 MarkCharacterAsScripted::~MarkCharacterAsScripted() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x10
 }
 
 // 0x4d2c0c _ZN7Structs23MarkCharacterAsScriptedD0Ev
@@ -1056,10 +1056,10 @@ void DeletingDestructor(MarkCharacterAsScripted* self) {
 
 // 0x4d2b94 _ZN7Structs23MarkCharacterAsScripted8finalizeEv
 void MarkCharacterAsScripted::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x10
+        TargetSize = 0;  // +0xc
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1067,19 +1067,19 @@ void MarkCharacterAsScripted::finalize() {
 // 0x501bf4 _ZN7Structs23MarkCharacterAsScripted4readEP11IStreamBase
 void MarkCharacterAsScripted::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
+    Enable = StreamReader::readAs<bool>(stream);  // +0x8
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x10
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d2754 _ZN7Structs9MoveActorD2Ev
 // 0x4d26e0 _ZN7Structs9MoveActorD1Ev
 MoveActor::~MoveActor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    if (Destination != nullptr) CustomFree(Destination);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x18
 }
 
 // 0x4d2738 _ZN7Structs9MoveActorD0Ev
@@ -1090,15 +1090,15 @@ void DeletingDestructor(MoveActor* self) {
 
 // 0x4d2694 _ZN7Structs9MoveActor8finalizeEv
 void MoveActor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Destination != nullptr) {
+        CustomFree(Destination);  // +0xc
+        DestinationSize = 0;  // +0x8
+        Destination = nullptr;
     }
-    if (m_w6 != nullptr) {
-        CustomFree(m_w6);  // +0x18
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x18
+        TargetSize = 0;  // +0x14
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1106,18 +1106,18 @@ void MoveActor::finalize() {
 // 0x501578 _ZN7Structs9MoveActor4readEP11IStreamBase
 void MoveActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
-    m_w6 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w5) + 1, kPydataBufferHint));  // +0x18, length +0x14
-    StreamReader::readStringEx(stream, m_w6, m_w5);
-    m_w6[m_w5] = '\0';
-    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
+    DestinationSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Destination != nullptr) CustomFree(Destination);  // +0xc
+    Destination = static_cast<char*>(::operator new[](static_cast<std::size_t>(DestinationSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Destination, DestinationSize);
+    Destination[DestinationSize] = '\0';
+    Forced = StreamReader::readAs<bool>(stream);  // +0x10
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
+    if (Target != nullptr) CustomFree(Target);  // +0x18
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x18, length +0x14
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4c6e88 _ZN7Structs6NilCmdD2Ev
@@ -1146,7 +1146,7 @@ void NilCmd::read(IStreamBase* stream) {
 // 0x4d1a30 _ZN7Structs8OpenDoorD2Ev
 // 0x4d19cc _ZN7Structs8OpenDoorD1Ev
 OpenDoor::~OpenDoor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d1a14 _ZN7Structs8OpenDoorD0Ev
@@ -1157,10 +1157,10 @@ void DeletingDestructor(OpenDoor* self) {
 
 // 0x4d199c _ZN7Structs8OpenDoor8finalizeEv
 void OpenDoor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1168,18 +1168,18 @@ void OpenDoor::finalize() {
 // 0x5006bc _ZN7Structs8OpenDoor4readEP11IStreamBase
 void OpenDoor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x10
 }
 
 // 0x4d22a0 _ZN7Structs13PlayActorAnimD2Ev
 // 0x4d223c _ZN7Structs13PlayActorAnimD1Ev
 PlayActorAnim::~PlayActorAnim() {
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    if (Target != nullptr) CustomFree(Target);  // +0x18
 }
 
 // 0x4d2284 _ZN7Structs13PlayActorAnimD0Ev
@@ -1190,10 +1190,10 @@ void DeletingDestructor(PlayActorAnim* self) {
 
 // 0x4d220c _ZN7Structs13PlayActorAnim8finalizeEv
 void PlayActorAnim::finalize() {
-    if (m_w6 != nullptr) {
-        CustomFree(m_w6);  // +0x18
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x18
+        TargetSize = 0;  // +0x14
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1201,21 +1201,21 @@ void PlayActorAnim::finalize() {
 // 0x500ff4 _ZN7Structs13PlayActorAnim4readEP11IStreamBase
 void PlayActorAnim::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
-    m_w6 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w5) + 1, kPydataBufferHint));  // +0x18, length +0x14
-    StreamReader::readStringEx(stream, m_w6, m_w5);
-    m_w6[m_w5] = '\0';
-    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
+    Anim = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Next = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Slot = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
+    if (Target != nullptr) CustomFree(Target);  // +0x18
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x18, length +0x14
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4d36c4 _ZN7Structs12PlayAnimByIdD2Ev
 // 0x4d3660 _ZN7Structs12PlayAnimByIdD1Ev
 PlayAnimById::~PlayAnimById() {
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Target != nullptr) CustomFree(Target);  // +0x14
 }
 
 // 0x4d36a8 _ZN7Structs12PlayAnimByIdD0Ev
@@ -1226,10 +1226,10 @@ void DeletingDestructor(PlayAnimById* self) {
 
 // 0x4d3630 _ZN7Structs12PlayAnimById8finalizeEv
 void PlayAnimById::finalize() {
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x14
+        TargetSize = 0;  // +0x10
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1237,21 +1237,21 @@ void PlayAnimById::finalize() {
 // 0x502594 _ZN7Structs12PlayAnimById4readEP11IStreamBase
 void PlayAnimById::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<bool>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
-    m_w6 = StreamReader::readAs<bool>(stream);  // +0x18
+    AnimID = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Loop = StreamReader::readAs<bool>(stream);  // +0xc
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x14
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x18
 }
 
 // 0x4d35d8 _ZN7Structs14PlayAnimByNameD2Ev
 // 0x4d3564 _ZN7Structs14PlayAnimByNameD1Ev
 PlayAnimByName::~PlayAnimByName() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    if (AnimName != nullptr) CustomFree(AnimName);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x18
 }
 
 // 0x4d35bc _ZN7Structs14PlayAnimByNameD0Ev
@@ -1262,15 +1262,15 @@ void DeletingDestructor(PlayAnimByName* self) {
 
 // 0x4d3518 _ZN7Structs14PlayAnimByName8finalizeEv
 void PlayAnimByName::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (AnimName != nullptr) {
+        CustomFree(AnimName);  // +0xc
+        AnimNameSize = 0;  // +0x8
+        AnimName = nullptr;
     }
-    if (m_w6 != nullptr) {
-        CustomFree(m_w6);  // +0x18
-        m_w5 = 0;  // +0x14
-        m_w6 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x18
+        TargetSize = 0;  // +0x14
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1278,18 +1278,18 @@ void PlayAnimByName::finalize() {
 // 0x502418 _ZN7Structs14PlayAnimByName4readEP11IStreamBase
 void PlayAnimByName::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
-    m_w6 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w5) + 1, kPydataBufferHint));  // +0x18, length +0x14
-    StreamReader::readStringEx(stream, m_w6, m_w5);
-    m_w6[m_w5] = '\0';
-    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
+    AnimNameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (AnimName != nullptr) CustomFree(AnimName);  // +0xc
+    AnimName = static_cast<char*>(::operator new[](static_cast<std::size_t>(AnimNameSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, AnimName, AnimNameSize);
+    AnimName[AnimNameSize] = '\0';
+    Loop = StreamReader::readAs<bool>(stream);  // +0x10
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
+    if (Target != nullptr) CustomFree(Target);  // +0x18
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x18, length +0x14
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4c6d44 _ZN7Structs10PlayCameraD2Ev
@@ -1312,8 +1312,8 @@ void PlayCamera::finalize() {
 // 0x4ffba0 _ZN7Structs10PlayCamera4readEP11IStreamBase
 void PlayCamera::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<bool>(stream);  // +0xc
+    Anim = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Wait = StreamReader::readAs<bool>(stream);  // +0xc
 }
 
 // 0x4c7110 _ZN7Structs14PlayLevelMusicD2Ev
@@ -1336,7 +1336,7 @@ void PlayLevelMusic::finalize() {
 // 0x50336c _ZN7Structs14PlayLevelMusic4readEP11IStreamBase
 void PlayLevelMusic::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    FadeoutTime = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c7038 _ZN7Structs9PlaySoundD2Ev
@@ -1359,16 +1359,16 @@ void PlaySound::finalize() {
 // 0x4ffab4 _ZN7Structs9PlaySound4readEP11IStreamBase
 void PlaySound::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<bool>(stream);  // +0xc
-    m_off13 = StreamReader::readAs<bool>(stream);  // +0xd
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    FadeoutTime = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    IsMusic = StreamReader::readAs<bool>(stream);  // +0xc
+    Loop = StreamReader::readAs<bool>(stream);  // +0xd
+    SoundID = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 
 // 0x4d2d04 _ZN7Structs18PutCharacterInIdleD2Ev
 // 0x4d2ca0 _ZN7Structs18PutCharacterInIdleD1Ev
 PutCharacterInIdle::~PutCharacterInIdle() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d2ce8 _ZN7Structs18PutCharacterInIdleD0Ev
@@ -1379,10 +1379,10 @@ void DeletingDestructor(PutCharacterInIdle* self) {
 
 // 0x4d2c70 _ZN7Structs18PutCharacterInIdle8finalizeEv
 void PutCharacterInIdle::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1390,17 +1390,17 @@ void PutCharacterInIdle::finalize() {
 // 0x501cc0 _ZN7Structs18PutCharacterInIdle4readEP11IStreamBase
 void PutCharacterInIdle::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d2ebc _ZN7Structs20PutCharacterInLimbusD2Ev
 // 0x4d2e58 _ZN7Structs20PutCharacterInLimbusD1Ev
 PutCharacterInLimbus::~PutCharacterInLimbus() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x10
 }
 
 // 0x4d2ea0 _ZN7Structs20PutCharacterInLimbusD0Ev
@@ -1411,10 +1411,10 @@ void DeletingDestructor(PutCharacterInLimbus* self) {
 
 // 0x4d2e28 _ZN7Structs20PutCharacterInLimbus8finalizeEv
 void PutCharacterInLimbus::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x10
+        TargetSize = 0;  // +0xc
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1422,18 +1422,18 @@ void PutCharacterInLimbus::finalize() {
 // 0x501e40 _ZN7Structs20PutCharacterInLimbus4readEP11IStreamBase
 void PutCharacterInLimbus::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
+    AutoSpawn = StreamReader::readAs<bool>(stream);  // +0x8
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x10
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d1be8 _ZN7Structs12ReEquipHandsD2Ev
 // 0x4d1b84 _ZN7Structs12ReEquipHandsD1Ev
 ReEquipHands::~ReEquipHands() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d1bcc _ZN7Structs12ReEquipHandsD0Ev
@@ -1444,10 +1444,10 @@ void DeletingDestructor(ReEquipHands* self) {
 
 // 0x4d1b54 _ZN7Structs12ReEquipHands8finalizeEv
 void ReEquipHands::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1455,11 +1455,11 @@ void ReEquipHands::finalize() {
 // 0x500854 _ZN7Structs12ReEquipHands4readEP11IStreamBase
 void ReEquipHands::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c7620 _ZN7Structs12RestartLevelD2Ev
@@ -1511,8 +1511,8 @@ void SaveGame::read(IStreamBase* stream) {
 // 0x4d209c _ZN7Structs14SetActorMasterD2Ev
 // 0x4d2028 _ZN7Structs14SetActorMasterD1Ev
 SetActorMaster::~SetActorMaster() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    if (m_w7 != nullptr) CustomFree(m_w7);  // +0x1c
+    if (Master != nullptr) CustomFree(Master);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x1c
 }
 
 // 0x4d2080 _ZN7Structs14SetActorMasterD0Ev
@@ -1523,15 +1523,15 @@ void DeletingDestructor(SetActorMaster* self) {
 
 // 0x4d1fdc _ZN7Structs14SetActorMaster8finalizeEv
 void SetActorMaster::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Master != nullptr) {
+        CustomFree(Master);  // +0x10
+        MasterSize = 0;  // +0xc
+        Master = nullptr;
     }
-    if (m_w7 != nullptr) {
-        CustomFree(m_w7);  // +0x1c
-        m_w6 = 0;  // +0x18
-        m_w7 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x1c
+        TargetSize = 0;  // +0x18
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1539,25 +1539,25 @@ void SetActorMaster::finalize() {
 // 0x500d14 _ZN7Structs14SetActorMaster4readEP11IStreamBase
 void SetActorMaster::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
-    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<std::uint32_t>(stream);  // +0x18
-    if (m_w7 != nullptr) CustomFree(m_w7);  // +0x1c
-    m_w7 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w6) + 1, kPydataBufferHint));  // +0x1c, length +0x18
-    StreamReader::readStringEx(stream, m_w7, m_w6);
-    m_w7[m_w6] = '\0';
+    DieWithHim = StreamReader::readAs<bool>(stream);  // +0x8
+    MasterSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Master != nullptr) CustomFree(Master);  // +0x10
+    Master = static_cast<char*>(::operator new[](static_cast<std::size_t>(MasterSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Master, MasterSize);
+    Master[MasterSize] = '\0';
+    StopRespawn = StreamReader::readAs<bool>(stream);  // +0x14
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x18
+    if (Target != nullptr) CustomFree(Target);  // +0x1c
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x1c, length +0x18
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d21b4 _ZN7Structs16SetActorPositionD2Ev
 // 0x4d2140 _ZN7Structs16SetActorPositionD1Ev
 SetActorPosition::~SetActorPosition() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Position != nullptr) CustomFree(Position);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x14
 }
 
 // 0x4d2198 _ZN7Structs16SetActorPositionD0Ev
@@ -1568,15 +1568,15 @@ void DeletingDestructor(SetActorPosition* self) {
 
 // 0x4d20f4 _ZN7Structs16SetActorPosition8finalizeEv
 void SetActorPosition::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Position != nullptr) {
+        CustomFree(Position);  // +0xc
+        PositionSize = 0;  // +0x8
+        Position = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x14
+        TargetSize = 0;  // +0x10
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1584,23 +1584,23 @@ void SetActorPosition::finalize() {
 // 0x500e90 _ZN7Structs16SetActorPosition4readEP11IStreamBase
 void SetActorPosition::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
+    PositionSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Position != nullptr) CustomFree(Position);  // +0xc
+    Position = static_cast<char*>(::operator new[](static_cast<std::size_t>(PositionSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Position, PositionSize);
+    Position[PositionSize] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x14
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d38a8 _ZN7Structs9SetCameraD2Ev
 // 0x4d3834 _ZN7Structs9SetCameraD1Ev
 SetCamera::~SetCamera() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (Camera != nullptr) CustomFree(Camera);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x14
 }
 
 // 0x4d388c _ZN7Structs9SetCameraD0Ev
@@ -1611,15 +1611,15 @@ void DeletingDestructor(SetCamera* self) {
 
 // 0x4d37e8 _ZN7Structs9SetCamera8finalizeEv
 void SetCamera::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Camera != nullptr) {
+        CustomFree(Camera);  // +0xc
+        CameraSize = 0;  // +0x8
+        Camera = nullptr;
     }
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x14
+        TargetSize = 0;  // +0x10
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1627,18 +1627,18 @@ void SetCamera::finalize() {
 // 0x5027f0 _ZN7Structs9SetCamera4readEP11IStreamBase
 void SetCamera::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w4) + 1, kPydataBufferHint));  // +0x14, length +0x10
-    StreamReader::readStringEx(stream, m_w5, m_w4);
-    m_w5[m_w4] = '\0';
-    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
+    CameraSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Camera != nullptr) CustomFree(Camera);  // +0xc
+    Camera = static_cast<char*>(::operator new[](static_cast<std::size_t>(CameraSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Camera, CameraSize);
+    Camera[CameraSize] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x14
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Time = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    Wait = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4c6db0 _ZN7Structs13SetCameraClipD2Ev
@@ -1661,14 +1661,14 @@ void SetCameraClip::finalize() {
 // 0x4ff8d8 _ZN7Structs13SetCameraClip4readEP11IStreamBase
 void SetCameraClip::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Far = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Near = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4d37a0 _ZN7Structs15SetCameraTargetD2Ev
 // 0x4d373c _ZN7Structs15SetCameraTargetD1Ev
 SetCameraTarget::~SetCameraTarget() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x10
 }
 
 // 0x4d3784 _ZN7Structs15SetCameraTargetD0Ev
@@ -1679,10 +1679,10 @@ void DeletingDestructor(SetCameraTarget* self) {
 
 // 0x4d370c _ZN7Structs15SetCameraTarget8finalizeEv
 void SetCameraTarget::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x10
+        TargetSize = 0;  // +0xc
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1690,13 +1690,13 @@ void SetCameraTarget::finalize() {
 // 0x5026c8 _ZN7Structs15SetCameraTarget4readEP11IStreamBase
 void SetCameraTarget::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
-    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
+    Delay = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x10
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c732c _ZN7Structs13SetFaeryStateD2Ev
@@ -1719,8 +1719,8 @@ void SetFaeryState::finalize() {
 // 0x5031a8 _ZN7Structs13SetFaeryState4readEP11IStreamBase
 void SetFaeryState::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Faery = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4c7548 _ZN7Structs13SetLevelStateD2Ev
@@ -1743,14 +1743,14 @@ void SetLevelState::finalize() {
 // 0x502fe4 _ZN7Structs13SetLevelState4readEP11IStreamBase
 void SetLevelState::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Level = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4d1b0c _ZN7Structs9SetStaticD2Ev
 // 0x4d1aa8 _ZN7Structs9SetStaticD1Ev
 SetStatic::~SetStatic() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x10
 }
 
 // 0x4d1af0 _ZN7Structs9SetStaticD0Ev
@@ -1761,10 +1761,10 @@ void DeletingDestructor(SetStatic* self) {
 
 // 0x4d1a78 _ZN7Structs9SetStatic8finalizeEv
 void SetStatic::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x10
+        TargetSize = 0;  // +0xc
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1772,12 +1772,12 @@ void SetStatic::finalize() {
 // 0x500788 _ZN7Structs9SetStatic4readEP11IStreamBase
 void SetStatic::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
+    Static = StreamReader::readAs<bool>(stream);  // +0x8
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x10
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c75b4 _ZN7Structs24SetWorldMapLocationStateD2Ev
@@ -1800,14 +1800,14 @@ void SetWorldMapLocationState::finalize() {
 // 0x502f10 _ZN7Structs24SetWorldMapLocationState4readEP11IStreamBase
 void SetWorldMapLocationState::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    MapLoc = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    State = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
 
 // 0x4d2534 _ZN7Structs9ShowActorD2Ev
 // 0x4d24d0 _ZN7Structs9ShowActorD1Ev
 ShowActor::~ShowActor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d2518 _ZN7Structs9ShowActorD0Ev
@@ -1818,10 +1818,10 @@ void DeletingDestructor(ShowActor* self) {
 
 // 0x4d24a0 _ZN7Structs9ShowActor8finalizeEv
 void ShowActor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1829,17 +1829,17 @@ void ShowActor::finalize() {
 // 0x501354 _ZN7Structs9ShowActor4readEP11IStreamBase
 void ShowActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d3338 _ZN7Structs9ShowFlashD2Ev
 // 0x4d32d4 _ZN7Structs9ShowFlashD1Ev
 ShowFlash::~ShowFlash() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Name != nullptr) CustomFree(Name);  // +0x10
 }
 
 // 0x4d331c _ZN7Structs9ShowFlashD0Ev
@@ -1850,10 +1850,10 @@ void DeletingDestructor(ShowFlash* self) {
 
 // 0x4d3274 _ZN7Structs9ShowFlash8finalizeEv
 void ShowFlash::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Name != nullptr) {
+        CustomFree(Name);  // +0x10
+        NameSize = 0;  // +0xc
+        Name = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -1861,13 +1861,13 @@ void ShowFlash::finalize() {
 // 0x5021b8 _ZN7Structs9ShowFlash4readEP11IStreamBase
 void ShowFlash::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
-    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
+    Loop = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    NameSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Name != nullptr) CustomFree(Name);  // +0x10
+    Name = static_cast<char*>(::operator new[](static_cast<std::size_t>(NameSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Name, NameSize);
+    Name[NameSize] = '\0';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c77d0 _ZN7Structs12ShowTrophiesD2Ev
@@ -1988,7 +1988,7 @@ void SkipTutorialMessage::read(IStreamBase* stream) {
 // 0x4d2de0 _ZN7Structs14SpawnCharacterD2Ev
 // 0x4d2d7c _ZN7Structs14SpawnCharacterD1Ev
 SpawnCharacter::~SpawnCharacter() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d2dc4 _ZN7Structs14SpawnCharacterD0Ev
@@ -1999,10 +1999,10 @@ void DeletingDestructor(SpawnCharacter* self) {
 
 // 0x4d2d4c _ZN7Structs14SpawnCharacter8finalizeEv
 void SpawnCharacter::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2010,17 +2010,17 @@ void SpawnCharacter::finalize() {
 // 0x501d80 _ZN7Structs14SpawnCharacter4readEP11IStreamBase
 void SpawnCharacter::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d1508 _ZN7Structs14SpawnContainerD2Ev
 // 0x4d14a4 _ZN7Structs14SpawnContainerD1Ev
 SpawnContainer::~SpawnContainer() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d14ec _ZN7Structs14SpawnContainerD0Ev
@@ -2031,10 +2031,10 @@ void DeletingDestructor(SpawnContainer* self) {
 
 // 0x4d1474 _ZN7Structs14SpawnContainer8finalizeEv
 void SpawnContainer::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2042,11 +2042,11 @@ void SpawnContainer::finalize() {
 // 0x500230 _ZN7Structs14SpawnContainer4readEP11IStreamBase
 void SpawnContainer::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c6ef4 _ZN7Structs11StartDialogD2Ev
@@ -2069,9 +2069,9 @@ void StartDialog::finalize() {
 // 0x50345c _ZN7Structs11StartDialog4readEP11IStreamBase
 void StartDialog::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    Actor = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Style = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    Text = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 
 // 0x4c6f60 _ZN7Structs13StartDialogIDD2Ev
@@ -2094,13 +2094,13 @@ void StartDialogID::finalize() {
 // 0x5033e4 _ZN7Structs13StartDialogID4readEP11IStreamBase
 void StartDialogID::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    DialogID = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4d2840 _ZN7Structs9StopActorD2Ev
 // 0x4d27dc _ZN7Structs9StopActorD1Ev
 StopActor::~StopActor() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d2824 _ZN7Structs9StopActorD0Ev
@@ -2111,10 +2111,10 @@ void DeletingDestructor(StopActor* self) {
 
 // 0x4d27ac _ZN7Structs9StopActor8finalizeEv
 void StopActor::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2122,11 +2122,11 @@ void StopActor::finalize() {
 // 0x5016f4 _ZN7Structs9StopActor4readEP11IStreamBase
 void StopActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c7254 _ZN7Structs10StopEffectD2Ev
@@ -2149,7 +2149,7 @@ void StopEffect::finalize() {
 // 0x5032f4 _ZN7Structs10StopEffect4readEP11IStreamBase
 void StopEffect::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Effect = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c70a4 _ZN7Structs9StopSoundD2Ev
@@ -2172,15 +2172,15 @@ void StopSound::finalize() {
 // 0x4ff9d4 _ZN7Structs9StopSound4readEP11IStreamBase
 void StopSound::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<bool>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
+    FadeoutTime = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    IsMusic = StreamReader::readAs<bool>(stream);  // +0xc
+    SoundID = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 
 // 0x4d1cc4 _ZN7Structs12UnEquipHandsD2Ev
 // 0x4d1c60 _ZN7Structs12UnEquipHandsD1Ev
 UnEquipHands::~UnEquipHands() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d1ca8 _ZN7Structs12UnEquipHandsD0Ev
@@ -2191,10 +2191,10 @@ void DeletingDestructor(UnEquipHands* self) {
 
 // 0x4d1c30 _ZN7Structs12UnEquipHands8finalizeEv
 void UnEquipHands::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2202,17 +2202,17 @@ void UnEquipHands::finalize() {
 // 0x500914 _ZN7Structs12UnEquipHands4readEP11IStreamBase
 void UnEquipHands::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d1da0 _ZN7Structs19UnEquipItemFromSlotD2Ev
 // 0x4d1d3c _ZN7Structs19UnEquipItemFromSlotD1Ev
 UnEquipItemFromSlot::~UnEquipItemFromSlot() {
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    if (Target != nullptr) CustomFree(Target);  // +0x10
 }
 
 // 0x4d1d84 _ZN7Structs19UnEquipItemFromSlotD0Ev
@@ -2223,10 +2223,10 @@ void DeletingDestructor(UnEquipItemFromSlot* self) {
 
 // 0x4d1d0c _ZN7Structs19UnEquipItemFromSlot8finalizeEv
 void UnEquipItemFromSlot::finalize() {
-    if (m_w4 != nullptr) {
-        CustomFree(m_w4);  // +0x10
-        m_w3 = 0;  // +0xc
-        m_w4 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x10
+        TargetSize = 0;  // +0xc
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2234,18 +2234,18 @@ void UnEquipItemFromSlot::finalize() {
 // 0x5009d4 _ZN7Structs19UnEquipItemFromSlot4readEP11IStreamBase
 void UnEquipItemFromSlot::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint));  // +0x10, length +0xc
-    StreamReader::readStringEx(stream, m_w4, m_w3);
-    m_w4[m_w3] = '\0';
+    SlotID = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0x10
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4d2f98 _ZN7Structs15UnlockCharacterD2Ev
 // 0x4d2f34 _ZN7Structs15UnlockCharacterD1Ev
 UnlockCharacter::~UnlockCharacter() {
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    if (Target != nullptr) CustomFree(Target);  // +0xc
 }
 
 // 0x4d2f7c _ZN7Structs15UnlockCharacterD0Ev
@@ -2256,10 +2256,10 @@ void DeletingDestructor(UnlockCharacter* self) {
 
 // 0x4d2f04 _ZN7Structs15UnlockCharacter8finalizeEv
 void UnlockCharacter::finalize() {
-    if (m_w3 != nullptr) {
-        CustomFree(m_w3);  // +0xc
-        m_w2 = 0;  // +0x8
-        m_w3 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0xc
+        TargetSize = 0;  // +0x8
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2267,11 +2267,11 @@ void UnlockCharacter::finalize() {
 // 0x501f0c _ZN7Structs15UnlockCharacter4readEP11IStreamBase
 void UnlockCharacter::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w2) + 1, kPydataBufferHint));  // +0xc, length +0x8
-    StreamReader::readStringEx(stream, m_w3, m_w2);
-    m_w3[m_w2] = '\0';
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    if (Target != nullptr) CustomFree(Target);  // +0xc
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = '\0';
 }
 
 // 0x4c72c0 _ZN7Structs4WaitD2Ev
@@ -2294,7 +2294,7 @@ void Wait::finalize() {
 // 0x50327c _ZN7Structs4Wait4readEP11IStreamBase
 void Wait::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Time = StreamReader::readAs<std::int32_t>(stream);  // +0x8
 }
 
 // 0x4c6e1c _ZN7Structs10WaitCameraD2Ev
@@ -2317,7 +2317,7 @@ void WaitCamera::finalize() {
 // 0x4ffdc0 _ZN7Structs10WaitCamera4readEP11IStreamBase
 void WaitCamera::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    StreamReader::readAs<float>(stream, &m_w2);  // +0x8
+    StreamReader::readAs<float>(stream, &Speed);  // +0x8
 }
 
 // 0x4c6fcc _ZN7Structs10WaitDialogD2Ev
@@ -2346,7 +2346,7 @@ void WaitDialog::read(IStreamBase* stream) {
 // 0x4d3a0c _ZN7Structs10ExecScriptD2Ev
 // 0x4d3a70 _ZN7Structs10ExecScriptD1Ev
 ExecScript::~ExecScript() {
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    if (ScriptAlts != nullptr) CustomFree(ScriptAlts);  // +0x14
 }
 
 // 0x4d3a54 _ZN7Structs10ExecScriptD0Ev
@@ -2357,10 +2357,10 @@ void DeletingDestructor(ExecScript* self) {
 
 // 0x4d39dc _ZN7Structs10ExecScript8finalizeEv
 void ExecScript::finalize() {
-    if (m_w5 != nullptr) {
-        CustomFree(m_w5);  // +0x14
-        m_w4 = 0;  // +0x10
-        m_w5 = nullptr;
+    if (ScriptAlts != nullptr) {
+        CustomFree(ScriptAlts);  // +0x14
+        ScriptAltsSize = 0;  // +0x10
+        ScriptAlts = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2368,21 +2368,21 @@ void ExecScript::finalize() {
 // 0x4ffc24 _ZN7Structs10ExecScript4readEP11IStreamBase
 void ExecScript::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
-    m_w5 = static_cast<std::int32_t*>(::operator new[](std::size_t{4} * m_w4, kPydataBufferHint));
-    for (std::uint32_t i = 0; i < m_w4; ++i) {
-        m_w5[i] = StreamReader::readAs<std::int32_t>(stream);
+    IsGlobal = StreamReader::readAs<bool>(stream);  // +0x8
+    Script = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    ScriptAltsSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (ScriptAlts != nullptr) CustomFree(ScriptAlts);  // +0x14
+    ScriptAlts = static_cast<std::int32_t*>(::operator new[](std::size_t{4} * ScriptAltsSize, kPydataBufferHint));
+    for (std::uint32_t i = 0; i < ScriptAltsSize; ++i) {
+        ScriptAlts[i] = StreamReader::readAs<std::int32_t>(stream);
     }
-    m_w6 = StreamReader::readAs<bool>(stream);  // +0x18
+    Wait = StreamReader::readAs<bool>(stream);  // +0x18
 }
 
 // 0x4d345c _ZN7Structs10PlayEffectD1Ev
 // 0x4d34c8 _ZN7Structs10PlayEffectD2Ev
 PlayEffect::~PlayEffect() {
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
+    if (Target != nullptr) CustomFree(Target);  // +0x20
 }
 
 // 0x4d34ac _ZN7Structs10PlayEffectD0Ev
@@ -2393,10 +2393,10 @@ void DeletingDestructor(PlayEffect* self) {
 
 // 0x4d342c _ZN7Structs10PlayEffect8finalizeEv
 void PlayEffect::finalize() {
-    if (m_w8 != nullptr) {
-        CustomFree(m_w8);  // +0x20
-        m_w7 = 0;  // +0x1c
-        m_w8 = nullptr;
+    if (Target != nullptr) {
+        CustomFree(Target);  // +0x20
+        TargetSize = 0;  // +0x1c
+        Target = nullptr;
     }
     ScriptCmd::finalize();
 }
@@ -2404,14 +2404,14 @@ void PlayEffect::finalize() {
 // 0x5022e4 _ZN7Structs10PlayEffect4readEP11IStreamBase
 void PlayEffect::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
-    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    m_w3.read(stream);  // +0xc
-    m_w7 = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c
-    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
-    m_w8 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w7) + 1, kPydataBufferHint));  // +0x20, length +0x1c
-    StreamReader::readStringEx(stream, m_w8, m_w7);
-    m_w8[m_w7] = ' ';
-    m_w9 = StreamReader::readAs<bool>(stream);  // +0x24
+    Effect = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    Offset.read(stream);  // +0xc
+    TargetSize = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c
+    if (Target != nullptr) CustomFree(Target);  // +0x20
+    Target = static_cast<char*>(::operator new[](static_cast<std::size_t>(TargetSize) + 1, kPydataBufferHint));  // +0x20, length +0x1c
+    StreamReader::readStringEx(stream, Target, TargetSize);
+    Target[TargetSize] = ' ';
+    Wait = StreamReader::readAs<bool>(stream);  // +0x24
 }
 
 }  // namespace Structs

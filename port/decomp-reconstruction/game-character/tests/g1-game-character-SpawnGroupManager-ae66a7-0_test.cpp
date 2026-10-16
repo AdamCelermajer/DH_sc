@@ -125,17 +125,17 @@ void DestroySpot(SpawnSpot* spot) {
 
 void SetEntry(int index, int charPropsId, int weight, int count) {
     Structs::SpawnInfo* e = g_entries.data() + index;
-    e->m_w1 = charPropsId;
-    e->m_w2 = weight;
-    e->m_w3 = count;
+    e->Char = charPropsId;
+    e->Prob = weight;
+    e->Qty = count;
 }
 
 void SetGroup(int id, int interval, int entryCount, int firstEntry) {
     Structs::SpawnGroup* g = g_groups.data() + id;
-    g->m_w1 = false;
-    g->m_w2 = interval;
-    g->m_w3 = static_cast<std::uint32_t>(entryCount);
-    g->m_w4 = g_entries.data() + firstEntry;
+    g->ActiveSpotOnly = false;
+    g->Delay = interval;
+    g->SpawnsSize = static_cast<std::uint32_t>(entryCount);
+    g->Spawns = g_entries.data() + firstEntry;
 }
 
 // goblins (id 0): interval 500, one entry {charProps 7, weight 4, count 2}.
@@ -401,7 +401,7 @@ void CheckUpdate() {
     // A group with no entries expires, takes its interval and draws nothing. Here goblins loses its entries (count 0)
     // and orcs expires too (800 down to -200), so orcs alone draws: total 1 gives roll 0, then the pick of its one spot.
     ResetRecords();
-    g_groups.data()[0].m_w3 = 0;
+    g_groups.data()[0].SpawnsSize = 0;
     g_dt = 1000;
     g_rolls = {0, 0};
     g_rollRanges.clear();

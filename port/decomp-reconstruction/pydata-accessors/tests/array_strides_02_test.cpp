@@ -45,10 +45,10 @@ static void CharSoundsTableUsedByTheGame() {
     CHECK(pydata::ElementTableListingStride(members) == 40);
     const auto* c = reinterpret_cast<const Structs::CharSounds*>(members);
     if (sizeof(void*) == 8) CHECK(sizeof(Structs::CharSounds) > Arrays::ListingStride::CharSoundsTable);
-    CHECK(c[0].m_w1 == 1 && c[1].m_w1 == 2);
-    CHECK(c[1].m_w2 != nullptr && static_cast<const std::int32_t*>(c[1].m_w2)[1] == 201);
-    CHECK(c[1].m_w8 != nullptr && static_cast<const std::int32_t*>(c[1].m_w8)[1] == 231);
-    CHECK(c[0].m_w9 == false && c[1].m_w9 == true);
+    CHECK(c[0].DieSize == 1 && c[1].DieSize == 2);
+    CHECK(c[1].Die != nullptr && static_cast<const std::int32_t*>(c[1].Die)[1] == 201);
+    CHECK(c[1].ImpactVsMetal != nullptr && static_cast<const std::int32_t*>(c[1].ImpactVsMetal)[1] == 231);
+    CHECK(c[0].IsFlesh == false && c[1].IsFlesh == true);
     Arrays::CharSoundsTable::finalize();
 }
 

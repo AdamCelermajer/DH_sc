@@ -18,6 +18,7 @@ public:
 
     // Returns the index of the first active, touched slot whose point lies in r, or -1.
     int getTouchIDInRegion(const glitch::core::rect<float>& r) const override;  // 0x33cca8
+    int isRegionPressed(const glitch::core::rect<float>& r) const override;     // 0x33ccac (vtable +0x30, a thunk to the base)
 
     // UIKit entry points. The last argument is the touch identifier; getID maps it to
     // the slot that is forwarded to the TouchScreenBase handler.

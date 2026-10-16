@@ -970,6 +970,62 @@ bool TiXmlDocument::LoadFile( const char* _filename, TiXmlEncoding encoding )
 	}
 }
 
+// DH2: TiXmlDocument::LoadFromBuffer (0x5164a8). The same work as LoadFile( FILE* ) on a memory block: the document is cleared, an empty
+// block is TIXML_ERROR_DOCUMENT_EMPTY, CR and CR LF become LF, and the text is parsed. The block is not null terminated.
+bool TiXmlDocument::LoadFromBuffer( const void* buffer, int length, TiXmlEncoding encoding )
+{
+	Clear();
+	location.Clear();
+
+	if ( length <= 0 )
+	{
+		SetError( TIXML_ERROR_DOCUMENT_EMPTY, 0, 0, TIXML_ENCODING_UNKNOWN );
+		return false;
+	}
+
+	TIXML_STRING data;
+	data.reserve( length );
+
+	const char* p = static_cast<const char*>( buffer );
+	const char* end = p + length;
+	const char* lastPos = p;
+	while ( p < end )
+	{
+		if ( *p == 0xa )
+		{
+			// Newline: append everything since the last position, including the newline.
+			++p;
+			data.append( lastPos, p - lastPos );
+			lastPos = p;
+		}
+		else if ( *p == 0xd )
+		{
+			// Carriage return: append what came before it, then a proper newline; a following newline is swallowed.
+			if ( ( p - lastPos ) > 0 )
+			{
+				data.append( lastPos, p - lastPos );
+			}
+			data += (char)0xa;
+			if ( p + 1 < end && p[1] == 0xa )
+				p += 2;
+			else
+				++p;
+			lastPos = p;
+		}
+		else
+		{
+			++p;
+		}
+	}
+	if ( p != lastPos )
+	{
+		data.append( lastPos, p - lastPos );
+	}
+
+	Parse( data.c_str(), 0, encoding );
+	return !Error();
+}
+
 bool TiXmlDocument::LoadFile( FILE* file, TiXmlEncoding encoding )
 {
 	if ( !file ) 

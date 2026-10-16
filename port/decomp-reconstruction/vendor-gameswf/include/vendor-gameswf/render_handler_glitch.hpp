@@ -9,15 +9,12 @@
 // (part 2 of 3). The other members of this class (parts 1 and 3) are added by the integrator.
 //
 // Layout requests (open, for the integrator):
-//   - glitch::video::detail::driver::SRenderState (glitch-video/video_types.hpp) is an empty placeholder. The original keeps
-//     one in this class at +0x14..+0x1b (8 bytes: the word 0x001f00ff and a zero word after the constructor), reads it
-//     with IVideoDriver::getRenderState (vtable +0x1e0) in begin_display and gives it back with setRenderState (+0x1e4) in
-//     end_display. Until the type has its layout the two members stay unk_14 and unk_18 and begin_display and
-//     end_display do not make those two driver calls.
-//   - glitch::collada::CColladaDatabase has no constructor from a file name and no DefaultFactory in the canonical header
-//     (glitch-scene-collada-gui/collada/CColladaDatabase.hpp), and constructEffect(driver, name, root) returns a raw
-//     pointer where the binary returns a counted reference. The render_handler_glitch constructor needs them to build the
-//     seven blend-mode materials from "gameswf_effects.bdae".
+//   - glitch::video::detail::driver::SRenderState (glitch-video/video_types.hpp) now has the two words this class stores at
+//     +0x14..+0x1b (0x001f00ff and zero after the constructor): begin_display saves the driver state in it
+//     (IVideoDriver::getRenderState, vtable +0x1e0) and end_display gives it back (setRenderState, +0x1e4).
+//   - the constructor builds the seven blend-mode materials from "gameswf_effects.bdae" with
+//     glitch::collada::CColladaDatabase (file constructor, DefaultFactory) and constructEffect, which returns an owned
+//     reference (the caller adopts it, as SceneManager::LoadEffect does).
 #pragma once
 
 #include <cstdint>
@@ -26,6 +23,7 @@
 #include "dh2/BufferedRenderer.hpp"
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-shared/glitch_core.hpp"
+#include "glitch-video/video_types.hpp"  // detail::driver::SRenderState (saved by begin_display)
 #include "gameswf/gameswf.h"
 #include "vendor-gameswf/bitmap_info_ogl.hpp"
 #include "vendor-gameswf/triangle_intersector.hpp"
@@ -171,7 +169,7 @@ public:
 
     // +0x04 (byte): set to 1 by the constructor. draw_bitmap (part 3) rounds the quad corners to whole pixels when it is
     // non-zero; no other function of the batches reads it.
-    uint8_t unk_04 = 0;
+    // (The byte itself is gameswf::render_handler::unk_04, declared in the base.)
     // +0x08: the player_context pointer stored by set_context (part 1). Zeroed by the constructor.
     gameswf::player_context* m_context = nullptr;
     // +0x0c: render cache, set by set_render_cache.
@@ -179,19 +177,11 @@ public:
     // +0x10: the glitch video driver. The original owns one reference (added by the constructor and
     // dropped by the destructor); the reference handling is not written in this batch.
     glitch::video::IVideoDriver* m_driver = nullptr;
-    // +0x14..+0x1b: the driver's detail::driver::SRenderState (8 bytes), 0x001f00ff and 0 from the constructor. begin_display
-    // saves the driver's state here (getRenderState, vtable +0x1e0) and end_display restores it (setRenderState, +0x1e4).
-    // glitch-video declares the type as an empty placeholder, so the two calls are not made (see the layout requests).
-    uint32_t unk_14 = 0x001f00ffu;
-    uint8_t unk_18[4] = {};
-    // +0x1c..+0x33: 1.0f, 0, 1.0f, 0, 0, 0, 0 from the constructor. Not read in this batch.
-    float unk_1c = 1.0f;                  // +0x1c
-    int32_t unk_20 = 0;                   // +0x20
-    float unk_24 = 1.0f;                  // +0x24
-    int32_t unk_28 = 0;                   // +0x28
-    int32_t unk_2c = 0;                   // +0x2c
-    int32_t unk_30 = 0;                   // +0x30
-    int32_t unk_34 = 0;                   // +0x34
+    // +0x14..+0x37: the driver's detail::driver::SRenderState (0x24 bytes). The constructor stores 0x001f00ff and 0 in its two
+    // first words and 1.0f, 0, 1.0f, 0, 0, 0, 0 in the rest (+0x1c..+0x34: clear depth, depth range near/far, scissor).
+    // begin_display saves the driver's state here (getRenderState, vtable +0x1e0) and end_display restores it (setRenderState,
+    // +0x1e4).
+    glitch::video::detail::driver::SRenderState m_saved_render_state;
     // +0x38: the driver's transform state (projection, view, world, viewport), saved by begin_display and
     // restored by end_display. Its blocks sit at +0x38, +0x7c, +0xc0 and +0x104.
     TransformState m_saved_state;         // +0x38..+0x113

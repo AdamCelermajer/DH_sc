@@ -68,7 +68,7 @@ ItemInstance* fakeInstance() {
 // The item row with the audio-visual category at +0x54 (Structs::Item::m_w21).
 void setRowCategory(int category) {
     Structs::Item* row = reinterpret_cast<Structs::Item*>(g_rowStorage);
-    row->m_w21 = category;
+    row->AudioVisualID = category;
     g_row = row;
 }
 

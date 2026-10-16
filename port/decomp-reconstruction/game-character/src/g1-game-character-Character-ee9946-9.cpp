@@ -134,7 +134,7 @@ void Character::F_SkillAttack(AttackResult& result, Character* attacker, Charact
     const unsigned int slot = (flags & 0x4000000) != 0 ? 2u : 1u;
     int weapon = -1;
     if (ItemInstance* equipped = attacker->GetEquippedItem(slot)) {
-        weapon = equipped->GetItem()->m_w37;
+        weapon = equipped->GetItem()->Param3;
     }
     _F_CalculateResult(result, attacker, target, flags, weapon, b, 0);
 }
@@ -156,7 +156,7 @@ void Character::F_MeleeAttack(AttackResult& result, Character* attacker, Charact
     int flags = b ? 0x0005554A : 0x0022AAB5;
     int weapon = -1;
     if (ItemInstance* equipped = attacker->GetEquippedItem(slot)) {
-        weapon = equipped->GetItem()->m_w37;
+        weapon = equipped->GetItem()->Param3;
     }
     const int cleanUp = pydata::FindMemberName(Arrays::ClassTable::m_memberNames, static_cast<int>(Arrays::ClassTable::size), "SnS_CleanUp");
     if (cleanUp != -1 && b) {
@@ -292,10 +292,10 @@ void Character::_InitSounds() {
             VoxSoundManager::s_instance->LoadSound(static_cast<const std::int32_t*>(ids)[i]);
         }
     };
-    loadAll(sounds->m_w3, sounds->m_w4);
-    loadAll(sounds->m_w1, sounds->m_w2);
-    loadAll(sounds->m_w5, sounds->m_w6);
-    loadAll(sounds->m_w7, sounds->m_w8);
+    loadAll(sounds->HurtSize, sounds->Hurt);
+    loadAll(sounds->DieSize, sounds->Die);
+    loadAll(sounds->ImpactVsFleshSize, sounds->ImpactVsFlesh);
+    loadAll(sounds->ImpactVsMetalSize, sounds->ImpactVsMetal);
 }
 
 // 0x3b3d38 _ZN9Character17SafeGetCharPropsIdEv
@@ -334,7 +334,7 @@ int Character::SafeGetCharPropsId() {
         return m_charPropsId;
     }
     const auto* row = reinterpret_cast<const Structs::CharTemplate*>(Arrays::Charater_Templates::members) + templateId;
-    const std::uint32_t count = row->m_w1;
+    const std::uint32_t count = row->CharInfoSize;
     if (count == 0) {
         return m_charPropsId;
     }
@@ -344,8 +344,8 @@ int Character::SafeGetCharPropsId() {
     if (count <= static_cast<std::uint32_t>(index)) {
         ReportAssertFailure("random >= 0 && random < (int)charTemplate.CharInfoSize", kInitializationFile, 756);
     }
-    const auto* infos = reinterpret_cast<const Structs::CharInfoName*>(row->m_w2);
-    m_charPropsId = static_cast<std::int16_t>(infos[index].m_w1);
+    const auto* infos = reinterpret_cast<const Structs::CharInfoName*>(row->CharInfo);
+    m_charPropsId = static_cast<std::int16_t>(infos[index].Name);
     return m_charPropsId;
 }
 
@@ -532,9 +532,9 @@ void Character::InitPost() {
         m_dae.assign(modelName);
     }
     TouchDebugSwitch("isTracingChar_Init");
-    m_scale.X = static_cast<float>(CharProperties::m_baseProps.m_w13) * 0.009f;
-    m_scale.Y = static_cast<float>(CharProperties::m_baseProps.m_w14) * 0.009f;
-    m_scale.Z = static_cast<float>(CharProperties::m_baseProps.m_w15) * 0.01f;
+    m_scale.X = static_cast<float>(CharProperties::m_baseProps.Scale_X) * 0.009f;
+    m_scale.Y = static_cast<float>(CharProperties::m_baseProps.Scale_Y) * 0.009f;
+    m_scale.Z = static_cast<float>(CharProperties::m_baseProps.Scale_Z) * 0.01f;
     GameObject::InitPost();
     if (!MeetCondition()) {
         SetVisible(false);
@@ -543,12 +543,12 @@ void Character::InitPost() {
     }
     SG_Load(2);
     const Structs::AIProps* aiRow = GetCharAI();
-    if ((IsPlayer() || !aiRow->m_w4) && (!IsPlayer() || dword_99F76C->IsLocalPlayer(this))) {
+    if ((IsPlayer() || !aiRow->DelayedLoad) && (!IsPlayer() || dword_99F76C->IsLocalPlayer(this))) {
         CharAI::LoadScriptProcess();
     } else {
         CharAI::m_stagedLoad = true;
     }
-    m_selfFX = VisualFXManager::s_inst.GrabAnimFX(m_selfFXBaseId + aiRow->m_w12, this);
+    m_selfFX = VisualFXManager::s_inst.GrabAnimFX(m_selfFXBaseId + aiRow->SelfFX, this);
     RegisterCharacterFXTable();
     TouchDebugSwitch("isTracingChar_Init");
     CharAnimator::SetAnimationSet();
@@ -597,7 +597,7 @@ void Character::InitPost() {
             }
             if (dword_99F76C->IsLocalPlayer(this)) {
                 const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
-                m_cursorFX = VisualFXManager::s_inst.GrabAnimFX(design->m_w34, nullptr);
+                m_cursorFX = VisualFXManager::s_inst.GrabAnimFX(design->TargetMove, nullptr);
                 if (AnimatedFX* fx = m_cursorFX) {
                     fx->unk_3c = 0;
                     fx->unk_34 = 0;

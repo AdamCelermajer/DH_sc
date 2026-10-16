@@ -194,7 +194,7 @@ bool ObjectSearcher::TargetList::_IsCharacterValid(Character* character) {
         return true;
     }
     // m_props.m_w207 is Character +0x1314, m_props.m_w208 is +0x1310 (both signed).
-    if (refChar->CharProperties::m_props.m_w207 < character->CharProperties::m_props.m_w208) {
+    if (refChar->CharProperties::m_props.Threat_PerDamageToFriendly < character->CharProperties::m_props.Menu_Average_Melee_To_Hit) {
         return false;
     }
     const int mask = m_filterMask;

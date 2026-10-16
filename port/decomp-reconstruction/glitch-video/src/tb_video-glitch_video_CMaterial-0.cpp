@@ -1,21 +1,25 @@
 // Batch e1-glitch-video-glitch_video_CMaterial-0: glitch::video::CMaterial::getTechnique.
 #include "glitch-video/material.hpp"
 
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/video_driver.hpp"
+
 namespace glitch::video {
 
 // 0x5c5d34 _ZNK6glitch5video9CMaterial12getTechniqueEv
-// Partial. Hex-Rays control flow, with the parts that cannot be named yet marked:
-//   v1 = m_renderer (+0x04); v4 = renderer +0x04 (owner object); v5 = renderer +0x0c (uint16);
-//   v2 = this +0x14 (byte, unk_14); result = this +0x08 (byte, unk_08).
-//   If owner +0x108 (v6) is non-null: v8 = entry[v5] (owner +0x104 ->+0x18 table, 8-byte entries,
-//   +0x04 pointer) -> +0x1c; if v8 != -1 return byte at (v6[v2] + result + v8).
-//   Otherwise return result.
-// Missing: the owner object's type and fields (+0x104, +0x108 and the table entry at +0x1c), the
-// renderer's +0x04 and +0x0c fields (CMaterialRenderer declares only +0x00, +0x10, +0x18, +0x1c),
-// and CMaterial's +0x14 byte (m_remapSet) indexes the owner's remap tables. Only the path where the
-// owner table is absent (v6 == 0) is reproduced, and the fallback result is returned as-is.
-// Do not extend this without the owner layout: the other path depends on it.
+// The technique the material is drawn with: its selected ordinal (+0x08), or, when the driver has technique remap tables (+0x108),
+// the renderer's remap offset (the second word of its record in the renderer manager's collection, -1 for none) added to that
+// ordinal and looked up in the table of the material's remap set (+0x14). A material without a renderer gives the ordinal.
 int32_t CMaterial::getTechnique() const {
+    const CMaterialRenderer* renderer = m_renderer.get();
+    if (renderer == nullptr || renderer->m_driver == nullptr) return m_technique;
+    const IVideoDriver* driver = renderer->m_driver;
+    const uint8_t* const* remap = driver->m_techniqueRemap;
+    if (remap != nullptr && driver->m_rendererManagerCopy != nullptr) {
+        const uint32_t offset = driver->m_rendererManagerCopy->getProperties(renderer->m_id)->unk04;
+        if (offset != 0xffffffffu) return remap[m_remapSet][m_technique + offset];
+    }
     return m_technique;
 }
 

@@ -10,11 +10,16 @@
 #include "glitch-core-io/io/iattributes.hpp"
 #include "glitch-core-io/os/device.hpp"
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/collada/CGlitchNewParticleSystemSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/gui/ICursorControl.hpp"
 #include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
 #include "glitch-scene-collada-gui/scene/CColladaBinaryFileLoader.hpp"
 #include "glitch-scene-collada-gui/scene/CDefaultSceneNodeAnimatorFactory.hpp"
+#include "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp"
+#include "glitch-scene-collada-gui/scene/CBatchSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CDefaultSceneNodeFactory.hpp"
+#include "glitch-scene-collada-gui/scene_simple_accessors.hpp"
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshCache.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
@@ -129,12 +134,11 @@ CSceneManager::CSceneManager(video::IVideoDriver* videoDriver, const boost::intr
 // 0x58eb70 _ZN6glitch5scene13CSceneManagerD1Ev
 // 0x58ef1c _ZN6glitch5scene13CSceneManagerD2Ev
 // 0x58ef00 _ZN6glitch5scene13CSceneManagerD0Ev (skipped)
-// PARTIAL. The order of the original: the deletion queue, the uses of the cursor control, the collision manager and the GUI
+// The order of the original: the deletion queue, the uses of the cursor control, the collision manager and the GUI
 // environment, the external mesh loaders, the active camera, the mesh cache, the node and animator factories, the root node
 // (after unlinking the root child list), the render node list, the batch driver and the driver; the vectors, the strings, the
-// attribute set and the file system follow as members. Not done: the two static particle buffers the original releases here
-// (CParticleSystemSceneNode::deleteSharedBuffer and CGlitchNewParticleSystemSceneNode::deleteSharedBuffer), which wait for the
-// particle node classes.
+// attribute set and the file system follow as members. After the driver the two shared billboard buffers of the particle nodes are
+// released (CParticleSystemSceneNode::deleteSharedBuffer, then CGlitchNewParticleSystemSceneNode::deleteSharedBuffer).
 CSceneManager::~CSceneManager() {
     clearDeletionList();
     release(cursorControl);
@@ -169,6 +173,8 @@ CSceneManager::~CSceneManager() {
     renderNodes.clear();
     dropBatchDriver(batchDriver, 0);
     release(driverCopy);
+    collada::CParticleSystemSceneNode::deleteSharedBuffer();
+    collada::CGlitchNewParticleSystemSceneNode::deleteSharedBuffer();
 }
 
 // 0x588fe8 _ZNK6glitch5scene13CSceneManager19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
@@ -200,45 +206,123 @@ void CSceneManager::deserializeAttributes(io::IAttributes* attributesIn, io::SAt
     rootNode->updateAbsolutePosition(false);
 }
 
-// 0x58ff10, 0x58fee0, 0x58fccc and 0x58fc9c: the four compile overloads; 0x58fd10 and 0x58facc the internal ones.
-// PARTIAL. The original stores the segment size (a vector3d, switching the batch driver to size mode) or the maximal index count
-// in the batch driver (CBatchDriver +0x250 .. +0x260, offsets 592 .. 608) and calls compileInternal, which creates the
-// CBatchSceneNode (operator new(0x168), id -1) when none is given, installs the compile callbacks in the batch driver, makes the
-// driver the manager's (drawInit with it), collects and registers the nodes with the batch flag raised (transparent passes use the
-// default list), renders the lists into the batch driver, flushes it (vptr+0x1fc), finalizes the end-of-batch callback, calls the
-// batch node's vptr+0xfc with the segment callback and the original driver, and restores the driver. CBatchDriver is not
-// reconstructed in glitch-video, so none of that can run; every overload returns null.
-CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& /*nodes*/, CBatchSceneNode* /*batch*/, bool /*flag*/,
-                                        ISegmentCompileCallback* /*compileCallback*/,
-                                        ISplitSegmentChoiceCallback* /*choiceCallback*/,
-                                        core::vector3d<float> /*segmentSize*/) {
-    return nullptr;
+// 0x58ff10 / 0x58fccc (segment size) and 0x58fee0 / 0x58fc9c (maximal index count): the four compile overloads. Each stores the
+// segmentation parameters in the batch driver (the vector3d at +0x250 .. +0x258 with the mode byte +0x260 cleared, or the count at
+// +0x25C with the mode byte set) and runs compileInternal (the vector overloads call 0x58fd10, the node overloads 0x58facc).
+CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+                                        ISegmentCompileCallback* compileCallback,
+                                        ISplitSegmentChoiceCallback* choiceCallback,
+                                        core::vector3d<float> segmentSize) {
+    batchDriver->segmentSize = segmentSize;  // +0x250 .. +0x258
+    batchDriver->segmentSizeMode = false;    // +0x260
+    return compileInternal(nodes, batch, flag, compileCallback, choiceCallback);
 }
-CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& /*nodes*/, CBatchSceneNode* /*batch*/, bool /*flag*/,
-                                        ISegmentCompileCallback* /*compileCallback*/,
-                                        ISplitSegmentChoiceCallback* /*choiceCallback*/, std::uint32_t /*maxIndexCount*/) {
-    return nullptr;
+CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+                                        ISegmentCompileCallback* compileCallback,
+                                        ISplitSegmentChoiceCallback* choiceCallback, std::uint32_t maxIndexCount) {
+    batchDriver->segmentSizeMode = true;     // +0x260
+    batchDriver->maxIndices = maxIndexCount; // +0x25C
+    return compileInternal(nodes, batch, flag, compileCallback, choiceCallback);
 }
-CBatchSceneNode* CSceneManager::compile(ISceneNode* /*node*/, CBatchSceneNode* /*batch*/, bool /*flag*/,
-                                        ISegmentCompileCallback* /*compileCallback*/,
-                                        ISplitSegmentChoiceCallback* /*choiceCallback*/,
-                                        core::vector3d<float> /*segmentSize*/) {
-    return nullptr;
+CBatchSceneNode* CSceneManager::compile(ISceneNode* node, CBatchSceneNode* batch, bool flag,
+                                        ISegmentCompileCallback* compileCallback,
+                                        ISplitSegmentChoiceCallback* choiceCallback,
+                                        core::vector3d<float> segmentSize) {
+    batchDriver->segmentSize = segmentSize;
+    batchDriver->segmentSizeMode = false;
+    return compileInternal(node, batch, flag, compileCallback, choiceCallback);
 }
-CBatchSceneNode* CSceneManager::compile(ISceneNode* /*node*/, CBatchSceneNode* /*batch*/, bool /*flag*/,
-                                        ISegmentCompileCallback* /*compileCallback*/,
-                                        ISplitSegmentChoiceCallback* /*choiceCallback*/, std::uint32_t /*maxIndexCount*/) {
-    return nullptr;
+CBatchSceneNode* CSceneManager::compile(ISceneNode* node, CBatchSceneNode* batch, bool flag,
+                                        ISegmentCompileCallback* compileCallback,
+                                        ISplitSegmentChoiceCallback* choiceCallback, std::uint32_t maxIndexCount) {
+    batchDriver->segmentSizeMode = true;
+    batchDriver->maxIndices = maxIndexCount;
+    return compileInternal(node, batch, flag, compileCallback, choiceCallback);
 }
-CBatchSceneNode* CSceneManager::compileInternal(const std::vector<ISceneNode*>& /*nodes*/, CBatchSceneNode* /*batch*/,
-                                                bool /*flag*/, ISegmentCompileCallback* /*compileCallback*/,
-                                                ISplitSegmentChoiceCallback* /*choiceCallback*/) {
-    return nullptr;
+
+// 0x58fd10 _ZN6glitch5scene13CSceneManager15compileInternalERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEEPNS0_15CBatchSceneNodeEbPNS0_23ISegmentCompileCallbackEPNS0_27ISplitSegmentChoiceCallbackE
+// 0x58facc _ZN6glitch5scene13CSceneManager15compileInternalEPNS0_10ISceneNodeEPNS0_15CBatchSceneNodeEbPNS0_23ISegmentCompileCallbackEPNS0_27ISplitSegmentChoiceCallbackE
+// The two bodies are identical but for the registration call (vptr+0x34 for a node vector, vptr+0x30 for a node tree) and the
+// node collection (the vector overload collects the vector, the node overload collects the batch node it is filling - as the
+// listing does). A batch node (id -1) is created when none is given. The stack objects are the segment-compile callback (+0x238)
+// and the end-of-batch callback (+0x234) the batch driver calls while the nodes are rendered into it. The batch driver becomes the
+// manager's driver for the registration and the render (drawInit, the batch flag raised unless it already is), is flushed, the
+// configurations are finalized, the node's vptr+0xfc runs with the original driver, which is restored.
+CBatchSceneNode* CSceneManager::compileInternal(const std::vector<ISceneNode*>& nodes, CBatchSceneNode* batch, bool flag,
+                                                ISegmentCompileCallback* compileCallback,
+                                                ISplitSegmentChoiceCallback* choiceCallback) {
+    CBatchSceneNode* batchNode = batch;
+    if (batchNode == nullptr) {
+        batchNode = new CBatchSceneNode(-1);
+    }
+    SDefaultSegmentCompileCallback segmentCallback;
+    segmentCallback.node = batchNode;
+    segmentCallback.sceneManager = this;
+    segmentCallback.userCallback = compileCallback;
+    segmentCallback.batchIndex = -1;
+    SDefaultEndOfBatchCallback endCallback;
+    endCallback.node = batchNode;
+    endCallback.compileState = &segmentCallback;
+    endCallback.driver = driverCopy;
+    endCallback.usage = 4;
+    batchDriver->endOfBatchCallback = &endCallback;
+    batchDriver->segmentCompileCallback = &segmentCallback;
+    batchDriver->m_choiceCallback = choiceCallback;
+    batchDriver->initBuffer();
+    drawInit(batchDriver);
+    collectAllNodes(nodes);
+    if (batchCompiling) {
+        registerSceneNodesCompile(nodes);
+    } else {
+        batchCompiling = true;
+        registerSceneNodesCompile(nodes);
+        batchCompiling = false;
+    }
+    renderLists(batchDriver);
+    batchDriver->flush();
+    endCallback.finalize();
+    batchNode->setup(flag, driverCopy);
+    driver = driverCopy;
+    batchDriver->releaseBuffer();
+    return batchNode;
 }
-CBatchSceneNode* CSceneManager::compileInternal(ISceneNode* /*node*/, CBatchSceneNode* /*batch*/, bool /*flag*/,
-                                                ISegmentCompileCallback* /*compileCallback*/,
-                                                ISplitSegmentChoiceCallback* /*choiceCallback*/) {
-    return nullptr;
+CBatchSceneNode* CSceneManager::compileInternal(ISceneNode* node, CBatchSceneNode* batch, bool flag,
+                                                ISegmentCompileCallback* compileCallback,
+                                                ISplitSegmentChoiceCallback* choiceCallback) {
+    CBatchSceneNode* batchNode = batch;
+    if (batchNode == nullptr) {
+        batchNode = new CBatchSceneNode(-1);
+    }
+    SDefaultSegmentCompileCallback segmentCallback;
+    segmentCallback.node = batchNode;
+    segmentCallback.sceneManager = this;
+    segmentCallback.userCallback = compileCallback;
+    segmentCallback.batchIndex = -1;
+    SDefaultEndOfBatchCallback endCallback;
+    endCallback.node = batchNode;
+    endCallback.compileState = &segmentCallback;
+    endCallback.driver = driverCopy;
+    endCallback.usage = 4;
+    batchDriver->endOfBatchCallback = &endCallback;
+    batchDriver->segmentCompileCallback = &segmentCallback;
+    batchDriver->m_choiceCallback = choiceCallback;
+    batchDriver->initBuffer();
+    drawInit(batchDriver);
+    collectAllNodes(batchNode);
+    if (batchCompiling) {
+        registerSceneNodesCompile(node);
+    } else {
+        batchCompiling = true;
+        registerSceneNodesCompile(node);
+        batchCompiling = false;
+    }
+    renderLists(batchDriver);
+    batchDriver->flush();
+    endCallback.finalize();
+    batchNode->setup(flag, driverCopy);
+    driver = driverCopy;
+    batchDriver->releaseBuffer();
+    return batchNode;
 }
 
 // 0x58b9f0 _ZN6glitch5scene13CSceneManager6updateEfb

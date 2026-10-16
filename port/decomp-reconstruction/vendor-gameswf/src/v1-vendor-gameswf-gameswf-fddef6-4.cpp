@@ -14,10 +14,6 @@
 // Compiled here as well: destructa<array<grid_entry_box<float,bool>*>> (0x7b21a8; the DH2 array<T> is 16 bytes, so the binary's
 // 16-byte stride is the array itself).
 //
-// Not written here (partial in the ledger):
-//   destruct<array<RenderFX::SearchIndex::Entry>> (0x7a9988): the element is game-ui's RenderFX type, which the game header
-//   (dh2/RenderFX.hpp) does not declare yet; the body is one line once it does (see the note at the end of this file).
-//
 // Upstream, ledgered without a body (the binary matches the upstream code):
 //   math_pow, math_atan2, math_tan, math_sqrt, math_sin, math_log, math_exp, math_cos, math_ceil,
 //   math_atan, math_asin, math_acos (as_math.cpp MATH_WRAP_FUNC1 / MATH_WRAP_FUNC2_EXP instantiations),
@@ -265,5 +261,5 @@ template void destructa< ::array<grid_entry_box<float, bool>*> >(const ::array<g
 
 }  // namespace gameswf
 
-// Not written: destruct<array<RenderFX::SearchIndex::Entry>> at 0x7a9988. The binary empties the array (size 0, reserve 0) and frees
-// the block with free_internal; the element type is game-ui's, so the instance is written where RenderFX::SearchIndex::Entry is complete.
+// destruct<array<RenderFX::SearchIndex::Entry>> (0x7a9988) is defined in game-ui/src/n2-game-ui-pack0-47efa6-0.cpp, the owner of the
+// RenderFX element type; it is not repeated here.

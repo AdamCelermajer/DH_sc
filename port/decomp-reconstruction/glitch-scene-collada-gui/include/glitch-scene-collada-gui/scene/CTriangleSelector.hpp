@@ -31,7 +31,6 @@ public:
     // 0x591a60 (C1) and 0x591be4 (C2): the same without the box argument.
     CTriangleSelector(const ISceneNode* node, bool bakeNodeTransform);
     // 0x595ec8 and 0x596598 (the two listings of one constructor): triangles of every buffer of the mesh.
-    // PARTIAL, see src: the mesh-buffer traversal needs IMesh/CMeshBuffer index iteration.
     CTriangleSelector(const boost::intrusive_ptr<const IMesh>& mesh, const ISceneNode* node, bool bakeNodeTransform);
 
     // 0x590f70 (D1), 0x5913fc (D0, skipped in the ledger): releases the triangle vector.

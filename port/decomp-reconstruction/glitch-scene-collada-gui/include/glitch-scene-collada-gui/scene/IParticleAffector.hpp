@@ -45,7 +45,7 @@ public:
     virtual void affect(std::uint32_t now, SParticle* particles, std::uint32_t count) = 0;
     virtual void setEnabled(bool enabled);                                                   // vptr+0x14, 0x6f836c
     virtual bool getEnabled() const;                                                         // vptr+0x18, 0x6f8374
-    // vptr+0x1c, 0x6f8390: reads nothing and returns `index`.
+    // vptr+0x1c, 0x6f8390: reads nothing and returns 0.
     virtual int deserializeAttributes(int index, io::IAttributes* attributes, io::SAttributeReadWriteOptions* options);
     virtual E_PARTICLE_AFFECTOR_TYPE getType() const = 0;                                    // vptr+0x20
 

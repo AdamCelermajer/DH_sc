@@ -6,8 +6,12 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
+
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-core-io/io/file.hpp"
 
 #include "glitch-core-io/io/attributes.hpp"
 #include "glitch-core-io/io/file_list.hpp"
@@ -33,15 +37,17 @@ public:
 
     // Vtable order (tools/decomp_vtable.py glitch::io::CFileSystem), +0x0c onwards:
     // +0x0c, 0x56d4e0: the archives first (createAndOpenFileFromArchives), then the plain file
-    // (createReadFile). PARTIAL: the nested-archive branch (a path whose prefix is itself a zip entry) is
-    // not reconstructed.
+    // (createReadFile), then the path with its last components cut off one at a time: a prefix that is itself a file in
+    // an archive or on disk is taken as a nested zip and the rest of the path is opened inside it.
     IReadFile* createAndOpenFile(const char* name) override;
     // +0x10, 0x56c57c: a memory read file; null when the data pointer is null.
     IReadFile* createMemoryReadFile(void* data, int length, const char* name, bool takeOwnership) override;
     // +0x14, 0x56c570: opens a write file (see createWriteFile).
     IWriteFile* createAndWriteFile(const char* name, bool append) override;
-    // +0x18 0x56d2c0, +0x1c 0x56d180, +0x20 0x56ca70, +0x24 0x56e6dc, +0x28 0x56ce60: the archive containers and
-    // the obfuscation map are not reconstructed. PARTIAL: these answer false and change nothing.
+    // +0x18 0x56d2c0 (a CZipReader over createAndOpenFile(name), appended to the zip list), +0x1c 0x56d180 (a CUnZipReader over a
+    // folder, appended unless a folder of that name is already listed), +0x20 0x56ca70 (a CPakReader), +0x24 0x56e6dc (decodes
+    // the map file and fills ObfuscationMap), +0x28 0x56ce60 (drops the first reader of the zip, pak or unzip list with that
+    // file name).
     bool addZipFileArchive(const char* name, bool ignoreCase, bool ignorePaths) override;
     bool addFolderFileArchive(const char* name, bool ignoreCase, bool ignorePaths) override;
     bool addPakFileArchive(const char* name, bool ignoreCase, bool ignorePaths) override;
@@ -63,7 +69,7 @@ public:
     // +0x40, 0x56c4a4 (const): a new, empty directory listing.
     CFileList* createFileList() const override;
     // +0x44, 0x56df38: true when a zip, pak or unzip archive lists the name, or when the file can be opened
-    // for reading; false otherwise. PARTIAL: the last step uses fopen, not CFileSystem::open (0x56dc40).
+    // for reading (CFileSystem::open(name, "rb")); false otherwise.
     bool existFile(const char* name) const override;
     // +0x48, 0x34df7c: forwards to the name overload.
     bool existFile(const std::string& name) const override;
@@ -83,10 +89,13 @@ public:
     // +0x68, 0x56cb78: drops every reader in the three archive lists and empties them.
     void clear() override;
 
-    // Not virtual, not reconstructed (queue rows left `skipped`): 0x56dc40 open(name, mode) returns the shared CFile handle
-    // (applying the obfuscation map); 0x56e064 getObfuscatedFileName(name) looks the name up in the obfuscation map
-    // (its return type is not visible in the listing, so it is not declared). Both need the map, which is not modelled.
-    CFile* open(const char* name, const char* mode);
+    // 0x56dc40 (static; the first argument of the listing is the by-value return slot): opens `name` with the fopen
+    // mode, applying the obfuscation map (when it is not empty the normalised name is looked up and a hit supplies the
+    // real file name and marks the CFile obfuscated) and prefixing the working directory to a name without a drive
+    // colon. The returned CFile is shared (count 1 on return); null when fopen fails.
+    static boost::intrusive_ptr<CFile> open(const char* name, const char* mode);
+    // 0x56e064 (static): the real name the obfuscation map gives for `name`, or `name` itself.
+    static const char* getObfuscatedFileName(const char* name);
 
     // Not virtual: 0x56c0f8 asks each reader of the zip, pak and unzip lists in turn (slot +0x0c of the reader).
     IReadFile* createAndOpenFileFromArchives(const char* name);
@@ -95,6 +104,9 @@ public:
     // _ZN6glitch2io11CFileSystem16WorkingDirectoryE in .data). core-platform's stand-in
     // CFileSystem_WorkingDirectory[512] is the same global.
     static char WorkingDirectory[1024];
+    // _ZN6glitch2io11CFileSystem14ObfuscationMapE (0x9f66e4): obfuscated name -> real name, filled by addObfuscationFileMap. Its
+    // node count (the word at 0x9f66f4) is the "is the map in use" test of open and getObfuscatedFileName.
+    static std::map<std::string, std::string> ObfuscationMap;
 
 protected:
     // The archive lists, 12 bytes each in the original (begin, end, capacity). Each element is

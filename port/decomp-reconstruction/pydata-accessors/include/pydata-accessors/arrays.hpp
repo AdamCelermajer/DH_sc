@@ -432,6 +432,7 @@ struct StatAutoAssignSchemeTable {
 struct ItemPowerTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays14ItemPowerTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -440,6 +441,7 @@ struct ItemPowerTable {
 struct HintPages {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays9HintPages8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -449,6 +451,7 @@ struct HintPages {
 struct HelpPages {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays9HelpPages8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -458,6 +461,7 @@ struct HelpPages {
 struct TriggerTraps {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays12TriggerTraps8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -466,6 +470,7 @@ struct TriggerTraps {
 struct TriggerPlates {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays13TriggerPlates8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -474,6 +479,7 @@ struct TriggerPlates {
 struct TriggerObjects {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays14TriggerObjects8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -482,6 +488,7 @@ struct TriggerObjects {
 struct TimerTraps {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays10TimerTraps8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -490,6 +497,7 @@ struct TimerTraps {
 struct ProjectileTraps {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays15ProjectileTraps8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -498,6 +506,7 @@ struct ProjectileTraps {
 struct OpenableContainers {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays18OpenableContainers8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -506,6 +515,7 @@ struct OpenableContainers {
 struct LiftableObjects {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays15LiftableObjects8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -514,6 +524,7 @@ struct LiftableObjects {
 struct GameObjectDamager {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays17GameObjectDamager8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -523,6 +534,7 @@ struct GameObjectDamager {
 struct ExplosiveTraps {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays14ExplosiveTraps8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -531,6 +543,7 @@ struct ExplosiveTraps {
 struct Doors {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays5Doors8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -539,6 +552,7 @@ struct Doors {
 struct DestructibleContainers {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays22DestructibleContainers8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -547,6 +561,7 @@ struct DestructibleContainers {
 struct FontPalette {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays11FontPalette8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -556,6 +571,7 @@ struct FontPalette {
 struct FootstepEffectTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays19FootstepEffectTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -564,6 +580,7 @@ struct FootstepEffectTable {
 struct CharEffectTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays15CharEffectTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -573,6 +590,7 @@ struct CharEffectTable {
 struct AnimatedEffectTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays19AnimatedEffectTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -581,6 +599,7 @@ struct AnimatedEffectTable {
 struct Dialogs {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays7Dialogs8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -590,6 +609,7 @@ struct Dialogs {
 struct DialogActors {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays12DialogActors8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -599,6 +619,7 @@ struct DialogActors {
 struct GameOptionTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays15GameOptionTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -607,6 +628,7 @@ struct GameOptionTable {
 struct ItemPowerList {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays13ItemPowerList8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -616,6 +638,7 @@ struct ItemPowerList {
 struct FaeryTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays10FaeryTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -625,6 +648,7 @@ struct FaeryTable {
 struct FaeryListTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays14FaeryListTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -634,6 +658,7 @@ struct FaeryListTable {
 struct Charater_Templates {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays18Charater_Templates8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -642,6 +667,7 @@ struct Charater_Templates {
 struct CharacterTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays14CharacterTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -650,6 +676,7 @@ struct CharacterTable {
 struct ClassTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays10ClassTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
@@ -659,6 +686,7 @@ struct ClassTable {
 struct ItemTable {
     static std::uint8_t* members;
     static std::uint32_t size;
+    static void finalize();  // _ZN6Arrays9ItemTable8finalizeEv, body in src/od_arrays_finalize.cpp
     static void read(IStreamBase* stream);
     static pydata::NameTable m_memberNames;
     static void finalizeNames();

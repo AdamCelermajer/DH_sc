@@ -29,6 +29,13 @@ public:
     // 0x5df6f0 (D2) / 0x5df754 (D1): drops the slots and the renderer; the members release themselves.
     ~CMaterialVertexAttributeMap() = default;
 
+    // 0x5df59c (C1): a map whose every slot is a new CVertexAttributeMap made over the vertex stream table (its default map).
+    CMaterialVertexAttributeMap(const boost::intrusive_ptr<CMaterialRenderer>& renderer,
+                                const boost::intrusive_ptr<const CVertexStreams>& streams);
+
+    // 0x5df31c: the raw block of 4 * (slot count + 2) bytes the original builds a map in. The port's vector-backed slots do not use it.
+    static void* allocateBase(const boost::intrusive_ptr<CMaterialRenderer>& renderer);
+
     // 0x5df4b0 (C2) and 0x5df378 (C1): copy == true makes a new CVertexAttributeMap for each slot
     // (copy constructor from maps[i]); copy == false shares maps[i] and increments its count.
     // The original reads the slot count from totalMapCount(renderer).

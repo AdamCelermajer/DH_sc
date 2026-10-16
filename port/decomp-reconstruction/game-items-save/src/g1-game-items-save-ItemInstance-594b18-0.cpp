@@ -105,7 +105,7 @@ const Structs::Item* ItemInstance::GetItem() const {
 // m_pickUpType when set, or the item row's pick-up type (+0x0c) when m_pickUpType is -1.
 int ItemInstance::GetPickUpType() const {
     if (m_pickUpType == -1) {
-        return GetItem()->m_w3;
+        return GetItem()->PickUpType;
     }
     return m_pickUpType;
 }
@@ -113,13 +113,13 @@ int ItemInstance::GetPickUpType() const {
 // 0x3f9e58 ItemInstance::IsStackable(void) const
 // The item row's stackable byte (+0x1c).
 bool ItemInstance::IsStackable() const {
-    return GetItem()->m_w7;
+    return GetItem()->Stackable;
 }
 
 // 0x3f9e68 ItemInstance::IsEquippable(void) const
 // The item row's equipment category (+0x68) is any value other than -1.
 bool ItemInstance::IsEquippable() const {
-    return GetItem()->m_w26 != -1;
+    return GetItem()->EquipmentSlottingType != -1;
 }
 
 // 0x3f9e80 ItemInstance::GetNumPowers(void) const
@@ -130,7 +130,7 @@ int ItemInstance::GetNumPowers() const {
 // 0x3f9e94 ItemInstance::GetIconName(void) const
 // The item row's +0x08 word is the icon name string buffer (pydata ItemBase m_w2), returned as a C string.
 const char* ItemInstance::GetIconName() const {
-    return static_cast<const char*>(GetItem()->m_w2);
+    return static_cast<const char*>(GetItem()->IconName);
 }
 
 // 0x3f9ec4 ItemInstance::GetPower(unsigned int) const
@@ -212,7 +212,7 @@ bool ItemInstance::IsEquippableBy(Character* character) const {
 
     const Structs::Item* row = GetItem();
     int playerClass = character->SG_GetPlayerClass();
-    switch (row->m_w34) {
+    switch (row->ClassRequirement) {
         case 1:
             playerClass = Arrays::GetMemberIDByString<Arrays::CharacterTable>("KnightPlayerBase");
             break;
@@ -245,9 +245,9 @@ bool ItemInstance::IsEquippableBy(Character* character) const {
     }
 
     const Structs::CharacterProperties& stats = character->m_props;
-    if (stats.m_w20 >= (row->m_w29 << 8) && stats.m_w154 + stats.m_w150 >= (row->m_w30 << 8) &&
-        stats.m_w155 + stats.m_w151 >= (row->m_w31 << 8) && stats.m_w156 + stats.m_w152 >= (row->m_w32 << 8) &&
-        stats.m_w157 + stats.m_w153 >= (row->m_w33 << 8)) {
+    if (stats.Level >= (row->LevelRequirement << 8) && stats.Prereq_Strength + stats.Stat_Strength >= (row->StrengthRequirement << 8) &&
+        stats.Prereq_Dexterity + stats.Stat_Dexterity >= (row->DexterityRequirement << 8) && stats.Prereq_Endurance + stats.Stat_Endurance >= (row->EnduranceRequirement << 8) &&
+        stats.Prereq_Energy + stats.Stat_Energy >= (row->EnergyRequirement << 8)) {
         return playerClass == character->SG_GetPlayerClass();
     }
     return false;
@@ -280,7 +280,7 @@ int ItemInstance::GetFontDef() const {
 // 0x3fa6dc ItemInstance::GetColor(int)
 // Static. The colour is the Arrays::FontPalette row GetFontDef(powerCount) (Structs::FontColorDef m_w2, +0x08).
 int ItemInstance::GetColor(int powerCount) {
-    return TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, GetFontDef(powerCount))->m_w2;
+    return TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, GetFontDef(powerCount))->textcolor;
 }
 
 // 0x3fa710 ItemInstance::GetColor(void) const

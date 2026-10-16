@@ -144,6 +144,9 @@ enum E_SCENE_NODE_TYPE : std::uint32_t {
     ESNT_DAE_MODULAR_SKINNED_MESH = fourcc("daeM"),  // 0x4d656164 collada::CModularSkinnedMeshSceneNode
     ESNT_DAE_ROOT = fourcc("daer"),             // 0x72656164 collada::CRootSceneNode
     ESNT_DAE_CAMERA = fourcc("daec"),           // 0x63656164 collada::CCameraSceneNode
+    ESNT_DAE_FORCE = fourcc("daef"),            // 0x66656164 collada::particle_system::CForceSceneNode
+    ESNT_DAE_GNPS = fourcc("daeg"),             // 0x67656164 collada::CGlitchNewParticleSystemSceneNode
+    ESNT_DAE_PARTICLE = fourcc("daep"),         // 0x70656164 collada::CParticleSystemSceneNode
     ESNT_SCENE_MANAGER_ROOT = fourcc("smgr"),   // 0x72676d73 CSceneManagerRootNode
     ESNT_CAMERA = fourcc("cam_"),               // 0x5f6d6163 CCameraSceneNode
     ESNT_LIGHT = fourcc("lght"),                // 0x7468676c CLightSceneNode

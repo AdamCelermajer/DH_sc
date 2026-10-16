@@ -125,7 +125,7 @@ void test_constructor() {
     CHECK(rig.driver.referenceCounter == rig.driver_refs_before + 1);
     CHECK(g.m_driver == &rig.driver);
     CHECK(g.unk_04 == 1);
-    CHECK(g.unk_14 == 0x001f00ffu);
+    CHECK(g.m_saved_render_state.m_word00 == 0x001f00ffu && g.m_saved_render_state.m_word04 == 0);
     CHECK(g.m_context == nullptr && g.m_render_cache == nullptr);
     CHECK(rhg_test::count_of(Event::BufferedCtor) == 1);
     CHECK(rhg_test::g_intersector.constructed == 1);

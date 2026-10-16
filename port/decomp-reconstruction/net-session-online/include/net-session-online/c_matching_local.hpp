@@ -103,15 +103,16 @@ public:
     // WRONG: it read the port's own plain byte roomClosed_, which was the same value but not the NetStruct
     // member the binary reads and writes; the field is gone and this reads the member. The body is in
     // src/c_matching_local.cpp because the record's own definition follows this class.
-    bool IsRoomClosed() const;
+    bool IsRoomClosed() override;
     // 0x801b14 _ZN14CMatchingLocal12IsRoomHiddenEv: the hidden flag, else the closed flag.
-    bool IsRoomHidden() const;
+    bool IsRoomHidden() override;
     // 0x801b3c _ZN14CMatchingLocal11SetMemberIdEi
     void SetMemberId(std::int32_t memberId) { memberId_ = memberId; }
-    // 0x805664 _ZN14CMatchingLocal13GetMemberMaskEi: see member_mask.hpp.
+    // 0x805664 _ZN14CMatchingLocal13GetMemberMaskEi: see member_mask.hpp. Deliberately STILL const (the symbol has no K):
+    // it serves the const base slot MemberBit(int) below, and a non-const body could not.
     std::int32_t GetMemberMask(std::int32_t memberId) const;
     // 0x805694 _ZN14CMatchingLocal19GetInvitationRoomIdEv: returns 0 (64-bit).
-    std::uint64_t GetInvitationRoomId() const { return 0; }
+    std::uint64_t GetInvitationRoomId() { return 0; }
     // 0x8056a0 _ZN14CMatchingLocal16GetTransportTypeE14tPROTOCOL_TYPE: table {1, 2, 1}
     // indexed by the protocol type; any type above 2 gives 0. The object is not read.
     static std::int32_t GetTransportType(std::uint32_t protocolType);
@@ -144,16 +145,16 @@ public:
     // 0x805680 _ZN14CMatchingLocal14GetFriendsListEb (partial: element type inferred).
     std::vector<tFriendInfo> GetFriendsList(bool flag);
     // 0x8057f0 _ZN14CMatchingLocal17ProcessLostPacketEii (partial: returns 0).
-    std::int32_t ProcessLostPacket(std::int32_t a2, std::int32_t a3);
+    std::int32_t ProcessLostPacket(std::int32_t a2, std::int32_t a3) override;
     // 0x80585c _ZN14CMatchingLocal25ProcessAcknowledgedPacketEii (partial: returns 0).
-    std::int32_t ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3);
+    std::int32_t ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3) override;
     // 0x805b14 _ZN14CMatchingLocal14ReadPacketDataEiiR12NetBitStream (partial: returns 0).
-    std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream);
+    std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream) override;
     // 0x8063c4 _ZN14CMatchingLocal15WritePacketDataEiiR12NetBitStream (partial: returns 0).
-    std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream);
+    std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream) override;
     // 0x805cc8 _ZN14CMatchingLocal8IsInRoomEv: the local member is the server, or the server is connected,
     // or the connection manager is initialized and has connected members. Vtable slot +0x64 (see the .cpp).
-    bool IsInRoom() const;
+    bool IsInRoom() override;
 
     // Lifecycle (c_matching_local_lifecycle.cpp). Base CMatching calls are not in this port.
     // 0x807c70 _ZN14CMatchingLocal10InitializeEi
@@ -161,38 +162,38 @@ public:
     // 0x80605c _ZN14CMatchingLocal9TerminateEv
     std::int32_t Terminate();
     // 0x806098 _ZN14CMatchingLocal9PingRoomsEv: posts event 0x800010.
-    std::int32_t PingRooms();
+    std::int32_t PingRooms() override;
 
     // Rooms (c_matching_local_rooms.cpp). Room flags are set through the NetStruct members in
     // the original; here they are the plain fields below.
     // 0x806d64 _ZN14CMatchingLocal8HideRoomEv
-    std::int32_t HideRoom();
+    std::int32_t HideRoom() override;
     // 0x806e4c _ZN14CMatchingLocal9CloseRoomEv
-    std::int32_t CloseRoom();
+    std::int32_t CloseRoom() override;
     // 0x806fc8 _ZN14CMatchingLocal8ShowRoomEv
-    std::int32_t ShowRoom();
+    std::int32_t ShowRoom() override;
     // 0x8070bc _ZN14CMatchingLocal8OpenRoomEb
-    std::int32_t OpenRoom(bool open);
+    std::int32_t OpenRoom(bool open) override;
     // 0x80795c _ZN14CMatchingLocal9LeaveRoomEv
-    std::int32_t LeaveRoom();
+    std::int32_t LeaveRoom() override;
     // 0x8079d4 _ZN14CMatchingLocal22CreateJoinRoomInternalEbR15CRoomAttributes
     std::int32_t CreateJoinRoomInternal(bool open, CRoomAttributes& attributes) override;  // non-const reference, as the symbol (link-1)
     // 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER17CRoomSearchFilterbh
-    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);  // non-const reference, as the symbol (link-1)
+    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode) override;  // non-const reference, as the symbol (link-1)
     // 0x808774 _ZN14CMatchingLocal16JoinRoomInternalEy
-    std::int32_t JoinRoomInternal(std::uint64_t key);
+    std::int32_t JoinRoomInternal(std::uint64_t key) override;
     // 0x808694 _ZN14CMatchingLocal23GetSearchRoomAttributesEy
     CRoomAttributes GetSearchRoomAttributes(std::uint64_t key);  // not const: the symbol is _ZN14CMatchingLocal23GetSearchRoomAttributesEy (link-1)
 
     // Members (c_matching_local_members.cpp)
     // 0x805c04 _ZNK14CMatchingLocal14GetMemberCountEv
-    std::int32_t GetMemberCount() const;
+    std::int32_t GetMemberCount() const override;
     // 0x805c1c _ZN14CMatchingLocal8IsInRoomEi (partial: see the .cpp)
-    bool IsInRoom(std::int32_t memberId) const;
+    bool IsInRoom(std::int32_t memberId) override;
     // 0x805d38 _ZN14CMatchingLocal10KickMemberEi
-    std::int32_t KickMember(std::int32_t memberId);
+    std::int32_t KickMember(std::int32_t memberId) override;
     // 0x80675c _ZN14CMatchingLocal19GenerateNewMemberIdEv (partial: see the .cpp)
-    std::int32_t GenerateNewMemberId();
+    std::int32_t GenerateNewMemberId() override;
 
     // Servers (c_matching_local_servers.cpp)
     // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes (partial)
@@ -204,8 +205,10 @@ public:
     std::int32_t PurgeServers();
     // 0x8097c4 _ZN14CMatchingLocal20ProcessServerMessageER10CNetworkIdR12NetBitStream
     void ProcessServerMessage(const CNetworkId& from, class NetBitStream& stream);
+    // 0x80838c _ZN14CMatchingLocal11GetRoomListEv: one tRoomInfo per server of the map, in key order.
+    std::vector<tRoomInfo> GetRoomList() override;
     // 0x808538 _ZN14CMatchingLocal13GetMemberNameEi (partial: transport names are stand-ins)
-    std::string GetMemberName(std::int32_t memberId) const;
+    std::string GetMemberName(std::int32_t memberId) override;
 
     // Messages (c_matching_local_messages.cpp)
     // 0x805d58 _ZN14CMatchingLocal23SendChangeServerMessageEv
@@ -248,7 +251,7 @@ public:
     std::size_t ServerCountForTest() const { return servers_.size(); }
     bool IsInitializedForTest() const { return initialized_; }
 
-private:
+public:  // members are public (Track B decision 9)
     std::int32_t memberId_ = 0;     // +0x3638
     std::int32_t serverMemberId_ = 0;  // +0x363c (name inferred, as in CMatchingGLLive)
     // The two room flag bytes the port used to keep here (+0x4b6d roomClosed_, +0x4b8d

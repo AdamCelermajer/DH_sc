@@ -179,11 +179,9 @@ CMatrix4<T> buildProjectionMatrixOrtho(T widthOfViewVolume, T heightOfViewVolume
 }
 
 // 0x6651a0 operator*<float, glitch::collada::SMatrix>(CMatrix4<float> const&, SMatrix const&)
-// PARTIAL: glitch::collada::SMatrix is not declared in this tree, so the rhs is any type indexable
-// as 16 floats (the listing reads a3[0..15] and never reads the rhs flag at +0x40). The lhs
-// identity flag selects a plain copy of the rhs. Otherwise the 4x4 product is taken with the
-// rows and columns of the listing, and the translation column adds the lhs translation.
-// No caller instantiates this yet.
+// The rhs is any type indexable as 16 floats (the listing reads a3[0..15] and never reads a flag); the instance is for
+// glitch::collada::SMatrix (matrix4_operators.hpp). The lhs identity flag selects a plain copy of the rhs. Otherwise the 4x4
+// product is taken with the rows and columns of the listing, and the translation column adds the lhs translation.
 template <typename T, typename Rhs>
 CMatrix4<T> operator*(const CMatrix4<T>& lhs, const Rhs& rhs) {
     CMatrix4<T> out{};
@@ -215,6 +213,13 @@ CMatrix4<T> operator*(const CMatrix4<T>& lhs, const Rhs& rhs) {
     out.flag = false;  // +0x40
     return out;
 }
+
+// 0x35e998 _ZNK6glitch4core8CMatrix4IfEmlERKS2_: the member product (matrix4_operators.hpp) for float, emitted here.
+template CMatrix4<float> CMatrix4<float>::operator*(const CMatrix4<float>&) const;
+
+// The instance the binary emits: _ZN6glitch4core...operator*<float, glitch::collada::SMatrix> (0x6651a0), reached from the skin
+// techniques' prepareCache (IColladaSkinTechnique).
+template CMatrix4<float> operator*<float, glitch::collada::SMatrix>(const CMatrix4<float>&, const glitch::collada::SMatrix&);
 
 // Instantiations for float, the only type the original builds.
 template CMatrix4<float> buildProjectionMatrixPerspectiveFov<float>(float, float, float, float);

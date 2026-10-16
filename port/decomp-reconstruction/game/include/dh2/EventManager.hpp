@@ -5,6 +5,7 @@
 // Container layouts are STLport 32-bit; the offsets below are the original ones.
 #pragma once
 
+#include <cstdint>
 #include <list>
 #include <map>
 
@@ -40,6 +41,7 @@ public:
 public:
     // +0x00 vptr
     // +0x04 unused (alignment of the map header)
+    uint8_t pad_04[4];
     std::map<int, std::list<ReceiverInfo>> m_receivers;  // +0x08 header, +0x18 node count (24 bytes)
     std::list<const IEvent*> m_queuedEvents;           // +0x20 sentinel node
     std::list<DelayedDetachInfo> m_delayedDetach;      // +0x28 sentinel node

@@ -35,6 +35,8 @@
 
 #include "glitch-core-io/core/dual_quaternion.hpp"
 #include "glitch-scene-collada-gui/collada/IMesh.hpp"
+#include "glitch-scene-collada-gui/res/onDemand.hpp"
+#include "glitch-video/buffer.hpp"
 
 namespace glitch::video {
 class CMaterial;
@@ -42,52 +44,7 @@ class CMaterialVertexAttributeMap;
 class IBuffer;
 }  // namespace glitch::video
 
-namespace glitch::res {
-
-// A block of file data that is loaded when first used. The first word is the use count; +0x0c is the loaded data, released with
-// operator delete[] when the last use goes (the block itself belongs to the file and is not freed).
-struct SOnDemandBlock {
-    std::int32_t count = 0;       // +0x00
-    std::uint32_t unk_04 = 0;     // +0x04
-    std::uint32_t unk_08 = 0;     // +0x08
-    void* data = nullptr;         // +0x0c
-};
-
-// glitch::res::onDemandPointer<T>: a counted pointer to a SOnDemandBlock. The original copies it with ++count; the destructor drops the
-// count and frees the data at zero (the destructor of the vector elements in ~CSkinnedMesh, 0x665938).
-template <typename T>
-class onDemandPointer {
-public:
-    onDemandPointer() = default;
-    explicit onDemandPointer(SOnDemandBlock* b) : block(b) {}
-    onDemandPointer(const onDemandPointer& other) : block(other.block) {
-        if (block != nullptr) ++block->count;
-    }
-    onDemandPointer& operator=(const onDemandPointer& other) {
-        if (other.block != nullptr) ++other.block->count;
-        release();
-        block = other.block;
-        return *this;
-    }
-    ~onDemandPointer() { release(); }
-
-    SOnDemandBlock* get() const { return block; }
-    void reset() {
-        release();
-        block = nullptr;
-    }
-
-private:
-    void release() {
-        if (block != nullptr && block->count-- == 1) {
-            delete[] static_cast<T*>(block->data);
-            block->data = nullptr;
-        }
-    }
-    SOnDemandBlock* block = nullptr;  // +0x00
-};
-
-}  // namespace glitch::res
+// glitch::res::SOnDemandBlock, onDemandPointer<T> and onDemandReader are in res/onDemand.hpp.
 
 namespace glitch::collada {
 
@@ -97,6 +54,13 @@ class IColladaSkinTechnique;
 
 class CRootSceneNode;
 struct SController;
+
+// One record of SSkin::skinDataEntries (8 bytes in the original): a word and the on-demand block of the (weight, joint index) pairs of one
+// skin data record.
+struct SSkinDataRecord {
+    std::uint32_t first = 0;                    // +0x00 not read by the constructor
+    res::SOnDemandBlock* block = nullptr;       // +0x04
+};
 
 // The skin record of a controller (SController +0x08, the object CSkinnedMesh +0x1c points at). Only the words the skinning code reads are
 // named.
@@ -108,10 +72,10 @@ struct SSkin {
     const char* const* jointScopeIds = nullptr;  // +0x78 the scope id of each joint node
     res::SOnDemandBlock* skinData = nullptr;   // +0x80 the on-demand SSkinData<float> (CSkinnedMesh +0x4c)
     std::int32_t skinDataCount = 0;            // +0x84
-    const void* skinDataEntries = nullptr;     // +0x88 8-byte records, one on-demand pointer each
+    const SSkinDataRecord* skinDataEntries = nullptr;  // +0x88 8-byte records, one on-demand block each
     std::int32_t boxCount = 0;                 // +0x8c number of 24-byte joint boxes
     const float* jointBoxes = nullptr;         // +0x90 six floats per box
-    video::IBuffer* proxy = nullptr;           // +0x94 the skin's proxy buffer: checkAvailability and init make it static (usage byte +0x11 cleared)
+    boost::intrusive_ptr<video::IBuffer> proxy;  // +0x94 the skin's proxy buffer (CResFile::releaseObjects releases it): checkAvailability and init make it static (usage byte +0x11 cleared)
     std::uint8_t weightsPerVertex = 0;         // +0x98 how many joint weights a vertex has (1 .. 4)
 };
 
@@ -176,7 +140,7 @@ public:
 
 class CSkinnedMesh : public ISkinnedMesh {
 public:
-    // 0x665fe8 (C1) and 0x6664f0 (C2). PARTIAL: the skin data is loaded through the on-demand reader, which is not reconstructed.
+    // 0x665fe8 (C1) and 0x6664f0 (C2): see the source.
     CSkinnedMesh(const CColladaDatabase& database, video::IVideoDriver* driver, SController& controller, CRootSceneNode* root);
     // 0x665938 (D1), 0x665a38 (D2), 0x665a1c (D0, skipped): releases the cache, the mesh, the buffers, the on-demand blocks, the skin
     // data and the four techniques, then the ISkinnedMesh part.

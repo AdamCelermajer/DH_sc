@@ -72,22 +72,22 @@ static void ProjectilePackedRecords() {
     if (sizeof(void*) == 8) CHECK(sizeof(Structs::Projectile) > Arrays::ListingStride::ProjectileTable);
     for (int e = 0; e < 3; ++e) {
         const int base = 1000 * (e + 1);
-        CHECK(p[e].m_w1 == (((e + 0) & 1) != 0));
-        CHECK(p[e].m_off5 == (((e + 1) & 1) != 0));
-        CHECK(p[e].m_w2 == base + 2 && p[e].m_w3 == base + 3);
-        CHECK(p[e].m_w4 == (((e + 2) & 1) != 0));
-        CHECK(p[e].m_w5 == base + 5 && p[e].m_w6 == base + 6);
-        CHECK(p[e].m_w7 == (((e + 3) & 1) != 0) && p[e].m_off29 == (((e + 4) & 1) != 0));
-        CHECK(p[e].m_w8 == base + 8.5f && p[e].m_w9 == base + 9.5f);
-        CHECK(p[e].m_w10 == base + 10 && p[e].m_w11 == base + 11 && p[e].m_w12 == base + 12);
-        CHECK(p[e].m_w13 == (((e + 5) & 1) != 0) && p[e].m_off53 == (((e + 6) & 1) != 0));
-        CHECK(p[e].m_w14 == base + 14 && p[e].m_w15 == base + 15);
-        CHECK(p[e].m_w16 == base + 16.5f && p[e].m_w17 == base + 17.5f);
+        CHECK(p[e].Dedicated == (((e + 0) & 1) != 0));
+        CHECK(p[e].DisappearOnHit == (((e + 1) & 1) != 0));
+        CHECK(p[e].ExpireFX == base + 2 && p[e].ExpireSFX == base + 3);
+        CHECK(p[e].FriendlyFire == (((e + 2) & 1) != 0));
+        CHECK(p[e].ImpactFX == base + 5 && p[e].ImpactSFX == base + 6);
+        CHECK(p[e].IsLaser == (((e + 3) & 1) != 0) && p[e].IsMagic == (((e + 4) & 1) != 0));
+        CHECK(p[e].MaxDistance == base + 8.5f && p[e].MaxRotation == base + 9.5f);
+        CHECK(p[e].Model == base + 10 && p[e].ObjectImpactFX == base + 11 && p[e].ObjectImpactSFX == base + 12);
+        CHECK(p[e].StayOnFloor == (((e + 5) & 1) != 0) && p[e].TargetLock == (((e + 6) & 1) != 0));
+        CHECK(p[e].TimeBetweenHit == base + 14 && p[e].Timer == base + 15);
+        CHECK(p[e].Velocity == base + 16.5f && p[e].VelocityDamping == base + 17.5f);
     }
     // The tail of element 0 (m_w16, m_w17) lies beyond byte 72 of its slot on this host. A table stepped at the
     // 32-bit stride would have put the vptr of element 1 there; element 0 still holds its own values, and element 1
     // starts sizeof(Projectile) after element 0.
-    const std::size_t tail = reinterpret_cast<const std::uint8_t*>(&p[0].m_w17) - members;
+    const std::size_t tail = reinterpret_cast<const std::uint8_t*>(&p[0].VelocityDamping) - members;
     if (sizeof(void*) == 8) CHECK(tail + sizeof(float) > Arrays::ListingStride::ProjectileTable);
     CHECK(reinterpret_cast<const std::uint8_t*>(&p[1]) - members == static_cast<std::ptrdiff_t>(sizeof(Structs::Projectile)));
     Arrays::ProjectileTable::finalize();
@@ -120,13 +120,13 @@ static void DestructibleContainerPackedRecords() {
     if (sizeof(void*) == 8) CHECK(sizeof(Structs::DestructibleContainer) > Arrays::ListingStride::DestructibleContainers);
     for (int e = 0; e < 3; ++e) {
         const int base = 100 * (e + 1);
-        CHECK(d[e].m_w1 == base + 1 && d[e].m_w7 == base + 7);
-        CHECK(d[e].m_w8 == ((e & 1) != 0));
-        CHECK(d[e].m_w9 == base + 9 && d[e].m_w10 == base + 10);
-        CHECK(d[e].m_w11 == std::strlen(names[e]));
-        CHECK(d[e].m_w12 != nullptr && std::memcmp(d[e].m_w12, names[e], std::strlen(names[e])) == 0);
-        CHECK(d[e].m_w12 != nullptr && d[e].m_w12[std::strlen(names[e])] == '\0');
-        CHECK(d[e].m_w13 == base + 13 && d[e].m_w16 == base + 16);
+        CHECK(d[e].AirResist == base + 1 && d[e].InteractSound == base + 7);
+        CHECK(d[e].KeepSolid == ((e & 1) != 0));
+        CHECK(d[e].LightningResist == base + 9 && d[e].Loot == base + 10);
+        CHECK(d[e].ScriptSize == std::strlen(names[e]));
+        CHECK(d[e].Script != nullptr && std::memcmp(d[e].Script, names[e], std::strlen(names[e])) == 0);
+        CHECK(d[e].Script != nullptr && d[e].Script[std::strlen(names[e])] == '\0');
+        CHECK(d[e].TrapChance == base + 13 && d[e].WaterResist == base + 16);
     }
     Arrays::FinalizeDestructibleContainers(Arrays::DestructibleContainers::members, Arrays::DestructibleContainers::size);
     CHECK(Arrays::DestructibleContainers::members == nullptr);
@@ -160,31 +160,31 @@ static void LootTablePackedRecords() {
     const auto* loot = reinterpret_cast<const Structs::Loot*>(members);
     if (sizeof(void*) == 8) CHECK(sizeof(Structs::Loot) > Arrays::ListingStride::LootTable);
 
-    CHECK(loot[0].m_w1 == 11 && loot[0].m_w2 == 12 && loot[0].m_w3 == 2 && loot[0].m_w5 == 1 && loot[0].m_w7 == 3);
-    CHECK(loot[1].m_w1 == 21 && loot[1].m_w2 == 22 && loot[1].m_w3 == 0 && loot[1].m_w5 == 2 && loot[1].m_w7 == 0);
+    CHECK(loot[0].RollType == 11 && loot[0].NumRandomItemProbs == 12 && loot[0].RandomLootEntriesSize == 2 && loot[0].FixedLootEntriesSize == 1 && loot[0].SubLootsSize == 3);
+    CHECK(loot[1].RollType == 21 && loot[1].NumRandomItemProbs == 22 && loot[1].RandomLootEntriesSize == 0 && loot[1].FixedLootEntriesSize == 2 && loot[1].SubLootsSize == 0);
     // Nested LootEntry tables: listing stride 36 in the stride word, host objects at sizeof(LootEntry).
-    CHECK(loot[0].m_w4 != nullptr && pydata::ElementTableListingStride(loot[0].m_w4) == 36);
-    CHECK(loot[0].m_w4 != nullptr && pydata::ElementTableCount(loot[0].m_w4) == 2);
+    CHECK(loot[0].RandomLootEntries != nullptr && pydata::ElementTableListingStride(loot[0].RandomLootEntries) == 36);
+    CHECK(loot[0].RandomLootEntries != nullptr && pydata::ElementTableCount(loot[0].RandomLootEntries) == 2);
     if (sizeof(void*) == 8) CHECK(sizeof(Structs::LootEntry) > 36);
-    if (loot[0].m_w4 != nullptr) {
-        const auto* a = static_cast<const Structs::LootEntry*>(loot[0].m_w4);
-        CHECK(a[0].m_w1 == 101 && a[0].m_w8 == 108 && a[1].m_w1 == 201 && a[1].m_w8 == 208);
+    if (loot[0].RandomLootEntries != nullptr) {
+        const auto* a = static_cast<const Structs::LootEntry*>(loot[0].RandomLootEntries);
+        CHECK(a[0].ItemListID == 101 && a[0].WProb == 108 && a[1].ItemListID == 201 && a[1].WProb == 208);
     }
-    CHECK(loot[0].m_w6 != nullptr && pydata::ElementTableListingStride(loot[0].m_w6) == 36);
-    if (loot[0].m_w6 != nullptr) {
-        const auto* b = static_cast<const Structs::LootEntry*>(loot[0].m_w6);
-        CHECK(b[0].m_w1 == 301 && b[0].m_w8 == 308);
+    CHECK(loot[0].FixedLootEntries != nullptr && pydata::ElementTableListingStride(loot[0].FixedLootEntries) == 36);
+    if (loot[0].FixedLootEntries != nullptr) {
+        const auto* b = static_cast<const Structs::LootEntry*>(loot[0].FixedLootEntries);
+        CHECK(b[0].ItemListID == 301 && b[0].WProb == 308);
     }
-    CHECK(loot[0].m_w8 != nullptr);
-    if (loot[0].m_w8 != nullptr) {
-        const auto* c = static_cast<const std::int32_t*>(loot[0].m_w8);
+    CHECK(loot[0].SubLoots != nullptr);
+    if (loot[0].SubLoots != nullptr) {
+        const auto* c = static_cast<const std::int32_t*>(loot[0].SubLoots);
         CHECK(c[0] == 41 && c[1] == 42 && c[2] == 43);
     }
-    CHECK(loot[1].m_w4 != nullptr && pydata::ElementTableCount(loot[1].m_w4) == 0);  // an empty table still has a header
-    CHECK(loot[1].m_w6 != nullptr && pydata::ElementTableCount(loot[1].m_w6) == 2);
-    if (loot[1].m_w6 != nullptr) {
-        const auto* b = static_cast<const Structs::LootEntry*>(loot[1].m_w6);
-        CHECK(b[0].m_w1 == 501 && b[1].m_w1 == 601 && b[1].m_w8 == 608);
+    CHECK(loot[1].RandomLootEntries != nullptr && pydata::ElementTableCount(loot[1].RandomLootEntries) == 0);  // an empty table still has a header
+    CHECK(loot[1].FixedLootEntries != nullptr && pydata::ElementTableCount(loot[1].FixedLootEntries) == 2);
+    if (loot[1].FixedLootEntries != nullptr) {
+        const auto* b = static_cast<const Structs::LootEntry*>(loot[1].FixedLootEntries);
+        CHECK(b[0].ItemListID == 501 && b[1].ItemListID == 601 && b[1].WProb == 608);
     }
     Arrays::LootTable::finalize();  // destroys the nested tables through Loot::~Loot, then the outer block
     CHECK(Arrays::LootTable::members == nullptr);
@@ -212,16 +212,16 @@ static void ItemListPackedRecords() {
     CHECK(pydata::ElementTableCount(members) == 3);
     const auto* lists = reinterpret_cast<const Structs::ItemListEntryList*>(members);
     for (int e = 0; e < 3; ++e) {
-        CHECK(lists[e].m_w1 == static_cast<std::uint32_t>(counts[e]));
-        CHECK(lists[e].m_w2 != nullptr);
-        if (lists[e].m_w2 == nullptr) continue;
-        CHECK(pydata::ElementTableListingStride(lists[e].m_w2) == 12);
-        CHECK(pydata::ElementTableCount(lists[e].m_w2) == static_cast<std::uint32_t>(counts[e]));
-        const auto* entries = static_cast<const Structs::ItemListEntry*>(lists[e].m_w2);
+        CHECK(lists[e].list_entriesSize == static_cast<std::uint32_t>(counts[e]));
+        CHECK(lists[e].list_entries != nullptr);
+        if (lists[e].list_entries == nullptr) continue;
+        CHECK(pydata::ElementTableListingStride(lists[e].list_entries) == 12);
+        CHECK(pydata::ElementTableCount(lists[e].list_entries) == static_cast<std::uint32_t>(counts[e]));
+        const auto* entries = static_cast<const Structs::ItemListEntry*>(lists[e].list_entries);
         for (int k = 0; k < counts[e]; ++k) {
-            CHECK(entries[k].m_w1 == 1000 * (e + 1) + k);
-            CHECK(entries[k].m_w2 == 10 * (e + 1) + k);
-            CHECK(entries[k].m_off10 == 100 + 10 * e + k);
+            CHECK(entries[k].ItemID == 1000 * (e + 1) + k);
+            CHECK(entries[k].Prob == 10 * (e + 1) + k);
+            CHECK(entries[k].Qty == 100 + 10 * e + k);
         }
     }
     Arrays::ItemList::finalize();  // the finalize now walks ItemListEntryList elements, as the read built them
@@ -246,16 +246,16 @@ static void DropTilePriorityPackedRecords() {
     CHECK(pydata::ElementTableListingStride(members) == Arrays::ListingStride::DropTilePriorityTable);
     CHECK(pydata::ElementTableCount(members) == 2);
     const auto* lists = reinterpret_cast<const Structs::TileOffsetList*>(members);
-    CHECK(lists[0].m_w1 == 3 && lists[1].m_w1 == 1);
-    CHECK(lists[0].m_w2 != nullptr && lists[1].m_w2 != nullptr);
-    if (lists[0].m_w2 != nullptr) {
-        CHECK(pydata::ElementTableListingStride(lists[0].m_w2) == 8);
-        const auto* t = static_cast<const Structs::TileOffset*>(lists[0].m_w2);
-        CHECK(t[0].m_w1 == 1 && t[0].m_off6 == 2 && t[1].m_w1 == 3 && t[1].m_off6 == 4 && t[2].m_w1 == 5 && t[2].m_off6 == 6);
+    CHECK(lists[0].list_entriesSize == 3 && lists[1].list_entriesSize == 1);
+    CHECK(lists[0].list_entries != nullptr && lists[1].list_entries != nullptr);
+    if (lists[0].list_entries != nullptr) {
+        CHECK(pydata::ElementTableListingStride(lists[0].list_entries) == 8);
+        const auto* t = static_cast<const Structs::TileOffset*>(lists[0].list_entries);
+        CHECK(t[0].X == 1 && t[0].Y == 2 && t[1].X == 3 && t[1].Y == 4 && t[2].X == 5 && t[2].Y == 6);
     }
-    if (lists[1].m_w2 != nullptr) {
-        const auto* t = static_cast<const Structs::TileOffset*>(lists[1].m_w2);
-        CHECK(t[0].m_w1 == -7 && t[0].m_off6 == 8);
+    if (lists[1].list_entries != nullptr) {
+        const auto* t = static_cast<const Structs::TileOffset*>(lists[1].list_entries);
+        CHECK(t[0].X == -7 && t[0].Y == 8);
     }
     Arrays::DropTilePriorityTable::finalize();
     CHECK(Arrays::DropTilePriorityTable::members == nullptr);
@@ -274,8 +274,8 @@ static void TableReplacedByASecondRead() {
     CHECK(Arrays::SkillListTable::size == 1);
     CHECK(pydata::ElementTableCount(Arrays::SkillListTable::members) == 1);
     const auto* list = reinterpret_cast<const Structs::SkillList*>(Arrays::SkillListTable::members);
-    CHECK(list[0].m_w1 == 3);
-    CHECK(list[0].m_w2 != nullptr && static_cast<const std::int32_t*>(list[0].m_w2)[2] == 82);
+    CHECK(list[0].ListSize == 3);
+    CHECK(list[0].List != nullptr && static_cast<const std::int32_t*>(list[0].List)[2] == 82);
     Arrays::SkillListTable::finalize();
 }
 

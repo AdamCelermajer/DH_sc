@@ -3,13 +3,40 @@
 // its NetStructMember blocks (include/net-transport/tb/cnet_player_info.hpp), so the stores below are the
 // blocks' SetValue (compare, store, NetStructMember::SetChanged) and SetEnabled is the real NetStruct one.
 //
-// Not written here (see the ledger): the copy constructors and operator= (they copy the NetStruct base's
-// member pointer array with memcpy, so the copy would point at the source's blocks).
+// The copy constructors (0x377448, 0x4417d8) are the implicit member-wise copy (see the header); operator=
+// (0x378708) is below.
 
 #include "net-transport/tb/cnet_player_info.hpp"
 
+#include <cstring>
+
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 #include "net-transport/tb/c_net_player_manager.hpp"
+
+// 0x378708 _ZN14CNetPlayerInfoaSERKS_
+// memcpy of the NetStruct base's member pointer array (0x100 bytes at +0x04: the destination's pointers then
+// address the source's blocks, as in the binary), the member count, the byte at +0x108, the packet history map
+// (_Rb_tree::operator=), the enabled and post-load flags and the post-load argument; then SetValue (vtable +0x1c)
+// of each of the eight blocks with the source's value, and the applied state word at +0x280. Returns this.
+CNetPlayerInfo& CNetPlayerInfo::operator=(const CNetPlayerInfo& other) {
+    std::memcpy(members_, other.members_, sizeof(members_));  // +0x04, 0x100 bytes
+    member_count_ = other.member_count_;                      // +0x104
+    unk_108_ = other.unk_108_;                                // +0x108
+    packetHistory_ = other.packetHistory_;                    // +0x10c
+    enabled_ = other.enabled_;                                // +0x124
+    post_load_pending_ = other.post_load_pending_;            // +0x125
+    post_load_arg_ = other.post_load_arg_;                    // +0x128
+    unk_150.SetValue(other.unk_150.GetValue());               // +0x130
+    member_id_.SetValue(other.member_id_.GetValue());         // +0x158
+    matching_member_id_.SetValue(other.matching_member_id_.GetValue());  // +0x180
+    gamepad_id_.SetValue(other.gamepad_id_.GetValue());       // +0x1a8
+    state_.SetValue(other.state_.GetValue());                 // +0x1d0
+    unk_218.SetValue(other.unk_218.GetValue());               // +0x1f8
+    unk_240.SetValue(other.unk_240.GetValue());               // +0x220
+    name_.SetValue(other.name_.GetValue());                   // +0x248
+    applied_state_ = other.applied_state_;                    // +0x280
+    return *this;
+}
 
 // 0x36d208 CNetPlayerInfo::IsActivating()
 bool CNetPlayerInfo::IsActivating() const {

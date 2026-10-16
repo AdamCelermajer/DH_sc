@@ -390,7 +390,7 @@ void Character::DistributeXP(Character* killer, Character* victim) {
     ProbeSwitch("isTracingXPDistribution");
     PlayerManager* players = dword_99F76C;
     const int count = players->m_numCharacters;
-    const float radius = design->m_w40;
+    const float radius = design->XP_MaxDistanceToReceiveXP;
     if (count > 4) {
         ReportAssert("numLocalCharacterPlayer <= PlayerManager::MAX_PLAYERS", 247);
     }
@@ -431,7 +431,7 @@ void Character::DistributeXP(Character* killer, Character* victim) {
             }
         }
         if (sharing != 0) {
-            const float penalty = static_cast<float>(sharing - 1) * design->m_w41;
+            const float penalty = static_cast<float>(sharing - 1) * design->XP_PerPlayerReductionPct;
             ProbeSwitch("isTracingXPDistribution");
             for (int i = 0; i < count; ++i) {
                 Character* player = players->GetPlayer(i, true)->unk_660;

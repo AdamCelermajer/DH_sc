@@ -20,6 +20,47 @@ constexpr uint32_t kPVRHeaderBytes = 52;
 
 }  // namespace
 
+// 0x605f80 _ZNK6glitch5video15CImageLoaderPVR9loadImageEPNS_2io9IReadFileE
+// Reads the header, then the texture data (a short read logs "corrupt PVR file" with the file name); the low byte of the
+// flags selects the pixel format (an unknown one logs "PVR loader" / "unsupported format"), with the 0x8000 flag choosing the
+// alternate of the two formats 24 and 25. The data buffer is adopted by the image (copy = true, own = true), so the
+// original's final free sees a null pointer on success.
+boost::intrusive_ptr<CImage> CImageLoaderPVR::loadImage(io::IReadFile* file) const {
+    SPVRHeader header;
+    bool isBTEX = false;
+    if (!readPVRHeader(file, header, isBTEX)) return boost::intrusive_ptr<CImage>();
+
+    uint8_t* data = new uint8_t[header.textureDataSize];
+    boost::intrusive_ptr<CImage> result;
+    if (static_cast<uint32_t>(file->read(data, header.textureDataSize)) != header.textureDataSize) {
+        os::Printer::log("corrupt PVR file", file->getFileName(), ELL_ERROR);
+        delete[] data;
+        return result;
+    }
+    E_PIXEL_FORMAT format;
+    const bool alternate = (header.flags & kPVRFlagAltFormat) != 0;
+    switch (static_cast<int8_t>(header.flags)) {
+        case 1: format = 8; break;
+        case 16: format = 7; break;
+        case 17: format = 9; break;
+        case 18: format = 14; break;
+        case 19: format = 5; break;
+        case 21: format = 10; break;
+        case 22: format = 0; break;
+        case 23: format = 4; break;
+        case 24: format = alternate ? 25 : 24; break;
+        case 25: format = alternate ? 27 : 26; break;
+        default:
+            os::Printer::log("PVR loader", "unsupported format", ELL_ERROR);
+            delete[] data;
+            return result;
+    }
+    const core::dimension2d<int32_t> size{static_cast<int32_t>(header.width), static_cast<int32_t>(header.height)};
+    result = boost::intrusive_ptr<CImage>(
+        new CImage(format, size, data, header.textureDataSize, header.mipMapCount, true, true), true);
+    return result;
+}
+
 // 0x605b10 _ZNK6glitch5video15CImageLoaderPVR17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE
 // The header comes from readPVRHeader (glitch::video::readPVRHeader, 0x6058a4, exposed in
 // texture_loaders.hpp); the file name in the log messages is IReadFile::getFileName (vtable +0x28). The

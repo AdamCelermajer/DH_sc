@@ -93,7 +93,7 @@ int FloatToInt32(float value) {
 
 // Entry count of the character's skill list: the word at +4 of GetCharSkillList() (Structs::SkillList::m_w1).
 std::uint32_t CharSkillListCount(const Character* self) {
-    return static_cast<const Structs::SkillList*>(self->GetCharSkillList())->m_w1;
+    return static_cast<const Structs::SkillList*>(self->GetCharSkillList())->ListSize;
 }
 }  // namespace
 

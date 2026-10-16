@@ -280,9 +280,9 @@ int DefaultDataPacket::getByteLenWideString(wchar_t*& value, unsigned char& leng
 }
 
 // 0x84a9fc _ZN17DefaultDataPacket9getPacketERP10DataPacket
-// Partial: the original returns the value of the setMessageBody call made through the new
-// packet's vtable, which is the (truncated) destination pointer. That value is not reproduced;
-// this returns 1. Reads two bytes of length and a body without a bounds check, as in the original.
+// Returns the result of the setMessageBody call made through the new packet's vtable (+0x68): the
+// memcpy destination, the new packet's body, as the 32-bit value the original hands back.
+// Reads two bytes of length and a body without a bounds check, as in the original.
 int DefaultDataPacket::getPacket(DataPacket*& packet) {
     auto* created = new DefaultDataPacket();
     packet = created;
@@ -290,26 +290,26 @@ int DefaultDataPacket::getPacket(DataPacket*& packet) {
     const std::uint16_t bits = static_cast<std::uint16_t>((ToByte(body_[start]) << 8) | ToByte(body_[start + 1]));
     const int length = static_cast<std::int16_t>(bits);
     read_pos_ = start + 2;
-    created->setMessageBody(reinterpret_cast<const unsigned char*>(body_ + start + 2), length);
+    void* const result = created->setMessageBody(reinterpret_cast<const unsigned char*>(body_ + start + 2), length);
     read_pos_ = start + 2 + length;
-    return 1;
+    return static_cast<int>(reinterpret_cast<std::uintptr_t>(result));
 }
 
 // 0x84a460 _ZN17DefaultDataPacket9addPacketEP10DataPacket
-// Partial: the original returns the memcpy destination, which is not returned here. Not bounded
-// by kBodySize, as in the original. The length (vtable +0x60) is read first, then the two
-// big-endian length bytes are written and the cursor moves past them, then the body (+0x64) is
-// read and copied, as in the original.
-void DefaultDataPacket::addPacket(DataPacket* packet) {
+// Returns the memcpy destination (body + cursor after the two length bytes), as the original.
+// Not bounded by kBodySize, as in the original. The length (vtable +0x60) is read first, then the
+// two big-endian length bytes are written and the cursor moves past them, then the body (+0x64)
+// is read and copied.
+void* DefaultDataPacket::addPacket(DataPacket* packet) {
     const int length = packet->getMessageLen();
     body_[write_pos_] = ToChar(static_cast<std::uint8_t>(length >> 8));
     body_[write_pos_ + 1] = ToChar(static_cast<std::uint8_t>(length));
     write_pos_ += 2;
     const char* body = packet->getMessageBody();
-    if (length != 0) {
-        std::memcpy(body_ + write_pos_, body, static_cast<std::size_t>(length));
-    }
+    void* const destination = body_ + write_pos_;
+    std::memcpy(destination, body, static_cast<std::size_t>(length));
     write_pos_ += length;
+    return destination;
 }
 
 // 0x84a344 _ZN17DefaultDataPacket11packMessageEv
@@ -327,13 +327,15 @@ char* DefaultDataPacket::getMessageBody() {
 }
 
 // 0x84a4dc _ZN17DefaultDataPacket14setMessageBodyEPhi
-// Partial: the original returns the memcpy destination pointer; that value is not returned here.
-// The copy is not bounded by kBodySize (as in the original), so a length above 4096 overflows
-// the body. String2Packet passes a wire length up to 65535, so the caller must check it.
-void DefaultDataPacket::setMessageBody(const unsigned char* data, int length) {
-    std::memcpy(body_, data, static_cast<std::size_t>(length));
+// Returns the memcpy destination (the body), as the original. The copy is not bounded by
+// kBodySize (as in the original), so a length above 4096 overflows the body. String2Packet
+// passes a wire length up to 65535, so the caller must check it.
+void* DefaultDataPacket::setMessageBody(const unsigned char* data, int length) {
+    void* const destination = body_;
+    std::memcpy(destination, data, static_cast<std::size_t>(length));
     read_pos_ = 0;
     write_pos_ = length;
+    return destination;
 }
 
 // 0x84a348 _ZN17DefaultDataPacket13getNextPacketEv
@@ -384,7 +386,7 @@ char* DefaultDataPacket::getIP() {
 
 // 0x84a7f4 _ZN17DefaultDataPacket5setIPEPc
 // Frees the old string, stores an owned copy (XP_API_STRNEW) and returns it, as the original.
-// Partial: a null argument stores nullptr; the pseudocode does not show that case.
+// A null argument stores nullptr (XP_API_STRNEW(NULL) is strlen of null in the original, a crash).
 char* DefaultDataPacket::setIP(const char* ip) {
     delete[] ip_;
     ip_ = nullptr;
@@ -397,14 +399,16 @@ char* DefaultDataPacket::setIP(const char* ip) {
 }
 
 // 0x84a410 _ZN17DefaultDataPacket13Packet2StringEPcRi
-// Partial: the original returns the memcpy destination pointer, which is not returned here.
-// Writes a big-endian 2-byte length, then the body; out_size is 2 + length.
-void DefaultDataPacket::Packet2String(char* out, int& out_size) {
+// Writes a big-endian 2-byte length, then the body; out_size is 2 + length. Returns the memcpy
+// destination (out + 2), as the original.
+void* DefaultDataPacket::Packet2String(char* out, int& out_size) {
     out[0] = ToChar(static_cast<std::uint8_t>(write_pos_ >> 8));
     out[1] = ToChar(static_cast<std::uint8_t>(write_pos_));
     out_size = 2;
-    std::memcpy(out + 2, body_, static_cast<std::size_t>(write_pos_));
+    void* const destination = out + 2;
+    std::memcpy(destination, body_, static_cast<std::size_t>(write_pos_));
     out_size += write_pos_;
+    return destination;
 }
 
 // 0x84a3d0 _ZN17DefaultDataPacket13String2PacketEPci

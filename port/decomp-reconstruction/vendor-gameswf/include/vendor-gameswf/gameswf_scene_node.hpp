@@ -119,9 +119,7 @@ public:
     glitch::core::CMatrix4<float> parentTransform() const;
 
     // Not in the binary: the ray through the pointer position (x, y), which update_inverse_transform casts with the scene
-    // collision manager (device scene manager +0x2c, vtable +0x14 getRayFromScreenCoordinates). PARTIAL: that chain is not
-    // declared in the tree (see the .cpp), so this stand-in finds no ray and update_inverse_transform treats the pointer
-    // as outside the node.
+    // collision manager (device scene manager +0x2c, vtable +0x14 getRayFromScreenCoordinates).
     bool screen_ray(int x, int y, glitch::core::line3d<float>& ray) const;
 
     // ---- layout (32-bit offsets in comments) ----

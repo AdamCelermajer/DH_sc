@@ -69,7 +69,7 @@ int DataPacketLobby::GetMMOMessageType() {
 
 // 0x8492dc _ZN15DataPacketLobby10WillBeFullEi
 bool DataPacketLobby::WillBeFull(std::size_t bytes) const {
-    return bytes + position_ > capacity_;
+    return static_cast<std::int32_t>(bytes) + position_ > capacity_;
 }
 
 // 0x8492f8 _ZN15DataPacketLobby7getByteERh
@@ -214,27 +214,29 @@ int DataPacketLobby::String2Packet(char* data, int size) {
 
 // 0x8495b8 _ZN15DataPacketLobby13Packet2StringEPcRi
 // Writes the length as a big-endian 16-bit value (bytes at +0x11 and +0x10 of the original
-// object), then the body. out_length becomes 2 + length.
-void DataPacketLobby::Packet2String(char* out, int& out_length) {
+// object), then the body. out_length becomes 2 + length. Returns the memcpy destination (out + 2).
+void* DataPacketLobby::Packet2String(char* out, int& out_length) {
     out[0] = static_cast<char>((length_ >> 8) & 0xFF);
     out[1] = static_cast<char>(length_ & 0xFF);
     out_length = 2;
-    if (length_ != 0) {
-        std::memcpy(out + 2, buffer_.get(), length_);
-    }
+    void* const destination = out + 2;
+    std::memcpy(destination, buffer_.get(), length_);
     out_length += static_cast<int>(length_);
+    return destination;
 }
 
 // 0x849600 _ZN15DataPacketLobby14setMessageBodyEPhi
 // Partial: the original copies size bytes into the buffer without a capacity check. This
 // port copies at most capacity_ bytes and records that many as the length.
-void DataPacketLobby::setMessageBody(const unsigned char* data, int size) {
-    const std::size_t copy = size > 0 ? std::min(static_cast<std::size_t>(size), capacity_) : 0;
+// Returns the memcpy destination (the buffer), as the original.
+void* DataPacketLobby::setMessageBody(const unsigned char* data, int size) {
+    const std::size_t copy = size > 0 ? static_cast<std::size_t>(std::min<std::int32_t>(size, capacity_)) : 0;
     if (copy != 0) {
         std::memcpy(buffer_.get(), data, copy);
     }
     position_ = 0;
     length_ = copy;
+    return buffer_.get();
 }
 
 // 0x849624 _ZN15DataPacketLobbyD1Ev (D2 0x8496b4, D0 0x849684)
@@ -266,7 +268,7 @@ int DataPacketLobby::getShortLenString(char*& text, std::int16_t& length) {
         return 0;
     }
     const std::size_t n = static_cast<std::size_t>(length);
-    if (position_ + n > length_) {
+    if (position_ + static_cast<std::int32_t>(n) > length_) {
         return 0;
     }
     if (n == 0) {
@@ -282,7 +284,7 @@ int DataPacketLobby::getShortLenString(char*& text, std::int16_t& length) {
 
 // 0x84980c _ZN15DataPacketLobby7getBlobERPcRs
 int DataPacketLobby::getBlob(char*& data, std::int16_t& length) {
-    if (getShort(length) && length >= 0 && position_ + static_cast<std::size_t>(length) <= capacity_) {
+    if (getShort(length) && length >= 0 && position_ + static_cast<std::int32_t>(length) <= capacity_) {
         const auto n = static_cast<std::size_t>(length);
         data = new char[n + 1];
         data[n] = '\0';
@@ -326,23 +328,23 @@ bool DataPacketLobby::EnsureRoom(std::size_t bytes) {
 // Verified against the Hex-Rays body and the ARM listing: the source's length (vptr +0x60) is
 // checked against WillBeFull and one growth step (AllocateMoreMomery) is attempted; the length is
 // then written big-endian at the position, the position advances by 2, the source's body (+0x64)
-// is copied in and the position advances by the length. The original's return value is the memcpy
-// destination (a leftover register); no caller reads it, so the port returns void.
+// is copied in and the position advances by the length. Returns the memcpy destination; the failed
+// growth returns the XP_DEBUG_OUT result in the original (a logging result, null here).
 // Deviations: the "addPacket failed : memory leak" XP_DEBUG_OUT trace on the failed growth is
 // dropped, and the port's WillBeFull takes a size_t where the original passes the int length.
-void DataPacketLobby::addPacket(DataPacket* packet) {
+void* DataPacketLobby::addPacket(DataPacket* packet) {
     const std::size_t size = static_cast<std::size_t>(packet->getMessageLen());
     if (WillBeFull(size) && !AllocateMoreMomery()) {
-        return;
+        return nullptr;
     }
     buffer_[position_] = static_cast<std::uint8_t>(size >> 8);
     buffer_[position_ + 1] = static_cast<std::uint8_t>(size);
     position_ += 2;
     const char* body = packet->getMessageBody();
-    if (size != 0) {
-        std::memcpy(buffer_.get() + position_, body, size);
-    }
+    void* const destination = buffer_.get() + position_;
+    std::memcpy(destination, body, size);
     position_ += size;
+    return destination;
 }
 
 // 0x8499d8 _ZN15DataPacketLobby17addShortLenStringEPKcs

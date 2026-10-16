@@ -74,6 +74,8 @@ public:
     // the logged-in flag at +0x11 and the credentials' name at +0x04.
     bool LoggedIn() const { return loggedIn_; }
     const char* CredentialsName() const { return credentials_.Name(); }
+    // The credentials' password (+0x08), read inline by OnlineGameState::processEvents.
+    const char* CredentialsPassword() const { return credentials_.Password(); }
 
     // Test seams. Not in the original.
     bool ActiveForTest() const { return active_; }
@@ -87,7 +89,7 @@ protected:
     CSignInCredentials credentials_{nullptr, nullptr, nullptr};  // +0x04
     bool active_ = false;                                       // +0x10
     bool loggedIn_ = false;                                     // +0x11
-    CEventQueueBase events_;                                    // +0x14
+    CEventQueueBase events_{100};                               // +0x14 (CEventQueue<tSignInEvent, 100>)
 };
 
 // 0x81a954 _ZN12CSignInDummyD1Ev (D0 at 0x81a988 is compiler-generated, skipped).

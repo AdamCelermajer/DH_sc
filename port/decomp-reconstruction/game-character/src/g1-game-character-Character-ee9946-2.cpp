@@ -61,7 +61,7 @@ const Structs::CharEffect* CharEffectRowFor(std::int32_t index) {
 int Character::GetCharSoundsId() const {
     // The raw id is the CharProperties final-sheet word m_props.m_w9 (Character +0x1018). A value below zero, or at or
     // past Arrays::CharSoundsTable::size (compared unsigned), gives the fallback 2.
-    const std::int32_t id = m_props.m_w9;
+    const std::int32_t id = m_props.Sounds;
     if (id < 0 || static_cast<std::uint32_t>(id) >= Arrays::CharSoundsTable::size) {
         return 2;
     }
@@ -78,25 +78,25 @@ const Structs::CharSounds* Character::GetCharSounds() const {
 // 0x3a3300 _ZNK9Character14GetFXFootprintEv
 // Word +0x0c of the CharEffect row (Structs::CharEffect m_w3), the row chosen by m_props.m_w8 (Character +0x1014).
 int Character::GetFXFootprint() const {
-    return CharEffectRowFor(m_props.m_w8)->m_w3;
+    return CharEffectRowFor(m_props.Effects)->FootprintEffect;
 }
 
 // 0x3a3368 _ZNK9Character15GetFXBloodDeathEv
 // Word +0x04 of the CharEffect row (Structs::CharEffect m_w1), the row chosen by m_props.m_w8.
 int Character::GetFXBloodDeath() const {
-    return CharEffectRowFor(m_props.m_w8)->m_w1;
+    return CharEffectRowFor(m_props.Effects)->BloodDeathEffect;
 }
 
 // 0x3a33d0 _ZNK9Character10GetFXBloodEv
 // Word +0x08 of the CharEffect row (Structs::CharEffect m_w2), the row chosen by m_props.m_w8.
 int Character::GetFXBlood() const {
-    return CharEffectRowFor(m_props.m_w8)->m_w2;
+    return CharEffectRowFor(m_props.Effects)->BloodEffect;
 }
 
 // 0x3a3438 _ZNK9Character14GetAttackDelayEv
 // Word +0x04 of the AI row for GetCharAIId() (Structs::AIProps m_w1). GetCharAI() is that row.
 int Character::GetAttackDelay() const {
-    return GetCharAI()->m_w1;
+    return GetCharAI()->AttackDelay;
 }
 
 // 0x3a346c _ZNK9Character14HasComboAttackEv
@@ -104,27 +104,27 @@ int Character::GetAttackDelay() const {
 // when it is non-negative and below Arrays::AnimTable::size (compared unsigned), and the AnimTable row word +0x10
 // (Structs::AnimTpl m_w4) must then be 1.
 bool Character::HasComboAttack() const {
-    const std::int32_t animIndex = GetCharAnimTable()->m_w1;
+    const std::int32_t animIndex = GetCharAnimTable()->Attack;
     if (animIndex < 0 || static_cast<std::uint32_t>(animIndex) >= Arrays::AnimTable::size) {
         return false;
     }
     const auto* animRows = reinterpret_cast<const Structs::AnimTpl*>(Arrays::AnimTable::members);
-    return animRows[animIndex].m_w4 == 1;
+    return animRows[animIndex].Type == 1;
 }
 
 // 0x3a34f0 _ZNK9Character17GetNumComboAttackEv
 // Same table chain as HasComboAttack. The AnimTable row word +0x08 (Structs::AnimTpl m_w2, the element count of the row)
 // is returned when the row word +0x10 (m_w4) is 1; otherwise 0.
 int Character::GetNumComboAttack() const {
-    const std::int32_t animIndex = GetCharAnimTable()->m_w1;
+    const std::int32_t animIndex = GetCharAnimTable()->Attack;
     if (animIndex < 0 || static_cast<std::uint32_t>(animIndex) >= Arrays::AnimTable::size) {
         return 0;
     }
     const auto* animRows = reinterpret_cast<const Structs::AnimTpl*>(Arrays::AnimTable::members);
-    if (animRows[animIndex].m_w4 != 1) {
+    if (animRows[animIndex].Type != 1) {
         return 0;
     }
-    return static_cast<int>(animRows[animIndex].m_w2);
+    return static_cast<int>(animRows[animIndex].StepsSize);
 }
 
 // 0x3a36e4 _ZNK9Character9IsZonableEv
@@ -249,7 +249,7 @@ void Character::SetRelativeAABB(const aabb<float>& box, bool update) {
         m_relAabb[i] = source[i];
     }
     if (!update) {
-        const float scale = static_cast<float>(m_props.m_w17) * 0.01f;
+        const float scale = static_cast<float>(m_props.Collision_Scale) * 0.01f;
         for (int i = 0; i < 6; ++i) {
             m_relAabb[i] = scale * source[i];
         }

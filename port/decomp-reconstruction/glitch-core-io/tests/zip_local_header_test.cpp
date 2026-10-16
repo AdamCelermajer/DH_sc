@@ -52,16 +52,16 @@ static void testScanAndOpen() {
     BufferFile file(archive);
     CZipReader zip;
     zip.readFile = &file;
-    zip.flagA = false;
-    zip.flagB = false;
+    zip.ignoreCase = false;
+    zip.ignorePaths = false;
     CHECK(zip.scanLocalHeader());
     CHECK(zip.scanLocalHeader());
     CHECK(!zip.scanLocalHeader());
     CHECK(zip.getFileCount() == 2);
-    CHECK(zip.getFileInfo(0)->name == "Dir/Readme.TXT");
-    CHECK(zip.getFileInfo(0)->extra == "Dir/");
-    CHECK(zip.getFileInfo(0)->f5c == 5);
-    CHECK(zip.getFileInfo(0)->f48 == 30 + 14);
+    CHECK(zip.getFileInfo(0)->simpleFileName == "Dir/Readme.TXT");
+    CHECK(zip.getFileInfo(0)->path == "Dir/");
+    CHECK(zip.getFileInfo(0)->header.UncompressedSize == 5);
+    CHECK(zip.getFileInfo(0)->fileDataPosition == 30 + 14);
     zip.readFile = nullptr;  // the test file lives on the stack
 }
 
@@ -70,9 +70,9 @@ static void testFlagBStripsPath() {
     BufferFile file(archive);
     CZipReader zip;
     zip.readFile = &file;
-    zip.flagB = true;
+    zip.ignorePaths = true;
     CHECK(zip.scanLocalHeader());
-    CHECK(zip.getFileInfo(0)->name == "file.txt");
+    CHECK(zip.getFileInfo(0)->simpleFileName == "file.txt");
     zip.readFile = nullptr;
 }
 

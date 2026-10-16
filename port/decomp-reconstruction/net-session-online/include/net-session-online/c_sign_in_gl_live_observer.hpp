@@ -1,8 +1,7 @@
 // CSignInGLLiveObserver: the observer of the Gameloft Live sign-in requests. It keeps the
 // error code of the last request, posts the matching sign-in events to CSignIn, and
-// keeps the server address it was given. The class is standalone here: the original
-// vtable (its first slot is OnNetworkError) is not modelled, and the methods are called
-// directly.
+// keeps the server address it was given. It derives from GLXPlayerObserver (slots OnNetworkError,
+// OnRequestTimeout, OnRequestSuccess, OnRequestFailure, then the base OnDownloadError).
 //
 // Layout (original 32-bit offsets, kept as comments):
 //   +0x04 server-configured flag (byte), set by request code 1
@@ -14,12 +13,14 @@
 #include <cstddef>
 #include <cstdint>
 
-class CSignInGLLiveObserver {
+#include "net-session-online/glx_player_observer.hpp"
+
+class CSignInGLLiveObserver : public GLXPlayerObserver {
 public:
     // 0x824a1c _ZN21CSignInGLLiveObserverC1Ev (C2 at 0x824a68 is the same body).
     CSignInGLLiveObserver() = default;
     // 0x8249b4 _ZN21CSignInGLLiveObserverD1Ev (D0 at 0x8249e8 is compiler-generated, skipped).
-    ~CSignInGLLiveObserver();
+    ~CSignInGLLiveObserver() override;
 
     // 0x824904 _ZN21CSignInGLLiveObserver6UpdateEv: returns 0.
     std::int32_t Update() { return 0; }
@@ -47,17 +48,17 @@ public:
     // 0x824ab4 _ZN21CSignInGLLiveObserver16OnRequestFailureEii
     // Code 0xf is a login failure. It cancels the login and posts event 5 for a missing or
     // unknown user name, or event 6 for a wrong user name or password.
-    void OnRequestFailure(std::int32_t code, std::int32_t detail);
+    void OnRequestFailure(std::int32_t code, std::int32_t detail) override;
     // 0x824b4c _ZN21CSignInGLLiveObserver16OnRequestTimeoutEi: error 0x29, cancels, posts 8.
-    void OnRequestTimeout(std::int32_t requestId);
+    void OnRequestTimeout(std::int32_t requestId) override;
     // 0x824b84 _ZN21CSignInGLLiveObserver14OnNetworkErrorEv: error -2, cancels, posts 7.
-    void OnNetworkError();
+    void OnNetworkError() override;
     // 0x824bbc _ZN21CSignInGLLiveObserver16OnRequestSuccessEiPci
     // The code-1 branch in the original also calls GLXPlayerSereverConfig::GetXPlayerURL
     // (0x82ef8c) and discards the result. That is a read-only getter, so it is not called
     // here. Code 0x6b copies the server address, and the alpha server when the matching
     // flag is set.
-    void OnRequestSuccess(std::int32_t code, char* data, std::int32_t length);
+    void OnRequestSuccess(std::int32_t code, char* data, std::int32_t length) override;
 
     // Writes the server-configured flag (+0x04) directly. CMatchingGLLive::Initialize (0x81f264) stores
     // the byte through the observer pointer when the server config is already loaded.

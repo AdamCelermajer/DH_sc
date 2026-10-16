@@ -22,6 +22,11 @@ glitch::IDevice* ConsoleDevice() {
     return ApplicationGetInstance().m_device;
 }
 
+// dword_99F740: the word at Singleton<Application>::s_inst +0x14 (Application::m_eventManager).
+EventManager* ConsoleEventManager() {
+    return ApplicationGetInstance().m_eventManager;
+}
+
 // 0x32fdc0 _ZN7Console12_destroyListEv
 // Verified against the listing: the object at Console+0x40 is the list box (IGUIListBox::clear at
 // K 0x98, then IGUIElement::remove at K 0x1c), the object at +0x44 is the title bar

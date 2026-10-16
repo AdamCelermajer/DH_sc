@@ -277,19 +277,19 @@ int main() {
 
     Arrays::CharAnimTable::members = g_rows;
     Arrays::CharAnimTable::size = 4;
-    RowAt(2)->m_w4 = 14;     // dead, alternate: +0x10
-    RowAt(2)->m_w5 = 11;     // dead, normal: +0x14
-    RowAt(2)->m_w6 = 12;     // dead, alternate dead: +0x18
-    RowAt(2)->m_w7 = 13;     // dead, normal base: +0x1c
-    RowAt(2)->m_w9 = 77;     // knockback strong: +0x24
-    RowAt(2)->m_w16 = 2;     // interact list count: +0x40
-    RowAt(2)->m_w17 = g_interactList;  // interact list: +0x44
-    RowAt(2)->m_w18 = 55;    // knockback weak: +0x48
-    RowAt(2)->m_w31 = 66;    // scare: +0x7c
-    RowAt(2)->m_w33 = 3;     // cast list count: +0x84
-    RowAt(2)->m_w34 = g_castList;      // cast list: +0x88
-    RowAt(2)->m_w35 = 88;    // stun: +0x8c
-    reinterpret_cast<Structs::Skill*>(g_skillBuf)->m_w1 = 42;  // skill anim: +0x04
+    RowAt(2)->DeadlyGreatKB = 14;     // dead, alternate: +0x10
+    RowAt(2)->Despawn = 11;     // dead, normal: +0x14
+    RowAt(2)->DespawnGreatKB = 12;     // dead, alternate dead: +0x18
+    RowAt(2)->Died = 13;     // dead, normal base: +0x1c
+    RowAt(2)->GreatKnockedBack = 77;     // knockback strong: +0x24
+    RowAt(2)->InteractSize = 2;     // interact list count: +0x40
+    RowAt(2)->Interact = g_interactList;  // interact list: +0x44
+    RowAt(2)->KnockedBack = 55;    // knockback weak: +0x48
+    RowAt(2)->Scared = 66;    // scare: +0x7c
+    RowAt(2)->SpellsSize = 3;     // cast list count: +0x84
+    RowAt(2)->Spells = g_castList;      // cast list: +0x88
+    RowAt(2)->Stunned = 88;    // stun: +0x8c
+    reinterpret_cast<Structs::Skill*>(g_skillBuf)->Anim = 42;  // skill anim: +0x04
     g_skillRecord = g_skillBuf;
 
     Character* const ch = Ch();

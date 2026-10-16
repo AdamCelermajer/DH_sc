@@ -21,6 +21,9 @@ public:
     std::int32_t Value00ForTest() const { return value00_; }
     std::int32_t Value1cForTest() const { return value1c_; }
 
+    // The name (+0x04): the original reads its text pointer at +0x18 (the string's data pointer).
+    const char* Name() const { return text04_.c_str(); }
+
     // Setters for the three recovered fields, filled by CMatchingGLLive::GetFriendsList (0x81ec5c). Not in the original.
     void SetValue00(std::int32_t value) { value00_ = value; }
     void SetText04(const std::string& text) { text04_ = text; }

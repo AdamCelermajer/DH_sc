@@ -64,7 +64,7 @@ int main() {
         ByteStream in(img.bytes());
         Structs::LootEntry e;
         e.read(&in);
-        CHECK(e.m_w1 == 1 && e.m_w8 == 8);
+        CHECK(e.ItemListID == 1 && e.WProb == 8);
     }
 
     // FastTravelDestination::read: int, int, uint length, string, int, int.
@@ -74,11 +74,11 @@ int main() {
         ByteStream in(img.bytes());
         Structs::FastTravelDestination f;
         f.read(&in);
-        CHECK(f.m_w1 == 5 && f.m_w2 == -1);
-        CHECK(f.m_w3 == 3);
-        CHECK(f.m_w4 != nullptr && std::memcmp(f.m_w4, "abc", 3) == 0);
-        CHECK(static_cast<char*>(f.m_w4)[3] == '\0');
-        CHECK(f.m_w5 == 7 && f.m_w6 == 9);
+        CHECK(f.DescriptionId == 5 && f.EntryPointId == -1);
+        CHECK(f.LevelNameSize == 3);
+        CHECK(f.LevelName != nullptr && std::memcmp(f.LevelName, "abc", 3) == 0);
+        CHECK(static_cast<char*>(f.LevelName)[3] == '\0');
+        CHECK(f.LocationType == 7 && f.StringId == 9);
     }
 
     // Faery::read: four int32 words, uint length, string, two int32 words.
@@ -88,10 +88,10 @@ int main() {
         ByteStream in(img.bytes());
         Structs::Faery fa;
         fa.read(&in);
-        CHECK(fa.m_w4 == 4 && fa.m_w5 == 2);
-        CHECK(fa.m_w6 != nullptr && std::memcmp(fa.m_w6, "hi", 2) == 0);
-        CHECK(static_cast<char*>(fa.m_w6)[2] == '\0');
-        CHECK(fa.m_w7 == 6 && fa.m_w8 == 8);
+        CHECK(fa.Name == 4 && fa.SpellScriptSize == 2);
+        CHECK(fa.SpellScript != nullptr && std::memcmp(fa.SpellScript, "hi", 2) == 0);
+        CHECK(static_cast<char*>(fa.SpellScript)[2] == '\0');
+        CHECK(fa.SpellType == 6 && fa.Type == 8);
     }
 
     // AIProps::read: int32 words, one-byte bool at +0x10, floats at +0x18, +0x1c, +0x20, +0x3c, +0x40,
@@ -103,15 +103,15 @@ int main() {
         ByteStream in(img.bytes());
         Structs::AIProps p;
         p.read(&in);
-        CHECK(p.m_w3 == 3);
-        CHECK(p.m_w4 == true);
-        CHECK(p.m_w5 == 4);
-        CHECK(p.m_w6 == 1.5f && p.m_w8 == 3.5f);
-        CHECK(p.m_w9 == 6 && p.m_w10 == 4);
-        CHECK(p.m_w11 != nullptr && std::memcmp(p.m_w11, "name", 4) == 0);
-        CHECK(static_cast<char*>(p.m_w11)[4] == '\0');
-        CHECK(p.m_w12 == 7 && p.m_w14 == 9);
-        CHECK(p.m_w15 == 0.25f && p.m_w16 == 0.5f);
+        CHECK(p.CombatMusic == 3);
+        CHECK(p.DelayedLoad == true);
+        CHECK(p.Flags == 4);
+        CHECK(p.InteractRadius == 1.5f && p.MeleeRadius == 3.5f);
+        CHECK(p.OnAggroSFX == 6 && p.ScriptSize == 4);
+        CHECK(p.Script != nullptr && std::memcmp(p.Script, "name", 4) == 0);
+        CHECK(static_cast<char*>(p.Script)[4] == '\0');
+        CHECK(p.SelfFX == 7 && p.Type == 9);
+        CHECK(p.ViewRadius == 0.25f && p.ViewRadiusNoAggro == 0.5f);
     }
 
     // v2ConditionStub::read: base v2Condition word (+0x4), then +0x8 and +0xc.
@@ -121,7 +121,7 @@ int main() {
         ByteStream in(img.bytes());
         Structs::v2ConditionStub c;
         c.read(&in);
-        CHECK(c.m_w1 == 11 && c.m_w2 == 12 && c.m_w3 == 13);
+        CHECK(c.Op == 11 && c.Op1 == 12 && c.Op2 == 13);
     }
 
     // v2QuestRewardStub::read: base v2QuestReward word (+0x4), then +0x8 and +0xc.
@@ -131,7 +131,7 @@ int main() {
         ByteStream in(img.bytes());
         Structs::v2QuestRewardStub r;
         r.read(&in);
-        CHECK(r.m_w1 == 21 && r.m_w2 == 22 && r.m_w3 == 23);
+        CHECK(r.Type == 21 && r.Param1 == 22 && r.Param2 == 23);
     }
 
     // v2QuestObjectiveStub::read: base three words, then two length-prefixed strings and three int32 words.
@@ -141,13 +141,13 @@ int main() {
         ByteStream in(img.bytes());
         Structs::v2QuestObjectiveStub s;
         s.read(&in);
-        CHECK(s.m_w1 == 10 && s.m_w3 == 30);
-        CHECK(s.m_w4 == 2 && s.m_w6 == 1);
-        CHECK(s.m_w5 != nullptr && std::memcmp(s.m_w5, "ab", 2) == 0);
-        CHECK(static_cast<char*>(s.m_w5)[2] == '\0');
-        CHECK(s.m_w7 != nullptr && static_cast<char*>(s.m_w7)[0] == 'z');
-        CHECK(static_cast<char*>(s.m_w7)[1] == '\0');
-        CHECK(s.m_w8 == 40 && s.m_w10 == 42);
+        CHECK(s.Type == 10 && s.OnComplete == 30);
+        CHECK(s.Str1Size == 2 && s.Str2Size == 1);
+        CHECK(s.Str1 != nullptr && std::memcmp(s.Str1, "ab", 2) == 0);
+        CHECK(static_cast<char*>(s.Str1)[2] == '\0');
+        CHECK(s.Str2 != nullptr && static_cast<char*>(s.Str2)[0] == 'z');
+        CHECK(static_cast<char*>(s.Str2)[1] == '\0');
+        CHECK(s.OID1 == 40 && s.Value == 42);
     }
 
     // Loot::read: table A (two LootEntry records), table B (empty), table C (three int32 words).
@@ -160,14 +160,14 @@ int main() {
         ByteStream in(img.bytes());
         Structs::Loot loot;
         loot.read(&in);
-        CHECK(loot.m_w1 == 1 && loot.m_w2 == 2);
-        CHECK(loot.m_w3 == 2 && loot.m_w4 != nullptr);
-        auto* a = static_cast<Structs::LootEntry*>(loot.m_w4);
-        CHECK(a[0].m_w1 == 100 && a[0].m_w8 == 107);
-        CHECK(a[1].m_w1 == 200 && a[1].m_w8 == 207);
-        CHECK(loot.m_w5 == 0);
-        CHECK(loot.m_w7 == 3 && loot.m_w8 != nullptr);
-        auto* words = static_cast<std::int32_t*>(loot.m_w8);
+        CHECK(loot.RollType == 1 && loot.NumRandomItemProbs == 2);
+        CHECK(loot.RandomLootEntriesSize == 2 && loot.RandomLootEntries != nullptr);
+        auto* a = static_cast<Structs::LootEntry*>(loot.RandomLootEntries);
+        CHECK(a[0].ItemListID == 100 && a[0].WProb == 107);
+        CHECK(a[1].ItemListID == 200 && a[1].WProb == 207);
+        CHECK(loot.FixedLootEntriesSize == 0);
+        CHECK(loot.SubLootsSize == 3 && loot.SubLoots != nullptr);
+        auto* words = static_cast<std::int32_t*>(loot.SubLoots);
         CHECK(words[0] == 7 && words[1] == 8 && words[2] == 9);
     }
 
@@ -178,8 +178,8 @@ int main() {
         ByteStream in(img.bytes());
         Structs::FastTravelDestination f;
         f.read(&in);
-        CHECK(f.m_w3 == 3);
-        CHECK(f.m_w4 != nullptr && static_cast<char*>(f.m_w4)[3] == '\0');
+        CHECK(f.LevelNameSize == 3);
+        CHECK(f.LevelName != nullptr && static_cast<char*>(f.LevelName)[3] == '\0');
     }
 
     if (failures == 0) std::printf("e2-pydata-accessors-Structs-66b9bc-1 tests passed\n");

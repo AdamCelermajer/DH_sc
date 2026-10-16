@@ -251,14 +251,14 @@ const void* Character::GetCharFaery(int faeryId) const {
             kCharacterFaeryFile, 62);
     }
     const Structs::FaeryList* faeryList = static_cast<const Structs::FaeryList*>(GetCharFaeryList());
-    if (static_cast<int>(faeryList->m_w1) != faeryTypeCount) {
+    if (static_cast<int>(faeryList->ListSize) != faeryTypeCount) {
         ReportAssertFailure(
             "charFaeryList.ListSize == Application::GetInstance()->GetConstantsMgr()->getConstant(\"FaeryTypes\", \"COUNT\")",
             kCharacterFaeryFile, 63);
     }
-    const int faeryIndex = static_cast<const std::int32_t*>(faeryList->m_w2)[faeryId];
+    const int faeryIndex = static_cast<const std::int32_t*>(faeryList->List)[faeryId];
     const Structs::Faery* faery = reinterpret_cast<const Structs::Faery*>(Arrays::FaeryTable::members) + faeryIndex;
-    if (faery->m_w8 != faeryId) {
+    if (faery->Type != faeryId) {
         ReportAssertFailure("Arrays::FaeryTable::members[charFaeryList.List[faeryId]].Type == faeryId", kCharacterFaeryFile, 64);
     }
     return faery;
@@ -400,15 +400,15 @@ void Character::F_ApplyCombatSound(const AttackResult& result, GameObject* /*att
         return;
     }
     if (target->IsDead()) {
-        if (sounds->m_w1 == 0) {
+        if (sounds->DieSize == 0) {
             return;
         }
-        PlaySoundAt(RandomSound(sounds->m_w1, sounds->m_w2), target);
+        PlaySoundAt(RandomSound(sounds->DieSize, sounds->Die), target);
     } else {
-        if (result.m_damage <= 0 || sounds->m_w3 == 0) {
+        if (result.m_damage <= 0 || sounds->HurtSize == 0) {
             return;
         }
-        PlaySoundAt(RandomSound(sounds->m_w3, sounds->m_w4), target);
+        PlaySoundAt(RandomSound(sounds->HurtSize, sounds->Hurt), target);
     }
 }
 
@@ -424,31 +424,31 @@ void Character::F_ApplyCombatSound(const AttackResult& result, Character* attack
         return;
     }
     if (target->IsDead()) {
-        if (targetSounds->m_w1 != 0) {
-            PlaySoundAt(RandomSound(targetSounds->m_w1, targetSounds->m_w2), target);
+        if (targetSounds->DieSize != 0) {
+            PlaySoundAt(RandomSound(targetSounds->DieSize, targetSounds->Die), target);
         }
     } else {
         if (result.m_damage <= 0) {
             return;
         }
-        if (targetSounds->m_w3 != 0) {
-            PlaySoundAt(RandomSound(targetSounds->m_w3, targetSounds->m_w4), target);
+        if (targetSounds->HurtSize != 0) {
+            PlaySoundAt(RandomSound(targetSounds->HurtSize, targetSounds->Hurt), target);
         }
     }
     if (result.m_damage <= 0) {
         return;
     }
-    if (targetSounds->m_w9) {
-        if (attackerSounds->m_w5 == 0) {
+    if (targetSounds->IsFlesh) {
+        if (attackerSounds->ImpactVsFleshSize == 0) {
             return;
         }
-        PlaySoundAt(RandomSound(attackerSounds->m_w5, attackerSounds->m_w6), target);
+        PlaySoundAt(RandomSound(attackerSounds->ImpactVsFleshSize, attackerSounds->ImpactVsFlesh), target);
         return;
     }
-    if (!targetSounds->m_off37 || attackerSounds->m_w7 == 0) {
+    if (!targetSounds->IsMetallic || attackerSounds->ImpactVsMetalSize == 0) {
         return;
     }
-    PlaySoundAt(RandomSound(attackerSounds->m_w7, attackerSounds->m_w8), target);
+    PlaySoundAt(RandomSound(attackerSounds->ImpactVsMetalSize, attackerSounds->ImpactVsMetal), target);
 }
 
 // 0x3b01b8 Character::F_ApplyResult(Character::AttackResult const&, GameObject*, Character*, bool)
@@ -614,10 +614,10 @@ void Character::F_ApplyResult(const AttackResult& result, Character* attacker, C
             const int localCharacters = dword_99F76C->m_numCharacters;
             if (localCharacters > 1) {
                 if (attacker->IsMonster()) {
-                    damage = result.m_damage * static_cast<int>(static_cast<float>(localCharacters - 1) * design->m_w13 + 1.0f);
+                    damage = result.m_damage * static_cast<int>(static_cast<float>(localCharacters - 1) * design->ExtraMonsterDamageMultiplyerPerPlayer + 1.0f);
                     writable.m_damage = damage;
                 } else if (attacker->IsPlayer()) {
-                    damage /= static_cast<int>(static_cast<float>(localCharacters - 1) * design->m_w14 + 1.0f);
+                    damage /= static_cast<int>(static_cast<float>(localCharacters - 1) * design->ExtraMonsterHealthMultiplyerPerPlayer + 1.0f);
                 }
             }
             const float threat = attacker->GetEffectiveThreatPerDamage();
@@ -654,7 +654,7 @@ void Character::F_ApplyResult(const AttackResult& result, Character* attacker, C
                             Point3D<float> look{0.0f, 0.0f, 0.0f};
                             attacker->GameObject::GetLookAtVec(look);
                             const auto* sets = reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members);
-                            camera->PlayAnim(sets[camera->m_camTableIndex].m_w3, 0, true);
+                            camera->PlayAnim(sets[camera->m_camTableIndex].Crit, 0, true);
                         }
                     }
                 }

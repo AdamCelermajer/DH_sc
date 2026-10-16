@@ -134,11 +134,11 @@ int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveI
 
     static_cast<void>(std::fwrite("\t  Objective_InteractWith\n", 1, 0x1A, out));
     const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->m_w1);  // row +0x04
+        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->Type);  // row +0x04
     std::fprintf(out, "\t    Type        : %s\n", constantName);
 
-    if (row->m_w1 == 5) {  // type 5: the object is a character, matched by its property id
-        const int objectId = row->m_w8;  // row +0x20
+    if (row->Type == 5) {  // type 5: the object is a character, matched by its property id
+        const int objectId = row->OID1;  // row +0x20
         Character* matched = nullptr;
         for (Character* character : ApplicationGetInstance().m_objectManager->m_characters) {  // ObjectManager +0x60
             if (objectId == character->SafeGetCharPropsId()) {
@@ -156,11 +156,11 @@ int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveI
             std::fprintf(out, "\t    Object      : %s(%d) => %s\n", tableObjectName, objectId, matched->m_name.c_str());
         }
     } else {
-        std::fprintf(out, "\t    Object      : %d\n", row->m_w8);  // row +0x20
+        std::fprintf(out, "\t    Object      : %d\n", row->OID1);  // row +0x20
     }
 
     // Arrays::LevelList::m_memberNames[row->m_w9] (or "na").
-    std::fprintf(out, "\t    Level (OID) : %s\n\n", TableName(Arrays::LevelList::m_memberNames, Arrays::LevelList::size, row->m_w9));  // row +0x24
+    std::fprintf(out, "\t    Level (OID) : %s\n\n", TableName(Arrays::LevelList::m_memberNames, Arrays::LevelList::size, row->OID2));  // row +0x24
     return Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(stream);
 }
 

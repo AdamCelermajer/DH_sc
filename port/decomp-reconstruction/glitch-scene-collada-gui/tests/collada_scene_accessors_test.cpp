@@ -5,6 +5,7 @@
 #include "glitch-scene-collada-gui/collada_misc.hpp"
 #include "glitch-scene-collada-gui/collada_empty_dtors.hpp"
 #include "glitch-scene-collada-gui/collada/CCoronasSceneNode.hpp"
+#include "glitch-video/null_driver.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -31,7 +32,8 @@ int main() {
         CHECK(&mesh.getBoundingBox() == &mesh.boundingBox);
         // The canonical class has no default constructor (its base ISceneNode takes id, position, rotation and scale), so the
         // driver constructor (0x6e7164) is used. The box is what the two checks below read; the other arguments are inert.
-        CCoronasSceneNode corona(nullptr, -1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+        glitch::video::CNullDriver coronaDriver(static_cast<glitch::IDevice*>(nullptr));  // the constructor makes the quad's vertex buffer
+        CCoronasSceneNode corona(&coronaDriver, -1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
                                  boost::intrusive_ptr<glitch::video::CMaterial>(),
                                  glitch::core::dimension2d<float>{1.0f, 1.0f}, glitch::video::SColor{});
         CHECK(&corona.getBoundingBox() == &corona.boundingBox);
@@ -57,26 +59,6 @@ int main() {
         CHECK(set.getAnimationStart(1) == 2);
         CHECK(set.getAnimationEnd(0) == 10);
         CHECK(set.getTargetCount() == 5);
-    }
-
-    // Scene-node uids come from the holder; the particle bounding box is a pointer.
-    {
-        SUidHolder holder;
-        holder.uid = "emitter";
-        CParticleSystemSceneNode ps;
-        ps.uidHolder = &holder;
-        CHECK(ps.getUID() == holder.uid);
-        CHECK(ps.getTransformedBoundingBox() == nullptr);
-        glitch::core::aabbox3d<float> box{};
-        ps.transformedBoundingBox = &box;
-        CHECK(ps.getTransformedBoundingBox() == &box);
-
-        CGlitchNewParticleSystemSceneNode gps;
-        gps.uidHolder = &holder;
-        gps.transformedBoundingBox = &box;
-        CHECK(gps.getUID() == holder.uid);
-        CHECK(gps.getTransformedBoundingBox() == &box);
-
     }
 
     // Timeline clip table: count, start, end and name per clip; no table gives 0.

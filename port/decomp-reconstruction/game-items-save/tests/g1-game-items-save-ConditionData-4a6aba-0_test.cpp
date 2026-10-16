@@ -69,10 +69,10 @@ void ResetCounters() {
 }
 
 void SetUpTable() {
-    g_rows[0].m_w1 = 3;
-    g_rows[0].m_w2 = g_stubsFoo;
-    g_rows[1].m_w1 = 2;
-    g_rows[1].m_w2 = g_stubsBar;
+    g_rows[0].CondsSize = 3;
+    g_rows[0].Conds = g_stubsFoo;
+    g_rows[1].CondsSize = 2;
+    g_rows[1].Conds = g_stubsBar;
     Arrays::v2Conditions::members = reinterpret_cast<std::uint8_t*>(g_rows);
     Arrays::v2Conditions::size = 2;
 }

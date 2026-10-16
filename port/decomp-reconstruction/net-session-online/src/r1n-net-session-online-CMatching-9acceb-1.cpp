@@ -5,14 +5,38 @@
 // CMatching::ReadPacketData (0x7fea14) is defined here too, next to its two callers' shared helpers.
 #include "net-session-online/c_matching_base.hpp"
 
+// NetStructArray<CMatching::MemberInfoNetStruct,32>::Load (0x7fe964): the presence bit first, then the elements
+// until one reports that it loaded.
+bool CMatching::LoadMemberArray(NetBitStream& stream, std::int32_t a2, std::int32_t a3) {
+    if (stream.ReadBit() == 0) {
+        return false;
+    }
+    bool loaded = false;
+    for (std::int32_t i = 0; i < memberCount_ && !loaded; ++i) {
+        loaded = members_[i].NetStruct::Load(stream, a2, static_cast<std::uint32_t>(a3)) != 0;
+    }
+    return loaded;
+}
+
+// NetStructArray<CMatching::MemberInfoNetStruct,32>::Serialize (0x7fe894): the presence bit under
+// HasDataToSend(a2), then the elements until one reports data.
+bool CMatching::SerializeMemberArray(NetBitStream& stream, std::int32_t a2, std::int32_t a3) {
+    bool wrote = false;
+    if (members_[0].NetStruct::HasDataToSend(a2)) {
+        stream.WriteBit(1);
+        for (std::int32_t i = 0; i < memberCount_ && !wrote; ++i) {
+            wrote = members_[i].NetStruct::Serialize(stream, a2, a3) != 0;
+        }
+    } else {
+        stream.WriteBit(0);
+    }
+    return wrote;
+}
+
 // 0x7fea14 _ZN9CMatching14ReadPacketDataEiiR12NetBitStream
 // Reconstructed from the 0x7fea14 pseudocode:
 //   `v8 = (*vt+0xa4)(this); CRoomAttributes::Unserialize(v8, a2, stream);
 //    return NetStructArray<CMatching::MemberInfoNetStruct,32>::Load(this + 24, stream, a2, a3);`
-// The `this + 24` is the element array's base (element 0's NetStruct subobject at CMatching +0x20); the
-// port passes element 0 and walks the 32 elements itself, because its member table is the plain array
-// described in the header rather than net-transport's NetStructArray header. The binary reads only the
-// header's live count (memberCount_), so the walk stops there too. The return is Load's result.
 // Deviation: GetRoomAttributes() is null-checked, where the binary calls the +0xa4 slot unguarded (only
 // derived classes, which return a real room, reach this body).
 std::int32_t CMatching::ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) {
@@ -20,16 +44,7 @@ std::int32_t CMatching::ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitS
     if (room != nullptr) {
         room->Unserialize(a2, stream);  // 0x817fec: NetStruct::ConditionalLoad with the member id
     }
-    // NetStructArray<MemberInfoNetStruct,32>::Load (0x7fe964): the presence bit first, then the elements
-    // until one reports that it loaded.
-    if (stream.ReadBit() == 0) {
-        return 0;
-    }
-    bool loaded = false;
-    for (std::int32_t i = 0; i < memberCount_ && !loaded; ++i) {
-        loaded = members_[i].NetStruct::Load(stream, a2, static_cast<std::uint32_t>(a3)) != 0;
-    }
-    return loaded ? 1 : 0;
+    return LoadMemberArray(stream, a2, a3) ? 1 : 0;
 }
 
 // 0x8010a4 _ZN9CMatching15WritePacketDataEiiR12NetBitStream
@@ -66,16 +81,6 @@ std::int32_t CMatching::WritePacketData(std::int32_t a2, std::int32_t a3, NetBit
     // forwards to the room's NetStruct::Serialize and returns `NetStruct::Serialize(...) != 0`.
     const bool roomWrote = room->Serialize(a2, a3, stream);
 
-    // NetStructArray<MemberInfoNetStruct,32>::Serialize (0x7fe894): the presence bit under
-    // HasDataToSend(a2), then the elements until one reports data.
-    bool wrote = false;
-    if (members_[0].NetStruct::HasDataToSend(a2)) {
-        stream.WriteBit(1);
-        for (std::int32_t i = 0; i < memberCount_ && !wrote; ++i) {
-            wrote = members_[i].NetStruct::Serialize(stream, a2, a3) != 0;
-        }
-    } else {
-        stream.WriteBit(0);
-    }
+    const bool wrote = SerializeMemberArray(stream, a2, a3);  // NetStructArray<...>::Serialize (0x7fe894)
     return (roomWrote ? 1 : 0) | (wrote ? 1 : 0);
 }

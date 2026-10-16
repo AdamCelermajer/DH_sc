@@ -204,6 +204,10 @@ def stl_members(rec: dict | None, layouts: dict | None = None, _depth: int = 0) 
         ty = text.split(" ", 1)[1] if text.split(" ", 1)[0] in ("class", "struct", "union") else text
         if ty.startswith("std::__") or re.match(STL_FUNDAMENTAL, ty):
             continue                  # std::int32_t and library internals: not containers
+        if ty.startswith("std::vector<bool"):
+            skip_below = depth        # STLport's vector<bool> is 20 bytes (two bit iterators and the end of storage), libc++'s 12
+            found.append((e[0], ty.rpartition(" ")[0] or ty))
+            continue
         if ty.startswith(STL_LAYOUT_COMPATIBLE):
             skip_below = depth
             el = _first_template_arg(ty)
@@ -219,9 +223,9 @@ def stl_members(rec: dict | None, layouts: dict | None = None, _depth: int = 0) 
 
 # Size of the container in the original (STLport, ARM32) minus its size in the ARM32 libc++ build, per type. These are the
 # differences the layout audit and the STL triage use to tell a pure STL shift from a real layout error behind it:
-# string 24 against 12, map and set (an _Rb_tree without the empty comparator) 20 against 12, list 8 against 12, deque 40 against 24.
-STL_SIZE_DELTA = (("std::string", -12), ("std::wstring", -12), ("std::basic_string", -12), ("std::map", -8), ("std::multimap", -8),
-                  ("std::set", -8), ("std::multiset", -8), ("std::list", 4), ("std::deque", -16), ("std::queue", -16),
+# string 24 against 12, wstring 72 against 12, map and set (an _Rb_tree: node count, header and the word of the empty comparator) 24 against 12 (LuaScript, EventManager, NetStruct). Some headers write the last 4 bytes as an explicit `pad_` member after the map (ObjectManager); stl_expected_delta() counts that pad back, list 8 against 12, deque 40 against 24.
+STL_SIZE_DELTA = (("std::string", -12), ("std::wstring", -60), ("std::basic_string", -12), ("std::map", -12), ("std::multimap", -12),
+                  ("std::set", -12), ("std::multiset", -12), ("std::list", 4), ("std::vector<bool>", -8), ("std::deque", -16), ("std::queue", -16),
                   ("std::stack", -16))
 
 
@@ -240,6 +244,7 @@ def stl_type_delta(type_text: str) -> int | None:
 def stl_expected_delta(rec: dict | None, layouts: dict | None, before_offset: int) -> tuple[int, int]:
     """(sum of the size differences of the STL members that precede `before_offset`, how many of them have an unknown size)."""
     total = unknown = 0
+    fields = (rec or {}).get("fields", [])
     for o, ty in stl_members(rec, layouts):
         if o < before_offset:
             d = stl_type_delta(ty)
@@ -247,6 +252,12 @@ def stl_expected_delta(rec: dict | None, layouts: dict | None, before_offset: in
                 unknown += 1
             else:
                 total += d
+                if d == -12 and ty.strip().split("<")[0].replace("class ", "").replace("struct ", "") in ("std::map", "std::multimap", "std::set", "std::multiset"):
+                    # an explicit 4-byte `pad_` member right after the (12-byte) libc++ tree is the comparator word of the STLport map
+                    for f in fields:
+                        if f[0] == o + 12 and str(f[1]).startswith("uint8_t[4]") and str(f[2]).startswith("pad") and f[0] < before_offset + 1:
+                            total += 4
+                            break
     return total, unknown
 
 
