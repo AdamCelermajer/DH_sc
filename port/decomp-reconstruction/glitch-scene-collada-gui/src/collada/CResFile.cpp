@@ -76,7 +76,10 @@ CResFile::CResFile(const char* fileNameArg, io::IReadFile* readerArg, bool flag)
         // The file is wholly in memory: this record keeps it (a use) and the file image is the reader's buffer.
         reader = readerArg;
         ++readerArg->referenceCounter;
-        result = loader.Init(reader->getBuffer(nullptr));
+        void* memory = reader->getBuffer(nullptr);
+        // The image is placed in the address space with the size the reader has (Init(void*) would take the size the header claims).
+        res::AddressSpace32::map(memory, static_cast<std::size_t>(reader->getSize()));
+        result = loader.Init(memory);
     } else {
         // Otherwise the image is read through a CResFileReader over the manager's read file (a zip archive's entry, or the file itself).
         io::IReadFile* file = CResFileManager::Inst != nullptr ? CResFileManager::Inst->getReadFile(readerArg) : readerArg;

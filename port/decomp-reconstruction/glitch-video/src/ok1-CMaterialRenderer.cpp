@@ -181,7 +181,7 @@ boost::intrusive_ptr<CMaterialRenderer> CMaterialRenderer::allocate(
     }
     CMaterialRenderer* renderer = new CMaterialRenderer(driver, id, name, techniques, passTotal, parameterCount, parameters_,
                                                         valueBufferSize, bindingCount, bindingIds);
-    return boost::intrusive_ptr<CMaterialRenderer>(renderer);  // the first use (the count is 0 after construction)
+    return boost::intrusive_ptr<CMaterialRenderer>(renderer, true);  // the first use (the count is 0 after construction; (p) alone would take over a use that is not there)
 }
 
 // 0x5d4aa0 _ZN6glitch5video17CMaterialRendererD1Ev

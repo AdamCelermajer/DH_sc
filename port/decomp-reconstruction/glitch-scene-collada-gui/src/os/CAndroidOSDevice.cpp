@@ -317,4 +317,43 @@ IDevice* createDeviceEx(const SCreationParameters& parameters) {
     return nullptr;
 }
 
+namespace {
+
+// A number stored in the 32-bit block of the creation parameters at its original offset.
+template <typename T>
+void put(SCreationParameters& parameters, std::size_t offset, T value) {
+    std::memcpy(parameters.bytes + offset, &value, sizeof(T));
+}
+
+}  // namespace
+
+// 0x5340ac _ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE
+// The 0x58-byte creation parameters on the stack: the driver type, the window size, the colour bits (a byte), 16 z-buffer bits, the fullscreen, stencil and
+// vertical-sync flags, the receiver and the engine defaults (version text "0.1.0.2", batch buffer sizes 5 MiB / 640 KiB / 128 KiB / 8 KiB, 1.0, the
+// capacity word 0x40000 at +0x20 and -1 at +0x34 and +0x38), everything else zero; then createDeviceEx. The two address words of the block (the receiver at
+// +0x28, the version text at +0x3c) are the host-width members of SCreationParameters, not words of the block.
+IDevice* createDevice(int driverType, const core::dimension2d<int>& size, unsigned bits, bool fullscreen, bool stencil, bool vsync,
+                      IEventReceiver* receiver) {
+    SCreationParameters parameters{};  // zero: the words and bytes the listing stores 0 into
+    put<std::int32_t>(parameters, 0x00, driverType);
+    put<std::int32_t>(parameters, 0x04, size.Width);
+    put<std::int32_t>(parameters, 0x08, size.Height);
+    put<std::uint8_t>(parameters, 0x0c, static_cast<std::uint8_t>(bits));
+    put<std::uint8_t>(parameters, 0x0d, 16);
+    put<std::uint8_t>(parameters, 0x0e, fullscreen ? 1 : 0);
+    put<std::uint8_t>(parameters, 0x0f, stencil ? 1 : 0);
+    put<std::uint8_t>(parameters, 0x10, vsync ? 1 : 0);
+    put<std::int32_t>(parameters, 0x20, 0x40000);
+    put<std::int32_t>(parameters, 0x34, -1);
+    put<std::int32_t>(parameters, 0x38, -1);
+    put<std::int32_t>(parameters, 0x40, 5242880);
+    put<std::int32_t>(parameters, 0x44, 655360);
+    put<std::int32_t>(parameters, 0x48, 0x20000);
+    put<std::int32_t>(parameters, 0x4c, 0x2000);
+    put<float>(parameters, 0x50, 1.0f);
+    parameters.eventReceiver = receiver;  // +0x28
+    parameters.version = "0.1.0.2";       // +0x3c
+    return createDeviceEx(parameters);
+}
+
 }  // namespace glitch

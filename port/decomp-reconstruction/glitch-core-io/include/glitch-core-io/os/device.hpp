@@ -26,9 +26,22 @@ class CTimer;
 namespace gui { class IGUIEnvironment; }
 namespace collada { class CResFileManager; class CAnimationStreamingManager; }
 
-// Creation parameters, kept as the 0x58-byte block the constructor copies.
+// Creation parameters (SCreationParameters, 0x58 bytes in the original; the block createDevice 0x5340ac fills and createDeviceEx 0x6a0748 takes).
+// Host layout (TRACK-B decision 2: in-memory pointers are host width): the block keeps every plain field at its original 32-bit offset, so the readers
+// that take a number from `bytes` at an original offset are unchanged; the two words of the original that are addresses are NOT stored in the block (they
+// are zero there) but in the host-width members after it.
+//   +0x00 int    video driver type (E_DRIVER_TYPE)          +0x04 int  window width       +0x08 int window height
+//   +0x0c byte   colour bits                                +0x0d byte z-buffer bits (16)  +0x0e byte fullscreen   +0x0f byte stencil buffer
+//   +0x10 byte   vertical sync                              +0x11 byte (0)                 +0x14..+0x1f three words (0)   +0x20 word 0x40000
+//   +0x24..+0x26 three bytes (0)                            +0x28 ADDRESS: the event receiver -> eventReceiver
+//   +0x2c word (0)   +0x30 byte (0)   +0x34 word -1   +0x38 word -1
+//   +0x3c ADDRESS: the compiled engine version text ("0.1.0.2") -> version
+//   +0x40 word 0x500000 (batch vertex bytes)   +0x44 word 0xa0000 (batch index bytes)   +0x48 word 0x20000   +0x4c word 0x2000
+//   +0x50 float 1.0   +0x54 word 0
 struct SCreationParameters {
     unsigned char bytes[0x58];
+    IEventReceiver* eventReceiver = nullptr;  // original +0x28
+    const char* version = nullptr;            // original +0x3c
 };
 
 class IDevice : public IReferenceCounted {

@@ -176,7 +176,7 @@ struct STechnique {
 
 // An effect (stride 0x74 in the file, 29 words): the name, the id, then four profile sections of {technique count, techniques, new-param
 // count, new-params, a count and an array that are not mapped}. Section 0 (+0x08) holds the passes of the fixed-function profile, section 1
-// (+0x20) those of the programmable GLES2 profile; sections 2 (+0x3c) and 3 (+0x58) are empty in all but 3 of the 4771 sample files and their
+// (+0x20) those of the programmable GLES2 profile; sections 2 (+0x3c) and 3 (+0x58) are empty in nearly all sample files (3 of 1590 checked have them) and their
 // techniques are not decoded (only the counts and the new-params). The word after the unmapped pair of sections 1 to 3 is not initialised
 // in the files.
 struct SEffect {

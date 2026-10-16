@@ -7,6 +7,9 @@
 #include "glitch-video/video_driver.hpp"
 #include "glitch-scene-collada-gui/irr_factory.hpp"
 #include "glitch-video/c2d_driver.hpp"
+#include "glitch-core-io/os/ctimer.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
+#include "glitch-scene-collada-gui/recon/slice_24.hpp"
 
 #include <cstring>
 #include <string>
@@ -23,13 +26,39 @@ namespace glitch {
 // stores the logger into the Printer global, takes the file system from the CIrrFactory instance
 // (+0x34), logs the "Glitch Engine version " + "0.1.0.2" text at ELL_INFORMATION and runs
 // checkVersion on the parameters string at +0x3c.
-// PARTIAL, exact missing item: the creation parameters are a 32-bit block (the receiver pointer at +0x28 and the compiled-version
-// string pointer at +0x3c are 4-byte words in it), which a host build cannot read as pointers (TRACK-B decision 2, the 4-byte
-// pointer slot model). Without those two words the constructor cannot take the receiver or run checkVersion on the string, so
-// it only copies the parameters block; the rest (resource and animation-streaming managers, timer, logger hookup, file system,
-// the "Glitch Engine version 0.1.0.2" log line) is left out with them rather than half-run in the tests' zero-filled blocks.
+// Host form of the 32-bit parameter block: the two address words (the receiver at +0x28, the compiled-version text at +0x3c) are the
+// host-width members eventReceiver and version next to the block, so the whole listing is written. Order as in the listing: the block copy,
+// glitch::init(), the resource manager (+0x08, which publishes CResFileManager::Inst), the animation streaming manager (+0x0c, which publishes
+// its Instance), the timer (+0x20) with initTimer, the logger attachment, the file system (+0x34) from the CIrrFactory instance, the log line,
+// checkVersion. (First-boot fix: the earlier body only copied the block, so CResFileManager::Inst was null when Application::Init ran.)
 IDevice::IDevice(const SCreationParameters& parameters) {
     std::memcpy(creationParameters.bytes, parameters.bytes, sizeof(creationParameters.bytes));
+    creationParameters.eventReceiver = parameters.eventReceiver;  // the two address words of the block are host-width members
+    creationParameters.version = parameters.version;
+    eventReceiver = parameters.eventReceiver;  // +0x28 (a1[10] = parameters +0x28)
+
+    glitch::init();
+    resFileManager = new collada::CResFileManager(this);                // operator new(0x2c), +0x08
+    animationStreamingManager = new collada::CAnimationStreamingManager();  // operator new(0x20), +0x0c
+    timer = new CTimer();                                               // operator new(8): vptr and count
+    os::Timer::initTimer();
+    if (os::Printer::Logger != nullptr) {
+        ++os::Printer::Logger->referenceCounter;  // +0x04
+        logger = os::Printer::Logger;                                       // +0x2c
+        reinterpret_cast<CLogger*>(logger)->setReceiver(eventReceiver);
+    }
+    os::Printer::Logger = reinterpret_cast<ILogger*>(logger);
+
+    boost::intrusive_ptr<io::IFileSystem> files = CIrrFactory::getInstance()->createFileSystem();
+    io::IFileSystem* previous = fileSystem;
+    fileSystem = files.get();
+    if (fileSystem != nullptr) ++fileSystem->referenceCounter;
+    if (previous != nullptr) previous->drop();
+
+    std::string banner = "Glitch Engine version ";
+    banner += "0.1.0.2";
+    os::Printer::log(banner.c_str(), os::ELL_INFORMATION);
+    if (parameters.version != nullptr) checkVersion(parameters.version);
 }
 
 // 0x67142c _ZN6glitch7IDevice15isExitRequestedEv

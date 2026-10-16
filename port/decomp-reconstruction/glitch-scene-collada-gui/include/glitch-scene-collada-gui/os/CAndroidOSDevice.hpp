@@ -114,4 +114,12 @@ public:
 // The Android device for the parameters. A device whose video driver could not be made is dropped (null) when the parameters asked for a driver.
 IDevice* createDeviceEx(const SCreationParameters& parameters);
 
+// 0x5340ac _ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE
+// The device for a driver type, a window size, colour bits and the fullscreen, stencil-buffer and vertical-sync flags, with the event receiver: the
+// creation parameters (see SCreationParameters in glitch-core-io/os/device.hpp for the block and its host layout) are filled with the engine defaults
+// and handed to createDeviceEx. The tree spells E_DRIVER_TYPE as an int alias, so the original symbol is given by a label (decision 10).
+IDevice* createDevice(int driverType, const core::dimension2d<int>& size, unsigned bits, bool fullscreen, bool stencil, bool vsync,
+                      IEventReceiver* receiver)
+    __asm__("_ZN6glitch12createDeviceENS_5video13E_DRIVER_TYPEERKNS_4core11dimension2dIiEEjbbbPNS_14IEventReceiverE");
+
 }  // namespace glitch

@@ -20,7 +20,7 @@ CIrrFactory::CIrrFactory() {
 // and raises the count the constructor left at 0 to 1 (the take-over form). The object is the port's
 // glitch::io::CFileSystem (0x2c bytes, constructor 0x56c0a8, both reconstructed in glitch-core-io).
 boost::intrusive_ptr<io::IFileSystem> CIrrFactory::createFileSystem() {
-    return boost::intrusive_ptr<io::IFileSystem>(new io::CFileSystem());
+    return boost::intrusive_ptr<io::IFileSystem>(new io::CFileSystem(), true);  // the constructor leaves 0; the take-over raises it to 1
 }
 
 // 0x533f60 _ZN6glitch11CIrrFactory18createSceneManagerEPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNSB_15IGUIEnvironmentE

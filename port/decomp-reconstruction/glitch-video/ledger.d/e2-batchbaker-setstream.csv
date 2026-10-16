@@ -1,3 +1,0 @@
-0x5d8624,_ZN6glitch5video12IVideoDriver16removeBatchBakerEv,reconstructed,glitch-video/src/ok2-IVideoDriver.cpp,Drops m_batchBaker (+0x128) and m_batchMaterial (+0x124); destroys and releases the heap material copy (+0x12c) and clears it and its source (+0x130).
-0x5abb58,_ZN6glitch5video14CVertexStreams9setStreamEPNS0_13SVertexStreamERKS2_ib.clone.3,reconstructed,glitch-video/src/ok2-CVertexStreams.cpp,"Clone with the flag folded to true; one source defines the general setStream(SVertexStream*, const SVertexStream&, int, bool) the callers use."
-0x647ee0,_ZN6glitch5video14CVertexStreams9setStreamEPNS0_13SVertexStreamERKS2_ib.clone.2,reconstructed,glitch-video/src/ok2-CVertexStreams.cpp,Same body as 0x5abb58 (clone.3); covered by the same definition.

@@ -369,7 +369,9 @@ if(NOT MSVC)
   foreach(lib IN LISTS DH2_LIBS)
     list(APPEND dup_libs $<TARGET_FILE:${lib}>)
   endforeach()
-  list(APPEND dup_libs $<TARGET_FILE:dh2_test_link_stubs>)
+  if(TARGET dh2_test_link_stubs)  # absent once link_stubs.csv is empty
+    list(APPEND dup_libs $<TARGET_FILE:dh2_test_link_stubs>)
+  endif()
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/dh2_duplicate_check.cmake "
 string(REPLACE \"|\" \";\" libs \"\${LIBS}\")
 execute_process(COMMAND \"\${CXX}\" -static -static-libgcc -static-libstdc++ \"\${MAIN}\" -o \"\${OUT}\"
