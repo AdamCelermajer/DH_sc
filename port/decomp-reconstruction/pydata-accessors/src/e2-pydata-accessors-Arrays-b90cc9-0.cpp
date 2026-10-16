@@ -33,6 +33,7 @@ namespace Arrays {
 // Listing zeroes +0x10 (m_w4), +0x28 (m_w10), +0x3c (m_w15): buffer pointers, null by construction.
 void SkillTable::read(IStreamBase* stream) {
     pydata::ReadArrayTable<Structs::Skill>(members, size, ListingStride::SkillTable, stream, [] { finalize(); });
+    SkillTable::m_memberNames.size = static_cast<int>(size);  // the names are checked against, and consumers read, the table count
 }
 
 // 0x4b9964 _ZN6Arrays14SkillListTable4readEP11IStreamBase
@@ -40,6 +41,7 @@ void SkillTable::read(IStreamBase* stream) {
 void SkillListTable::read(IStreamBase* stream) {
     pydata::ReadArrayTable<Structs::SkillList>(members, size, ListingStride::SkillListTable, stream,
                                                [] { finalize(); });
+    SkillListTable::m_memberNames.size = static_cast<int>(size);  // the names are checked against, and consumers read, the table count
 }
 
 // 0x4b9bf4 _ZN6Arrays12NumProbArray4readEP11IStreamBase
@@ -47,6 +49,7 @@ void SkillListTable::read(IStreamBase* stream) {
 void NumProbArray::read(IStreamBase* stream) {
     pydata::ReadArrayTable<Structs::NumProbList>(members, size, ListingStride::NumProbArray, stream,
                                                  [] { finalize(); });
+    NumProbArray::m_memberNames.size = static_cast<int>(size);  // the names are checked against, and consumers read, the table count
 }
 
 // 0x4ba3c8 _ZN6Arrays14InventoryTable4readEP11IStreamBase
@@ -55,6 +58,7 @@ void NumProbArray::read(IStreamBase* stream) {
 void InventoryTable::read(IStreamBase* stream) {
     pydata::ReadArrayTable<Structs::Inventory>(members, size, ListingStride::InventoryTable, stream,
                                                [] { finalize(); });
+    InventoryTable::m_memberNames.size = static_cast<int>(size);  // the names are checked against, and consumers read, the table count
 }
 
 // 0x4baa30 _ZN6Arrays21ItemBonusAttrMonopoly4readEP11IStreamBase
@@ -63,6 +67,7 @@ void InventoryTable::read(IStreamBase* stream) {
 void ItemBonusAttrMonopoly::read(IStreamBase* stream) {
     pydata::ReadArrayTable<Structs::ItemBonusAttrList>(members, size, ListingStride::ItemBonusAttrMonopoly, stream,
                                                        [] { finalize(); });
+    ItemBonusAttrMonopoly::m_memberNames.size = static_cast<int>(size);  // the names are checked against, and consumers read, the table count
 }
 
 // ---------------------------------------------------------------------------------------------

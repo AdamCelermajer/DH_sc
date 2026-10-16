@@ -105,7 +105,7 @@ void ensureBillboardMeshBuffer(video::IVideoDriver* driver, boost::intrusive_ptr
     stream.m_vertexEnd = 4;
     stream.m_indexType = 1;
     stream.m_primitiveType = 6;
-    shared = boost::intrusive_ptr<scene::CMeshBuffer>(new scene::CMeshBuffer(0x60003u, stream, false));
+    shared = boost::intrusive_ptr<scene::CMeshBuffer>(new scene::CMeshBuffer(0x60003u, stream, false), true);
     video::CVertexStreams* streams = shared->vertexStreams.get();
     boost::intrusive_ptr<video::IBuffer> vertices = driver->createBuffer(kVertexBuffer, kStaticUsage, 0, nullptr, true);
     const std::uint32_t bytes = 4u * streams->setupStreams(vertices, 0xFFFFFFFFu);

@@ -86,14 +86,15 @@ void appendPass(SCreationState& state, glitch::IReferenceCounted* shader,
 // two arguments), so it is not a parameter here; that keeps the row partial against the original mangled symbol.
 void CMaterialRendererManager::SCreationState::addRenderPass(glitch::IReferenceCounted* shader,
                                                              const detail::renderpass::SRenderState& state) {
-    // Binding block for the shader: 8 bytes per entry, zeroed. A null block is not cleared.
+    // Binding block for the shader: one SPassBinding per entry (8 bytes in the original; 16 on the host, where the definition pointer is
+    // 8 bytes wide: the first boot overflowed the 8-byte-per-entry block in bindParameter), zeroed. A null block is not cleared.
     const uint16_t entryCount = shaderBindingEntryCount(shader);
     int* bindings = nullptr;
     if (entryCount != 0) {
-        bindings = glitch::core::allocProcessBuffer(8 * entryCount);
+        bindings = glitch::core::allocProcessBuffer(sizeof(CMaterialRendererManager::SCreationState::SPassBinding) * entryCount);
     }
     if (bindings != nullptr) {
-        std::memset(bindings, 0, static_cast<size_t>(8) * entryCount);
+        std::memset(bindings, 0, sizeof(CMaterialRendererManager::SCreationState::SPassBinding) * entryCount);
     }
     m_bindingTotal += entryCount;
 

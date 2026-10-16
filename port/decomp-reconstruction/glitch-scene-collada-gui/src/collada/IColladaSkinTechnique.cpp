@@ -189,7 +189,7 @@ IColladaSkinTechnique::~IColladaSkinTechnique() = default;
 boost::intrusive_ptr<glitch::IReferenceCounted> IColladaSkinTechnique::initProxyBuffer(scene::CMeshBuffer* meshBuffer, SSkinBuffer& buffer,
                                                                                        SSkin& skin, video::IVideoDriver* driver) {
     if (buffer.buffer == nullptr) {
-        boost::intrusive_ptr<scene::CMeshBuffer> created(new scene::CMeshBuffer());
+        boost::intrusive_ptr<scene::CMeshBuffer> created(new scene::CMeshBuffer(), true);
         created->vertexStreams = video::CVertexStreams::allocate(meshBuffer->vertexStreams->m_attributeMask | 0x30040000u);  // +0x14
         created->primitiveStream = meshBuffer->primitiveStream;  // +0x18 .. +0x2f
         created->owner = nullptr;                                // +0x30
@@ -247,7 +247,7 @@ boost::intrusive_ptr<glitch::IReferenceCounted> IColladaSkinTechnique::initProxy
     indices.field0c = skin.weightsPerVertex;
     indices.field0e = static_cast<std::uint16_t>(elementSize);
     target.setStream(skinStream - 1, indices, true);
-    return boost::intrusive_ptr<glitch::IReferenceCounted>(buffer.buffer.get());
+    return boost::intrusive_ptr<glitch::IReferenceCounted>(buffer.buffer.get(), true);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -334,7 +334,7 @@ void CColladaHardwareTextureSkinTechnique::prepareCache() {
         return;
     }
     preparePtrCache();
-    boost::intrusive_ptr<video::ITexture> texture(static_cast<video::ITexture*>(cache->buffer.get()));
+    boost::intrusive_ptr<video::ITexture> texture(static_cast<video::ITexture*>(cache->buffer.get()), true);
     const std::uint32_t needed = 4u * static_cast<std::uint32_t>(skinRecord->jointCount);
     bool create = texture == nullptr;
     if (!create && texture->m_width < needed) {
@@ -359,7 +359,7 @@ void CColladaHardwareTextureSkinTechnique::prepareCache() {
         }
         const core::dimension2d<std::int32_t> size{width, 1};
         texture = driver->m_textureManager->addTexture(size, "TextureSkin", 31, false);
-        cache->buffer = boost::intrusive_ptr<glitch::IReferenceCounted>(texture.get());
+        cache->buffer = boost::intrusive_ptr<glitch::IReferenceCounted>(texture.get(), true);
         video::ITexture* made = static_cast<video::ITexture*>(cache->buffer.get());
         if ((made->m_flags38 & 0x7000u) != 0) {
             made->m_flags38 &= 0xFFFF8FFFu;
@@ -373,7 +373,7 @@ void CColladaHardwareTextureSkinTechnique::prepareCache() {
             driver->setOption(16, true);
         }
         invTextureSize = 1.0f / static_cast<float>(static_cast<video::ITexture*>(cache->buffer.get())->m_width);
-        texture = boost::intrusive_ptr<video::ITexture>(static_cast<video::ITexture*>(cache->buffer.get()));
+        texture = boost::intrusive_ptr<video::ITexture>(static_cast<video::ITexture*>(cache->buffer.get()), true);
     }
     float* destination = texture != nullptr ? reinterpret_cast<float*>(texture->map(4, 0, 0)) : nullptr;
     float* write = destination;
@@ -411,7 +411,7 @@ int CColladaHardwareTextureSkinTechnique::skin(SSkinBuffer& buffer, scene::CMesh
     }
     const std::uint16_t scaleId = found->second.scaleParameterId;
     const std::uint16_t unitId = found->second.unitParameterId;
-    const boost::intrusive_ptr<video::ITexture> texture(static_cast<video::ITexture*>(cache->buffer.get()));
+    const boost::intrusive_ptr<video::ITexture> texture(static_cast<video::ITexture*>(cache->buffer.get()), true);
     material.parameters.setParameter(found->second.textureParameterId, 0u, texture);
     int result = material.parameters.setParameter(scaleId, 0u, invTextureSize);
     if (unitId != 0xffff) {

@@ -738,7 +738,7 @@ void CBatchSceneNode::renderSolidBatch(video::IVideoDriver* driver, std::uint32_
                 indexBuffer = driver->createBuffer(1, 4, 2u * static_cast<std::uint32_t>(slot->capacity),
                                                    reinterpret_cast<std::uint8_t*>(visibleIndexCache) + 2u * slot->base, false);
                 if (entry->flags != 0) {
-                    slot->count = updateIndices(batch, indexBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get()));
+                    slot->count = updateIndices(batch, indexBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get(), true));
                 }
                 drawCount = static_cast<std::uint32_t>(slot->count);
             }
@@ -751,12 +751,12 @@ void CBatchSceneNode::renderSolidBatch(video::IVideoDriver* driver, std::uint32_
                 processBuffer = core::allocProcessBuffer(2 * maxIndices);
                 indexBuffer = driver->createBuffer(1, 4, 2u * static_cast<std::uint32_t>(maxIndices), processBuffer, false);
                 drawCount = static_cast<std::uint32_t>(
-                    updateIndices(batch, indexBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get())));
+                    updateIndices(batch, indexBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get(), true)));
             }
         }
         const video::CPrimitiveStream primitives = batchPrimitives(*meshBuffer, indexBuffer, drawCount);
-        driver->setMaterial(mesh->getMaterial(batch), boost::intrusive_ptr<const video::CMaterialVertexAttributeMap>(attributeMap.get()));
-        driver->draw(boost::intrusive_ptr<const video::CVertexStreams>(meshBuffer->vertexStreams.get()), primitives, nullptr);
+        driver->setMaterial(mesh->getMaterial(batch), boost::intrusive_ptr<const video::CMaterialVertexAttributeMap>(attributeMap.get(), true));
+        driver->draw(boost::intrusive_ptr<const video::CVertexStreams>(meshBuffer->vertexStreams.get(), true), primitives, nullptr);
         if (processBuffer != nullptr) {
             core::releaseProcessBuffer(processBuffer);
         }
@@ -796,11 +796,11 @@ void CBatchSceneNode::flushTransparentBatch(video::IVideoDriver* driver) {
         dirtyBuffer = driver->createBuffer(1, 4, bytes, processBuffer, false);
     }
     const std::int32_t drawCount =
-        updateIndices(static_cast<std::uint32_t>(unk_15c), dirtyBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get()));
+        updateIndices(static_cast<std::uint32_t>(unk_15c), dirtyBuffer, boost::intrusive_ptr<const video::IBuffer>(meshBuffer->primitiveStream.m_indexBuffer.get(), true));
     const video::CPrimitiveStream primitives = batchPrimitives(*meshBuffer, dirtyBuffer, static_cast<std::uint32_t>(drawCount));
     driver->setMaterial(mesh->getMaterial(static_cast<std::uint32_t>(unk_15c)),
-                        boost::intrusive_ptr<const video::CMaterialVertexAttributeMap>(attributeMap.get()));
-    driver->draw(boost::intrusive_ptr<const video::CVertexStreams>(meshBuffer->vertexStreams.get()), primitives, nullptr);
+                        boost::intrusive_ptr<const video::CMaterialVertexAttributeMap>(attributeMap.get(), true));
+    driver->draw(boost::intrusive_ptr<const video::CVertexStreams>(meshBuffer->vertexStreams.get(), true), primitives, nullptr);
     entry->count = 0;
     core::releaseProcessBuffer(processBuffer);
 }

@@ -598,7 +598,7 @@ int save(const boost::intrusive_ptr<const glitch::scene::CMeshBuffer>& mesh, IWr
          bool bigEndian, unsigned int* vertexResult, unsigned int* indexResult) {
     const std::uint8_t flag = mesh->flag_34;
     file->write(&flag, 1);
-    const boost::intrusive_ptr<const glitch::video::CVertexStreams> streams(mesh->vertexStreams.get());
+    const boost::intrusive_ptr<const glitch::video::CVertexStreams> streams(mesh->vertexStreams.get(), true);
     const int vertexBytes = save(streams, file, bigEndian);
     const int result = save(mesh->primitiveStream, file, bigEndian);
     if (vertexResult != nullptr) *vertexResult = static_cast<unsigned int>(vertexBytes + 1);

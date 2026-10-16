@@ -415,7 +415,7 @@ int CMaterialRendererManager::addRenderPass(uint16_t shaderId, const detail::ren
     if (!isCreatingTechnique("Adding a renderpass outside of technique definition")) return 0;
     boost::intrusive_ptr<IShader> shader = m_driver->m_shaderManager->m_shaders.get(shaderId)->value;  // driver +0xd8, entry id
     if (!shader) os::Printer::log("could not find shader", kError);
-    boost::intrusive_ptr<const IShader> constShader(shader.get());
+    boost::intrusive_ptr<const IShader> constShader(shader.get(), true);
     return addRenderPass(constShader, state, materialState);
 }
 
@@ -801,7 +801,7 @@ void CMaterialRendererManager::createPinkWireFrameRenderPass() {
     boost::intrusive_ptr<IShader> shader = createPinkWireFrameShader();
     SRenderState state;
     state.m_word0c = (state.m_word0c & 0xfff87fffu) | 0x28000u;
-    boost::intrusive_ptr<const IShader> held(shader.get());
+    boost::intrusive_ptr<const IShader> held(shader.get(), true);
     const detail::renderpass::SRenderState passState(state);
     const detail::material::SRenderState materialState;
     addRenderPass(held, passState, materialState);

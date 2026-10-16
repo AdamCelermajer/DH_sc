@@ -5,6 +5,7 @@
 
 namespace pydata {
 int FindMemberName(const NameTable& table, int count, const char* name) {
+    if (table.names == nullptr) return -1;  // a table whose names file is skipped by the loader
     for (int i = 0; i < count; ++i) {
         if (std::strcmp(name, table.names[i]) == 0) return i;
     }

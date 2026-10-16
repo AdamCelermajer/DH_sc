@@ -40,4 +40,8 @@ public:
                                              const boost::intrusive_ptr<glitch::io::IFileSystem>& fileSystem,
                                              glitch::gui::ICursorControl* cursor,
                                              glitch::gui::IGUIEnvironment* gui);
+
+    // _ZN10IrrFactory9s_factoryE (0x9a1eec): the object whose static initialiser (_GLOBAL__I_IrrFactory.cpp 0x350b24) runs the CIrrFactory constructor,
+    // which publishes it as the engine's factory instance, so glitch::IDevice creates the game's FileSystemWin32 and SceneManager.
+    static IrrFactory s_factory;
 };

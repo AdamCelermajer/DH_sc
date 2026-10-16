@@ -458,7 +458,7 @@ void CMorphingMesh::init(video::IVideoDriver* driver, bool flag) {
         boost::intrusive_ptr<scene::CMeshBuffer> source = targets[0].mesh->getMeshBuffer(i);
         boost::intrusive_ptr<scene::CMeshBuffer>& slot = buffers[i].buffer;
         if (!slot) {
-            slot = boost::intrusive_ptr<scene::CMeshBuffer>(new scene::CMeshBuffer(source->vertexStreams->m_attributeMask, source->primitiveStream, true));
+            slot = boost::intrusive_ptr<scene::CMeshBuffer>(new scene::CMeshBuffer(source->vertexStreams->m_attributeMask, source->primitiveStream, true), true);
         }
         video::CVertexStreams* streams = slot->vertexStreams.get();
         streams->m_field08 = source->vertexStreams->m_field08;

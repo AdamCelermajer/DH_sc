@@ -686,7 +686,7 @@ void CCommonGLDriverBase::drawQuads(const core::rect<int32_t>& position, const c
         m_immediateVertices->m_flags12 |= IBuffer::kFlagHasData;
     }
     unk_ac->m_field08 = 4;
-    boost::intrusive_ptr<const CVertexStreams> streams(unk_ac.get());
+    boost::intrusive_ptr<const CVertexStreams> streams(unk_ac.get(), true);
     CPrimitiveStream strip;
     strip.m_count = 4;
     strip.m_vertexEnd = 4;

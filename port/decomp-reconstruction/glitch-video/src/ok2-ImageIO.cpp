@@ -109,7 +109,7 @@ boost::intrusive_ptr<CImage> CImageLoaderATC::loadImage(io::IReadFile* file) con
         core::dimension2d<int32_t> size2d;
         size2d.Width = width;
         size2d.Height = height;
-        result = boost::intrusive_ptr<CImage>(new CImage(format, size2d, data, static_cast<uint32_t>(size), levels, true, true));
+        result = boost::intrusive_ptr<CImage>(new CImage(format, size2d, data, static_cast<uint32_t>(size), levels, true, true), true);
         return result;
     }
     os::Printer::log("corrupt ATC file", file->getFileName(), ELL_ERROR);
@@ -261,7 +261,7 @@ boost::intrusive_ptr<CImage> CImageLoaderDDS::loadImage(io::IReadFile* file) con
     size2d.Width = static_cast<int32_t>(header.width);
     size2d.Height = static_cast<int32_t>(header.height);
     result = boost::intrusive_ptr<CImage>(
-        new CImage(format, size2d, data, size, header.mipMapCount != 0 ? header.mipMapCount - 1 : 0, true, true));
+        new CImage(format, size2d, data, size, header.mipMapCount != 0 ? header.mipMapCount - 1 : 0, true, true), true);
     return result;
 }
 
@@ -384,7 +384,7 @@ boost::intrusive_ptr<CImage> CImageLoaderJPG::loadImage(io::IReadFile* file) con
         core::dimension2d<int32_t> size2d;
         size2d.Width = static_cast<int32_t>(width);
         size2d.Height = static_cast<int32_t>(height);
-        result = boost::intrusive_ptr<CImage>(new CImage(10, size2d, pixels, true, true));
+        result = boost::intrusive_ptr<CImage>(new CImage(10, size2d, pixels, true, true), true);
     }
     delete[] input;
     delete[] rows;
@@ -474,7 +474,7 @@ boost::intrusive_ptr<CImage> CImageLoaderPng::loadImage(io::IReadFile* file) con
     core::dimension2d<int32_t> size2d;
     size2d.Width = static_cast<int32_t>(width);
     size2d.Height = static_cast<int32_t>(height);
-    boost::intrusive_ptr<CImage> image(new CImage(format, size2d));
+    boost::intrusive_ptr<CImage> image(new CImage(format, size2d), true);
     if (image.get() == nullptr) {
         os::Printer::log("LOAD PNG: Internal PNG create image struct failure\n", file->getFileName(), ELL_ERROR);
         png_destroy_read_struct(&png, nullptr, nullptr);
@@ -643,7 +643,7 @@ boost::intrusive_ptr<CImage> CImageLoaderTGA::loadImage(io::IReadFile* file) con
     core::dimension2d<int32_t> size2d;
     size2d.Width = width;
     size2d.Height = height;
-    boost::intrusive_ptr<CImage> image(new CImage(destinationFormat, size2d));
+    boost::intrusive_ptr<CImage> image(new CImage(destinationFormat, size2d), true);
     uint8_t* data = image->m_data;  // +0x08
     const bool flip = ((descriptor ^ 0x20u) & 0x20u) != 0;
     if (imageType == 2) {

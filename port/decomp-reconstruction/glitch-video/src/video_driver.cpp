@@ -655,7 +655,7 @@ bool IVideoDriver::drawPendingBatch() {
     const boost::intrusive_ptr<CVertexAttributeMap>* const savedAttributeMap = m_stateE8;
     m_stateE8 = &m_batchBaker->getVertexAttributeMap();  // baker slot +0x14
     {
-        boost::intrusive_ptr<const CVertexStreams> streams(buffer->vertexStreams.get());
+        boost::intrusive_ptr<const CVertexStreams> streams(buffer->vertexStreams.get(), true);
         drawImpl(streams, buffer->primitiveStream, nullptr);  // +0x200
     }
     m_stateE8 = savedAttributeMap;

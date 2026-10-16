@@ -182,22 +182,26 @@ int32_t guessSubIdFromName(const char* name, E_SHADER_PARAMETER_TYPE type) {
 }
 
 // 0x5e7b50 _ZN6glitch5video14sortParametersEPNS0_19SShaderParameterDefEt
-// Moves the automatic parameters (types 34..62) behind the others, keeping the order inside each group; returns how many are not
-// automatic. The definitions are copied with their name uses, as the original does through its temporary block.
+// Moves the automatic parameters (types 34..62) in FRONT of the others, keeping the order inside each group; returns how many are
+// automatic. Re-read from the listing at first boot: the loop writes a record of an automatic type to the caller's array (the cursor
+// v16/v19, whose distance from the start is the return value) and any other record to the compacting copy, which is appended after the
+// automatic ones at the end. (The earlier port had the two groups the other way round, so the bindable parameters, which the material
+// code addresses as [field04, count), sat in front of field04 and the binding index went negative.) The definitions are copied with
+// their name uses, as the original does through its temporary block.
 uint16_t sortParameters(SShaderParameterDef* parameters, uint16_t count) {
     if (count == 0) return 0;
     std::vector<SShaderParameterDef> copies(parameters, parameters + count);
-    std::vector<const SShaderParameterDef*> automatic;
+    std::vector<const SShaderParameterDef*> others;
     uint16_t front = 0;
     for (const SShaderParameterDef& definition : copies) {
-        if (static_cast<uint32_t>(definition.parameterType) - 34 > 0x1c) {
+        if (static_cast<uint32_t>(definition.parameterType) - 34 <= 0x1c) {
             parameters[front++] = definition;
         } else {
-            automatic.push_back(&definition);
+            others.push_back(&definition);
         }
     }
     uint16_t at = front;
-    for (const SShaderParameterDef* definition : automatic) parameters[at++] = *definition;
+    for (const SShaderParameterDef* definition : others) parameters[at++] = *definition;
     return front;
 }
 

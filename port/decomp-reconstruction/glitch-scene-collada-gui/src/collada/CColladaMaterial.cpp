@@ -368,7 +368,7 @@ boost::intrusive_ptr<video::CMaterialRenderer> createMaterialRendererForProfile(
                         typename Traits::PassT& pass = technique.passes[p];
                         boost::intrusive_ptr<video::IShader> shader = Traits::createShader(driver->m_shaderManager, pass);
                         const video::detail::renderpass::SRenderState state(Traits::renderState(pass));
-                        const boost::intrusive_ptr<const video::IShader> constShader(shader.get());
+                        const boost::intrusive_ptr<const video::IShader> constShader(shader.get(), true);
                         manager.addRenderPass(constShader, state, video::detail::material::SRenderState());
                         if (pass.bindingCount > 0) {
                             bindings = true;

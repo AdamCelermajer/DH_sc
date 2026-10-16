@@ -543,7 +543,7 @@ void CBatchMesh::setBuffer(std::uint32_t index, const boost::intrusive_ptr<CMesh
     const std::string name = core::randomString(14);
     batch.material = material->clone(name.c_str());
     batch.vertexAttributeMap = video::CMaterialVertexAttributeMap::allocate(
-        material->m_renderer, boost::intrusive_ptr<const video::CVertexStreams>(buffer->vertexStreams.get()));
+        material->m_renderer, boost::intrusive_ptr<const video::CVertexStreams>(buffer->vertexStreams.get(), true));
 }
 
 // 0x57bc78 _ZN6glitch5scene10CBatchMesh11sortBatchesEPKNS_5video12IVideoDriverEPj
@@ -579,7 +579,7 @@ void CBatchMesh::quantizeComponents(bool flagA, bool flagB, video::IVideoDriver*
         if (batch.field10 != static_cast<std::uint16_t>(batch.endSegmentInfo - batch.firstSegmentInfo)) {
             continue;
         }
-        const boost::intrusive_ptr<const CMeshBuffer> source(batch.meshBuffer.get());
+        const boost::intrusive_ptr<const CMeshBuffer> source(batch.meshBuffer.get(), true);
         batch.meshBuffer = core::createQuantizedBuffer(source, flagA, flagB, driver);
     }
 }
@@ -616,7 +616,7 @@ void CBatchMesh::updateSegmentContent(void* segmentIndex, const CMeshBuffer* buf
             const std::ptrdiff_t slot = batchRenderer.m_techniques[batchTechnique].passes - batchRenderer.m_passBase;
             const boost::intrusive_ptr<video::CVertexAttributeMap>& outMap =
                 batch.vertexAttributeMap->m_maps[static_cast<std::size_t>(slot)];
-            const boost::intrusive_ptr<const video::CVertexStreams> streams(buffer->vertexStreams.get());
+            const boost::intrusive_ptr<const video::CVertexStreams> streams(buffer->vertexStreams.get(), true);
             baker->bake(streams, buffer->primitiveStream, material.get(), static_cast<std::uint8_t>(technique), attributeMap->m_map,
                         batchBuffer->vertexStreams, batchBuffer->primitiveStream, batch.material.get(), outMap->m_map, driver,
                         bufferVertexStart, bufferVertexEnd, 0u, buffer->primitiveStream.getPrimitiveCount(), record.vertexBegin,

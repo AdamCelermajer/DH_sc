@@ -174,7 +174,7 @@ void IVideoDriver::draw3DLine(const core::vector3d<float>& start, const core::ve
     markBufferHasData(m_immediateVertices.get());
     m_immediateStreams->m_field08 = 2;
     {
-        boost::intrusive_ptr<const CVertexStreams> streams(m_immediateStreams.get());
+        boost::intrusive_ptr<const CVertexStreams> streams(m_immediateStreams.get(), true);
         const CPrimitiveStream primitives = immediateStream(2, 3);  // lines
         draw(streams, primitives, nullptr);
     }
@@ -194,7 +194,7 @@ void IVideoDriver::draw3DLines(core::vector3d<float>* positions, uint16_t* indic
     markBufferHasData(m_immediateIndices.get());
     m_lineStreams->m_field08 = count;
     {
-        boost::intrusive_ptr<const CVertexStreams> streams(m_lineStreams.get());
+        boost::intrusive_ptr<const CVertexStreams> streams(m_lineStreams.get(), true);
         CPrimitiveStream primitives;
         primitives.m_indexBuffer = m_immediateIndices;
         primitives.m_offset = 0;
@@ -223,7 +223,7 @@ void IVideoDriver::draw2DLine(const core::position2d<int32_t>& start, const core
     markBufferHasData(m_immediateVertices.get());
     m_immediateStreams->m_field08 = 2;
     {
-        boost::intrusive_ptr<const CVertexStreams> streams(m_immediateStreams.get());
+        boost::intrusive_ptr<const CVertexStreams> streams(m_immediateStreams.get(), true);
         const CPrimitiveStream primitives = immediateStream(2, 3);
         draw(streams, primitives, nullptr);
     }
@@ -248,7 +248,7 @@ void IVideoDriver::draw2DLines(core::position2d<int32_t>* positions, uint16_t* i
     markBufferHasData(m_immediateIndices.get());
     m_lineStreams->m_field08 = 2 * indexCount;
     {
-        boost::intrusive_ptr<const CVertexStreams> streams(m_lineStreams.get());
+        boost::intrusive_ptr<const CVertexStreams> streams(m_lineStreams.get(), true);
         CPrimitiveStream primitives;
         primitives.m_indexBuffer = m_immediateIndices;
         primitives.m_offset = 0;
@@ -285,7 +285,7 @@ void IVideoDriver::drawFullScreenQuad(const SColor* colors) {
     markBufferHasData(m_immediateVertices.get());
     m_immediateStreams->m_field08 = 4;
     {
-        boost::intrusive_ptr<const CVertexStreams> streams(m_immediateStreams.get());
+        boost::intrusive_ptr<const CVertexStreams> streams(m_immediateStreams.get(), true);
         const CPrimitiveStream primitives = immediateStream(4, 4);  // triangle strip
         draw(streams, primitives, nullptr);
     }
@@ -346,7 +346,7 @@ void IVideoDriver::draw(const boost::intrusive_ptr<const CVertexStreams>& stream
 void IVideoDriver::drawMeshBuffer(const boost::intrusive_ptr<const scene::CMeshBuffer>& meshBuffer) {
     const scene::CMeshBuffer* buffer = meshBuffer.get();
     if (buffer == nullptr) return;
-    boost::intrusive_ptr<const CVertexStreams> streams(buffer->vertexStreams.get());
+    boost::intrusive_ptr<const CVertexStreams> streams(buffer->vertexStreams.get(), true);
     draw(streams, buffer->primitiveStream, const_cast<CDriverBinding**>(&buffer->owner), meshBuffer);  // vtable +0x58
 }
 
@@ -364,7 +364,7 @@ bool IVideoDriver::appendBatch(const boost::intrusive_ptr<const CVertexStreams>&
         drawPendingBatch();
         if ((m_stateFlags & 8) != 0) {  // +0x138
             m_stateFlags &= ~8u;
-            boost::intrusive_ptr<scene::CAppendMeshBuffer> held(static_cast<scene::CAppendMeshBuffer*>(m_batchBuffer.get()));
+            boost::intrusive_ptr<scene::CAppendMeshBuffer> held(static_cast<scene::CAppendMeshBuffer*>(m_batchBuffer.get()), true);
             m_batchBaker->configureAppendBuffer(held);  // baker vtable +0x18
         }
     };
@@ -469,7 +469,7 @@ E_DRIVER_ALLOCATION_RESULT IVideoDriver::getProcessBuffer(E_PROCESS_BUFFER_TYPE 
     scene::CMeshBuffer* sourceBuffer = mesh->batches[sourceBatch].meshBuffer.get();
     boost::intrusive_ptr<scene::CMeshBuffer> sourceHold(sourceBuffer);
     const uint16_t firstVertex = record->vertexBegin;  // +0x24
-    boost::intrusive_ptr<CVertexStreams> source(sourceBuffer->vertexStreams.get());  // +0x14
+    boost::intrusive_ptr<CVertexStreams> source(sourceBuffer->vertexStreams.get(), true);  // +0x14
     const int32_t delta = static_cast<int32_t>(source->getVertexStride()) * (static_cast<int32_t>(firstVertex) - static_cast<int32_t>(vertexCount));
     CVertexStreams* target = streams.get();
     if (mask != 1) {
@@ -673,7 +673,7 @@ void IVideoDriver::initImplementationDependentData() {
     std::memcpy(&indexCapacity, m_device->creationParameters.bytes + 0x4c, 4);   // device +0xa8
     for (int i = 0; i < 2; ++i) {
         boost::intrusive_ptr<glitch::IReferenceCounted> appendBuffer(
-            new scene::CAppendMeshBuffer(vertexCapacity, indexCapacity, this, 4, 0xffffffffu));
+            new scene::CAppendMeshBuffer(vertexCapacity, indexCapacity, this, 4, 0xffffffffu), true);  // born with count 0
         m_batchBuffers.push_back(appendBuffer);  // +0x110
     }
     m_batchBufferIndex = 0;               // +0x11c

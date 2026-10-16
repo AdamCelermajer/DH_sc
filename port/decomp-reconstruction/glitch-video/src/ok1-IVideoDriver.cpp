@@ -19,7 +19,7 @@ namespace {
 
 // The batch buffer (driver +0x120) as the scene's append buffer, for the baker's configureAppendBuffer slot.
 boost::intrusive_ptr<scene::CAppendMeshBuffer> batchBufferOf(const IVideoDriver& driver) {
-    return boost::intrusive_ptr<scene::CAppendMeshBuffer>(static_cast<scene::CAppendMeshBuffer*>(driver.m_batchBuffer.get()));
+    return boost::intrusive_ptr<scene::CAppendMeshBuffer>(static_cast<scene::CAppendMeshBuffer*>(driver.m_batchBuffer.get()), true);
 }
 
 }  // namespace
@@ -56,7 +56,7 @@ void IVideoDriver::resetBatchMaterial(const boost::intrusive_ptr<CMaterial>& mat
     if (material) {
         const IShader* shader = static_cast<const IShader*>(material->m_renderer->m_techniques[technique].passes[0].shader);
         m_batchBaker = shader->getBatchBaker();  // +0x128
-        const boost::intrusive_ptr<const CMaterial> source(material.get());
+        const boost::intrusive_ptr<const CMaterial> source(material.get(), true);
         m_batchMaterial = m_batchBaker->getBatchMaterial(source, technique);  // baker vtable +0x10; +0x124
         m_batchBaker->configureAppendBuffer(batchBufferOf(*this));             // baker vtable +0x18
         return;
@@ -83,7 +83,7 @@ void IVideoDriver::setMaterial(const boost::intrusive_ptr<CMaterial>& material, 
         bool restart = false;  // LABEL_15: the batch heap material is replaced
         if (m_batchBaker) {
             if (!sameSource) {
-                const boost::intrusive_ptr<const CMaterial> copy(material.get());
+                const boost::intrusive_ptr<const CMaterial> copy(material.get(), true);
                 const bool compatible = m_batchBaker->isCompatible(copy, technique);  // baker vtable +0x1c
                 if (!compatible) {
                     flush();  // vtable +0x1fc

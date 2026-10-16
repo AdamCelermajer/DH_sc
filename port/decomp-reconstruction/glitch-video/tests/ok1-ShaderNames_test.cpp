@@ -32,13 +32,13 @@ int main() {
     defs[0].parameterType = 39;
     defs[1].parameterType = 40;  // automatic
     defs[2].parameterType = 6;
-    defs[3].parameterType = 33;  // not in 34..62: stays in front
+    defs[3].parameterType = 33;  // not in 34..62: not automatic
     defs[0].count = 10;
     defs[1].count = 11;
     defs[2].count = 12;
     defs[3].count = 13;
-    CHECK(sortParameters(defs, 4) == 2);   // 6 and 33 are not automatic (34..62)
-    CHECK(defs[0].count == 12 && defs[1].count == 13 && defs[2].count == 10 && defs[3].count == 11);
+    CHECK(sortParameters(defs, 4) == 2);   // 39 and 40 are automatic (34..62) and go in front (first-boot fix: the port had them behind)
+    CHECK(defs[0].count == 10 && defs[1].count == 11 && defs[2].count == 12 && defs[3].count == 13);
     CHECK(sortParameters(defs, 0) == 0);
     CHECK(guessSubIdFromName("Light4Pos", 20) == 4);   // 19..27 asks for "light": the number after it (0x5e7e00 returns 4)
     CHECK(guessSubIdFromName("x", 50) == 255);         // a type without a sub id

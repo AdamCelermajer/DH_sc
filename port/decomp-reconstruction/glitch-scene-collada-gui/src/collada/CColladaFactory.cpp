@@ -406,7 +406,7 @@ CParticleSystemSceneNode* CColladaFactory::createParticleSystem(const CColladaDa
             stream.m_vertexEnd = 24;
             stream.m_indexType = 1;
             stream.m_primitiveType = 6;
-            boost::intrusive_ptr<scene::CMeshBuffer> buffer(new scene::CMeshBuffer(0x60003u, stream, false));
+            boost::intrusive_ptr<scene::CMeshBuffer> buffer(new scene::CMeshBuffer(0x60003u, stream, false), true);
             video::CVertexStreams* streams = buffer->vertexStreams.get();
             boost::intrusive_ptr<video::IBuffer> vertices = driver->createBuffer(0, 4, 0, nullptr, true);
             const std::uint32_t bytes = 24u * streams->setupStreams(vertices, 0xFFFFFFFFu);

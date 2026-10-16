@@ -407,7 +407,7 @@ int CModularSkinnedMesh::updateBuffer(bool flag) {
         table->m_field08 = vertexTotal;
         if (entry.buffer == nullptr) {
             boost::intrusive_ptr<video::IBuffer> indexBuffer = driver->createBuffer(1, 4, 0, nullptr, true);
-            boost::intrusive_ptr<scene::CMeshBuffer> created(new scene::CMeshBuffer());
+            boost::intrusive_ptr<scene::CMeshBuffer> created(new scene::CMeshBuffer(), true);
             created->vertexStreams = table;                          // +0x14
             created->primitiveStream.m_indexBuffer = indexBuffer;    // +0x18
             created->primitiveStream.m_offset = 0;                   // +0x1c
@@ -452,7 +452,7 @@ int CModularSkinnedMesh::updateBuffer(bool flag) {
                 continue;
             }
             boost::intrusive_ptr<video::CVertexStreams> moduleTable = module->getMeshBuffer(0)->vertexStreams;
-            table->copyStreams(boost::intrusive_ptr<const video::CVertexStreams>(moduleTable.get()), 0, moduleTable->m_field08,
+            table->copyStreams(boost::intrusive_ptr<const video::CVertexStreams>(moduleTable.get(), true), 0, moduleTable->m_field08,
                                static_cast<std::int32_t>(vertexOffset), 0xFFFDFFFEu);
             vertexOffset += moduleTable->m_field08;
             boost::intrusive_ptr<scene::CMeshBuffer> moduleBuffer = module->getMeshBuffer(0);

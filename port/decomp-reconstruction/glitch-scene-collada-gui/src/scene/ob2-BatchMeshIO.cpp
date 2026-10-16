@@ -94,10 +94,10 @@ bool CBatchMesh::save(io::IWriteFile* file, video::IVideoDriver* /*driver*/, std
         const SBatch& batch = batches[b];
         unsigned vertexResult = 0;
         unsigned indexResult = 0;
-        boost::intrusive_ptr<const CMeshBuffer> meshBuffer(batch.meshBuffer.get());
+        boost::intrusive_ptr<const CMeshBuffer> meshBuffer(batch.meshBuffer.get(), true);
         io::save(meshBuffer, &batchData, swap, &vertexResult, &indexResult);
         const unsigned vertexStride = io::getVertexStreamsStride(
-            boost::intrusive_ptr<const video::CVertexStreams>(batch.meshBuffer->vertexStreams.get()));
+            boost::intrusive_ptr<const video::CVertexStreams>(batch.meshBuffer->vertexStreams.get(), true));
         std::uint32_t vertexOffset = dataPosition + vertexResult;
         std::uint32_t indexOffset =
             dataPosition + vertexResult + indexResult + batch.meshBuffer->vertexStreams->m_field08 * vertexStride;

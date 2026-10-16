@@ -208,7 +208,7 @@ IShadowVolumeSceneNode* CAnimatedMeshSceneNode::addShadowVolumeSceneNode(const b
         return nullptr;
     }
     if (!volumeMesh) {
-        volumeMesh = boost::intrusive_ptr<const IMesh>(mesh.get());
+        volumeMesh = boost::intrusive_ptr<const IMesh>(mesh.get(), true);
     }
     shadow = boost::intrusive_ptr<CShadowVolumeSceneNode>(
         new CShadowVolumeSceneNode(driver, volumeMesh, shadowId, zfailMethod ? ESVT_ZFAIL : ESVT_STANDARD, infinity));
@@ -275,16 +275,16 @@ void CAnimatedMeshSceneNode::render(void*) {
             driver->setTransform(kWorldTransform, core::CMatrix4<float>(core::CMatrix4<float>::EM4CONST_IDENTITY));
         }
         const boost::intrusive_ptr<video::CMaterial> drawMaterial = mesh->getMaterial(i);
-        const boost::intrusive_ptr<const video::CMaterialVertexAttributeMap> attributes(mesh->getMaterialVertexAttributeMap(i).get());
+        const boost::intrusive_ptr<const video::CMaterialVertexAttributeMap> attributes(mesh->getMaterialVertexAttributeMap(i).get(), true);
         driver->setMaterial(drawMaterial, attributes);
-        driver->drawMeshBuffer(boost::intrusive_ptr<const CMeshBuffer>(buffer.get()));
+        driver->drawMeshBuffer(boost::intrusive_ptr<const CMeshBuffer>(buffer.get(), true));
     }
 }
 
 // 0x6f6478 _ZNK6glitch5scene22CAnimatedMeshSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 void CAnimatedMeshSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
     ISceneNode::serializeAttributes(attributes, options);
-    const boost::intrusive_ptr<const IAnimatedMesh> meshHandle(mesh.get());
+    const boost::intrusive_ptr<const IAnimatedMesh> meshHandle(mesh.get(), true);
     const char* name = sceneManager->meshCache->getMeshFilename(meshHandle);  // meshCache vptr+0x30
     attributes->addString("Mesh", name ? name : "", false);                    // vptr+0x7c
     attributes->addBool("Looping", loopMode, false);                           // vptr+0xd8
@@ -295,7 +295,7 @@ void CAnimatedMeshSceneNode::serializeAttributes(io::IAttributes* attributes, io
 // Loads the named mesh when it differs from the current one.
 void CAnimatedMeshSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
     ISceneNode::deserializeAttributes(attributes, options);
-    const boost::intrusive_ptr<const IAnimatedMesh> meshHandle(mesh.get());
+    const boost::intrusive_ptr<const IAnimatedMesh> meshHandle(mesh.get(), true);
     const char* current = sceneManager->meshCache->getMeshFilename(meshHandle);
     const std::string currentName = current ? current : "";
     const std::string newName = attributes->getString("Mesh");  // vptr+0x84

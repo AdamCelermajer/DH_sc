@@ -115,6 +115,11 @@ void Floor::InitPost() {
 // glitch::CIrrFactory::~CIrrFactory. The compiler emits both.
 IrrFactory::~IrrFactory() {}
 
+// 0x9a1eec IrrFactory::s_factory: constructed by the file's static initialiser (0x350b24, CIrrFactory::CIrrFactory then the IrrFactory vtable, atexit
+// registers ~IrrFactory). Without it glitch::CIrrFactory::getInstance() fell back to the engine's own factory and the device got a 0x2c CFileSystem
+// instead of the game's FileSystemWin32 (first boot: DebugSwitches::load called a FileSystemWin32 vtable slot on it).
+IrrFactory IrrFactory::s_factory;
+
 // 0x350c40 IrrFactory::~IrrFactory() (D0) is compiler-generated: the D1 body above, then CustomFree(this). skipped: no body.
 
 // 0x350aec IrrFactory::createFileSystem()

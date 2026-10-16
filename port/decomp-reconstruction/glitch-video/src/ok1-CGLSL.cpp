@@ -1,3 +1,6 @@
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 // Owner K1: the GLSL shader classes: CGLSLShaderCode (source copy, GL create / compile), CGLSLShader (deleteInfo, compileAndLink,
 // destructor), CGLSLShaderManager (creating shader codes and shaders from source files) and CGLSLShaderHandler::doVersionCheck.
 // GL calls go through the shared GL function table (glitch-shared/gl_function_table.hpp); a call whose entry is not set is
@@ -99,6 +102,11 @@ bool CGLSLShaderCode::compileShader() const {
         if (t.getShaderInfoLog) t.getShaderInfoLog(m_glShader, logLength, &length, log);
         int32_t shaderType = 0;
         if (t.getShaderiv) t.getShaderiv(m_glShader, kGlShaderType, &shaderType);
+#ifdef __ANDROID__
+        // Port diagnostic (the original's logger is null at this point, so the message is lost there): the compile log reaches logcat.
+        __android_log_print(ANDROID_LOG_ERROR, "DH2GL", "GLSL shader type %d failed to compile: %s\n--- source[0]:\n%s", shaderType,
+                            log != nullptr ? log : "(no log)", (m_sourceLines != nullptr && m_sourceLineCount > 0) ? m_sourceLines[0] : "");
+#endif
         os::Printer::logf(glitch::ELL_ERROR, "GLSL %s shader failed to compile\n%s",
                           static_cast<uint32_t>(shaderType) == kGlVertexShader ? "vertex" : "fargment", log);
         if (log != nullptr) glitch::core::releaseProcessBuffer(log);
@@ -183,7 +191,7 @@ boost::intrusive_ptr<CGLSLShaderCode> CGLSLShaderManager::createShaderCode(const
     boost::intrusive_ptr<CGLSLShaderCode> result;
     const boost::intrusive_ptr<IShaderCode> existing = getShaderCode(codeName);
     if (existing) {
-        result = boost::intrusive_ptr<CGLSLShaderCode>(static_cast<CGLSLShaderCode*>(existing.get()));
+        result = boost::intrusive_ptr<CGLSLShaderCode>(static_cast<CGLSLShaderCode*>(existing.get()), true);
     } else {
         glitch::io::IFileSystem* fileSystem = m_driver->m_device->fileSystem;  // driver +0xd4 -> +0x34
         if (fileSystem != nullptr) ++fileSystem->referenceCounter;
@@ -227,7 +235,7 @@ boost::intrusive_ptr<IShader> CGLSLShaderManager::createShaderInternal(const cha
     boost::intrusive_ptr<CGLSLShader> shader(
         new CGLSLShader(id, name, first, second, static_cast<CProgrammableGLDriver*>(m_driver), true), true);  // count 0 -> 1
     if (shader->m_id == 0xffff || shader->m_unknown3e == 0) return boost::intrusive_ptr<IShader>();  // +0x40, +0x3e
-    boost::intrusive_ptr<IShader> asShader(shader.get());
+    boost::intrusive_ptr<IShader> asShader(shader.get(), true);
     addShader(asShader);
     return asShader;
 }

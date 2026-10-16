@@ -291,7 +291,7 @@ void SDefaultEndOfBatchCallback::operator()(const CAppendMeshBuffer& buffer, con
     const std::uint32_t vertexCount = buffer.vertexUsedBytes / buffer.vertexStride;  // +0x3c / +0x48
 
     // operator new(0x38): a CMeshBuffer built by hand (0x590338 .. 0x5903c0), vtable off_988098.
-    boost::intrusive_ptr<CMeshBuffer> meshBuffer(new CMeshBuffer());
+    boost::intrusive_ptr<CMeshBuffer> meshBuffer(new CMeshBuffer(), true);
     meshBuffer->vertexStreams = streams;                          // +0x14
     meshBuffer->primitiveStream.m_indexBuffer = indexBuffer;      // +0x18
     meshBuffer->primitiveStream.m_offset = 0;                     // +0x1c
@@ -350,7 +350,7 @@ void SDefaultEndOfBatchCallback::finalize() {
         }
         boost::intrusive_ptr<video::CMaterial> instance = manager->getMaterialInstance(id, id != 0);
         // The listing calls getTechnique on the old material and on the new instance and drops both results.
-        boost::intrusive_ptr<const video::CMaterial> source(config.material.get());
+        boost::intrusive_ptr<const video::CMaterial> source(config.material.get(), true);
         core::copyMaterialParameters(instance, source);
         node->mesh->setBuffer(key, config.meshBuffer, instance);  // node +0x130
     }

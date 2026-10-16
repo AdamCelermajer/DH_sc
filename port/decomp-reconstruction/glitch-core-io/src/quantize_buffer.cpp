@@ -53,7 +53,7 @@ boost::intrusive_ptr<glitch::scene::CMeshBuffer> createQuantizedBuffer(
     using glitch::video::SVertexStream;
     using glitch::video::SVertexStreamData;
 
-    const boost::intrusive_ptr<CVertexStreams> hold(const_cast<CVertexStreams*>(mesh->vertexStreams.get()));
+    const boost::intrusive_ptr<CVertexStreams> hold(const_cast<CVertexStreams*>(mesh->vertexStreams.get()), true);
     const CVertexStreams* streams = hold.get();
     const std::uint32_t vertexCount = streams->m_field08;
 
