@@ -87,6 +87,14 @@ extern "C" int appInit() {
             break;
         default:
             g_windowDimensions = g_windowDimensions4;
+#ifdef __ANDROID__
+            // Port deviation (first boot): the original only knew 800/854/960 wide screens and 1280x720 otherwise. On a modern surface that size
+            // draws the UI into a corner of the surface and the touch coordinates (surface pixels) no longer match it; use the real surface.
+            if (Width_Screen > 0 && Height_Screen > 0) {
+                g_windowDimensions.Width = Width_Screen;
+                g_windowDimensions.Height = Height_Screen;
+            }
+#endif
             break;
     }
     device = CreateDevice(1, g_windowDimensions, 16, false, false, false, nullptr);
@@ -184,3 +192,22 @@ extern "C" int appDestroy() {
     app->Quit();
     return 0;
 }
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+// Boot diagnostic (only with -DDH2_BOOT_DEBUG=ON and -DDH2_ANDROID_FORTIFY=ON): replaces bionic's __strchr_chk for this library so that an unterminated-buffer
+// strchr is reported with its caller (symbolize with tools/trackb/boot/symbolize.sh) instead of aborting the process.
+#include <android/log.h>
+#include <dlfcn.h>
+extern "C" char* __strchr_chk(const char* s, int c, size_t n) {
+    for (size_t i = 0; i < n; ++i) {
+        if (s[i] == static_cast<char>(c)) return const_cast<char*>(s + i);
+        if (s[i] == '\0') return nullptr;
+    }
+    Dl_info info;
+    const void* caller = __builtin_return_address(0);
+    unsigned long off = dladdr(caller, &info) ? static_cast<unsigned long>(reinterpret_cast<const char*>(caller) - static_cast<const char*>(info.dli_fbase)) : 0;
+    char text[48] = {0};
+    for (size_t i = 0; i < sizeof(text) - 1 && i < n; ++i) text[i] = (s[i] >= 32 && s[i] < 127) ? s[i] : '.';
+    __android_log_print(ANDROID_LOG_ERROR, "DH2FORTIFY", "strchr past end: caller off 0x%lx buffer size %zu text '%s'", off, n, text);
+    return nullptr;
+}
+#endif

@@ -36,9 +36,14 @@
 
 // Reads the 32-bit word at `offset` of the Arrays::Doors element `index` (the raw table is decoded at its file layout).
 static std::int32_t DoorTableWord(int index, std::uint32_t offset) {
-    std::int32_t value = 0;
-    std::memcpy(&value, Arrays::Doors::members + 24 * index + offset, sizeof value);
-    return value;
+    // Typed access: the table holds host Structs::Door records (sizeof(Door) is not the original 24-byte stride).
+    const Structs::Door& row = reinterpret_cast<const Structs::Door*>(Arrays::Doors::members)[index];
+    switch (offset) {
+        case 12: return row.SoundClose;
+        case 16: return row.SoundOpen;
+        case 20: return row.Visual;
+        default: return 0;
+    }
 }
 
 // Plays the door sound at the door position: VoxSoundManager::Play3D(s_instance, sound, m_position, false, 1, -1, -1).

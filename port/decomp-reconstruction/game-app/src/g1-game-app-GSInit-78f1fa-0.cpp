@@ -196,6 +196,9 @@ void GSInit::SwitchBackground() {
 // 12 menu init, 13 random seed and clock, 14 menu reset, first menu, orientation, online and DRM start-up.
 void GSInit::Update(StateMachine*, double) {
     Application& app = ApplicationGetInstance();
+#ifdef DH2_BOOT_DEBUG
+    { static int lastLogged = -1; if (m_step != lastLogged) { lastLogged = m_step; _DEBUG_OUT("GSInit step %d", m_step); } }  // first-boot trace
+#endif
 
     switch (m_step) {
         case 0:

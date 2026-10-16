@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // MenuFX bodies, batch g1-game-ui-MenuFX-65b527-1 (part 2 of 2 of MenuFX).
 // Constructors and destructors, Unload, the menu stack (PushMenu, SwitchMenu, PopMenu, PopAll, SetMenu),
 // state registration, the per-frame Update and the event dispatch. Rebuilt from the Hex-Rays pseudocode of
@@ -106,6 +109,9 @@ void MenuFX::Update(int dt, bool a) {
             continue;
         }
         gameswf::character* character = CharacterOf(state).get_ptr();
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+        { static int n = 0; if ((n++ % 120) == 0) __android_log_print(ANDROID_LOG_INFO, "DH2MENU", "hiding state %s: character %p playstate %d visible %d", state->m_name, (void*)character, character ? (int)character->get_play_state() : -1, character ? (int)character->get_visible() : -1); }
+#endif
         if (character == nullptr || character->get_play_state() != gameswf::character::STOP) {
             continue;
         }

@@ -34,6 +34,15 @@
 
 namespace {
 
+// gameswf::array<T>::resize growth (the binary inlines it): a size above the capacity reserves newSize + newSize / 2 (the container the
+// header declares as GameswfArray, same layout as the vendored ::array<T>). First boot: PushMenu appended without growing, writing through the null data.
+template <typename T>
+void GrowGameswfArray(MultiMenuManager::GameswfArray<T>& array, int newSize) {
+    if (newSize > array.m_capacity) {
+        reinterpret_cast< ::array<T>&>(array).reserve(newSize + (newSize >> 1));
+    }
+}
+
 using WeakCharacter = ::weak_ptr<gameswf::character>;
 
 WeakCharacter& CharacterOf(MenuFX::State* state) {
@@ -335,10 +344,14 @@ void MultiMenuManager::PushMenu(MenuBase* menu) {
         // of current's character. Neither is made.
     }
 
+    GrowGameswfArray(m_menuFXStack, count + 1);
     m_menuFXStack.m_data[count] = movie;
     m_menuFXStack.m_size = count + 1;
 
     const int32_t n = movie->m_stack.m_size;
+    if (n + 1 > movie->m_stack.m_capacity) {
+        reinterpret_cast< ::array<MenuFX::State*>&>(movie->m_stack).reserve((n + 1) + ((n + 1) >> 1));
+    }
     movie->m_stack.m_data[n] = nullptr;
     movie->m_stack.m_size = n + 1;
     movie->m_stack.m_data[n] = state;

@@ -65,7 +65,7 @@ public:
     // 0x81a6ac _ZN7CSignIn3GetEv: returns the singleton. With none and provider 0 it creates
     // a CSignInDummy, and with provider 1 a CSignInGLLive.
     static CSignIn* Get();
-    // The provider switch s_SignInProvider (0 = dummy, 1 = Gameloft Live). Not set by this port.
+    // The provider switch s_SignInProvider (0 = dummy, 1 = Gameloft Live). Starts at 1 as in the binary's .data; nothing sets it.
     static std::int32_t& Provider();
     // Not in the original: the event queue at +0x14, which the observers post to.
     CEventQueueBase& EventQueue() { return events_; }

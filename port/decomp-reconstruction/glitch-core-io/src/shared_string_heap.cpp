@@ -236,7 +236,9 @@ SSharedStringHeapTable& sharedStringHeapTable() {
 void initSharedStringHeap(bool initialize) {
     SSharedStringHeapTable& table = sharedStringHeapStorage();
     if (initialize) {
-        createSharedStringHeap(table);
+        // Idempotent: the port also creates the table on first use (sharedStringHeapTable()), which can run before
+        // glitch::init() calls this step; a second create would drop the records already interned.
+        if (table.bucketCount == 0) createSharedStringHeap(table);
     } else {
         destroySharedStringHeap(table);
     }
@@ -398,3 +400,25 @@ SSharedString& SSharedString::operator=(const char* text) {
 
 }  // namespace glitch::core
 
+
+// 0x6a54d0 _ZN6glitch4core6detail24registerSharedStringHeapInitEv, and the static initialiser of SSharedStringHeapEntry.cpp (0x6a550c)
+// that calls it (initSharedStringHeapDummy = registerSharedStringHeapInit()). The original registers initSharedStringHeap with
+// glitch::registerInitStep once (a function-local isRegistered flag); glitch::init() then runs it with true and glitch::exit() with false.
+// (Found by the stub audit: nothing registered it, so glitch::init() ran an empty step list.)
+namespace glitch {
+int registerInitStep(void (*step)(bool));  // 0x6a10b0, glitch-scene-collada-gui/src/recon/slice_24.cpp
+}  // namespace glitch
+
+namespace glitch::core::detail {
+int registerSharedStringHeapInit() {
+    static bool isRegistered = false;
+    if (!isRegistered) {
+        glitch::registerInitStep(initSharedStringHeap);
+        isRegistered = true;
+    }
+    return 0;
+}
+namespace {
+[[maybe_unused]] const int initSharedStringHeapDummy = registerSharedStringHeapInit();
+}  // namespace
+}  // namespace glitch::core::detail

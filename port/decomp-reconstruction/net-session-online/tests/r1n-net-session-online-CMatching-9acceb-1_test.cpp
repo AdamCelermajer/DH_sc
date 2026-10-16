@@ -36,7 +36,7 @@ int main() {
     // sets the provider to 1. The next call returns the same instance. This runs first, before Set.
     {
         CHECK(CMatching::s_Matching == nullptr);
-        CHECK(CMatching::s_matchingProvider == 0);
+        CHECK(CMatching::s_matchingProvider == 1);  // .data 0x99e234 starts at 1 (STUB-AUDIT)
         CMatching* first = CMatching::Get();
         CHECK(first != nullptr);
         CHECK(CMatching::s_matchingProvider == 1);

@@ -304,13 +304,13 @@ struct SGlobalAccess {
     bool getParameter(uint16_t id, uint32_t e, boost::intrusive_ptr<ITexture>& out) const {
         ITexture* slot = nullptr;
         if (!readSlot(id, e, slot)) return false;
-        out = boost::intrusive_ptr<ITexture>(slot);
+        out = boost::intrusive_ptr<ITexture>(slot, true);
         return true;
     }
     bool getParameter(uint16_t id, uint32_t e, boost::intrusive_ptr<CLight>& out) const {
         CLight* light = nullptr;
         if (!p1b::getParameter(m.store(), id, e, light)) return false;
-        out = boost::intrusive_ptr<CLight>(light);
+        out = boost::intrusive_ptr<CLight>(light, true);
         return true;
     }
     template <class T>

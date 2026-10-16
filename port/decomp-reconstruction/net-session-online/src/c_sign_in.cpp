@@ -23,7 +23,9 @@ CSignIn*& CSignIn::Instance() {
 void CSignIn::SetInstanceForTest(CSignIn* instance) { Instance() = instance; }
 
 std::int32_t& CSignIn::Provider() {
-    static std::int32_t provider = 0;  // stands in for s_SignInProvider
+    // CSignIn::s_SignInProvider is .data 0x99e240 = 1 (Gameloft Live) and nothing in the binary writes it (its only references are the GOT
+    // slots and CSignIn::Get), so the Android build always uses CSignInGLLive. (Stub audit: the port started it at 0, the dummy provider.)
+    static std::int32_t provider = 1;
     return provider;
 }
 

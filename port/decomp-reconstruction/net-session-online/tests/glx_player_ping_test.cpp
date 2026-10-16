@@ -63,7 +63,7 @@ int main() {
     CHECK(raw->sentAddressNull);
     CHECK(p[0] == 8 && p[1] == 0);
     CHECK(Word(p + 4) == 123);                 // identifier from the ctor
-    CHECK(Word(p + 6) == 0);                   // first sequence number
+    CHECK(Word(p + 6) == 1);                   // first sequence number (nSeq starts at 1 in .data)
     CHECK(p[16] == 32 && p[47] == 63);         // payload pattern 0x20..0x3f
     std::uint32_t sum = 0;
     for (int i = 0; i < 48; i += 2) {
@@ -74,7 +74,7 @@ int main() {
     CHECK((sum & 0xffff) == 0xffff);           // a packet with its checksum sums to all ones
 
     CHECK(ping.SendEchoRequest() == 48);
-    CHECK(Word(raw->packet + 6) == 1);         // the sequence advances
+    CHECK(Word(raw->packet + 6) == 2);         // the sequence advances
 
     // A socket whose send fails sets the result to -1.
     GLXPlayerPing unconnected("192.0.2.2", 9);

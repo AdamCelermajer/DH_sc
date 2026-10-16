@@ -241,7 +241,7 @@ void CCoronasSceneNode::render(void* renderContext) {
         const std::uint8_t technique = material ? static_cast<std::uint8_t>(material->getTechnique()) : 255;
         driver->setMaterial(material, technique, nullptr);
         driver->setDepthFunc(7);
-        boost::intrusive_ptr<const video::CVertexStreams> streams(vertexStreams);
+        boost::intrusive_ptr<const video::CVertexStreams> streams(vertexStreams, true);  // the node keeps its own use (STUB-AUDIT: the wrap without add-ref released it every frame)
         video::CPrimitiveStream strip;
         strip.m_offset = 0;
         strip.m_count = 4;

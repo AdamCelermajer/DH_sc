@@ -28,7 +28,7 @@ static int phdr_cb(struct dl_phdr_info* info, size_t sz, void* data) {
     return 0;
 }
 
-#define LOGE(...) __android_log_print(ANDROID_LOG_FATAL, "DH2CRASH", __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "DH2CRASH", __VA_ARGS__)
 
 static void handler(int sig, siginfo_t* si, void* ctx) {
     static volatile int busy;

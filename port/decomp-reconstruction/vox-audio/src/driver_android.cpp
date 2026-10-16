@@ -9,7 +9,7 @@
 namespace vox {
 
 _JavaVM* DriverAndroid::s_javaVM = nullptr;
-int DriverAndroid::s_androidAPILevel = 0;
+int DriverAndroid::s_androidAPILevel = 3;  // .data 0x99e254
 double DriverAndroid::m_dataThresholdRatio = 0.0;
 bool DriverAndroid::m_running = false;
 double DriverAndroid::m_updateTime = 0.0;

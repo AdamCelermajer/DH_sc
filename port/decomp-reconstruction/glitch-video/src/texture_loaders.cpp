@@ -392,7 +392,7 @@ public:
         if (face <= 0 && mip == 0) return 1;
         SLoadInfo* load = static_cast<SLoadInfo*>(m_info->owner);  // the record behind the view
         ITexture* texture = load->texture.get();
-        const boost::intrusive_ptr<ITexture> hold(texture);
+        const boost::intrusive_ptr<ITexture> hold(texture, true);
         load->reset(hold, mip, face, static_cast<E_BUFFER_MAP_ACCESS>(texture->m_lockCount42 >> 5));
         load->sync();
         m_unknown18 = load->mapped;  // +0x18

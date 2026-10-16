@@ -2,7 +2,7 @@
 
 namespace glitch::os {
 
-std::int32_t Randomizer::Seed = 0;
+std::int32_t Randomizer::Seed = 0x0f0f0f0f;  // .data 0x99b800 (STUB-AUDIT: was 0)
 
 // 0x60ae74 _ZN6glitch2os10Randomizer5resetEv
 void Randomizer::reset() {

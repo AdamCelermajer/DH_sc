@@ -14,6 +14,7 @@
 #include "vendor-gameswf/filter_engine.hpp"
 #include "vendor-gameswf/effect.hpp"
 #include <cstring>
+#include <string>
 
 #include "base/tu_file.h"
 #include "core-platform/w7_global_03.hpp"  // message_log
@@ -30,11 +31,21 @@ void standard_method_map_init();  // 0x76f5c0
 render_handler* create_render_handler_irrlicht(void* driver);  // 0x7d6658
 }  // namespace gameswf
 
+extern const char* RES_PATH;  // the data directory the platform layer sets (core-platform app_entry)
+
 namespace {
 // 0x7a9954 file_opener(char const*): a tu_file opened for reading on the gameswf heap.
+// The binary opens through the game file system (fs_open_func), which prefixes RES_PATH to a relative name; the vendored tu_file calls fopen,
+// so on Android (where the working directory is not the data directory) the prefix is applied here.
 ::tu_file* file_opener(const char* name) {
+    std::string path;
+#ifdef __ANDROID__
+    if (name != nullptr && name[0] != '/' && RES_PATH != nullptr) path = std::string(RES_PATH) + name;
+    else
+#endif
+        path = name != nullptr ? name : "";
     void* memory = ::operator new(sizeof(::tu_file), swf::MEM_UNRECOVERED);
-    return new (memory) ::tu_file(name, "rb");
+    return new (memory) ::tu_file(path.c_str(), "rb");
 }
 
 // 0x7a846c log_callback(bool, char const*): the message goes to the log; an error also goes to stderr.

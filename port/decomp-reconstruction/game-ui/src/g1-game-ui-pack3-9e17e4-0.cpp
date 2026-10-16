@@ -148,12 +148,19 @@ void MenuFlash2DCamera::Update() {
         m_y = m_y + 1 + (m_targetY - m_y) / 10;
     }
 
+    // First-boot fix (re-read from IDA 0x42cd84): the screen size is read unconditionally, before the limit-clip test (0x42ce1c-0x42ce24).
+    // The port read it only inside the branch, so without a limit clip SetViewport/SetBounds got 0x0 and every menu movie drew nothing (NaN matrices).
     std::int32_t width = 0;
     std::int32_t height = 0;
+    {
+        glitch::IDevice* device = ApplicationGetInstance().m_device;
+        if (device != nullptr && device->videoDriver != nullptr) {
+            const glitch::video::IRenderTarget* target = device->videoDriver->m_renderTargets.back().get();
+            width = target->m_width;    // element +0x0c
+            height = target->m_height;  // element +0x10
+        }
+    }
     if (m_limitClip != nullptr) {
-        const glitch::video::IRenderTarget* target = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back().get();
-        width = target->m_width;    // element +0x0c
-        height = target->m_height;  // element +0x10
         // Left and top clamps: the eased position may not pass minus the clip's xmin and ymin.
         const auto minX = static_cast<std::int32_t>(m_clipMinX);
         if (minX + m_x > 0) {

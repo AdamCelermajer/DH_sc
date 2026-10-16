@@ -106,7 +106,7 @@ glitch::collada::ISceneNodeAnimator* AnimSetManager::GetSynchronizedAnimator(int
         set.m_animSet->compile();
     }
     std::vector<std::string> names;
-    boost::intrusive_ptr<glitch::collada::CAnimationSet> engineSet(set.m_animSet);
+    boost::intrusive_ptr<glitch::collada::CAnimationSet> engineSet(set.m_animSet, true);
     AnimatorSynchronizedSet* animator = new AnimatorSynchronizedSet(engineSet, names);
     engineSet.reset();
     glitch::scene::ITimelineController* timeline = animator->getTimelineCtrl();

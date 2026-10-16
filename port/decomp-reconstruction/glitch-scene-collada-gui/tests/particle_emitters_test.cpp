@@ -5,6 +5,7 @@
 #include <cstdio>
 
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
+#include "glitch-core-io/os/randomizer.hpp"
 
 using namespace glitch;
 using namespace glitch::scene;
@@ -51,6 +52,9 @@ int main() {
         e.setMinStartColor(maxColor);
         CHECK(e.getMinStartColor().color == maxColor.color);
         SParticle* out = nullptr;
+        // The rate is drawn with rand() % (max - min), unsigned as in the binary; min 20 > max 7 makes that a huge
+        // modulus, so pin the seed at 0 (rand() then returns 0 and the rate is the minimum, 20 per second).
+        glitch::os::Randomizer::Seed = 0;
         // Not enough time has passed for a particle: nothing is produced and the time is kept.
         CHECK(e.emitt(0, 1, out) == 0);
         // Enough time for the rate (at most 2 * max rate particles): the cylinder emits and hands out its array.

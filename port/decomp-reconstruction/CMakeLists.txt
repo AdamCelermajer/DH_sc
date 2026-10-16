@@ -21,8 +21,20 @@ endif()
 
 # Android (NDK toolchain, ANDROID_ABI=arm64-v8a): see ANDROID-BUILD.md. The NDK adds -Werror=format-security; the
 # reconstruction forwards the original's printf(text) thunks on purpose (sys::printNoFormat), so it is not an error here.
+# First-boot diagnostics (GL call trace, shader/texture/draw logs, GSInit step log); off by default.
+option(DH2_BOOT_DEBUG "Android first-boot debug logging" OFF)
+if(DH2_BOOT_DEBUG)
+  add_compile_definitions(DH2_BOOT_DEBUG=1)
+endif()
 if(ANDROID)
   add_compile_options(-Wno-format-security)
+  # The 2012 original was built without FORTIFY_SOURCE; the reconstruction still has string calls on buffers the checker can prove too small
+  # (first boot: the abort after the title screen was vendored Lua's lgc.c strchr on a TString, a false positive now excluded for dh2_vendor_lua).
+  # Off keeps the original behaviour; with DH2_BOOT_DEBUG on, app_entry.cpp logs any further strchr overread (DH2FORTIFY) instead of aborting.
+  option(DH2_ANDROID_FORTIFY "Build the Android library with _FORTIFY_SOURCE" OFF)
+  if(NOT DH2_ANDROID_FORTIFY)
+    add_compile_options(-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0)
+  endif()
   set(DH2_ANDROID_COMPAT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android-compat)
 endif()
 
@@ -81,6 +93,10 @@ file(GLOB lua_srcs CONFIGURE_DEPENDS ${DH2_LUA_DIR}/*.c)
 list(FILTER lua_srcs EXCLUDE REGEX "/(lua|luac|print|linit|liolib|loslib|loadlib)\\.c$")
 add_library(dh2_vendor_lua STATIC ${lua_srcs})
 set_target_properties(dh2_vendor_lua PROPERTIES C_STANDARD 99)
+if(ANDROID)
+  # Lua 5.1 reads TString data through a struct whose flexible tail the checker sees as 0 bytes (strchr(svalue(mode), ...) in lgc.c): a false positive, not an overread.
+  target_compile_options(dh2_vendor_lua PRIVATE -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0)
+endif()
 target_include_directories(dh2_vendor_lua SYSTEM PUBLIC ${DH2_LUA_DIR})
 # Box2D 2.0.1 with the DH2 b2Settings; b2Collision.cpp is not in the DH2 build.
 file(GLOB_RECURSE box2d_srcs CONFIGURE_DEPENDS ${DH2_BOX2D_DIR}/Source/*.cpp)

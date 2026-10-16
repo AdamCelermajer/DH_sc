@@ -172,12 +172,12 @@ namespace detail {
 // the texture itself while it is usable, else the placeholder of the kind of failure (never set: "not found"; set but the bind
 // failed) for the texture type the parameter's value type stands for (value types 12..15 are the four texture types).
 boost::intrusive_ptr<ITexture> resolveTextureParameter(ITexture* stored, uint8_t valueType, const IVideoDriver* driver) {
-    boost::intrusive_ptr<ITexture> result(stored);
+    boost::intrusive_ptr<ITexture> result(stored, true);
     if (stored != nullptr && (stored->m_flags3f & ITexture::kFlagBindFailed) == 0) return result;
     const CTextureManager::E_PLACE_HOLDER kind =
         stored != nullptr ? CTextureManager::EPH_TEXTURE_BIND_FAILED : CTextureManager::EPH_TEXTURE_NOT_FOUND;
     ITexture* placeHolder = driver->m_textureManager->getPlaceHolder(kind, static_cast<E_TEXTURE_TYPE>(valueType - 12));
-    result = boost::intrusive_ptr<ITexture>(placeHolder);
+    result = boost::intrusive_ptr<ITexture>(placeHolder, true);
     return result;
 }
 

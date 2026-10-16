@@ -151,25 +151,25 @@ struct MixinBackend<SGlobalParameterOwner> {
     static int indexGet(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<CLight>& out) {
         CLight* p = nullptr;
         const int ok = part1b::getParameter(g.store(), id, index, p);
-        if (ok != 0) out = boost::intrusive_ptr<CLight>(p);
+        if (ok != 0) out = boost::intrusive_ptr<CLight>(p, true);
         return ok;
     }
     static int indexGetCvt(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<CLight>& out) {
         CLight* p = nullptr;
         const int ok = part1b::getParameterCvt(g.store(), id, index, p);
-        if (ok != 0) out = boost::intrusive_ptr<CLight>(p);
+        if (ok != 0) out = boost::intrusive_ptr<CLight>(p, true);
         return ok;
     }
     static int indexGet(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<ITexture>& out) {
         ITexture* p = nullptr;
         const int ok = part1b::getParameter(g.store(), id, index, p);
-        if (ok != 0) out = boost::intrusive_ptr<ITexture>(p);
+        if (ok != 0) out = boost::intrusive_ptr<ITexture>(p, true);
         return ok;
     }
     static int indexGetCvt(const Owner& g, std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<ITexture>& out) {
         ITexture* p = nullptr;
         const int ok = part1b::getParameterCvt(g.store(), id, index, p);
-        if (ok != 0) out = boost::intrusive_ptr<ITexture>(p);
+        if (ok != 0) out = boost::intrusive_ptr<ITexture>(p, true);
         return ok;
     }
 

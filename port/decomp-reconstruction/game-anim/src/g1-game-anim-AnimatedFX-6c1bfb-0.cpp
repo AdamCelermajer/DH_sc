@@ -22,7 +22,9 @@
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
 #include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
-#include "glitch-scene-collada-gui/scene/CParticleSystemSceneNode.hpp"  // glitch::scene::CParticleSystemSceneNode (the emitter holder, getPosition, setPosition)
+#include "glitch-scene-collada-gui/collada/CParticleSystemSceneNode.hpp"  // the node of tag 'daep' and its particle system
+#include "glitch-scene-collada-gui/ps/ParticleModels.hpp"  // PEmitterModel
+#include "glitch-scene-collada-gui/ps/PDomain.hpp"  // PDBox
 
 #include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
@@ -82,48 +84,37 @@ void AnimatedFX::SetSpeed(float speed) {
 }
 
 // 0x4924e0 _ZNK10AnimatedFX12HasCompletedEv
-// The FX is done when the particle node it drives reports no live particles: GetSpecificNode(0x70656164) on the
-// visual, then the node's getParticleCount() (vtable slot +0xf8) <= 0. A node lookup that returns nothing counts
-// as completed.
-//
-// RESOLVED (was blocked). The node is glitch::scene::CParticleSystemSceneNode: its header names getType at the
-// slot the tag selects, and it owns the +0x178 emitter holder the sibling SetEndPoint reads, while the
-// same-named glitch::collada class is a two-method stub whose getParticleCount is a placeholder returning 0.
-// GetSpecificNode returns scene::ISceneNode*, so the result is reached with a dynamic_cast, which picks the
-// right base and refuses a node of another type.
+// The FX is done when the particle node it drives reports no live particles: GetSpecificNode(0x70656164, 'daep') on the visual, then the
+// node's getParticleCount() (vtable slot +0xf8) <= 0. A node lookup that returns nothing counts as completed.
+// The node of that tag is glitch::collada::CParticleSystemSceneNode (collada::IParticleSystemSceneNode::getParticleCount), not the
+// glitch::scene particle node: the earlier cast to scene::IParticleSystemSceneNode never matched, so every FX counted as completed at once
+// (stub audit).
 bool AnimatedFX::HasCompleted() const {
     if (m_visual == nullptr) {
         return true;
     }
     glitch::scene::ISceneNode* node = m_visual->GetSpecificNode(0x70656164);
-    glitch::scene::IParticleSystemSceneNode* particles =
-        dynamic_cast<glitch::scene::IParticleSystemSceneNode*>(node);
+    glitch::collada::IParticleSystemSceneNode* particles = dynamic_cast<glitch::collada::IParticleSystemSceneNode*>(node);
     if (particles == nullptr) {
         return true;
     }
-    return particles->getNumberOfParticles() <= 0;
+    return static_cast<std::int32_t>(particles->getParticleCount()) <= 0;
 }
 
 // 0x492560 _ZN10AnimatedFX11SetEndPointERK7Point3DIfE
-// Places the particle node so that it stops at the point: the distance from the requested end point to the owner's
-// target position is measured, and when the node's emitter has no target yet the distance * 0.3 is stored in the
-// emitter and the node is moved to half that distance back along its own X and the emitter's Y and Z.
-//
-// Read field by field off the binary: GetSpecificNode(0x70656E64) then the emitter holder at node +0x178, its
-// subobject at holder +4, the target word at subobject +8, the distance at subobject +0x2c, and
-// ISceneNode::getPosition() (vptr +0xa0) for the Y and Z the new position keeps.
-//
-// The node is glitch::scene::CParticleSystemSceneNode, not the same-named glitch::collada class: the +0x178
-// emitter holder, getPosition and setPosition are all on that class (its own source already stores unk_178 as a
-// pointer), while glitch::collada::CParticleSystemSceneNode is a two-method stub whose getParticleCount is a
-// placeholder returning 0.
+// Stops the particle node at the point. The node is found with GetSpecificNode(0x70656164, 'daep') (the earlier port used 0x70656E64, a tag
+// no node has) and is a glitch::collada::CParticleSystemSceneNode, whose +0x178 is the particle system (a PSManager mixin). The listing
+// takes system + 0x60, the PEmitterModel subobject: +8 is its emitter type, +4 its domain. With the type 0 (box) the distance from the
+// requested end point to the owner's target position, times 0.3, is stored at domain +0x2c (PDBox::sizes.X) and the node is moved to
+// minus half of that along its own X, keeping its Y and Z. Any other type leaves the node alone. (With no system the original would read
+// address 8; the port returns.)
 void AnimatedFX::SetEndPoint(const Point3D<float>& position) {
     if (m_visual == nullptr) {
         return;
     }
-    glitch::scene::CParticleSystemSceneNode* node =
-        dynamic_cast<glitch::scene::CParticleSystemSceneNode*>(m_visual->GetSpecificNode(0x70656E64));
-    if (node == nullptr || unk_28 == nullptr) {
+    glitch::collada::CParticleSystemSceneNode* node =
+        dynamic_cast<glitch::collada::CParticleSystemSceneNode*>(m_visual->GetSpecificNode(0x70656164));
+    if (node == nullptr || unk_28 == nullptr || node->system == nullptr) {
         return;
     }
     const Point3D<float>& target = unk_28->GetTargetPosition();
@@ -132,16 +123,13 @@ void AnimatedFX::SetEndPoint(const Point3D<float>& position) {
     const float dz = position.Z - target.Z;
     const float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
 
-    uint8_t* holder = static_cast<uint8_t*>(node->unk_178);
-    if (holder == nullptr) {
-        return;
-    }
-    uint8_t* subobject = *reinterpret_cast<uint8_t**>(holder + 4);
-    if (subobject == nullptr || *reinterpret_cast<uint32_t*>(subobject + 8) != 0) {
+    glitch::ps::PEmitterModel<glitch::ps::SParticle>* emitter =
+        dynamic_cast<glitch::ps::PEmitterModel<glitch::ps::SParticle>*>(node->system);
+    if (emitter == nullptr || emitter->emitterType != 0 || emitter->domain == nullptr) {
         return;
     }
     const float scaled = distance * 0.3f;
-    *reinterpret_cast<float*>(subobject + 0x2c) = scaled;
+    static_cast<glitch::ps::PDBox*>(emitter->domain)->sizes.X = scaled;
     const glitch::core::vector3d<float>& current = node->getPosition();
     node->setPosition(scaled * -0.5f, current.Y, current.Z);
 }

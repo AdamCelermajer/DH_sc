@@ -110,7 +110,7 @@ void IDevice::setInputReceivingSceneManager(scene::CSceneManager* manager) {
 void IDevice::createGUIAndScene() {
     if (videoDriver != nullptr) unk_14 = new video::C2DDriver(videoDriver);
     CIrrFactory* factory = CIrrFactory::getInstance();
-    boost::intrusive_ptr<io::IFileSystem> files(fileSystem);
+    boost::intrusive_ptr<io::IFileSystem> files(fileSystem, true);
     guiEnvironment = factory->createGUIEnvironment(files, videoDriver, static_cast<IOSOperator*>(unk_30));
     factory = CIrrFactory::getInstance();
     // (the port declares the +0x1c member as the opaque scene::ISceneManager; the object is the CSceneManager the factory made)

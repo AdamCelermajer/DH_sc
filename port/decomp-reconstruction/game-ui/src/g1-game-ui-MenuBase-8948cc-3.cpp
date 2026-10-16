@@ -252,7 +252,7 @@ bool MenuBase::FS_StopMusic(const char*, const char*, void*) {
 void MenuBase::SetVisible(bool visible) {
     if (IsValidMenu()) {
         if (gameswf::character* context = GetCurrentMenuContext()) {
-            reinterpret_cast<std::uint8_t*>(context)[0x9b] = visible ? 1 : 0;
+            context->m_visible = visible;  // byte +0x9b of the 32-bit layout (typed: the raw offset is wrong on the host object)
         }
         m_visible = visible;
     }

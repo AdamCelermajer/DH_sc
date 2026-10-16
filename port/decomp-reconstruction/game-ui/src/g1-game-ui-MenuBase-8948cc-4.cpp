@@ -376,7 +376,7 @@ void MenuBase::Show() {
         DebugCachedCharacter cache;
         cache.RefreshCache("option_Custom", m_menu, GetCurrentMenuContext());
         gameswf::character* optionCharacter = cache.GetChar();
-        reinterpret_cast<std::uint8_t*>(optionCharacter)[0x9b] = ApplicationGetInstance().IsLevelRunning() ? 1 : 0;
+        optionCharacter->m_visible = ApplicationGetInstance().IsLevelRunning();  // byte +0x9b of the 32-bit layout (typed)
     }
     RegisterDeadZones();
 }

@@ -124,7 +124,7 @@ bool setParameterValues(Owner& owner, const boost::intrusive_ptr<Owner>& handle,
             for (std::uint32_t index = 0; index != rendererCount; ++index) {
                 const SImage* image = samplers[index]->image;
                 if (image != nullptr) {
-                    boost::intrusive_ptr<video::ITexture> texture(static_cast<video::ITexture*>(image->imageData));
+                    boost::intrusive_ptr<video::ITexture> texture(static_cast<video::ITexture*>(image->imageData), true);
                     owner.parameters.template setParameter<boost::intrusive_ptr<video::ITexture>>(id, index, texture);
                 }
             }

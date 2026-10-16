@@ -137,7 +137,7 @@ public:
     static void Set(CMatching* matching) { s_Matching = matching; }
     static CMatching* s_Matching;                  // CMatching::s_Matching
     enum MATCHING_PROVIDERS : std::int32_t {};
-    static inline std::int32_t s_matchingProvider = 0;  // CMatching::s_matchingProvider (set by SetMatchingProvider)
+    static inline std::int32_t s_matchingProvider = 1;  // .data 0x99e234 = 1;  // CMatching::s_matchingProvider (set by SetMatchingProvider)
     static void SetMatchingProvider(MATCHING_PROVIDERS provider);       // 0x7fe4c0
     std::int32_t ReceiveGameBootInvitation() const;                     // 0x7fe4a4, returns 0
     std::uint64_t GetRoomId() const;                                    // 0x7fe4ac, returns 0

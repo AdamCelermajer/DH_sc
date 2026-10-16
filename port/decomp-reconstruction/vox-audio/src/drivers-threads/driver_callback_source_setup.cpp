@@ -9,10 +9,10 @@
 
 namespace vox {
 
-std::int32_t DriverCallbackSourceInterface::s_driverCallbackPeriod_ = 0;
-float DriverCallbackSourceInterface::s_dopplerFactor_ = 0.0f;
-float DriverCallbackSourceInterface::s_alteredSpeedOfSound_ = 0.0f;
-std::int32_t DriverCallbackSourceInterface::s_distanceModel_ = 0;
+std::int32_t DriverCallbackSourceInterface::s_driverCallbackPeriod_ = 0x7fffffff;  // .data 0x99e26c
+float DriverCallbackSourceInterface::s_dopplerFactor_ = 1.0f;  // .data 0x99e264 = 0x3f800000
+float DriverCallbackSourceInterface::s_alteredSpeedOfSound_ = 343.3f;  // .data 0x99e268 = 0x43aba666
+std::int32_t DriverCallbackSourceInterface::s_distanceModel_ = 2;  // .data 0x99e260
 float DriverCallbackSourceInterface::s_listenerPosition_[3] = {};
 float DriverCallbackSourceInterface::s_listenerVelocity_[3] = {};
 float DriverCallbackSourceInterface::s_listenerFront_[3] = {};

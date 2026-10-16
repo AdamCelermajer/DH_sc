@@ -10,11 +10,13 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    CHECK(CIrrFactory::s_instance == nullptr);
+    // The game links IrrFactory::s_factory (static initialiser 0x350b24), which already published itself; the engine alone has no instance yet.
+    const CIrrFactory* preexisting = CIrrFactory::s_instance;
     CIrrFactory* first = CIrrFactory::getInstance();
     CHECK(first != nullptr);
     CHECK(CIrrFactory::getInstance() == first);
     CHECK(CIrrFactory::s_instance == first);
+    if (preexisting != nullptr) CHECK(first == preexisting);
 
     // A directly constructed factory publishes itself while it lives.
     CIrrFactory* saved = CIrrFactory::s_instance;

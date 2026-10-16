@@ -220,3 +220,16 @@ void releaseProcessBuffer(void* block) {
 }
 
 }  // namespace glitch::core
+
+// The static initialiser of ProcessBufferHeap.cpp (0x534564): the heap is set to size 0 and processBufferHeapInit is registered as an init
+// step (processBufferHeapInitDummy = glitch::registerInitStep(processBufferHeapInit)); glitch::init() then gives the heap its 0x40000 bytes.
+// (Found by the stub audit: nothing registered it, so the pool was never created and every process buffer came from the allocator.)
+namespace glitch {
+int registerInitStep(void (*step)(bool));  // 0x6a10b0, glitch-scene-collada-gui/src/recon/slice_24.cpp
+}  // namespace glitch
+
+namespace glitch::core {
+namespace {
+[[maybe_unused]] const int processBufferHeapInitDummy = glitch::registerInitStep(processBufferHeapInit);
+}  // namespace
+}  // namespace glitch::core

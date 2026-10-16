@@ -357,7 +357,7 @@ void CharAnimator::SetAnimationSet() {
     const int stanceCount = m_character->IsPlayer() ? constants->getConstant("AnimStances", "COUNT_IPHONE") : 1;
     const int stanceList = constants->getConstant("AnimStancedAnim", "SL__LIST_IPHONE");
     const Structs::CharAnim* table = m_character->GetCharAnimTable();
-    const auto* skillList = static_cast<const std::int32_t*>(m_character->GetCharSkillList());  // Structs::SkillList, count at +0x04
+    const auto* skillList = static_cast<const Structs::SkillList*>(m_character->GetCharSkillList());  // host record: the count is ListSize (a raw int32[1] read the vptr half)
 
     int templateId = table->Template;  // +0x90
     if (templateId == -1) {
@@ -408,9 +408,10 @@ void CharAnimator::SetAnimationSet() {
             for (std::uint32_t i = 0; i < table->SpellsSize; ++i) {
                 _AddAnimTable(setId, extra[i], stance, 0x400000u, stanceList);
             }
-            for (std::int32_t i = 0; i < skillList[1]; ++i) {
-                const auto* skill = static_cast<const std::int32_t*>(m_character->GetCharSkill(i));  // Structs::Skill, anim table at +0x04
-                _AddAnimTable(setId, skill[1], stance, 0x200000u, stanceList);
+            for (std::int32_t i = 0; i < static_cast<std::int32_t>(skillList->ListSize); ++i) {
+                const auto* skill = static_cast<const Structs::Skill*>(m_character->GetCharSkill(i));  // anim table: Structs::Skill::Anim
+                if (skill == nullptr) continue;
+                _AddAnimTable(setId, skill->Anim, stance, 0x200000u, stanceList);
             }
             ++stance;
         } while (stance != static_cast<std::uint32_t>(stanceCount));

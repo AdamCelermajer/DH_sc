@@ -74,9 +74,9 @@ void GSTest::Update(StateMachine* machine, double dt) {
     script.m_binder.bindFunction("TestFunc", &TestUD::TestFunc, &testUD);
     script.Load("data/scripts/test");
     sfc::script::lua::Arguments arguments;
-    arguments.pushUserData(new (CustomAlloc(4)) TestUD());
-    arguments.pushUserData(new (CustomAlloc(4)) TestUD2());
-    arguments.pushUserData(new (CustomAlloc(4)) TestUD2());
+    arguments.pushUserData(new (CustomAlloc(static_cast<unsigned>(sizeof(TestUD)))) TestUD());
+    arguments.pushUserData(new (CustomAlloc(static_cast<unsigned>(sizeof(TestUD2)))) TestUD2());
+    arguments.pushUserData(new (CustomAlloc(static_cast<unsigned>(sizeof(TestUD2)))) TestUD2());
     arguments.pushPointer(&script);
     script.Call("TestTestTest", arguments);
 }

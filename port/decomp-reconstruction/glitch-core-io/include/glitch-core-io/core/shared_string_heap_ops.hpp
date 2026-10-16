@@ -58,4 +58,7 @@ void sharedStringDataRelease(SSharedStringData* data) asm("_ZN6glitch4core6detai
 // records across the call (see the teardown note in the .cpp).
 void initSharedStringHeap(bool initialize);
 
+// 0x6a54d0 _ZN6glitch4core6detail24registerSharedStringHeapInitEv: registers initSharedStringHeap with glitch::registerInitStep, once.
+int registerSharedStringHeapInit();
+
 }  // namespace glitch::core::detail

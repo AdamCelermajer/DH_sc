@@ -5,7 +5,7 @@
 namespace glitch::os {
 
 ILogger* Printer::Logger = nullptr;
-float Timer::VirtualTimerSpeed = 0.f;  // placeholder: the original initial value is not recovered
+float Timer::VirtualTimerSpeed = 1.0f;  // .data 0x99b804 = 0x3f800000 (STUB-AUDIT: was a 0 placeholder, which froze the virtual clock)
 int Timer::VirtualTimerStopCounter = 0;
 
 // 0x60ad80 _ZN6glitch2os7Printer11setLogLevelENS_10ELOG_LEVELE

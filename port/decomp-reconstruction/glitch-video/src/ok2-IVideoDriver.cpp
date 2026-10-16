@@ -467,7 +467,7 @@ E_DRIVER_ALLOCATION_RESULT IVideoDriver::getProcessBuffer(E_PROCESS_BUFFER_TYPE 
     const scene::CBatchMesh::SSegment* record = mesh->segmentAt(ownBatch.firstSegmentInfo + info.index);
     const int32_t sourceBatch = (*record->infos)[record->infoIndex].batch;
     scene::CMeshBuffer* sourceBuffer = mesh->batches[sourceBatch].meshBuffer.get();
-    boost::intrusive_ptr<scene::CMeshBuffer> sourceHold(sourceBuffer);
+    boost::intrusive_ptr<scene::CMeshBuffer> sourceHold(sourceBuffer, true);
     const uint16_t firstVertex = record->vertexBegin;  // +0x24
     boost::intrusive_ptr<CVertexStreams> source(sourceBuffer->vertexStreams.get(), true);  // +0x14
     const int32_t delta = static_cast<int32_t>(source->getVertexStride()) * (static_cast<int32_t>(firstVertex) - static_cast<int32_t>(vertexCount));
@@ -601,7 +601,7 @@ void IVideoDriver::initImplementationDependentData() {
         unk_140->m_field08 = 1;
         const uint8_t slots[4] = {0, 0, 1, 0};
         unk_144[0] = boost::intrusive_ptr<CVertexAttributeMap>(
-            new CVertexAttributeMap(boost::intrusive_ptr<const CVertexStreams>(unk_140.get()), 2, slots, true));  // +0x144
+            new CVertexAttributeMap(boost::intrusive_ptr<const CVertexStreams>(unk_140.get(), true), 2, slots, true));  // +0x144
         for (int i = 1; i < 4; ++i) unk_144[i] = unk_144[0];
         setOption(0x2000, true);  // vtable +0xa0
     }

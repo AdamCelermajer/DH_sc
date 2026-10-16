@@ -1,3 +1,9 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#include <dlfcn.h>
+#include <unwind.h>
+static _Unwind_Reason_Code dh2BtCb(struct _Unwind_Context* c, void*) { uintptr_t pc = _Unwind_GetIP(c); Dl_info i; if (dladdr((void*)pc, &i)) __android_log_print(ANDROID_LOG_ERROR, "DH2DBG", "  bt off 0x%lx", (unsigned long)(pc - (uintptr_t)i.dli_fbase)); return _URC_NO_REASON; }
+#endif
 #include "glitch-video/video_driver.hpp"
 
 #include <cstdio>
@@ -179,6 +185,10 @@ void IVideoDriver::setMaxTextureSize(const core::dimension2d<int32_t>& size) {
 
 // 0x5a8b90 _ZN6glitch5video12IVideoDriver17onShaderDestroyedEPNS0_7IShaderE
 void IVideoDriver::onShaderDestroyed(IShader* shader) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    __android_log_print(ANDROID_LOG_ERROR, "DH2DBG", "onShaderDestroyed %p current=%p name=%s", (void*)shader, (void*)m_shaderF4, shader->m_name.c_str());
+    _Unwind_Backtrace(dh2BtCb, nullptr);
+#endif
     if (m_shaderF4 == shader) {
         m_shaderF4 = nullptr;
     }

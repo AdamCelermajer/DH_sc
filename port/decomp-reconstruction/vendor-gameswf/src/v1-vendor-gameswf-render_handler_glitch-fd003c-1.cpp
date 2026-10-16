@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Batch v1-vendor-gameswf-render_handler_glitch-fd003c-1 (render_handler_glitch, part 2 of 3).
 //
 // Gameloft class, not in upstream GameSWF r1714. Layout and member offsets are in
@@ -354,6 +357,9 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
                                           int viewport_y0, int viewport_width, int viewport_height,
                                           float x0, float x1, float y0, float y1) {
     (void)background_color;
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    { static int n = 0; if (n++ < 20) __android_log_print(ANDROID_LOG_INFO, "DH2SWF", "begin_display viewport %d,%d %dx%d rect x %g..%g y %g..%g", viewport_x0, viewport_y0, viewport_width, viewport_height, x0, x1, y0, y1); }
+#endif
 
     const float w = x1 - x0;
     const float h = y1 - y0;

@@ -58,7 +58,7 @@ void overrideVertexStreams<true, false, true>(const unsigned char* sourceMap,
 
     const auto* shader = static_cast<const glitch::video::IShader*>(
         material->m_renderer->m_techniques[technique].passes[0].shader);
-    const boost::intrusive_ptr<const glitch::video::IShader> shaderHold(shader);
+    const boost::intrusive_ptr<const glitch::video::IShader> shaderHold(shader, true);
     const unsigned attributeCount = shader->m_vertexAttributeDefCount;
     const unsigned active = destination->m_attributeMask & shader->m_vertexAttributeMask & mask;
 

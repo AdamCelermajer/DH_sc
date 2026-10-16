@@ -16,7 +16,7 @@
 
 // Statics. The original keeps them as globals of the class.
 bool CMatchingGLLive::s_IsGameStarting = false;
-CEventQueueBase CMatchingGLLive::s_eventQueueGLLiveInternal;
+CEventQueueBase CMatchingGLLive::s_eventQueueGLLiveInternal(100);  // CEventQueue<_EVENTS_GLLIVE_INTERNAL, 100u>: static initialiser 0x81d958 stores 100 at +0x10
 CMatchingGLLiveFriendObserver* CMatchingGLLive::s_GLXPlayerUserFriendObserver = nullptr;
 CMatchingGLLiveLobbyObserver* CMatchingGLLive::s_GLXPlayerMPLobbyObserver = nullptr;
 CSignInGLLiveObserver* CMatchingGLLive::s_GLXPlayerLoginObserver = nullptr;

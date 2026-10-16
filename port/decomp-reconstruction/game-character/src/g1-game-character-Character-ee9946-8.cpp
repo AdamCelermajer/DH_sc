@@ -112,9 +112,16 @@ int RollPercent() {
 // One 32-bit word of row `index` of Arrays::GameObjectDamager, read at its file layout: the rows are 24 bytes and the word
 // at byte offset `offset` (4 .. 20) is decoded field by field, never cast to a host struct.
 std::int32_t DamagerRowWord(int index, int offset) {
-    std::int32_t value = 0;
-    std::memcpy(&value, Arrays::GameObjectDamager::members + 24 * index + offset, sizeof(value));
-    return value;
+    // Typed access: the table holds host Structs::GameObjectDamage records (host stride, not the original 24 bytes).
+    const Structs::GameObjectDamage& row = reinterpret_cast<const Structs::GameObjectDamage*>(Arrays::GameObjectDamager::members)[index];
+    switch (offset) {
+        case 4: return row.Damage;
+        case 8: return row.ImmunityDelay;
+        case 12: return row.Max;
+        case 16: return row.Min;
+        case 20: return row.Type;
+        default: return 0;
+    }
 }
 
 // The id of a trophy by name (the first match in Arrays::TrophyTable's names, -1 when absent).

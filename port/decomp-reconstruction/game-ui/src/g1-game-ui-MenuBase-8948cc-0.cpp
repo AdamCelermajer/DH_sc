@@ -22,6 +22,8 @@
 #include "dh2/v2Controllable.hpp"
 #include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/structs_records.hpp"  // Structs::LevelDeclaration (typed rows of Arrays::LevelList::members)
+#include "pydata-accessors/w7_arrays27.hpp"        // Arrays::LevelList::members
 
 // 0x41b3d0 _ZN8MenuBase11OnFSCommandEPKcS1_
 // Virtual dispatch to MyFSCommand (vtable +0x38). The original tail-calls it and returns its bool;
@@ -133,8 +135,9 @@ bool MenuBase::FS_LoadLevel2(const char*, const char* args, void* menu) {
     for (std::uint32_t i = 0; i < count; ++i) {
         if (std::strcmp(args, Arrays::LevelList::m_memberNames.names[i]) == 0) {
             // Each LevelList row is 72 bytes; the word at +0x20 is the level string the original passes on.
-            const std::uint8_t* row = Arrays::LevelList::members + 72 * i;
-            const char* level = *reinterpret_cast<const char* const*>(row + 32);
+            // Host records: index the typed table (sizeof(LevelDeclaration) is not the original 72-byte stride).
+            const Structs::LevelDeclaration& row = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[i];
+            const char* level = static_cast<const char*>(row.LevelFile);
             static_cast<MenuBase*>(menu)->MyFSCommand("LoadLevel", level);
             return true;
         }

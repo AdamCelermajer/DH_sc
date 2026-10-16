@@ -110,7 +110,7 @@ std::int32_t GLXPlayerPing::WaitForEchoReply(std::int32_t fd) {
 std::int32_t GLXPlayerPing::SendEchoRequest() {
     static bool idCaptured = false;
     static std::uint16_t echoId = 0;
-    static std::uint16_t echoSeq = 0;
+    static std::uint16_t echoSeq = 1;  // nSeq, .data 0x99e244 = 1 (stub audit; was 0)
     static unsigned char echoRequest[48] = {};
 
     if (!idCaptured) {

@@ -13,6 +13,8 @@
 #include "dh2/PlayerLightTweaker.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/LevelConfig.hpp"
 #include "dh2/LightBase.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance
@@ -264,16 +266,13 @@ void PlayerLightTweaker::onSetValue(const std::string& name) {
         return;
     }
     if (std::strncmp(s, "m_fogDirectionMask", 18) == 0) {
-        // The three words of the mask are stored raw into the manager's parameter block at +0x458, +0x45c and
-        // +0x460 (asm 0x40e25c..0x40e26c). The block base is the first word of the global manager: the original
-        // loads it with `LDR R3,[R4,#(dword_99F73C-0x99F72C)]` (= m_device), `LDR R3,[R3,#0x1C]` (= videoDriver),
-        // `LDR R3,[R3,#0xE4]` (= m_globalParameters) and then stores through R3 at those offsets.
-        glitch::video::IVideoDriver* const driver = ApplicationGetInstance().m_device->videoDriver;
-        glitch::video::CGlobalMaterialParameterManager* const manager = driver->m_globalParameters;
-        std::uint32_t* const mask = reinterpret_cast<std::uint32_t*>(reinterpret_cast<std::uint8_t*>(manager) + 0x458);
-        mask[0] = *reinterpret_cast<const std::uint32_t*>(&m_fogDirectionMask.X);
-        mask[1] = *reinterpret_cast<const std::uint32_t*>(&m_fogDirectionMask.Y);
-        mask[2] = *reinterpret_cast<const std::uint32_t*>(&m_fogDirectionMask.Z);
+        // The three words of the mask go to the game SceneManager (device +0x1C, asm 0x40e25c..0x40e26c: LDR R3,[R3,#0x1C]; STR
+        // R2,[R3,#0x458/0x45c/0x460]), where Level::Update reads them as unk_458/unk_45c/unk_460. (The earlier port wrote them
+        // at +0x458 of the driver's global parameter manager, a 0x3c-byte object: a heap overrun on the host.)
+        SceneManager* const sceneManager = DeviceSceneManager();
+        sceneManager->unk_458 = m_fogDirectionMask.X;
+        sceneManager->unk_45c = m_fogDirectionMask.Y;
+        sceneManager->unk_460 = m_fogDirectionMask.Z;
         Level* const level = ApplicationGetInstance().GetCurrentLevel();
         if (level != nullptr) {
             level->EnableFog(nullptr);

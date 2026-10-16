@@ -445,7 +445,7 @@ void Application::Quit() {
 // listing's third argument (0) says.
 void Application::OnInterruptResume() {
     _DEBUG_OUT("\n\n Application::OnInterruptResume \n\n");
-    void* storage = CustomAlloc(8);
+    void* storage = CustomAlloc(static_cast<unsigned>(sizeof(GS_InterruptLoading)));
     GS_InterruptLoading* loading = new (storage) GS_InterruptLoading();
     StateBase* state = loading != nullptr ? static_cast<StateBase*>(loading) : nullptr;
     if (m_stateMachine != nullptr) {
@@ -716,7 +716,8 @@ void Application::_Draw() {
     clearColor.color = packed;
     driver->setClearColor(clearColor);  // +0xdc
     driver->beginScene();               // +0x0c
-    driver->setOption(3u, true);        // +0xa0, the original passes 3
+    driver->clearBuffers(3);            // vtable +0xa8 (listing 0x32af1c: the call through slot 168 with 3), color and depth. The port had called setOption(3, true)
+                                        // (slot +0xa0), so the color buffer was never cleared and old menus stayed on screen.
 
     // IsUsingBatching is re-read through DebugSwitches right here, between setOption calls.
     const bool isUsingBatching = ReadDebugSwitch("IsUsingBatching");

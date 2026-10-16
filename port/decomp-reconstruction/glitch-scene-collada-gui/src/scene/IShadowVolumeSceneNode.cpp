@@ -10,11 +10,11 @@ namespace glitch::scene {
 
 boost::intrusive_ptr<video::CMaterial> IShadowVolumeSceneNode::Material;
 std::int32_t IShadowVolumeSceneNode::MaterialCount = 0;
-std::uint8_t IShadowVolumeSceneNode::TechniqueZPass = 0;
-std::uint8_t IShadowVolumeSceneNode::TechniqueZPassSecond = 0;
-std::uint8_t IShadowVolumeSceneNode::TechniqueZFail = 0;
-std::uint8_t IShadowVolumeSceneNode::TechniqueZFailSecond = 0;
-std::uint8_t IShadowVolumeSceneNode::TechniqueDraw = 0;
+std::uint8_t IShadowVolumeSceneNode::TechniqueZPass = 0xFF;  // .data 0x99b5e4..0x99b5ea: all five bytes start at 0xff (stub audit; was 0)
+std::uint8_t IShadowVolumeSceneNode::TechniqueZPassSecond = 0xFF;  // .data 0x99b5e4..0x99b5ea: all five bytes start at 0xff (stub audit; was 0)
+std::uint8_t IShadowVolumeSceneNode::TechniqueZFail = 0xFF;  // .data 0x99b5e4..0x99b5ea: all five bytes start at 0xff (stub audit; was 0)
+std::uint8_t IShadowVolumeSceneNode::TechniqueZFailSecond = 0xFF;  // .data 0x99b5e4..0x99b5ea: all five bytes start at 0xff (stub audit; was 0)
+std::uint8_t IShadowVolumeSceneNode::TechniqueDraw = 0xFF;  // .data 0x99b5e4..0x99b5ea: all five bytes start at 0xff (stub audit; was 0)
 
 // 0x599e24 _ZN6glitch5scene22IShadowVolumeSceneNodeC2Ei (base object; the listing takes the VTT as its second argument)
 // 0x599d50 _ZN6glitch5scene22IShadowVolumeSceneNodeC1Ei (complete object)

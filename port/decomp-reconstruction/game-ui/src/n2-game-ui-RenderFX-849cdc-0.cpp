@@ -9,6 +9,7 @@
 #include <cstring>
 
 #include "gameswf/gameswf.h"
+#include "gameswf/gameswf_text.h"
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_sprite.h"
 #include "gameswf/gameswf_log.h"
@@ -53,7 +54,9 @@ gameswf::root* RenderFX::GetRoot() const {
 // Binary: LDR R3,[R0,#0x3C]; STRB R1,[R3,#0x85]. The root byte at +0x85 has no name that matches text buffering in
 // gameswf_root.hpp (m_shift_key_state is the only name there), so the store is written at its offset.
 void RenderFX::SetTextBufferingEnabled(bool enabled) {
-    *(reinterpret_cast<std::uint8_t*>(m_root.get_ptr()) + 0x85) = enabled;
+    // Typed store: the byte at 32-bit offset +0x85 is gameswf::root::m_shift_key_state in the host layout (a raw +0x85 on the
+    // 64-bit host object would hit another member).
+    m_root->m_shift_key_state = enabled;
 }
 
 // 0x7a7cc0 RenderFX::SetAutoLoadGlyphsEnabled(bool): stores the byte at root +0x87 (gameswf::root::unk_87, which has no
@@ -74,8 +77,12 @@ int RenderFX::GetAlpha(gameswf::character* character) {
     if (character == nullptr) {
         return 0;
     }
-    const std::uint8_t* object = *reinterpret_cast<const std::uint8_t* const*>(reinterpret_cast<const std::uint8_t*>(character) + 0x48);
-    return *reinterpret_cast<const int*>(object + 0x18);
+    // character +0x48 is m_local_cxform; the word at +0x18 of the cxform is m_[3][0], the alpha multiplier (returned as its bit
+    // pattern, the soft-float register value). Typed access: the raw 32-bit offsets are wrong on the 64-bit host objects.
+    const float alpha = character->m_local_cxform->m_[3][0];
+    int bits;
+    std::memcpy(&bits, &alpha, sizeof bits);
+    return bits;
 }
 
 // 0x7a7cec RenderFX::GetText(gameswf::character*)
@@ -88,11 +95,9 @@ char* RenderFX::GetText(gameswf::character* character) {
     if (character->is(32) == 0) {
         return nullptr;
     }
-    std::uint8_t* base = reinterpret_cast<std::uint8_t*>(character);
-    if (base[0x138] != 0xff) {
-        return reinterpret_cast<char*>(base + 0x139);
-    }
-    return *reinterpret_cast<char**>(base + 0x144);
+    // edit_text_character::m_text (tu_string at +0x138 on the 32-bit layout): the inline buffer at +0x139 or, when the marker byte
+    // is 0xff, the heap pointer at +0x144; tu_string::c_str() selects between the two. Typed: raw offsets are wrong on the host.
+    return const_cast<char*>(static_cast<gameswf::edit_text_character*>(character)->m_text.c_str());
 }
 
 // 0x7a7d34 RenderFX::GotoFrame(gameswf::character*, int, bool): a character of class id 2 moves to the frame and gets

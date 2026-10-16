@@ -821,7 +821,7 @@ void Level::Update(bool forceUpdate) {
     UpdateDynamicFog();
     MenuDebugHUD* hud = MenuDebugHUD::GetInstance();
     if (ReadDebugSwitch("IsAutoLoadingLevels")) {
-        static int s_autoLevelLoadWaitTime;  // Level::Update(bool)::s_autoLevelLoadWaitTime
+        static int s_autoLevelLoadWaitTime = 5000;  // .data 0x999764 = 0x1388; Level::Update(bool)::s_autoLevelLoadWaitTime
         hud->DisplayHugeNumber(s_dbgLevelLoadCount);
         hud->SetDisplaySealOfFreshness(s_dbgLevelLoadCount > 15);
         s_autoLevelLoadWaitTime -= ApplicationGetInstance().GetDt();

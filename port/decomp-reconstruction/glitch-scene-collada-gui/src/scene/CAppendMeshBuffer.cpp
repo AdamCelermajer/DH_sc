@@ -334,7 +334,7 @@ void SDefaultEndOfBatchCallback::finalize() {
         const std::string name = core::randomString(20);
         manager->beginMaterialRenderer(name.c_str(), true);
         manager->beginTechnique("ZeTechnique", true);
-        boost::intrusive_ptr<const video::IShader> shader(static_cast<const video::IShader*>(pass->shader));  // pass +0x20
+        boost::intrusive_ptr<const video::IShader> shader(static_cast<const video::IShader*>(pass->shader), true);  // pass +0x20
         video::detail::renderpass::SRenderState passState;
         std::memcpy(&passState, config.renderState, sizeof(config.renderState[0]) * 8);  // config +0x04 .. +0x23
         const video::detail::material::SRenderState materialState{};                    // the ninth word (config +0x24)

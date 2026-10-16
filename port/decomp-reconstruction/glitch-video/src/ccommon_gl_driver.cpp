@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 #include "glitch-video/ccommon_gl_driver.hpp"
 
 #include <cctype>
@@ -1611,6 +1614,9 @@ int32_t CCommonGLDriver::CTexture::updateData(bool full) const {
     const uint32_t mipCount = m_mipCount3e;
     const uint32_t levelsPerFace = range ? 1u : mipCount;
     const uint32_t bitStride = range ? mipCount : 1u;
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    __android_log_print(ANDROID_LOG_ERROR, "DH2DBG", "updateData tex=%p name=%s levelSizes=%p mips=%u w=%u h=%u flags=%x data=%p", (const void*)this, m_name.c_str(), (void*)m_levelSizes, mipCount, (unsigned)m_width, (unsigned)m_height, (unsigned)m_flags38, (const void*)m_data);
+#endif
     uint32_t* bits = reinterpret_cast<uint32_t*>(m_levelSizes + (mipCount + 1));
     const uint32_t format = (m_flags38 >> 4) & 0x3fu;
     const SFormatRow& row = driver->m_formatTable[format];
@@ -1662,7 +1668,15 @@ int32_t CCommonGLDriver::CTexture::updateData(bool full) const {
                         if (gl().texSubImage2D) gl().texSubImage2D(target, level, 0, 0, width, height, row.m_format, row.m_type, data);
                     }
                 }
-                if (gl().getError && gl().getError() != 0) m_flags3f = static_cast<uint8_t>(m_flags3f | kFlagBindFailed);
+                if (gl().getError) {
+                    const uint32_t glErr = gl().getError();
+                    if (glErr != 0) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+                        __android_log_print(ANDROID_LOG_ERROR, "DH2GL", "texture %s upload error %x: internal=%x format=%x type=%x %dx%d level=%d compressed=%d", m_name.c_str(), glErr, (unsigned)row.m_internalFormat, (unsigned)row.m_format, (unsigned)row.m_type, (int)width, (int)height, (int)level, (int)isCompressed(format));
+#endif
+                        m_flags3f = static_cast<uint8_t>(m_flags3f | kFlagBindFailed);
+                    }
+                }
             }
             cursor += bitStride;
             if (cursor > 31) {
@@ -2961,6 +2975,9 @@ void CCommonGLDriver::commitCurrentMaterialImpl(uint8_t pass) {
     detail::applyRenderStates(m_materialEc, m_flagF8, pass, this);
     const SRenderPass& renderPass = m_materialEc->m_renderer->m_techniques[m_flagF8].passes[pass];
     IShader* shader = static_cast<IShader*>(renderPass.shader);
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    if (shader == nullptr) __android_log_print(ANDROID_LOG_ERROR, "DH2DBG", "commitCurrentMaterialImpl: pass %d of technique %d has no shader (renderer %p passCount %d)", (int)pass, (int)m_flagF8, (void*)m_materialEc->m_renderer.get(), (int)m_materialEc->m_renderer->m_techniques[m_flagF8].passCount);
+#endif
     if (shader != m_shaderF4) {
         if (gl().useProgram) gl().useProgram(static_cast<const CGLSLShader*>(shader)->m_glProgram);
         m_shaderF4 = shader;

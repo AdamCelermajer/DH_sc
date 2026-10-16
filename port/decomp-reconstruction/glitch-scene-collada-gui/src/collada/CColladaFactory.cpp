@@ -78,9 +78,11 @@ boost::intrusive_ptr<video::CVertexAttributeMap> makeDefaultAttributeMapObject(
 void CColladaFactory::getAdditionalEffects(const CColladaDatabase&, SEffect*, SEffectList&) {}
 
 // 0x631ac4 _ZN6glitch7collada15CColladaFactory13getEffectNameERKNS0_16CColladaDatabaseEPKcS6_
-// The result is a std::string built from the last argument (the file name).
-std::string CColladaFactory::getEffectName(const CColladaDatabase&, const char*, const char* fileName) {
-    return std::string(fileName);
+// The result is a std::string built from the effect name (the register argument R3 of the listing, after the hidden result and `this`: the
+// second stack argument, the file name, is not read). First boot: the port built it from the file name, which is null for materials whose
+// record has none (strlen(nullptr)) and would have named every renderer after its file.
+std::string CColladaFactory::getEffectName(const CColladaDatabase&, const char* name, const char*) {
+    return std::string(name);
 }
 
 // 0x3506a4 _ZN6glitch7collada15CColladaFactory22createMaterialRendererERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_7SEffectEPNS0_14CRootSceneNodeE
@@ -146,7 +148,7 @@ video::CMaterial* CColladaFactory::createMaterial(const CColladaDatabase& db, vi
 boost::intrusive_ptr<video::CMaterialVertexAttributeMap> CColladaFactory::createMaterialVertexAttributeMap(
     const CColladaDatabase& db, SInstanceMaterial* instance, const boost::intrusive_ptr<IMesh>& mesh,
     const boost::intrusive_ptr<video::CMaterial>& material, unsigned int index, bool flag) {
-    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> map(instance->vertexAttributeMap);
+    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> map(instance->vertexAttributeMap, true);  // the instance keeps its own use (STUB-AUDIT)
     if (map && !flag) {
         return map;
     }

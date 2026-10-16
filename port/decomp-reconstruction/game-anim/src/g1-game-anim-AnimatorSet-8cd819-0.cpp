@@ -176,7 +176,7 @@ AnimatorSet::~AnimatorSet() {
 // The engine base takes the engine set of the animation set (AnimationSet +0x20, with a use held during the call); the applicator
 // is built with this as animator; the set reference is taken; no current animation.
 AnimatorSet::AnimatorSet(const boost::intrusive_ptr<AnimationSet>& animationSet)
-    : glitch::collada::CSceneNodeAnimatorSet(boost::intrusive_ptr<glitch::collada::CAnimationSet>(animationSet->m_animSet)),
+    : glitch::collada::CSceneNodeAnimatorSet(boost::intrusive_ptr<glitch::collada::CAnimationSet>(animationSet->m_animSet, true)),
       m_applicator(this),
       m_animationSet(animationSet),
       m_currentAnimation(nullptr) {

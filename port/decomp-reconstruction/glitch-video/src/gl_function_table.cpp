@@ -2,6 +2,9 @@
 
 #ifdef __ANDROID__
 #include <GLES2/gl2.h>
+#ifdef DH2_BOOT_DEBUG
+#include <android/log.h>
+#endif
 #endif
 
 namespace glitch::video::deps {
@@ -106,10 +109,54 @@ void bindGLES2(GLFunctionTable& t) {
     BIND(uniform3fv, glUniform3fv);
     BIND(uniform4fv, glUniform4fv);
     BIND(uniformMatrix4fv, glUniformMatrix4fv);
+    // GLES2 wants internalformat == format; the BGRA upload of the original (GL_RGBA internal, GL_BGRA_EXT data, accepted by its drivers) is
+    // given the extension format as its internal format.
+    t.texImage2D = [](uint32_t target, int32_t level, int32_t internalFormat, int32_t width, int32_t height, int32_t border, uint32_t format, uint32_t type, const void* pixels) {
+        if (format == 0x80E1 && internalFormat == 0x1908) internalFormat = 0x80E1;
+        glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixels);
+    };
     t.bufferData = [](uint32_t target, int32_t size, const void* data, uint32_t usage) { glBufferData(target, static_cast<GLsizeiptr>(size), data, usage); };
     t.bufferSubData = [](uint32_t target, int32_t offset, int32_t size, const void* data) {
         glBufferSubData(target, static_cast<GLintptr>(offset), static_cast<GLsizeiptr>(size), data);
     };
+#ifdef DH2_BOOT_DEBUG
+    // Boot diagnostic: counts of the calls that decide whether a frame is drawn, logged for the first calls and then every 500th.
+    static GLFunctionTable real;
+    real = t;
+    static int nClear, nElems, nArrays, nViewport, nFbo, nUse;
+    t.clear = [](uint32_t m) { if (nClear++ < 5 || nClear % 500 == 0) __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "clear mask=%x n=%d", m, nClear); real.clear(m); };
+    t.clearColor = [](float r, float g, float b, float a) { __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "clearColor %f %f %f %f", r, g, b, a); real.clearColor(r, g, b, a); };
+    t.viewport = [](int32_t x, int32_t y, int32_t w, int32_t h) { if (nViewport++ < 10) __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "viewport %d %d %d %d", x, y, w, h); real.viewport(x, y, w, h); };
+    t.drawElements = [](uint32_t mode, int32_t c, uint32_t ty, const void* i) {
+        if (nElems++ < 5 || nElems % 500 == 0) __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "drawElements mode=%u count=%d n=%d err=%x", mode, c, nElems, glGetError());
+        real.drawElements(mode, c, ty, i);
+        if (nElems % 500 == 1) {  // read back a 9x5 grid of the framebuffer after the draw: is anything non-black on screen?
+            GLint vp[4]; glGetIntegerv(GL_VIEWPORT, vp); GLint prog = 0; glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+            GLint blend = glIsEnabled(GL_BLEND), scissor = glIsEnabled(GL_SCISSOR_TEST), depth = glIsEnabled(GL_DEPTH_TEST);
+            GLint sb[4]; glGetIntegerv(GL_SCISSOR_BOX, sb); GLint fbo = 0; glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
+            GLboolean cm[4]; glGetBooleanv(GL_COLOR_WRITEMASK, cm);
+            int nonBlack = 0; unsigned char px[4] = {0, 0, 0, 0};
+            for (int gy = 1; gy < 6; ++gy) for (int gx = 1; gx < 10; ++gx) { glReadPixels(vp[0] + vp[2] * gx / 10, vp[1] + vp[3] * gy / 6, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, px); if (px[0] | px[1] | px[2]) ++nonBlack; }
+            __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "readback n=%d vp=%d,%d,%d,%d prog=%d fbo=%d blend=%d scissor=%d box=%d,%d,%d,%d depth=%d colormask=%d%d%d%d nonblack=%d/45 lastpx=%d,%d,%d,%d", nElems, vp[0], vp[1], vp[2], vp[3], prog, fbo, blend, scissor, sb[0], sb[1], sb[2], sb[3], depth, cm[0], cm[1], cm[2], cm[3], nonBlack, px[0], px[1], px[2], px[3]);
+            if (nElems > 1 && nElems % 2000 == 1) {  // active uniforms and the bound texture of the draw
+                GLint nu = 0; glGetProgramiv(prog, GL_ACTIVE_UNIFORMS, &nu);
+                for (GLint u = 0; u < nu; ++u) {
+                    char nm[64]; GLsizei len = 0; GLint sz = 0; GLenum ty2 = 0; glGetActiveUniform(prog, u, sizeof nm, &len, &sz, &ty2, nm);
+                    GLint loc = glGetUniformLocation(prog, nm); float v[16] = {0}; if (ty2 == GL_FLOAT_MAT4 || ty2 == GL_FLOAT_VEC4 || ty2 == GL_FLOAT_VEC3 || ty2 == GL_FLOAT_VEC2 || ty2 == GL_FLOAT) glGetUniformfv(prog, loc, v);
+                    __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "uniform %s type=%x loc=%d v=%g %g %g %g | %g %g %g %g | %g %g %g %g | %g %g %g %g", nm, ty2, loc, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15]);
+                }
+                GLint tex = 0; glGetIntegerv(GL_TEXTURE_BINDING_2D, &tex);
+                GLuint tf = 0; glGenFramebuffers(1, &tf); glBindFramebuffer(GL_FRAMEBUFFER, tf); glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
+                int tn = 0; unsigned char tp[4] = {0}; if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) { for (int k = 0; k < 16; ++k) { glReadPixels(k * 16, k * 16, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, tp); if (tp[0] | tp[1] | tp[2] | tp[3]) { ++tn; } } }
+                __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "bound texture %d: nonzero diag texels %d/16 last=%d,%d,%d,%d status=%x", tex, tn, tp[0], tp[1], tp[2], tp[3], glCheckFramebufferStatus(GL_FRAMEBUFFER));
+                glBindFramebuffer(GL_FRAMEBUFFER, fbo); glDeleteFramebuffers(1, &tf);
+            }
+        }
+    };
+    t.drawArrays = [](uint32_t mode, int32_t f, int32_t c) { if (nArrays++ < 5 || nArrays % 500 == 0) __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "drawArrays mode=%u count=%d n=%d", mode, c, nArrays); real.drawArrays(mode, f, c); };
+    t.bindFramebuffer = [](uint32_t tg, uint32_t fb) { if (nFbo++ < 10) __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "bindFramebuffer %u", fb); real.bindFramebuffer(tg, fb); };
+    t.useProgram = [](uint32_t p) { if (nUse++ < 10) __android_log_print(ANDROID_LOG_INFO, "DH2GLT", "useProgram %u", p); real.useProgram(p); };
+#endif
 }
 
 #undef BIND
