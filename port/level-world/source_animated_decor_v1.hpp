@@ -23,6 +23,7 @@ struct SourceAnimatedDecorV1 {
   std::string start_animation;
   std::string activate_condition;
   std::string deactivate_condition;
+  bool is_static_decor = false;  // gametype "Decor": no clip, no Animator
   float world_transform[9]{};  // position[3], rotation_degrees[3], scale[3]
 };
 
@@ -37,6 +38,6 @@ bool compile_source_animated_decor_v1(
     const char* level_name, const char* level_source_path,
     const GeneratedCryptMvpFileV1* mvps, std::size_t mvp_count,
     std::vector<SourceAnimatedDecorV1>& output, std::size_t& deferred_count,
-    std::string& error);
+    std::string& error, bool include_static_decor = false);
 
 }  // namespace dh2::world

@@ -6209,10 +6209,8 @@ bool NativeCryptRoomRuntime::initialize(
    error="Crypt Player no-room registration failed";clear();return false;
   }
 
-  if(active_level_assets.name=="SWAMP"&&
-     active_level_assets.level_file=="001_swamp.mlx"&&
-     !initialize_source_move_in_zones(error)) {
-   error="SWAMP source QuestMoveInZone registration failed: "+error;
+  if(!initialize_source_move_in_zones(error)) {
+   error="Source QuestMoveInZone registration failed: "+error;
    clear();return false;
   }
   if(!initialize_source_exit_level_zones(error)) {
@@ -6504,22 +6502,24 @@ bool NativeCryptRoomRuntime::initialize_source_move_in_zones(
  error.clear();
  const auto& sources=active_level_assets.source_move_in_zone_census;
  if(sources.empty())return true;
- if(active_level_assets.name!="SWAMP"||
-    active_level_assets.level_file!="001_swamp.mlx"||sources.size()!=1) {
+ const bool swamp_zone=active_level_assets.name=="SWAMP"&&
+    active_level_assets.level_file=="001_swamp.mlx";
+ if(swamp_zone&&sources.size()!=1) {
   error="SWAMP authored QuestMoveInZone census is not the single reviewed row";
   return false;
  }
  source_move_in_zones.reserve(sources.size());
  source_handles.reserve(source_handles.size()+sources.size());
  for(const auto& source:sources) {
-  if(source.name!="_prim_WitchQuestStart"||
-     source.gametype!="QuestMoveInZone"||
+  if((swamp_zone&&(source.name!="_prim_WitchQuestStart"||
      source.template_name!="QuestMoveInZone"||source.module_index!=4||
      source.activate_condition!="IsBefore_Swamp_KillWitch"||
-     !source.deactivate_condition.empty()||!source.dimensions.empty()||
-     source.duplicate_name||source.source_handle<0||
-     !active_level_assets.source_level_handle_ledger) {
-   error="SWAMP QuestMoveInZone row differs from its exact MGP/ledger source contract";
+     !source.deactivate_condition.empty()||!source.dimensions.empty()))||
+     source.gametype!="QuestMoveInZone"||
+     (swamp_zone&&source.duplicate_name)||source.source_handle<0||
+     (!active_level_assets.source_level_handle_ledger&&
+      !active_level_assets.generated_crypt_handle_ledger)) {
+   error="QuestMoveInZone row differs from its exact MGP/ledger source contract";
    return false;
   }
   auto zone=std::make_unique<SourceMoveInZone>();
@@ -6529,7 +6529,25 @@ bool NativeCryptRoomRuntime::initialize_source_move_in_zones(
   // Property44's source default is (200,200,200). The generic MGP row census
   // retains authored transforms and conditions; the source Witch row has no
   // dimensions override, so this is the actual Zone::InitPost property value.
-  const float dimensions[3]={200.f,200.f,200.f};
+  float dimensions[3]={200.f,200.f,200.f};
+  if(!source.dimensions.empty()) {
+   const char* cursor=source.dimensions.c_str();
+   for(unsigned axis=0;axis<3;++axis) {
+    while(*cursor==' '||*cursor=='	'||*cursor==',')++cursor;
+    char* end=nullptr;errno=0;
+    const float value=std::strtof(cursor,&end);
+    if(errno||end==cursor||!std::isfinite(value)||value<=0.f) {
+     error="QuestMoveInZone dimensions are not a positive finite source vector";
+     return false;
+    }
+    dimensions[axis]=value;cursor=end;
+   }
+   while(*cursor==' '||*cursor=='	'||*cursor==',')++cursor;
+   if(*cursor) {
+    error="QuestMoveInZone dimensions contain trailing source data";
+    return false;
+   }
+  }
   if(dh2::level_world::quest_move_in_zone_collision_v1::build_init_post_local_aabb(
        scale,dimensions,zone->local_aabb_xyxy.data(),error)!=
        dh2::level_world::quest_move_in_zone_collision_v1::Status::complete)
@@ -20259,6 +20277,8 @@ struct NativeAnimatedFXBackendV1 {
  std::vector<GLuint> textures;
  const Matrix* projection=nullptr;
  std::function<void(const Draw&,const Matrix&)> submit;
+ // Asset folder the effect BDAE is read from ("actors" for EffectDict rows).
+ const char* create_folder="actors";
 };
 std::unique_ptr<dh2::native_visual_fx_manager_v1::Catalog> native_fx_catalog;
 std::unique_ptr<dh2::native_visual_fx_manager_v1::Owner> native_fx_owner;
@@ -20410,7 +20430,7 @@ dh2::native_visual_fx_manager_v1::CreateResult native_fx_create(void* raw,std::i
   }
   std::vector<std::uint8_t> bytes;
   try {
-   bytes=read(backend->assets,path,"actors");
+   bytes=read(backend->assets,path,backend->create_folder);
   } catch(const std::exception& exception) {
    if(dh2::native_visual_fx_manager_v1::exact_missing_effect_dict_asset(
        exception.what(),path)) {
@@ -20534,6 +20554,39 @@ void native_fx_destroy(void* raw,void* opaque) {
   release(particle_draws,none);
  } else fx->draws.clear();
  delete fx;
+}
+// Particle-only AnimatedDecor (dust motes, fog, smog): the authored BDAE carries
+// emitters and no meshes. Each is a standalone AnimatedFX-style VisualObject
+// (same owner as Projectile VisualObjects) placed at the Decor transform.
+struct SourceParticleDecorDeleter {
+ void operator()(NativeAnimatedFXV1* fx) const noexcept {
+  native_fx_destroy(&native_fx_backend,fx);
+ }
+};
+struct SourceParticleDecor {
+ std::unique_ptr<NativeAnimatedFXV1,SourceParticleDecorDeleter> fx;
+ std::string name,activate_condition,deactivate_condition;
+ bool enabled=true,condition_tested=false,started=false,failed=false;
+ std::uint32_t condition_tested_ms=0;
+};
+std::vector<SourceParticleDecor> source_particle_decors;
+bool native_source_particle_decor_create(AAssetManager* assets,const std::string& name,
+    const std::string& dae_path,const Matrix& placement,const std::string& activate,
+    const std::string& deactivate,SourceParticleDecor& output,std::string& error) {
+ const auto saved_assets=native_fx_backend.assets;
+ const auto saved_folder=native_fx_backend.create_folder;
+ native_fx_backend.assets=assets;native_fx_backend.create_folder="original-cache";
+ void* created=nullptr;
+ const auto result=native_fx_create(&native_fx_backend,0,dae_path,&created,error);
+ native_fx_backend.assets=saved_assets;native_fx_backend.create_folder=saved_folder;
+ if(result!=dh2::native_visual_fx_manager_v1::CreateResult::created||!created) {
+  if(error.empty())error="particle BDAE construction failed";
+  return false;
+ }
+ output.fx.reset(static_cast<NativeAnimatedFXV1*>(created));
+ output.fx->placement=placement;
+ output.name=name;output.activate_condition=activate;output.deactivate_condition=deactivate;
+ error.clear();return true;
 }
 bool native_fx_start_step(void*,void* opaque,
     const dh2::native_visual_fx_manager_v1::EffectSequence& sequence,
@@ -24550,7 +24603,7 @@ if(!retain){
 }
  native_actor_ready=false;clear_actor_world(retain);search_world.clear();prince_search_projection={};prince_body={};
  clear_player_equipment_native(false);
- resume_world=retain;world_mode=false;move_x=move_y=0;android_movement_stop_pending=false;source_animated_decors.clear();draws.clear();images.clear();object_groups.clear();world_objects.clear();
+ resume_world=retain;world_mode=false;move_x=move_y=0;android_movement_stop_pending=false;source_animated_decors.clear();source_particle_decors.clear();draws.clear();images.clear();object_groups.clear();world_objects.clear();
  if(!retain){
   prince_retained_pose.clear();prince_locomotion=dh2::actor::BlendedPlayback{};
   prince_visual={};prince_attack_clips.clear();prince_animation_bank={};native_level_frame.scene={};
@@ -24717,7 +24770,7 @@ void deactivate(bool defer_source_level_finish){
  native_world_items.clear();native_item_manager_pool={};clear_native_world_item_resources();
  active_crypt_module_bounds={};
  native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};native_player_scripted_1480=0;saved_actors.clear();
- release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);release(draws,images);world_objects.clear();
+ release_source_animated_decors(source_animated_decors,true);source_particle_decors.clear();release_objects(object_groups);release(draws,images);world_objects.clear();
  active_generated_crypt_faery_sources.clear();active_generated_crypt_template_sources.clear();
  actor_skill_catalogue.reset();level={};current_scene={};
  prince_retained_pose.clear();prince_locomotion=dh2::actor::BlendedPlayback{};
@@ -24972,7 +25025,7 @@ static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetM
     if(preserve_level_session)clear_actor_world(true);else deactivate();
     release_class_previews();release_menu_preview_actor_v1(true);
     menu_background=false;class_scene=false;
-    release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
+    release_source_animated_decors(source_animated_decors,true);source_particle_decors.clear();release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
     if(!preserve_level_session){
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player preview owners retired | bank %zu | retained pose %u | skill owner %u | AI owner %u",
        prince_attack_clips.size(),unsigned(!prince_retained_pose.empty()),unsigned(bool(prince_skills)),unsigned(bool(prince_source_ai)));
@@ -35489,6 +35542,61 @@ void render_native_projectile_visuals_v1() {
        "Projectile VisualObject draw failed | model %s | %s",
        visual->model_path.c_str(),error.c_str());
    visual->failed=true;
+  }
+ }
+}
+
+// ObjectBase::TestEnableCondition / TestDisableCondition for a particle-only
+// AnimatedDecor, re-tested on the same 250 ms cadence as the mesh AnimatedDecor.
+void source_particle_decor_test_conditions_v1(SourceParticleDecor& decor) {
+ if(decor.activate_condition.empty()&&decor.deactivate_condition.empty())return;
+ const auto scene_time=native_scene_clock_ms();
+ if(!std::isfinite(scene_time)||scene_time<0.f||scene_time>4294967040.f)return;
+ const auto now=static_cast<std::uint32_t>(scene_time);
+ if(decor.condition_tested&&now>=decor.condition_tested_ms&&
+    now-decor.condition_tested_ms<250u)return;
+ bool enabled=true;bool ok=true;std::string condition_error;
+ if(!decor.activate_condition.empty())
+  ok=evaluate_source_zone_condition(decor.activate_condition,true,enabled,condition_error);
+ if(ok&&enabled&&!decor.deactivate_condition.empty()) {
+  bool deactivate_holds=false;
+  ok=evaluate_source_zone_condition(decor.deactivate_condition,false,deactivate_holds,condition_error);
+  enabled=deactivate_holds;
+ }
+ if(ok)decor.enabled=enabled;
+ decor.condition_tested=true;decor.condition_tested_ms=now;
+}
+
+void advance_source_particle_decors_v1(unsigned dt_ms) {
+ for(auto& decor:source_particle_decors) {
+  if(!decor.fx||decor.failed)continue;
+  source_particle_decor_test_conditions_v1(decor);
+  if(!decor.enabled)continue;
+  std::string error;
+  if(!decor.started) {
+   if(!native_projectile_visual_start_v1(*decor.fx,error)) {
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native","Particle AnimatedDecor %s start failed | %s",
+        decor.name.c_str(),error.c_str());
+    decor.failed=true;continue;
+   }
+   decor.started=true;
+  }
+  if(!native_projectile_visual_advance_v1(*decor.fx,dt_ms,error)) {
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Particle AnimatedDecor %s update failed | %s",
+       decor.name.c_str(),error.c_str());
+   decor.failed=true;
+  }
+ }
+}
+
+void render_source_particle_decors_v1() {
+ for(auto& decor:source_particle_decors) {
+  if(!decor.fx||decor.failed||!decor.enabled||!decor.started)continue;
+  std::string error;
+  if(!native_fx_render(&native_fx_backend,decor.fx.get(),error)) {
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Particle AnimatedDecor %s draw failed | %s",
+       decor.name.c_str(),error.c_str());
+   decor.failed=true;
   }
  }
 }
@@ -46952,7 +47060,14 @@ void initialize_native_actor(AAssetManager* assets,bool restore){
   const auto separator=decor.model.find_last_of("/\\");
   const auto model_name=decor.packaged_actor_asset
     ?decor.model.substr(separator==std::string::npos?0:separator+1):decor.model;
-  auto model=read(assets,model_name,"actors");dh2::resources::BresView decor_view{};
+  std::vector<std::uint8_t> model;
+  try{model=read(assets,model_name,"actors");}
+  catch(const std::exception& missing){
+   if(!decor.packaged_actor_asset||
+      std::string(missing.what()).rfind("Bundled asset missing: actors/",0)!=0)throw;
+   model=read(assets,decor.model,"original-cache");
+  }
+  dh2::resources::BresView decor_view{};
   if(dh2_bres_open(&decor_view,model.data(),model.size())!=dh2::resources::BresError::ok)throw std::runtime_error("Decor collision model rejected");
   dh2::physical::DecorSceneMarker marker;
   if(!dh2::physical::decor_scene_marker(decor_view,marker,error))throw std::runtime_error(error);
@@ -49139,6 +49254,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
   std::map<unsigned,float> candidate_itemdrop_sensor_radii,candidate_itemdrop_interaction_radii;
   std::vector<ObjectGroup> candidate_groups;
   std::vector<SourceAnimatedDecor> candidate_animated_decors;
+  std::vector<SourceParticleDecor> candidate_particle_decors;
   dh2::crypt_module_bounds_registry_v1::Owner candidate_crypt_module_bounds;
   const bool restore=world_mode||resume_world;const auto previous=actor_position;
   const auto previous_heading=heading;float source_spawn_heading=0;
@@ -49718,6 +49834,9 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           census_mgps.data(),census_mgps.size(),nullptr,*handle_ledger,
           level_assets.source_object_census,error))
        throw std::runtime_error("Generated Crypt generic ObjectManager census rejected: "+error);
+      for(const auto& source:level_assets.source_object_census)
+       if(source.gametype=="QuestMoveInZone")
+        level_assets.source_move_in_zone_census.push_back(source);
       __android_log_print(ANDROID_LOG_INFO,"DH2Native",
        "Generated Crypt source Character census retained | modules %zu | Character rows %zu | exact MLX/MGP occurrences joined to the active source handle ledger",
        generated_crypt_mgps.size(),source_character_census.size());
@@ -49741,18 +49860,10 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source object census | %s | %s",level_assets.name.c_str(),text.c_str());
       }
       const bool swamp_level=std::string(static_level_source->name)=="SWAMP";
-      std::size_t deferred_move_in_zones=0;
       for(const auto& source:level_assets.source_object_census)
-       if(source.gametype=="QuestMoveInZone"){
-        // Only SWAMP's reviewed Witch zone has a bound QuestMoveInZone owner.
-        if(swamp_level)level_assets.source_move_in_zone_census.push_back(source);
-        else ++deferred_move_in_zones;
-       }
-      if(!swamp_level){
-       __android_log_print(ANDROID_LOG_WARN,"DH2Native",
-           "%s QuestMoveInZone rows deferred | %zu | no reviewed zone owner yet",
-           level_assets.name.c_str(),deferred_move_in_zones);
-      }else if(level_assets.source_move_in_zone_census.size()!=1||
+       if(source.gametype=="QuestMoveInZone")
+        level_assets.source_move_in_zone_census.push_back(source);
+      if(swamp_level&&(level_assets.source_move_in_zone_census.size()!=1||
          level_assets.source_move_in_zone_census.front().name!="_prim_WitchQuestStart"||
          level_assets.source_move_in_zone_census.front().template_name!="QuestMoveInZone"||
          level_assets.source_move_in_zone_census.front().module_index!=4||
@@ -49761,8 +49872,11 @@ std::vector<dh2::world::EntryPoint> entrypoints;
          !level_assets.source_move_in_zone_census.front().deactivate_condition.empty()||
          !level_assets.source_move_in_zone_census.front().dimensions.empty()||
          level_assets.source_move_in_zone_census.front().duplicate_name||
-         level_assets.source_move_in_zone_census.front().source_handle<0)
+         level_assets.source_move_in_zone_census.front().source_handle<0))
        throw std::runtime_error("SWAMP QuestMoveInZone source row differs from the reviewed Witch MGP occurrence");
+      if(!swamp_level)__android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "%s source QuestMoveInZone census retained | rows %zu",
+       level_assets.name.c_str(),level_assets.source_move_in_zone_census.size());
       if(swamp_level)__android_log_print(ANDROID_LOG_INFO,"DH2Native",
        "SWAMP source QuestMoveInZone census retained | exact Witch MGP row %u | handle %d | activate_cond %s | source transform and Property44 default dimensions",
        level_assets.source_move_in_zone_census.front().source_record,
@@ -50061,10 +50175,8 @@ std::vector<dh2::world::EntryPoint> entrypoints;
      }
     }
     if(source_static_level&&std::string(static_level_source->name)!="SWAMP"){
-     // compile_source_mvp is SWAMP's exact ten-row Decor allowlist.
-     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
-         "%s source MVP static Decor deferred | no reviewed allowlist for this level",
-         level_assets.name.c_str());
+     // Non-SWAMP static Decor rows are drawn by the AnimatedDecor pass below
+     // (static rows keep their authored condition text and play no clip).
     }else if(source_static_level){
      if(!dh2::world::compile_source_mvp(source_mlx_bytes.data(),source_mlx_bytes.size(),source_mvps.data(),source_mvps.size(),source_mvp_decors,error))
       throw std::runtime_error("Original source MVP decor import rejected: "+error);
@@ -50093,7 +50205,8 @@ std::vector<dh2::world::EntryPoint> entrypoints;
      std::vector<dh2::world::SourceAnimatedDecorV1> animated_rows;
      std::size_t animated_deferred=0;
      if(!dh2::world::compile_source_animated_decor_v1(source_mlx_bytes.data(),source_mlx_bytes.size(),
-          level_assets.name.c_str(),static_scene_path.c_str(),animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
+          level_assets.name.c_str(),static_scene_path.c_str(),animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error,
+          std::string(static_level_source->name)!="SWAMP"))
       throw std::runtime_error(level_assets.name+" source MVP AnimatedDecor import rejected: "+error);
      std::map<std::string,std::vector<std::uint8_t>> bytes_by_dae;
      std::map<std::string,std::shared_ptr<SourceAnimatedDecorGpu>> gpu_by_dae;
@@ -50137,6 +50250,9 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        // the VisualObject plays it looped (slot 8) when its clip library has
        // the name (slot 5), else clip index 0 looped (slot 7). "randomall"
        // (random clip + end callback) is used by no MVP and stays deferred.
+       if(row.is_static_decor){
+        // Decor::InitPost builds no animation; the mesh stays in its rest pose.
+       }else{
        if(decor.start_animation.empty())decor.start_animation="idle";
        std::string start_lower=decor.start_animation;
        for(auto& ch:start_lower)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
@@ -50147,6 +50263,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
            decor.start_animation.c_str():clips.empty()?nullptr:clips.front().name.c_str();
        if(start_clip&&!decor.visual->play_named(start_clip,true,nullptr,nullptr,nullptr,error))
         throw std::runtime_error("start clip rejected: "+error);
+       }
        auto& gpu=gpu_by_dae[row.dae_path];
        if(!gpu){
         auto candidate=std::make_shared<SourceAnimatedDecorGpu>();
@@ -50162,15 +50279,35 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        // Particle-only BDAEs (dust motes, fog) carry emitters, not drawable meshes;
        // their emitter playback is not bound here.
        const std::string message=exception.what();
-       if(message.find("no visible")!=std::string::npos)++animated_particle_only;
+       bool particle_drawn=false;
+       if(message.find("no visible")!=std::string::npos) {
+        const float half=3.14159265358979323846f/360.f;
+        const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
+        const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
+        const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
+        const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
+        const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
+        Matrix placement{};
+        dh2_node_matrix(placement.data(),position,quaternion,scale);
+        SourceParticleDecor particle;std::string particle_error;
+        if(native_source_particle_decor_create(assets,row.name,row.dae_path,placement,
+             row.activate_condition,row.deactivate_condition,particle,particle_error)) {
+         candidate_particle_decors.push_back(std::move(particle));particle_drawn=true;
+        } else __android_log_print(ANDROID_LOG_WARN,"DH2Native","Particle AnimatedDecor %s (%s) unavailable | %s",
+             row.name.c_str(),row.dae_path.c_str(),particle_error.c_str());
+        if(!particle_drawn)++animated_particle_only;
+       }
        else ++animated_failed;
+       if(!particle_drawn)
        __android_log_print(ANDROID_LOG_WARN,"DH2Native","AnimatedDecor %s (%s) skipped | %s",
            row.name.c_str(),row.dae_path.c_str(),exception.what());
       }
      }
      __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-       "AnimatedDecor | %s | %zu props | %zu resources | conditional %zu | unsupported rows deferred %zu | particle-only deferred %zu | load failures %zu | RoomZone membership not bound",
+       "AnimatedDecor | %s | %zu props (static Decor rows %zu, particle emitters %zu) | %zu resources | conditional %zu | unsupported rows deferred %zu | particle-only deferred %zu | load failures %zu | RoomZone membership not bound",
        level_assets.name.c_str(),candidate_animated_decors.size(),
+       static_cast<std::size_t>(std::count_if(animated_rows.begin(),animated_rows.end(),
+         [](const auto& row){return row.is_static_decor;})),candidate_particle_decors.size(),
        gpu_by_dae.size(),animated_conditional,animated_deferred,animated_particle_only,animated_failed);
     }
     if(level_assets.generated_crypt_layout){
@@ -50821,16 +50958,29 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         const auto resource_name=mvp.packaged_actor_asset
           ?record.model.substr(separator==std::string::npos?0:separator+1)
           :record.model;
-        const auto model=read(assets,resource_name,
-            mvp.packaged_actor_asset?"actors":"original-cache");
+        // Generated-layout props that are not packaged as actors come from the
+        // byte-exact original cache by their full source path.
+        std::vector<std::uint8_t> model;
+        try{
+          model=read(assets,resource_name,
+              mvp.packaged_actor_asset?"actors":"original-cache");
+        }catch(const std::exception& missing){
+          if(!mvp.packaged_actor_asset||
+             std::string(missing.what()).rfind("Bundled asset missing: actors/",0)!=0)throw;
+          model=read(assets,record.model,"original-cache");
+        }
         if(!dh2::objects::load_resource(model.data(),model.size(),nullptr,0,found->resource,error)){
           if(error.find("no visible geometry")!=std::string::npos){
             // Particle-only AnimatedDecor BDAE (dust motes, fog): emitters, not
             // meshes; emitter playback is not bound, so the prop is deferred
             // exactly like the static-Level AnimatedDecor path.
             candidate_groups.pop_back();
-            __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s (%s) skipped | particle-only BDAE: %s",
-                record.name.c_str(),record.model.c_str(),error.c_str());
+            SourceParticleDecor particle;std::string particle_error;
+            if(native_source_particle_decor_create(assets,record.name,
+                 mvp.dae_path,Matrix(record.placement),"","",particle,particle_error)) {
+             candidate_particle_decors.push_back(std::move(particle));
+            } else __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s (%s) skipped | particle-only BDAE: %s | %s",
+                record.name.c_str(),record.model.c_str(),error.c_str(),particle_error.c_str());
             error.clear();continue;
           }
           throw std::runtime_error("Source MVP BDAE rejected: "+error);
@@ -51001,7 +51151,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     // Renderer registrations borrow factory Records from the retiring Level.
     // Drop those views before replacing either their owner set or draw banks.
     faery_visual_records.clear();
-    object_groups=std::move(candidate_groups);source_animated_decors=std::move(candidate_animated_decors);world_objects=std::move(object_records);
+    object_groups=std::move(candidate_groups);source_animated_decors=std::move(candidate_animated_decors);source_particle_decors=std::move(candidate_particle_decors);world_objects=std::move(object_records);
     active_generated_crypt_faery_sources=
         std::move(generated_crypt_faery_sources);
     active_generated_crypt_template_sources=
@@ -54014,6 +54164,7 @@ void draw(int width,int height){
             throw std::runtime_error("Source AnimatedFX frame update failed: "+fx_error);
         }
         advance_native_projectile_visuals_v1(frame_dt_ms);
+        advance_source_particle_decors_v1(frame_dt_ms);
         advance_source_map_camera(frame_dt_ms);
         debug_player_cast_probe();
       }
@@ -54352,6 +54503,7 @@ void draw(int width,int height){
     std::string fx_error;
     const auto status=native_fx_owner->Render(fx_error);
     render_native_projectile_visuals_v1();
+    render_source_particle_decors_v1();
     native_fx_backend.submit={};native_fx_backend.projection=nullptr;
     if(status!=dh2::native_visual_fx_manager_v1::Status::ok)
       throw std::runtime_error("Source AnimatedFX draw submission failed: "+fx_error);
