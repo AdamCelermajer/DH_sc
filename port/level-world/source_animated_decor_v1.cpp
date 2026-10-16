@@ -35,7 +35,7 @@ bool compile_source_animated_decor_v1(
     const char* level_name, const char* level_source_path,
     const GeneratedCryptMvpFileV1* mvps, std::size_t mvp_count,
     std::vector<SourceAnimatedDecorV1>& output, std::size_t& deferred_count,
-    std::string& error) {
+    std::string& error, bool include_static_decor) {
   output.clear();
   deferred_count = 0;
   error.clear();
@@ -77,8 +77,10 @@ bool compile_source_animated_decor_v1(
   std::vector<SourceAnimatedDecorV1> candidate;
   for (std::uint32_t index = 0; index < source.value.entity_count; ++index) {
     const auto& object = source.value.entities[index];
-    if (object.kind != RecordKind::mvp || !object.gametype ||
-        std::strcmp(object.gametype, "AnimatedDecor") != 0)
+    if (object.kind != RecordKind::mvp || !object.gametype) continue;
+    const bool is_static = include_static_decor &&
+        std::strcmp(object.gametype, "Decor") == 0;
+    if (!is_static && std::strcmp(object.gametype, "AnimatedDecor") != 0)
       continue;
 
     const auto* type = dh2_world_field(&object, "type");
@@ -92,7 +94,8 @@ bool compile_source_animated_decor_v1(
     // selects a subtree of a shared BDAE and a missing startanim reads as
     // "idle" (AnimatedDecor::InitPost).
     if (!type || std::strcmp(type, "Block") ||
-        (template_name && std::strcmp(template_name, "AnimatedDecor")) ||
+        (!is_static && template_name &&
+         std::strcmp(template_name, "AnimatedDecor")) ||
         !root || !*root || !dae ||
         dh2_world_cache_path(canonical_dae, sizeof(canonical_dae),
             dae, &diagnostic) != Error::ok) {
@@ -113,6 +116,7 @@ bool compile_source_animated_decor_v1(
     row.xrefobject = root;
     row.dae_path = canonical_dae;
     row.source_path = object.source_path ? object.source_path : "";
+    row.is_static_decor = is_static;
     row.start_animation = start_animation ? start_animation : "";
     const auto* activate = dh2_world_field(&object, "activate_cond");
     row.activate_condition = activate ? activate : "";
