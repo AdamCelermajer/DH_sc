@@ -697,6 +697,28 @@ bool steer_toward_nearest_enemy() {
            std::hypot(route.waypoints[next][0] - pose.player_position[0],
                       route.waypoints[next][1] - pose.player_position[1]) <= 48.0f)
         ++next;
+    // The route is a node polyline: a straight line from the Player to its next
+    // node can graze a wall corner the nav floor walks around, pinning the Player
+    // (seen when an ally kills the enemy being approached and the nearest
+    // survivor lies behind that corner). Like walk-level's unreachable-target
+    // teleport, place the Player on the next route node after 60 calls without
+    // progress.
+    {
+        static std::array<float, 2> stuck_anchor{1e30f, 1e30f};
+        static unsigned stuck_calls = 0;
+        if (std::hypot(pose.player_position[0] - stuck_anchor[0], pose.player_position[1] - stuck_anchor[1]) > 4.0f) {
+            stuck_anchor = {pose.player_position[0], pose.player_position[1]};
+            stuck_calls = 0;
+        } else if (std::hypot(pose.enemy_position[0] - pose.player_position[0], pose.enemy_position[1] - pose.player_position[1]) > 400.0f && ++stuck_calls >= 60) {
+            stuck_calls = 0;
+            const auto& hop = route.waypoints[std::min(next + 1, route.waypoints.size() - 1)];
+            std::string place_error;
+            const bool placed = model_renderer::boss_probe_place_player({hop[0], hop[1], 255.f}, place_error);
+            std::cout << "Scenario stuck | placed Player on route node " << hop[0] << ',' << hop[1]
+                      << (placed ? " ok" : " ERROR " + place_error) << "\n";
+            return true;
+        }
+    }
     const auto& waypoint = route.waypoints[next];
     const float dx = waypoint[0] - pose.player_position[0];
     const float dy = waypoint[1] - pose.player_position[1];
