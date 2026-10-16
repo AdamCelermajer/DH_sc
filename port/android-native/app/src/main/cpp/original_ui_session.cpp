@@ -1,4 +1,5 @@
 #include "original_ui_session.hpp"
+#include "game_clock_v1.hpp"
 #include "gameplay_main_menu_request_v1.hpp"
 #include "native_gameplay_touch_v1.hpp"
 #include "../../../../../engine-ui/inventory_click_binding_v1.hpp"
@@ -105,8 +106,8 @@ struct OriginalUiSession::Impl {
     OriginalUiAssets assets;
     SwfGpu gpu;
     std::string directory,font_failure,provider_failure;
-    std::array<std::vector<std::uint8_t>,4> constant_bytes;
-    std::array<dh2_pycst_view,4> constants{};
+    std::array<std::vector<std::uint8_t>,5> constant_bytes;
+    std::array<dh2_pycst_view,5> constants{};
     std::vector<std::uint8_t> dialog_constant_bytes;
     dh2_pycst_view dialog_constants{};
     std::vector<std::int32_t> dialog_actor_name_ids;
@@ -3163,11 +3164,13 @@ struct OriginalUiSession::Impl {
     }
     bool ensure_localization_ready(std::string& error) {
         if(localization.ready()){error.clear();return true;}
-        std::array<std::vector<std::uint8_t>,4> next_constant_bytes;
-        std::array<dh2_pycst_view,4> next_constants{};
+        std::array<std::vector<std::uint8_t>,5> next_constant_bytes;
+        std::array<dh2_pycst_view,5> next_constants{};
         const char* constant_uris[]={"data/pydata/common_text_pycst.bin","data/fonts_pycst.bin",
-            "data/design_pycst.bin","source-data/font-palette/loot_audiovisual_pycst.bin"};
-        for(unsigned i=0;i<4;++i){
+            "data/design_pycst.bin","source-data/font-palette/loot_audiovisual_pycst.bin",
+            // Quest journal callbacks read v2QuestPriority.Debug/Primary (GetQuestFunctor).
+            "data/v2quests_pycst.bin"};
+        for(unsigned i=0;i<5;++i){
             if(i==0){if(!assets.read(constant_uris[i],next_constant_bytes[i],error))return false;}
             else if(!raw_asset(constant_uris[i],next_constant_bytes[i],error))return false;
             if(dh2_pycst_open(&next_constants[i],next_constant_bytes[i].data(),
@@ -3457,7 +3460,7 @@ struct OriginalUiSession::Impl {
                 const auto rectangle=front_rectangle();if(!movie->input_rectangle(rectangle.data(),error))return false;
                 __android_log_print(ANDROID_LOG_INFO,tag,"Original source input connected | direct main event stage | MenuManager/HUDControls forwarding pending");
             }
-            loaded=true;menu_clock.reset();frame_time=std::chrono::steady_clock::now();return true;
+            loaded=true;menu_clock.reset();frame_time=dh2::game_clock::steady_now();return true;
         }
         if(!live_player){error="Gameplay HUD load requires the attached player";return false;}
         if(!settings||!settings->has_option("HUDStyle")){
@@ -3541,7 +3544,7 @@ struct OriginalUiSession::Impl {
             // CharacterMenu movie first because Character::ReloadSkills
             // synchronously asks its RenderFX menu for IsSpecTime.
             if(!gameplay_hud->activate(error))return false;
-            game_menu_stack.clear();game_menu_clock.reset();game_menu_frame_time=std::chrono::steady_clock::now();
+            game_menu_stack.clear();game_menu_clock.reset();game_menu_frame_time=dh2::game_clock::steady_now();
             __android_log_print(ANDROID_LOG_INFO,tag,
                 "Original gameplay menu renderer loaded | source dqcharmenu_droid.swf | screens %zu | separate HUD and character menu players | inventory/skills/faery callbacks remain owner-bound",
                 character_states.size());
@@ -3745,8 +3748,16 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
             }
             captured=-1;error.clear();return true;
         }
+        // Buttons whose authored onRelease never reaches its Native* callback through the
+        // generic SWF cursor path: the finger is held here and the source handler runs on release.
+        const auto release_button=[&](int control){
+            return control==static_cast<int>(Control::faery)||control==static_cast<int>(Control::potion)||
+                   control==static_cast<int>(Control::skill1)||control==static_cast<int>(Control::skill2)||
+                   control==static_cast<int>(Control::skill3);
+        };
         if(action==0&&captured<0){
-            for(const auto control:{Control::attack,Control::joystick,Control::faery}){
+            for(const auto control:{Control::attack,Control::joystick,Control::faery,Control::potion,
+                                    Control::skill1,Control::skill2,Control::skill3}){
                 ui::AuthoredHudGeometryV1 geometry;
                 if(!impl_->gameplay_hud->geometry(control,x,y,geometry,error))return false;
                 if(!geometry.hit)continue;
@@ -3754,8 +3765,8 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                 // another finger already holds is consumed without a second press.
                 if(impl_->hud_control_held(static_cast<int>(control))){error.clear();return true;}
                 captured=static_cast<int>(control);
-                if(control==Control::faery){
-                    // The faery HUD button is hit-tested by the same authored geometry as
+                if(release_button(static_cast<int>(control))){
+                    // The faery/potion/skill HUD buttons is hit-tested by the same authored geometry as
                     // attack, but its source onRelease never reached NativeHUDSpell through
                     // the generic SWF cursor path (the SWF button stayed silent for press
                     // and release). Hold the finger here and cast on release, as onRelease does.
@@ -3853,15 +3864,28 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
         }
         if(captured>=0&&action==1){
             const int held=captured;captured=-1;
-            if(held==static_cast<int>(Control::faery)){
+            if(release_button(held)){
                 // Source onRelease fires only when the finger is still over the button.
                 ui::AuthoredHudGeometryV1 release_geometry;
-                if(!impl_->gameplay_hud->geometry(Control::faery,x,y,release_geometry,error))return false;
+                if(!impl_->gameplay_hud->geometry(static_cast<Control>(held),x,y,release_geometry,error))return false;
                 if(!release_geometry.hit){error.clear();return true;}
                 std::uintptr_t identity=0;std::string identity_error;
                 if(!model_renderer::ui_player_identity(identity,identity_error)||!identity){error.clear();return true;}
+                if(held==static_cast<int>(Control::potion)){
+                    // cmdHUDpotion -> NativeUsePotion -> v2Controller::Cmd_UsePotion.
+                    const bool used=model_renderer::ui_player_use_potion(identity,error);
+                    __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD potion release | %s",used?"used":error.c_str());
+                    return used;
+                }
+                if(held==static_cast<int>(Control::faery))
+                    return ui::run_hud_action_and_refresh_usable_v1(impl_->gameplay_hud_usable_refresh,[&]{
+                        return model_renderer::ui_player_use_spell(identity,error);
+                    });
+                // Skill slots 1..3 are HUD slots 0..2 (NativeHUDSkill).
+                const std::int32_t slot=held-static_cast<int>(Control::skill1);
+                __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD skill release | slot %d",slot);
                 return ui::run_hud_action_and_refresh_usable_v1(impl_->gameplay_hud_usable_refresh,[&]{
-                    return model_renderer::ui_player_use_spell(identity,error);
+                    return model_renderer::ui_player_use_skill_slot(identity,slot,error);
                 });
             }
             if(held==joystick){
@@ -3878,7 +3902,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
         // Keep the held attack out of the SWF cursor. Its source operation is
         // polled from render_player at the HUDControls::Update cadence.
         if(captured==attack&&action==2)return true;
-        if(captured==static_cast<int>(Control::faery)&&action==2)return true;
+        if(captured>=0&&release_button(captured)&&action==2)return true;
     }
     if(gameplay&&!gameplay_menu&&impl_->gameplay_character_button){
         if(action==3)impl_->gameplay_character_button_pressed[cursor_index]=false;
@@ -4273,7 +4297,7 @@ bool OriginalUiSession::load_front_screen(const std::string& directory,const std
     impl_->front_screen=screen;impl_->directory=directory;impl_->live_player=false;
     impl_->front_name_input_active.store(screen=="main"&&!impl_->menu_stack.empty()&&
         impl_->menu_stack.back()=="menu_EnterName",std::memory_order_release);
-    impl_->selected=true;impl_->report_frame=true;impl_->frame_time=std::chrono::steady_clock::now();error.clear();return true;
+    impl_->selected=true;impl_->report_frame=true;impl_->frame_time=dh2::game_clock::steady_now();error.clear();return true;
 }
 bool OriginalUiSession::load_health_panel(const std::string& directory,std::string& error) {
     if(!impl_->front_screen.empty()){if(!impl_->reset_failed(error))return false;impl_->front_screen.clear();}
@@ -4310,7 +4334,7 @@ bool OriginalUiSession::render(int width,int height,std::string& error) {
     }
     const bool front=!impl_->front_screen.empty();
     if(front){
-        const auto now=std::chrono::steady_clock::now();
+        const auto now=dh2::game_clock::steady_now();
         const auto elapsed=now-impl_->frame_time;
         const float seconds=std::min(.1f,std::chrono::duration<float>(elapsed).count());impl_->frame_time=now;
         if(impl_->front_screen=="main"){
@@ -4849,6 +4873,10 @@ void OriginalUiSession::queue_level_transition(const std::string& destination,do
 }
 bool OriginalUiSession::flush_source_messages(std::string& error){
     auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()){
+        // Nothing can have been queued before the HUD exists (same rule as source_dialog_active).
+        error.clear();return true;
+    }
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){
         error="Source message flush requires the retained gameplay HUD session";return false;
     }
@@ -4893,7 +4921,7 @@ bool OriginalUiSession::resume_front_after_start_failure(std::string& error){
         error="Failed NativeStartGame has no retained authored front-menu owner";return false;
     }
     impl_->selected=true;impl_->report_frame=true;
-    impl_->frame_time=std::chrono::steady_clock::now();error.clear();
+    impl_->frame_time=dh2::game_clock::steady_now();error.clear();
     __android_log_print(ANDROID_LOG_INFO,tag,
         "Authored menu resumed after failed NativeStartGame | current %s | slot assignment and source menu stack retained",
         impl_->active_menu_path().c_str());
@@ -4952,7 +4980,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
         if(!self.loaded){self.driver_width=width;self.driver_height=height;require(self.load(error),"Gameplay UI load failed without a diagnostic");}
         require(self.viewport(width,height,error),"Gameplay UI viewport update failed without a diagnostic");
         if(self.character_menu_movie){
-            const auto now=std::chrono::steady_clock::now();
+            const auto now=dh2::game_clock::steady_now();
             const auto elapsed=now-self.game_menu_frame_time;self.game_menu_frame_time=now;
             const auto milliseconds=self.game_menu_clock.advance(std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed));
             self.last_menu_dt=milliseconds;
@@ -4982,7 +5010,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
             // through its canonical frame owner so authored combat-text clones
             // animate and retire; the menu-present branch above already does
             // this as active or inactive and must not be advanced twice.
-            const auto now=std::chrono::steady_clock::now();
+            const auto now=dh2::game_clock::steady_now();
             if(self.game_menu_frame_time.time_since_epoch().count()==0){
                 self.game_menu_clock.reset();self.game_menu_frame_time=now;
             }
@@ -5034,7 +5062,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                 std::ostringstream out;out<<"Authored HUD state identity changed | status "<<character<<" | projection "<<identity;
                 throw std::runtime_error(out.str());
             }
-            const auto now=std::chrono::steady_clock::now();
+            const auto now=dh2::game_clock::steady_now();
             const bool refresh_usable=self.gameplay_hud_usable_refresh.due(now);
             auto projection=self.gameplay_hud_state;
             std::string projection_error;

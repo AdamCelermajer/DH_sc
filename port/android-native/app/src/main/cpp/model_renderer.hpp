@@ -146,6 +146,8 @@ std::string debug_player_death();
 // positive `raise_max_to` (whole HP) first raises Max_HP, so a level-1 test
 // Character survives a boss's first blow.
 std::string debug_player_refill_hp(std::int32_t raise_max_to=0);
+// Development fixture: writes the Player's HP (properties[36], whole HP) so scenarios start hurt.
+std::string debug_player_set_hp(std::int32_t whole_hp);
 // Verification probes (desktop --start-script / --play-anim): start a Level
 // pyscript by name on the one ScriptManager session, and run Character::
 // _RegisterAnim/_PlayAnim (AnimDict names) on the Player or a named Monster.
@@ -168,7 +170,8 @@ struct GameplayPoseSnapshotV1 {
  // Player current/max HP property values (24.8 fixed point).
  std::int32_t player_hp=0,player_max_hp=0;
 };
-bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
+// require_enemy=false: a level with no live Monster still reports the Player pose (enemy_index -1).
+bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&,bool require_enemy=true);
 // Development probe for the boss-fight desktop scenario: the named Character's
 // external AIS script, FSM state, health, position, CharAI target and the
 // callback / CharAI skill-command counters of its one Lua VM.
@@ -191,6 +194,12 @@ bool boss_probe_place_player(const std::array<float,3>&,std::string&);
 bool ooi_probe_snapshot(std::string& name,std::int32_t& type,std::string&);
 // World position of a named source QuestMoveInZone volume (development scenarios).
 bool quest_zone_probe_status(const std::string& exact_name,std::string& text);
+struct WalkTriggerZoneV1 {
+ std::string name,script,move_out_script,door;
+ std::array<float,3> centre{};
+ std::int32_t count=1;
+};
+bool walk_trigger_zones(std::vector<WalkTriggerZoneV1>& zones);
 bool quest_zone_probe_position(const std::string& exact_name,std::array<float,3>&,std::string&);
 // One-name Level script commands (ShowActor 42 / HideActor 43 / PutCharacterInIdle 31
 // / StopActor 39) through the generic host provider; development scenarios only.

@@ -265,6 +265,30 @@
       "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
       "bytes": 131132,
       "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_monster_assassin_teleport.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/spell_dh2_monster_assassin_teleport.bdae",
+      "bytes": 38996,
+      "sha256": "3c7c6593fda9c5ded32f56f96549c1b5392ce53411919a0040b1e0f199066cb8"
+    },
+    {
+      "path": "data/3d/interface/level_up.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/level_up.bdae",
+      "bytes": 29292,
+      "sha256": "47e297936e527a4b54fc60666315be5e87128945bb730d981df8c6b322896942"
+    },
+    {
+      "path": "data/3d/textures/atlas_fx_particles_000.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_000.tga",
+      "bytes": 32828,
+      "sha256": "cac12d1c4eb6c29410088c85721fb682d1893d3586a22234402fb2873f2c0253"
+    },
+    {
+      "path": "data/3d/textures/fx_magic_lenz_flares_005.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_005.tga",
+      "bytes": 8252,
+      "sha256": "1b43f3316d72f8c753e7a7ce731c7d3fbfc667b1c1f3885899c82f7ce52cf875"
     }
   ]
 }

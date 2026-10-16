@@ -204,6 +204,15 @@ Status save_all(level_savegame_owner_v1::Owner& save,
             return Status::facts_failed;
         }
         const auto& object = row.save_facts;
+        // GameObject::CheckSpawnProbability (0x38bd64) deletes a row whose spawn_prob roll
+        // failed through ObjectBase::Delete + ObjectManager::MarkForDeletion (0x3432f8); the
+        // manager destroys the marked object, so the Level save never sees it. Here the row
+        // stays in the map with +0x81 raised; a deleted non-Character row has no OBJS entry.
+        if (!record && !object.is_character) {
+            const auto deleted = live->live_fields.deleted_81
+                ? *live->live_fields.deleted_81 : live->deleted_81;
+            if (deleted == 1) continue;
+        }
         const bool canonical_character = !record &&
             facts->is_canonical_character_identity &&
             facts->is_canonical_character_identity(facts->context, live->identity);

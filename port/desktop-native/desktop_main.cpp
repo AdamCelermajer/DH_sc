@@ -2,6 +2,7 @@
 #include "gameplay_audio_sdl.hpp"
 #include "model_renderer.hpp"
 #include "../android-native/app/src/main/cpp/player_skill_effect_audit_v1.hpp"
+#include "../android-native/app/src/main/cpp/game_clock_v1.hpp"
 #include "original_ui_session.hpp"
 #include "../android-native/app/src/main/cpp/menu_start_commit_gate_v1.hpp"
 #include "../game-data/campaign_profile_files_v1.hpp"
@@ -14,6 +15,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <deque>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdint>
@@ -48,6 +50,9 @@ struct Options {
     std::filesystem::path initial_capture;
     std::uint64_t frames = 0;
     bool show_window = false;
+    // Headless (--frames without --show) runs advance the game clock by exactly this
+    // many milliseconds per rendered frame; interactive runs ignore it.
+    std::uint64_t fixed_dt_ms = 25;
     std::int32_t level_row = -1;
     // PlayerBase row used when the direct-row path has to create the fresh
     // source profile (the same class ids the authored class-selection menu
@@ -136,8 +141,15 @@ struct Options {
     // faery-skill: press the authored HUD faery button with a touch instead of
     // calling the NativeHUDSpell entry directly.
     bool faery_hud_tap = false;
+    bool hud_buttons_scenario = false;
+    int window_w = 1280, window_h = 720;
     // 1280x720 reference-layout touch point used by --faery-hud-tap (default: faery button).
     int hud_tap_x = 1176, hud_tap_y = 281;
+    // --ui-tap X,Y@FRAME (repeatable): a press at the rendered gameplay frame and a release 4
+    // frames later, on the 1280x720 reference layout. Drives the authored HUD/menus (pause menu,
+    // quest tab) without a scenario.
+    struct UiTap { int x, y; std::uint64_t frame; };
+    std::vector<UiTap> ui_taps;
     // skill-matrix: test only this SkillTree row (a failed train poisons later rows).
     std::int32_t matrix_only = -1;
     // faery-follow: select this Faery Save slot (0..4) through the same entry as
@@ -145,12 +157,15 @@ struct Options {
     std::int32_t follow_faery_select = -1;
     std::filesystem::path capture_series;
     std::uint64_t capture_every = 300;
+    std::uint64_t capture_death_frames = 0;  // --capture-death N: capture each frame from the Player's death for N frames
+    bool hold_stick_cutscene = false;  // --hold-stick-cutscene: keep a movement stick held through every cutscene and log the Player
+    std::uint64_t capture_from = 0;  // --capture-from N: first frame of --capture-series
     // faery-follow ends by leaving the level so the source LevelSavegame (which
     // serializes every Character position, the Faery's included) is published.
     std::string follow_exit_destination;
     double follow_exit_entry = 0.0;
     bool probe_scenario() const {
-        return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario ||
+        return faery_follow_scenario || faery_skill_scenario || hud_buttons_scenario || skill_matrix_scenario ||
                boss_fight_scenario || talk_npc_scenario || enter_zone_scenario || walk_level_scenario;
     }
     // walk-level: walk the Player through every TriggerZone of the level in route order,
@@ -293,6 +308,13 @@ Options parse(int argc, char** argv) {
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
+        else if (arg == "--window-size") {
+            const auto wh = value("--window-size");
+            const auto comma = wh.find(',');
+            if (comma == std::string::npos) throw std::runtime_error("--window-size expects W,H");
+            options.window_w = std::stoi(wh.substr(0, comma));
+            options.window_h = std::stoi(wh.substr(comma + 1));
+        }
         else if (arg == "--flush-dialogs") options.flush_dialogs = true;
         else if (arg == "--hud-tap-xy") {
             const auto xy = value("--hud-tap-xy");
@@ -301,12 +323,24 @@ Options parse(int argc, char** argv) {
             options.hud_tap_x = std::stoi(xy.substr(0, comma));
             options.hud_tap_y = std::stoi(xy.substr(comma + 1));
         }
+        else if (arg == "--ui-tap") {
+            const auto spec = value("--ui-tap");
+            const auto comma = spec.find(','), at = spec.find('@');
+            if (comma == std::string::npos || at == std::string::npos || at < comma)
+                throw std::runtime_error("--ui-tap expects X,Y@FRAME");
+            options.ui_taps.push_back({std::stoi(spec.substr(0, comma)),
+                                       std::stoi(spec.substr(comma + 1, at - comma - 1)),
+                                       std::stoull(spec.substr(at + 1))});
+        }
         else if (arg == "--matrix-only") options.matrix_only = std::stoi(value("--matrix-only"));
         else if (arg == "--follow-faery") options.follow_faery_select = std::stoi(value("--follow-faery"));
         else if (arg == "--walk-from") options.walk_from = std::stoi(value("--walk-from"));
         else if (arg == "--walk-to") options.walk_to = std::stoi(value("--walk-to"));
         else if (arg == "--capture-series") options.capture_series = value("--capture-series");
         else if (arg == "--capture-every") options.capture_every = std::stoull(value("--capture-every"));
+        else if (arg == "--capture-death") options.capture_death_frames = std::stoull(value("--capture-death"));
+        else if (arg == "--hold-stick-cutscene") options.hold_stick_cutscene = true;
+        else if (arg == "--capture-from") options.capture_from = std::stoull(value("--capture-from"));
         else if (arg == "--scenario") {
             const auto scenario = value("--scenario");
             if (scenario == "move-attack") options.movement_attack_scenario = true;
@@ -324,6 +358,7 @@ Options parse(int argc, char** argv) {
                 options.movement_attack_scenario = options.movement_kill_scenario = options.hud_touch_scenario = true;
             else if (scenario == "faery-follow") options.faery_follow_scenario = true;
             else if (scenario == "faery-skill") options.faery_skill_scenario = true;
+            else if (scenario == "hud-buttons") options.hud_buttons_scenario = true;
             else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
             else if (scenario == "boss-fight") options.boss_fight_scenario = true;
             else if (scenario == "talk-npc") options.talk_npc_scenario = true;
@@ -334,6 +369,13 @@ Options parse(int argc, char** argv) {
             else throw std::runtime_error("Unknown scenario: " + scenario);
         }
         else if (arg == "--show") options.show_window = true;
+        else if (arg == "--fixed-dt-ms") {
+            const auto count = value("--fixed-dt-ms");
+            std::size_t parsed = 0;
+            options.fixed_dt_ms = std::stoull(count, &parsed);
+            if (parsed != count.size() || options.fixed_dt_ms == 0)
+                throw std::runtime_error("--fixed-dt-ms must be a positive integer");
+        }
         else if (arg == "--frames") {
             const auto count = value("--frames");
             std::size_t parsed = 0;
@@ -350,6 +392,7 @@ Options parse(int argc, char** argv) {
                          "  --player-class C   knight (default), mage or rogue: class of the fresh profile created for --level-row runs\n"
                          "  --frames N         exit after N rendered UI/gameplay frames (hidden window, no audio)\n"
                          "  --show             show the window and play audio for --frames runs\n"
+                         "  --fixed-dt-ms N    headless --frames runs only: game clock advances exactly N ms per frame (default 25)\n"
                          "  --transition-to L[:E] queue NativeGoToZone to level L (entry E) at frame 300 (see --transition-at)\n"
                          "  --transition-at N     queue --transition-to at rendered frame N instead of 300\n"
                          "  --transition-after-revive  queue --transition-to 120 frames after the first Continue revive (move-defend/move-kill)\n"
@@ -395,7 +438,7 @@ Options parse(int argc, char** argv) {
     }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
-        unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
+        unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) + unsigned(options.hud_buttons_scenario) +
         unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario) +
         unsigned(options.talk_npc_scenario) + unsigned(options.enter_zone_scenario) +
         unsigned(options.walk_level_scenario);
@@ -654,6 +697,28 @@ bool steer_toward_nearest_enemy() {
            std::hypot(route.waypoints[next][0] - pose.player_position[0],
                       route.waypoints[next][1] - pose.player_position[1]) <= 48.0f)
         ++next;
+    // The route is a node polyline: a straight line from the Player to its next
+    // node can graze a wall corner the nav floor walks around, pinning the Player
+    // (seen when an ally kills the enemy being approached and the nearest
+    // survivor lies behind that corner). Like walk-level's unreachable-target
+    // teleport, place the Player on the next route node after 60 calls without
+    // progress.
+    {
+        static std::array<float, 2> stuck_anchor{1e30f, 1e30f};
+        static unsigned stuck_calls = 0;
+        if (std::hypot(pose.player_position[0] - stuck_anchor[0], pose.player_position[1] - stuck_anchor[1]) > 4.0f) {
+            stuck_anchor = {pose.player_position[0], pose.player_position[1]};
+            stuck_calls = 0;
+        } else if (std::hypot(pose.enemy_position[0] - pose.player_position[0], pose.enemy_position[1] - pose.player_position[1]) > 400.0f && ++stuck_calls >= 60) {
+            stuck_calls = 0;
+            const auto& hop = route.waypoints[std::min(next + 1, route.waypoints.size() - 1)];
+            std::string place_error;
+            const bool placed = model_renderer::boss_probe_place_player({hop[0], hop[1], 255.f}, place_error);
+            std::cout << "Scenario stuck | placed Player on route node " << hop[0] << ',' << hop[1]
+                      << (placed ? " ok" : " ERROR " + place_error) << "\n";
+            return true;
+        }
+    }
     const auto& waypoint = route.waypoints[next];
     const float dx = waypoint[0] - pose.player_position[0];
     const float dy = waypoint[1] - pose.player_position[1];
@@ -835,6 +900,7 @@ public:
         if (!refresh_player()) return;
         if (options_.faery_follow_scenario) follow_tick();
         else if (options_.faery_skill_scenario) faery_skill_tick();
+        else if (options_.hud_buttons_scenario) hud_buttons_tick();
         else if (options_.skill_matrix_scenario) matrix_tick();
         else if (options_.boss_fight_scenario) boss_tick();
         else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_tick();
@@ -848,6 +914,7 @@ public:
         }
         if (options_.faery_follow_scenario) follow_finish();
         else if (options_.faery_skill_scenario) faery_skill_finish();
+        else if (options_.hud_buttons_scenario) hud_buttons_finish();
         else if (options_.skill_matrix_scenario) matrix_finish();
         else if (options_.boss_fight_scenario) boss_finish();
         else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_finish();
@@ -868,9 +935,10 @@ public:
                 frame_ >= bf_done_frame_ + options_.post_death_frames);
     }
     // HUD touch hand-off for --faery-hud-tap: action 0 = press, 1 = release.
-    bool take_tap(int& action) {
-        if (!tap_queue_.empty() && frame_ >= tap_queue_.front().first) {
-            action = tap_queue_.front().second;
+    bool take_tap(int& action, int& control) {
+        if (!tap_queue_.empty() && frame_ >= std::get<0>(tap_queue_.front())) {
+            action = std::get<1>(tap_queue_.front());
+            control = std::get<2>(tap_queue_.front());
             tap_queue_.erase(tap_queue_.begin());
             return true;
         }
@@ -904,7 +972,7 @@ private:
     unsigned deaths_ = 0;
     std::uint64_t death_frame_ = 0;
     std::uint64_t first_ms_ = 0;
-    std::vector<std::pair<std::uint64_t, int>> tap_queue_;  // (frame, 2 move / 0 press / 1 release)
+    std::vector<std::tuple<std::uint64_t, int, int>> tap_queue_;  // (frame, 2 move / 0 press / 1 release, HUD control or -1 for --hud-tap-xy)
 
     bool initialize() {
         if (!model_renderer::ui_player_identity(player_, error_) || !player_) return false;
@@ -914,6 +982,7 @@ private:
                  (unsigned long long)frame_, (unsigned long long)player_, options_.level_row,
                  options_.faery_follow_scenario ? "faery-follow" :
                  options_.faery_skill_scenario ? "faery-skill" :
+                 options_.hud_buttons_scenario ? "hud-buttons" :
                  options_.boss_fight_scenario ? "boss-fight" :
                  options_.talk_npc_scenario ? "talk-npc" :
                  options_.enter_zone_scenario ? "enter-zone" :
@@ -943,7 +1012,7 @@ private:
         // The pose scan walks every world object; refresh it on the 15-frame
         // cadence the other scenarios use and keep the last value in between.
         if (frame_ % 15 == 0 || !pose_valid_once_) {
-            have_pose_ = model_renderer::gameplay_pose_snapshot(pose_, error_);
+            have_pose_ = model_renderer::gameplay_pose_snapshot(pose_, error_, !options_.walk_level_scenario);
             pose_valid_once_ = true;
         }
         return true;
@@ -954,6 +1023,113 @@ private:
     bool read_hud(bool refresh = true) {
         std::string error;
         return model_renderer::ui_player_hud_projection(player_, refresh, hud_, error);
+    }
+
+
+    // ----- hud-buttons ------------------------------------------------------
+    // Touches every HUD button through the real touch path at the configured window size:
+    // potion (HP below max -> count down, HP up), skill slots 1-3 (state 6 + effect), faery.
+    enum class HbStep { wait, potion, skills, faery, done };
+    HbStep hb_step_ = HbStep::wait;
+    std::uint64_t hb_next_ = 0, hb_watch_end_ = 0;
+    int hb_index_ = 0, hb_phase_ = 0;
+    std::int32_t hb_pot_a_ = 0, hb_pot_b_ = 0, hb_hp_ = 0;
+    bool hb_state6_ = false;
+    dh2::native::player_skill_effect_audit_v1::Counters hb_ec_;
+    std::array<std::int32_t, 3> hb_slots_{{-1, -1, -1}};
+    std::vector<std::string> hb_results_;
+    unsigned hb_failed_ = 0;
+
+    void hb_verdict(const std::string& name, bool ok, const std::string& detail) {
+        plog(fmt("hud-buttons RESULT | %s | %s | %s", name.c_str(), ok ? "PASS" : "FAIL", detail.c_str()));
+        hb_results_.push_back(name);
+        if (!ok) { ++hb_failed_; if (failure_.empty()) failure_ = "hud-buttons: " + name + " failed: " + detail; }
+    }
+
+    void hud_buttons_tick() {
+        if (hud_blocked_) { ++hb_next_; ++hb_watch_end_; return; }
+        const int state = model_renderer::gameplay_player_state();
+        switch (hb_step_) {
+        case HbStep::wait: {
+            if (frame_ < 120) return;
+            std::string error;
+            model_renderer::ui_player_skill_slots(player_, hb_slots_, error);
+            const auto vitals = model_renderer::player_vitals();
+            plog(fmt("hud-buttons setup | frame %llu | state %d | HP %.1f/%.1f MP %.1f | skill slots %d %d %d",
+                     (unsigned long long)frame_, state, vitals[0] / 256.0, vitals[1] / 256.0, vitals[2] / 256.0,
+                     hb_slots_[0], hb_slots_[1], hb_slots_[2]));
+            // Be hurt first: half HP, then press the potion button.
+            plog("hud-buttons hurt | " + model_renderer::debug_player_set_hp(std::max(1, vitals[1] / 256 / 2)));
+            model_renderer::ui_player_potions(player_, hb_pot_a_, hb_pot_b_, error);
+            hb_hp_ = model_renderer::player_vitals()[0];
+            plog(fmt("hud-buttons potion before | potions %d/%d | HP %.1f", hb_pot_a_, hb_pot_b_, hb_hp_ / 256.0));
+            tap_queue_ = {{frame_, 2, 2}, {frame_ + 2, 0, 2}, {frame_ + 8, 1, 2}};
+            hb_next_ = frame_ + 90;
+            hb_step_ = HbStep::potion;
+            break;
+        }
+        case HbStep::potion: {
+            if (frame_ < hb_next_) return;
+            std::int32_t a = 0, b = 0;
+            std::string error;
+            model_renderer::ui_player_potions(player_, a, b, error);
+            const auto hp = model_renderer::player_vitals()[0];
+            hb_verdict("potion", a < hb_pot_a_ && hp > hb_hp_,
+                       fmt("potions %d -> %d | HP %.1f -> %.1f", hb_pot_a_, a, hb_hp_ / 256.0, hp / 256.0));
+            hb_index_ = 0;
+            hb_step_ = HbStep::skills;
+            hb_next_ = frame_ + 1;
+            break;
+        }
+        case HbStep::skills:
+        case HbStep::faery: hb_skill_step(state); break;
+        case HbStep::done: break;
+        }
+    }
+
+    // One button at a time: wait for an idle Player, press, watch 120 frames for state 6/7 + effect.
+    void hb_skill_step(int state) {
+        const bool faery = hb_step_ == HbStep::faery;
+        if (hb_phase_ == 0) {
+            if (frame_ < hb_next_) return;
+            if (!faery && hb_index_ >= 3) { hb_step_ = HbStep::faery; hb_index_ = 0; hb_next_ = frame_ + 1; return; }
+            if (!faery && hb_slots_[hb_index_] < 0) {
+                plog(fmt("hud-buttons skill %d | slot empty, skipped", hb_index_ + 1));
+                ++hb_index_;
+                return;
+            }
+            if (state == 5 || state == 6 || state == 7 || state == 11) return;  // busy
+            hb_ec_ = dh2::native::player_skill_effect_audit_v1::counters();
+            hb_state6_ = false;
+            const int control = faery ? 3 : 4 + hb_index_;
+            tap_queue_ = {{frame_, 2, control}, {frame_ + 2, 0, control}, {frame_ + 8, 1, control}};
+            hb_watch_end_ = frame_ + 120;
+            hb_phase_ = 1;
+            return;
+        }
+        if (state == 6 || state == 7) hb_state6_ = true;
+        if (frame_ < hb_watch_end_) return;
+        const auto now = dh2::native::player_skill_effect_audit_v1::counters();
+        const unsigned effects = (now.on_skill_dispatched - hb_ec_.on_skill_dispatched) +
+                                 (now.fx_requests - hb_ec_.fx_requests) +
+                                 (now.projectiles - hb_ec_.projectiles) + (now.buffs - hb_ec_.buffs) +
+                                 (now.attacks - hb_ec_.attacks);
+        const std::string name = faery ? std::string("faery") : fmt("skill%d", hb_index_ + 1);
+        hb_verdict(name, hb_state6_ && effects > 0,
+                   fmt("entered state 6/7 %d | effect events %u (OnSkill %u fx %u proj %u buff %u attacks %u)",
+                       int(hb_state6_), effects, now.on_skill_dispatched - hb_ec_.on_skill_dispatched,
+                       now.fx_requests - hb_ec_.fx_requests, now.projectiles - hb_ec_.projectiles,
+                       now.buffs - hb_ec_.buffs, now.attacks - hb_ec_.attacks));
+        hb_phase_ = 0;
+        hb_next_ = frame_ + 200;  // let cooldown / animation settle
+        if (faery) hb_step_ = HbStep::done;
+        else ++hb_index_;
+    }
+
+    void hud_buttons_finish() {
+        if (hb_step_ != HbStep::done && failure_.empty())
+            failure_ = fmt("hud-buttons: did not finish (step %d, %zu results)", int(hb_step_), hb_results_.size());
+        plog(fmt("hud-buttons summary | results %zu | failed %u", hb_results_.size(), hb_failed_));
     }
 
     // ----- faery-follow -----------------------------------------------------
@@ -1662,40 +1838,82 @@ private:
     }
 
     // ----- walk-level -------------------------------------------------------
-    struct WalkTarget {const char* name; float x, y; };
+    struct WalkTarget {const char* name; float x, y, z; };
     // SWAMP TriggerZone centres (logged by "TriggerZone InitPost") in route order.
     static constexpr WalkTarget kSwampWalk[] = {
-        {"_prim_TriggerZone_KillTroll", -2609.2f, 15.1f},
-        {"_prim_TriggerZone_LizManIntro", -2897.1f, -3.4f},
-        {"_prim_MothMovieTriggerZone", -4511.7f, -42.5f},
-        {"_prim_TriggerZone_001_ChestAmbush", -6100.7f, 5002.8f},
-        {"_prim_TriggerZone_BigLizIntro", -6395.0f, 9602.1f},
-        {"_prim_TriggerZone_Camp_Intro", -9452.4f, 11816.9f},
-        {"_prim_Zone_EnterLoc_MerchantCamp", -10992.4f, 11844.6f},
-        {"_prim_TriggerZone_18", -11571.0f, 11233.1f},
-        {"_prim_TriggerZone_001", -12137.5f, 10444.0f},
-        {"_prim_TriggerZone_hacksavething", -12000.0f, 9389.6f},
-        {"_prim_TriggerZone_17", -15437.4f, 12000.0f},
+        {"_prim_TriggerZone_KillTroll", -2609.2f, 15.1f, 255.f},
+        {"_prim_TriggerZone_LizManIntro", -2897.1f, -3.4f, 255.f},
+        {"_prim_MothMovieTriggerZone", -4511.7f, -42.5f, 255.f},
+        {"_prim_TriggerZone_001_ChestAmbush", -6100.7f, 5002.8f, 255.f},
+        {"_prim_TriggerZone_BigLizIntro", -6395.0f, 9602.1f, 255.f},
+        {"_prim_TriggerZone_Camp_Intro", -9452.4f, 11816.9f, 255.f},
+        {"_prim_Zone_EnterLoc_MerchantCamp", -10992.4f, 11844.6f, 255.f},
+        {"_prim_TriggerZone_18", -11571.0f, 11233.1f, 255.f},
+        {"_prim_TriggerZone_001", -12137.5f, 10444.0f, 255.f},
+        {"_prim_TriggerZone_hacksavething", -12000.0f, 9389.6f, 255.f},
+        {"_prim_TriggerZone_17", -15437.4f, 12000.0f, 255.f},
     };
     std::size_t wl_target_ = 0;
     bool wl_init_ = false, wl_teleported_ = false;
     // DARKWOOD (row 4) route: TriggerZone centres from "TriggerZone InitPost" (count-1 story triggers
     // and the enterLocation zones; Door_Teleport doorports are excluded because they change level).
     static constexpr WalkTarget kDarkwoodWalk[] = {
-        {"_prim_TriggerZone_Hellgate", 3633.5f, -3568.2f},
-        {"_prim_zone_location_east", 11128.9f, -8720.3f},
-        {"_prim_TriggerZone_StatueRed", 13973.9f, -8676.5f},
-        {"_prim_zone_location_graveyard", 6436.0f, 4772.0f},
-        {"_prim_zone_location_north", -3026.7f, 6920.7f},
-        {"_prim_zone_location_GCV", -3596.7f, 17870.7f},
-        {"_prim_TriggerZone_CathedralLocked", -10869.8f, 10741.8f},
-        {"_prim_zone_location_west", -10497.0f, -699.0f},
-        {"_prim_TriggerZone_IceLocked", -13257.9f, -2975.3f},
-        {"_prim_zone_location_south", -7356.8f, -12498.8f},
-        {"_prim_TriggerZone_Tuto_WalkCombo", 3350.0f, -17514.1f},
+        {"_prim_TriggerZone_Hellgate", 3633.5f, -3568.2f, 255.f},
+        {"_prim_zone_location_east", 11128.9f, -8720.3f, 255.f},
+        {"_prim_TriggerZone_StatueRed", 13973.9f, -8676.5f, 255.f},
+        {"_prim_zone_location_graveyard", 6436.0f, 4772.0f, 255.f},
+        {"_prim_zone_location_north", -3026.7f, 6920.7f, 255.f},
+        {"_prim_zone_location_GCV", -3596.7f, 17870.7f, 255.f},
+        {"_prim_TriggerZone_CathedralLocked", -10869.8f, 10741.8f, 255.f},
+        {"_prim_zone_location_west", -10497.0f, -699.0f, 255.f},
+        {"_prim_TriggerZone_IceLocked", -13257.9f, -2975.3f, 255.f},
+        {"_prim_zone_location_south", -7356.8f, -12498.8f, 255.f},
+        {"_prim_TriggerZone_Tuto_WalkCombo", 3350.0f, -17514.1f, 255.f},
     };
-    const WalkTarget* wl_table() const {return options_.level_row == 4 ? kDarkwoodWalk : kSwampWalk;}
+    // Any other level: the route is built from the level's TriggerZones (level-changing doorports
+    // excluded) in nearest-neighbour order from the Player's spawn.
+    std::vector<WalkTarget> wl_auto_;
+    std::deque<std::string> wl_auto_names_;
+    bool wl_auto_built_ = false;
+    bool wl_is_auto() const {return options_.level_row != 4 && options_.level_row != 41;}
+    void wl_build_auto() {
+        wl_auto_built_ = true;
+        std::vector<model_renderer::WalkTriggerZoneV1> zones;
+        if (!model_renderer::walk_trigger_zones(zones)) {plog("walk route | no trigger zones available"); return;}
+        std::vector<model_renderer::WalkTriggerZoneV1> keep;
+        for (const auto& z : zones) {
+            std::string lower = z.script;
+            for (auto& c : lower) c = char(std::tolower((unsigned char)c));
+            // Level-changing doorports run Door_Teleport/ExitLevel scripts; in-level zones stay on the route.
+            const bool door = lower.find("door_teleport") != std::string::npos || lower.find("exitlevel") != std::string::npos ||
+                              lower.find("loadlevel") != std::string::npos;
+            plog(fmt("walk route-zone | %s | script '%s' | move-out '%s' | door '%s' | count %d | centre %.0f %.0f %.0f | %s",
+                     z.name.c_str(), z.script.c_str(), z.move_out_script.c_str(), z.door.c_str(), z.count,
+                     z.centre[0], z.centre[1], z.centre[2], door ? "EXCLUDED" : "route"));
+            if (!door) keep.push_back(z);
+        }
+        float cx = have_pose_ ? pose_.player_position[0] : 0.f, cy = have_pose_ ? pose_.player_position[1] : 0.f;
+        while (!keep.empty()) {
+            std::size_t best = 0;
+            float bd = 1e30f;
+            for (std::size_t i = 0; i < keep.size(); ++i) {
+                const float d = std::hypot(keep[i].centre[0] - cx, keep[i].centre[1] - cy);
+                if (d < bd) {bd = d; best = i;}
+            }
+            wl_auto_names_.push_back(keep[best].name);
+            wl_auto_.push_back({wl_auto_names_.back().c_str(), keep[best].centre[0], keep[best].centre[1], keep[best].centre[2]});
+            cx = keep[best].centre[0];
+            cy = keep[best].centre[1];
+            keep.erase(keep.begin() + std::ptrdiff_t(best));
+        }
+        plog(fmt("walk route | %zu targets", wl_auto_.size()));
+    }
+    const WalkTarget* wl_table() const {
+        if (wl_is_auto()) return wl_auto_.data();
+        return options_.level_row == 4 ? kDarkwoodWalk : kSwampWalk;
+    }
     std::size_t wl_count() const {
+        if (wl_is_auto()) return wl_auto_.size();
         return options_.level_row == 4 ? sizeof(kDarkwoodWalk) / sizeof(kDarkwoodWalk[0])
                                        : sizeof(kSwampWalk) / sizeof(kSwampWalk[0]);
     }
@@ -1744,6 +1962,8 @@ private:
         if (wl_done_) return;
         walk_scripts();
         if (frame_ % 15 == 0) walk_census();
+        if (frame_ % 600 == 0)
+            plog(fmt("walk status | frame %llu | blocked %d | pose %d | target %zu/%zu", (unsigned long long)frame_, int(hud_blocked_), int(have_pose_), wl_target_, wl_end()));
         const auto vitals = model_renderer::player_vitals();
         if (frame_ % 60 == 0 && vitals[0] < vitals[1] / 2)
             model_renderer::debug_player_refill_hp(0);
@@ -1755,11 +1975,12 @@ private:
         }
         if (!wl_init_) {
             wl_init_ = true;
+            if (wl_is_auto() && !wl_auto_built_) wl_build_auto();
             wl_target_ = std::size_t(std::max(0, options_.walk_from));
             if (wl_target_ > 0 && wl_target_ < wl_end()) {
                 const auto& f = wl_table()[wl_target_ - 1];
                 std::string err;
-                const bool ok = model_renderer::boss_probe_place_player({f.x, f.y, 255.f}, err);
+                const bool ok = model_renderer::boss_probe_place_player({f.x, f.y, f.z}, err);
                 plog(fmt("walk start-at | place at target %zu (%s) %s %s", wl_target_ - 1, f.name, ok ? "ok" : "ERROR", err.c_str()));
             }
         }
@@ -1769,9 +1990,12 @@ private:
             return;
         }
         const auto& t = wl_table()[wl_target_];
-        const Vec3 goal{t.x, t.y, 255.f};
+        const Vec3 goal{t.x, t.y, t.z};
         if (!wl_target_frame_) wl_target_frame_ = frame_;
-        if (!have_pose_) return;
+        if (!have_pose_) {
+            if (frame_ % 600 == 0) plog(fmt("walk no-pose | frame %llu | %s", (unsigned long long)frame_, error_.c_str()));
+            return;
+        }
         if (wl_arrived_) {
             halt_player();
             if (frame_ - wl_arrived_frame_ >= 300) {
@@ -1968,7 +2192,7 @@ private:
             // Authored HUD faery button: press now, release 6 frames later (the
             // GameSWF onRelease is what reaches NativeHUDSpell).
             // Pointer move first (GameSWF hit-tests the cursor), press, hold, release.
-            tap_queue_ = {{frame_, 2}, {frame_ + 2, 0}, {frame_ + 8, 1}};
+            tap_queue_ = {{frame_, 2, -1}, {frame_ + 2, 0, -1}, {frame_ + 8, 1, -1}};
             fs_use_ok_ = true;
             fs_use_error_.clear();
         } else {
@@ -2842,6 +3066,7 @@ int main(int argc, char** argv) {
         // Bounded (--frames) runs are automated tests: render into a hidden
         // window and use SDL's dummy audio driver unless --show is given.
         const bool headless = options.frames > 0 && !options.show_window;
+        if (headless) dh2::game_clock::enable_fixed_step(options.fixed_dt_ms);
         if (headless) SDL_setenv("SDL_AUDIODRIVER", "dummy", 1);
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
             throw std::runtime_error(std::string("SDL_Init: ") + SDL_GetError());
@@ -2854,7 +3079,7 @@ int main(int argc, char** argv) {
         } else options.runtime = std::filesystem::absolute(options.runtime);
         std::filesystem::create_directories(options.runtime);
         SDL_Window* window = SDL_CreateWindow("Dungeon Hunter II | shared native runtime",
-            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
+            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, options.window_w, options.window_h,
             SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI |
             (headless ? SDL_WINDOW_HIDDEN : 0));
         if (!window) throw std::runtime_error(std::string("SDL_CreateWindow: ") + SDL_GetError());
@@ -2999,7 +3224,7 @@ int main(int argc, char** argv) {
         bool text_input_started = false;
         std::uint64_t rendered_frames = 0;
         int mouse_x = 0, mouse_y = 0;
-        auto last_vitals = SDL_GetTicks64();
+        auto last_vitals = dh2::game_clock::monotonic_ms();
         std::array<int, 7> scenario_initial_vitals{};
         std::int32_t scenario_target_index = -1;
         // move-kill: ray/area skills (Mage Cold Ray, Rogue Roundhouse...) can kill
@@ -3025,6 +3250,7 @@ int main(int argc, char** argv) {
         std::int32_t scenario_last_item_count = -1;
         bool scenario_damage_verified = false;
         bool scenario_player_died = false, scenario_revived = false;
+        std::uint64_t capture_death_start = 0;
         std::uint64_t transition_revive_frame = 0;
         unsigned scenario_death_taps = 0;
         std::int32_t scenario_last_hp = 0;
@@ -3275,22 +3501,54 @@ int main(int argc, char** argv) {
                 ++cutscene_wait_frames;
                 ++options.frames;
             }
+            for (const auto& tap : options.ui_taps) {
+                const int action = rendered_frames == tap.frame ? 0 : rendered_frames == tap.frame + 4 ? 1 : -1;
+                if (!gameplay || action < 0) continue;
+                int window_width = 1, window_height = 1;
+                SDL_GetWindowSize(window, &window_width, &window_height);
+                if (!dispatch_touch(original_ui, window, window_width * tap.x / 1280,
+                                    window_height * tap.y / 720, action, ui_error))
+                    plog("ui-tap failed: " + ui_error);
+                else plog(fmt("ui-tap %d,%d %s | frame %llu", tap.x, tap.y, action ? "released" : "pressed",
+                              (unsigned long long)rendered_frames));
+            }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");
             if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
                 probe_runner.set_hud_blocked(cutscene_now);
-                probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
-                int tap_action = -1;
-                if (probe_runner.take_tap(tap_action)) {
-                    // Centre of the authored HUD faery button on the 1280x720 reference layout.
+                probe_runner.tick(rendered_frames - intro_held_frames, dh2::game_clock::monotonic_ms());
+                if (options.hold_stick_cutscene && cutscene_now) {
+                    // A held joystick during a locked cutscene: the Player must neither move nor leave Idle.
+                    steer_world(1.0f, 0.5f);
+                    if (rendered_frames % 30 == 0) {
+                        model_renderer::GameplayPoseSnapshotV1 hold_pose;
+                        if (model_renderer::gameplay_pose_snapshot(hold_pose, ui_error))
+                            std::cout << "Scenario hold-stick | frame " << rendered_frames << " | Player "
+                                      << hold_pose.player_position[0] << ',' << hold_pose.player_position[1] << ','
+                                      << hold_pose.player_position[2] << std::endl;
+                    }
+                }
+                int tap_action = -1, tap_control = -1;
+                if (probe_runner.take_tap(tap_action, tap_control)) {
                     int window_width = 1, window_height = 1;
                     SDL_GetWindowSize(window, &window_width, &window_height);
-                    if (!dispatch_touch(original_ui, window, window_width * options.hud_tap_x / 1280,
-                                        window_height * options.hud_tap_y / 720,
-                                        tap_action, ui_error))
-                        plog("HUD faery button tap failed: " + ui_error);
-                    else plog(tap_action == 2 ? "HUD pointer moved onto the tap point" :
-                              tap_action == 0 ? "HUD tap point pressed" : "HUD tap point released");
+                    int tap_x = window_width * options.hud_tap_x / 1280, tap_y = window_height * options.hud_tap_y / 720;
+                    if (tap_control >= 0) {
+                        // Authored HUD geometry centroid (same hit test touch() uses), in drawable pixels.
+                        int drawable_width = 1, drawable_height = 1;
+                        SDL_GetWindowSizeInPixels(window, &drawable_width, &drawable_height);
+                        float fx = 0, fy = 0;
+                        if (!original_ui.hud_control_screen_point(unsigned(tap_control), drawable_width, drawable_height,
+                                                                  fx, fy, ui_error))
+                            plog("HUD control point failed: " + ui_error);
+                        tap_x = int(fx * window_width / std::max(1, drawable_width));
+                        tap_y = int(fy * window_height / std::max(1, drawable_height));
+                    }
+                    if (!dispatch_touch(original_ui, window, tap_x, tap_y, tap_action, ui_error))
+                        plog("HUD button tap failed: " + ui_error);
+                    else plog(fmt("HUD control %d %s at %d,%d", tap_control,
+                                  tap_action == 2 ? "pointer moved" : tap_action == 0 ? "pressed" : "released",
+                                  tap_x, tap_y));
                 }
                 int attack_action = -1;
                 if (probe_runner.take_attack_touch(attack_action)) {
@@ -3960,8 +4218,21 @@ int main(int argc, char** argv) {
                 scenario_started = true;
                 if (!options.initial_capture.empty()) save_capture(options.initial_capture, width, height);
             }
+            if (gameplay && options.capture_death_frames && !options.capture_series.empty()) {
+                if (!capture_death_start && model_renderer::player_vitals()[4] != 0) {
+                    capture_death_start = rendered_frames;
+                    std::cout << "Scenario Player death seen | frame " << rendered_frames << std::endl;
+                }
+                if (capture_death_start && rendered_frames < capture_death_start + options.capture_death_frames) {
+                    char suffix[32];
+                    std::snprintf(suffix, sizeof suffix, "_d%03llu.ppm",
+                                  (unsigned long long)(rendered_frames - capture_death_start));
+                    save_capture(std::filesystem::path(options.capture_series.string() + suffix), width, height);
+                }
+            }
             if (gameplay && !options.capture_series.empty() && options.capture_every &&
-                rendered_frames && rendered_frames % options.capture_every == 0) {
+                rendered_frames && rendered_frames >= options.capture_from && !options.capture_death_frames &&
+                rendered_frames % options.capture_every == 0) {
                 char suffix[32];
                 std::snprintf(suffix, sizeof suffix, "_%05llu.ppm", (unsigned long long)rendered_frames);
                 save_capture(std::filesystem::path(options.capture_series.string() + suffix), width, height);
@@ -3995,12 +4266,13 @@ int main(int argc, char** argv) {
             }
             eglSwapBuffers(display, surface);
             ++rendered_frames;
+            dh2::game_clock::advance_frame();
             if (options.frames && rendered_frames >= options.frames) running = false;
             if (options.fixed_cultist_scenario && scenario_attack_sent &&
                 rendered_frames >= fixed_attack_frame + 120) {
                 running = false;
             }
-            const auto now = SDL_GetTicks64();
+            const auto now = dh2::game_clock::monotonic_ms();
             if (gameplay && now - last_vitals >= 1000) { print_vitals(); last_vitals = now; }
         }
 

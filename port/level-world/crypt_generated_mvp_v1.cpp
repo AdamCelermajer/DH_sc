@@ -167,8 +167,11 @@ bool compile_generated_crypt_animated_decor_v1(
   std::vector<GeneratedCryptAnimatedDecorV1> candidate;
   for (std::uint32_t index = 0; index < source.value.entity_count; ++index) {
     const auto& object = source.value.entities[index];
-    if (object.kind != RecordKind::mvp || !object.gametype ||
-        std::strcmp(object.gametype, "AnimatedDecor") != 0)
+    if (object.kind != RecordKind::mvp || !object.gametype) continue;
+    // Static Decor (Block Props) is drawn in its rest pose exactly like the
+    // idle AnimatedDecor candidates; Decor::InitPost builds no animation.
+    const bool is_static = std::strcmp(object.gametype, "Decor") == 0;
+    if (!is_static && std::strcmp(object.gametype, "AnimatedDecor") != 0)
       continue;
 
     std::size_t occurrence_count = 0;
@@ -178,11 +181,8 @@ bool compile_generated_crypt_animated_decor_v1(
       error = "Generated Crypt AnimatedDecor has no unique source handle occurrence";
       return false;
     }
-    if (occurrence->duplicate_name) {
-      ++deferred_count;
-      continue;
-    }
-
+    // Duplicate names do not defer a Decor row: every occurrence owns a
+    // distinct source handle and the original draws each ObjectManager row.
     const auto* type = dh2_world_field(&object, "type");
     const auto* template_name = dh2_world_field(&object, "_templateName");
     const auto* root = dh2_world_field(&object, "xrefobject");
@@ -194,7 +194,8 @@ bool compile_generated_crypt_animated_decor_v1(
     // startanim; a missing startanim reads as "idle" (AnimatedDecor::InitPost
     // 0x389128). Rows with another identity or a non-BDAE model are deferred.
     if (!type || std::strcmp(type, "Block") ||
-        (template_name && std::strcmp(template_name, "AnimatedDecor")) ||
+        (!is_static && template_name &&
+         std::strcmp(template_name, "AnimatedDecor")) ||
         !root || !*root || !dae ||
         dh2_world_cache_path(canonical_dae, sizeof(canonical_dae),
             dae, &diagnostic) != Error::ok) {

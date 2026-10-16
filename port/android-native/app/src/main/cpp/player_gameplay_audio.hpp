@@ -1,4 +1,5 @@
 #pragma once
+#include "game_clock_v1.hpp"
 #include "../../../../../engine-audio/spatial_playback_contract_v1.hpp"
 #include "../../../../../level-world/character_combat_sound_v1.hpp"
 #include "gameplay_sfx_catalog_v1.hpp"
@@ -334,7 +335,7 @@ inline bool enqueue_spatial_match(
     if(!sfx_is_positional(match->uid))left=right=16384;
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
-    const auto now=std::chrono::steady_clock::now();
+    const auto now=dh2::game_clock::steady_now();
     prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return false;
     pending.push_back({Kind::play,owner,match->uid,fade_ms,source_loop(match->uid,looping),
@@ -347,7 +348,7 @@ inline bool enqueue_play(const char* label,std::size_t length,std::uintptr_t own
     if(!match)return false;
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
-    const auto now=std::chrono::steady_clock::now();
+    const auto now=dh2::game_clock::steady_now();
     prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return false;
     pending.push_back({Kind::play,owner,match->uid,fade_ms,source_loop(match->uid,looping),
@@ -408,7 +409,7 @@ inline MenuSoundResultV1 enqueue_source_menu_sound(std::string_view name){
     if(!match)return MenuSoundResultV1::unavailable;
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
-    const auto now=std::chrono::steady_clock::now();
+    const auto now=dh2::game_clock::steady_now();
     prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return MenuSoundResultV1::rejected;
     pending.push_back({Kind::play,0,match->uid,0,source_loop(match->uid,false),match->filename,now});
@@ -428,7 +429,7 @@ inline bool enqueue_stop(const char* label,std::size_t length,std::uintptr_t own
     auto& pending=queue();
     if(pending.size()>=queue_limit)return false;
     pending.push_back({Kind::stop,owner,match->uid,static_cast<std::int32_t>(fade),false,{},
-                       std::chrono::steady_clock::now()});
+                       dh2::game_clock::steady_now()});
     return true;
 }
 // VoxSoundManager::StopAllSounds sends a millisecond fade to every active
@@ -448,7 +449,7 @@ inline bool enqueue_stop_all(std::int32_t fade_ms){
         return false;
     }
     Command command;command.kind=Kind::stop_all;command.fade_ms=fade_ms;
-    command.queued_at=std::chrono::steady_clock::now();
+    command.queued_at=dh2::game_clock::steady_now();
     pending.push_back(std::move(command));
     return true;
 }
@@ -512,7 +513,7 @@ inline bool enqueue_source_music_state(std::uint16_t sound_uid,
     auto& pending=queue();
     if(pending.size()>=queue_limit)return false;
     Command command;command.kind=Kind::music;command.sound_id=sound_uid;
-    command.filename.assign(state);command.queued_at=std::chrono::steady_clock::now();
+    command.filename.assign(state);command.queued_at=dh2::game_clock::steady_now();
     pending.push_back(std::move(command));
     return true;
 }
@@ -530,7 +531,7 @@ inline bool enqueue_crypt_music_state(std::uint16_t sound_uid,
 inline bool consume(std::string& serialized){
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
-    const auto now=std::chrono::steady_clock::now();
+    const auto now=dh2::game_clock::steady_now();
     while(!pending.empty()){
         auto command=std::move(pending.front());pending.pop_front();
         if(command.kind==Kind::play&&now-command.queued_at>cue_lifetime)continue;

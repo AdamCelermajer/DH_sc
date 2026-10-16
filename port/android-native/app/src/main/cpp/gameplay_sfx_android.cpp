@@ -3,6 +3,7 @@
 // platform-free mixer, plus the JNI entry points FrontAudio uses. The shared
 // queue consumer (gameplay_sfx_engine_v1.hpp) owns every playback decision.
 #include "gameplay_sfx_engine_v1.hpp"
+#include "game_clock_v1.hpp"
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
@@ -97,7 +98,7 @@ public:
             return abort_open();
         prime();
         callbacks_.store(0);
-        opened_at_ = std::chrono::steady_clock::now();
+        opened_at_ = dh2::game_clock::steady_now();
         if (!ok((*play_)->SetPlayState(play_, SL_PLAYSTATE_PLAYING), "SetPlayState(PLAYING)"))
             return abort_open();
         playing_ = true;
@@ -133,7 +134,7 @@ public:
     bool healthy() const noexcept {
         if (!play_) return false;
         if (!playing_ || callbacks_.load() > 0) return true;
-        return std::chrono::steady_clock::now() - opened_at_ < std::chrono::seconds(3);
+        return dh2::game_clock::steady_now() - opened_at_ < std::chrono::seconds(3);
     }
     bool is_open() const noexcept { return play_ != nullptr; }
     bool is_playing() const noexcept { return playing_; }

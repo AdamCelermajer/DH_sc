@@ -59,8 +59,8 @@ void dead_state_helper_audit(){
  animation_data::PropertyView properties{defaults.data(),types.data(),base.data(),
   saved.data(),gear.data(),resolved.data(),nullptr,0};
  animation_data::AnimationTables tables;tables.characters.resize(1);
- auto& row=tables.characters[0];row.fields[4]={300};row.fields[5]={400};
- row.fields[6]={500};row.fields[7]={200};
+ auto& row=tables.characters[0];row.fields[3]={300};row.fields[4]={400};
+ row.fields[5]={500};row.fields[6]={200};
  std::vector<std::uint8_t> constants_bytes;append_word(constants_bytes,2);
  append_group(constants_bytes,"AnimStancedAnim","SL__LIST_IPHONE",0x78000);
  append_group(constants_bytes,"AnimStances","COUNT_IPHONE",6);
