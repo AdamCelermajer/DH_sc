@@ -30,7 +30,8 @@ struct Fixture {
     data::PropertyState properties{};
     data::PropertyView view{};
     data::AggroEntry entry{PLAYER, 0x3f800000u, 0};
-    std::array<data::AggroEntry, 2> extra{{entry, {0x700007ull, 0x3f800000u, 0}}};
+    // Aggro 2.0f for the non-Player: distinct from the Player's 1.0f so it is not collapsed.
+    std::array<data::AggroEntry, 2> extra{{entry, {0x700007ull, 0x40000000u, 0}}};
     data::AggroTable aggro{&entry, 1, 1};
     std::uintptr_t current_target = VICTIM;
     std::vector<unsigned> trace;
@@ -152,6 +153,34 @@ void aggro_scope_and_state_machine_fallback() {
               mixed.properties.saved[23] == 3 * 256 && mixed.properties.saved[24] == 8 * 256 &&
               mixed.current_target == 0 && error.empty(),
               "multi-recipient aggro did not credit the Player exactly once");
+    }
+    {
+        // Equal aggro collapses like insert_unique: the non-Player at 1.0f
+        // with a lower identity than the Player takes the slot, so the Player
+        // is not visited and the episode is ineligible.
+        Fixture collapsed_player;
+        std::array<data::AggroEntry, 2> tie{{{0x0f0000ull, 0x3f800000u, 0}, collapsed_player.entry}};
+        collapsed_player.aggro = {tie.data(), 2, 2};
+        credit::Runtime runtime(collapsed_player.bindings());
+        credit::Result untouched{};
+        std::string error = "unchanged";
+        check(runtime.after_loot_attempt(VICTIM, PLAYER, 0, &untouched, error) == credit::Status::ineligible_aggro,
+              "equal-aggro collapse that drops the Player was not rejected");
+        check(collapsed_player.service_calls == 0 && collapsed_player.current_target == VICTIM,
+              "collapsed Player aggro produced effects");
+    }
+    {
+        // Equal aggro with a higher identity: the Player keeps the slot and the
+        // collapsed non-Player is not reported as unmodeled.
+        Fixture tied;
+        std::array<data::AggroEntry, 2> tie{{tied.entry, {0x900009ull, 0x3f800000u, 0}}};
+        tied.aggro = {tie.data(), 2, 2};
+        credit::Runtime runtime(tied.bindings());
+        credit::Result result{};
+        std::string error = "unchanged";
+        check(runtime.after_loot_attempt(VICTIM, PLAYER, 0, &result, error) == credit::Status::complete &&
+              result.unmodeled_recipients == 0 && tied.service_calls == 1,
+              "equal-aggro collapse with the Player first did not complete with no unmodeled recipients");
     }
     {
         // Two Player entries is not one credit episode and must stay ineligible.

@@ -25052,7 +25052,6 @@ void move_axis(float x,float y){
 }
 // Script_StopActor raises controller byte +9 (forced) around v2Controller::Cmd_Stop, so the
 // Player stop must run even while LockCharacter("All") holds the controllers.
-bool script_stop_forced_pending=false;
 void stop_movement(){move_x=move_y=0;android_movement_stop_pending=true;}
 void drawable_target_changed(int width,int height){
  if(width<=0||height<=0)return;
@@ -25285,6 +25284,11 @@ int native_level_script_object_lookup(void*,const char* exact_name,
  // ObjectManager::GetObjectByName (0x34aca0): "Player" and "LocalPlayer" both
  // resolve to PlayerManager::GetLocalPlayer's Character (Swamp_Intro's
  // PlayActorAnim rows address the Prince as 'Player').
+ // IDA 0x34aca0: any name with prefix "Player" (also "PlayerCharacter_") and
+ // "LocalPlayer" forces flags -1, which find_by_name(name,-1) already applies.
+ // Only the exact names "Player"/"LocalPlayer" resolve to the local Character;
+ // other prefixed names match by exact entry name. "HighestThreatPlayer" is not
+ // modeled here.
  const bool local_player=std::strcmp(exact_name,"LocalPlayer")==0||
      std::strcmp(exact_name,"Player")==0;
  const auto* object=local_player?
@@ -27197,7 +27201,7 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    int lookup=1;
    const bool ok=native_script_for_characters(native_script_string(c,0),
        [](std::uintptr_t identity){
-        if(identity==prince_character.identity()){stop_movement();script_stop_forced_pending=true;return true;}
+        if(identity==prince_character.identity()){stop_movement();return true;}
         auto* actor=native_char_ai_actor(identity);
         if(!actor||actor->kind!=1||!actor->spawn_owner||
            actor->spawn_owner->actor!=actor||
@@ -48831,11 +48835,11 @@ void advance_native_actor(unsigned dt_ms){
   const bool was_heading=prince_state.heading_active!=0;
   const int state_before_heading=prince_state.current;
   const std::uint32_t flags_before_heading=prince_state.flags;
-  const bool script_stop_forced=script_stop_forced_pending;
-  script_stop_forced_pending=false;
+  // Script_StopActor raises and clears the controller forced byte inside its
+  // own Cmd_Stop call, so no forced state survives into this frame's gate.
   const bool player_controller_allowed=
       dh2::native::player_input_controller_v1::source_controller_allowed(
-       prince_controller_forced!=0||script_stop_forced,controller_global_blocked!=0,
+       prince_controller_forced!=0,controller_global_blocked!=0,
        prince_state.controller_locked!=0);
   bool using_skill=false,casting=false;
   if(dh2::native::player_input_controller_v1::requires_skill_cast_gates(
