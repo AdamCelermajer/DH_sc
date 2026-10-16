@@ -54,10 +54,10 @@ void testPostCompileBlock() {
     const auto* slots = reinterpret_cast<CBatchSceneNode::SCacheSlot*>(node.visibleIndexCache);
     check(slots[0].count == 0, "cache slot 0 starts with a zero write head");
     check(slots[0].capacity == 0, "cache slot word 1 is the batch's own index count (0 here)");
-    // 12 bytes of slot per batch = 12 * batchCount / 4 words; the listing starts the running offset there
-    // (0x57ec68: 0xC * batchCount, 0x57ec74: >> 1 into the 16-bit units of the original = 3 * batchCount host words).
-    check(slots[0].base == 6, "cache slot word 2 is the running offset, 12 * batchCount / 4 = 6 words for two batches");
-    check(slots[1].base == 6, "cache slot 1 base advances by the batch's own index count (0 for batch 0)");
+    // 12 bytes of slot per batch; the listing starts the running offset (in 16-bit index units, the data pointer is cache + 2 * base)
+    // at 0xC * batchCount >> 1 (0x57ec68/0x57ec74) = 6 * batchCount, i.e. exactly past the slot table.
+    check(slots[0].base == 12, "cache slot word 2 is the running offset, 12 * batchCount / 2 = 12 units for two batches");
+    check(slots[1].base == 12, "cache slot 1 base advances by the batch's own index count (0 for batch 0)");
 }
 
 // computeMaxIndices 0x57e5b4: sum of (segment->indexEnd - segment->indexBegin) over the batch's visible segment pointers.
@@ -204,8 +204,8 @@ void testInvalidateVisibleIndexCache() {
 
     const auto* slots = reinterpret_cast<CBatchSceneNode::SCacheSlot*>(node.visibleIndexCache);
     check(slots[0].capacity == 2, "the slot's word 1 is the batch's own index count (0x57ecd4)");
-    check(slots[0].base == 6, "the index area starts after the two 12-byte slots (6 words)");
-    check(slots[1].base == 8, "the next batch's base advances by batch 0's index count");
+    check(slots[0].base == 12, "the index area starts after the two 12-byte slots (12 16-bit units)");
+    check(slots[1].base == 14, "the next batch's base advances by batch 0's index count");
     check(node.visibleEntries[0].flags == 1, "the batch's entry flags get bit 0");
     node.visibleEntries = nullptr;
     node.setVisibleIndexCache(false);

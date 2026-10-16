@@ -305,9 +305,9 @@ glitch::core::CMatrix4<float> IAttribute::getMatrix() const {
 // Base setter does nothing (a bare return in the original).
 
 // 0x563308 _ZN6glitch2io11CAttributes8getArrayEi
-std::vector<std::wstring> CAttributes::getArray(int index) const {
+core::svector<core::stringw> CAttributes::getArray(int index) const {
     IAttribute* a = at(currentAttributes(), index);
-    return a ? a->getArray() : std::vector<std::wstring>{};
+    return a ? a->getArray() : core::svector<core::stringw>{};
 }
 
 // 0x565464 _ZNK6glitch2io11CAttributes9getMatrixEi

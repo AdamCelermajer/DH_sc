@@ -661,7 +661,12 @@ void CBatchSceneNode::invalidateVisibleIndexCache(std::uint32_t batch) {
         delete[] visibleIndexCache;
         visibleIndexCache = new std::uint32_t[totalIndices + slotWords];
 
-        std::uint32_t running = slotWords;  // the index area starts after the slots
+        // `base` is in 16-bit index units (renderSolidBatch forms cache + 2 * base and updateIndices writes 2 bytes per index), so the
+        // index area starts after the slot area measured in those units: 12 * batchCount bytes = 6 * batchCount units. Starting at
+        // slotWords (3 * batchCount) put the first indices at byte 6 * batchCount, inside the 12 * batchCount byte slot table: the
+        // copied indices overwrote the count/capacity/base of the later slots, and a garbage base became a wild index-buffer pointer
+        // (SIGSEGV in updateIndices' memcpy on the second level load, found by owner AB; the block itself is large enough).
+        std::uint32_t running = (12u * batchCount) >> 1;
         for (std::uint32_t index = 0; index < batchCount; ++index) {
             SCacheSlot* slot = cacheSlot(index);
             const std::uint32_t count = batchIndexCount(mesh->batches[index]);

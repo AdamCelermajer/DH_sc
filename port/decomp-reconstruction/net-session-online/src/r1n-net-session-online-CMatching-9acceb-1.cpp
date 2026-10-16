@@ -18,11 +18,16 @@ bool CMatching::LoadMemberArray(NetBitStream& stream, std::int32_t a2, std::int3
     return loaded;
 }
 
-// NetStructArray<CMatching::MemberInfoNetStruct,32>::Serialize (0x7fe894): the presence bit under
-// HasDataToSend(a2), then the elements until one reports data.
+// NetStructArray<CMatching::MemberInfoNetStruct,32>::Serialize (0x7fe894): the presence bit under the ARRAY's
+// HasDataToSend(a2) (vtable slot 0, 0x7fe7e8: true when ANY element's HasDataToSend (slot +0x28) is true), then
+// the elements until one reports data. (An earlier version gated on element 0 only; corrected in the VF2 audit.)
 bool CMatching::SerializeMemberArray(NetBitStream& stream, std::int32_t a2, std::int32_t a3) {
+    bool any = false;
+    for (std::int32_t i = 0; i < memberCount_ && !any; ++i) {
+        any = members_[i].NetStruct::HasDataToSend(a2) != 0;
+    }
     bool wrote = false;
-    if (members_[0].NetStruct::HasDataToSend(a2)) {
+    if (any) {
         stream.WriteBit(1);
         for (std::int32_t i = 0; i < memberCount_ && !wrote; ++i) {
             wrote = members_[i].NetStruct::Serialize(stream, a2, a3) != 0;

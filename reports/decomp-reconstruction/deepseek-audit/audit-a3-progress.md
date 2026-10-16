@@ -2,6 +2,24 @@
 
 Worklist: `worklist-a3.csv` (600 rows, worklist order). Findings: `audit-a3.csv`.
 
+## Final checkpoint at row 600
+
+- Rows done: 600 of 600 (all worklist rows audited, one pass; rows 358-362 finished at the start of this pass).
+- Findings: 16 in audit-a3.csv (13 low, 3 medium). No high findings.
+  - Medium: 0x374cc0 (PlayerInfo ctor, stale-temp SetChanged not reproduced), 0x4247c0 (MenuBase), 0x3ef614 (Level::GetSpawnPoint, stale non-matching spawn returned in the original; null in the port).
+  - Low: 0x34e96c, 0x33d054, 0x320da4, 0x328fe0, 0x43e830, 0x43eac0, 0x43ea0c, 0x45cba0, 0x3d7da8, 0x3c184c, 0x3c1694, 0x507c0c, 0x50bf28.
+- Unmatched: 1. 0x7ffc28 (CMatching::MemberInfoNetStruct destructor) has no reconstruction comment or explicit definition; the port relies on the implicit destructor.
+- Depth: rows 1-362 were compared line by line in the earlier pass. Rows 363-600 were compared against the original pseudocode. Where the pseudocode was truncated, the checks covered the visible logic and the call/ref/assert structure; long bodies (for example mpProcessIncomingMessages, the NetStruct array loads, ProcessAcknowledgedPacket paths) were only spot-checked.
+- Still open for asm verification: 0x507c0c formatForMulti newline flag, 0x43e830 NativeMoveCharacter scale argument.
+- Checked against asm and not reported: 0x39d430 PlayClip loop argument (r2 = 1 is set and not shown by the decompile), 0x471a0c scene-query root (r3 = m_node from function entry), 0x81ef7c: the original builds and destroys a temporary CMatchingGLLiveLobbyObserver that the port omits; not verified whether its ctor/dtor has side effects.
+
+## Checkpoint at row 500
+
+- Rows done: 500 of 600 (rows 1-500 in worklist order). Rows 501-600 remain.
+- Findings unchanged since row 400: 16 in total (13 low, 3 medium). Rows 401-500 added no findings after the GetSpawnPoint entry at row 397.
+- Rows 401-500 were all compared against the original (worklist rows 401-500, addresses in worklist-a3.csv). Their findings, if any, are the entries in audit-a3.csv with the row-400 list above.
+- Unmatched addresses so far: none.
+
 ## Checkpoint at row 400
 
 - Rows done: 400 of 600 (rows 1-400 in worklist order). Rows 401-600 remain.

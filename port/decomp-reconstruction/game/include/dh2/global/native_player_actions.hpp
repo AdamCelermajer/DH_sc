@@ -57,8 +57,8 @@ void SaveGameOfPlayer(int player);                                              
 bool ResetStatsOfPlayer(int player, bool quoteOnly, int* costOut);              // NativeStatsReset
 void EquipItemInSlotOfPlayer(int player, int item, int slot);                   // NativeInvEquipItem
 void HudSkillOnCharacter(Character* ch, int slot);                              // NativeHUDSkill
-void UnlockCharacterControl(int player);                                        // NativeUnlockCharacter
-void LockCharacterControl(int player);                                          // NativeLockCharacter
+bool UnlockCharacterControl(int player);                                        // NativeUnlockCharacter
+bool LockCharacterControl(int player);                                          // NativeLockCharacter
 
 // Pure parts of the bodies, testable without the engine (game-app/tests/g1-game-app-global-f216b6-10_test.cpp).
 enum class AutoEquipAction { kNone, kEquipAll, kUnequipThenEquip };

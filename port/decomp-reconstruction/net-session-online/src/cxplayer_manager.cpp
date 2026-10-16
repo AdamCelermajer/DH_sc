@@ -59,15 +59,15 @@ void CXPlayerManager::OnNetworkError() {
 
 // 0x52e15c _ZN15CXPlayerManager16OnRequestTimeoutEi
 // In state 0x0b the score moves from +0x18 to the pending score. In any other state the
-// original prints a line whose argument is missing from the pseudocode, so it is printed
-// here without the value.
-void CXPlayerManager::OnRequestTimeout(std::int32_t /*requestId*/) {
+// original calls printf with the format "...REQUEST TIMEOUT %d\n" and the untouched second argument (R1, the request id;
+// the pseudocode drops it, the listing does not clobber R1 before the call).
+void CXPlayerManager::OnRequestTimeout(std::int32_t requestId) {
     if (state_ == 0xb) {
         const std::int32_t moved = score_;
         score_ = 0;
         pendingScore_ += moved;
     } else {
-        std::puts("XPlayerManager: ERROR! REQUEST TIMEOUT");
+        std::printf("XPlayerManager: ERROR! REQUEST TIMEOUT %d\n", requestId);
     }
     lastError_ = 3;
     SwitchState(0x11);

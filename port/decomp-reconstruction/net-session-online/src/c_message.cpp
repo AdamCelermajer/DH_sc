@@ -296,17 +296,15 @@ bool CMessage::IsAcknowledged() const {
 
 // 0x80a128 _ZN8CMessage9IsExpiredEv
 // Asm: R4 = timestamp_ (+0x34); if it is 0, return 0; R4 += lifetime_ (+0x4C); R0 = [GetOnline(),#0x28]
-// (COnline's receive counter, NOT the clock); CMP R4,R0; MOVCS R0,#0; MOVCC R0,#1. So the answer is
-// `deadline < counter` and, at equality (the CS flag), the message IS expired.
-// Fixed this pass: the comparison was `deadline < counter` -- the equality case was answered wrong (it
-// reported not-expired where the binary reports expired), and the right-hand side was the OnlineNowMs()
-// stand-in instead of the counter word the asm reads.
+// (COnline's receive counter, NOT the clock); CMP R4,R0; MOVCS R0,#0; MOVCC R0,#1. CS is the unsigned
+// deadline >= counter case, which answers NOT expired; only deadline < counter (CC) is expired.
+// (An earlier pass read MOVCS as "expired" and used <=, expiring one tick early; corrected in the VF2 audit.)
 bool CMessage::IsExpired() const {
     if (timestamp_ == 0) {
         return false;
     }
     const std::uint32_t deadline = timestamp_ + lifetime_;
-    return deadline <= COnline::GetInstance()->GetCounter();
+    return deadline < COnline::GetInstance()->GetCounter();
 }
 
 // 0x80a1e4 _ZN8CMessage10FindTypeIdEPKc

@@ -63,7 +63,7 @@ int LC_API_STRNCMP(const char* a, const char* b, std::size_t n);  // 0x89cee4
 int LC_API_STRCMP(const char* a, const char* b);           // 0x89cee8
 void* LC_API_MEMCPY(void* dest, const void* src, std::size_t n);  // 0x89ceec
 void* LC_API_MEMSET(void* dest, int value, std::size_t n);  // 0x89cf00
-void LC_API_STRTRIM(char* s);                              // 0x89cd00
+char* LC_API_STRTRIM(char* s);                              // 0x89cd00
 void* LC_API_MALLOC(std::size_t n);                        // 0x89d364
 void LC_API_FREE(void* p);                                 // 0x89d360
 int LC_API_GET_TIME();                                     // 0x89d3a8 (alias of OS_GetTime)

@@ -17,6 +17,7 @@
 #include "dh2/MenuCharMenu_Map.hpp"
 #include "dh2/MenuFX.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/SpawnPoint.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/RoomZone.hpp"
@@ -66,7 +67,7 @@ glitch::core::vector3d<float> ToVector3d(const Point3D<float>& p) {
     // inside the visited rooms. Icon 1.
     if (object != nullptr && static_cast<int>(object->m_goId) == 13) {
         GameObject* spawn = static_cast<GameObject*>(object);
-        if (spawn->m_entryPointId == levelEntryPointId && object->m_enabled &&
+        if (static_cast<SpawnPoint*>(object)->m_entrypointId == levelEntryPointId && object->m_enabled &&  // SpawnPoint +0x374 (W2)
             menu.IsInsideRooms(spawn->m_position, true)) {
             menu.DuplicateIcon(MenuCharMenu_Map::ICON_1, ToVector3d(spawn->m_position));
         }

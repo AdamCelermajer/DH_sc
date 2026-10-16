@@ -198,7 +198,11 @@ public class Device {
         if (SUtils.getContext() == null) {
             deviceId = null;
         } else {
-            deviceId = ((TelephonyManager) SUtils.getContext().getSystemService("phone")).getDeviceId();
+            try {
+                deviceId = ((TelephonyManager) SUtils.getContext().getSystemService("phone")).getDeviceId();
+            } catch (SecurityException e) {
+                deviceId = null;   // Android 10+: falls through to the serial / android_id chain below
+            }
             if (deviceId == null && (Build.VERSION.SDK_INT < 9 || (deviceId = Build.SERIAL) == null || deviceId == "unknown")) {
                 try {
                     Class<?> cls = Class.forName("android.os.SystemProperties");

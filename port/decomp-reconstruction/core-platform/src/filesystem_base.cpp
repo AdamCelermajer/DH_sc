@@ -59,7 +59,7 @@ bool FileSystemBase::changeWorkingDirectoryTo(const char* directory) {
 
 // 0x34e1ac FileSystemBase::formatFilePath(std::string const&) const
 // Slot +0xa4. Returns a copy of the path; the separator rewrite is FileSystemWin32's.
-std::string FileSystemBase::formatFilePath(const std::string& path) const { return path; }
+glitch::core::stringc FileSystemBase::formatFilePath(const glitch::core::stringc& path) const { return path; }
 
 // 0x34df94 _ZN14FileSystemBase14doesFileExistsEPKc
 // Hex-Rays and the listing agree line by line: the name is opened through the virtual at
@@ -111,7 +111,7 @@ bool FileSystemBase::doesSavefileExists(const char* name) {
 //     overload that core-platform/util.hpp provides as this template.
 //   * when strstr hit, the working-directory prefix of the name (up to and including the byte
 //     after the match) is prepended back to the hacked result.
-std::string FileSystemBase::ApplyFilenameHacks(const char* name) const {
+glitch::core::stringc FileSystemBase::ApplyFilenameHacks(const char* name) const {
     const char* workingDirectory = const_cast<FileSystemBase*>(this)->getWorkingDirectory();  // +0x2c
     const std::size_t workingDirectoryLength = std::strlen(workingDirectory);
     const char* const found = std::strstr(name, workingDirectory);
@@ -124,15 +124,15 @@ std::string FileSystemBase::ApplyFilenameHacks(const char* name) const {
     }
 
     if (std::strstr(result.c_str(), ".tga") != nullptr) {
-        const std::string basename = glitch::io::CFileSystem::getFileBasename(result, true);
+        const glitch::core::stringc basename = glitch::io::CFileSystem::getFileBasename(result, true);
         result = "ata/3d/textures/";
         result += basename;
     }
 
-    ToLowerCase<std::string>(result, 0, -1);
+    ToLowerCase(result, 0, -1);
 
     if (found != nullptr) {
-        result = std::string(name, found + workingDirectoryLength + 1) + result;
+        result = glitch::core::stringc(name, found + workingDirectoryLength + 1) + result;
     }
     return result;
 }
@@ -142,8 +142,8 @@ std::string FileSystemBase::ApplyFilenameHacks(const char* name) const {
 // path's characters and written to a temporary string) and then makes a qualified call to
 // glitch::io::CFileSystem::getAbsolutePath (0x56c348, a direct BL, not the +0x34 slot) with that
 // temporary. The temporary is freed and the result returned.
-std::string FileSystemBase::getAbsolutePath(const std::string& path) const {
-    const std::string normalised = ApplyFilenameHacks(path.c_str());  // +0xb8
+glitch::core::stringc FileSystemBase::getAbsolutePath(const glitch::core::stringc& path) const {
+    const glitch::core::stringc normalised = ApplyFilenameHacks(path.c_str());  // +0xb8
     return glitch::io::CFileSystem::getAbsolutePath(normalised);
 }
 
@@ -186,7 +186,7 @@ static bool alreadyPrefixed(const std::string& name) {
 //     glitch::os::Printer::log("Could not open file : ", path, 3) (ELL_ERROR);
 //   * the opened file is returned.
 glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
-    const std::string normalised = ApplyFilenameHacks(name);  // +0xb8
+    const glitch::core::stringc normalised = ApplyFilenameHacks(name);  // +0xb8
 
     std::string path;
     if (std::strstr(normalised.c_str(), ".config") != nullptr ||

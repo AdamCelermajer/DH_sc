@@ -34,9 +34,9 @@ public:
     CNumbersAttribute(const char* attrName, const glitch::core::vector4d<std::int32_t>& value, bool f);  // 0x567620
     CNumbersAttribute(const char* attrName, const glitch::core::vector3d<std::int32_t>& value, bool f);  // 0x5677f8
     // +0x24: int storage (valid when !isFloatList)
-    std::vector<int> intValues;
+    core::svector<int> intValues;
     // +0x30: float storage (valid when isFloatList)
-    std::vector<float> floatValues;
+    core::svector<float> floatValues;
     // +0x3c: element count, equal to the size of the active vector.
     std::size_t count = 0;
     // +0x40: true for a float list.
@@ -68,10 +68,10 @@ public:
     glitch::core::CMatrix4<float> getMatrix() const override;          // 0x326af4
     // Array accessors. The list of the other kind is cleared and refilled with the
     // converted values (getFloatArray / getIntArray); the setters write up to count values.
-    std::vector<float> getFloatArray();                                  // 0x3264c4
-    std::vector<std::int32_t> getIntArray();                             // 0x3270d8
-    void setFloatArray(std::vector<float>& values);                      // 0x31ee9c
-    void setIntArray(std::vector<std::int32_t>& values);                 // 0x324564
+    core::svector<float> getFloatArray();                                  // 0x3264c4
+    core::svector<std::int32_t> getIntArray();                             // 0x3270d8
+    void setFloatArray(core::svector<float>& values);                      // 0x31ee9c
+    void setIntArray(core::svector<std::int32_t>& values);                 // 0x324564
     glitch::core::vector4d<float> getVector4d() const override;             // 0x31ddac
     void setVector4d(const glitch::core::vector4d<float>& value) override;  // 0x324f18
     glitch::core::plane3d<float> getPlane() const override;                 // 0x31e6a4

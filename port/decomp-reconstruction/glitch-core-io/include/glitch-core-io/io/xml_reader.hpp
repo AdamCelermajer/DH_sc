@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 #include "glitch-core-io/io/interfaces.hpp"
 
@@ -26,12 +27,12 @@ template <>
 class CXMLReaderImpl<char, glitch::IReferenceCounted> : public IIrrXMLReader<char, glitch::IReferenceCounted> {
 public:
     using CharType = char;
-    using StringType = std::string;
+    using StringType = core::stringc;
 
     // One attribute record (0x30 bytes in the original).
     struct SAttribute {
-        std::string name;   // (its c_str is returned)
-        std::string value;  // (its c_str is returned)
+        core::stringc name;   // (its c_str is returned)
+        core::stringc value;  // (its c_str is returned)
     };
 
     // 0x573eb0 (D1): releases the text buffer (operator delete[]); the std members are destroyed after it.
@@ -87,9 +88,9 @@ public:
     int nodeType = 0;            // +0x18
     int sourceFormat = 0;        // +0x1c
     int parserFormat = 0;        // +0x20
-    std::string nodeName;        // +0x24: the node name, and the node data for text nodes
-    std::string defaultValue;    // +0x50: returned by getAttributeValueSafe when missing
-    std::vector<std::string> specialCharacters;  // +0x58: "&amp;", "<lt;", ">gt;", "\"quot;", "'apos;"
+    core::stringc nodeName;        // +0x24: the node name, and the node data for text nodes
+    core::stringc defaultValue;    // +0x50: returned by getAttributeValueSafe when missing
+    core::svector<core::stringc> specialCharacters;  // +0x58: "&amp;", "<lt;", ">gt;", "\"quot;", "'apos;"
     bool emptyElement = false;   // +0x54
     std::vector<SAttribute> attributes;  // +0x64 begin, +0x68 end
 };
@@ -99,12 +100,12 @@ template <>
 class CXMLReaderImpl<wchar_t, glitch::IReferenceCounted> : public IIrrXMLReader<wchar_t, glitch::IReferenceCounted> {
 public:
     using CharType = wchar_t;
-    using StringType = std::wstring;
+    using StringType = core::stringw;
 
     // One attribute record (0x90 bytes in the original).
     struct SAttribute {
-        std::wstring name;   // (its c_str is returned)
-        std::wstring value;  // (its c_str is returned)
+        core::stringw name;   // (its c_str is returned)
+        core::stringw value;  // (its c_str is returned)
     };
 
     // 0x573928 (D1): releases the text buffer (operator delete[]); the std members are destroyed after it.
@@ -161,9 +162,9 @@ public:
     int nodeType = 0;            // +0x18
     int sourceFormat = 0;        // +0x1c
     int parserFormat = 0;        // +0x20
-    std::wstring nodeName;       // +0x24: the node name, and the node data for text nodes
-    std::wstring defaultValue;   // +0xb0: returned by getAttributeValueSafe when missing
-    std::vector<std::wstring> specialCharacters;  // +0x58
+    core::stringw nodeName;       // +0x24: the node name, and the node data for text nodes
+    core::stringw defaultValue;   // +0xb0: returned by getAttributeValueSafe when missing
+    core::svector<core::stringw> specialCharacters;  // +0x58
     bool emptyElement = false;   // +0xb4
     std::vector<SAttribute> attributes;  // +0xc4 begin, +0xc8 end
 };

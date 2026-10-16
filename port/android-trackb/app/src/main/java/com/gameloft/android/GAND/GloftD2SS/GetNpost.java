@@ -58,6 +58,10 @@ public final class GetNpost {
 
     private static String getDeviceMEID() {
         Context context = null;
-        return ((TelephonyManager) context.getSystemService("phone")).getDeviceId();
+        try {
+            return ((TelephonyManager) context.getSystemService("phone")).getDeviceId();
+        } catch (SecurityException e) {
+            return null;   // Android 10+
+        }
     }
 }

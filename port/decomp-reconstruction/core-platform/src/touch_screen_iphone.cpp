@@ -1,5 +1,9 @@
 #include "core-platform/touch_screen_iphone.hpp"
 
+#include <string>
+
+#include "core-platform/deps/debug_switches.hpp"
+
 // 0x33cd34 / 0x33cdcc TouchScreenIPhone::TouchScreenIPhone(float, float, float, float, float)
 // The base receives (width, height) as shorts. Left and top are truncated from the
 // float arguments; right and bottom take the width and height.
@@ -32,6 +36,13 @@ int TouchScreenIPhone::getTouchIDInRegion(const glitch::core::rect<float>& r) co
 }
 
 namespace {
+// The inlined DebugSwitches::GetInstance() sequence every touch handler runs after getID: load(), then
+// GetSwitch("isTracingKeyInputs") with the result discarded (a missing key is inserted as false).
+void ReadTraceKeyInputs() {
+    DebugSwitches::s_inst.load();
+    (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingKeyInputs"));
+}
+
 // Converts a float position to the base's short point, as the original's
 // truncating conversions do.
 Point2D<short> ToPoint(float x, float y) {
@@ -41,10 +52,10 @@ Point2D<short> ToPoint(float x, float y) {
 
 // 0x33d054 TouchScreenIPhone::touchBegan(float, float, double, int, float, float, long)
 // The last argument is the touch identifier: getID maps it to a slot, and the slot is
-// passed to TouchScreenBase::touchBegan (Hex-Rays). The DebugSwitches trace read has
-// no effect on the result and is not reproduced.
+// passed to TouchScreenBase::touchBegan. Between the two the handler reads the isTracingKeyInputs debug switch (0x33d0ac).
 void TouchScreenIPhone::touchBegan(float x, float y, double, int, float, float, long touchId) {
     const int slot = getID(touchId);
+    ReadTraceKeyInputs();
     TouchScreenBase::touchBegan(ToPoint(x, y), slot);
 }
 
@@ -52,6 +63,7 @@ void TouchScreenIPhone::touchBegan(float x, float y, double, int, float, float, 
 // Same shape as touchBegan.
 void TouchScreenIPhone::touchMoved(float x, float y, double, int, float, float, long touchId) {
     const int slot = getID(touchId);
+    ReadTraceKeyInputs();
     TouchScreenBase::touchMoved(ToPoint(x, y), slot);
 }
 
@@ -59,6 +71,7 @@ void TouchScreenIPhone::touchMoved(float x, float y, double, int, float, float, 
 // Same shape as touchBegan.
 void TouchScreenIPhone::touchEnded(float x, float y, double, int, float, float, long touchId) {
     const int slot = getID(touchId);
+    ReadTraceKeyInputs();
     TouchScreenBase::touchEnded(ToPoint(x, y), slot);
 }
 
@@ -66,5 +79,6 @@ void TouchScreenIPhone::touchEnded(float x, float y, double, int, float, float, 
 // Same shape as touchBegan.
 void TouchScreenIPhone::touchCancelled(float x, float y, double, int, float, float, long touchId) {
     const int slot = getID(touchId);
+    ReadTraceKeyInputs();
     TouchScreenBase::touchCancelled(ToPoint(x, y), slot);
 }

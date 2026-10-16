@@ -1,8 +1,7 @@
 // Batch g1-game-world-LiftableObject-ad7bbe-0 (part 1 of 2): the methods of LiftableObject from IsUpdatable through the
 // destructors. Reconstructed from libDungeonHunter2.so pseudocode (IDA Hex-Rays and the assembly for the call shapes).
 //
-// Layout: the members are those of dh2/LiftableObject.hpp. m_dataId is at +0x374, which GameObject.hpp also declares as
-// m_entryPointId; the bodies use the named member, so only the offset comment is in doubt (see the layout request).
+// Layout: the members are those of dh2/LiftableObject.hpp. m_dataId is at +0x374, the first word after GameObject.
 //
 // The destructor is defined once in the tree, here (0x3eebcc, see the note there), because this file emits the vtable.
 

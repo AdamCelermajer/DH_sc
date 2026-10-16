@@ -523,7 +523,7 @@ void Character::HitFor(unsigned int damage, GameObject* attacker) {
 
 // 0x3a999c Character::INV_UpdateSkin()
 // With a visual object, the nine equipment slots are walked. A slot with a modular category name takes its look from the equipped item (the string at Structs::Item +0x50) or, empty,
-// from "<category>__naked". Slots 0 to 2 are weapon slots: the weapon skin is set from the name (kind = the slot; the second index is 0 for a shield, 2 for a bow, for a claw
+// from "<category>__naked". Slots 1 and 2 are weapon slots: the weapon skin is set from the name (kind = the slot; the second index is 0 for a shield, 2 for a bow, for a claw
 // in slot 2 (whose "RWeapon" becomes "LWeapon") and for a naked shield, else the slot); a naked non-shield weapon slot clears the skin. The other slots set the modular skin of the
 // category: the item's module, or "<category>__placeholder" when the visual has no such module, or "<category>__naked" when empty. Each modular change reads the isTracingChar_Modular switch.
 void Character::INV_UpdateSkin() {
@@ -537,7 +537,10 @@ void Character::INV_UpdateSkin() {
         if (category == nullptr) {
             continue;
         }
-        const bool weaponSlot = slot <= 2;
+        // W2 (finding 8, the missing weapons/mc_torso_default_warrior.bdae): the listing counts a second index from -1 beside the slot and takes
+        // the weapon branch when it is <= 1 unsigned, i.e. slots 1 (MC_RWeapon) and 2 (MC_LWeapon). Slot 0 is MC_Torso, a modular skin; the port
+        // sent it to SetWeaponSkin, which looked for the torso module as a weapon file and left the torso skin unset.
+        const bool weaponSlot = slot - 1u <= 1u;
         if (equipped == nullptr) {
             name = category;
             name += "__naked";

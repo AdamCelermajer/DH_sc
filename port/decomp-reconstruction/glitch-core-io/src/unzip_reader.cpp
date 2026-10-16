@@ -38,7 +38,7 @@ int CUnZipReader::findFile(const char* name) {
 // The folder name with the requested name appended is the path of a new CUnzipReadFile (built with the name as its
 // entry name); it is kept only when its vtable +0x3c answer (isOpen) is true, otherwise it is dropped and null returned.
 IReadFile* CUnZipReader::openFile(const char* name) {
-    std::string path = folderName;
+    core::stringc path = folderName;
     path += name;
     CUnzipReadFile* file = new CUnzipReadFile(path, name);
     if (!file->isOpen()) {

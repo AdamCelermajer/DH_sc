@@ -404,7 +404,7 @@ glitch::core::CMatrix4<float> CNumbersAttribute::getMatrix() const {
 // 0x3264c4 _ZN6glitch2io17CNumbersAttribute13getFloatArrayEv
 // An int list is converted into the float storage first (the float storage is
 // cleared and refilled), then the float storage is returned by value.
-std::vector<float> CNumbersAttribute::getFloatArray() {
+core::svector<float> CNumbersAttribute::getFloatArray() {
     if (!isFloatList) {
         floatValues.clear();
         for (std::size_t i = 0; i < count; ++i) floatValues.push_back(static_cast<float>(intValues[i]));
@@ -414,7 +414,7 @@ std::vector<float> CNumbersAttribute::getFloatArray() {
 
 // 0x3270d8 _ZN6glitch2io17CNumbersAttribute11getIntArrayEv
 // Symmetric to getFloatArray: a float list is converted into the int storage.
-std::vector<std::int32_t> CNumbersAttribute::getIntArray() {
+core::svector<std::int32_t> CNumbersAttribute::getIntArray() {
     if (isFloatList) {
         intValues.clear();
         for (std::size_t i = 0; i < count; ++i) intValues.push_back(static_cast<std::int32_t>(floatValues[i]));
@@ -424,14 +424,14 @@ std::vector<std::int32_t> CNumbersAttribute::getIntArray() {
 
 // 0x31ee9c _ZN6glitch2io17CNumbersAttribute13setFloatArrayERSt6vectorIfNS_4core10SAllocatorIfLNS_6memory13E_MEMORY_HINTE0EEEE
 // Clears the active list, then copies up to count values from the array.
-void CNumbersAttribute::setFloatArray(std::vector<float>& values) {
+void CNumbersAttribute::setFloatArray(core::svector<float>& values) {
     clearActive();
     if (values.empty() || count == 0) return;
     for (std::size_t i = 0; i < values.size() && i < count; ++i) setActive(i, values[i]);
 }
 
 // 0x324564 _ZN6glitch2io17CNumbersAttribute11setIntArrayERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-void CNumbersAttribute::setIntArray(std::vector<std::int32_t>& values) {
+void CNumbersAttribute::setIntArray(core::svector<std::int32_t>& values) {
     clearActive();
     if (values.empty() || count == 0) return;
     for (std::size_t i = 0; i < values.size() && i < count; ++i) setActive(i, values[i]);

@@ -78,6 +78,11 @@ void overrideVertexStreams<true, false, true>(const unsigned char* sourceMap,
             const SVertexStream& sourceStream = source->m_streams[s];
             if (sourceStream.buffer) {
                 SVertexStream& destinationStream = destination->m_streams[d];
+                // Deviation (W2, HOST-RUNNER finding 7): the listing maps the destination stream unconditionally. CGenericBaker::configureAppendBuffer
+                // (0x609ba4, checked) configures attributes 0..0x1b only, so an attribute 0x1c/0x1d that is in the shader's mask and in the append
+                // buffer's attribute mask has no buffer and the map is a null call (latent in the original; reached when a driver reports such an
+                // attribute active). It is skipped here, as the default-fill path below already does for a stream without a buffer.
+                if (!destinationStream.buffer) continue;
                 if (destinationMaps[d].data == nullptr) {
                     destinationMaps[d].stream = &destinationStream;
                     destinationMaps[d].data = destinationStream.buffer->map(5) + destinationStream.offset;

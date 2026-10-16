@@ -97,6 +97,12 @@ void* allocate(size_t size) {
     r.nAlloc = RtlCaptureStackBackTrace(2, 10, r.allocStack, nullptr);
     r.nFree = 0;
     r.freed = false;
+    // DH2_PH_FILL=<byte>: new blocks are filled with that byte (e.g. 0xbe, like ASan), so reads of members no constructor wrote show up.
+    static const int fill = [] {
+        const char* v = std::getenv("DH2_PH_FILL");
+        return v ? static_cast<int>(std::strtol(v, nullptr, 0)) : -1;
+    }();
+    if (fill >= 0) std::memset(user, fill, size);
     return user;
 }
 

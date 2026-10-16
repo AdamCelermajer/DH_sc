@@ -583,34 +583,7 @@ void SceneManager::SetMaterialRimLightEffects(boost::intrusive_ptr<glitch::video
     }
 }
 
-// 0x359fac SceneManager::SearchByName(glitch::scene::ISceneNode*, std::vector<ISceneNode*>&, char const*, bool)
-void SceneManager::SearchByName(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
-                                const char* name, bool flag) {
-    if (!name || !root) {
-        return;
-    }
-    SearchByName(root, out, std::string(name), flag);
-}
-
-// 0x35a044 SceneManager::SearchByName(glitch::scene::ISceneNode*, void (*)(glitch::scene::ISceneNode*), char const*, bool)
-void SceneManager::SearchByName(glitch::scene::ISceneNode* root, void (*visit)(glitch::scene::ISceneNode*),
-                                const char* name, bool flag) {
-    if (!visit || !root) {
-        return;
-    }
-    if (name) {
-        SearchByName(root, visit, std::string(name), flag);
-    }
-}
-
-// 0x35a0e4 SceneManager::SearchByName(glitch::scene::ISceneNode*, char const*, bool)
-// Returns the first node found by the string overload, or null when the name or the root is null.
-glitch::scene::ISceneNode* SceneManager::SearchByName(glitch::scene::ISceneNode* root, const char* name, bool flag) {
-    if (!name || !root) {
-        return nullptr;
-    }
-    return SearchByName(root, std::string(name), flag);
-}
+// (the three char* SearchByName overloads, 0x359fac / 0x35a044 / 0x35a0e4, live in g1-game-world-SceneManager-9fc3ac-0.cpp)
 
 // 0x35a188 SceneManager::SetMaterialRimLightEffects(glitch::scene::ISceneNode*, float, std::string)
 // Applies the rim light to every material of the nodes of the three character types under node (the root when node is

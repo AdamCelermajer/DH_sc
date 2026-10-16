@@ -190,8 +190,7 @@ bool MenuBase::FS_PlayAnim(const char*, const char* args, void* menu) {
 // 0x424540 _ZN8MenuBase11FS_SetText2EPKcS1_Pv
 // args is "name|symbol". Without '|' the original returns 0. Then it reads the trace switch and looks the symbol up with
 // StringManager::getStringFromSymbol (declared). A null string returns 0. Otherwise the original finds the character by
-// name (RenderFX::Find, then the root) and calls RenderFX::FormatHTML(menu, character, "%s", text), which is not declared,
-// so the result is false here.
+// name (RenderFX::Find, then the root) and calls RenderFX::FormatHTML(menu, character, "%s", text); the result is true.
 bool MenuBase::FS_SetText2(const char*, const char* args, void* menu) {
     const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
     if (bar == nullptr) {
@@ -215,7 +214,7 @@ bool MenuBase::FS_SetText2(const char*, const char* args, void* menu) {
 // 0x424698 _ZN8MenuBase10FS_SetTextEPKcS1_Pv
 // args is "name|id", the id parsed with atoi. Without '|' the original returns 0. It reads the trace switch, then the string
 // StringManager::getString(id) (declared). A null string returns 0. Otherwise it calls RenderFX::FormatHTML(menu, name, "%s",
-// text), which is not declared, so the result is false here.
+// text); the result is true.
 bool MenuBase::FS_SetText(const char*, const char* args, void* menu) {
     const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
     if (bar == nullptr) {
@@ -235,7 +234,8 @@ bool MenuBase::FS_SetText(const char*, const char* args, void* menu) {
 // 0x4247c0 _ZN8MenuBase14FS_GetCharPropEPKcS1_Pv
 // args is a property id (atoi). After the trace switch read, the local player Character (PlayerManager GetLocalPlayer(0, true)
 // ->character_660) gives CharProperties::_GetProperty(its sheet at +0xff4, id), published as the decimal text _root.retval.
-// Without a Character the result is false.
+// Without a Character the result is false. The original formats with an unbounded sprintf into its 8-byte stack buffer
+// (stack-protector canary right above); the snprintf here keeps the same 7 characters without overrunning (64-bit deviation).
 bool MenuBase::FS_GetCharProp(const char*, const char* args, void* menu) {
     const int propId = (args != nullptr) ? std::atoi(args) : 0;
     ReadMenuBaseTraceSwitch();
@@ -252,8 +252,7 @@ bool MenuBase::FS_GetCharProp(const char*, const char* args, void* menu) {
 // 0x4248dc _ZN8MenuBase17FS_IsMapLocLockedEPKcS1_Pv
 // The original takes the current Level (Application::GetCurrentLevel). It returns false when there is no level, when args is
 // null, or when args is empty. Otherwise it reads the trace switch, computes Level::SG_IsMapLocLocked(atoi(args)) and
-// publishes the boolean as _root.retval through RenderFX::SetMember(as_value), which is not declared. The original then
-// returns 1, so the return here is true.
+// publishes the boolean as _root.retval through RenderFX::SetMember(as_value). The original then returns 1.
 bool MenuBase::FS_IsMapLocLocked(const char*, const char* args, void* menu) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level == nullptr || args == nullptr || *args == '\0') {

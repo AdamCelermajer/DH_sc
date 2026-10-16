@@ -324,7 +324,7 @@ void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::vi
 
 // 0x56afa8 _ZN6glitch2io11CAttributes12setAttributeEPKcSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
 // A new array attribute is added with flag clear; the CStringWArrayAttribute constructor keeps the array.
-void CAttributes::setAttribute(const char* name, const std::vector<std::wstring>& value) {
+void CAttributes::setAttribute(const char* name, core::svector<core::stringw> value) {
     if (IAttribute* a = getAttributeP(name)) {
         a->setArray(value);
         return;
@@ -334,12 +334,12 @@ void CAttributes::setAttribute(const char* name, const std::vector<std::wstring>
 
 // 0x56a8b4 _ZN6glitch2io11CAttributes8addArrayEPKcSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEEb
 // The new attribute is built with the CStringWArrayAttribute constructor, which keeps the array.
-void CAttributes::addArray(const char* name, const std::vector<std::wstring>& value, bool flag) {
+void CAttributes::addArray(const char* name, core::svector<core::stringw> value, bool flag) {
     currentAttributes().push_back(new CStringWArrayAttribute(name, value, flag));
 }
 
 // 0x5632ac _ZN6glitch2io11CAttributes12setAttributeEiSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS6_ISA_LS8_0EEEE
-void CAttributes::setAttribute(int index, const std::vector<std::wstring>& value) {
+void CAttributes::setAttribute(int index, core::svector<core::stringw> value) {
     if (index < 0 || static_cast<std::size_t>(index) >= currentAttributes().size()) return;
     currentAttributes()[static_cast<std::size_t>(index)]->setArray(value);
 }
@@ -347,14 +347,14 @@ void CAttributes::setAttribute(int index, const std::vector<std::wstring>& value
 // 0x5641ac _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEPKcRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
 // The attribute with this name; when its type (slot +0x104) is 4 (enumeration) the output vector is assigned the literal
 // table at +0x3c. Anything else leaves the output alone.
-void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const {
+void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(const char* name, core::svector<core::stringc>& literals) const {
     const IAttribute* a = getAttributeP(name);
     if (a != nullptr && a->getType() == 4) literals = static_cast<const CEnumAttribute*>(a)->literals;
 }
 
 // 0x564148 _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEiRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS6_ISA_LS8_0EEEE
 // As the name form for the attribute at the index (an index past the end does nothing).
-void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const {
+void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(int index, core::svector<core::stringc>& literals) const {
     const auto& attributes = currentAttributes();
     if (index < 0 || static_cast<std::size_t>(index) >= attributes.size()) return;
     const IAttribute* a = attributes[static_cast<std::size_t>(index)];

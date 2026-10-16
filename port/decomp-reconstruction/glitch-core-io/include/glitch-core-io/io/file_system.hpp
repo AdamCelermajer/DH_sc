@@ -51,7 +51,7 @@ public:
     bool addZipFileArchive(const char* name, bool ignoreCase, bool ignorePaths) override;
     bool addFolderFileArchive(const char* name, bool ignoreCase, bool ignorePaths) override;
     bool addPakFileArchive(const char* name, bool ignoreCase, bool ignorePaths) override;
-    bool addObfuscationFileMap(const char* name, unsigned char key, std::string path) override;
+    bool addObfuscationFileMap(const char* name, unsigned char key, core::stringc path) override;
     bool removeFileArchive(const char* name) override;
     // +0x2c, 0x56c214: the working directory as last set by changeWorkingDirectoryTo (a static buffer).
     const char* getWorkingDirectory() override;
@@ -59,20 +59,20 @@ public:
     // the new directory is kept for getWorkingDirectory.
     bool changeWorkingDirectoryTo(const char* directory) override;
     // +0x34, 0x56c348 (const): returns a copy of the name (the original does no path resolution here).
-    std::string getAbsolutePath(const std::string& path) const override;
+    core::stringc getAbsolutePath(const core::stringc& path) const override;
     // +0x38, 0x56c6b4: the part before the last '/' or '\', or "." when there is none.
-    std::string getFileDir(const std::string& path) const override;
+    core::stringc getFileDir(const core::stringc& path) const override;
     // +0x3c, 0x56c740: the file name after the last separator; without keepExtension the text from the
     // last '.' is dropped too. A dot before the separator gives the rest after the separator, as
     // the original's unsigned count does.
-    std::string getFileBasename(const std::string& path, bool keepExtension) const override;
+    core::stringc getFileBasename(const core::stringc& path, bool keepExtension) const override;
     // +0x40, 0x56c4a4 (const): a new, empty directory listing.
     CFileList* createFileList() const override;
     // +0x44, 0x56df38: true when a zip, pak or unzip archive lists the name, or when the file can be opened
     // for reading (CFileSystem::open(name, "rb")); false otherwise.
     bool existFile(const char* name) const override;
     // +0x48, 0x34df7c: forwards to the name overload.
-    bool existFile(const std::string& name) const override;
+    bool existFile(const core::stringc& name) const override;
     // +0x4c, 0x56c230: opens the file (slot +0x0c), builds the wide reader over it (slot +0x50) and drops the file.
     IXMLReader* createXMLReader(const char* name) override;
     // +0x50, 0x56c480: the wide reader over the file, or null for a null file.

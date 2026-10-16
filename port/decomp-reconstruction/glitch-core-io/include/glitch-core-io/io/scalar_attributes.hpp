@@ -69,7 +69,7 @@ public:
     ~CEnumAttribute() override = default;  // 0x56532c (D1): the table and the strings are released by the members
 
     std::string value;                // +0x24, the current literal
-    std::vector<std::string> literals;  // +0x3c
+    core::svector<core::stringc> literals;  // +0x3c
 
     const wchar_t* getTypeString() const override;  // 0x560610: literal "enum" from the IDA listing
     int getType() const override;                   // 0x560608 (returns 4)

@@ -137,8 +137,8 @@ void CXMLWriter::writeElement(const wchar_t* name, bool empty, const wchar_t* n1
 }
 
 // 0x576758 _ZN6glitch2io10CXMLWriter12writeElementEPKwbRSt6vectorI...ES8_
-void CXMLWriter::writeElement(const wchar_t* name, bool empty, const std::vector<std::wstring>& names,
-                              const std::vector<std::wstring>& values) {
+void CXMLWriter::writeElement(const wchar_t* name, bool empty, core::svector<core::stringw>& names,
+                              core::svector<core::stringw>& values) {
     if (!file || !name) return;
     writeElementBody(*this, file, indent, flag, name, empty, [&](CXMLWriter& w) {
         const std::size_t pairs = names.size() < values.size() ? names.size() : values.size();

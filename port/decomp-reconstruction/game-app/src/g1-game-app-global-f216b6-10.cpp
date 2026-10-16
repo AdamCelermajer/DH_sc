@@ -577,37 +577,45 @@ void NativeMoveCharacter(const gameswf::fn_call& call) {
     }
 }
 
-// 0x43ea0c NativeUnlockCharacter(gameswf::fn_call const&): with one numeric argument, UnlockCharacterControl(player).
+// 0x43ea0c NativeUnlockCharacter(gameswf::fn_call const&): with one numeric (not NaN) argument, UnlockCharacterControl(player);
+// when the character exists the script-visible result is set to false (set_bool(result, 0) after NativeSetLockZoom).
 void NativeUnlockCharacter(const gameswf::fn_call& call) {
-    if (call.nargs == 1 && call.arg(0).is_number()) {
-        UnlockCharacterControl(call.arg(0).to_int());
+    if (call.nargs == 1 && call.arg(0).is_number() && !std::isnan(call.arg(0).to_number())) {
+        if (UnlockCharacterControl(call.arg(0).to_int())) {
+            call.result->set_bool(false);
+        }
     }
 }
 
 // Body of NativeUnlockCharacter: clears the controller's block flag and the zoom lock.
-void UnlockCharacterControl(int player) {
+bool UnlockCharacterControl(int player) {
     Character* ch = NativeGetPlayerChar(player, false);
     if (!ch) {
-        return;
+        return false;
     }
     ch->m_controller->m_blocked = false;
     NativeSetLockZoom(false);
+    return true;
 }
 
-// 0x43eac0 NativeLockCharacter(gameswf::fn_call const&): with one numeric argument, LockCharacterControl(player).
+// 0x43eac0 NativeLockCharacter(gameswf::fn_call const&): with one numeric (not NaN) argument, LockCharacterControl(player);
+// when the character exists the script-visible result is set to false (set_bool(result, 0) after NativeSetLockZoom).
 void NativeLockCharacter(const gameswf::fn_call& call) {
-    if (call.nargs == 1 && call.arg(0).is_number()) {
-        LockCharacterControl(call.arg(0).to_int());
+    if (call.nargs == 1 && call.arg(0).is_number() && !std::isnan(call.arg(0).to_number())) {
+        if (LockCharacterControl(call.arg(0).to_int())) {
+            call.result->set_bool(false);
+        }
     }
 }
 
 // Body of NativeLockCharacter: stops the character, sets the controller's block flag and the zoom lock.
-void LockCharacterControl(int player) {
+bool LockCharacterControl(int player) {
     Character* ch = NativeGetPlayerChar(player, false);
     if (!ch) {
-        return;
+        return false;
     }
     ch->m_controller->Cmd_Stop();
     ch->m_controller->m_blocked = true;
     NativeSetLockZoom(true);
+    return true;
 }

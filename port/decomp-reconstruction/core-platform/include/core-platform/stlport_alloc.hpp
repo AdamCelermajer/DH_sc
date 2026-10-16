@@ -63,48 +63,11 @@
 #include <mutex>
 
 #include "core-platform/memory.hpp"             // GlitchAlloc / GlitchFree / CustomAlloc / CustomFree
+#include "glitch-core-io/core/allocator.hpp"    // glitch::core::SAllocator
 #include "glitch-core-io/core/memory_hint.hpp"  // glitch::memory::E_MEMORY_HINT
 
-namespace glitch::core {
-
-// The allocator every glitch string in the binary carries, always with hint 0. This is a distinct class from
-// std::allocator (a port that needs the exact original mangled name of a glitch string must use this type,
-// not std::string), and it is the type the E_MEMORY_HINT note in memory_hint.hpp describes.
-template <typename T, glitch::memory::E_MEMORY_HINT I = glitch::memory::EMH_UNRECOVERED>
-struct SAllocator {
-    using value_type = T;
-    using pointer = T*;
-    using const_pointer = const T*;
-    using reference = T&;
-    using const_reference = const T&;
-    using size_type = std::size_t;
-    using difference_type = std::ptrdiff_t;
-
-    template <class U>
-    struct rebind {
-        using other = SAllocator<U, I>;
-    };
-
-    SAllocator() noexcept = default;
-    template <class U>
-    SAllocator(const SAllocator<U, I>&) noexcept {}
-
-    pointer allocate(size_type __n) {
-        return static_cast<pointer>(GlitchAlloc(static_cast<unsigned>(__n * sizeof(T)), I));
-    }
-    void deallocate(pointer __p, size_type = 0) { GlitchFree(__p); }
-};
-
-template <typename T, glitch::memory::E_MEMORY_HINT I, typename U, glitch::memory::E_MEMORY_HINT J>
-inline bool operator==(const SAllocator<T, I>&, const SAllocator<U, J>&) noexcept {
-    return I == J;
-}
-template <typename T, glitch::memory::E_MEMORY_HINT I, typename U, glitch::memory::E_MEMORY_HINT J>
-inline bool operator!=(const SAllocator<T, I>&, const SAllocator<U, J>&) noexcept {
-    return I != J;
-}
-
-}  // namespace glitch::core
+// glitch::core::SAllocator now lives in glitch-core-io/core/allocator.hpp (STLPORT-DECISION.md section 6), together with
+// stringc / stringw; it is the type the E_MEMORY_HINT note in memory_hint.hpp describes.
 
 namespace std {
 

@@ -324,8 +324,8 @@ bool FileSystemWin32::backupSavefile(const char* src, const char* dst) const {
 // 0x34f8a4 _ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE
 // Every '/' in the path is replaced by '\\' and the rest is copied unchanged. The
 // original builds a glitch string; std::string is returned here.
-std::string FileSystemWin32::formatFilePath(const std::string& path) const {
-    std::string out = path;
+glitch::core::stringc FileSystemWin32::formatFilePath(const glitch::core::stringc& path) const {
+    glitch::core::stringc out = path;
     for (char& c : out) {
         if (c == '/') {
             c = '\\';

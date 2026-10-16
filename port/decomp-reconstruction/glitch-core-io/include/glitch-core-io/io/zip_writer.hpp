@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 #include "glitch-core-io/io/interfaces.hpp"
 
@@ -24,9 +25,9 @@ public:
     // 0x6b4fec: writes each central record and its name, then the 22-byte end record, and flushes.
     void close();
     // 0x6b5448: adds a stored entry (local header, name, data) and its central record.
-    std::size_t addNewFile(const std::string& name, const void* data, unsigned int size);
+    std::size_t addNewFile(const core::stringc& name, const void* data, unsigned int size);
     // 0x6b581c: reads the whole read file and adds it as above.
-    void addNewFile(const std::string& name, IReadFile* file);
+    void addNewFile(const core::stringc& name, IReadFile* file);
 
     CZipWriter(const CZipWriter&) = delete;
     CZipWriter& operator=(const CZipWriter&) = delete;
@@ -36,7 +37,7 @@ public:
     std::uint32_t directoryOffset = 0; // +0x10
     std::uint32_t directorySize = 0;   // +0x14
     std::vector<std::array<std::uint8_t, 46>> records;  // +0x18
-    std::vector<std::string> names;    // +0x24
+    core::svector<core::stringc> names;    // +0x24
 };
 
 }  // namespace glitch::io

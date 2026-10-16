@@ -68,11 +68,11 @@ public:
     virtual void getBinaryData(const char* name, void* data, int size) const = 0;  // +0x0b8 0x5624ec
     virtual void getBinaryData(int index, void* data, int size) const = 0;  // +0x0bc 0x560ce4
     virtual void setAttribute(int index, void* data, int size) = 0;  // +0x0c0 0x56117c
-    virtual void addArray(const char* name, const std::vector<std::wstring>& value, bool flag) = 0;  // +0x0c4
-    virtual void setAttribute(const char* name, const std::vector<std::wstring>& value) = 0;  // +0x0c8
-    virtual std::vector<std::wstring> getArray(const char* name) const = 0;  // +0x0cc 0x5628b0
-    virtual std::vector<std::wstring> getArray(int index) const = 0;  // +0x0d0 0x563308
-    virtual void setAttribute(int index, const std::vector<std::wstring>& value) = 0;  // +0x0d4
+    virtual void addArray(const char* name, core::svector<core::stringw> value, bool flag) = 0;  // +0x0c4
+    virtual void setAttribute(const char* name, core::svector<core::stringw> value) = 0;  // +0x0c8
+    virtual core::svector<core::stringw> getArray(const char* name) const = 0;  // +0x0cc 0x5628b0
+    virtual core::svector<core::stringw> getArray(int index) const = 0;  // +0x0d0 0x563308
+    virtual void setAttribute(int index, core::svector<core::stringw> value) = 0;  // +0x0d4
     virtual void addBool(const char* name, bool value, bool flag) = 0;  // +0x0d8 0x56871c
     virtual void addStringAsBool(const char* name, const wchar_t* value, bool flag) = 0;  // +0x0dc 0x568608
     virtual void setAttribute(const char* name, bool value) = 0;  // +0x0e0 0x56b1bc
@@ -86,8 +86,8 @@ public:
     virtual int getEnum(const char* name, const char* const* choices) const = 0;  // +0x100
     virtual int getEnum(int index, const char* const* choices) const = 0;  // +0x104
     virtual const char* getEnum(int index) const = 0;  // +0x108 0x560d1c (the attribute's +0x80 result)
-    virtual void getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const = 0;  // +0x10c
-    virtual void getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const = 0;  // +0x110
+    virtual void getAttributeEnumerationLiteralsOfEnumeration(const char* name, core::svector<core::stringc>& literals) const = 0;  // +0x10c
+    virtual void getAttributeEnumerationLiteralsOfEnumeration(int index, core::svector<core::stringc>& literals) const = 0;  // +0x110
     virtual void setAttribute(int index, const char* value, const char* const* choices) = 0;  // +0x114 0x5611b4
     virtual void addColor(const char* name, glitch::video::SColor value, bool flag) = 0;  // +0x118 0x56a528
     virtual void addStringAsColor(const char* name, const wchar_t* value, bool flag) = 0;  // +0x11c 0x56a3ec

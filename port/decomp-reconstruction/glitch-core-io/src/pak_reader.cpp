@@ -55,9 +55,9 @@ CPakReader::~CPakReader() {
 
 // 0x56f568 _ZN6glitch2io10CPakReader22deletePathFromFilenameERSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
 // The original scans the glitch string from its end pointer and tests the byte there first. For
-// std::string that byte is the terminator (never a separator), so the scan starts at the last
+// core::stringc that byte is the terminator (never a separator), so the scan starts at the last
 // character. The text after the last separator is kept; a separator at index 0 leaves name unchanged.
-void CPakReader::deletePathFromFilename(std::string& name) {
+void CPakReader::deletePathFromFilename(core::stringc& name) {
     const std::size_t size = name.size();
     if (size == 0) return;
     std::size_t i = size;
@@ -103,7 +103,7 @@ IReadFile* CPakReader::openFile(int index) {
 // listing reads from allocator memory are zeros. (2) strlen of the tail is bounded by the buffer's end; the original would read
 // on until a terminator. (3) the buffer is at least 64 bytes, so the 57-byte window always exists.
 void CPakReader::extractFilename(SPakFileEntry* entry) {
-    std::string& pakFileName = entry->pakFileName;
+    core::stringc& pakFileName = entry->pakFileName;
     if (ignoreCase) {
         for (char& c : pakFileName) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
@@ -174,7 +174,7 @@ int CPakReader::findFile(const char* name) {
 // compared as signed chars (LDRSB in the heapsink listing); when one is a prefix of the other the
 // shorter one is less.
 namespace {
-bool signedCharNameLess(const std::string& a, const std::string& b) {
+bool signedCharNameLess(const core::stringc& a, const core::stringc& b) {
     const std::size_t common = a.size() < b.size() ? a.size() : b.size();
     for (std::size_t i = 0; i < common; ++i) {
         const auto ca = static_cast<signed char>(a[i]);

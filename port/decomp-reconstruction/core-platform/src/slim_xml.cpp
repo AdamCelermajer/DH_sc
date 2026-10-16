@@ -230,7 +230,8 @@ bool XmlDocument::findLabel(const char*& cursor, std::size_t length, const char*
     const char* s = static_cast<const char*>(lt) + 1;
     labelStart = s;
     const std::size_t rest = static_cast<std::size_t>(limit - s);
-    const bool isComment = rest >= 3 && s[0] == '!' && s[1] == '-' && s[2] == '-';
+    // 0x84449c: the comment path needs more than 6 bytes after '<' (CMP R2,#6; BHI); a shorter tail is read as a plain label.
+    const bool isComment = rest > 6 && s[0] == '!' && s[1] == '-' && s[2] == '-';
     if (!isComment) {
         const void* gt = std::memchr(s, '>', rest);
         if (gt == nullptr) {

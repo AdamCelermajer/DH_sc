@@ -39,8 +39,8 @@ private:
 class CSignIn {
 public:
     // 0x81a58c _ZN7CSignInC1Ev (C2 0x81a61c is the same body; skipped).
-    // Partial: the original also sets up the event queue's list sentinel and its capacity
-    // (100) at +0x1c..+0x24. CEventQueueBase has no capacity, so only the members are set.
+    // Complete (VF2 audit): the listing's stores at +0x1c..+0x24 are the queue's list sentinel (std::list member) and the word 100
+    // at +0x24, which is CEventQueueBase::expiryCheck_ (+0x10 inside the queue), built by `events_{100}` below.
     CSignIn() = default;
     // 0x81a7b4 _ZN7CSignInD1Ev (D2 0x81a8b4 is the same body; skipped).
     virtual ~CSignIn();

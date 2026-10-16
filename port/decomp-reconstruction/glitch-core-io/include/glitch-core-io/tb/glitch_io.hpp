@@ -8,6 +8,7 @@
 #include <string>
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/deps/glitch_core_objects.hpp"
 #include "glitch-core-io/io/interfaces.hpp"
 #include "glitch-core-io/io/read_file.hpp"
@@ -40,7 +41,7 @@ struct SVertexStreamHeader {
 };
 
 // 0x578670 _ZN6glitch2io10fromStringERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEPNS_5video12IVideoDriverE
-boost::intrusive_ptr<glitch::video::ITexture> fromString(const std::string& text,
+boost::intrusive_ptr<glitch::video::ITexture> fromString(const glitch::core::stringc& text,
                                                          glitch::video::IVideoDriver* driver);
 
 // 0x5787cc _ZN6glitch2io8toStringERKN5boost13intrusive_ptrINS_5video8ITextureEEEPNS3_12IVideoDriverE

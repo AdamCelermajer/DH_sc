@@ -3,13 +3,15 @@
 #include <cstdio>
 #include <cstring>
 
+#include "net-session-online/c_online.hpp"
 #include "net-session-online/deps/platform_stand_ins.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    OnlineClockStorage() = 1000;
+    // CEvent::Init stores COnline +0x28 (the receive counter), and IsExpired compares against the same word.
+    COnline::GetInstance()->SetCounterForTest(1000);
     const char payload[] = "abcd";
 
     CEvent e(7, payload, sizeof payload);
@@ -23,11 +25,12 @@ int main() {
     CHECK(e.CopyData(small, 2) == -1);
     CHECK(small[0] == 'x');
 
-    // Expiry: fresh event is not expired; after more than 99 ms it is.
+    // Expiry: fresh event is not expired; after the counter has advanced by more than 99 it is.
     CHECK(!e.IsExpired(1));
-    OnlineClockStorage() = 1099;
+    OnlineClockStorage() = 5000;  // the clock must not matter
+    COnline::GetInstance()->SetCounterForTest(1099);
     CHECK(!e.IsExpired(1));
-    OnlineClockStorage() = 1100;
+    COnline::GetInstance()->SetCounterForTest(1100);
     CHECK(e.IsExpired(1));
     CHECK(!e.IsExpired(0));
 

@@ -68,7 +68,7 @@ SpawnPoint* FindEntrySpawnPoint(int entryPointId) {
         ObjectHandle handle = object->GetHandle();
         ObjectBase* resolved = handle.GetObject(false);
         if (resolved != nullptr && resolved->m_goId == 13 && resolved->m_enabled &&
-            entryPointId == static_cast<GameObject*>(resolved)->m_entryPointId) {
+            entryPointId == static_cast<SpawnPoint*>(resolved)->m_entrypointId) {  // SpawnPoint +0x374 (W2, see Level::GetSpawnPoint)
             return static_cast<SpawnPoint*>(resolved);
         }
     }

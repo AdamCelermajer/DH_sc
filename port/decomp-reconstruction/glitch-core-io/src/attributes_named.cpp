@@ -189,9 +189,9 @@ void* CAttributes::getUserPointer(const char* name) const {
 }
 
 // 0x5628b0 _ZN6glitch2io11CAttributes8getArrayEPKc
-std::vector<std::wstring> CAttributes::getArray(const char* name) const {
+core::svector<core::stringw> CAttributes::getArray(const char* name) const {
     IAttribute* a = getAttributeP(name);
-    return a ? a->getArray() : std::vector<std::wstring>{};
+    return a ? a->getArray() : core::svector<core::stringw>{};
 }
 
 // 0x567e48 _ZN6glitch2io11CAttributes9getMatrixEPKc

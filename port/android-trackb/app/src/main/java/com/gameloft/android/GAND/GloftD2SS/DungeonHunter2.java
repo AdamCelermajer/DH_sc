@@ -456,7 +456,11 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
         t = (ConnectivityManager) getSystemService("connectivity");
         v = (WifiManager) getSystemService("wifi");
         Locale.getDefault().getCountry();
-        ((TelephonyManager) getSystemService("phone")).getDeviceId();
+        try {
+            ((TelephonyManager) getSystemService("phone")).getDeviceId();
+        } catch (SecurityException e) {
+            // Android 10+ refuses non-privileged apps the IMEI; the original ignored the result here (Track B: tolerate the refusal)
+        }
         String str16 = Build.MANUFACTURER + "_" + Build.MODEL;
         String str17 = Build.VERSION.RELEASE;
         SUtils.setContext(this);

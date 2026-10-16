@@ -151,12 +151,10 @@ std::int32_t CMatchingGLLive::GetGLLiveMemberId() const {
 }
 
 // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamESsb
-// Partial: stores the text in playerParam_ (+0x67f0) when it is at most 0x80 bytes. With the flag set,
-// the text is sent to the lobby as a user parameter, with its length as the key (mpSendSetUserParameter),
-// and then a copy of the text goes to the lobby observer's SetPlayerParam. The observer's SetPlayerParam is a
-// no-op in the port (its member list is not modelled).
-// Partial: a missing lobby skips the send here, because the original creates the lobby on first use
-// (GetGLXPlayerMPLobby is partial); the observer call still happens.
+// Stores the text in playerParam_ (+0x67f0) when it is at most 0x80 bytes. With the flag set, the text is sent to the lobby
+// as a user parameter, with its length (mpSendSetUserParameter), and then a copy of the text goes to the lobby observer's
+// SetPlayerParam (0x822638, reconstructed: it assigns the value of the local member). GetGLXPlayerMPLobby creates the lobby on
+// first use, so the send always happens.
 void CMatchingGLLive::SetPlayerParam(std::string value, bool sendToLobby) {
     if (value.size() > kMaxPlayerParamBytes) {
         return;
@@ -165,9 +163,9 @@ void CMatchingGLLive::SetPlayerParam(std::string value, bool sendToLobby) {
     if (!sendToLobby) {
         return;
     }
-    if (GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby(); lobby != nullptr) {
+    {
         std::string copy = value;
-        lobby->mpSendSetUserParameter(copy.data(), static_cast<std::int32_t>(copy.size()));
+        GetGLXPlayerMPLobby()->mpSendSetUserParameter(copy.data(), static_cast<std::int32_t>(copy.size()));
     }
     GetGLXPlayerMPLobbyObserver()->SetPlayerParam(value);
 }

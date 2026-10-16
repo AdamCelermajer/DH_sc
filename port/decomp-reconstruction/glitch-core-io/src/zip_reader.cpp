@@ -37,7 +37,7 @@ namespace {
 // The directory is ordered with the shared heapsort (core/sort.hpp), as the original's
 // glitch::core::heapsort<SZipFileEntry> is. With duplicate names the order, and so the index
 // findFile returns, depends on the algorithm, so std::sort would not match.
-void sortEntries(std::vector<SZipFileEntry>& entries) {
+void sortEntries(core::svector<SZipFileEntry>& entries) {
     const int count = static_cast<int>(entries.size());
     if (count > 1) glitch::core::heapsort(entries.data(), count);
 }
@@ -82,7 +82,7 @@ void CZipReader::extractFilename(SZipFileEntry& entry) {
         }
     }
     const std::size_t sep = entry.zipFileName.find_last_of('/');
-    if (sep == std::string::npos || sep == 0) {
+    if (sep == core::stringc::npos || sep == 0) {
         entry.simpleFileName = entry.zipFileName;
         entry.path.clear();
     } else {
@@ -103,7 +103,7 @@ bool CZipReader::scanLocalHeader() {
     readFile->read(&entry.header, sizeof(SZIPFileHeader));
     if (entry.header.Sig != 0x04034b50u) return false;
 
-    std::string raw(entry.header.FilenameLength, '\0');
+    core::stringc raw(entry.header.FilenameLength, '\0');
     if (entry.header.FilenameLength) readFile->read(&raw[0], entry.header.FilenameLength);
     raw.resize(std::strlen(raw.c_str()));
     entry.zipFileName = raw;
@@ -207,7 +207,7 @@ bool CZipReader::isValid(const char* fileName) {
 // 0x577b50 _ZN6glitch2io10CZipReader22deletePathFromFilenameERSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
 // Scans back from the end; the first '/' or '\\' found decides the cut. A separator at index 0 is not
 // a cut (the name is kept), and with none the name is kept too.
-void CZipReader::deletePathFromFilename(std::string& fileName) {
+void CZipReader::deletePathFromFilename(core::stringc& fileName) {
     // Scan from the last character back; the first separator found decides the cut.
     for (std::size_t i = fileName.size(); i-- > 0;) {
         if (fileName[i] == '/' || fileName[i] == '\\') {
@@ -220,7 +220,7 @@ void CZipReader::deletePathFromFilename(std::string& fileName) {
 // 0x5775a4 / 0x5777ac / 0x5783c4: the inlined comparator, as for SPakFileEntry (signed chars, then
 // lengths). See the declaration in zip_reader.hpp.
 namespace {
-bool signedCharNameLess(const std::string& a, const std::string& b) {
+bool signedCharNameLess(const core::stringc& a, const core::stringc& b) {
     const std::size_t common = a.size() < b.size() ? a.size() : b.size();
     for (std::size_t i = 0; i < common; ++i) {
         const auto ca = static_cast<signed char>(a[i]);

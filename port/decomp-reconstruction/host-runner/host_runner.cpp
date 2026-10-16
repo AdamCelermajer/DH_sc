@@ -7,6 +7,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
+#include <cstdint>
 #include <io.h>
 #include <fcntl.h>
 
@@ -35,6 +37,19 @@ double _GetTime() {
     return static_cast<double>(g_micros) / 1000000.0;
 }
 int OS_GetTime() { return static_cast<int>(TimeNow()); }
+
+// LC_API_GET_RANDOM (core-platform/src/lc_api.cpp, 0x89cc9c) reseeds from time() on every call; with the fixed clock the runner gives it the
+// clock's seconds instead, so a scripted session repeats exactly. Same generator: the first lrand48 after srand48(seed), plus the name's bytes.
+int LC_API_GET_RANDOM(const char* name) {
+    const long seed = g_fixedClock ? static_cast<long>(g_micros / 1000000) : static_cast<long>(std::time(nullptr));
+    std::uint64_t x = (static_cast<std::uint64_t>(static_cast<std::uint32_t>(seed)) << 16) | 0x330Eu;
+    x = (0x5DEECE66DULL * x + 0xBULL) & ((std::uint64_t{1} << 48) - 1);
+    int value = static_cast<int>(x >> 17);
+    if (name != nullptr) {
+        for (const char* p = name; *p != 0; ++p) value += static_cast<signed char>(*p);
+    }
+    return value;
+}
 
 namespace dh2host {
 
@@ -139,6 +154,14 @@ static LONG WINAPI crashFilter(EXCEPTION_POINTERS* info) {
     for (; n < 64; ++n) {
         DWORD64 imageBase = 0;
         PRUNTIME_FUNCTION fn = RtlLookupFunctionEntry(pc, &imageBase, nullptr);
+        if (fn == nullptr && n == 1) {
+            // The fault is not in code (a call through a bad pointer into data): the caller's return address is on top of the stack.
+            pc = *reinterpret_cast<DWORD64*>(ctx->Rsp);
+            ctx->Rsp += 8;
+            ctx->Rip = pc;
+            frames[n] = reinterpret_cast<void*>(pc);
+            continue;
+        }
         if (fn == nullptr) break;
         void* handlerData = nullptr;
         DWORD64 frameBase = 0;

@@ -132,8 +132,12 @@ std::int32_t CMatchingLocal::WritePacketData(std::int32_t a2, std::int32_t a3, N
     for (int i = 0; i < serverBackupCount_; ++i) {
         serverBackup_[i].SetEnabled(localIsServer);
     }
-    // Step 4: the array's Serialize writes its own presence bit under the first element's HasDataToSend.
-    if (serverBackupCount_ > 0 && serverBackup_[0].HasDataToSend(a2)) {
+    // Step 4: the array's Serialize writes its own presence bit under the array's HasDataToSend (any element).
+    bool anyBackupData = false;
+    for (int i = 0; i < serverBackupCount_ && !anyBackupData; ++i) {
+        anyBackupData = serverBackup_[i].HasDataToSend(a2);
+    }
+    if (anyBackupData) {
         stream.WriteBit(1);
         bool wrote = false;
         for (int i = 0; i < serverBackupCount_ && !wrote; ++i) {

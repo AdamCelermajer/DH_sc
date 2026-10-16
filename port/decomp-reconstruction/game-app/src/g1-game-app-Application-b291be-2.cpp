@@ -558,7 +558,8 @@ void Application::Resume() {
         m_stateMachine->WakeUp();
     }
     ResetTouch();
-    m_lastTickTime = static_cast<int>(now);  // +0x70
+    // The original reads the device timer a second time here (0x329084, after WakeUp and ResetTouch) for +0x70.
+    m_lastTickTime = static_cast<int>(glitch::os::Timer::getRealTime());  // +0x70
     ComputeDt();
 }
 

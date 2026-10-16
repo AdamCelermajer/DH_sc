@@ -88,15 +88,27 @@ void CharAnimator::CalculateExtraTime(glitch::scene::ITimelineController* contro
 // 0x3c9168 _ZN12CharAnimator15IncAnimSetUsersEv
 // The users counter (+0x24) of the game AnimationSet of the character's anim controller is raised by one.
 void CharAnimator::IncAnimSetUsers() {
-    boost::intrusive_ptr<AnimationSet> set = m_character->m_visualObject->m_animController->GetAnimationSet();  // Character +0x2d8, VisualObject +0x38
-    ++set->m_users;  // +0x24
+    // The original (listing 0x3c9174..0x3c91bc) tests the visual object (Character +0x2d8) and the returned set for null and does nothing
+    // otherwise: characters whose data name is not in Arrays::CharacterTable have no visual (004_root_den _prim_Bandit_03 'RD_Bandit1').
+    if (m_character->m_visualObject == nullptr) {
+        return;
+    }
+    boost::intrusive_ptr<AnimationSet> set = m_character->m_visualObject->m_animController->GetAnimationSet();  // VisualObject +0x38
+    if (set) {
+        ++set->m_users;  // +0x24
+    }
 }
 
 // 0x3c91c8 _ZN12CharAnimator15DecAnimSetUsersEv
 // Same chain as IncAnimSetUsers, lowering the counter.
 void CharAnimator::DecAnimSetUsers() {
+    if (m_character->m_visualObject == nullptr) {
+        return;
+    }
     boost::intrusive_ptr<AnimationSet> set = m_character->m_visualObject->m_animController->GetAnimationSet();
-    --set->m_users;  // +0x24
+    if (set) {
+        --set->m_users;  // +0x24
+    }
 }
 
 // 0x3c9228 _ZNK12CharAnimator13ANIM_IsUniqueEv

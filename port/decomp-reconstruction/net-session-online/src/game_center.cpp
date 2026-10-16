@@ -50,6 +50,9 @@ void GameCenter::ResetPlayerList() {
     hostUid_ = hostUidStorage_.get();  // deviation: +0x30 may point into the list that is cleared next (dangling in the binary)
     playerList_.clear();
     playerList_.emplace_back(userUid_ != nullptr ? userUid_.get() : "");
+    playerIdStatus_.clear();  // 0x499a34: the status list at +0x74 is freed node by node
+    // 0x499a68: SetPlayerIDStatus(userUid, "ResetPlayerList", skip) with skip = (byte at +0x15 == 0).
+    SetPlayerIDStatus(userUid_ != nullptr ? userUid_.get() : "", "ResetPlayerList", !startGate_);
 }
 
 // 0x4991d4 _ZN10GameCenter14GetPlayerCountEv

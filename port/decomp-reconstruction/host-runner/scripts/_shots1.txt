@@ -1,8 +1,0 @@
-60 tap 1000 700
-150 shot a1_menu
-200 tap 2148 322
-280 shot a2_after_start
-300 tap 2136 368
-360 shot a3_after_single
-500 shot a4
-900 quit

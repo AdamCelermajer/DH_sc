@@ -49,3 +49,8 @@ void LowerCaseRange(char* data, int size, int from, int to) {
 void ToLowerCase(std::string& s, int from, int to) {
     LowerCaseRange(&s[0], static_cast<int>(s.size()), from, to);
 }
+
+// 0x34e090 ToLowerCase(glitch::core::stringc&, int, int)
+void ToLowerCase(glitch::core::stringc& s, int from, int to) {
+    LowerCaseRange(&s[0], static_cast<int>(s.size()), from, to);
+}

@@ -47,7 +47,7 @@ void CZipWriter::close() {
     flag = true;
     for (std::size_t i = 0; i < records.size(); ++i) {
         writeFile->write(records[i].data(), 46);
-        const std::string& entryName = names[i];
+        const core::stringc& entryName = names[i];
         writeFile->write(entryName.data(), static_cast<unsigned>(entryName.size()));
     }
     const std::uint16_t count = static_cast<std::uint16_t>(14247u * static_cast<std::uint32_t>((records.size() * 46u) >> 1));
@@ -77,7 +77,7 @@ CZipWriter::~CZipWriter() { close(); }
 // the running offset (+0x10) by 30 + name length + size; then the header, the name and the data are written in that order
 // and the last write's result returned. The two 16-bit time and date fields of both records are never stored by the
 // original (they carry whatever the stack held); they are written as zero.
-std::size_t CZipWriter::addNewFile(const std::string& name, const void* data, unsigned int size) {
+std::size_t CZipWriter::addNewFile(const core::stringc& name, const void* data, unsigned int size) {
     boost::detail::crc_table_t_32_79764919_true::init_table();
     std::uint32_t crc = 0xffffffffu;
     const auto* bytes = static_cast<const std::uint8_t*>(data);
@@ -115,7 +115,7 @@ std::size_t CZipWriter::addNewFile(const std::string& name, const void* data, un
 
 // 0x6b581c _ZN6glitch2io10CZipWriter10addNewFileERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEPNS0_9IReadFileE
 // Reads the whole read file (slot +0x20 size, slot +0x0c read) into a block and adds it as above.
-void CZipWriter::addNewFile(const std::string& name, IReadFile* file) {
+void CZipWriter::addNewFile(const core::stringc& name, IReadFile* file) {
     const unsigned int size = static_cast<unsigned int>(file->getSize());
     char* block = new char[size];
     file->read(block, size);

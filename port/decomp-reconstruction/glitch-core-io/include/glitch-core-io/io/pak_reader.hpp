@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 #include "glitch-core-io/io/read_file.hpp"
 
@@ -21,9 +22,9 @@ struct SPakFileEntry {
     ~SPakFileEntry() = default;
 
     // Irrlicht 1.5.1 SPakFileEntry: pakFileName, simpleFileName, path, pos, length (the same three strings as SZipFileEntry).
-    std::string pakFileName;     // +0x00: name as stored in the pak directory
-    std::string simpleFileName;  // +0x18: file name the limit reader is opened with (openFile); the key of the order and of findFile
-    std::string path;            // +0x30: the directory part, up to and including the last '/' (extractFilename)
+    core::stringc pakFileName;     // +0x00: name as stored in the pak directory
+    core::stringc simpleFileName;  // +0x18: file name the limit reader is opened with (openFile); the key of the order and of findFile
+    core::stringc path;            // +0x30: the directory part, up to and including the last '/' (extractFilename)
     std::int32_t pos = 0;        // +0x48: position of the file data in the pak (seek target)
     std::int32_t length = 0;     // +0x4c: size of the file data (limit of the reader)
 };
@@ -70,7 +71,7 @@ public:
     // or no separator at all leaves name unchanged. The original first tests the byte at the
     // end pointer; for std::string that byte is the terminator, so the test never succeeds and the
     // scan starts at the last character.
-    void deletePathFromFilename(std::string& name);
+    void deletePathFromFilename(core::stringc& name);
 
     // +0x08: the archive's read file (reference counted; released in the destructor).
     glitch::io::IReadFile* readFile = nullptr;
@@ -81,7 +82,7 @@ public:
     std::uint32_t directoryOffset = 0;  // +0x10
     std::uint32_t directorySize = 0;    // +0x14
     // +0x18 .. +0x20: entry vector (begin, end, capacity).
-    std::vector<SPakFileEntry> entries;
+    core::svector<SPakFileEntry> entries;
     // +0x24, +0x25: flags passed to the constructor (their uses are not recovered).
     bool ignoreCase = false;  // +0x24
     bool ignorePaths = false;  // +0x25

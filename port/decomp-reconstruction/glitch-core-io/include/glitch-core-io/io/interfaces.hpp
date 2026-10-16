@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"  // core::stringc / stringw / SAllocator (STLPORT-DECISION.md section 6)
 #include "glitch-core-io/deps/glitch_core.hpp"
 
 namespace glitch::video {
@@ -151,8 +152,8 @@ public:
                               const wchar_t* n2, const wchar_t* v2, const wchar_t* n3, const wchar_t* v3,
                               const wchar_t* n4, const wchar_t* v4, const wchar_t* n5, const wchar_t* v5) = 0;
     // +0x14: element with attribute name and value lists (pairs up to the shorter list).
-    virtual void writeElement(const wchar_t* name, bool empty, const std::vector<std::wstring>& names,
-                              const std::vector<std::wstring>& values) = 0;
+    virtual void writeElement(const wchar_t* name, bool empty, core::svector<core::stringw>& names,
+                              core::svector<core::stringw>& values) = 0;
     virtual void writeComment(const wchar_t* text) = 0;                         // +0x18
     virtual void writeClosingTag(const wchar_t* name) = 0;                      // +0x1c
     virtual void writeText(const wchar_t* text) = 0;                            // +0x20
@@ -192,16 +193,16 @@ public:
     virtual bool addZipFileArchive(const char* name, bool ignoreCase, bool ignorePaths) = 0;         // +0x18
     virtual bool addFolderFileArchive(const char* name, bool ignoreCase, bool ignorePaths) = 0;      // +0x1c
     virtual bool addPakFileArchive(const char* name, bool ignoreCase, bool ignorePaths) = 0;         // +0x20
-    virtual bool addObfuscationFileMap(const char* name, unsigned char key, std::string path) = 0;   // +0x24
+    virtual bool addObfuscationFileMap(const char* name, unsigned char key, core::stringc path) = 0;   // +0x24
     virtual bool removeFileArchive(const char* name) = 0;                                            // +0x28
     virtual const char* getWorkingDirectory() = 0;                                                   // +0x2c
     virtual bool changeWorkingDirectoryTo(const char* directory) = 0;                                // +0x30
-    virtual std::string getAbsolutePath(const std::string& path) const = 0;                          // +0x34
-    virtual std::string getFileDir(const std::string& path) const = 0;                               // +0x38
-    virtual std::string getFileBasename(const std::string& path, bool keepExtension) const = 0;      // +0x3c
+    virtual core::stringc getAbsolutePath(const core::stringc& path) const = 0;                          // +0x34
+    virtual core::stringc getFileDir(const core::stringc& path) const = 0;                               // +0x38
+    virtual core::stringc getFileBasename(const core::stringc& path, bool keepExtension) const = 0;      // +0x3c
     virtual IFileList* createFileList() const = 0;                                                   // +0x40
     virtual bool existFile(const char* name) const = 0;                                              // +0x44
-    virtual bool existFile(const std::string& name) const = 0;                                       // +0x48
+    virtual bool existFile(const core::stringc& name) const = 0;                                       // +0x48
     virtual IXMLReader* createXMLReader(const char* name) = 0;                                       // +0x4c
     virtual IXMLReader* createXMLReader(IReadFile* file) = 0;                                        // +0x50
     virtual IXMLReaderUTF8* createXMLReaderUTF8(const char* name) = 0;                               // +0x54

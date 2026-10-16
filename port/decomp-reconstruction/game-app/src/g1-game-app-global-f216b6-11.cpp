@@ -217,7 +217,7 @@ void NativeGetSaveIDsListSize(const gameswf::fn_call& call) {
 // Two string arguments: the save name (argument 0) and the character class name (argument 1). The class name is looked up in
 // Arrays::CharacterTable::m_memberNames (-1 when missing). A playable class (IsPlayableClassID) gets the next free save slot, and
 // a PlayerSavegame is built for it (loaded with mode 1) with the save name, level 1 and the class; the running difficulty is
-// reset to 0, seeds and save date are generated, the highest unlocked difficulty is 1, and for every difficulty the level id is
+// reset to 0, seeds and save date are generated, a negative highest-unlocked-difficulty word is clamped to 0, the flag byte at +0x194 is set, and for every difficulty the level id is
 // 41, the entry point 0 and the spawn-point flag set. The save is written and the result is the slot as a number. Any other
 // class leaves the result alone.
 void NativeCreateSaveSlot(const gameswf::fn_call& call) {
@@ -234,13 +234,13 @@ void NativeCreateSaveSlot(const gameswf::fn_call& call) {
         save.m_name = saveName;
         save.m_playerLevel = 1;      // +0x30
         save.m_playerClass = classId;  // +0x34
-        if (static_cast<std::int32_t>(save.m_saveDate) < 0) {
-            save.m_saveDate = 0;     // +0x38
+        if (save.m_unlockedDifficulty < 0) {
+            save.m_unlockedDifficulty = 0;  // +0x3c: only a negative value is clamped (0x43f6a0 CMP/MOVLT), nothing is set to 1
         }
         PlayerSavegame::m_difficultyLevel = 0;
         save.SG_GenerateSeeds();
         save.SG_SetSaveDate();
-        save.m_unlockedDifficulty = 1;  // +0x3c
+        save.unk_194 = true;  // +0x194 (STRB 1 at 0x43f798)
         for (std::uint32_t difficulty = 0; difficulty != Arrays::GameDifficulties::size; ++difficulty) {
             save.unk_50[difficulty] = 41;            // +0x50 level id
             save.m_levelEntryPoint[difficulty] = 0;  // +0x40

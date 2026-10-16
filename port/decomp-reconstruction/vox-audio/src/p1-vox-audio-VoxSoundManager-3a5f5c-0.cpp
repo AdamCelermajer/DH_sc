@@ -149,7 +149,9 @@ VoxSoundManager::VoxSoundManager() {
     // The two slot arrays, allocated and zeroed in the listing's order (+0x04 first, then +0x08).
     // 4 bytes per slot in the original (32-bit pointers); host pointers are 8 bytes wide (first boot: the 4-byte slots made sounds_[i] read the neighbouring
     // slot / heap, and VoxSoundManager::Stop called a virtual on a garbage DataHandle).
-    const unsigned int slot_bytes = static_cast<unsigned int>(sizeof(void*)) * static_cast<unsigned int>(sound_count_);
+    // DEVIATION (VF2 audit): one spare slot. LoadSound's bound is `<=` (original bug, reproduced), so id == sound_count_ writes one
+    // slot past the end; the original's 4-byte overflow lands in allocator slack, ours would corrupt the host heap.
+    const unsigned int slot_bytes = static_cast<unsigned int>(sizeof(void*)) * (static_cast<unsigned int>(sound_count_) + 1u);
     void* user_slots = VoxAlloc(slot_bytes, static_cast<vox::VoxMemHint>(4));
     unk_04 = user_slots;
     std::memset(user_slots, 0, slot_bytes);

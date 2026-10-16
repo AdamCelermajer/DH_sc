@@ -4,6 +4,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <iterator>
 #include <string>
 
 #include "core-platform/gc_singleton.hpp"
@@ -36,6 +37,15 @@ int main() {
     CHECK(gc.PlayerListForTest().size() == 1);
     CHECK(gc.PlayerListForTest().front() == "guest-2");
     CHECK(gc.GetPlayerCount() == 1);
+    // 0x4999b8 also resets the status list to the single entry (user, "ResetPlayerList", skip = !gate).
+    CHECK(gc.PlayerIdStatusForTest().size() == 1);
+    CHECK(gc.PlayerIdStatusForTest().front().id == "guest-2");
+    CHECK(gc.PlayerIdStatusForTest().front().status == "ResetPlayerList");
+    CHECK(gc.PlayerIdStatusForTest().front().skip);
+    gc.SetStartGateForTest(true);
+    gc.ResetPlayerList();
+    CHECK(gc.PlayerIdStatusForTest().size() == 1 && !gc.PlayerIdStatusForTest().front().skip);
+    gc.SetStartGateForTest(false);
     gc.SetUidsForTest("host-1", nullptr);
     gc.ResetPlayerList();
     CHECK(gc.PlayerListForTest().size() == 1);
@@ -52,13 +62,13 @@ int main() {
     // Player-ID status list: an ID is replaced in place, a new ID is appended.
     gc.SetPlayerIDStatus("p1", "ready", false);
     gc.SetPlayerIDStatus("p2", "away", true);
-    CHECK(gc.PlayerIdStatusForTest().size() == 2);
+    CHECK(gc.PlayerIdStatusForTest().size() == 3);  // the reset entry (empty user id) plus p1 and p2
     gc.SetPlayerIDStatus("p1", "left", true);
-    CHECK(gc.PlayerIdStatusForTest().size() == 2);
-    CHECK(gc.PlayerIdStatusForTest().front().status == "left");
-    CHECK(gc.PlayerIdStatusForTest().front().skip);
+    CHECK(gc.PlayerIdStatusForTest().size() == 3);
+    CHECK(std::next(gc.PlayerIdStatusForTest().begin())->status == "left");
+    CHECK(std::next(gc.PlayerIdStatusForTest().begin())->skip);
     gc.SetPlayerIDStatus(nullptr, "x", false);
-    CHECK(gc.PlayerIdStatusForTest().size() == 2);
+    CHECK(gc.PlayerIdStatusForTest().size() == 3);
     gc.DumpPlayerIDStatusList();
 
     // Achievements and scores are queued only when the gate on the GameCenter singleton is open. The score

@@ -319,6 +319,38 @@ glitch::scene::ISceneNode* SceneManager::SearchByName(glitch::scene::ISceneNode*
     return nullptr;
 }
 
+// 0x359fac _ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERSt6vectorIS3_NS0_4core10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEEPKcb
+// The char* form of the collecting search: with a null root or a null name nothing happens, otherwise the name becomes a std::string
+// and the std::string overload (0x3586ac) runs.
+void SceneManager::SearchByName(glitch::scene::ISceneNode* root, std::vector<glitch::scene::ISceneNode*>& out,
+                                const char* name, bool flag) {
+    if (name == nullptr || root == nullptr) {
+        return;
+    }
+    SearchByName(root, out, std::string(name), flag);
+}
+
+// 0x35a044 _ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPFvS3_EPKcb
+// The char* form of the visiting search: with a null visit, root or name nothing happens, otherwise the std::string overload
+// (0x352aa4) runs.
+void SceneManager::SearchByName(glitch::scene::ISceneNode* root, void (*visit)(glitch::scene::ISceneNode*),
+                                const char* name, bool flag) {
+    if (visit == nullptr || root == nullptr || name == nullptr) {
+        return;
+    }
+    SearchByName(root, visit, std::string(name), flag);
+}
+
+// 0x35a0e4 _ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb
+// The char* form of the first-match search: null for a null root or a null name, otherwise the result of the std::string overload
+// (0x352b74).
+glitch::scene::ISceneNode* SceneManager::SearchByName(glitch::scene::ISceneNode* root, const char* name, bool flag) {
+    if (name == nullptr || root == nullptr) {
+        return nullptr;
+    }
+    return SearchByName(root, std::string(name), flag);
+}
+
 // 0x352c3c _ZN12SceneManagerC1EPN6glitch5video12IVideoDriverEN5boost13intrusive_ptrINS0_2io11IFileSystemEEEPNS0_3gui14ICursorControlEPNS9_15IGUIEnvironmentE
 // The base call is reproduced from the disassembly: driver, the file system by reference, the cursor control, a null IMeshCache
 // (the constant 0 is stored as the fourth argument) and the GUI environment. m_lightSetManager (+0x294) runs

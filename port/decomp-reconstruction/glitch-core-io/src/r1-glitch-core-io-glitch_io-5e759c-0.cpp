@@ -171,14 +171,14 @@ boost::intrusive_ptr<glitch::video::IBuffer> createDataBuffer(glitch::video::IVi
 // The text is "<texture name>;<creation options>". With a driver and a non-empty text, ';' is searched; the name is the text
 // before it (the whole text when there is none) and the options are the text after it (the whole text again when there is no
 // ';', since the start index stays 0). The result is CTextureManager::getTexture(name, options) of the driver (+0xe0).
-boost::intrusive_ptr<glitch::video::ITexture> fromString(const std::string& text,
+boost::intrusive_ptr<glitch::video::ITexture> fromString(const glitch::core::stringc& text,
                                                          glitch::video::IVideoDriver* driver) {
     boost::intrusive_ptr<glitch::video::ITexture> result;
     if (driver != nullptr && !text.empty()) {
         const std::size_t semicolon = text.find(';');
         const std::size_t optionsStart = semicolon == std::string::npos ? 0 : semicolon + 1;
         const std::string name(text, 0, semicolon);  // npos: the whole text
-        const std::string options(text, optionsStart);
+        const glitch::core::stringc options(text, optionsStart);
         result = driver->m_textureManager->getTexture(name.c_str(), options.c_str());
     }
     return result;

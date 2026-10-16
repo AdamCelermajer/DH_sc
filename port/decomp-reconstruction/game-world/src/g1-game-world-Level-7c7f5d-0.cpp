@@ -10,6 +10,7 @@
 #include "dh2/Character.hpp"
 #include "dh2/DialogMsg.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/SpawnPoint.hpp"
 #include "dh2/LevelSavegame.hpp"
 #include "dh2/MenuMessageManager.hpp"
 #include "dh2/GameObject.hpp"
@@ -151,8 +152,12 @@ void Level::UpdateLightSet(int index, std::vector<bool>& visited, glitch::scene:
 
 // 0x3ef614 Level::GetSpawnPoint()
 // Walks ObjectManager's object map (m_objectMap) in key order and returns the first object that exists, is of GO_IDS 13 (a SpawnPoint), is enabled (ObjectBase +0x8a) and whose
-// entry point id (GameObject +0x374) equals Level::m_entryPointId (+0x110). Null when there is none.
+// entry point id (GameObject +0x374) equals Level::m_entryPointId (+0x110). When none matches, the original does not return null: its
+// result register (R0) keeps the value of the last iteration that touched it. A visited type-13 object sets it to that object (enabled or
+// not, matching or not); an unresolvable object or another type clears it; an entry with a null m_object leaves it alone. The walk's
+// last such object is therefore returned (0x3ef680 clears, 0x3ef6bc sets).
 GameObject* Level::GetSpawnPoint() {
+    ObjectBase* result = nullptr;
     for (const auto& entry : dword_99F764->m_objectMap) {
         ObjectBase* object = entry.second.m_object;
         if (object == nullptr) {
@@ -161,11 +166,15 @@ GameObject* Level::GetSpawnPoint() {
         ObjectHandle handle = object->GetHandle();
         ObjectBase* resolved = handle.GetObject(false);
         if (resolved == nullptr || resolved->m_goId != 13) {
+            result = nullptr;
             continue;
         }
-        if (resolved->m_enabled && m_entryPointId == static_cast<GameObject*>(resolved)->m_entryPointId) {
+        result = resolved;
+        // W2: the id at +0x374 of a type-13 object is SpawnPoint::m_entrypointId (the "entrypointID" property); GameObject ends at +0x374 in the
+        // original, and the separate GameObject::m_entryPointId field of the port is never written (garbage), so no spawn point ever matched.
+        if (resolved->m_enabled && m_entryPointId == static_cast<SpawnPoint*>(resolved)->m_entrypointId) {
             return static_cast<GameObject*>(resolved);
         }
     }
-    return nullptr;
+    return static_cast<GameObject*>(result);
 }

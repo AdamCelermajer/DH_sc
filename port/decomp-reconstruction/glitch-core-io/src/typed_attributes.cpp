@@ -153,10 +153,10 @@ const wchar_t* CTextureAttribute::getTypeString() const { return L"texture"; }
 bool CTextureAttribute::getBool() const { return texture.get() != nullptr; }
 
 // 0x562f10 _ZN6glitch2io22CStringWArrayAttribute8getArrayEv
-std::vector<std::wstring> CStringWArrayAttribute::getArray() const { return array; }
+core::svector<core::stringw> CStringWArrayAttribute::getArray() const { return array; }
 
 // 0x5632a4 _ZN6glitch2io22CStringWArrayAttribute8setArrayE...
-void CStringWArrayAttribute::setArray(const std::vector<std::wstring>& value) { array = value; }
+void CStringWArrayAttribute::setArray(core::svector<core::stringw> value) { array = value; }
 
 }  // namespace glitch::io
 
@@ -213,7 +213,7 @@ float colorFloat(const IAttribute& attribute) {
 
 // Stores the four bytes of value as unit floats. The original writes without a
 // size check; the guard below only matters for a list shorter than four.
-void storeColorBytes(std::vector<float>& floats, int value) {
+void storeColorBytes(core::svector<float>& floats, int value) {
     const auto v = static_cast<std::uint32_t>(value);
     const float parts[4] = {
         static_cast<float>((v >> 8) & 0xffu) * byteScale(),
@@ -505,7 +505,7 @@ void CTextureAttribute::getString(char* buf) {
 void CTextureAttribute::setString(const char* value) {
     boost::intrusive_ptr<glitch::video::ITexture> created;
     if (value != nullptr && *value != 0) {
-        created = fromString(std::string(value), driver);
+        created = fromString(core::stringc(value), driver);
     }
     setTexture(created);
 }
@@ -538,7 +538,7 @@ CTextureAttribute::~CTextureAttribute() {
 // 0x5657b0 _ZN6glitch2io22CStringWArrayAttributeC1EPKcSt6vectorIS...
 // The array argument is copied into the attribute (vector assignment at +0x24, as the decompile shows).
 CStringWArrayAttribute::CStringWArrayAttribute(const char* attrName,
-                                               const std::vector<std::wstring>& value, bool f) {
+                                               core::svector<core::stringw> value, bool f) {
     name = attrName != nullptr ? attrName : "";
     flag = f;
     array = value;

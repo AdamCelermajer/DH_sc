@@ -37,7 +37,7 @@ public:
 
     // +0x34, 0x34e5f4 _ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE.
     // The name through slot +0xb8, then glitch::io::CFileSystem::getAbsolutePath.
-    std::string getAbsolutePath(const std::string& path) const override;
+    glitch::core::stringc getAbsolutePath(const glitch::core::stringc& path) const override;
 
     // The slots FileSystemBase leaves to the derived system (pure in _ZTV14FileSystemBase):
     // +0x78 closeFile, +0x88 openFile, +0x90 openResource, +0x94 openSavefile. They return the
@@ -49,7 +49,7 @@ public:
 
     // +0xa4, 0x34e1ac: returns a copy of the path. FileSystemWin32::formatFilePath overrides the
     // separator handling.
-    virtual std::string formatFilePath(const std::string& path) const;
+    virtual glitch::core::stringc formatFilePath(const glitch::core::stringc& path) const;
 
     // +0xa8, 0x34df94 _ZN14FileSystemBase14doesFileExistsEPKc.
     // The name through slot +0x88 (openFile(name, false, false)), closed through slot +0x78;
@@ -68,7 +68,7 @@ public:
     // +0xb8, 0x34e96c _ZNK14FileSystemBase18ApplyFilenameHacksEPKc.
     // The working-directory strip (slot +0x2c), the ".tga" rewrite through
     // glitch::io::CFileSystem::getFileBasename and ToLowerCase.
-    virtual std::string ApplyFilenameHacks(const char* name) const;
+    virtual glitch::core::stringc ApplyFilenameHacks(const char* name) const;
 
     // 0x34e0fc _ZN14FileSystemBase20decodeObfuscatedDataEiPviS0_.
     // Adds a running key to the first (4 - index) bytes. The fourth parameter (mangled as

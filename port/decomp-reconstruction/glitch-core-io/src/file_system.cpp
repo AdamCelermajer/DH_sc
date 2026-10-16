@@ -87,7 +87,7 @@ IAttributes* CFileSystem::createEmptyAttributes(glitch::video::IVideoDriver* dri
 }
 
 // 0x56c348 _ZNK6glitch2io11CFileSystem15getAbsolutePathERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
-std::string CFileSystem::getAbsolutePath(const std::string& path) const {
+core::stringc CFileSystem::getAbsolutePath(const core::stringc& path) const {
     return path;
 }
 
@@ -95,7 +95,7 @@ namespace {
 
 // Position of the last '/' or '\\' as the original computes it: the larger of the two
 // reverse searches, with npos read as -1 (signed compare). Returns -1 when neither is found.
-long lastSeparator(const std::string& path) {
+long lastSeparator(const core::stringc& path) {
     const std::size_t slash = path.rfind('/');
     const std::size_t back = path.rfind('\\');
     const long a = slash == std::string::npos ? -1 : static_cast<long>(slash);
@@ -106,7 +106,7 @@ long lastSeparator(const std::string& path) {
 }  // namespace
 
 // 0x56c6b4 _ZNK6glitch2io11CFileSystem10getFileDirERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
-std::string CFileSystem::getFileDir(const std::string& path) const {
+core::stringc CFileSystem::getFileDir(const core::stringc& path) const {
     const long sep = lastSeparator(path);
     if (sep >= 0 && static_cast<std::size_t>(sep) < path.size()) {
         return path.substr(0, static_cast<std::size_t>(sep));
@@ -120,7 +120,7 @@ std::string CFileSystem::getFileDir(const std::string& path) const {
 // size - ext - (sep + 1) in unsigned 32-bit arithmetic. When the dot lies before the separator
 // that count wraps, and the substring is clamped to the end of the path (the rest after the
 // separator). With no separator in range the result is the path minus its extension.
-std::string CFileSystem::getFileBasename(const std::string& path, bool keepExtension) const {
+core::stringc CFileSystem::getFileBasename(const core::stringc& path, bool keepExtension) const {
     const long sep = lastSeparator(path);
     const std::size_t size = path.size();
     std::size_t extLength = 0;
@@ -172,7 +172,7 @@ bool CFileSystem::existFile(const char* name) const {
 }
 
 // 0x34df7c _ZNK6glitch2io11CFileSystem9existFileERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
-bool CFileSystem::existFile(const std::string& name) const { return existFile(name.c_str()); }
+bool CFileSystem::existFile(const core::stringc& name) const { return existFile(name.c_str()); }
 
 // 0x56c0f8 _ZN6glitch2io11CFileSystem28createAndOpenFileFromArchivesEPKc
 // Each reader of the zip list, then the pak list, then the unzip list is asked in turn for the name
@@ -409,7 +409,7 @@ boost::intrusive_ptr<CFile> CFileSystem::open(const char* name, const char* mode
 // "<name>:<obfuscated>"; ObfuscationMap[<obfuscated>] = path + <name>.
 // Deviations: a null file (createAndOpenFile failed) crashes in the original, here it answers false; a zero key divides
 // by zero in the original, where the ARM helper yields 0, so the term is 0.
-bool CFileSystem::addObfuscationFileMap(const char* name, unsigned char key, std::string path) {
+bool CFileSystem::addObfuscationFileMap(const char* name, unsigned char key, core::stringc path) {
     IReadFile* file = createAndOpenFile(name);  // slot +0x0c
     if (file == nullptr) return false;
     const long size = file->getSize();  // +0x20
@@ -447,7 +447,7 @@ bool CFileSystem::addObfuscationFileMap(const char* name, unsigned char key, std
             static_cast<char*>(std::memchr(obfuscatedName, '\n', static_cast<std::size_t>(end - obfuscatedName)));
         if (newline == nullptr) newline = end;
         *newline = 0;
-        ObfuscationMap[std::string(obfuscatedName)] = path + lineStart;
+        ObfuscationMap[std::string(obfuscatedName)] = std::string(path.data(), path.size()) + lineStart;
         lineStart = newline + 1;
     }
     delete[] buffer;

@@ -1,5 +1,6 @@
 // Process buffer heap: sizes, block carving, merging on release, the dump, the excess
 // fallback and the rule that the heap cannot be resized while blocks are in use.
+#include <cstdint>
 #include "glitch-core-io/core/process_buffer.hpp"
 
 #include <cstdio>
@@ -39,13 +40,15 @@ int main() {
     CHECK(getProcessBufferHeapSize() == 64);
     CHECK(getProcessBufferHeapAvailableMemory() == 56);
 
-    // Three blocks of 4 bytes take 3 words each (header, one data word, footer).
+    // Three blocks of 4 bytes. The binary takes 3 words each (header, one data word, footer); TRACK-B.md decision 14 rounds every
+    // block to a multiple of 4 words (16 bytes) so that every payload is 16-byte aligned: 4 words each here.
     int* a = allocProcessBuffer(4);
     int* b = allocProcessBuffer(4);
     int* c = allocProcessBuffer(4);
     CHECK(a && b && c);
-    CHECK(b == a + 3 && c == b + 3);
-    CHECK(getProcessBufferHeapAvailableMemory() == 56 - 36);
+    CHECK(b == a + 4 && c == b + 4);
+    CHECK(reinterpret_cast<std::uintptr_t>(a) % 16 == 0 && reinterpret_cast<std::uintptr_t>(b) % 16 == 0);
+    CHECK(getProcessBufferHeapAvailableMemory() == 56 - 48);
 
     // The heap cannot be resized while blocks are in use.
     setProcessBufferHeapSize(128);
@@ -55,7 +58,7 @@ int main() {
     dumpProcessBufferAllocations(&logger, glitch::os::ELL_DEBUG);
     CHECK(logger.lines.size() == 3);
     if (logger.lines.size() == 3) {
-        CHECK(logger.lines[0].find(":        4") != std::string::npos);
+        CHECK(logger.lines[0].find(":        8") != std::string::npos);  // (header - 2) * 4 with the 4-word block (decision 14)
     }
 
     // Releasing the middle block leaves a free block between two allocated ones.

@@ -45,6 +45,7 @@
 #include "dh2/Point2D.hpp"
 #include "dh2/Point3D.hpp"
 #include "dh2/RoomZone.hpp"
+#include "dh2/SpawnPoint.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "gameswf/gameswf.h"                          // gameswf::rect (complete type; MenuBase.hpp forward-declares it)
@@ -197,11 +198,13 @@ bool HUDMinimap::IsInsideVisitedRooms(const Point3D<float>& position) {
 // Over unk_d4 entries of unk_3dc: an object is visible on the map when it is non-null, the level is non-null, its entry point id
 // equals the level, and it lies in a visited room; the result is stored in the visible flag of unk_fc[i]. Over unk_d0 entries
 // of unk_3fc: visible when it is non-null and lies in a visited room (flag of unk_11c[i]). The original short-circuits in the
-// same order.
+// same order. The listing reads the word at object +0x374 (884), which for the only class that holds an entry point id is
+// SpawnPoint::m_entrypointId; nothing in the binary fills unk_3dc (SetObjects, 0x41b560, is empty and MenuMinimap does not override
+// it), so unk_d4 stays 0 and the loop never runs.
 void HUDMinimap::SetObjectsVisibility(Level* level) {
     for (int i = 0; i < unk_d4; ++i) {
         GameObject* object = unk_3dc[i];
-        const bool visible = object != nullptr && level != nullptr && object->m_entryPointId == level->m_entryPointId &&
+        const bool visible = object != nullptr && level != nullptr && static_cast<SpawnPoint*>(object)->m_entrypointId == level->m_entryPointId &&
                              IsInsideVisitedRooms(object->m_position);
         unk_fc[i]->set_visible(visible);
     }

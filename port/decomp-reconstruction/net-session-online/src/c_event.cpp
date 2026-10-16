@@ -2,6 +2,7 @@
 
 #include <cstring>
 
+#include "net-session-online/c_online.hpp"
 #include "net-session-online/deps/platform_stand_ins.hpp"
 
 // 0x7fe084 _ZN6CEventC1ERKS_
@@ -27,7 +28,7 @@ CEvent::~CEvent() {
 // 0x7fdfe0 _ZN6CEvent4InitEiPvi
 void CEvent::Init(std::int32_t type, const void* data, std::size_t size) {
     type_ = type;
-    timestamp_ = OnlineNowMs();
+    timestamp_ = static_cast<std::int32_t>(COnline::GetInstance()->GetCounter());  // GetOnline()+0x28, the receive counter (not the clock)
     // Original: (data && size != 0) && (int)size >= 0.
     const bool copyable = data != nullptr && size != 0 &&
                           static_cast<std::ptrdiff_t>(size) >= 0;
@@ -61,7 +62,7 @@ bool CEvent::IsExpired(unsigned int enabled) const {
     if (enabled == 0) {
         return false;
     }
-    const auto now = static_cast<std::uint32_t>(OnlineNowMs());
+    const auto now = COnline::GetInstance()->GetCounter();  // GetOnline()+0x28 (0x7fdf04: LDR R0,[R0,#0x28])
     const auto age = now - static_cast<std::uint32_t>(timestamp_);
     return 99 < age;
 }

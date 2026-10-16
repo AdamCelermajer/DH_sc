@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 #include "glitch-core-io/io/read_file.hpp"
 
@@ -40,9 +41,9 @@ struct SZipFileEntry {
     // 0x5773e4 (D1): compiler generated; the strings release their buffers.
     ~SZipFileEntry() = default;
 
-    std::string zipFileName;     // +0x00: the raw name from the local header (lower-cased with ignoreCase); openFile names a deflated entry's memory file after it
-    std::string simpleFileName;  // +0x18: the file name (base name with ignorePaths, else the raw name); the key of the order and of findFile
-    std::string path;            // +0x30: the directory part, up to and including the last '/'
+    core::stringc zipFileName;     // +0x00: the raw name from the local header (lower-cased with ignoreCase); openFile names a deflated entry's memory file after it
+    core::stringc simpleFileName;  // +0x18: the file name (base name with ignorePaths, else the raw name); the key of the order and of findFile
+    core::stringc path;            // +0x30: the directory part, up to and including the last '/'
     std::int32_t fileDataPosition = 0;  // +0x48: offset of the file data (getPos after the local header and its extra field)
     SZIPFileHeader header{};     // +0x4c .. +0x6a
     // (+0x6a .. +0x6c is tail padding: sizeof(SZipFileEntry) is 0x6c in the binary.)
@@ -83,7 +84,7 @@ public:
 
     // 0x577b50: keeps the text after the last '/' or '\\' (not at index 0); the string is NUL
     // terminated, as the pseudocode copies up to strlen.
-    void deletePathFromFilename(std::string& fileName);
+    void deletePathFromFilename(core::stringc& fileName);
 
     // 0x577bc8: splits the raw name (path, +0x00) into the directory part (extra, up to and
     // including the last '/') and the base name (name). A name with no '/', or whose only '/' is
@@ -105,7 +106,7 @@ public:
     // 0 and no code in this class sets it; its writer is not recovered.
     std::int32_t unk_10 = 0;
     // +0x14 .. +0x1c: entry vector
-    std::vector<SZipFileEntry> entries;
+    core::svector<SZipFileEntry> entries;
 };
 
 }  // namespace glitch::io

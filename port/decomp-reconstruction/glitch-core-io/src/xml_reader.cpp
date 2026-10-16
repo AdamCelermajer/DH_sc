@@ -31,8 +31,8 @@ bool isTagStop(C c) {
 }
 
 template <typename C>
-std::basic_string<C> literal(const char* text) {
-    std::basic_string<C> out;
+std::basic_string<C, std::char_traits<C>, glitch::core::SAllocator<C>> literal(const char* text) {
+    std::basic_string<C, std::char_traits<C>, glitch::core::SAllocator<C>> out;
     for (; *text; ++text) out.push_back(static_cast<C>(static_cast<unsigned char>(*text)));
     return out;
 }
@@ -524,7 +524,7 @@ int CharReader::getParserFormat() const { return parserFormat; }
 // 0x574164 _ZNK6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEE18getAttributeByNameEPKc
 const CharReader::SAttribute* CharReader::getAttributeByName(const char* name) const {
     if (!name) return nullptr;
-    const std::string key(name);
+    const core::stringc key(name);
     for (const SAttribute& attribute : attributes) {
         if (attribute.name == key) return &attribute;
     }
@@ -594,7 +594,7 @@ bool CharReader::parseCDATA() { return parseCDATAT(*this); }
 bool CharReader::setText(char* begin, char* end) { return setTextT(*this, begin, end); }
 
 // 0x57539c _ZN6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEE24replaceSpecialCharactersERSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
-std::string CharReader::replaceSpecialCharacters(const std::string& text) const {
+core::stringc CharReader::replaceSpecialCharacters(const core::stringc& text) const {
     return replaceSpecialCharactersT(*this, text);
 }
 
@@ -722,7 +722,7 @@ int WideReader::getParserFormat() const { return parserFormat; }
 // 0x5739cc _ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE18getAttributeByNameEPKw
 const WideReader::SAttribute* WideReader::getAttributeByName(const wchar_t* name) const {
     if (!name) return nullptr;
-    const std::wstring key(name);
+    const core::stringw key(name);
     for (const SAttribute& attribute : attributes) {
         if (attribute.name == key) return &attribute;
     }
@@ -798,7 +798,7 @@ bool WideReader::parseCDATA() { return parseCDATAT(*this); }
 bool WideReader::setText(wchar_t* begin, wchar_t* end) { return setTextT(*this, begin, end); }
 
 // 0x574520 _ZN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE24replaceSpecialCharactersERSbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEE
-std::wstring WideReader::replaceSpecialCharacters(const std::wstring& text) const {
+core::stringw WideReader::replaceSpecialCharacters(const core::stringw& text) const {
     return replaceSpecialCharactersT(*this, text);
 }
 

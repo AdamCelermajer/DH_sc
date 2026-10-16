@@ -147,3 +147,174 @@ All found with the headless boot to the first level. Fixed ones are changes to t
 * In the 2500-frame session the hero walks about 30 frames after the stick drag and then stands still at (-4393, 555) though the stick is held until frame 621; no enemy comes
   into range, so no combat was exercised. State lines are cheap now: `scripts/new_game.txt` is the starting point for a combat script.
 * Every `GL_*` capability the driver reads at start-up is answered by the headless stand-in (`host_gl_null.cpp`) with a mid-range GLES2 device; the windowed run uses ANGLE's real answers.
+
+## AddressSanitizer + UBSan build, play bot, findings 13-17 (owner W2, 2026-10-16)
+
+**Toolchain.** llvm-mingw 20261006 ucrt x86_64 (github.com/mstorsjo/llvm-mingw release asset `llvm-mingw-20261006-ucrt-x86_64.zip`, 190836485 bytes,
+sha256 `317492c456aa27ee607a5919f1d2d38dcdc1112516a24d0bf4b00d078f52d17a`, matching the release digest), unpacked to `%TEMP%\llvmmingw_x` (never in the tree).
+Real ASan works with it on Windows (dynamic runtime `libclang_rt.asan_dynamic-x86_64.dll` from its `bin`, which must be on PATH at run time):
+
+```
+export PATH="$TEMP/llvmmingw_x/llvm-mingw-20261006-ucrt-x86_64/bin:$PATH"
+SAN="-fsanitize=address,bounds,shift,integer-divide-by-zero,unreachable,bool,enum,object-size,pointer-overflow,nonnull-attribute,returns-nonnull-attribute,float-cast-overflow,alignment,null -fno-sanitize-recover=address -fsanitize-recover=undefined"
+cmake -S port/decomp-reconstruction -B build/own-w2-asan -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
+  -DCMAKE_CXX_FLAGS="-g -O1 -fno-omit-frame-pointer $SAN" -DCMAKE_C_FLAGS="-g -O1 -fno-omit-frame-pointer $SAN" \
+  -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" -DDH2_HOST_RUNNER=ON -DDH2_HOST_ASAN=ON
+cd build/own-w2-asan && ninja dh2_win_headless
+```
+`DH2_HOST_ASAN` (top CMakeLists) drops `-static` (the ASan runtime is a DLL) and links winpthreads. Reports (with symbolized stacks) go to `<out>/game.log`.
+Clang/libc++ needed three portability fixes: `CResFileDecode.cpp` lacked `<cstdlib>`; `sync.cpp` and `vox_thread_object.cpp` assumed `std::thread::native_handle()` is a
+`pthread_t` (libc++ on Windows gives a HANDLE: `WaitForSingleObject` probe / priority step skipped). `host-runner/compat/android/log.h` is a host shim for sources with
+Android-only `__android_log_print` debugging (added to the include path only with `DH2_HOST_RUNNER`).
+
+**"Hero stops after ~30 frames" (W's open point): not an input bug.** `probe` (below) at the stop shows the floor ring ahead empty at 40 units: the hero walked to the edge of
+the path-finding floor. Movement is root motion (~29 units per 33 ms frame) and `PFWorld::ValidateDirection` (0x525944, checked against the listing) only looks 10 units
+ahead, so a step that crosses the floor edge is refused whole and the hero stands at the edge in the run state, as the original does. In eight stick directions from the
+start the hero runs 20..120 frames until the next edge. Scripts walk anywhere with `goto` (path-finding `Cmd_MoveTo`).
+
+**Runner additions** (`host_bot.cpp`, `host_script.cpp`, `run_session.sh`): `click x y` (down, move on the spot, up: Flash buttons such as pause ignore a bare tap), `probe`,
+`goto x y`, `walkdir dx dy`, `stop`, `loadlevel <file.mlx>` (`Application::LoadLevel(name,0,0,false,true,0,false,0,0)`, what the menu's `FS_LoadLevel` fscommand does),
+`hunt N [range]` (nearest visible enemy by `AI_IsEnemy`: path to it, hold the attack button, skills every 50 frames, potion under 45 % HP; a target the hero does not
+approach in 90 frames is skipped for 900), `loot N [range]` (ItemObject / OpenableContainer), `explore N` (random reachable floor points), `rand <seed> N [range]`
+(seeded random stick / attack / skill / potion / pause / goals), `enemies`, `objects`, `kill`, `atk 0|1`, `idle`. `run_session.sh` restores a savegame set before each run so a
+script repeats exactly; `DATA=` selects a data folder (`build/own-w2/data{,b,c,d}/files`: copies of the root files with junctions to `data/` and `res/`, one per parallel run).
+HUD/menu coordinates (2400x1080): pause (176,340) [FIRST-BOOT's (294,322) misses], hero screen (260,140), its tabs y=56 at x 1030/1250/1490/1750/1990/2220, sub-tabs y=430,
+back (80,56); pause menu continue/help/settings/main menu at x=1190 y=340/452/565/678; "return to main menu?" yes (912,604) / no (1448,604); new hero: name key A (220,750),
+confirm (1200,350), class confirm (1200,956), intro skip (160,90). The HUD answers clicks from about frame 700 of `session_play.txt`.
+
+`scripts/session_play.txt`: continue -> hunt 1400 frames (kills the lizards and moths of the first area) -> loot -> pause/continue -> all hero screens -> pause -> main menu
+-> yes (save) -> continue -> `rand 11`. The fresh-hero path (name, class, intro skip) is in `scripts/newgame_fresh.txt` (with `BASE=none`).
+
+| # | Where | Finding | Status |
+| --- | --- | --- | --- |
+| 13 | `glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp` `postCompile` (0x57ef64) | maxSolid/TransparentIndices came from the attribute-map count (a few entries); the listing calls mesh vtable +0x14 (`getMeshBuffer`) and reads +0x20, the primitive stream's index count. `renderSolidBatch`'s uncached path sized its process buffer from it, so `updateIndices` overran it: write access violation in the seeded session (frames 5015 / 6366, Release). | fixed |
+| 14 | `game-items-save/.../ItemInventory-cf6f6b-1.cpp` `TransferInventoryTo` (0x3ffa68) | reads `slot->m_item->GetItemId()` after `_AddItemInstance`, which deletes a stackable item it merged (ASan heap-use-after-free on loot pickup). The binary has the same order (stale read). | fixed (id read first) |
+| 15 | `CDynamicAnimationSet::addAnimationLibraryBindings` | the set's handle took no use of the record, so level teardown unloaded a `.bdae` the Animation entries still held (ASan UAF in `~Animation` at quit to main menu) | fixed (copyDatabase; by the parallel W2 run) |
+| 16 | `game-world/.../ObjectManager-5017c7-2.cpp:417` `Draw3D` | UBSan: `m_visible` loaded as 190 from an `m_objectMap` entry (object not an ObjectBase, or stale) | open |
+| 17 | `glitch-video/src/ok1b-CProgrammableGLDriver.cpp:108` | `nullptr + offset` for VBO attribute offsets (GL idiom) | note |
+| 6 | `process_buffer_heap.cpp` | blocks now start 16-byte aligned on every host (start placed so header+4 is aligned, block sizes multiples of 4 words); the binary uses 4-byte words (32-bit). | fixed |
+| 8 | `mc_torso_default_warrior.bdae` | still missing in the data; the class-select screen renders the warrior without it. | note |
+
+## Level playthrough, cheat sessions, soak (owner W2, 2026-10-16, second part)
+
+**More runner commands** (`host_bot.cpp`): `levels` (prints `Arrays::LevelList`: 51 rows, 48 distinct files), `route N [worldmap]` (the level's
+CheckpointZones in name order, then its enabled TriggerZoneExitLevel zones; fights within 600 units; when the hero touches the exit zone it clicks
+the fast-travel panel that `TriggerZoneExitLevel::Update` shows: (1206,884) = travel to the zone's level, (1206,984) = world map), `walkto x y N`,
+`levelstat <tag>` (one parseable line: level, loadStep, position, walked, enemies alive/dead, loot left, exits, route reached/skipped/total,
+kills, deaths, cut-scene skips, items, gold), `auto 1` (taps through the death screen, skips cut scenes), `cheats 1` / `cheat LevelUp|GiveGold`,
+`herostat` (level, HP, gold, items, skill levels 0-7), `types`, `near R`, `rooms x y` / `roomsall`, `floor x1 y1 x2 y2 [z]`, `badbools`.
+Navigation: the game's own search (`GameObject::PathTo` -> `PFWorld::FindPath`) is capped at `m_maxPath` nodes (30 by default), so a
+far `Cmd_MoveTo` answers nothing (as in the listing). The runner keeps a lazily filled 150-unit grid of the path-finding floor
+(`PFWorld::GetFloorHeightAt`), plans a breadth-first path, and gives the game 450-unit hops.
+Determinism: `LC_API_GET_RANDOM` reseeds from `time()`; the runner's fixed clock now answers it (seam in `host_runner.cpp`), so most sessions
+repeat exactly. Pointer-keyed containers still make a few sessions differ between runs (ASLR).
+`level_report.py <out>` turns a `run_levels.sh` folder into the table below plus every ASan/UBSan/ASSERT location (runner files excluded).
+
+**Cheat path.** `handle_cheats_inGame` (0x9f640a, exported .bss byte) has three readers and no writer in the shipped binary (IDA xrefs:
+`Application::_Update`, `Level::_LoadProcess`, `SavegameManager::toggleOption`); DebugSwitches.savegame does not reach it. A test build sets it from
+outside, which `cheats 1` does. `cheat LevelUp` / `cheat GiveGold` call `SavegameManager::toggleOption`, the function the debug touch regions of
+`Application::_Update` (lastOpenMenuID 10, rects (0,0)-(100,100) and (0,100)-(100,200)) call.
+
+Sessions (all in `host-runner/scripts/`, run with `run_session.sh`):
+
+| script | what | result |
+| --- | --- | --- |
+| `session_levelup.txt` (a) | 3x LevelUp, GiveGold, hero screen: + on the four attributes, skills tab: upgrade skill 1 twice, skill 2 once, confirm dialog (900,560), fight | level 1 -> 4, HP 165 -> 177 -> 181 (stamina), attribute points 6 -> 0, strength 10 -> 12 (attack 81 -> 87, seen in the window), skills `1 0 ...` -> `3 1 ...`, gold +0x200000; hunt afterwards fights normally |
+| `session_death.txt` (b) | walk into the lizard/moth packs without fighting, then `kill` (v2Controller::Cmd_Kill) | the packs never kill a level-1 hero (lowest HP 126/165, regeneration wins): the low-damage report of R4 holds on the host too. Kill -> death screen -> tap -> respawn. The respawn is `Level::Restart` (0x3ef9a0 checked: LoadLevel with resume = false): the level restarts from its first entry point, the intro cut scene plays again and the killed intro lizards are back (enemiesDead 4 -> 1). Whether a death should load the checkpoint instead is for an emulator comparison (open, W2-23) |
+| `session_exit.txt` (c) | `route 7000` through 001_swamp, then the fast-travel panel | checkpoints 01-03 reached, 04 skipped, exit zone `_prim_ExitLevelZone` touched at frame 6324, panel button pressed, level `002_swamp_witchcave.rule.xml` loads, the hero spawns at its `_prim_EntryPoint` (after fix 19) and plays |
+| `session_worldmap.txt` (c2) | the same route, "world map" button | the world-map menu opens (states 2, GSFlashMenu) |
+| `soak_seed1..3.txt` | 30000 frames of seeded random play (move goals, stick, attack, skills, potion, pause + continue, hunting) | seed 1: no crash, 147k units walked, 13 kills, gold 8 -> 26, items 6 -> 11 (Release, 15 minutes). Seeds 2/3 are ready to run |
+
+### Per-level playthrough (ASan + UBSan build, 4 in parallel, `run_levels.sh`, 2026-10-16 18:20-19:20)
+
+Each level: continue the saved hero, `loadlevel <file>` (the FS_LoadLevel path), tap through loading, explore 600 frames, hunt 1500, loot 600,
+`route 3000`. "walked" is world units; "left to" means the real exit was taken. 48 distinct files of the level list (47 + one BACKUP alias).
+Before fix 18 every `.rule.xml` level (33) crashed at load; before fix 19 the hero of every random level stood at (0,0,0) off the floor.
+
+| level | loads | walked | fights | loot | route / exits | exit | reports |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 001_swamp.mlx | yes | 47548 | 38 enemies, 4 kills, 0 deaths | 14 containers/drops; items 6 -> 6, gold 8 -> 18 | 3/0/5 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 002_swamp_witchcave.rule.xml | yes | 49293 | 33 enemies, 5 kills, 0 deaths | 5 containers/drops; items 6 -> 8, gold 8 -> 25 | 0/1/2 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 003_darkwood.mlx | yes | 43599 | 57 enemies, 0 kills, 0 deaths | 20 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/8 (reached/skipped/waypoints), exits 7 | 0 | 0 |
+| 004_root_den.rule.xml | yes | 534 | 56 enemies, 0 kills, 0 deaths | 18 containers/drops; items 6 -> 6, gold 8 -> 8 | - | 1 | 2 |
+| 005_infectedvillage.mlx | yes | 13454 | 23 enemies, 0 kills, 0 deaths | 5 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/2 (reached/skipped/waypoints), exits 2, left to 003_darkwood.mlx | 0 | 0 |
+| 006_basement.rule.xml | yes | 23939 | 38 enemies, 0 kills, 1 deaths | 3 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/2 (reached/skipped/waypoints), exits 2, left to 005_infectedvillage.mlx | 0 | 0 |
+| 007_crypt_01.rule.xml | yes | 30912 | 42 enemies, 1 kills, 1 deaths | 14 containers/drops; items 6 -> 6, gold 8 -> 22 | 1/2/4 (reached/skipped/waypoints), exits 2, left to 003_darkwood.mlx | 0 | 0 |
+| 008_gothicus_castle_01.rule.xml | yes | 40367 | 25 enemies, 1 kills, 2 deaths | 5 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/2/2 (reached/skipped/waypoints), exits 0 | 0 | 0 |
+| 009_abbey.rule.xml | yes | 27192 | 39 enemies, 0 kills, 0 deaths | 14 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/4 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 009a_abbey.mlx | yes | 9350 | 0 enemies, 0 kills, 0 deaths | 2 containers/drops; items 6 -> 6, gold 8 -> 42 | 1/0/2 (reached/skipped/waypoints), exits 2, left to 003_darkwood.mlx | 0 | 0 |
+| 010_el_lightning.rule.xml | yes | 50924 | 45 enemies, 0 kills, 0 deaths | 29 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/2/6 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 011_earth_temple_01.rule.xml | yes | 28152 | 63 enemies, 0 kills, 2 deaths | 28 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/2/4 (reached/skipped/waypoints), exits 2, left to 003_darkwood.mlx | 0 | 0 |
+| 012_earth_temple_02.rule.xml | yes | 88692 | 58 enemies, 0 kills, 0 deaths | 18 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/0/5 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 013_earth_temple_03.rule.xml | yes | 26692 | 33 enemies, 1 kills, 0 deaths | 12 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/1/2 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 014_el_earth.rule.xml | yes | 29913 | 41 enemies, 5 kills, 0 deaths | 32 containers/drops; items 6 -> 6, gold 8 -> 97 | 0/2/8 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 015_red_desert_hub.mlx | yes | 22007 | 26 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/5 (reached/skipped/waypoints), exits 5, left to 003_darkwood.mlx | 0 | 0 |
+| 016_red_desert_cave_01.rule.xml | yes | 43290 | 67 enemies, 0 kills, 0 deaths | 38 containers/drops; items 6 -> 6, gold 8 -> 264 | 0/1/4 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 017_red_desert_cave_02.rule.xml | yes | 38267 | 43 enemies, 0 kills, 0 deaths | 27 containers/drops; items 6 -> 6, gold 8 -> 170 | 0/1/5 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 018_red_desert_cave_03.rule.xml | yes | 40601 | 49 enemies, 0 kills, 0 deaths | 36 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/1/3 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 019_light_house_01.rule.xml | yes | 25560 | 47 enemies, 0 kills, 0 deaths | 43 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/6 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 019_light_house_02.rule.xml | yes | 24470 | 59 enemies, 0 kills, 0 deaths | 40 containers/drops; items 6 -> 9, gold 8 -> 8 | 0/4/7 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 019_light_house_03.rule.xml | yes | 2922 | 1 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/1 (reached/skipped/waypoints), exits 1, left to 019_light_house_02.rule.xml | 0 | 0 |
+| 020_crypt_02.rule.xml | yes | 23826 | 57 enemies, 3 kills, 2 deaths | 23 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/1/3 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 021_gothicus_castle_02.rule.xml | yes | 22396 | 32 enemies, 0 kills, 0 deaths | 5 containers/drops; items 6 -> 6, gold 8 -> 19 | 0/3/3 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 022_swamp2.rule.xml | yes | 40097 | 48 enemies, 0 kills, 1 deaths | 8 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/2/5 (reached/skipped/waypoints), exits 3 | 0 | 0 |
+| 022_swamp2_trollcave.rule.xml | NO | - | - | - | - | 1 | 2 |
+| 023_watertemple.rule.xml | yes | 46022 | 53 enemies, 0 kills, 0 deaths | 24 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/1/4 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 024_el_water.rule.xml | yes | 51456 | 47 enemies, 0 kills, 0 deaths | 38 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/2/6 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 025_icy_hub.mlx | yes | 41530 | 30 enemies, 0 kills, 0 deaths | 25 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/2/7 (reached/skipped/waypoints), exits 4 | 0 | 0 |
+| 026_icy_cavern_01.rule.xml | yes | 38587 | 46 enemies, 1 kills, 0 deaths | 11 containers/drops; items 6 -> 6, gold 8 -> 154 | 0/2/3 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 027_icy_cavern_02.rule.xml | as x27_icy_cavern_02_BACKUP.mlx | 27313 | 71 enemies, 0 kills, 0 deaths | 17 containers/drops; items 6 -> 6, gold 8 -> 140 | 1/0/2 (reached/skipped/waypoints), exits 2, left to 025_icy_hub.mlx | 0 | 0 |
+| 028_icy_cavern_03.rule.xml | yes | 56807 | 63 enemies, 0 kills, 0 deaths | 21 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/2/3 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 029_wind_temple.rule.xml | yes | 37559 | 35 enemies, 1 kills, 0 deaths | 16 containers/drops; items 6 -> 7, gold 8 -> 187 | 0/2/5 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 030_el_air.rule.xml | yes | 29641 | 54 enemies, 4 kills, 0 deaths | 37 containers/drops; items 6 -> 7, gold 8 -> 169 | 0/1/6 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 031_firetemple.mlx | yes | 31645 | 51 enemies, 1 kills, 0 deaths | 18 containers/drops; items 6 -> 6, gold 8 -> 169 | 0/4/10 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 032_el_fire.rule.xml | yes | 56840 | 53 enemies, 0 kills, 0 deaths | 36 containers/drops; items 6 -> 6, gold 8 -> 208 | 0/1/5 (reached/skipped/waypoints), exits 2 | 0 | 0 |
+| 033_voidmaze_01.rule.xml | yes | 11285 | 1 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/3/3 (reached/skipped/waypoints), exits 3 | 0 | 0 |
+| 034_voidmaze_02.rule.xml | yes | 2117 | 0 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | - | 1 | 1 |
+| 035_voidmaze_03.rule.xml | yes | 42259 | 0 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/1 (reached/skipped/waypoints), exits 1, left to 033_voidmaze_01.rule.xml | 0 | 0 |
+| 036_underworld_hub.mlx | yes | 17553 | 38 enemies, 0 kills, 0 deaths | 16 containers/drops; items 6 -> 6, gold 8 -> 413 | - | 1 | 2 |
+| 037_machine_rooms_01.mlx | yes | 2716 | 56 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 1/0/1 (reached/skipped/waypoints), exits 1, left to 036_underworld_hub.mlx | 0 | 0 |
+| 038_dark_temple.mlx | yes | 38402 | 57 enemies, 1 kills, 1 deaths | 8 containers/drops; items 6 -> 5, gold 8 -> 8 | 1/0/5 (reached/skipped/waypoints), exits 1 | 0 | 0 |
+| 039_dark_temple_bossroom_01.mlx | yes | 5931 | 3 enemies, 0 kills, 0 deaths | 1 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/0/0 (reached/skipped/waypoints), exits 0 | 0 | 0 |
+| 050_earth_temple_demo.rule.xml | yes | 72472 | 18 enemies, 0 kills, 0 deaths | 3 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/0/0 (reached/skipped/waypoints), exits 0 | 0 | 0 |
+| 101_debug_MachineRoomTestMultiPlayer.mlx | NO | - | - | - | - | 1 | 4 |
+| 102_debug_QUESTTEST.rule.xml | step 36 | 0 | 0 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/0/0 (reached/skipped/waypoints), exits 0 | 0 | 0 |
+| 125_RandomForAlexB.rule.xml | step 36 | 0 | 0 enemies, 0 kills, 0 deaths | 0 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/0/0 (reached/skipped/waypoints), exits 0 | 0 | 0 |
+| x50_earth_temple_demo_BACKUP.mlx | yes | 72473 | 28 enemies, 0 kills, 0 deaths | 5 containers/drops; items 6 -> 6, gold 8 -> 8 | 0/0/0 (reached/skipped/waypoints), exits 0 | 0 | 0 |
+
+Kills are counted only for targets the bot engaged within 400 units (low). The hero is level 1 everywhere, so later levels are mostly survival
+(deaths 0-2) rather than clearing.
+
+### Findings, continued
+
+| # | Where | Finding | Status |
+| --- | --- | --- | --- |
+| 18 | `game-app/src/g1-game-app-rnd-8b06ae-7.cpp` `rnd::Tile::SaveAsModuleXML` (0x491d90) | the port dropped the store of "Module" after the Module constructor as a dead store; it is `PropertyMap::m_className` (Hex-Rays v27 = module +0x20), which `InitProperties` keys the class tables on: strcmp(null) in every random level (33 of 48 levels never loaded) | fixed |
+| 19 | `Level::GetSpawnPoint` (0x3ef614), `FindEntrySpawnPoint` (Level::_LoadPlayer 0x3f0018), `MenuCharMenu_Map` icon pass | compared the level's entry point with `GameObject::m_entryPointId`, a port field nothing writes (garbage); the +0x374 the listing reads is `SpawnPoint::m_entrypointId` (GameObject ends at +0x374). No spawn point ever matched: the hero of a random level stayed at (0,0,0) | fixed (read the SpawnPoint member). Open for the layout owner: remove `GameObject::m_entryPointId`; `HUDMinimap::SetObjectsVisibility` (game-ui HUDMinimap-93879d-0.cpp:204) still reads it for its `unk_3dc` objects (type not recovered) |
+| 20 | `Character::INV_UpdateSkin` (0x3a999c) | took slots 0..2 as weapon slots; the listing keeps a second counter from -1 and branches on `<= 1` unsigned: slots 1 and 2. Slot 0 is `MC_Torso`, so the torso module went to `SetWeaponSkin` (`weapons/mc_torso_default_warrior.bdae`, W's finding 8) and the torso skin was never set | fixed; the file is not missing, it was never meant to be loaded |
+| 21 | `ObjectManager::Draw3D` (UBSan m_visible = 190, W2-16) | the objects are `LevelConfig` and `LightPoint` `_prim_PlayerLight_S` (`badbools`): their `DeclareProperties` (0x3f4b9c, 0x40adf0 checked) never declare "visible" and `ObjectBase::ObjectBase` (0x33f15c) does not write +0x80, so the byte keeps what the allocator left (0xbe under ASan) in the original too. Both `Draw` bodies are empty or debug-only | note (original UB, harmless) |
+| 22 | `CharAnimator::IncAnimSetUsers` (0x3c9168) | null `m_visualObject` for `_prim_Bandit_03` (004_root_den, module `corner_rootden_nw__01.mgp`) and characters of 022_swamp2_trollcave, 036_underworld_hub, 101_debug: `charpropsname="RD_Bandit1"` is not in `character_properties_pyarraynames.bin` (455 names), so `SafeGetCharPropsId` gives -1, no model, no visual; `CharAnimator::Update` dereferences it as soon as the state flag 0x200 is set. The port follows the listing in all three functions | open: does the original survive this (data that never ships in a reachable module, or a guard elsewhere)? An emulator run of 004_root_den answers it |
+| 23 | death / respawn | see session (b) | open (emulator comparison) |
+| 24 | `GameObject::PathTo` (0x3939f0) | path search capped at `m_maxPath` (30) nodes: tap-to-move far away does nothing; matches the listing | note |
+| 25 | `FileSystemBase::ApplyFilenameHacks` (0x34e96c) / texture probes | missing textures (`tex_faerie_001.tga`, `char_faerie.tga`, `fx_spark.tga`, `env_swamp_alpha.tga`) are tried as `data/3d/textures/x.tga` and as `qata/3d/textures/x.tga`; the second form looks like the "prefix + `ata/3d/textures/`" rebuild with a wrong first character | open (rendering owner) |
+| 26 | `CBatchSceneNode::updateIndices` (ASan heap-use-after-free, 034_voidmaze_02, once) | the index destination points into a `CMaterialRenderer` freed by `SceneManager::clear` in the previous level's `~Level` | open (rendering owner; stack in `build/own-w2-LA2/034_voidmaze_02_rule_xml/game.log`) |
+| 27 | `glitch-core-io/src/vertex_override.cpp` (W's 7) | `CGenericBaker::configureAppendBuffer` (0x609ba4, checked) has cases 0..0x1b only; 0x1c/0x1d in both masks leave a stream without a buffer, mapped unconditionally | fixed (guarded like the default-fill path, deviation noted) |
+| 28 | `MenuCharMenu_Map::Init` (W's 9) | identical to 0x453c3c (Find on a null m_menu before the movie exists) | closed, benign |
+| 6 | process-buffer heap (W's open point) | TRACK-B.md decision 14 (16-byte payload alignment, evidence SCreationState); `process_buffer_heap_test` updated; all 81 glitch-core-io tests pass in build/own-w2 | fixed |
+| - | runner | `tickHunt` kept a pointer to a deleted Character (spawned monsters are deleted): an access violation at frame 1389 of a route run was the runner's, not the game's | fixed (runner) |
+
+## Residue owner L2: findings 19, 22, 23, 25, 26 closed (2026-10-16)
+
+Method: IDA Hex-Rays and the byte listing, read-only (the 32-bit APK cannot run on the emulator, so every answer below is from the binary, and the runner confirms the port reaches the same code).
+
+| # | Question | Answer from the binary | Change |
+| --- | --- | --- | --- |
+| 22 | `RD_Bandit1` (004_root_den `corner_rootden_nw__01.mgp`, `_prim_Bandit_03..07`, `RD_Bandit2`) not in the character table | **The name does not exist in the shipped data.** Searched every byte of the data folder, case-insensitive: only the module XML mentions it; `character_properties_pyarraynames.bin` (455 names, the file `Arrays::CharacterTable` reads) has `RD_MeleeBandit`, `RD_RangedBandit`, `RD_ThugBandit` ... but no `RD_Bandit1/2`; no alias in `character_models_dictionary`, `ingame.symbols`, the v2 condition names or the strings of `libDungeonHunter2.so`. Also absent (module `charpropsname`): `Dragon`, `Multiplayer_LizadMan_Type1`, `Thamos_Catacombs_Skeleton_A/B`, `Seba_PerformanceTest`, `SwimKing`, `Swamp_ActorTroll2` (the swamp-cave and troll-cave modules of 002/022t, debug modules of 036/101). The lookup is correct (`FindMemberName` = strcmp over `names[0..size)`, as 0x3b3d38). **The original does not crash on the failed lookup**: `Character::SafeGetCharPropsId` leaves -1, the character is built with the empty base sheet, no model, no visual, and the animator copes: `CharAnimator::IncAnimSetUsers` (0x3c9168) and `DecAnimSetUsers` (0x3c91c8) test the visual object (`Character +0x2d8`) and the returned animation set for null and do nothing. The port had dropped both tests (Hex-Rays `if (v1)` / `if (v2)`) and dereferenced `m_visualObject` | `CharAnimator::IncAnimSetUsers/DecAnimSetUsers` null guards (`game-anim/src/g1-game-anim-CharAnimator-2af513-0.cpp`) |
+| 23 | Does death restart the level (`Level::Restart`, resume off) or reload the checkpoint? | **Checkpoint.** `Level::Restart` (0x3ef9a0) has exactly one caller in the binary, `Script_RestartLevel::Execute` (script command 63); the other xref is a relocation record. The offline death path is `PlayerManager::_HandleLocalDeaths` (0x375fe8, pushes `menu_FadeToBlackScreen`) -> the Flash menu's `NativeReviveAllPlayers` (0x43b1e4) -> `PlayerManager::ReviveLocalPlayers(false)` (0x37565c) -> `Level::LoadCheckpoint` (0x3f0428: `LevelSavegame::LoadCheckPoint(slot, subId, index)` 0x46259c, `GameEventManager::ReInit` 0x47992c, `Character::SG_LoadCheckpoint(16)`, `SG_Update(true)`). All of it matches the port line by line. gdb on the `kill` session of `session_death.txt` (breakpoints on `Level::Restart`, `Level::LoadCheckpoint`, `NativeReviveAllPlayers`): `NativeReviveAllPlayers` -> `ReviveLocalPlayers` -> `LoadCheckpoint` once, `Level::Restart` never. The W2 note "the respawn is Level::Restart" was an inference. What W2 saw (enemies back: dead 4 -> 0, the intro cut scene again) is the checkpoint file (`dh2_000_0_single_level.checkpoint` of the saved hero is the level-start state) plus `GameEventManager::ReInit` re-arming the events | none |
+| 25 | `qata/3d/textures/...` probes | **The original requests the same paths.** `ApplyFilenameHacks` (0x34e96c, Hex-Rays and listing equal the port): the working directory (`CFileSystem::WorkingDirectory`, written only through the vtable slot +0x30, never by code, so empty at run time) matches at the start of the name (`strstr(name, "")`), so the result is `name[1..]`; a `.tga` becomes `"ata/3d/textures/" + basename`, lower-cased, and the first character of `name` is put back in front. The textures are named in the `.bdae` as the artists' drive `q:/data/iphone/3d/textures/tex_Prince.tga`, so the probe is `RES_PATH + "qata/3d/textures/tex_prince.tga"` and fails (the file is not in the data either: no `tex_prince.tga`, `tex_faerie_001.tga`, `char_faerie.tga` in `data/3d/textures`; they belong to animation-only `.bdae`s). The reader returns null, `FileSystemBase::createAndOpenFile` logs "Could not open file" and the material keeps no texture, as on a device | none |
+| 26 | `CBatchSceneNode::updateIndices` use after free, 034_voidmaze_02 | Not reproducible with the current tree (034 ran 7460 frames in the ASan build and again 1300 frames in the 48-level pass, route to its exit, no finding). The report was made at 18:59, before the 19:01 edit of `CBatchSceneNode.cpp` (`invalidateVisibleIndexCache`, whose comment describes this failure: the old `slot->base` started inside the 12-byte-per-batch slot table, so the first copied indices overwrote the later slots' count/capacity/base, and `renderSolidBatch` formed `visibleIndexCache + 2 * base` from garbage, a wild 12-byte `memcpy` that landed in a quarantined `CMaterialRenderer` of the previous level (the "freed by SceneManager::clear" stack is only the history of the chunk that happened to be hit). This is the most likely cause by reading; the old binary was not rebuilt to prove it. Listing 0x5800e8 and 0x57ebec agree with the current code (slot {count, capacity, base} at `cache + 12 * batch`, buffer over `cache + 2 * base`) | already fixed by the 19:01 edit; nothing more |
+| 19 | `GameObject::m_entryPointId` never written, read by `HUDMinimap::SetObjectsVisibility` | The port field does not exist in the binary: `GameObject` ends at +0x374 (`Character`'s `v2Controllable` base, `ItemObject`'s `ItemInventory` and the first members of `SpawnPoint`, `Container`, `LiftableObject`, `ColBox`, `Zone`, `SoundEmitter`, `Projectile` all start there), and the field made every derived layout 4 bytes too large. The only word that holds an entry point id at +0x374 is `SpawnPoint::m_entrypointId` (property "entrypointID", -1 from the constructor, read by `Level::GetSpawnPoint`, `FindEntrySpawnPoint`, `MenuCharMenu_Map`), which is written by the constructor and `DeclareProperties`. The writers of the offset in the original are those subclass members; nobody writes `HUDMinimap +0x3dc` (`SetObjects` 0x41b560 is empty, `MenuMinimap` does not override it, `InitAllObjects` only clears), so `unk_d4` stays 0 and the loop in 0x41b8b4 never runs | field removed from `game/include/dh2/GameObject.hpp`; `HUDMinimap::SetObjectsVisibility` reads `SpawnPoint::m_entrypointId` (`game-ui/src/g1-game-ui-HUDMinimap-93879d-0.cpp`); `host_bot.cpp` `near` prints it through `SpawnPoint`; comment in `LiftableObject-ad7bbe-0.cpp` |
+
+Runner scripts: `run_levels.sh` takes `DATA_ROOT=<dir>` (the folder holding `data{,b,c,d}/files` and `data/saves-fresh`, default `build/own-w2`) and `WORKERS=n` (default 4; on a machine shared with other ASan runs each worker needs 0.5-1.5 GB of commit, and an ASan run that dies with "allocator out of memory" or error 1455 is the machine's, not the game's).
+
+Re-run (ASan + UBSan clang build `build/own-l2-asan`, all 48 level scripts of `scripts/levels`): **all 48 load** (the level file is on top of the state stack with its characters, `exit 0`); **0 AddressSanitizer reports and 0 UBSan reports** except the known runner/third-party lines (`host_bot.cpp:146` reading `m_visible` of a `LevelConfig`/`LightPoint`, finding 21; freetype shifts). 004_root_den, 034_voidmaze_02, 022_swamp2_trollcave, 036_underworld_hub, 101_debug_MachineRoom: 5000-7460 frames each (004 and 034 run to the end of the script, 004 now passes frame 3600 where it crashed; 022t and 036 reached 5000-6000 frames before the machine's commit limit ended them, and ran again for 1300 frames in the 48-level pass). The other 43 levels ran 1300 frames (load, explore start). Checked with `check_tu.sh` (OK): `CharAnimator-2af513-0.cpp`, `HUDMinimap-93879d-0.cpp`, `LiftableObject-ad7bbe-0.cpp`, `GameObject.hpp`.

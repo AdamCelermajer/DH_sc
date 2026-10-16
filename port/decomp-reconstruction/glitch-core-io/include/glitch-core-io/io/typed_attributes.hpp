@@ -201,12 +201,12 @@ public:
     CStringWArrayAttribute() = default;
     // 0x5657b0. The array argument is copied into the attribute (+0x24).
     // Partial.
-    CStringWArrayAttribute(const char* attrName, const std::vector<std::wstring>& value, bool f);
+    CStringWArrayAttribute(const char* attrName, core::svector<core::stringw> value, bool f);
     ~CStringWArrayAttribute() override = default;  // 0x5649bc (D1)
 
-    std::vector<std::wstring> array;  // +0x24
-    std::vector<std::wstring> getArray() const override;  // 0x562f10
-    void setArray(const std::vector<std::wstring>& value) override;  // 0x5632a4
+    core::svector<core::stringw> array;  // +0x24
+    core::svector<core::stringw> getArray() const override;  // 0x562f10
+    void setArray(core::svector<core::stringw> value) override;  // 0x5632a4
     int getType() const override;  // 0x5606f0
     const wchar_t* getTypeString() const override;  // 0x5606f8: literal "stringwarray" from the IDA listing
 };

@@ -301,8 +301,20 @@ void* LC_API_MEMCPY(void* dest, const void* src, std::size_t n) { return std::me
 // 0x89cf00 LC_API_MEMSET
 void* LC_API_MEMSET(void* dest, int value, std::size_t n) { return std::memset(dest, value, n); }
 
-// 0x89cd00 LC_API_STRTRIM: the listing only measures the string.
-void LC_API_STRTRIM(char* s) { LC_API_STRLEN(s); }
+// 0x89cd00 LC_API_STRTRIM: strips the leading spaces in place (a space is dropped while the flag is still set;
+// the first other character clears it for good), terminates at the compacted length and returns the string.
+char* LC_API_STRTRIM(char* s) {
+    const int len = LC_API_STRLEN(s);
+    int index = 0;
+    bool leading = true;
+    for (int i = 0; i < len; ++i) {
+        const char c = s[i];
+        leading = (c == ' ') ? leading : false;
+        if (!leading) s[index++] = c;
+    }
+    s[index] = 0;
+    return s;
+}
 
 // 0x89d364 LC_API_MALLOC
 void* LC_API_MALLOC(std::size_t n) { return std::malloc(n); }

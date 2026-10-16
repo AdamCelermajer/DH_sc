@@ -27,8 +27,8 @@ public:
                       const wchar_t* n2, const wchar_t* v2, const wchar_t* n3, const wchar_t* v3,
                       const wchar_t* n4, const wchar_t* v4, const wchar_t* n5, const wchar_t* v5) override;
     // 0x576758: attribute pairs from two lists (the shorter length). Closes like the overload above.
-    void writeElement(const wchar_t* name, bool empty, const std::vector<std::wstring>& names,
-                      const std::vector<std::wstring>& values) override;
+    void writeElement(const wchar_t* name, bool empty, core::svector<core::stringw>& names,
+                      core::svector<core::stringw>& values) override;
     void writeComment(const wchar_t* text) override;        // 0x5764c4
     void writeClosingTag(const wchar_t* name) override;     // 0x576590
     void writeText(const wchar_t* text) override;           // 0x576bb8: escapes & < > " (XMLWSChar)

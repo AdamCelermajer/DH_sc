@@ -5,6 +5,7 @@
 
 #include <string>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/io/interfaces.hpp"
 #include "glitch-core-io/io/zip_reader.hpp"
 
@@ -26,7 +27,7 @@ public:
     IReadFile* openFile(const char* name) override;
 
     IFileSystem* fileSystem = nullptr;  // +0x20 in the original (not referenced)
-    std::string folderName;             // +0x34 .. +0x38 in the original
+    core::stringc folderName;             // +0x34 .. +0x38 in the original
 };
 
 }  // namespace glitch::io

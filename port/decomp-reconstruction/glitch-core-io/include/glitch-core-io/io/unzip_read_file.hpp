@@ -5,6 +5,7 @@
 
 #include <string>
 
+#include "glitch-core-io/core/allocator.hpp"
 #include "glitch-core-io/io/read_file.hpp"
 
 namespace glitch::io {
@@ -13,14 +14,14 @@ class CUnzipReadFile : public CReadFile {
 public:
     // 0x5779cc: the file is the folder path (given as the first string, read through its data
     // pointer, not obfuscated); the entry name is copied into the member.
-    CUnzipReadFile(const std::string& folderPath, const char* entryName);
+    CUnzipReadFile(const core::stringc& folderPath, const char* entryName);
     // 0x577374 (D1), 0x5773c8 (D0): compiler-generated member and base destruction; not written.
 
     // 0x576db8: the original returns the word at +0x44 (a pointer into the inline string buffer): the entry
     // name's character data.
     const char* getFileName() const override;
 
-    std::string name;  // +0x30 inline buffer / +0x44 data pointer in the original
+    core::stringc name;  // +0x30 inline buffer / +0x44 data pointer in the original
 };
 
 }  // namespace glitch::io

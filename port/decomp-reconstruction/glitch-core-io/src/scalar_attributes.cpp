@@ -246,7 +246,7 @@ void CEnumAttribute::setInt(int index) {
         value.clear();
         return;
     }
-    value = literals[static_cast<std::size_t>(index)];
+    value.assign(literals[static_cast<std::size_t>(index)].data(), literals[static_cast<std::size_t>(index)].size());
 }
 
 // 0x5656c8 _ZN6glitch2io14CEnumAttribute7setEnumEPKcPKS3_

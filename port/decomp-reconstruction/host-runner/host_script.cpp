@@ -34,6 +34,13 @@ bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
             ss >> hold;
             out.push_back({frame, 0, 1, x, y, 0, ""});
             out.push_back({frame + std::max(hold, 1), 0, 0, x, y, 0, ""});
+        } else if (cmd == "click") {  // a finger press the way the Flash buttons want it: down, a move on the spot, up (a bare tap is too short for some of them)
+            int x, y, slot = 0;
+            ss >> x >> y;
+            ss >> slot;
+            out.push_back({frame, 0, 1, x, y, slot, ""});
+            out.push_back({frame + 2, 0, 2, x, y, slot, ""});
+            out.push_back({frame + 6, 0, 0, x, y, slot, ""});
         } else if (cmd == "down" || cmd == "move" || cmd == "up") {
             int x, y, slot = 0;
             ss >> x >> y;
@@ -65,7 +72,7 @@ bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
         } else if (cmd == "quit") {
             out.push_back({frame, 4, 0, 0, 0, 0, ""});
         } else if (cmd == "goto" || cmd == "walkdir" || cmd == "stop" || cmd == "hunt" || cmd == "loot" || cmd == "explore" || cmd == "rand" || cmd == "idle" ||
-                   cmd == "loadlevel" || cmd == "enemies" || cmd == "objects" || cmd == "kill" || cmd == "atk") {
+                   cmd == "loadlevel" || cmd == "enemies" || cmd == "objects" || cmd == "kill" || cmd == "atk" || cmd == "levels" || cmd == "exit" || cmd == "levelstat" || cmd == "types" || cmd == "auto" || cmd == "badbools" || cmd == "cheats" || cmd == "cheat" || cmd == "herostat" || cmd == "walkto" || cmd == "near" || cmd == "route" || cmd == "floor" || cmd == "rooms" || cmd == "roomsall") {
             out.push_back({frame, 6, 0, 0, 0, 0, line.substr(line.find(cmd))});
         } else {
             std::fprintf(stderr, "script: unknown command '%s'\n", cmd.c_str());

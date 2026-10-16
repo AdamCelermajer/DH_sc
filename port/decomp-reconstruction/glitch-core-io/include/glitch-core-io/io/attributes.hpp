@@ -44,7 +44,7 @@ public:
     virtual glitch::video::SColor getColor() const { return {0xffffffffu}; }  // +0x018 0x31d5f8
     virtual std::string getString() const;  // +0x01c (0x326268)
     virtual std::wstring getStringW() const;  // +0x020 (0x32097c)
-    virtual std::vector<std::wstring> getArray() const { return {}; }  // +0x024
+    virtual core::svector<core::stringw> getArray() const { return {}; }  // +0x024
     virtual bool getBool() const { return false; }  // +0x028
     virtual void getBinary(void*, int) const {}  // +0x02c
     virtual glitch::core::vector3d<float> getVector3d() const { return {}; }  // +0x030
@@ -75,7 +75,7 @@ public:
     virtual void setFloat(float) {}  // +0x08c
     virtual void setString(const char*) {}  // +0x090
     virtual void setString(const wchar_t* value);  // +0x094 0x326d20                                               // +0x94
-    virtual void setArray(const std::vector<std::wstring>&) {}  // +0x098
+    virtual void setArray(core::svector<core::stringw>) {}  // +0x098
     virtual void setColor(glitch::video::SColorf) {}  // +0x09c
     virtual void setColor(glitch::video::SColor) {}  // +0x0a0
     virtual void setBool(bool) {}  // +0x0a4
@@ -209,7 +209,7 @@ public:
     glitch::core::line2d<float> getLine2d(int index) const override;                    // 0x561660
     glitch::core::line3d<float> getLine3d(int index) const override;                    // 0x561748
     void* getUserPointer(int index) const override;                                     // 0x561858
-    std::vector<std::wstring> getArray(int index) const override;                       // 0x563308
+    core::svector<core::stringw> getArray(int index) const override;                       // 0x563308
     glitch::core::CMatrix4<float> getMatrix(int index) const override;                  // 0x565464
     std::string getString(int index) const override;                                    // 0x564240
     std::wstring getStringW(int index) const override;                                  // 0x561950
@@ -288,13 +288,13 @@ public:
     void addEnum(const char* name, const char* value, const char* const* choices, bool flag) override;
     // 0x56a8b4: PARTIAL. The array is passed to CStringWArrayAttribute, whose constructor does
     // not keep it (see that class).
-    void addArray(const char* name, const std::vector<std::wstring>& value, bool flag) override;
+    void addArray(const char* name, core::svector<core::stringw> value, bool flag) override;
     // 0x5632ac: sets the array of the attribute at index (slot +0x98); out-of-range indices are ignored.
-    void setAttribute(int index, const std::vector<std::wstring>& value) override;
+    void setAttribute(int index, core::svector<core::stringw> value) override;
     // 0x5641ac / 0x564148: PARTIAL. The enumeration's literal list (the enum attribute's +0x3c
     // vector) is not in this layout, so the output is left unchanged.
-    void getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const override;
-    void getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const override;
+    void getAttributeEnumerationLiteralsOfEnumeration(const char* name, core::svector<core::stringc>& literals) const override;
+    void getAttributeEnumerationLiteralsOfEnumeration(int index, core::svector<core::stringc>& literals) const override;
     // 0x568238: the light attribute constructor keeps the light and the driver.
     void addLight(const char* name, boost::intrusive_ptr<glitch::video::CLight> value, bool flag) override;
     void addMatrix(const char* name, const glitch::core::CMatrix4<float>& value, bool flag) override;         // 0x56a70c
@@ -314,7 +314,7 @@ public:
     // 0x56b35c: PARTIAL, sets the existing texture attribute, else adds one (see addTexture).
     void setAttribute(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value) override;
     // 0x56afa8: PARTIAL, sets the existing array attribute, else adds one (see addArray).
-    void setAttribute(const char* name, const std::vector<std::wstring>& value) override;
+    void setAttribute(const char* name, core::svector<core::stringw> value) override;
     void setAttribute(const char* name, const glitch::core::vector2d<float>& value) override;       // 0x5659b4
     void setAttribute(const char* name, const glitch::core::vector2d<std::int32_t>& value) override;  // 0x567a9c
     void setAttribute(const char* name, const glitch::core::vector3d<float>& value) override;       // 0x56b7b8
@@ -365,7 +365,7 @@ public:
     glitch::core::line2d<float> getLine2d(const char* name) const override;        // 0x5620d0
     glitch::core::line3d<float> getLine3d(const char* name) const override;        // 0x562044
     void* getUserPointer(const char* name) const override;                         // 0x56201c
-    std::vector<std::wstring> getArray(const char* name) const override;           // 0x5628b0
+    core::svector<core::stringw> getArray(const char* name) const override;           // 0x5628b0
     glitch::core::CMatrix4<float> getMatrix(const char* name) const override;      // 0x567e48
     std::string getString(const char* name) const override;                        // 0x564768
     void getString(const char* name, char* out) const override;                    // 0x564924

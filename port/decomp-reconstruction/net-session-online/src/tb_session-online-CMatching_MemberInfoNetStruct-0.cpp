@@ -27,6 +27,9 @@
 
 #include "net-session-online/c_matching_base.hpp"
 
+// 0x7ffc28 _ZN9CMatching19MemberInfoNetStructD1Ev: the implicit destructor. The listing resets the vptrs, frees the room-attribute
+// buffer (CustomFree, pointer cleared; NetStructByteArray<64>'s destructor does this) and clears the packet-history map when it is
+// non-empty (NetStruct's destructor). Verified against the listing; there is no further body.
 // 0x7ffd04 _ZN9CMatching19MemberInfoNetStructC1Ev
 // Reconstructed. In order, as the pseudocode and the assembly show:
 //   1. NetStruct::NetStruct(this) (implicit here).

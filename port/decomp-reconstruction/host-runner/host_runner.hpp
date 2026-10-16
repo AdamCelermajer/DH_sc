@@ -49,6 +49,7 @@ int currentFrame();
 //   <frame> tap <x> <y> [hold_frames]            touch down, release after hold_frames (default 2)
 //   <frame> down <x> <y> [slot]                  touch down
 //   <frame> move <x> <y> [slot]                  touch moved
+//   <frame> click <x> <y> [slot]                 down, move on the spot after 2 frames, up after 6 (use for Flash buttons)
 //   <frame> up <x> <y> [slot]                    touch up
 //   <frame> drag <x1> <y1> <x2> <y2> <frames> [hold]   down at (x1,y1), linear moves, stays at (x2,y2) for hold frames, then up
 //   <frame> key <code>                           DungeonHunter2.nativeKeyDown then nativeKeyUp

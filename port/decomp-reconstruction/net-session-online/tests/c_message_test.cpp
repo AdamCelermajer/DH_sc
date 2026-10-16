@@ -87,9 +87,9 @@ int main() {
     acked.Acknowledge(matching.MemberBit(0));
     CHECK(acked.IsAcknowledgedBy(0));
 
-    // Expiry. CMessage::IsExpired is `timestamp_ + lifetime_ <= COnline::GetCounter()` and the deadline is
+    // Expiry. CMessage::IsExpired is `timestamp_ + lifetime_ < COnline::GetCounter()` and the deadline is
     // compared against COnline's RECEIVE COUNTER (+0x28), not the clock: the listing reads `[GetOnline(),#0x28]`
-    // (asm 0x80a128, CMP R4,R0 / MOVCS 0 / MOVCC 1), so the equality case IS expired. This test used to drive
+    // (asm 0x80a128, CMP R4,R0 / MOVCS 0 / MOVCC 1), so the equality case is NOT expired (CS = deadline >= counter returns 0). This test used to drive
     // the boundary through the OnlineClockStorage() stand-in, which IsExpired never reads, so it silently stopped
     // testing anything once the body was corrected. It sets the counter now.
     TestMsg timed;
@@ -99,7 +99,7 @@ int main() {
     COnline::GetInstance()->SetCounterForTest(1049);
     CHECK(!timed.IsExpired());  // deadline > counter
     COnline::GetInstance()->SetCounterForTest(1050);
-    CHECK(timed.IsExpired());   // deadline == counter is expired (MOVCS)
+    CHECK(!timed.IsExpired());  // deadline == counter is not yet expired (MOVCS returns 0)
     COnline::GetInstance()->SetCounterForTest(1051);
     CHECK(timed.IsExpired());   // deadline < counter
 

@@ -76,7 +76,7 @@ public:
     // It opens the savefile through openSavefile above and closes it. The original runs
     // Savegame::FlushJobs(name) first; the game-side wrapper SavefileExists
     // (dh2/global/savefile_fs.hpp) does that, since core-platform cannot see the game headers.
-    std::string formatFilePath(const std::string& path) const override;  // 0x34f8a4
+    glitch::core::stringc formatFilePath(const glitch::core::stringc& path) const override;  // 0x34f8a4
     void getFiles(const char* dir, std::vector<std::string>& out) const;  // 0x3505a0
     void getFilesMatching(const char* dir, const char* pattern, std::vector<std::string>& out) const;  // 0x35041c
 

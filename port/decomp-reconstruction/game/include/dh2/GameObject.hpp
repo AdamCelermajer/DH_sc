@@ -222,5 +222,7 @@ public:
     std::int16_t m_idleSoundId;             // +0x370 index into Arrays::Sounds, -1 = none
     std::uint8_t m_idleSoundPlaying;        // +0x372
     std::uint8_t m_idleSoundMuted;          // +0x373 set by Disabled(), cleared by Enabled(). Door::Opened (0x3e7788) and Door::Closed (0x3e7598) also store a byte here (STRB +0x373)
-    std::int32_t m_entryPointId;            // +0x374 compared with Level::m_entryPointId (Level::_LoadPlayer 0x3f0018, Level::GetSpawnPoint)
+    // GameObject ends here (+0x374): v2Controllable (Character), ItemInventory (ItemObject) and the first members of SpawnPoint, Container, Liftable, ColBox, Zone... start at +0x374.
+    // There is no entry-point id in GameObject: the word the level compares with Level::m_entryPointId is SpawnPoint::m_entrypointId ("entrypointID", written by its
+    // constructor and DeclareProperties). The port field that stood here, never written, moved every derived layout by four bytes.
 };
