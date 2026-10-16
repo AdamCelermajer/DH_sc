@@ -48,9 +48,29 @@
 
 ## Results
 
-See the table printed by the last run in the section below (copied from `build/own-chain/all.log`).
+Full run (one process, `py -3 tools/trackb/armdiff/chain.py`):
 
-RESULTS_PLACEHOLDER
+```
+[chain] charprops_load_base: MATCH  (3.3s/4.7s; calls 449)
+[chain] combat_cf: MATCH  (2.9s/4.5s; calls 18432)
+[chain] equip_gear: MATCH  (65.6s/35.1s; calls 199)
+[chain] charprops_all_rows: MATCH  (360.8s/346.1s; calls 45712)
+[chain] char_stats: MATCH  (31.4s/17.9s; calls 293)
+[chain] char_buffs: MATCH  (26.4s/14.6s; calls 90)
+[chain] ai_aggro: MATCH  (32.2s/18.1s; calls 645)
+[chain] control_mutated_function: MISMATCH 4  (0.1s/0.4s; calls 21)
+[chain] item_instances: MATCH  (33.2s/18.6s; calls 237)
+[chain] loot_tables: MATCH  (54.7s/29.7s; calls 446)
+[chain] loot_deep: MATCH  (1060.1s/664.7s; calls 13264)
+[chain] inventory_ops: MATCH  (34.7s/15.0s; calls 272)
+[chain] pydata_ai_factions: MATCH  (0.0s/0.6s; calls 6)
+[chain] pydata_read_all: MATCH  (12.1s/12.5s; calls 282)
+[chain] control_flipped_byte: MISMATCH 2  (0.0s/0.1s; calls 3)
+[chain] savegame_sections: MATCH  (17.4s/10.2s; calls 250)
+[chain] quest_savegame: MATCH  (21.7s/10.7s; calls 51)
+```
+
+All 16 chains MATCH; the two negative controls MISMATCH as required. `char_skills` matched in its own run (not in this log's list order).
 
 ## Mismatches found
 
