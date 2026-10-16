@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <deque>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdint>
@@ -989,7 +990,7 @@ private:
         // The pose scan walks every world object; refresh it on the 15-frame
         // cadence the other scenarios use and keep the last value in between.
         if (frame_ % 15 == 0 || !pose_valid_once_) {
-            have_pose_ = model_renderer::gameplay_pose_snapshot(pose_, error_);
+            have_pose_ = model_renderer::gameplay_pose_snapshot(pose_, error_, !options_.walk_level_scenario);
             pose_valid_once_ = true;
         }
         return true;
@@ -1815,40 +1816,82 @@ private:
     }
 
     // ----- walk-level -------------------------------------------------------
-    struct WalkTarget {const char* name; float x, y; };
+    struct WalkTarget {const char* name; float x, y, z; };
     // SWAMP TriggerZone centres (logged by "TriggerZone InitPost") in route order.
     static constexpr WalkTarget kSwampWalk[] = {
-        {"_prim_TriggerZone_KillTroll", -2609.2f, 15.1f},
-        {"_prim_TriggerZone_LizManIntro", -2897.1f, -3.4f},
-        {"_prim_MothMovieTriggerZone", -4511.7f, -42.5f},
-        {"_prim_TriggerZone_001_ChestAmbush", -6100.7f, 5002.8f},
-        {"_prim_TriggerZone_BigLizIntro", -6395.0f, 9602.1f},
-        {"_prim_TriggerZone_Camp_Intro", -9452.4f, 11816.9f},
-        {"_prim_Zone_EnterLoc_MerchantCamp", -10992.4f, 11844.6f},
-        {"_prim_TriggerZone_18", -11571.0f, 11233.1f},
-        {"_prim_TriggerZone_001", -12137.5f, 10444.0f},
-        {"_prim_TriggerZone_hacksavething", -12000.0f, 9389.6f},
-        {"_prim_TriggerZone_17", -15437.4f, 12000.0f},
+        {"_prim_TriggerZone_KillTroll", -2609.2f, 15.1f, 255.f},
+        {"_prim_TriggerZone_LizManIntro", -2897.1f, -3.4f, 255.f},
+        {"_prim_MothMovieTriggerZone", -4511.7f, -42.5f, 255.f},
+        {"_prim_TriggerZone_001_ChestAmbush", -6100.7f, 5002.8f, 255.f},
+        {"_prim_TriggerZone_BigLizIntro", -6395.0f, 9602.1f, 255.f},
+        {"_prim_TriggerZone_Camp_Intro", -9452.4f, 11816.9f, 255.f},
+        {"_prim_Zone_EnterLoc_MerchantCamp", -10992.4f, 11844.6f, 255.f},
+        {"_prim_TriggerZone_18", -11571.0f, 11233.1f, 255.f},
+        {"_prim_TriggerZone_001", -12137.5f, 10444.0f, 255.f},
+        {"_prim_TriggerZone_hacksavething", -12000.0f, 9389.6f, 255.f},
+        {"_prim_TriggerZone_17", -15437.4f, 12000.0f, 255.f},
     };
     std::size_t wl_target_ = 0;
     bool wl_init_ = false, wl_teleported_ = false;
     // DARKWOOD (row 4) route: TriggerZone centres from "TriggerZone InitPost" (count-1 story triggers
     // and the enterLocation zones; Door_Teleport doorports are excluded because they change level).
     static constexpr WalkTarget kDarkwoodWalk[] = {
-        {"_prim_TriggerZone_Hellgate", 3633.5f, -3568.2f},
-        {"_prim_zone_location_east", 11128.9f, -8720.3f},
-        {"_prim_TriggerZone_StatueRed", 13973.9f, -8676.5f},
-        {"_prim_zone_location_graveyard", 6436.0f, 4772.0f},
-        {"_prim_zone_location_north", -3026.7f, 6920.7f},
-        {"_prim_zone_location_GCV", -3596.7f, 17870.7f},
-        {"_prim_TriggerZone_CathedralLocked", -10869.8f, 10741.8f},
-        {"_prim_zone_location_west", -10497.0f, -699.0f},
-        {"_prim_TriggerZone_IceLocked", -13257.9f, -2975.3f},
-        {"_prim_zone_location_south", -7356.8f, -12498.8f},
-        {"_prim_TriggerZone_Tuto_WalkCombo", 3350.0f, -17514.1f},
+        {"_prim_TriggerZone_Hellgate", 3633.5f, -3568.2f, 255.f},
+        {"_prim_zone_location_east", 11128.9f, -8720.3f, 255.f},
+        {"_prim_TriggerZone_StatueRed", 13973.9f, -8676.5f, 255.f},
+        {"_prim_zone_location_graveyard", 6436.0f, 4772.0f, 255.f},
+        {"_prim_zone_location_north", -3026.7f, 6920.7f, 255.f},
+        {"_prim_zone_location_GCV", -3596.7f, 17870.7f, 255.f},
+        {"_prim_TriggerZone_CathedralLocked", -10869.8f, 10741.8f, 255.f},
+        {"_prim_zone_location_west", -10497.0f, -699.0f, 255.f},
+        {"_prim_TriggerZone_IceLocked", -13257.9f, -2975.3f, 255.f},
+        {"_prim_zone_location_south", -7356.8f, -12498.8f, 255.f},
+        {"_prim_TriggerZone_Tuto_WalkCombo", 3350.0f, -17514.1f, 255.f},
     };
-    const WalkTarget* wl_table() const {return options_.level_row == 4 ? kDarkwoodWalk : kSwampWalk;}
+    // Any other level: the route is built from the level's TriggerZones (level-changing doorports
+    // excluded) in nearest-neighbour order from the Player's spawn.
+    std::vector<WalkTarget> wl_auto_;
+    std::deque<std::string> wl_auto_names_;
+    bool wl_auto_built_ = false;
+    bool wl_is_auto() const {return options_.level_row != 4 && options_.level_row != 41;}
+    void wl_build_auto() {
+        wl_auto_built_ = true;
+        std::vector<model_renderer::WalkTriggerZoneV1> zones;
+        if (!model_renderer::walk_trigger_zones(zones)) {plog("walk route | no trigger zones available"); return;}
+        std::vector<model_renderer::WalkTriggerZoneV1> keep;
+        for (const auto& z : zones) {
+            std::string lower = z.script;
+            for (auto& c : lower) c = char(std::tolower((unsigned char)c));
+            // Level-changing doorports run Door_Teleport/ExitLevel scripts; in-level zones stay on the route.
+            const bool door = lower.find("door_teleport") != std::string::npos || lower.find("exitlevel") != std::string::npos ||
+                              lower.find("loadlevel") != std::string::npos;
+            plog(fmt("walk route-zone | %s | script '%s' | move-out '%s' | door '%s' | count %d | centre %.0f %.0f %.0f | %s",
+                     z.name.c_str(), z.script.c_str(), z.move_out_script.c_str(), z.door.c_str(), z.count,
+                     z.centre[0], z.centre[1], z.centre[2], door ? "EXCLUDED" : "route"));
+            if (!door) keep.push_back(z);
+        }
+        float cx = have_pose_ ? pose_.player_position[0] : 0.f, cy = have_pose_ ? pose_.player_position[1] : 0.f;
+        while (!keep.empty()) {
+            std::size_t best = 0;
+            float bd = 1e30f;
+            for (std::size_t i = 0; i < keep.size(); ++i) {
+                const float d = std::hypot(keep[i].centre[0] - cx, keep[i].centre[1] - cy);
+                if (d < bd) {bd = d; best = i;}
+            }
+            wl_auto_names_.push_back(keep[best].name);
+            wl_auto_.push_back({wl_auto_names_.back().c_str(), keep[best].centre[0], keep[best].centre[1], keep[best].centre[2]});
+            cx = keep[best].centre[0];
+            cy = keep[best].centre[1];
+            keep.erase(keep.begin() + std::ptrdiff_t(best));
+        }
+        plog(fmt("walk route | %zu targets", wl_auto_.size()));
+    }
+    const WalkTarget* wl_table() const {
+        if (wl_is_auto()) return wl_auto_.data();
+        return options_.level_row == 4 ? kDarkwoodWalk : kSwampWalk;
+    }
     std::size_t wl_count() const {
+        if (wl_is_auto()) return wl_auto_.size();
         return options_.level_row == 4 ? sizeof(kDarkwoodWalk) / sizeof(kDarkwoodWalk[0])
                                        : sizeof(kSwampWalk) / sizeof(kSwampWalk[0]);
     }
@@ -1897,6 +1940,8 @@ private:
         if (wl_done_) return;
         walk_scripts();
         if (frame_ % 15 == 0) walk_census();
+        if (frame_ % 600 == 0)
+            plog(fmt("walk status | frame %llu | blocked %d | pose %d | target %zu/%zu", (unsigned long long)frame_, int(hud_blocked_), int(have_pose_), wl_target_, wl_end()));
         const auto vitals = model_renderer::player_vitals();
         if (frame_ % 60 == 0 && vitals[0] < vitals[1] / 2)
             model_renderer::debug_player_refill_hp(0);
@@ -1908,11 +1953,12 @@ private:
         }
         if (!wl_init_) {
             wl_init_ = true;
+            if (wl_is_auto() && !wl_auto_built_) wl_build_auto();
             wl_target_ = std::size_t(std::max(0, options_.walk_from));
             if (wl_target_ > 0 && wl_target_ < wl_end()) {
                 const auto& f = wl_table()[wl_target_ - 1];
                 std::string err;
-                const bool ok = model_renderer::boss_probe_place_player({f.x, f.y, 255.f}, err);
+                const bool ok = model_renderer::boss_probe_place_player({f.x, f.y, f.z}, err);
                 plog(fmt("walk start-at | place at target %zu (%s) %s %s", wl_target_ - 1, f.name, ok ? "ok" : "ERROR", err.c_str()));
             }
         }
@@ -1922,9 +1968,12 @@ private:
             return;
         }
         const auto& t = wl_table()[wl_target_];
-        const Vec3 goal{t.x, t.y, 255.f};
+        const Vec3 goal{t.x, t.y, t.z};
         if (!wl_target_frame_) wl_target_frame_ = frame_;
-        if (!have_pose_) return;
+        if (!have_pose_) {
+            if (frame_ % 600 == 0) plog(fmt("walk no-pose | frame %llu | %s", (unsigned long long)frame_, error_.c_str()));
+            return;
+        }
         if (wl_arrived_) {
             halt_player();
             if (frame_ - wl_arrived_frame_ >= 300) {
