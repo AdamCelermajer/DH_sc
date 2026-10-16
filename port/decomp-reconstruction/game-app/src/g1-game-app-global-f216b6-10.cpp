@@ -1,3 +1,7 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "dh2/SavegameManager.hpp"
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-app-global-f216b6-10 (<global>, part 11 of 22): the gameswf natives that act on a player's
 // character (potion, quest, stats, skills, equipment, HUD skill, lock and unlock, save, start game), ELF
 // 0x43d2c8 .. 0x43eac0. Declarations: dh2/global/native_player_actions.hpp.
@@ -398,6 +402,9 @@ void NativeStartGame(const gameswf::fn_call& call) {
         return;
     }
     const int slot = app.m_playerManager->GetLocalPlayer(0, false)->unk_664;
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    _DEBUG_OUT("NativeStartGame: nargs %d slot %d lastSlot %d", call.nargs, slot, app.m_savegameManager->m_lastSlot);
+#endif
     if (slot >= 0) {
         PlayerSavegame::SG_GetNextFreeSlot();
     }

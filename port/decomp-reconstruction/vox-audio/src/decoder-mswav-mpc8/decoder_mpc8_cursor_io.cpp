@@ -52,11 +52,13 @@ DecoderMPC8Cursor::DecoderMPC8Cursor(DecoderMPC8* decoder, StreamCursorInterface
         demux_ = mpc_demux_init(&reader_);
     }
     if (demux_ != nullptr) {
-        // The original checks the first two words of the demuxer (its open state). The port
-        // reads them the same way; the libmpcdec layout is not otherwise known here.
-        const auto* words = reinterpret_cast<const std::uint32_t*>(demux_);
-        if (words[1] != 0 && words[0] != 0) {
-            std::uint32_t info[93] = {};
+        // The original checks the first two words of the demuxer (mpc_demux_t::r and ::d, two 32-bit pointers).
+        // On a 64-bit host those are two pointers, so they are read as pointers, not as two 32-bit halves of one.
+        // The info block is mpc_streaminfo, which has pointer-width members, so it is sized for the host
+        // (94 words on arm64, 93 with 32-bit pointers); words 0, 1 and 14 sit before any pointer.
+        void* const* const links = reinterpret_cast<void* const*>(demux_);
+        if (links[1] != nullptr && links[0] != nullptr) {
+            alignas(8) std::uint32_t info[128] = {};
             mpc_demux_get_info(demux_, info);
             params_.bits_per_sample = 16;
             params_.channels = static_cast<std::int32_t>(info[1]);

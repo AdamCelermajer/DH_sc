@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Bodies of glitch::collada::CRootSceneNode (canonical class: collada/CRootSceneNode.hpp). This file replaces src/root_scene_node.cpp,
 // src/tb_scene-collada-gui-glitch_collada_CRootSceneNode-0.cpp, src/r3a-glitch-scene-collada-gui-glitch_collada_CRootSceneNode-c52989-0.cpp
 // and the stand-in bodies of recon/slice_21.cpp and recon/slice_32.cpp.
@@ -278,6 +281,10 @@ boost::intrusive_ptr<video::CMaterial> CRootSceneNode::getMaterial(SMaterial* re
 // The first particle system whose uid (K 0x54) equals the name, ignoring case; null when there is none.
 IParticleSystemSceneNode* CRootSceneNode::getParticleSystem(const char* name) {
     for (IParticleSystemSceneNode* particleSystem : particleSystems) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+        __android_log_print(ANDROID_LOG_INFO, "DH2PS", "getParticleSystem(%s): root %p entry %p", name, (void*)this, (void*)particleSystem);
+        __android_log_print(ANDROID_LOG_INFO, "DH2PS", "  vptr %p", particleSystem ? *(void**)particleSystem : nullptr);
+#endif
         if (strcasecmp(particleSystem->getUID(), name) == 0) {
             return particleSystem;
         }

@@ -286,6 +286,9 @@ void Level::_LoadProcess() {
             TraceLoadingStep();
             dword_99F76C->unk_6c9 = 1;
             dword_99F76C->Update();
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+            _DEBUG_OUT("LoadStep6 after PlayerManager::Update: numPlayers %d numLocal %d netGate %d", dword_99F76C->GetNumPlayers(), dword_99F76C->GetNumLocalPlayers(true), (int)NetGateOpen());
+#endif
             m_gameEventManager = new GameEventManager();
             m_gameEventManager->Load();
             ++m_loadStep;
@@ -549,6 +552,9 @@ void Level::_LoadProcess() {
                     }
                 }
             }
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+            { PlayerInfo* pi = dword_99F76C->GetLocalPlayer(0, false); _DEBUG_OUT("LoadStep33 local player %p slot %d local %d class %d character %p numChars %d numLocal %d", (void*)pi, pi ? pi->unk_664 : -99, pi ? (int)pi->unk_66c : -99, pi ? pi->m_characterClass.GetValue() : -99, pi ? (void*)pi->unk_660 : nullptr, dword_99F76C->m_numCharacters, dword_99F76C->GetNumLocalPlayers(true)); }
+#endif
             dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_SetUseSpawnPoint(false);
             m_cameFromOtherLevel = false;
             ++m_loadStep;

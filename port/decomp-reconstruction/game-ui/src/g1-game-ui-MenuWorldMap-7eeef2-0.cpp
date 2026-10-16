@@ -51,17 +51,15 @@
 #include "dh2/global/MenuManagerGlobals.hpp"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_character.h"
+#include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_02.hpp"
 
 namespace {
 
-// Reads the 32-bit word at a byte offset from the start of the Arrays::WorldMapLockers table. The table is in the
-// pydata file layout (rows of 12 bytes: word +0 unused by Init, +4 the required state, +8 the quest id), so it is read
-// as bytes and not cast to a host struct.
-std::int32_t ReadWorldMapLockerWord(std::size_t byteOffset) {
-    std::int32_t value = 0;
-    std::memcpy(&value, Arrays::WorldMapLockers::members + byteOffset, sizeof value);
-    return value;
+// Row `row` of Arrays::WorldMapLockers. The rows are host Structs::WorldMapLocker objects (vptr, OnState, QuestID), so the
+// table is read through the typed element pointer; the original's 12-byte stride and +4 / +8 offsets do not hold on a 64-bit host.
+const Structs::WorldMapLocker& WorldMapLockerRow(std::size_t row) {
+    return reinterpret_cast<const Structs::WorldMapLocker*>(Arrays::WorldMapLockers::members)[row];
 }
 
 // Distance of two touch points, computed with the same float steps as the original (dx * dx + dy * dy, then sqrt).
@@ -271,12 +269,12 @@ int MenuWorldMap::Init() {
             ++locker;
         }
 
-        m_lockers[1].m_requiredState = ReadWorldMapLockerWord(4);
-        m_lockers[1].m_questId = ReadWorldMapLockerWord(8);
-        m_lockers[2].m_requiredState = ReadWorldMapLockerWord(16);
-        m_lockers[2].m_questId = ReadWorldMapLockerWord(20);
-        m_lockers[3].m_requiredState = ReadWorldMapLockerWord(28);
-        m_lockers[3].m_questId = ReadWorldMapLockerWord(32);
+        m_lockers[1].m_requiredState = WorldMapLockerRow(0).OnState;
+        m_lockers[1].m_questId = WorldMapLockerRow(0).QuestID;
+        m_lockers[2].m_requiredState = WorldMapLockerRow(1).OnState;
+        m_lockers[2].m_questId = WorldMapLockerRow(1).QuestID;
+        m_lockers[3].m_requiredState = WorldMapLockerRow(2).OnState;
+        m_lockers[3].m_questId = WorldMapLockerRow(2).QuestID;
     }
     return 16556;
 }

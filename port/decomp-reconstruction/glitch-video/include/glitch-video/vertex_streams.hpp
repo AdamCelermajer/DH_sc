@@ -37,7 +37,7 @@ namespace glitch::video {
 // 16 bytes in the original.
 struct SVertexStream {
     boost::intrusive_ptr<IBuffer> buffer;  // +0x00
-    uint32_t offset = 0;                   // +0x04, changed by CVertexStreams::addOffset
+    int32_t offset = 0;                    // +0x04, changed by CVertexStreams::addOffset (signed: the original wraps a 32-bit unsigned, which a 64-bit pointer sum must see as negative)
     uint16_t attribute = 0;                // +0x08, E_VERTEX_ATTRIBUTE index (ctor 0x5a113c, getActiveAttributeMask 0x5a0a58)
     uint16_t field0a = 0;                  // +0x0a, value type: index into SVertexAttributeTypeInspection::ValueTypeSize
                                            //        (copyVertex 0x5a2b18, ValueTypeSize[*(u16*)(entry+10)]); 0xff = unset

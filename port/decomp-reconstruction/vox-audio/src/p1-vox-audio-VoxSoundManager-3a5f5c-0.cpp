@@ -147,7 +147,9 @@ VoxSoundManager::VoxSoundManager() {
     sound_count_ = sound_pack_.GetSoundCount();
 
     // The two slot arrays, allocated and zeroed in the listing's order (+0x04 first, then +0x08).
-    const unsigned int slot_bytes = 4u * static_cast<unsigned int>(sound_count_);
+    // 4 bytes per slot in the original (32-bit pointers); host pointers are 8 bytes wide (first boot: the 4-byte slots made sounds_[i] read the neighbouring
+    // slot / heap, and VoxSoundManager::Stop called a virtual on a garbage DataHandle).
+    const unsigned int slot_bytes = static_cast<unsigned int>(sizeof(void*)) * static_cast<unsigned int>(sound_count_);
     void* user_slots = VoxAlloc(slot_bytes, static_cast<vox::VoxMemHint>(4));
     unk_04 = user_slots;
     std::memset(user_slots, 0, slot_bytes);

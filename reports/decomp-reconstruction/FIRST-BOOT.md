@@ -68,3 +68,25 @@ now typed (ListSize, Anim). Android window size: appInit's default case (1280x72
 UI fills it and touch coordinates match. FORTIFY_SOURCE is off for Android (CMake option DH2_ANDROID_FORTIFY, the original had none; a strchr abort appeared after the title).
 Result: title screen ("touch to continue"), tap, main menu (save slot WOLF, Start / Settings / Information), tap on Information opens its page; no crash.
 Known: a stale "touch the screen to continue" text overlaps the menu for a moment; the UI language defaults to Russian (settings save from the cache).
+
+## Round 5: language, stale menu, FORTIFY, new game up to the loading screen
+Scripts added: tools/trackb/boot/to_menu.sh (title -> main menu), to_game.sh (-> Start -> single player), cycle.sh + wait_cycle.sh (rebuild, install, drive,
+poll; avoids the 2 minute tool limit), iterate.sh now stops on a failed ninja ("BUILD FAILED"; it used to run the previous .so).
+- Language: the binary is followed. SavegameManager::__loadLanguageAndOrientation (0x46c7b8) always ends by taking the phone language from
+  GLMediaPlayer.detectPhoneLang (Locale.getISO3Language: eng 0, fra 2, deu 1, ita 4, spa 3, jpn 5, zho/CHN 7; the emulator reports en-US -> 0 -> English), but the
+  "Language" OPTION stored in dh2_settings.savegame then overrides it (getLanguage 0x46d514). The settings file in the data cache (written on the original dev's device) holds
+  Language=2, and in this HD build the "german" text pack (slot 2) is a Russian translation (data/text/*.german). So Russian is correct for this data set. To see English,
+  delete /sdcard/Android/data/<pkg>/files/dh2_settings.savegame on the device (user data, not code).
+- Stale "touch the screen to continue": Application::_Draw called driver->setOption(3, true) where the listing (0x32af1c) calls vtable slot +0xa8 clearBuffers(3).
+  The colour buffer was never cleared, so the title screen stayed behind every menu (and the "hero art" behind the main menu was that stale frame; the real main menu is black behind the panels until the 3D background draws).
+- FORTIFY: the strchr abort was vendored Lua (lgc.c traversetable: strchr(svalue(mode), ..) on a TString whose tail the checker sees as 0 bytes), a false positive; dh2_vendor_lua is
+  excluded. With DH2_ANDROID_FORTIFY=ON and DH2_BOOT_DEBUG=ON, app_entry.cpp replaces __strchr_chk and logs any further overread (DH2FORTIFY); a full session logged none. The crash handler in
+  storm_stub.c logged with ANDROID_LOG_FATAL, which makes liblog abort; it is ANDROID_LOG_ERROR now, so SIGABRT also gets a guest backtrace.
+- New game path (tap Start, Single player): fixes in order: forceBind reentrancy (animator added to a child node rebound everything against the child; getParticleSystem on a non-root);
+  decoder read material-channel text only for type 86 (87..91 left a flag byte in the pointer); VoxSoundManager slot arrays used 4-byte slots (host pointers are 8);
+  CMaterial::allocateProcessBufferHeap rounded the pointer inside a 4-aligned heap block (releaseProcessBuffer then read a wrong header); SVertexStream::offset is now int32_t (the original wraps
+  a 32-bit negative offset, a 64-bit pointer sum saw 4 GB); PlayerManager::_ManageCharacters only handled records that already had a character: a new local record never got its class
+  (savegame class/level, PlayerInfo +0x680 PlayerSavegame) and _AddCharacter was never called, so Level step 33 dereferenced a null player character.
+- Now: the level loads to step 36 (100 %), the loading screen shows; the progress bar stays empty and the screen does not advance: step 36 -> 37 is NativeEndLoading, called from the
+  loading menu's ActionScript ("continue_text._currentframe is:72", "IS FINISHED" traced every frame); a tap reaches the HUD "BLOCKER" button instead of the loading movie.
+  Next: find what the loading movie waits for (a press on its own button, the percent/frame values written through InvokeASCallback, as_value number reads).

@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-character-PlayerManager-025dba-2 (part 3 of 4 of PlayerManager): the destructors and constructor, the
 // character and player removal, _AddCharacter, the online-transition check, _ManageCharacters, the death handling,
 // the host-change notification, the remote and local controller checks.
@@ -184,6 +187,9 @@ int PlayerManager::RemoveAllPlayers() {
 // The removal runs when the network gate (NetGateOpen) is closed: IsPlayerInLocalMap (0 returns at once), the character of the record with
 // that key is removed, the record is erased. The player numbers are then updated (also when the gate is open).
 int PlayerManager::RemovePlayer(int internalId) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    _DEBUG_OUT("PlayerManager::RemovePlayer(%d) present %d", internalId, (int)IsPlayerInLocalMap(internalId));
+#endif
     if (!NetGateOpen()) {
         const bool present = IsPlayerInLocalMap(internalId);
         if (!present) {
@@ -738,6 +744,9 @@ void PlayerManager::OnHostChangedNotification(int internalId) {
 // unk_66c the flag, unk_668 the third argument, unk_674 the second) and stored in the map at that key, then the player numbers are updated;
 // otherwise the already-present result is returned.
 int PlayerManager::_AddPlayer(int internalId, int a3, int a4, bool flag) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    _DEBUG_OUT("PlayerManager::_AddPlayer(%d, %d, %d, %d) present %d", internalId, a3, a4, (int)flag, (int)IsPlayerInLocalMap(internalId));
+#endif
     if (NetGateOpen()) {
         PlayerInfo* record = GetPlayerByInternalID(internalId, false);
         const bool active = record->IsActive();
@@ -918,6 +927,45 @@ int PlayerManager::_ManageCharacters() {
         }
         Character* character = static_cast<Character*>(player->unk_660);
         if (!character) {
+            // A local record with a save slot and no character yet (listing 0x372b00..0x372d60, the path LABEL_88 of the Hex-Rays body): the record owns a
+            // PlayerSavegame (PlayerInfo +0x680, operator new(408), made for the slot when absent), its name follows the Game Center alias, the signed-in
+            // account or the savegame name, and its class and level are taken from the savegame, which is what lets _AddCharacter spawn the character
+            // (it needs a class). First boot: the port only handled the case of an existing character, so a new game never got a class.
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+            _DEBUG_OUT("_ManageCharacters no-character record %p local %d slot %d class %d", (void*)player, (int)player->unk_66c, player->unk_664, player->m_characterClass.GetValue());
+#endif
+            if (player->unk_66c && player->unk_664 != -1) {
+                PlayerSavegame* ownSavegame = static_cast<PlayerSavegame*>(static_cast<void*>(player->unk_680));
+                if (!ownSavegame) {
+                    ownSavegame = new PlayerSavegame(static_cast<std::uint32_t>(player->unk_664), 1, false);
+                    player->unk_680 = static_cast<PolymorphicObject*>(static_cast<void*>(ownSavegame));
+                }
+                std::string wantedName;
+                if (GCSingleton<GameCenter>::GetInstance()->startFlag_) {
+                    wantedName = GCSingleton<GameCenter>::GetInstance()->GetGCPlayerAlias();
+                } else if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {
+                    wantedName = CSignIn::Get()->CredentialsName();
+                } else {
+                    wantedName = ownSavegame->m_name;
+                }
+                if (wantedName != std::string(player->m_characterName.GetValue())) {
+                    player->SetCharacterName(wantedName);
+                }
+                if (player->m_characterClass.GetValue() != ownSavegame->m_playerClass) {
+                    player->SetCharacterClass(ownSavegame->m_playerClass);
+                }
+                if (player->m_characterLevel.GetValue() != ownSavegame->m_playerLevel) {
+                    player->SetCharacterLevel(ownSavegame->m_playerLevel);
+                }
+            }
+            // LABEL_30 of the listing: with the manage flag (+0x6c9) set, in a level, a record with a class and (online) the host or a host that has a
+            // character gets its character spawned. The port skipped this call, so no player character was ever made.
+            if (unk_6c9 && level && player->m_characterClass.GetValue() != -1 &&
+                (!GetOnlineGameFlag() || player->IsHost() || GetHostingPlayer()->unk_660)) {
+                _AddCharacter(player->unk_670);
+                player->m_ingame.GetValue() ? (void)(anyIngame = true) : (void)(allIngame = false);
+                continue;
+            }
             // No character to synchronise: a finished record while this client hosts raises the done-loading accumulator.
             if (player->m_doneLoading.IsChanged() && player->m_doneLoading.GetValue() &&
                 IsLocalPlayerHosting()) {

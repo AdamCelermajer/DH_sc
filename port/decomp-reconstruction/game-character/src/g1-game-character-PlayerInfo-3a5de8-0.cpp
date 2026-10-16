@@ -1,3 +1,9 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#include <dlfcn.h>
+#include <unwind.h>
+static _Unwind_Reason_Code dh2PiBt(struct _Unwind_Context* c, void*) { uintptr_t pc = _Unwind_GetIP(c); Dl_info i; if (dladdr((void*)pc, &i)) __android_log_print(ANDROID_LOG_INFO, "DH2PI", "  bt off 0x%lx", (unsigned long)(pc - (uintptr_t)i.dli_fbase)); return _URC_NO_REASON; }
+#endif
 // Batch g1-game-character-PlayerInfo-3a5de8-0: twenty PlayerInfo functions. The constructor (C1), the three destructor
 // addresses, the factory Create, the player-table hook Delete, Reset, the setters, ClearLoadingInfo, UpdateReadyToRoll
 // and SetCharacterName. Declarations are in dh2/PlayerInfo.hpp, which this batch does not change.
@@ -255,6 +261,10 @@ void PlayerInfo::SetCharacterName(std::string name) {
 // (see the file note). Every SetValue below stores the value the original stores, in the original's order. The
 // stale-temporary SetChanged calls are not reproduced, and the setters called here carry the same note.
 void PlayerInfo::Reset() {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    __android_log_print(ANDROID_LOG_INFO, "DH2PI", "PlayerInfo::Reset %p slot was %d", (void*)this, unk_664);
+    _Unwind_Backtrace(dh2PiBt, nullptr);
+#endif
     CNetPlayerInfo::Reset();
     unk_66c = 1;
     unk_660 = nullptr;

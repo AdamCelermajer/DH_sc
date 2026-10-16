@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Bodies of glitch::collada::ISceneNodeAnimator and IColladaSceneNodeSynchronizedAnimatorInterface (canonical classes:
 // collada/ISceneNodeAnimator.hpp). This file replaces src/tb_scene-collada-gui-glitch_collada_ISceneNodeAnimator-0.cpp, which
 // wrote the functions against the stand-in in collada_misc.hpp (no base, five of the virtual slots).
@@ -75,7 +78,15 @@ scene::ISceneNodeAnimator* ISceneNodeAnimator::createClone() {
 
 // 0x669538 _ZN6glitch7collada18ISceneNodeAnimator6onBindEPNS_5scene10ISceneNodeE
 // Binds to a new node and, when the animator has targets (getTargetCount, vptr+0x70), binds every target to the scene.
+// Reentrancy (first boot): forceBind adds the animator to every node it binds (ISceneNode slot +0x78 -> onBind), and that onBind would
+// make the child the bound node and bind everything again against it (a non-root node cast to CRootSceneNode: getParticleSystem read garbage).
+// The listing keeps its bound node in a local across the loop; the port keeps the bound node itself while a bind is running.
+static thread_local bool g_forceBindRunning = false;
+
 void ISceneNodeAnimator::onBind(scene::ISceneNode* node) {
+    if (g_forceBindRunning) {
+        return;
+    }
     if (boundNode != node) {
         boundNode = node;
         if (getTargetCount() != 0) {
@@ -258,6 +269,11 @@ void ISceneNodeAnimator::forceBind() {
     if (boundNode == nullptr) {
         return;
     }
+    struct BindGuard {
+        bool previous = g_forceBindRunning;
+        BindGuard() { g_forceBindRunning = true; }
+        ~BindGuard() { g_forceBindRunning = previous; }
+    } guard;
     CRootSceneNode* root = static_cast<CRootSceneNode*>(boundNode);
     const std::int32_t count = getTargetCount();
     for (std::int32_t i = 0; i < count; ++i) {
@@ -297,7 +313,10 @@ void ISceneNodeAnimator::forceBind() {
             }
             case 0x56: case 0x57: case 0x58: case 0x59: case 0x5A: case 0x5B: {
                 boost::intrusive_ptr<video::CMaterial> material = root->getMaterial(uid, nullptr);
-                if (material) {
+                if (material && material->m_renderer) {  // host guard: a material whose renderer failed to build is a lookup that found nothing
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+                    __android_log_print(ANDROID_LOG_INFO, "DH2MR", "forceBind material %p renderer %p refs %d uid %s", (void*)material.get(), (void*)material->m_renderer.get(), (int)material->m_renderer->m_refCount, uid);
+#endif
                     animation_track::CMaterialApplicatorInfo info;
                     info.parameterId = material->m_renderer->getParameterID(channel->extra, 0);
                     setTarget(i, material.get(), &info);

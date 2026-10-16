@@ -443,8 +443,9 @@ void Decoder::decodeAnimation(std::uint32_t a, SAnimation& out) {
         list[i].unk_00 = v.u32(c);
         list[i].name = v.str(v.u32(c + 4));
         list[i].type = v.u32(c + 8);
-        // Channel type 86 keeps a text at +0x0c (CAnimationSet::addAnimation compares it), the others a flag byte.
-        if (list[i].type == 86) {
+        // Channel types 86..91 (0x56..0x5B, the material parameter channels) keep a text at +0x0c (CAnimationSet::addAnimation compares it; forceBind
+        // passes it to getParameterID), the others a flag byte. First boot: only 86 was read as text, so 87..91 left a flag byte in the pointer slot.
+        if (list[i].type >= 86 && list[i].type <= 91) {
             list[i].extra = v.str(v.u32(c + 12));
         } else {
             list[i].extra = nullptr;

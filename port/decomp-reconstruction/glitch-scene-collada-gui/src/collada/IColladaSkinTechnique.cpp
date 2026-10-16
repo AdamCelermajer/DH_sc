@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#endif
 // Bodies of glitch::collada::detail::IColladaSkinTechnique and the four skin techniques (canonical classes:
 // collada/IColladaSkinTechnique.hpp). This file replaces the technique stand-ins and bodies of src/collada_misc.cpp and of
 // src/tb_scene-collada-gui-glitch_collada_detail_{CColladaHardwareMatrixSkin,CColladaHardwareQuatSkinTe,CColladaHardwareTextureSki,
@@ -834,6 +837,19 @@ int CColladaSoftwareSkinTechnique::skin(SSkinBuffer& buffer, scene::CMeshBuffer*
         skinStreamBase != nullptr ? skinStreamBase + first * skinStream.field0e + 4 : nullptr;
     const std::uint8_t weightsPerVertex = skinRecord->weightsPerVertex;
     const std::vector<core::CMatrix4<float>>& palette = cache->palette;
+    // Host guard: a joint index past the palette (the original reads whatever is there) is clamped and reported.
+    auto paletteMatrix = [&palette](std::uint32_t index) -> const float* {
+        if (index >= palette.size()) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+            __android_log_print(ANDROID_LOG_ERROR, "DH2SKIN", "joint index %u past palette of %zu", index, palette.size());
+#endif
+            index = static_cast<std::uint32_t>(palette.size()) - 1u;
+        }
+        return palette[index].M;
+    };
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    { static int n = 0; if (n++ < 6 || last * outStride > outPositions.buffer->m_size) __android_log_print(ANDROID_LOG_INFO, "DH2SKIN", "skin first=%u last=%u srcStride=%u srcOff=%u srcSize=%u outStride=%u outOff=%u outSize=%u skinStride=%u skinOff=%u skinSize=%u elem=%u wpv=%u palette=%zu joints=%d", first, last, sourceStride, (unsigned)sourcePositions.offset, (unsigned)sourcePositionBuffer->m_size, outStride, (unsigned)outPositions.offset, (unsigned)outPositions.buffer->m_size, (unsigned)skinStream.field0e, (unsigned)skinStream.offset, (unsigned)skinStreamBuffer->m_size, elementSize, (unsigned)weightsPerVertex, palette.size(), (int)skinRecord->jointCount); }
+#endif
 
     std::uint8_t* mappedSourceNormals = nullptr;
     std::uint8_t* mappedOutNormals = nullptr;
@@ -864,7 +880,7 @@ int CColladaSoftwareSkinTechnique::skin(SSkinBuffer& buffer, scene::CMeshBuffer*
                     std::uint32_t counted = 1;
                     std::uint32_t k = 0;
                     while (true) {
-                        const float* m = palette[weightsAt[static_cast<std::ptrdiff_t>(k) - 4]].M;
+                        const float* m = paletteMatrix(weightsAt[static_cast<std::ptrdiff_t>(k) - 4]);
                         px = px + (weight * ((((m[0] * ix) + (m[4] * iy)) + (m[8] * iz)) + m[12]));
                         py = py + (weight * ((((m[1] * ix) + (m[5] * iy)) + (m[9] * iz)) + m[13]));
                         pz = pz + (weight * ((((m[2] * ix) + (m[6] * iy)) + (m[10] * iz)) + m[14]));
@@ -917,7 +933,7 @@ int CColladaSoftwareSkinTechnique::skin(SSkinBuffer& buffer, scene::CMeshBuffer*
                 std::uint32_t counted = 1;
                 std::uint32_t k = 0;
                 while (true) {
-                    const float* m = palette[weightsAt[static_cast<std::ptrdiff_t>(k) - 4]].M;
+                    const float* m = paletteMatrix(weightsAt[static_cast<std::ptrdiff_t>(k) - 4]);
                     x = x + (weight * ((((ix * m[0]) + (iy * m[4])) + (iz * m[8])) + m[12]));
                     y = y + (weight * ((((ix * m[1]) + (iy * m[5])) + (iz * m[9])) + m[13]));
                     z = z + (weight * ((((ix * m[2]) + (iy * m[6])) + (iz * m[10])) + m[14]));

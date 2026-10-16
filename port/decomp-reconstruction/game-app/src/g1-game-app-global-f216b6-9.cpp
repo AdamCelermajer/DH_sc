@@ -1,3 +1,6 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include "core-platform/debug_out.hpp"
+#endif
 // Batch g1-game-app-global-f216b6-9 (<global>, part 10 of 22): the quest predicates IsNonDebugQuestClosedQuest,
 // IsNonDebugQuestActiveButNotClosedQuest and the IsDebugQuest thunk, and the gameswf natives of the app bindings
 // (ELF 0x43c098 .. 0x43d288), with NativeGetPlayerChar. Declarations: dh2/global/quest_predicates.hpp and
@@ -273,6 +276,9 @@ void NativeIPodSetPlaylist(const gameswf::fn_call& call) {
 // 0x43cf50 NativeAssignSaveSlotToPlayer(gameswf::fn_call const&)
 // Argument 0 is the save slot and argument 1 the local player id; when both are not negative AssignSaveSlotToPlayer(slot, id) runs.
 void NativeAssignSaveSlotToPlayer(const gameswf::fn_call& call) {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    _DEBUG_OUT("NativeAssignSaveSlotToPlayer nargs %d a0 %d a1 %d", call.nargs, call.nargs > 0 ? call.arg(0).to_int() : -77, call.nargs > 1 ? call.arg(1).to_int() : -77);
+#endif
     const int slot = static_cast<int>(call.arg(0).to_number());
     const int localPlayer = static_cast<int>(call.arg(1).to_number());
     if (slot >= 0 && localPlayer >= 0) {

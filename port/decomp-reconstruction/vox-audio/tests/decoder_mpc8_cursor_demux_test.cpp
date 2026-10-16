@@ -10,10 +10,10 @@
 #include "vox-audio/deps/mpc_demux.hpp"
 #include "vox-audio/vox/decoder_mpc8.hpp"
 
-// Opaque to the cursor, which reads only the first two words (open state).
+// Opaque to the cursor, which reads only the first two members (libmpcdec's mpc_demux_t::r and ::d, two pointers).
 struct mpc_demux {
-    std::uint32_t open_a;
-    std::uint32_t open_b;
+    void* open_a;
+    void* open_b;
 };
 
 namespace {
@@ -30,7 +30,7 @@ int g_failures = 0;
 
 struct FakeDemux {
     mpc_reader_t* reader = nullptr;
-    mpc_demux object{1, 1};
+    mpc_demux object{this, this};
     std::uint32_t info_rate = 44100;
     std::uint32_t info_channels = 2;
     std::uint32_t info_total = 0;

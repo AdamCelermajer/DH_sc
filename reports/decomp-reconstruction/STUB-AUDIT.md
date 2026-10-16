@@ -203,3 +203,53 @@ No ledger row changed status (all fixes are inside rows that stay `reconstructed
   gameswf, box2d), window-dimension tables, `PlaceHolderColor`, `UNINIT_FOG_COLOR`, Vec3f constants. Not changed because the
   value is written before it is read (unobservable): the billboard baker statics (`Color`, `Position`, `TexCoords`, `Normal`).
   `glitch::memory::Matrix4Pool/Aabbox3dfPool` are not used by the tree.
+
+## raw offsets, round 2 (owner Q2)
+
+Sweep of game*, core-platform, pydata-accessors, net*, vox-audio, glitch* (not vendor/upstream) for code that reaches a record or object through
+the original 32-bit byte offsets: every `reinterpret_cast`/`static_cast<T*>(void*)` (about 280 in game/core/net/vox, 405 in glitch), char*/uint8_t*
+arithmetic with literal offsets, memcpy/memset with literal sizes, `sizeof` assumptions, `void***` vtable reads, offset helper functions, and a script
+that checks every `Arrays::X::members` cast against the element type `ReadArrayTable<Elem>` builds (129 sites, all typed correctly; `void*`
+intermediates included). Bytes that are file or network data are left (decision 2).
+
+Fixed (5):
+- `MenuWorldMap::Init` (game-ui `g1-game-ui-MenuWorldMap-7eeef2-0.cpp`): read `Arrays::WorldMapLockers` as bytes at +4/+8/+16/+20/+28/+32 of a
+  12-byte stride. The rows are host `Structs::WorldMapLocker` objects (vptr, OnState, QuestID; 16 bytes on arm64), so it read the vptr half and
+  neighbouring rows. Now `WorldMapLockerRow(n).OnState / .QuestID`.
+- `CallMatchingSlot44` (net-session-online `multiplayer_callback.cpp`): read the function pointer at vptr + 0x44 (slot 17 of a 32-bit vtable; on arm64
+  that is the middle of slot 8, so a wild call when the player count drops to 3). Now the typed virtual `CMatching::OpenRoom(bool)`, which is what the
+  binary's vtables hold at +0x44 (c_matching_base.hpp).
+- `DecoderMPC8Cursor` constructor (vox-audio `decoder_mpc8_cursor_io.cpp`): the "open" test read the first two 32-bit words of `mpc_demux_t`, which is two
+  pointers (`r`, `d`); on arm64 that tested the low and high halves of one pointer. Now reads two pointers. The `mpc_streaminfo` receive block was
+  `uint32_t[93]` (372 bytes) but the vendored struct is 376 bytes on arm64 (pointer-width `profile_name`, 8-byte offsets): enlarged to 128 words.
+- `MpcFrameInfo` (vox-audio `deps/mpc_demux.hpp`): lacked `is_key_frame`; `mpc_demux_decode` writes it (+0x10 on arm64), so every Decode overran the
+  16-byte stack struct. Added the member (24 bytes, as libmpcdec's `mpc_frame_info`). Test fake `mpc_demux` now holds two pointers.
+- `Billboard::DeclareProperties` ("position", "size"; game-world `g1-game-world-Billboard-1e5d36-0.cpp`): passed `(char*)this - 4` as the property object, a
+  32-bit offset guess that is wrong on any layout (the other properties use the PropertyMap subobject). Now the PropertyMap pointer, so m_offset
+  is measured the same way as `AddProperty<T>` and `ValueAt` finds the member.
+
+Left, with the reason:
+- `glitch-scene-collada-gui/src/recon/slice_18.cpp`, `slice_20.cpp` (`void*` object views with `+0x10`, `+0x8c`, `+0x90`, vtable `[2]` of a `void***`):
+  free-function stand-ins in namespaces `recon_18`/`recon_20`; nothing outside the slices and their tests calls them (grep), the real classes are in
+  `ps/` and `collada/`. They would break on a real object but are unreachable.
+- `Arrays::*::members` casts (129), `TableRow<Row>`, `static_cast<const std::int32_t*>(Struct.List / Interact / Spells / RandomCam / DisplayProps /
+  CamAnims / SubLoots / list_entries)`: tables are host element arrays (element_table.hpp) and the int arrays are real `int32` blocks (`ReadWords`,
+  4 * count), so the typed access is right. Element-pointer fields (`Steps`, `Conds`, `PreReqs`, `Rewards*`, `MerchandiseList`, `Spawns`, `CharInfo`,
+  `factions`, `AttrBonusList`, `RandomLootEntries`...) are all cast to the element type their reader allocates.
+- `SimpleTypeProperty::ValueAt` (`object + m_offset`): m_offset is measured with host pointers when the property is made.
+- `CBatchSceneNode` visible-entry block (`block + 4 * firstIndex` holding host `SSegment*`), `CBatchMesh::segmentAt`, `SPassBinding` tables, `texture.m_levelSizes`
+  bitmap, `quantize`/`vertex_transform` strided access: sized and padded for host width in their own headers (comments there); strides come from
+  the stream descriptors, not from literals.
+- `RandomGroup::sentinel()` (vox-audio groups.hpp): the sentinel is the two link words; the element word is never read.
+- `DataReloaderManager::_MonitoredFiles`, `PolyStat`, `ProjectileManager` destructors: pointer differences on `uintptr_t`, host width.
+- `GetDedicatedServer` (`memset(block, 0, 0x30)` of an opaque `_tDedicatedServerInfo`): the record has no layout in the tree and nothing reads it.
+- `CMsgDropLoot`/`MultiplayerCallback` payload offsets (+0x04..+0x18), `tMsgRaisedEventData`, `StartGamePayload`, `CNetworkId` address bytes, ping and
+  handshake packets: network packets, fixed layout (static_assert'ed).
+- `decoder_native_parse` record walks, `ok2-res`/`CResFileDecode` (`v.raw(v.u32(a + 0x14))`), `CAnimationStreaming` words, `config_file` image: file images.
+- `CDriverBinding::getProcessBuffer` (`mask` is a `uint32_t` compared with a stream pointer): the value only round-trips through the
+  member it is compared against, so the truncation is consistent; no caller outside tests.
+- `Application::Init` `reinterpret_cast<IEventReceiver*>(this)` and the `device->sceneManager` casts: same vtable shape / primary base, round trips.
+- `ItemObject::QuestListHoldsItem` (pointer truncated to 32 bits and compared with item ids), `PlayerSavegame::IsSentinelUser`: deliberate, as the listing does it.
+
+Files changed: game-ui `g1-game-ui-MenuWorldMap-7eeef2-0.cpp`; game-world `g1-game-world-Billboard-1e5d36-0.cpp`; net-session-online `multiplayer_callback.cpp`;
+vox-audio `decoder-mswav-mpc8/decoder_mpc8_cursor_io.cpp`, `include/vox-audio/deps/mpc_demux.hpp`, `tests/decoder_mpc8_cursor_demux_test.cpp`.

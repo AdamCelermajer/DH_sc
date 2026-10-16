@@ -1,3 +1,9 @@
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#include <android/log.h>
+#include <dlfcn.h>
+#include <unwind.h>
+static _Unwind_Reason_Code dh2MrBt(struct _Unwind_Context* c, void*) { uintptr_t pc = _Unwind_GetIP(c); Dl_info i; if (dladdr((void*)pc, &i)) __android_log_print(ANDROID_LOG_INFO, "DH2MR", "  bt off 0x%lx", (unsigned long)(pc - (uintptr_t)i.dli_fbase)); return _URC_NO_REASON; }
+#endif
 // Owner K1: CMaterialRenderer construction and destruction (0x5d3124 / 0x5d36cc, allocate 0x5d4c48, ~CMaterialRenderer 0x5d4aa0) and
 // getBindedLightCount 0x5d3f14. The original builds the renderer in one variable-size block; the port keeps the same arrays as
 // members (material_renderer.hpp, "Port storage") and the same order of fill.
@@ -188,6 +194,10 @@ boost::intrusive_ptr<CMaterialRenderer> CMaterialRenderer::allocate(
 // (The parameters' pointer slots are released with the `parameters` member: IMaterialParameters::dropParameters 0x5d4a68 is the
 // member destructors here.)
 CMaterialRenderer::~CMaterialRenderer() {
+#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+    __android_log_print(ANDROID_LOG_INFO, "DH2MR", "~CMaterialRenderer %p constructed=%d refs=%d", (void*)this, (int)m_constructed, (int)m_refCount);
+    _Unwind_Backtrace(dh2MrBt, nullptr);
+#endif
     if (!m_constructed) return;
     if (m_techniqueCount != 0) {
         for (uint8_t t = 0; t < m_techniqueCount; ++t) {

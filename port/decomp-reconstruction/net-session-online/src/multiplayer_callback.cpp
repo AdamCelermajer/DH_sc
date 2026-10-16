@@ -164,11 +164,10 @@ namespace {
 // c_matching_base.hpp's vtable sketch places +0x44 at OpenRoom, which is a room-lobby call and does not read as a
 // "few players left" notification, so no name is adopted. The slot offset is reproduced instead.
 void CallMatchingSlot44(CMatching* matching, int argument) {
-    void (*slot44)(CMatching*, int) = nullptr;
-    std::memcpy(&slot44, reinterpret_cast<const std::uint8_t*>(*reinterpret_cast<void* const*>(matching)) + 0x44,
-                sizeof(slot44));
-    if (slot44 != nullptr) {
-        slot44(matching, argument);
+    // vtable +0x44 is CMatching::OpenRoom(bool) in the binary's vtables (c_matching_base.hpp); a typed virtual call
+    // keeps the slot right on a 64-bit host, where the byte offset +0x44 is not slot 17.
+    if (matching != nullptr) {
+        matching->OpenRoom(argument != 0);
     }
 }
 

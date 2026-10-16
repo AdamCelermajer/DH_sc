@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "glitch-video/material.hpp"
 
 #include <cstring>
@@ -120,12 +121,13 @@ boost::intrusive_ptr<CMaterial> CMaterial::allocate(const boost::intrusive_ptr<C
 CMaterial* CMaterial::allocateProcessBufferHeap(const boost::intrusive_ptr<CMaterialRenderer>& renderer, const char* name,
                                                 const SStateWithoutRenderState& state, const uint8_t* values,
                                                 const detail::material::SRenderState* renderState) {
-    const std::size_t align = alignof(CMaterial);
-    int* block = core::allocProcessBuffer(static_cast<int>(sizeof(CMaterial) + align));
-    if (!block) {
+    // Host deviation (first boot): the process buffer heap hands out 4-byte aligned words with a header word in front, and the host CMaterial needs
+    // 8/16-byte alignment. Rounding the pointer up made releaseProcessBuffer(material) read a header that was not there (heap corruption in
+    // IVideoDriver::setMaterial). The block comes from the general allocator instead; releaseProcessBuffer frees such a pointer with free().
+    void* aligned = std::malloc(sizeof(CMaterial));
+    if (!aligned) {
         return nullptr;
     }
-    void* aligned = reinterpret_cast<void*>((reinterpret_cast<std::uintptr_t>(block) + align - 1) & ~(static_cast<std::uintptr_t>(align) - 1));
     return new (aligned) CMaterial(renderer, name, state, values ? values : renderer->parameters.valueBuffer(), renderState);
 }
 

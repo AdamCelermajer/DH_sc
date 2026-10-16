@@ -15,6 +15,9 @@ struct MpcFrameInfo {
     std::int32_t samples = 0;        // +0x00
     std::int32_t reserved_04 = 0;    // +0x04, not read or written by the cursor
     float* buffer = nullptr;         // +0x08, decoded float samples go here
+    // mpc_frame_info_t::is_key_frame (+0x0c in the 32-bit original, +0x10 with an 8-byte buffer pointer). The demuxer
+    // writes it on every call, so the host struct must be as large as libmpcdec's (24 bytes on a 64-bit host).
+    std::int32_t is_key_frame = 0;
 };
 
 // The libmpcdec entry points, called by name as the original does. libmpcdec is C, so the symbols are unmangled

@@ -192,16 +192,16 @@ void Billboard::DeclareProperties() {
     AddProperty<std::string>("AttachTo", m_attachTo);
     // PropertyMap::AddProperty<T> has no out-of-line instance for these two types (the binary inlines the
     // SimpleTypeProperty construction at the AddProperty<T> site), so the property object is built here and registered
-    // through the raw-pointer overload. Its object argument is the PropertyMap (this + 4), as the original's offset
-    // computation uses (Billboard +0x04 as the base).
+    // through the raw-pointer overload. Its object argument is the PropertyMap subobject (what AddProperty<T> passes as
+    // this; the original's Billboard +0x04), by typed conversion instead of a 32-bit byte offset.
     PropertyMap* map = this;
     map->AddProperty("position",
                      new SimpleTypeProperty<glitch::core::vector3d<float>>(
-                             reinterpret_cast<char*>(this) - 4, "position", &m_position,
+                             map, "position", &m_position,
                              glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f}));
     map->AddProperty("size",
                      new SimpleTypeProperty<glitch::core::dimension2d<float>>(
-                             reinterpret_cast<char*>(this) - 4, "size", &m_size,
+                             map, "size", &m_size,
                              glitch::core::dimension2d<float>{0.0f, 0.0f}));
     AddProperty<bool>("isAdditive", m_isAdditive, false);
 }
