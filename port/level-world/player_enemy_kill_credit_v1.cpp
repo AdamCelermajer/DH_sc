@@ -1,11 +1,43 @@
 #include "player_enemy_kill_credit_v1.hpp"
 
+#include <algorithm>
 #include <array>
+#include <cstring>
 #include <exception>
+#include <map>
+#include <vector>
 
 namespace dh2::player_enemy_kill_credit_v1 {
 namespace {
 namespace ch = character;
+
+struct WalkEdge {
+    std::uintptr_t character = 0;
+    float aggro = 0.0f;
+};
+
+// Source map invariant: one entry per character. A table that repeats an
+// identity is malformed and is refused rather than deduplicated.
+// Aggro is stored as float bits in AggroEntry::threat_bits.
+bool build_recipient_walk(const data::AggroTable& table, std::vector<WalkEdge>& walk) {
+    walk.clear();
+    std::vector<data::AggroEntry> sorted(table.entries, table.entries + table.count);
+    std::sort(sorted.begin(), sorted.end(),
+              [](const data::AggroEntry& a, const data::AggroEntry& b) { return a.character < b.character; });
+    for (std::size_t i = 1; i < sorted.size(); ++i) {
+        if (sorted[i - 1].character == sorted[i].character) return false;
+    }
+    // insert_unique: the first pair per aggro value wins, later equal values are dropped.
+    std::map<float, std::uintptr_t> converse;
+    for (const auto& entry : sorted) {
+        float aggro = 0.0f;
+        std::memcpy(&aggro, &entry.threat_bits, sizeof aggro);
+        converse.insert(std::make_pair(aggro, entry.character));
+    }
+    walk.reserve(converse.size());
+    for (const auto& item : converse) walk.push_back(WalkEdge{item.second, item.first});
+    return true;
+}
 
 constexpr std::uint32_t virtual_bit = 1u << ch::ai_event_virtual;
 constexpr std::uint32_t state_event_bit = 1u << ch::ai_event_state_event;
@@ -97,11 +129,15 @@ Status Runtime::after_loot_attempt(std::uintptr_t victim, std::uintptr_t killer,
     // CharAI and event4 owners that are not bound here, so they are counted and
     // reported rather than dispatched. Zero or duplicate Player entries are not
     // a single credit episode and stay ineligible.
-    const auto& aggro = *bindings_.victim_outgoing;
+    // Character::Kill iterates AI_GetAggroEntry, which walks the converse map
+    // built with insert_unique: ascending aggro, and an equal aggro keeps only
+    // the first character in pointer order. Build that same walk here.
+    std::vector<WalkEdge> walk;
+    if (!build_recipient_walk(*bindings_.victim_outgoing, walk)) return Status::ineligible_aggro;
     std::uint32_t player_entries = 0;
     std::uint32_t other_entries = 0;
-    for (std::uint32_t i = 0; i < aggro.count; ++i) {
-        if (aggro.entries[i].character == bindings_.character) ++player_entries;
+    for (const auto& edge : walk) {
+        if (edge.character == bindings_.character) ++player_entries;
         else ++other_entries;
     }
     if (player_entries != 1) return Status::ineligible_aggro;
