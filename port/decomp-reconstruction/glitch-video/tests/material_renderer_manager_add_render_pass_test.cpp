@@ -5,6 +5,7 @@
 #include <cstdint>
 
 #include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/shader_attributes.hpp"
 
 namespace glitch::core {
 // Same declarations as the source file (process_buffer.hpp is not on this include path).
@@ -15,10 +16,6 @@ struct SScopedEnableProcessBufferHeapExcess {
 int* allocProcessBuffer(int size);
 void setProcessBufferHeapExcessEnabled(bool enabled);
 }  // namespace glitch::core
-
-namespace glitch::video {
-uint16_t shaderBindingEntryCount(const glitch::IReferenceCounted* shader);
-}  // namespace glitch::video
 
 namespace {
 
@@ -49,14 +46,18 @@ int* allocProcessBuffer(int size) {
 
 }  // namespace glitch::core
 
-namespace glitch::video {
-// Every test shader has two binding entries.
-uint16_t shaderBindingEntryCount(const glitch::IReferenceCounted*) { return 2; }
-}  // namespace glitch::video
-
 namespace {
 
-struct FakeShader : glitch::IReferenceCounted {};
+// addRenderPass reads the stage records of a real IShader (shaderBindingEntryCount is called inside the same
+// translation unit, so a test double cannot replace it): every test shader has two binding entries,
+// (stage1.count + stage0.count) - (stage1.field04 + stage0.field04).
+struct FakeShader : glitch::video::IShader {
+    void releaseDriverSpecificResources() override {}
+    FakeShader() : glitch::video::IShader(0, "fake", nullptr) {
+        m_stageParameters[0].count = 2;
+        m_stageParameters[1].count = 0;
+    }
+};
 
 int g_failures = 0;
 #define CHECK(cond)                                                    \

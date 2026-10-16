@@ -15,7 +15,9 @@ int main() {
 
     using glitch::core::vector2d;
     check(vector2d<float>{1.f, 0.f}.getAngle() == 0.f, "angle with zero Y is 0");
-    check(vector2d<float>{0.f, 1.f}.getAngle() == 0.f, "angle with zero X is 0");
+    // 0x420060: X == 0 gives 90 for Y < 0 and 270 otherwise (double constants 0x4056800000000000 / 0x4070E00000000000).
+    check(vector2d<float>{0.f, 1.f}.getAngle() == 270.0, "angle with zero X and Y > 0 is 270");
+    check(vector2d<float>{0.f, -1.f}.getAngle() == 90.0, "angle with zero X and Y < 0 is 90");
     check(std::fabs(vector2d<float>{1.f, 1.f}.getAngle() - 315.f) < 1e-3f, "angle of (1,1) is 315");
 
     glitch::core::CMatrix4<float> a{};

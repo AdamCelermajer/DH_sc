@@ -112,6 +112,22 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     mismatch triaged as a reconstruction error demotes the row to `partial`, with a note naming the first
     differing register or byte. A base-class layout error is fixed once, at the base. Matches of 8 bytes or
     less are reported separately from matches of real bodies.
+12. STLport option A (2026-10-16, `reports/decomp-reconstruction/STLPORT-DECISION.md`): the original links STLport 5.2.1 statically
+    (namespace plain `std`, NDK r5b); Track B builds against the NDK libc++ (`std::__ndk1`) and the host libstdc++
+    (`std::__cxx11`) and does not vendor STLport. The conformance checker (`tools/trackb/armdiff/conformance.py`, `norm_std`)
+    therefore canonicalises a std-typed symbol before comparing: inline namespaces and ABI tags are dropped (`std::__ndk1::`,
+    `std::__1::`, `std::__cxx11::`, `[abi:...]`), the expanded `basic_string<char|wchar_t>` and `basic_istream/ostream/iostream<char>`
+    are read as `std::string/wstring/istream/ostream/iostream` (the `Ss`, `Si`, `So`, `Sd` abbreviations), and `unsigned long` inside a
+    std type is read as the 32-bit original's `unsigned int` (64-bit `size_t`). Rows equal after this are class `stl_abi`: expected, not
+    a defect. Deviations that stay documented: STLport-internal types in a signature (`std::priv::...`, 22 rows), the layouts of
+    `std::string/map/set/list/vector<bool>` (24/24/24/8/20 bytes in the original, 12 in libc++; the armdiff `C-stl` class), and the
+    `glitch::core::SAllocator` and `vox::SAllocator` containers (a separate declaration defect, decision paper section 6). The host may
+    add `-D_GLIBCXX_USE_CXX11_ABI=0` for byte-identical host symbols; nothing requires it.
+13. `gameswf::as_value` is 12 bytes with alignment 4: `#pragma pack(push, 4)` scopes to the struct in
+    `vendor-gameswf/include/vendor-gameswf/as_value.hpp`, and `m_owner` (+0x08) overlays the high word of `m_number` (+0x04) in an
+    anonymous struct inside the payload union, as in the binary. A number constructor must not write `m_owner`. `tu_datetime::m_time`
+    is `int64_t` (8 bytes, read whole by `as_date::get_time` 0x79d650). The armdiff cache key is the source file hash only: after a
+    header layout change rebuild with `build_arm.py --force`.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

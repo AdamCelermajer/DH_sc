@@ -35,6 +35,9 @@
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_player.h"
 #include "gameswf/gameswf_root.h"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
 #include "glitch-video/material.hpp"
@@ -300,6 +303,13 @@ public:
 struct Rig {
     SceneDriver driver;
     CTextureManager manager;
+    // update_inverse_transform casts its ray through driver -> device -> scene manager -> collision manager (0x777350). The
+    // collision manager is the real one with no scene manager of its own, so getRayFromScreenCoordinates returns the
+    // all-zero ray (0x6c59c0) and get_collision_uv decides it misses.
+    glitch::SCreationParameters device_parameters{};
+    glitch::IDevice device{device_parameters};
+    alignas(16) unsigned char scene_manager_bytes[sizeof(glitch::scene::CSceneManager)] = {};
+    glitch::scene::CSceneCollisionManager collision_manager{nullptr, nullptr};
     ContextBox context_box;
     PlayerBox player_box;
     boost::intrusive_ptr<TestMesh> mesh;
@@ -314,6 +324,9 @@ struct Rig {
         g_param_calls = 0;
         g_param_id_result = 0xffff;
         driver.m_textureManager = &manager;
+        reinterpret_cast<glitch::scene::CSceneManager*>(scene_manager_bytes)->collisionManager = &collision_manager;
+        device.sceneManager = reinterpret_cast<glitch::scene::ISceneManager*>(scene_manager_bytes);
+        driver.m_device = &device;
         std::memset(context_box.bytes, 0, sizeof(context_box.bytes));
         reinterpret_cast<gameswf::player_context*>(context_box.bytes)->m_video_driver = &driver;
         std::memset(player_box.bytes, 0, sizeof(player_box.bytes));

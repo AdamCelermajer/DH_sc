@@ -18,6 +18,10 @@ namespace {
 
 int g_failures = 0;
 int g_liveBlocks = 0;
+// The linked tree defines a global Application whose constructor runs before main and allocates through this
+// CustomAlloc, so the count is taken relative to the value at the start of main.
+int g_liveBaseline = 0;
+int Live() { return g_liveBlocks - g_liveBaseline; }
 
 #define EXPECT(cond)                                                             \
     do {                                                                         \
@@ -83,7 +87,7 @@ static void TestSizedConstructorAndSetNew() {
             EXPECT(Same(list[i], V(0, 0, 0)));
         }
     }
-    EXPECT(g_liveBlocks == 0);
+    EXPECT(Live() == 0);
 
     Vector3DFList list;
     list.setNew(3);
@@ -99,7 +103,7 @@ static void TestSizedConstructorAndSetNew() {
     list.setNew(5);
     EXPECT(list.getCount() == 0);
     EXPECT(list.m_capacity == 5);
-    EXPECT(g_liveBlocks == 2);
+    EXPECT(Live() == 2);
     list.setNew(0);
     EXPECT(list.getCount() == 0);
     EXPECT(list.m_capacity == 0);
@@ -259,10 +263,11 @@ static void TestLiveBlocksBalanced() {
         EXPECT(list->getCount() == 8);
         delete list;
     }
-    EXPECT(g_liveBlocks == 0);
+    EXPECT(Live() == 0);
 }
 
 int main() {
+    g_liveBaseline = g_liveBlocks;
     TestDefaultConstructor();
     TestSizedConstructorAndSetNew();
     TestAddAndSubscript();
@@ -274,7 +279,7 @@ int main() {
     TestAddClosestNaNCompareMatchesListing();
     TestAddClosestZeroCapacity();
     TestLiveBlocksBalanced();
-    EXPECT(g_liveBlocks == 0);
+    EXPECT(Live() == 0);
     if (g_failures != 0) {
         std::printf("%d failure(s)\n", g_failures);
         return 1;

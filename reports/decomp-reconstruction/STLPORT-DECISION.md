@@ -121,3 +121,34 @@ B. Vendor STLport 5.2.1 for the Android target (and optionally the host).
  Payoff for the remaining work is about 2 percent of symbols and a verification harness upgrade. Not worth the risk before the game is linking.
 
 B-lite (optional, if armdiff coverage matters later): build only the armdiff harness TUs against STLport for TUs that avoid the C++11 library. Estimated 2 to 3 days; evaluate after A.
+
+## 6. Follow-up results (owner T, 2026-10-16)
+
+Recorded as decisions 12 and 13 in `port/decomp-reconstruction/TRACK-B.md`.
+
+**Checker.** `conformance.py` `norm_std` drops `std::__ndk1/__1/__cxx11/__cxx1998` and `[abi:...]`, folds the expanded `basic_string<char|wchar_t>` and
+`basic_istream/ostream/iostream<char>` to `string/wstring/istream/ostream/iostream`, and reads `unsigned long` inside a std type as `unsigned int` (64-bit `size_t`).
+Class `stl_abi` covers these. A run over glitch-core-io and core-platform without a rebuild gives 13 `stl_abi` and 21 `param_drift_stl` (the SAllocator rows below).
+
+**as_value.** Applied as section 4 describes (`#pragma pack(push, 4)`, the owner in an anonymous struct that shares the payload union). Host: 20 bytes; the number
+constructors no longer write `m_owner` (it overlays the double). ARM32 build: `as_value` 12/4, `as_object` 0x38, `sprite_instance` and `character` offsets agree with the binary.
+Of the 14 `A-abi-align` rows, 8 now match: `as_value(int)` 0x439d50, `character::advance` 0x752d88, five `sprite_instance` getters (get_character_def, get_movie_definition,
+get_current_frame, get_loading_frame, get_play_state) and `RenderFX::SetRenderCachingEnabled` 0x7a7ccc. `as_date::get_time` 0x79d650 matches once `tu_datetime::m_time` is `int64_t`
+(the binary reads two words at +0x38; upstream has `time_t`, 4 bytes on the ARM32 NDK). Five were misfiled and are not as_value: `bitmap_info_ogl::get_internal_width/height/p2`
+(the texture is reached through a glitch string: `ITexture::m_width` is at +0x14 in libc++ and +0x20 in the original, the known `C-stl` class), `sprite_instance::get_drag_state` 0x77e02c
+(a void function whose r0 is a leftover register: harness artefact) and `button_character_instance::has_keypress_event` 0x7c6b4c (the fault address differs by one byte; not an
+as_value offset, left for the row's owner). The vendor-gameswf sweep goes from 107 match / 20 mismatch to 114 / 13 with no regression, and all 86 vendor-gameswf and game-ui host tests pass.
+The armdiff build cache keys on the source file only: rebuild with `build_arm.py --force` after a header layout change.
+
+**SAllocator (99 rows).** A declaration defect, not a build artefact. The tree declares every glitch string, array and vector with `std::allocator`; the original types are
+`std::basic_string<char, char_traits<char>, glitch::core::SAllocator<char,0> >` (`stringc`), the same with `wchar_t` (`stringw`), `std::vector<T, glitch::core::SAllocator<T,0> >`, and in
+vox-audio `vox::SAllocator<T, (vox::VoxMemHint)0>` (10 rows, a different template). `glitch::core::SAllocator` exists only in `core-platform/include/core-platform/stlport_alloc.hpp`
+(plus a forward declaration in `glitch-core-io/.../shared_string_table.hpp`); glitch-video's `batch_driver.hpp` and `c2d_driver.hpp` already use it for their vectors.
+Breakdown of the 87 rows visible in the last conformance run: about 36 `stringc` parameters (CFileSystem, FileSystemBase, ISceneNode::setName, CResFactory, CUnzipReadFile, ...), 11 `stringw`,
+10 `vector<stringw>` / `vector<stringc>` (CAttributes arrays, CXMLWriter), about 40 vectors of pointers or PODs (ISceneNode*, triangle3d, unsigned char, int, float, vector3d, ITexture) in
+CSceneManager, CTriangleSelector, the animators, CTerrainSceneNode and SceneManager, and the 10 vox rows. The allocator is stateless, so `sizeof` does not change: the difference is the symbol and
+where the memory comes from (the original calls GlitchAlloc, the tree `operator new`).
+Not fixed, because it is not contained: the string type is part of virtual interfaces (`IFileSystem`, `ISceneNode::setName`, `IAttribute::setArray`), the types ripple into about 70 call sites in
+game code and into glitch-scene-collada-gui (owner B3 is working there), and `SAllocator` has to move first from core-platform into glitch-core-io so that every engine category can name it.
+Proposed wave: (1) move `SAllocator` and add `glitch::core::stringc`, `stringw` and a vector alias to glitch-core-io; (2) change the interface headers (`file_system.hpp`, `attributes.hpp`,
+`ISceneNode.hpp`, `CSceneManager.hpp`, `CTriangleSelector.hpp`) and their definitions; (3) fix the callers and rerun conformance, where the SAllocator `param_drift` and `param_drift_stl` rows should become exact.

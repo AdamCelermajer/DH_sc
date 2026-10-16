@@ -13,7 +13,9 @@ candidates: the translation unit for a .cpp source, a synthetic unit for a heade
 Classes (first match wins, in this order):
     exact            the mangled name is defined (`exact_other_tu`: by another unit of the same category)
     variant          only the C1/C2 or D1/D2 sibling is defined (same code without virtual bases; not a defect)
-    stl_abi          equal once libc++'s std::__ndk1 is read as STLport's std; expected, the mangled names differ
+    stl_abi          equal once libc++'s std::__ndk1 (or libstdc++'s std::__cxx11) is read as STLport's std, expanded std::basic_string /
+                     basic_istream / basic_ostream are read as std::string / istream / ostream and a 64-bit size_t inside a std type as the
+                     original's 32-bit one (TRACK-B decision 12; norm_std); expected, the mangled names differ
     namespace_drift  same function name and class name, different enclosing namespace
     param_drift      same qualified name, different parameter types
     param_drift_stl  the parameters differ only in std:: container, iterator or allocator types (the original's STLport
@@ -70,10 +72,30 @@ def strip_templates(s: str) -> str:
     return "".join(out)
 
 
+# Decision 12 (STLport option A): the original links STLport 5.2.1 (namespace `std`), the reconstruction builds against the NDK's libc++
+# (`std::__ndk1`) or the host's libstdc++ (`std::__cxx11`). A std-typed symbol is compared after this canonical form: the inline
+# namespaces and ABI tags are dropped, the expanded character-string and stream types are folded back to the names the original
+# mangling abbreviates (Ss, Sa, Si, So, Sd), and size_t-like widths inside std types are read as the 32-bit original's.
+_STD_NAMESPACES = ("std::__ndk1::", "std::__1::", "std::__cxx11::", "std::__cxx1998::", "std::_V2::")
+_CHAR_STRING = {"char": "string", "wchar_t": "wstring"}
+_STD_FOLD = [
+    (re.compile(r"std::basic_string<(char|wchar_t),std::char_traits<\1>,std::allocator<\1>>"), lambda m: "std::" + _CHAR_STRING[m.group(1)]),
+    (re.compile(r"std::basic_istream<char,std::char_traits<char>>"), lambda m: "std::istream"),
+    (re.compile(r"std::basic_ostream<char,std::char_traits<char>>"), lambda m: "std::ostream"),
+    (re.compile(r"std::basic_iostream<char,std::char_traits<char>>"), lambda m: "std::iostream"),
+]
+_UNSIGNED_LONG = re.compile(r"\bunsigned long\b(?! long)")
+
+
 def norm_std(s: str) -> str:
-    s = s.replace("std::__ndk1::", "std::").replace("std::__1::", "std::")
+    for ns in _STD_NAMESPACES:
+        s = s.replace(ns, "std::")
     s = re.sub(r"\[abi:[^\]]*\]", "", s)
-    s = re.sub(r"\s+", " ", s).replace(" >", ">").replace("> >", ">>").replace(", ", ",")
+    s = re.sub(r"\s+", " ", s).replace(" >", ">").replace("> >", ">>").replace("> >", ">>").replace(", ", ",")
+    for rx, rep in _STD_FOLD:
+        s = rx.sub(rep, s)
+    if "std::" in s:
+        s = _UNSIGNED_LONG.sub("unsigned int", s)   # a 64-bit size_t read as the original's 32-bit one, inside std types only
     return s.strip()
 
 

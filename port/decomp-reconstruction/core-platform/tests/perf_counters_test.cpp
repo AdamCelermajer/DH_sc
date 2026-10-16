@@ -165,6 +165,9 @@ int main() {
         glitch::IDevice device(parameters);
         TestDriver driver(&device);
         glitch::video::CMaterialRendererManager rendererManager(&driver);
+        // The driver owns the manager it built (state flag 0x10), and ~IVideoDriver deletes it: keep that pointer and
+        // put it back before the stack manager below goes away, or the destructor would delete a stack object.
+        glitch::video::CMaterialRendererManager* const ownedManager = driver.m_materialRendererManager;
         driver.m_materialRendererManager = &rendererManager;
         // Seed the renderer table the way a registered renderer would: id 0 is in range, so the entry is
         // getMaterialInstance's real lookup and its cached-material path is exercised.
@@ -195,6 +198,7 @@ int main() {
         CHECK(driver.lastStripPoints == 2);
         CHECK(driver.lastStripIndices == 1);
         CHECK(driver.lineCalls == 1);
+        driver.m_materialRendererManager = ownedManager;
     }
 
     std::printf("%s\n", failures ? "perf_counters: FAILED" : "perf_counters: ok");

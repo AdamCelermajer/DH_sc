@@ -10,6 +10,7 @@
 #define TU_TIMER_H
 
 #include <time.h>
+#include <stdint.h>
 #include "base/tu_types.h"
 
 namespace tu_timer
@@ -86,7 +87,7 @@ struct tu_datetime
 
 private:
 
-	time_t m_time;
+	int64_t m_time;	// DH2: 8 bytes at as_date +0x38 in the binary (0x79d650 reads both words); upstream has time_t
 };
 
 

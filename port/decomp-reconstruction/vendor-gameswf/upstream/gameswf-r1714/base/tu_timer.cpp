@@ -49,7 +49,8 @@ void tu_datetime::set_time(double t)
 
 int tu_datetime::get(part part)
 {
-	struct tm* gmt = localtime(&m_time);
+	time_t t_local = (time_t) m_time;	// DH2: m_time is 64-bit in the binary, localtime takes a time_t*
+	struct tm* gmt = localtime(&t_local);
 	if (gmt)
 	{
 		switch (part)
@@ -96,7 +97,8 @@ int tu_datetime::get(part part)
 
 void tu_datetime::set(part part, int val)
 {
-	struct tm* gmt = localtime(&m_time);
+	time_t t_local = (time_t) m_time;	// DH2: m_time is 64-bit in the binary, localtime takes a time_t*
+	struct tm* gmt = localtime(&t_local);
 	if (gmt)
 	{
 		switch (part)

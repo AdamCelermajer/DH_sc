@@ -29,13 +29,14 @@
 namespace gameswf {
 
 // 0x439d50 gameswf::as_value::as_value(int)
-// +0x00 = 0, +0x01 = 2 (number), +0x04 = (double)val. The binary does not write +0x08 for numbers. It is set
-// to null here so that no member is left uninitialised.
-as_value::as_value(int val) : m_flags(0), m_type(NUMBER), m_number(static_cast<double>(val)), m_owner(nullptr) {}
+// +0x00 = 0, +0x01 = 2 (number), +0x04 = (double)val. The binary does not write +0x08 for numbers: m_owner overlays the
+// high word of the double, so it must not be written here either.
+as_value::as_value(int val) : m_flags(0), m_type(NUMBER), m_number(static_cast<double>(val)) {}
 
 // 0x43a2ac gameswf::as_value::as_value(char const*)
 // Type 0, flags 0, then set_string(str).
-as_value::as_value(const char* str) : m_flags(0), m_type(UNDEFINED), m_number(0.0), m_owner(nullptr) {
+as_value::as_value(const char* str) : m_flags(0), m_type(UNDEFINED), m_number(0.0) {
+	m_owner = nullptr;
 	set_string(str);
 }
 
@@ -45,7 +46,7 @@ as_value::as_value(const char* str) : m_flags(0), m_type(UNDEFINED), m_number(0.
 // allocates sizeof(as_property) with the same hint, which is the 32-bit size on the target and the host size here.
 // The new property takes one reference.
 as_value::as_value(const as_value& getter, const as_value& setter)
-    : m_flags(0), m_type(PROPERTY), m_object(nullptr), m_owner(nullptr) {
+    : m_flags(0), m_type(PROPERTY), m_object(nullptr) {
 	void* mem = operator new(sizeof(as_property), static_cast<swf::MemHint>(0));
 	as_property* prop = new (mem) as_property(getter, setter);
 	m_owner = prop;
@@ -54,7 +55,8 @@ as_value::as_value(const as_value& getter, const as_value& setter)
 
 // 0x7babb0 gameswf::as_value::as_value(gameswf::as_object*)
 // +0x00 = 0, +0x01 = 5 (object), +0x04 = obj, one reference on a non-null object.
-as_value::as_value(as_object* obj) : m_flags(0), m_type(OBJECT), m_object(obj), m_owner(nullptr) {
+as_value::as_value(as_object* obj) : m_flags(0), m_type(OBJECT), m_object(obj) {
+	m_owner = nullptr;
 	if (obj != nullptr) {
 		obj->add_ref();
 	}
@@ -67,7 +69,8 @@ as_value::as_value(as_object* obj) : m_flags(0), m_type(OBJECT), m_object(obj), 
 // initialised at that point (the pointer is whatever the stack held). This build allocates the empty string first
 // and encodes into it. That first call writes through an uninitialised pointer (undefined in the binary), which is why it is not reproduced. Both symbols share this one definition.
 as_value::as_value(const wchar_t* wstr)
-    : m_flags(0), m_type(STRING), m_string(nullptr), m_owner(nullptr) {
+    : m_flags(0), m_type(STRING), m_string(nullptr) {
+	m_owner = nullptr;
 	void* mem = operator new(sizeof(tu_string), static_cast<swf::MemHint>(0));
 	m_string = new (mem) tu_string("");
 	tu_string::encode_utf8_from_wchar(m_string, wstr);

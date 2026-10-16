@@ -65,7 +65,21 @@ public:
 // The null driver with the two driver calls bitmap_info_ogl makes recorded.
 class TestDriver : public CNullDriver {
 public:
-    TestDriver() : CNullDriver(static_cast<glitch::IDevice*>(nullptr)) {}
+    TestDriver()
+        : CNullDriver(static_cast<glitch::IDevice*>(nullptr)),
+          ownedTextureManager(m_textureManager),
+          ownedMaterialRendererManager(m_materialRendererManager),
+          ownedGlobalParameters(m_globalParameters) {}
+    // The constructor hands the driver its own managers (state flags 0x10 / 0x20) and ~IVideoDriver deletes them. A test
+    // points m_textureManager at a manager on its stack; put the owned ones back so the destructor never deletes a stack object.
+    ~TestDriver() override {
+        m_textureManager = ownedTextureManager;
+        m_materialRendererManager = ownedMaterialRendererManager;
+        m_globalParameters = ownedGlobalParameters;
+    }
+    CTextureManager* ownedTextureManager;
+    CMaterialRendererManager* ownedMaterialRendererManager;
+    CGlobalMaterialParameterManager* ownedGlobalParameters;
 
     struct OptionCall {
         uint32_t option;

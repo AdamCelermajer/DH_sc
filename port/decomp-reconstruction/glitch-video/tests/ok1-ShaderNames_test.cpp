@@ -40,7 +40,7 @@ int main() {
     CHECK(sortParameters(defs, 4) == 2);   // 6 and 33 are not automatic (34..62)
     CHECK(defs[0].count == 12 && defs[1].count == 13 && defs[2].count == 10 && defs[3].count == 11);
     CHECK(sortParameters(defs, 0) == 0);
-    CHECK(guessSubIdFromName("Light4Pos", 20) == 3);   // 19..27 asks for "light"
+    CHECK(guessSubIdFromName("Light4Pos", 20) == 4);   // 19..27 asks for "light": the number after it (0x5e7e00 returns 4)
     CHECK(guessSubIdFromName("x", 50) == 255);         // a type without a sub id
     CHECK(guessSubIdFromName("x", 2) == 0);            // sampler / texture: both 255 -> 0
     std::printf("%s\n", failures == 0 ? "ok" : "FAILED");

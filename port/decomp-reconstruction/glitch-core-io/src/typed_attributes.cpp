@@ -579,6 +579,7 @@ glitch::core::CMatrix4<float> CVector3DAttribute::getMatrix() const {
     m.M[12] = component(0);
     m.M[13] = component(1);
     m.M[14] = component(2);
+    m.flag = false;  // the listing stores 0 at +0x40 after the translation (0x3273ac)
     return m;
 }
 

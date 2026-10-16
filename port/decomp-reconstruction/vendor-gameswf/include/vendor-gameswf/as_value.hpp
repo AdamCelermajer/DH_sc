@@ -7,7 +7,7 @@
 //                           (0x76aca0) skips the members whose bit 0 is set; builtin_member sets DONT_ENUM; operator= copies the
 //                           byte (an undefined source clears it); every constructor starts it at 0.
 //   +0x01  m_type   uint8   value type, see as_value::type.
-//   +0x04  payload  union   m_number (double, +0x04..+0x0b), m_bool (one byte at +0x04), m_string (tu_string*, types 3 and 4),
+//   +0x04  payload  union   m_number (double, +0x04..+0x0b, packed to 4 bytes: the struct is 12 bytes, alignment 4), m_bool (one byte at +0x04), m_string (tu_string*, types 3 and 4),
 //                           m_object (as_object*, type 5, and the target of a type 6 property).
 //   +0x08  m_owner  ref_counted*  type 3: the as_string that owns the text (null when the text is an interned permanent string and
 //                           nothing needs to be kept alive). Type 6: the as_property. Other types leave it unwritten.
@@ -44,6 +44,7 @@ struct as_string : public ref_counted {
 };
 
 // DH2: replaces the upstream as_value. The binary's as_value is 12 bytes on 32-bit; see the layout above.
+#pragma pack(push, 4)
 struct as_value {
 	// Protection flags of a member value (r1714's value_flag).
 	enum value_flag
@@ -65,7 +66,7 @@ struct as_value {
 		PROPERTY = 6
 	};
 
-	as_value() : m_flags(0), m_type(UNDEFINED), m_number(0.0), m_owner(nullptr) {}
+	as_value() : m_flags(0), m_type(UNDEFINED), m_number(0.0) { m_owner = nullptr; }
 	as_value(const as_value& v) : as_value() { operator=(v); }
 	as_value(int val);                                   // 0x439d50
 	as_value(const char* str);                           // 0x43a2ac
@@ -155,16 +156,29 @@ struct as_value {
 	void set_flags(int flags) const { m_flags = static_cast<std::uint8_t>(flags); }
 
 private:
+	// Layout of the binary (12 bytes, alignment 4): the double sits at +0x04, not +0x08, and m_owner at +0x08 overlays its high
+	// word (types 3 and 6 use m_owner, the number types do not, so the overlap is harmless). A bare double would be aligned to 8 by
+	// clang and GCC, which gives 24 bytes with the double at +0x08 and m_owner at +0x10; the original compiler (GCC 4.4, ARM EABI)
+	// had it at +0x04, which only #pragma pack(4) on this type reproduces (STLPORT-DECISION.md section 4). The pack is scoped to
+	// as_value; a global -fpack-struct=4 loses matches because it also packs unrelated structs. Host pointers are 8 bytes, so on the
+	// host the offsets are 0, 1, 4, 4/12 and the size is 20 (no static_assert, decision 2).
 	mutable std::uint8_t m_flags;  // +0x00 value_flag bits
 	std::uint8_t m_type;     // +0x01 as_value::type
 	union
 	{
 		double m_number;         // +0x04
 		bool m_bool;             // +0x04, one byte
-		::tu_string* m_string;   // +0x04, types 3 and 4
-		as_object* m_object;     // +0x04, type 5 and the target of type 6
+		struct
+		{
+			union
+			{
+				::tu_string* m_string;   // +0x04, types 3 and 4
+				as_object* m_object;     // +0x04, type 5 and the target of type 6
+			};
+			ref_counted* m_owner;    // +0x08 (type 3 as_string, type 6 as_property); overlays the high word of m_number on 32-bit
+		};
 	};
-	ref_counted* m_owner;    // +0x08 (type 3 as_string, type 6 as_property)
 };
+#pragma pack(pop)
 
 }  // namespace gameswf
