@@ -205,6 +205,15 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     layout refinements: a clip is grouped with the clips its bound touches and moves with the group's bound centre (origins are
     arbitrary); containers far larger than the stage, and covering clips that are layouts themselves (two or more sprites inside),
     are opened and their children laid out one by one, so parked dialogs stay parked and the loading bar keeps its text.
+    UI10 (replaces the UI8 spread rule after the character sheets broke): the page clip is stretched by the surface factor about
+    the stage centre exactly as the original stretched it (backgrounds, columns, dividers, tab bars stay aligned); every clip
+    under 75% of the stage both ways is scaled back by the inverse factor about its own bound centre (buttons, texts, icons,
+    frames keep their shape where the stretch put them), and a small clip whose bound lies inside a sibling's keeps its authored
+    offset from that sibling; larger clips stay stretched and their children are laid out the same way three levels deep; the
+    splash is covered uniformly. `MenuPageLayoutForCursor` runs the same layout in `RenderFX::UpdateCursor` before the hit
+    test, because a page whose timeline re-places its clips (the pause frame's drop-in) is back at its authored matrices at
+    Update time. Runner-verified on 2184x1968 and 2520x1080: splash, main menu, start, loading, level, pause, options, custom
+    page, stats, inventory, inventory detail, faeries, specialisation.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

@@ -18,6 +18,8 @@
 
 #include <cmath>
 #include <cstdio>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 int CanHandleMouseEvent(gameswf::character* character);  // 0x7a8c6c
@@ -383,7 +385,14 @@ void RenderFX::UpdateCursor(Cursor& cursor, int controller) {
     ::smart_ptr<gameswf::character> holdRoot(searchRoot);
     const float twipsX = localX * 20.0f;
     const float twipsY = localY * 20.0f;
+    if (ScreenUsesAspectFit()) {
+        MenuPageLayoutForCursor(this);  // Port deviation (UI10): hit-test the laid-out page, not the timeline's placement
+    }
     ::smart_ptr<gameswf::character> hit(searchRoot->get_topmost_mouse_entity(twipsX, twipsY));
+    if (justPressed && std::getenv("DH2_FIT_DEBUG") != nullptr) {
+        std::fprintf(stderr, "FITDBG press fx=%p surface=(%g,%g) local=(%g,%g) hit=%s%c", static_cast<void*>(this), cursor.x, cursor.y, localX, localY,
+                     hit.get_ptr() != nullptr ? hit->get_name().c_str() : "(none)", 10);
+    }
     if (HudCustomizeOverlayHit(this, cursor.x, cursor.y, justPressed)) {
         hit = nullptr;  // Port addition (UI6): a touch on the size medallions of the HUD customise page goes nowhere else
     }

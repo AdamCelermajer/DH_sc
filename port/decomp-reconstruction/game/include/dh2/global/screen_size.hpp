@@ -82,6 +82,7 @@ gameswf::character* HudStickZoneTarget(const RenderFX* fx, float x, float y, gam
 // movie after its camera update: covering clips of each visible page are stretched (the splash: covered) to the surface, the other
 // top-level clips move toward their screen edge by the surface margin. Inert when the fit is off or the surface is 16:9.
 void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie);
+void MenuPageLayoutForCursor(const RenderFX* fx);  // RenderFX::UpdateCursor: lay the movie out again before the hit test
 bool HudCustomizing();                                                     // the HUD customise page is up (false before HUDControls exists)
 void HudCustomizeOverlayDraw();                                            // MenuManager::Draw, after the HUD movie, while customising
 bool HudCustomizeOverlayHit(const RenderFX* fx, float x, float y, bool justPressed);  // RenderFX::UpdateCursor: true = the pointer is on a medallion (swallowed)
