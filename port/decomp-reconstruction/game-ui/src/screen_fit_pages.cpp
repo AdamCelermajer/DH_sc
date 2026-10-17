@@ -1,22 +1,39 @@
-// Port deviation (UI8/UI10, TRACK-B.md decision 15; not in the original): menu pages fill the screen without bars.
+// Port deviation (UI12, TRACK-B.md decision 15; not in the original): hand-written layout rules for menu pages.
 //
-// The original stretches every Flash movie over the whole surface (scale mode 0). On a surface that is not 16:9 the port keeps the
-// movie at its uniform 16:9 scale (MenuFlash2DCamera::Update) and lays each visible page out on the real screen every frame:
-//   * the PAGE clip is stretched by the surface factor (fx, fy) about the stage centre, exactly as the original would stretch it:
-//     backgrounds, columns and dividers reach the edges and stay aligned with each other;
-//   * every SMALL clip inside it (a bound under 75% of the stage both ways: buttons, texts, icons, frames, panels) is scaled back by
-//     (1/fx, 1/fy) about its own centre, so it keeps its proportions where the stretch put it; a small clip whose bound lies inside a
-//     sibling's bound (a text on its strip, a value in its row) keeps its original offset from that sibling instead;
-//   * on an image page (the splash) the page is scaled uniformly to COVER the surface and cropped.
-// The matrix this code wrote last is remembered per clip, so a timeline placement or an animation that rewrites the matrix is taken
-// as the new base (the same scheme as the HUD anchoring in HUDControls). Everything is inert when ScreenUsesAspectFit() is false
-// (the binary's own screen sizes, or the port setting screenfit = 0) and on a 16:9 surface (factors 1).
+// The menu movies are stretched over the whole surface exactly as the 2012 binary did (MenuFlash2DCamera::Update, scale mode 0), so
+// every element sits where the original put it and edges reach the screen edges. On a screen ratio that ui_layouts.txt has a section
+// for, the rules of that section restore the SHAPE of the elements they name; nothing else is touched, and nothing is decided by code.
+// Any other ratio, or the port setting screenfit = 0: pure stretch.
+//
+// ui_layouts.txt (data/port/ in the files dir; shipped in the APK as assets/dh2port/ui_layouts.txt, copied by DataSetup):
+//   [ratio 2.20-2.40]                            a section: surface width/height in this range (both ends included)
+//   menu_MainMenu/btn_MENU_OPTIONS  shape  anchor=right
+//   menu_CharacterSheetNew/buttons/#3  shape  anchor=center  scale=1.1  dx=-8  dy=0
+//   menu_splash/#0  cover
+// A path is the page state's name followed by clip names down the display lists; "#N" names the N-th clip of a display list (for
+// unnamed clips), "*" matches any one clip. Operations, all about the clip's bound point named by `anchor` (center by default;
+// left, right, top, bottom, top-left, top-right, bottom-left, bottom-right):
+//   shape  the clip is scaled back against the stretch so it looks as on a 16:9 screen (x scaled by 1/r when the screen is wider than
+//          16:9, y scaled by r when it is taller; r = (W/H) / (16/9));
+//   cover  the other axis is scaled up instead, so a picture keeps its shape and covers the screen (cropped);
+//   keep   no change (documents that the stretch is wanted for that clip).
+//   amount=a applies only that share of the correction (r^a: amount=0.5 on a picture = half cropped, half stretched);
+//   anchor= / edge= also take "x,y" fractions (anchor: of the clip's bound, edge: of the stage);
+//   grow   (a flag) the clip also takes its section's scale= (a header option: [ratio 1.00-1.45 scale=1.25]); given to pages that
+//          have room to spare, so their buttons get bigger on that screen while dense pages keep the 16:9 size;
+//   scale=k multiplies the result uniformly; dx/dy move the clip in stage pixels (after the stretch).
+// The clip's timeline matrix is remembered and the rule re-applied every frame, so animations stay correct; a path that is not found
+// does nothing. The same pass runs before the hit test (MenuPageLayoutForCursor), so taps land on what is drawn.
+//
+// Authoring aid: the port setting dumpui=1 (the "!" dialog's Save mark sets it) or DH2_FIT_DEBUG=1 prints every clip path of the
+// visible pages with its bound (logcat tag DH2FIT on Android, stderr on the host runner).
 #include <cmath>
+#include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-
-#include <cstdarg>
+#include <string>
+#include <vector>
 
 #if defined(__ANDROID__)
 #include <android/log.h>
@@ -31,37 +48,13 @@
 #include "gameswf/gameswf_root.h"
 #include "gameswf/gameswf_sprite.h"
 
+extern const char* RES_PATH;  // the files dir (core-platform app_entry; the runner's --data)
+
 namespace {
 
-struct PageEntry {
-    gameswf::character* character;  // identity only; never dereferenced unless seen this frame
-    const MenuFX* movie;            // the movie whose pass owns the entry (each pass only forgets its own entries)
-    bool active;                    // `written` is what the character carries now
-    bool seen;
-    int cls;                        // 0 not yet classified, 1 small (keeps its shape), 2 large (stays stretched): sticky per clip
-    int frames;                     // layout passes seen while unclassified
-    float minW, minH;               // smallest unstretched bound seen while unclassified (a pulsing glow or a travelling hit area
-                                    // enlarges a button's bound for some frames; the smallest extent is the widget itself)
-    gameswf::matrix base, written;
-};
-constexpr int kMaxEntries = 1024;
-PageEntry g_entries[kMaxEntries];
-int g_entryCount = 0;
-const MenuFX* g_currentMovie = nullptr;
-const char* g_dbgPage = "";
-int g_dumpLeft = 0;  // layout passes still to dump after the port setting "dumpui" was set (the "!" dialog's Save mark)
-
-bool DbgOn() {
-    if (g_dumpLeft > 0) {
-        return true;
-    }
-    const char* e = std::getenv("DH2_FIT_DEBUG");
-    return e != nullptr && (std::strcmp(e, "1") == 0 || std::strcmp(e, g_dbgPage) == 0);
-}
-
-// Debug lines: stderr on the host (the runner's game.log), logcat tag DH2FIT on Android (captured by the session log).
+// ---- logging ---------------------------------------------------------------------------------------------------------------------
 void Log(const char* fmt, ...) {
-    char line[512];
+    char line[640];
     va_list ap;
     va_start(ap, fmt);
     std::vsnprintf(line, sizeof line, fmt, ap);
@@ -69,39 +62,232 @@ void Log(const char* fmt, ...) {
 #if defined(__ANDROID__)
     __android_log_print(ANDROID_LOG_INFO, "DH2FIT", "%s", line);
 #else
-    std::fputs(line, stderr);
+    // stdout: the runner sends stdout ("w") and stderr ("a") into the same game.log through two FILE streams, and buffered stdout
+    // overwrites what stderr wrote at the same offsets.
+    std::fputs(line, stdout);
+    std::fputc('\n', stdout);
+    std::fflush(stdout);
 #endif
 }
 
-PageEntry* FindEntry(gameswf::character* c) {
-    for (int i = 0; i < g_entryCount; ++i) {
-        if (g_entries[i].character == c) {
-            return &g_entries[i];
+// ---- rules ------------------------------------------------------------------------------------------------------------------------
+enum Op { kKeep = 0, kShape = 1, kCover = 2 };
+
+struct Rule {
+    std::vector<std::string> path;  // [0] = state name, then clip names / "#N" / "*"
+    Op op = kKeep;
+    float ax = 0.5f, ay = 0.5f;     // anchor in the bound, 0..1
+    float scale = 1.0f;
+    bool grow = false;              // takes the section's scale= (pages with room to spare on that screen)
+    float amount = 1.0f;            // share of the ratio correction applied (0..1; 0.5 = half shape, half stretch)
+    float dx = 0.0f, dy = 0.0f;     // stage pixels
+    bool edge = false;              // pivot = a stage point (ex, ey in 0..1 of the stage) instead of the clip's own bound
+    float ex = 0.5f, ey = 0.5f;
+    std::string pivot;              // pivot = the anchor point of this sibling's bound (a group shares one pivot)
+};
+
+struct Section {
+    float lo = 0.0f, hi = 0.0f;
+    float scale = 1.0f;             // [ratio lo-hi scale=k]: multiplies every rule's scale (bigger elements on a tablet-shaped screen)
+    std::vector<Rule> rules;
+};
+
+std::vector<Section> g_sections;
+bool g_loaded = false;
+
+std::string Trim(const std::string& s) {
+    size_t a = 0, b = s.size();
+    while (a < b && (s[a] == ' ' || s[a] == '\t' || s[a] == '\r' || s[a] == '\n')) ++a;
+    while (b > a && (s[b - 1] == ' ' || s[b - 1] == '\t' || s[b - 1] == '\r' || s[b - 1] == '\n')) --b;
+    return s.substr(a, b - a);
+}
+
+bool ParseAnchor(const std::string& v, float& ax, float& ay) {
+    struct A { const char* n; float x, y; };
+    static const A kA[] = {{"center", 0.5f, 0.5f}, {"left", 0.0f, 0.5f}, {"right", 1.0f, 0.5f}, {"top", 0.5f, 0.0f},
+                           {"bottom", 0.5f, 1.0f}, {"top-left", 0.0f, 0.0f}, {"top-right", 1.0f, 0.0f},
+                           {"bottom-left", 0.0f, 1.0f}, {"bottom-right", 1.0f, 1.0f}};
+    for (const A& a : kA) {
+        if (v == a.n) {
+            ax = a.x;
+            ay = a.y;
+            return true;
         }
     }
-    if (g_entryCount >= kMaxEntries) {
-        return nullptr;
+    // "x,y" fractions (0..1) of the bound (anchor=) or of the stage (edge=)
+    float x = 0.0f, y = 0.0f;
+    char tail = 0;
+    if (std::sscanf(v.c_str(), "%f,%f%c", &x, &y, &tail) == 2) {
+        ax = x;
+        ay = y;
+        return true;
     }
-    PageEntry& e = g_entries[g_entryCount++];
+    return false;
+}
+
+// "#" starts a comment unless it is a "/#N" path index.
+std::string StripComment(const std::string& in) {
+    for (size_t p = in.find('#'); p != std::string::npos; p = in.find('#', p + 1)) {
+        const bool index = p > 0 && (in[p - 1] == '/' || in[p - 1] == '=') && p + 1 < in.size() && in[p + 1] >= '0' && in[p + 1] <= '9';
+        if (!index) return in.substr(0, p);
+    }
+    return in;
+}
+
+void Load() {
+    g_loaded = true;
+    g_sections.clear();
+    std::string path = RES_PATH != nullptr ? RES_PATH : "";
+    if (!path.empty() && path.back() != '/' && path.back() != '\\') {
+        path += '/';
+    }
+    path += "data/port/ui_layouts.txt";
+    std::FILE* f = std::fopen(path.c_str(), "r");
+    if (f == nullptr) {
+        Log("FITDBG no layout rules (%s): pure stretch", path.c_str());
+        return;
+    }
+    char buf[512];
+    int lineNo = 0;
+    while (std::fgets(buf, sizeof buf, f) != nullptr) {
+        ++lineNo;
+        const std::string line = Trim(StripComment(buf));
+        if (line.empty()) {
+            continue;
+        }
+        if (line[0] == '[') {
+            Section s;
+            if (std::sscanf(line.c_str(), "[ratio %f-%f", &s.lo, &s.hi) == 2) {
+                const size_t sc = line.find("scale=");
+                if (sc != std::string::npos) s.scale = static_cast<float>(std::atof(line.c_str() + sc + 6));
+                if (s.scale <= 0.0f) s.scale = 1.0f;
+                g_sections.push_back(s);
+            } else {
+                Log("FITDBG ui_layouts.txt:%d bad section '%s'", lineNo, line.c_str());
+            }
+            continue;
+        }
+        if (g_sections.empty()) {
+            Log("FITDBG ui_layouts.txt:%d rule outside a section", lineNo);
+            continue;
+        }
+        std::vector<std::string> words;
+        size_t i = 0;
+        while (i < line.size()) {
+            while (i < line.size() && (line[i] == ' ' || line[i] == '\t')) ++i;
+            size_t j = i;
+            while (j < line.size() && line[j] != ' ' && line[j] != '\t') ++j;
+            if (j > i) words.push_back(line.substr(i, j - i));
+            i = j;
+        }
+        if (words.size() < 2) {
+            Log("FITDBG ui_layouts.txt:%d needs '<path> <op>'", lineNo);
+            continue;
+        }
+        Rule r;
+        const std::string& p = words[0];
+        for (size_t a = 0;;) {
+            const size_t b = p.find('/', a);
+            r.path.push_back(p.substr(a, b == std::string::npos ? std::string::npos : b - a));
+            if (b == std::string::npos) break;
+            a = b + 1;
+        }
+        if (words[1] == "shape") {
+            r.op = kShape;
+        } else if (words[1] == "cover") {
+            r.op = kCover;
+        } else if (words[1] == "keep") {
+            r.op = kKeep;
+        } else {
+            Log("FITDBG ui_layouts.txt:%d unknown op '%s'", lineNo, words[1].c_str());
+            continue;
+        }
+        bool ok = true;
+        for (size_t k = 2; k < words.size(); ++k) {
+            const size_t eq = words[k].find('=');
+            const std::string key = eq == std::string::npos ? words[k] : words[k].substr(0, eq);
+            const std::string val = eq == std::string::npos ? "" : words[k].substr(eq + 1);
+            if (key == "anchor") {
+                ok = ok && ParseAnchor(val, r.ax, r.ay);
+            } else if (key == "edge") {
+                r.edge = true;
+                ok = ok && ParseAnchor(val, r.ex, r.ey);
+            } else if (key == "pivot") {
+                r.pivot = val;
+            } else if (key == "scale") {
+                r.scale = static_cast<float>(std::atof(val.c_str()));
+            } else if (key == "grow" && eq == std::string::npos) {
+                r.grow = true;
+            } else if (key == "amount") {
+                r.amount = static_cast<float>(std::atof(val.c_str()));
+                ok = ok && r.amount >= 0.0f && r.amount <= 1.0f;
+            } else if (key == "dx") {
+                r.dx = static_cast<float>(std::atof(val.c_str()));
+            } else if (key == "dy") {
+                r.dy = static_cast<float>(std::atof(val.c_str()));
+            } else {
+                ok = false;
+            }
+        }
+        if (!ok || r.scale <= 0.0f) {
+            Log("FITDBG ui_layouts.txt:%d bad option in '%s'", lineNo, line.c_str());
+            continue;
+        }
+        g_sections.back().rules.push_back(r);
+    }
+    std::fclose(f);
+    size_t n = 0;
+    for (const Section& s : g_sections) n += s.rules.size();
+    Log("FITDBG loaded %d sections, %d rules from %s", static_cast<int>(g_sections.size()), static_cast<int>(n), path.c_str());
+}
+
+const Section* SectionFor(float ratio) {
+    for (const Section& s : g_sections) {
+        if (ratio >= s.lo - 1e-3f && ratio <= s.hi + 1e-3f) {
+            return &s;
+        }
+    }
+    return nullptr;
+}
+
+// ---- per-clip base / written tracking (animations rewrite matrices; a rewrite becomes the new base) -------------------------------
+struct Entry {
+    gameswf::character* character;  // identity only
+    const MenuFX* movie;
+    bool active, seen;
+    gameswf::matrix base, written;
+};
+constexpr int kMaxEntries = 512;
+Entry g_entries[kMaxEntries];
+int g_entryCount = 0;
+const MenuFX* g_currentMovie = nullptr;
+
+// Entries are kept for the whole run: a page that is popped and pushed again still carries the matrix this code wrote, and the entry
+// is what tells it apart from a timeline placement (otherwise the shape would be applied twice). A freed clip's address may be reused;
+// the new clip's matrix then differs from `written` and is taken as its base. When the table is full, entries not seen in the
+// current pass are dropped.
+Entry* FindEntry(gameswf::character* c) {
+    for (int i = 0; i < g_entryCount; ++i) {
+        if (g_entries[i].character == c) return &g_entries[i];
+    }
+    if (g_entryCount >= kMaxEntries) {
+        int kept = 0;
+        for (int i = 0; i < g_entryCount; ++i) {
+            if (g_entries[i].seen) g_entries[kept++] = g_entries[i];
+        }
+        g_entryCount = kept;
+    }
+    if (g_entryCount >= kMaxEntries) return nullptr;
+    Entry& e = g_entries[g_entryCount++];
     e.character = c;
     e.movie = g_currentMovie;
-    e.active = false;
-    e.seen = false;
-    e.cls = 0;
-    e.frames = 0;
-    e.minW = e.minH = 1e30f;
+    e.active = e.seen = false;
     return &e;
 }
 
-struct PageFrame {
-    float fx, fy;                    // surface / stage stretch per axis (>= 1)
-    float stageMinX, stageMinY, stageW, stageH;
-    float centreX, centreY;          // stage centre, twips
-};
-
-// The clip's base matrix (what the timeline placed), with the clip restored to it. Returns the entry (null when the table is full).
-PageEntry* BaseOf(gameswf::character* c, gameswf::matrix& base) {
-    PageEntry* e = FindEntry(c);
+// Restores the timeline matrix (if this code wrote the current one) and returns it in `base`.
+Entry* Base(gameswf::character* c, gameswf::matrix& base) {
+    Entry* e = FindEntry(c);
     const gameswf::matrix current = c->get_matrix();
     if (e == nullptr) {
         base = current;
@@ -109,17 +295,97 @@ PageEntry* BaseOf(gameswf::character* c, gameswf::matrix& base) {
     }
     e->seen = true;
     const bool ours = e->active && std::memcmp(&current, &e->written, sizeof current) == 0;
-    if (!ours) {
-        e->base = current;
-    } else {
+    // Moved by the game: the scale part is still the one written here and only the translation changed (MenuFX::SetPosition while
+    // a skill icon is dragged, Dragable::ResetPosition putting back a matrix saved after the layout). The move is added to the
+    // remembered base, so the clip lands where the game put it and its shape is not restored a second time (it would shrink on
+    // every move until it disappears).
+    const bool moved = !ours && current.m_[0][0] == e->written.m_[0][0] && current.m_[0][1] == e->written.m_[0][1] &&
+                       current.m_[1][0] == e->written.m_[1][0] && current.m_[1][1] == e->written.m_[1][1] &&
+                       (e->written.m_[0][0] != e->base.m_[0][0] || e->written.m_[1][1] != e->base.m_[1][1] ||
+                        e->written.m_[0][1] != e->base.m_[0][1] || e->written.m_[1][0] != e->base.m_[1][0]);
+    if (ours) {
         c->set_matrix(e->base);
+    } else if (moved) {
+        e->base.m_[0][2] += current.m_[0][2] - e->written.m_[0][2];
+        e->base.m_[1][2] += current.m_[1][2] - e->written.m_[1][2];
+        c->set_matrix(e->base);
+    } else {
+        e->base = current;
     }
     e->active = false;
     base = e->base;
     return e;
 }
 
-void Commit(PageEntry* e, gameswf::character* c, const gameswf::matrix& m) {
+// ---- applying ----------------------------------------------------------------------------------------------------------------------
+gameswf::character* Child(gameswf::character* parent, const std::string& seg, int which);
+float g_r = 1.0f;            // (W/H) / (16/9) of the surface
+float g_sectionScale = 1.0f; // the section's scale=
+
+void Apply(gameswf::character* c, const Rule& rule) {
+    if (c == nullptr || !c->is(1) || c->get_parent() == nullptr) return;
+    gameswf::matrix base;
+    Entry* e = Base(c, base);
+    if (rule.op == kKeep && rule.scale == 1.0f && rule.dx == 0.0f && rule.dy == 0.0f) return;
+    float sx = 1.0f, sy = 1.0f;
+    const float r = rule.amount == 1.0f ? g_r : std::pow(g_r, rule.amount);
+    if (rule.op == kShape) {
+        if (r > 1.0f) sx = 1.0f / r; else sy = r;
+    } else if (rule.op == kCover) {
+        if (r > 1.0f) sy = r; else sx = 1.0f / r;
+    }
+    const float k = rule.scale * (rule.op == kShape && rule.grow ? g_sectionScale : 1.0f);
+    sx *= k;
+    sy *= k;
+    // Pivot: a stage point (edge=), the anchor point of a sibling's bound (pivot=), or the anchor point of the clip's own bound.
+    float px = 0.0f, py = 0.0f;
+    gameswf::character* pivotClip = c;
+    if (!rule.pivot.empty()) {
+        gameswf::character* sib = Child(c->get_parent(), rule.pivot, 0);
+        if (sib != nullptr) pivotClip = sib;
+    }
+    if (rule.edge) {
+        gameswf::root* root = c->get_root();
+        if (root == nullptr || root->m_def.get_ptr() == nullptr) return;
+        const gameswf::rect& st = root->m_def->m_frame_size;
+        const gameswf::point stagePt(static_cast<float>(st.m_x_min) + (static_cast<float>(st.m_x_max) - static_cast<float>(st.m_x_min)) * rule.ex,
+                                     static_cast<float>(st.m_y_min) + (static_cast<float>(st.m_y_max) - static_cast<float>(st.m_y_min)) * rule.ey);
+        gameswf::point local;
+        c->get_parent()->get_world_matrix()->transform_by_inverse(&local, stagePt);
+        px = local.m_x;
+        py = local.m_y;
+    } else {
+        gameswf::rect b;
+        if (pivotClip != c) {
+            // the sibling's bound under ITS timeline matrix (it may carry a rule of its own)
+            Entry* pe = FindEntry(pivotClip);
+            const gameswf::matrix cur = pivotClip->get_matrix();
+            const bool ours = pe != nullptr && pe->active && std::memcmp(&cur, &pe->written, sizeof cur) == 0;
+            if (ours) pivotClip->set_matrix(pe->base);
+            pivotClip->get_bound(&b);
+            if (ours) pivotClip->set_matrix(pe->written);
+        } else {
+            c->get_bound(&b);  // parent space, base matrix
+        }
+        const float x0 = static_cast<float>(b.m_x_min), x1 = static_cast<float>(b.m_x_max);
+        const float y0 = static_cast<float>(b.m_y_min), y1 = static_cast<float>(b.m_y_max);
+        px = x0 + (x1 - x0) * rule.ax;
+        py = y0 + (y1 - y0) * rule.ay;
+    }
+    gameswf::matrix m = base;
+    m.m_[0][0] = base.m_[0][0] * sx;
+    m.m_[0][1] = base.m_[0][1] * sx;
+    m.m_[1][0] = base.m_[1][0] * sy;
+    m.m_[1][1] = base.m_[1][1] * sy;
+    m.m_[0][2] = px + sx * (base.m_[0][2] - px);
+    m.m_[1][2] = py + sy * (base.m_[1][2] - py);
+    if (rule.dx != 0.0f || rule.dy != 0.0f) {
+        const gameswf::matrix* pw = c->get_parent()->get_world_matrix();  // stage pixels -> parent space
+        const float kx = std::fabs(static_cast<float>(pw->m_[0][0])) > 1e-6f ? static_cast<float>(pw->m_[0][0]) : 1.0f;
+        const float ky = std::fabs(static_cast<float>(pw->m_[1][1])) > 1e-6f ? static_cast<float>(pw->m_[1][1]) : 1.0f;
+        m.m_[0][2] += rule.dx * 20.0f / kx;
+        m.m_[1][2] += rule.dy * 20.0f / ky;
+    }
     c->set_matrix(m);
     if (e != nullptr) {
         e->written = c->get_matrix();
@@ -127,323 +393,157 @@ void Commit(PageEntry* e, gameswf::character* c, const gameswf::matrix& m) {
     }
 }
 
-// Scales `base` by (kx, ky) about the point (px, py) given in the clip's PARENT space.
-gameswf::matrix ScaledAbout(const gameswf::matrix& base, float kx, float ky, float px, float py) {
-    gameswf::matrix m = base;
-    m.m_[0][0] = base.m_[0][0] * kx;
-    m.m_[0][1] = base.m_[0][1] * kx;
-    m.m_[1][0] = base.m_[1][0] * ky;
-    m.m_[1][1] = base.m_[1][1] * ky;
-    m.m_[0][2] = px + kx * (base.m_[0][2] - px);
-    m.m_[1][2] = py + ky * (base.m_[1][2] - py);
-    return m;
+gameswf::character* Child(gameswf::character* parent, const std::string& seg, int which) {
+    if (parent == nullptr || !parent->is(2)) return nullptr;
+    auto* s = static_cast<gameswf::sprite_instance*>(parent);
+    if (seg.size() > 1 && seg[0] == '#') {
+        const int idx = std::atoi(seg.c_str() + 1);
+        return which == 0 && idx >= 0 && idx < s->m_display_list.size() ? s->m_display_list.get_character(idx) : nullptr;
+    }
+    int found = 0;
+    for (int i = 0; i < s->m_display_list.size(); ++i) {
+        gameswf::character* ch = s->m_display_list.get_character(i);
+        if (ch == nullptr) continue;
+        if (seg == "*" || std::strcmp(ch->get_name().c_str(), seg.c_str()) == 0) {
+            if (found++ == which) return ch;
+        }
+    }
+    return nullptr;
 }
 
-struct Sibling {
-    gameswf::character* c;
-    PageEntry* e;
-    gameswf::matrix base;
-    float x0, y0, x1, y1;  // bound in PARENT space under the base matrix
-    bool small, visible;
-    int container;         // index of the smallest enclosing small sibling, -1
-    float cx, cy;          // bound centre, parent space (base)
-    float nx, ny;          // bound centre after placement, parent space
-    bool placed;
-};
-
-constexpr int kMaxSiblings = 160;
-
-// Lays out the children of `parent`. (ax, ay) is the extra non-uniform scale the ancestors carry (the page stretch, or 1 after a
-// counter-scaled ancestor); a parent whose children are laid out here is itself still stretched.
-void LayoutChildren(gameswf::sprite_instance* parent, const PageFrame& f, float ax, float ay, int depth, bool release) {
-    Sibling sib[kMaxSiblings];
-    int n = 0;
-    for (int i = 0; i < parent->m_display_list.size() && n < kMaxSiblings; ++i) {
-        gameswf::character* c = parent->m_display_list.get_character(i);
-        if (c == nullptr || !c->is(1)) {
-            continue;
+// Walks the rule's path below `node` (segment index k) and applies it to every match ("*" fans out).
+void ApplyPath(gameswf::character* node, const Rule& rule, size_t k) {
+    if (k == rule.path.size()) {
+        Apply(node, rule);
+        return;
+    }
+    const std::string& seg = rule.path[k];
+    if (seg == "*") {
+        for (int w = 0;; ++w) {
+            gameswf::character* c = Child(node, seg, w);
+            if (c == nullptr) break;
+            ApplyPath(c, rule, k + 1);
         }
-        Sibling& s = sib[n];
-        s.c = c;
-        s.e = BaseOf(c, s.base);
+        return;
+    }
+    gameswf::character* c = Child(node, seg, 0);
+    if (c != nullptr) ApplyPath(c, rule, k + 1);
+}
+
+// ---- dump --------------------------------------------------------------------------------------------------------------------------
+int g_dumpLeft = 0;
+
+void DumpTree(gameswf::character* node, const std::string& path, int depth) {
+    if (node == nullptr || !node->is(2) || depth > 3) return;
+    auto* s = static_cast<gameswf::sprite_instance*>(node);
+    for (int i = 0; i < s->m_display_list.size(); ++i) {
+        gameswf::character* c = s->m_display_list.get_character(i);
+        if (c == nullptr || !c->is(1)) continue;
+        const std::string name = c->get_name().c_str();
+        const std::string p = path + "/" + (name.empty() ? "#" + std::to_string(i) : name);
         gameswf::rect b;
         c->get_bound(&b);
-        const float bx0 = static_cast<float>(b.m_x_min), bx1 = static_cast<float>(b.m_x_max);
-        const float by0 = static_cast<float>(b.m_y_min), by1 = static_cast<float>(b.m_y_max);
-        s.x0 = bx0 < bx1 ? bx0 : bx1;
-        s.x1 = bx0 < bx1 ? bx1 : bx0;
-        s.y0 = by0 < by1 ? by0 : by1;
-        s.y1 = by0 < by1 ? by1 : by0;
-        s.cx = (s.x0 + s.x1) * 0.5f;
-        s.cy = (s.y0 + s.y1) * 0.5f;
-        s.visible = c->m_visible;
-        s.container = -1;
-        s.placed = false;
-        ++n;
+        c->get_parent()->get_world_matrix()->transform(&b);  // stage space
+        Log("FITDBG path %s vis=%d stage=(%.0f,%.0f)-(%.0f,%.0f)", p.c_str(), c->m_visible ? 1 : 0, b.m_x_min / 20.0f, b.m_y_min / 20.0f,
+            b.m_x_max / 20.0f, b.m_y_max / 20.0f);
+        DumpTree(c, p, depth + 1);
     }
-    if (release) {
-        for (int i = 0; i < n; ++i) {
-            if (sib[i].c->is(2) && depth < 3) {
-                LayoutChildren(static_cast<gameswf::sprite_instance*>(sib[i].c), f, 1.0f, 1.0f, depth + 1, true);
-            }
-        }
-        return;  // bases are restored by BaseOf
-    }
-    // Sizes in unstretched stage units: the parent's world matrix carries the page stretch (ax, ay) and the authored scale.
-    const gameswf::matrix* pw = parent->get_world_matrix();
-    const float psx = std::fabs(static_cast<float>(pw->m_[0][0])) > 1e-6f ? std::fabs(static_cast<float>(pw->m_[0][0])) : 1.0f;
-    const float psy = std::fabs(static_cast<float>(pw->m_[1][1])) > 1e-6f ? std::fabs(static_cast<float>(pw->m_[1][1])) : 1.0f;
-    for (int i = 0; i < n; ++i) {
-        const float wUn = (sib[i].x1 - sib[i].x0) * psx / ax;
-        const float hUn = (sib[i].y1 - sib[i].y0) * psy / ay;
-        // Large = wider than 85% of the stage or taller than 80% of it (backgrounds, columns, tab bars, rails, dim layers); everything
-        // else keeps its shape. The class is decided once per clip, from the smallest bound seen over its first passes (an animated
-        // child such as a selection glow or a travelling hit area enlarges a button's bound for some frames), and then kept, so a
-        // widget never flips between "keep its shape" and "stay stretched" from one frame to the next.
-        auto judge = [&](float w, float h) { return w > 0.0f && h > 0.0f && w < 0.85f * f.stageW && h < 0.80f * f.stageH; };
-        sib[i].small = judge(wUn, hUn);
-        if (PageEntry* pe = sib[i].e) {
-            if (pe->cls == 0) {
-                if (wUn > 0.0f && hUn > 0.0f) {
-                    pe->minW = wUn < pe->minW ? wUn : pe->minW;
-                    pe->minH = hUn < pe->minH ? hUn : pe->minH;
-                    sib[i].small = judge(pe->minW, pe->minH);
-                    if (++pe->frames >= 12) {
-                        pe->cls = sib[i].small ? 1 : 2;
-                    }
-                }
-            } else {
-                sib[i].small = pe->cls == 1;
-            }
-        }
-        if (DbgOn()) {
-            static int count = 0;
-            if (count++ < 20000 && (depth == 0 || g_dumpLeft > 0)) {
-                Log("FITDBG d%d '%s' vis=%d parent=(%.0f,%.0f)-(%.0f,%.0f) un=%.0fx%.0f small=%d%c", depth,
-                             sib[i].c->get_name().c_str(), sib[i].visible ? 1 : 0, sib[i].x0 / 20, sib[i].y0 / 20, sib[i].x1 / 20,
-                             sib[i].y1 / 20, wUn / 20, hUn / 20, sib[i].small ? 1 : 0, 10);
-            }
-        }
-    }
-    // Containers among small visible siblings (smallest enclosing bound, 2% tolerance).
-    const float tolX = 0.02f * f.stageW * ax / psx, tolY = 0.02f * f.stageH * ay / psy;
-    for (int i = 0; i < n; ++i) {
-        if (!sib[i].small) {
-            continue;
-        }
-        float bestArea = 1e30f;
-        const float own = (sib[i].x1 - sib[i].x0) * (sib[i].y1 - sib[i].y0);
-        for (int j = 0; j < n; ++j) {
-            if (j == i || !sib[j].small || !sib[j].visible) {
-                continue;
-            }
-            const float area = (sib[j].x1 - sib[j].x0) * (sib[j].y1 - sib[j].y0);
-            if (area <= own) {
-                continue;
-            }
-            const bool inside = sib[j].x0 - tolX <= sib[i].x0 && sib[i].x1 <= sib[j].x1 + tolX && sib[j].y0 - tolY <= sib[i].y0 &&
-                                sib[i].y1 <= sib[j].y1 + tolY;
-            if (inside && area < bestArea) {
-                bestArea = area;
-                sib[i].container = j;
-            }
-        }
-    }
-    // Place: containers before their contents (a loop until every clip is placed; chains are short).
-    const bool stretched = ax != 1.0f || ay != 1.0f;
-    for (int pass = 0; pass < 8; ++pass) {
-        bool progress = false;
-        for (int i = 0; i < n; ++i) {
-            Sibling& s = sib[i];
-            if (s.placed) {
-                continue;
-            }
-            if (!s.small) {
-                // Large clip: stays stretched with the page; its children are laid out (up to three levels down).
-                if (s.c->is(2) && depth < 3) {
-                    LayoutChildren(static_cast<gameswf::sprite_instance*>(s.c), f, ax, ay, depth + 1, false);
-                }
-                s.nx = s.cx;
-                s.ny = s.cy;
-                s.placed = true;
-                progress = true;
-                continue;
-            }
-            if (s.container >= 0 && !sib[s.container].placed) {
-                continue;
-            }
-            if (!stretched) {
-                s.nx = s.cx;
-                s.ny = s.cy;
-                s.placed = true;
-                progress = true;
-                continue;
-            }
-            // Target centre in parent space: where the stretch put it, or the container's new centre plus the authored offset.
-            float tx = s.cx, ty = s.cy;
-            if (s.container >= 0) {
-                const Sibling& k = sib[s.container];
-                tx = k.nx + (s.cx - k.cx) / ax;
-                ty = k.ny + (s.cy - k.cy) / ay;
-            }
-            // Counter-scale about the bound centre, then move the centre to the target.
-            gameswf::matrix m = ScaledAbout(s.base, 1.0f / ax, 1.0f / ay, s.cx, s.cy);
-            m.m_[0][2] += tx - s.cx;
-            m.m_[1][2] += ty - s.cy;
-            Commit(s.e, s.c, m);
-            s.nx = tx;
-            s.ny = ty;
-            s.placed = true;
-            progress = true;
-            if (DbgOn()) {
-                static int count = 0;
-                if (count++ < 20000) {
-                    gameswf::rect wb;
-                    s.c->get_bound(&wb);
-                    s.c->get_parent()->get_world_matrix()->transform(&wb);
-                    Log("FITDBG place d%d '%s' a=(%.2f,%.2f) base c=(%.0f,%.0f) -> (%.0f,%.0f) cont=%d stage=(%.0f,%.0f)-(%.0f,%.0f)%c", depth,
-                                 s.c->get_name().c_str(), ax, ay, s.cx / 20, s.cy / 20, tx / 20, ty / 20, s.container,
-                                 static_cast<float>(wb.m_x_min) / 20, static_cast<float>(wb.m_y_min) / 20, static_cast<float>(wb.m_x_max) / 20,
-                                 static_cast<float>(wb.m_y_max) / 20, 10);
-                }
-            }
-        }
-        if (!progress) {
-            break;
-        }
-    }
-}
-
-bool IsImagePage(const char* name) {
-    return name != nullptr && std::strcmp(name, "menu_splash") == 0;
-}
-
-void LayoutPage(MenuFX::State* state, const PageFrame& f, bool release) {
-    if (state == nullptr) {
-        return;
-    }
-    gameswf::character* page = state->GetCharacter();
-    if (page == nullptr || !page->is(2) || page->get_parent() == nullptr) {
-        return;
-    }
-    gameswf::matrix base;
-    g_dbgPage = state->m_name;
-    PageEntry* e = BaseOf(page, base);
-    auto* sprite = static_cast<gameswf::sprite_instance*>(page);
-    if (release || (f.fx == 1.0f && f.fy == 1.0f)) {
-        LayoutChildren(sprite, f, 1.0f, 1.0f, 0, true);
-        return;
-    }
-    float kx = f.fx, ky = f.fy;
-    if (IsImagePage(state->m_name)) {
-        kx = ky = (f.fx > f.fy ? f.fx : f.fy);  // cover and crop
-    }
-    // The page stretched about the stage centre (the centre in the page's parent space).
-    gameswf::point centreParent;
-    page->get_parent()->get_world_matrix()->transform_by_inverse(&centreParent, gameswf::point(f.centreX, f.centreY));
-    Commit(e, page, ScaledAbout(base, kx, ky, centreParent.m_x, centreParent.m_y));
-    if (DbgOn()) {
-        static int count = 0;
-        if (count++ < 600) {
-            const gameswf::matrix w = page->get_matrix();
-            Log("FITDBG page %s k=(%.2f,%.2f) centreParent=(%.0f,%.0f) base t=(%.0f,%.0f) s=(%.2f,%.2f) -> t=(%.0f,%.0f) s=(%.2f,%.2f)%c",
-                         state->m_name, kx, ky, centreParent.m_x / 20, centreParent.m_y / 20, base.m_[0][2] / 20, base.m_[1][2] / 20,
-                         static_cast<float>(base.m_[0][0]), static_cast<float>(base.m_[1][1]), w.m_[0][2] / 20, w.m_[1][2] / 20,
-                         static_cast<float>(w.m_[0][0]), static_cast<float>(w.m_[1][1]), 10);
-        }
-    }
-    LayoutChildren(sprite, f, kx, ky, 0, false);
-}
-
-bool FrameFor(MenuFX* movie, PageFrame& f) {
-    gameswf::root* root = movie != nullptr ? movie->GetRoot() : nullptr;
-    if (root == nullptr || root->m_def.get_ptr() == nullptr) {
-        return false;
-    }
-    const gameswf::rect& stage = root->m_def->m_frame_size;
-    f.stageMinX = static_cast<float>(stage.m_x_min);
-    f.stageMinY = static_cast<float>(stage.m_y_min);
-    f.stageW = static_cast<float>(stage.m_x_max) - f.stageMinX;
-    f.stageH = static_cast<float>(stage.m_y_max) - f.stageMinY;
-    if (f.stageW <= 0.0f || f.stageH <= 0.0f) {
-        return false;
-    }
-    const int boxW = FlashBoxWidth(root), boxH = FlashBoxHeight(root);
-    const int offX = (Width_Screen - boxW) / 2, offY = (Height_Screen - boxH) / 2;
-    const float marginX = boxW > 0 && offX > 0 ? static_cast<float>(offX) * f.stageW / static_cast<float>(boxW) : 0.0f;
-    const float marginY = boxH > 0 && offY > 0 ? static_cast<float>(offY) * f.stageH / static_cast<float>(boxH) : 0.0f;
-    f.fx = (f.stageW + 2.0f * marginX) / f.stageW;
-    f.fy = (f.stageH + 2.0f * marginY) / f.stageH;
-    f.centreX = f.stageMinX + f.stageW * 0.5f;
-    f.centreY = f.stageMinY + f.stageH * 0.5f;
-    return true;
 }
 
 bool IsHudState(const char* name) {
     return name != nullptr && (std::strncmp(name, "menu_HUD_", 9) == 0 || std::strcmp(name, "menu_DebugHUD") == 0);
 }
 
-}  // namespace
-
-// Called by MenuManager::Draw for every movie after its camera update and before Render. `hudMovie`: the slot-3 movie, whose
-// HUD states are laid out by HudAnchorUpdate; only its other pages (pause, customise dialogs) are handled here.
-void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie) {
-    if (movie == nullptr) {
-        return;
+void LayoutState(MenuFX::State* state, const Section* section, bool dump) {
+    if (state == nullptr) return;
+    gameswf::character* page = state->GetCharacter();
+    if (page == nullptr) return;
+    if (dump) {
+        Log("FITDBG page %s", state->m_name);
+        DumpTree(page, state->m_name, 0);
     }
-    g_currentMovie = movie;
-    if (dh2port::Get("dumpui", 0) != 0) {  // one-shot dump of the laid-out pages (the "!" dialog's Save mark sets it)
-        dh2port::Set("dumpui", 0);
-        g_dumpLeft = 12;
-        Log("FITDBG dump begin surface=%dx%d fit=%d\n", Width_Screen, Height_Screen, ScreenUsesAspectFit() ? 1 : 0);
-    }
-    for (int i = 0; i < g_entryCount; ++i) {
-        if (g_entries[i].movie == movie) {
-            g_entries[i].seen = false;
+    if (section == nullptr) return;
+    for (const Rule& rule : section->rules) {
+        if (rule.path.empty() || rule.path[0] != state->m_name) continue;
+        if (rule.path.size() == 1) {
+            Apply(page, rule);
+        } else {
+            ApplyPath(page, rule, 1);
         }
-    }
-    PageFrame f;
-    const bool release = !ScreenUsesAspectFit() || !FrameFor(movie, f);
-    if (release && g_entryCount == 0) {
-        return;
-    }
-    MenuFX::StateArray& stack = movie->m_stack;
-    for (int s = 0; s < stack.m_size; ++s) {
-        MenuFX::State* state = stack.m_data[s];
-        if (state == nullptr || (hudMovie && IsHudState(state->m_name))) {
-            continue;
-        }
-        LayoutPage(state, f, release);
-    }
-    // Also the current state when it is not on the stack (the splash and loading pages are set, not pushed).
-    MenuFX::State* current = movie->GetCurrentState();
-    bool onStack = false;
-    for (int s = 0; s < stack.m_size; ++s) {
-        onStack = onStack || stack.m_data[s] == current;
-    }
-    if (current != nullptr && !onStack && !(hudMovie && IsHudState(current->m_name))) {
-        LayoutPage(current, f, release);
-    }
-    int kept = 0;
-    for (int i = 0; i < g_entryCount; ++i) {
-        if (g_entries[i].movie != movie || g_entries[i].seen) {
-            g_entries[kept++] = g_entries[i];
-        }
-    }
-    g_entryCount = kept;
-    if (g_dumpLeft > 0) {
-        --g_dumpLeft;
     }
 }
 
-// Called by RenderFX::UpdateCursor before the hit test. The layout is applied in MenuManager::Draw, but a page whose timeline
-// re-places its clips every frame (a sliding-in frame, an animated dialog) is back at its authored matrices when the cursor is
-// tested at Update time; laying it out again here keeps the hit test on what was drawn. (Idempotent: the Draw pass re-applies.)
+}  // namespace
+
+// Called by MenuManager::Draw for every movie after its camera update and before Render, and before the hit test. `hudMovie`: the slot-3
+// movie, whose HUD states are laid out by HudAnchorUpdate (its other pages, the pause page and its dialogs, take rules here).
+void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie) {
+    if (movie == nullptr) return;
+    if (!g_loaded) Load();
+    g_currentMovie = movie;
+    if (dh2port::Get("dumpui", 0) != 0) {
+        dh2port::Set("dumpui", 0);
+        g_dumpLeft = 4;  // the four movies, once each
+        Log("FITDBG dump begin surface=%dx%d ratio=%.3f", Width_Screen, Height_Screen,
+            Height_Screen > 0 ? static_cast<float>(Width_Screen) / static_cast<float>(Height_Screen) : 0.0f);
+    }
+    // DH2_FIT_DEBUG (host runner): dump a movie's pages whenever the set of its visible pages changes, 20 frames after the change
+    // (opening animations have settled by then).
+    bool dump = g_dumpLeft > 0;
+    if (std::getenv("DH2_FIT_DEBUG") != nullptr) {
+        static const MenuFX* movies[8] = {};
+        static std::string lastSig[8];
+        static int settle[8] = {};
+        std::string sig;
+        for (int s = 0; s < movie->m_stack.m_size; ++s) {
+            if (movie->m_stack.m_data[s] != nullptr) sig += std::string(movie->m_stack.m_data[s]->m_name) + ",";
+        }
+        if (movie->GetCurrentState() != nullptr) sig += std::string("|") + movie->GetCurrentState()->m_name;
+        int slot = -1;
+        for (int k = 0; k < 8; ++k) {
+            if (movies[k] == movie) slot = k;
+        }
+        for (int k = 0; k < 8 && slot < 0; ++k) {
+            if (movies[k] == nullptr) {
+                movies[k] = movie;
+                slot = k;
+            }
+        }
+        if (slot < 0) slot = 7;
+        if (sig != lastSig[slot]) {
+            lastSig[slot] = sig;
+            settle[slot] = 20;
+        } else if (settle[slot] > 0 && --settle[slot] == 0) {
+            dump = true;
+        }
+    }
+    for (int i = 0; i < g_entryCount; ++i) {
+        if (g_entries[i].movie == movie) g_entries[i].seen = false;
+    }
+    const float ratio = Height_Screen > 0 ? static_cast<float>(Width_Screen) / static_cast<float>(Height_Screen) : 16.0f / 9.0f;
+    g_r = ratio / (16.0f / 9.0f);
+    const Section* section = ScreenUsesAspectFit() ? SectionFor(ratio) : nullptr;
+    g_sectionScale = section != nullptr ? section->scale : 1.0f;
+    MenuFX::StateArray& stack = movie->m_stack;
+    bool currentDone = false;
+    MenuFX::State* current = movie->GetCurrentState();
+    for (int s = 0; s < stack.m_size; ++s) {
+        MenuFX::State* state = stack.m_data[s];
+        if (state == nullptr || (hudMovie && IsHudState(state->m_name))) continue;
+        LayoutState(state, section, dump);
+        currentDone = currentDone || state == current;
+    }
+    if (current != nullptr && !currentDone && !(hudMovie && IsHudState(current->m_name))) {
+        LayoutState(current, section, dump);
+    }
+    if (g_dumpLeft > 0) --g_dumpLeft;
+}
+
+// RenderFX::UpdateCursor: the same pass before the hit test (a page whose timeline re-places clips is back at its authored matrices
+// at Update time).
 void MenuPageLayoutForCursor(const RenderFX* fx) {
     MenuManager* manager = MenuManager::GetInstance();
-    if (fx == nullptr || manager == nullptr || manager->m_multiMenuManager == nullptr) {
-        return;
-    }
+    if (fx == nullptr || manager == nullptr || manager->m_multiMenuManager == nullptr) return;
     for (int slot = 0; slot < 4; ++slot) {
         MenuFX* movie = manager->m_multiMenuManager->m_menuFX[slot];
         if (movie != nullptr && static_cast<const RenderFX*>(movie) == fx) {
@@ -451,4 +551,46 @@ void MenuPageLayoutForCursor(const RenderFX* fx) {
             return;
         }
     }
+}
+
+// Host-runner helper (tools/trackb/ui_walk.py, script command `tapclip <path>`): the centre of the clip named by `path`
+// ("menu_State/child/#N/...") on the visible pages, in surface pixels. False when the path is not on screen.
+bool MenuClipSurfaceCenter(const char* path, int* x, int* y) {
+    MenuManager* manager = MenuManager::GetInstance();
+    if (path == nullptr || manager == nullptr || manager->m_multiMenuManager == nullptr) return false;
+    Rule r;
+    const std::string p = path;
+    for (size_t a = 0;;) {
+        const size_t b = p.find('/', a);
+        r.path.push_back(p.substr(a, b == std::string::npos ? std::string::npos : b - a));
+        if (b == std::string::npos) break;
+        a = b + 1;
+    }
+    for (int slot = 0; slot < 4; ++slot) {
+        MenuFX* movie = manager->m_multiMenuManager->m_menuFX[slot];
+        if (movie == nullptr) continue;
+        std::vector<MenuFX::State*> states;
+        for (int s = 0; s < movie->m_stack.m_size; ++s) states.push_back(movie->m_stack.m_data[s]);
+        states.push_back(movie->GetCurrentState());
+        for (MenuFX::State* st : states) {
+            if (st == nullptr || r.path[0] != st->m_name || st->GetCharacter() == nullptr) continue;
+            gameswf::character* c = st->GetCharacter();
+            for (size_t k = 1; k < r.path.size() && c != nullptr; ++k) c = Child(c, r.path[k], 0);
+            if (c == nullptr || c->get_parent() == nullptr) continue;
+            gameswf::rect b;
+            c->get_bound(&b);
+            c->get_parent()->get_world_matrix()->transform(&b);  // stage twips
+            gameswf::root* root = movie->GetRoot();
+            if (root == nullptr || root->m_def.get_ptr() == nullptr) continue;
+            const gameswf::rect& stage = root->m_def->m_frame_size;
+            const float sw = static_cast<float>(stage.m_x_max) - static_cast<float>(stage.m_x_min);
+            const float sh = static_cast<float>(stage.m_y_max) - static_cast<float>(stage.m_y_min);
+            const float cx = (static_cast<float>(b.m_x_min) + static_cast<float>(b.m_x_max)) * 0.5f;
+            const float cy = (static_cast<float>(b.m_y_min) + static_cast<float>(b.m_y_max)) * 0.5f;
+            *x = FlashBoxOffsetX(root) + static_cast<int>((cx - static_cast<float>(stage.m_x_min)) / sw * static_cast<float>(FlashBoxWidth(root)));
+            *y = FlashBoxOffsetY(root) + static_cast<int>((cy - static_cast<float>(stage.m_y_min)) / sh * static_cast<float>(FlashBoxHeight(root)));
+            return true;
+        }
+    }
+    return false;
 }

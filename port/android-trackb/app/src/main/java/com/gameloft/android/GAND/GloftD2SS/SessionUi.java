@@ -178,7 +178,7 @@ public final class SessionUi {
         row.setPadding(0, dp(a, 12), 0, 0);
         try {
             final android.widget.Switch fit = new android.widget.Switch(a);
-            fit.setText("Unstretched layout (HUD at the screen edges, menus 16:9)");
+            fit.setText("Tailored layout (menus shaped for this screen, HUD at the edges)");
             fit.setChecked(DungeonHunter2.nativeGetPortSetting("screenfit") != 0);
             fit.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(android.widget.CompoundButton b, boolean on) {
@@ -225,7 +225,7 @@ public final class SessionUi {
             scroll.addView(sizes);
             row.addView(scroll);
             TextView note = new TextView(a);
-            note.setText("Both apply at once. HUD size only matters with the unstretched layout; Auto is 125% on a square screen.");
+            note.setText("Both apply at once. Off = the original stretch everywhere. HUD size only matters with the tailored layout; Auto is 125% on a square screen.");
             note.setTextSize(12f);
             row.addView(note);
         } catch (Throwable t) {

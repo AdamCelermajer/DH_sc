@@ -386,7 +386,7 @@ void RenderFX::UpdateCursor(Cursor& cursor, int controller) {
     const float twipsX = localX * 20.0f;
     const float twipsY = localY * 20.0f;
     if (ScreenUsesAspectFit()) {
-        MenuPageLayoutForCursor(this);  // Port deviation (UI10): hit-test the laid-out page, not the timeline's placement
+        MenuPageLayoutForCursor(this);  // Port deviation (UI12): hit-test the laid-out page, not the timeline's placement
     }
     ::smart_ptr<gameswf::character> hit(searchRoot->get_topmost_mouse_entity(twipsX, twipsY));
     if (justPressed && std::getenv("DH2_FIT_DEBUG") != nullptr) {

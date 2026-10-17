@@ -991,8 +991,8 @@ static bool HudAnchorPass(MenuFX* hud, bool release) {
     frame.bandY = stageH * 0.10f;
     // UI9: the customise page shows the play layout (anchored, sized). The drag/save code works on the base layout: HUDControls::OnEvent
     // calls HudLayoutRelease() before it reads or writes positions, and the next Draw puts the offsets back.
-    // UI5: while a menu page covers the HUD (charmenu / menus page up, or the HUD movie's own pause page) the HUD stays in its box, where
-    // the page covers it as on the original's stretched screen; the bars beside the box are painted black by the render handler.
+    // UI12: while a menu page covers the HUD (charmenu / menus page up, or the HUD movie's own pause page) the anchoring is released and
+    // the HUD sits under the stretched page as on the original's screen.
     if (HudCoveredByPage()) {
         release = true;
     }

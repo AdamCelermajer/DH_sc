@@ -5,9 +5,10 @@
 // the file for one run (runner experiments).
 //
 // Keys (TRACK-B.md decision 15):
-//   screenfit  0 = the binary's behaviour (the 16:9 UI is stretched over the surface), 1 = unstretched: centred 16:9 fit
-//              for the menus, HUD anchored to the real screen edges (default 1). Only matters on a surface that is not
-//              one of the original's sizes.
+//   screenfit  0 = the binary's behaviour everywhere (the 16:9 UI stretched over the surface), 1 = tailored layout (default):
+//              the menus are still stretched over the whole surface, and on a screen ratio listed in data/port/ui_layouts.txt
+//              the listed menu elements get their 16:9 shape back (UI12); the HUD is anchored to the real screen edges. Only
+//              matters on a surface that is not 16:9.
 //   hudscale   HUD size in percent of the fit (100..200); 0 = automatic (125 on a tablet-shaped surface, else 100).
 //   enemybar   1 = the targeted enemy's health bar follows the enemy (above its head, back to the HUD slot when off screen), 0 = the
 //              original's fixed HUD slot (default 1; InfoHUDManager::FastUpdate).

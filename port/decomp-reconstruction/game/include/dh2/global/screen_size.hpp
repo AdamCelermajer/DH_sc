@@ -55,18 +55,16 @@ int FlashBoxOffsetY(const void* root);
 int FlashBoxWidth(const void* root);                                // the box size (the fit box when unknown)
 int FlashBoxHeight(const void* root);
 // True while a menu page covers the HUD (a page of the charmenu/menus movies is up, or the HUD movie shows its own pause page): the
-// HUD then returns into its box, and the bars outside the box are painted black (the original's pages cover the whole stretched screen).
+// HUD anchoring is released, so the HUD sits under the page as on the original's stretched screen.
 bool HudCoveredByPage();
+// The HUD movie shows one of its own pages (the pause menu): the HUD movie is then stretched over the surface like the menus.
+bool HudMoviePageUp();
 
 // Port addition (UI4, TRACK-B.md decision 15): HUD corner anchoring and the stick touch zone, both only where the 16:9 fit applies.
 // HudAnchorUpdate (game-ui/.../HUDControls) moves the HUD movie's elements toward the real screen edges by the surface margin of the fit;
-// it returns true while it does, and then MenuManager::Draw lifts the 16:9 clip box for that movie (g_dh2FlashFit[0] = 0).
+// it returns true while it does.
 class MenuFX;
 bool HudAnchorUpdate(MenuFX* hud, bool release);
-// The Flash movie being drawn, written by MenuFlash2DCamera::Update and read by the gameswf render handler (defined there):
-//   [0] clip to the box (1/0), [1..4] clip box x, y, width, height (surface pixels, 5% larger than the fit box);
-//   [5] paint the bars outside the fit box black (opaque full-screen page), [6..9] the fit box x, y, width, height, [10..11] surface width, height.
-extern "C" int g_dh2FlashFit[12];
 // The virtual stick may be grabbed from the bottom-left quarter of the surface (RenderFX::UpdateCursor, HUD movie only). One switch for
 // the zone: it is on wherever the fit is, so the original's own screen sizes keep the original stick.
 inline bool ScreenUsesStickZone() { return ScreenUsesAspectFit(); }
@@ -78,11 +76,12 @@ gameswf::character* HudStickZoneTarget(const RenderFX* fx, float x, float y, gam
 // Port addition (UI6, not in the original; game-ui/.../HUDControls): per-element HUD size on the HUD customise page. A press on a layout
 // element selects it; two medallions (+ / -, port art under data/port/) beside it change its size in steps of 10% (50..200%), kept in the
 // port settings as hudelem.<HUDStyle>.<index>; Reset puts every element back to 100%. The sizes apply on every screen, fit or not.
-// Port deviation (UI8; game-ui/src/screen_fit_pages.cpp): menu pages fill the screen without bars. Called by MenuManager::Draw for every
-// movie after its camera update: covering clips of each visible page are stretched (the splash: covered) to the surface, the other
-// top-level clips move toward their screen edge by the surface margin. Inert when the fit is off or the surface is 16:9.
+// Port deviation (UI12; game-ui/src/screen_fit_pages.cpp): the menus are stretched over the surface as in the original; on a screen
+// ratio with a section in data/port/ui_layouts.txt the hand-listed clips of each visible page get their 16:9 shape back. Called by
+// MenuManager::Draw for every movie after its camera update. Inert when the fit is off or no section matches (16:9 included).
 void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie);
 void MenuPageLayoutForCursor(const RenderFX* fx);  // RenderFX::UpdateCursor: lay the movie out again before the hit test
+bool MenuClipSurfaceCenter(const char* path, int* x, int* y);  // host runner: centre of a named menu clip in surface pixels
 bool HudCustomizing();                                                     // the HUD customise page is up (false before HUDControls exists)
 void HudCustomizeOverlayDraw();                                            // MenuManager::Draw, after the HUD movie, while customising
 bool HudCustomizeOverlayHit(const RenderFX* fx, float x, float y, bool justPressed);  // RenderFX::UpdateCursor: true = the pointer is on a medallion (swallowed)

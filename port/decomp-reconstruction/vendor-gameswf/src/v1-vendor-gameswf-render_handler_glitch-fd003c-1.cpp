@@ -277,9 +277,6 @@ void render_handler_glitch::flush() {
     m_buffered.flush();
 }
 
-// Port addition (UI3): clip box of the movie being drawn, written by game-ui (MenuFlash2DCamera::Update). A file static, so the binary layout of the class is kept.
-extern "C" { int g_dh2FlashFit[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; }
-static bool s_fit_clip = false;
 
 // 0x7d6de4 render_handler_glitch::end_display(void)
 // Flushes the batch, then restores the driver state that begin_display saved, in the original's order:
@@ -296,10 +293,6 @@ void render_handler_glitch::end_display() {
     m_driver->m_renderTargets.back()->setViewport(m_saved_state.viewport);
     m_driver->setOption(256, m_saved_option_256);
     m_driver->setRenderState(m_saved_render_state);  // vtable +0x1e4
-    if (s_fit_clip) {
-        m_driver->setScissorEnable(false);   // Port addition (UI3): the clip box of begin_display
-        s_fit_clip = false;
-    }
 }
 
 // 0x7d71bc render_handler_glitch::render_mask_intersection(void)
@@ -444,45 +437,6 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
     // State 1 (world): glitch::core::IdentityMatrix, copied with its 0x41 bytes.
     m_state.world = glitch::core::CMatrix4<float>(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY);
     m_driver->setTransform(1, m_state.world);
-
-    // Port addition (UI4, TRACK-B.md decision 15): an opaque full-screen page (splash, loading) paints the bars around its centred 16:9 box black,
-    // so the 3D scene behind the menus does not show there. Cleared with the scissor test, before the movie is drawn; the clear colour is put back.
-    if (g_dh2FlashFit[5] != 0) {
-        const glitch::video::SColor previous = m_driver->getClearColor();
-        glitch::video::SColor black;
-        black.color = 0xff000000u;
-        m_driver->setClearColor(black);
-        const int sw = g_dh2FlashFit[10], sh = g_dh2FlashFit[11];
-        const int fx = g_dh2FlashFit[6], fy = g_dh2FlashFit[7], fw = g_dh2FlashFit[8], fh = g_dh2FlashFit[9];
-        const int bars[4][4] = {{0, 0, sw, fy}, {0, fy + fh, sw, sh}, {0, fy, fx, fy + fh}, {fx + fw, fy, sw, fy + fh}};
-        for (const auto& bar : bars) {
-            if (bar[2] <= bar[0] || bar[3] <= bar[1]) {
-                continue;
-            }
-            glitch::core::rect<int32_t> area;
-            area.UpperLeftCorner.X = bar[0];
-            area.UpperLeftCorner.Y = bar[1];
-            area.LowerRightCorner.X = bar[2];
-            area.LowerRightCorner.Y = bar[3];
-            m_driver->setScissor(area);
-            m_driver->setScissorEnable(true);
-            m_driver->clearBuffers(1);
-        }
-        m_driver->setScissorEnable(false);
-        m_driver->setClearColor(previous);
-    }
-
-    // Port addition (UI3, TRACK-B.md decision 15): clip the movie to its centred 16:9 box (set by MenuFlash2DCamera::Update).
-    s_fit_clip = g_dh2FlashFit[0] != 0;
-    if (s_fit_clip) {
-        glitch::core::rect<int32_t> box;
-        box.UpperLeftCorner.X = g_dh2FlashFit[1];
-        box.UpperLeftCorner.Y = g_dh2FlashFit[2];
-        box.LowerRightCorner.X = g_dh2FlashFit[1] + g_dh2FlashFit[3];
-        box.LowerRightCorner.Y = g_dh2FlashFit[2] + g_dh2FlashFit[4];
-        m_driver->setScissor(box);
-        m_driver->setScissorEnable(true);
-    }
 }
 
 // 0x7d77b0 render_handler_glitch::draw_line_strip(void const*, int)

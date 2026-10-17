@@ -15,6 +15,8 @@ JNIEXPORT void JNICALL Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_n
 JNIEXPORT void JNICALL Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyUp(JNIEnv*, jclass, jint);
 }
 
+#include "dh2/global/screen_size.hpp"
+
 namespace dh2host {
 
 bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
@@ -22,8 +24,13 @@ bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
     if (!in) return false;
     std::string line;
     while (std::getline(in, line)) {
-        const size_t hash = line.find('#');
-        if (hash != std::string::npos) line.resize(hash);
+        // "#" starts a comment at the start of a word ("/#3" inside a tapclip path is a display-list index)
+        for (size_t hash = line.find('#'); hash != std::string::npos; hash = line.find('#', hash + 1)) {
+            if (hash == 0 || line[hash - 1] == ' ' || line[hash - 1] == '	') {
+                line.resize(hash);
+                break;
+            }
+        }
         std::istringstream ss(line);
         int frame;
         std::string cmd;
@@ -67,6 +74,10 @@ bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
             std::string name;
             ss >> name;
             out.push_back({frame, 3, 0, 0, 0, 0, name});
+        } else if (cmd == "tapclip") {  // tap the centre of a named menu clip (path as in ui_layouts.txt), wherever the layout put it
+            std::string path;
+            ss >> path;
+            out.push_back({frame, 7, 0, 0, 0, 0, path});
         } else if (cmd == "probe") {
             out.push_back({frame, 5, 0, 0, 0, 0, ""});
         } else if (cmd == "quit") {
@@ -84,6 +95,11 @@ bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
 
 void scriptApplyFrame(const std::vector<ScriptEvent>& events, int frame, const Options& opt, bool& quit) {
     botTick(frame, opt);
+    static int pendingUpFrame = -1, pendingX = 0, pendingY = 0;
+    if (pendingUpFrame == frame) {
+        appOnTouch(0, pendingX, pendingY, frame * 33, 1, 0, 0, 0);
+        pendingUpFrame = -1;
+    }
     for (const ScriptEvent& e : events) {
         if (e.frame != frame) continue;
         switch (e.kind) {
@@ -110,6 +126,19 @@ void scriptApplyFrame(const std::vector<ScriptEvent>& events, int frame, const O
             case 6:
                 botCommand(frame, e.text);
                 break;
+            case 7: {
+                int x = 0, y = 0;
+                if (MenuClipSurfaceCenter(e.text.c_str(), &x, &y)) {
+                    std::fprintf(g_runnerOut, "[script] tapclip %s -> (%d,%d)\n", e.text.c_str(), x, y);
+                    appOnTouch(1, x, y, frame * 33, 1, 0, 0, 0);
+                    pendingUpFrame = frame + 2;
+                    pendingX = x;
+                    pendingY = y;
+                } else {
+                    std::fprintf(g_runnerOut, "[script] tapclip %s: not on screen\n", e.text.c_str());
+                }
+                break;
+            }
         }
     }
 }
