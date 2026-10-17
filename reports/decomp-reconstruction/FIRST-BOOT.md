@@ -186,3 +186,13 @@ hero and kept it in idle for every scripted cut scene (no hero in the Swamp_Intr
 the byte (Enter/ExitCutSceneMode, unconditional), initial value and Flush reset, the reader, `Application::_Update` order (scene update, PlayerManager::Update, event manager, state machine
 with the scripts), `VisualObject::SetVisible` (ForceRegister is called) and the Swamp_Intro commands (no show-player command exists). Root cause in the original is therefore not found; the port now
 exempts the local record (`!(m_inCutScene && !player->IsLocal())`) in g1-game-character-PlayerManager-025dba-2.cpp. Revisit if a runtime trace of the original shows how the hero stays visible.
+
+**Resolved (W2, 2026-10-17).** The rule is real but it never runs for the single-player hero: in the listing everything after LABEL_30 of
+`_ManageCharacters` (0x372e6c..) is gated by the manage flag (+0x6c9) and `GetOnline()+5`, offline goes straight to LABEL_65 (the accumulators). Online,
+a LOCAL record (+0x66c) only publishes its profile (`_PackInventory`, record follows character) and then LABEL_63 (a moved m_ingame becomes the
+visibility); only a REMOTE record runs `_UnpackInventory`, the cut-scene rule at 0x373580 and then LABEL_63. The port ran the profile sync and the rule
+for every record offline, with the pack/unpack directions swapped between local and remote. Restructured to the listing, the IsLocal() exemption
+removed; the HUD slot of LABEL_63 is a local copy (+4 for a remote record), the port had written `unk_67c += 4` into the record. Checked in the Windows
+runner: Swamp_Intro shows the hero in the cage (window screenshots), continue / level-up / death and respawn / route + real exit into the next level keep
+the hero visible. Side effect: the port's per-frame `SM_SetIdleState` on a hero "in limbus" no longer runs offline, and a level-1 hero standing in the
+first lizard pack now dies (3 deaths in `session_death.txt`, none before): the reset had been undoing damage states.

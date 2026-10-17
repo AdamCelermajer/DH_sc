@@ -225,6 +225,9 @@ extern "C" void SetDisplayString(char* title) {
 // Application::GetSavedOption on it. ApplicationGetInstance() is that address (dh2/global/ctrl_camera.hpp; its
 // definition belongs to the integrator). GetSavedOption is declared in dh2/Application.hpp.
 extern "C" int GetGameMusicVolume() {
+    // Port-only guard (the original has none and relies on the activity flow never calling this before nativeInit built the Application):
+    // a stale task or a double onResume can reach it first; answer 0 (music off) instead of dereferencing a null savegame manager.
+    if (ApplicationGetInstance().m_savegameManager == nullptr) return 0;
     return ApplicationGetInstance().GetSavedOption("VolumeMusic");
 }
 

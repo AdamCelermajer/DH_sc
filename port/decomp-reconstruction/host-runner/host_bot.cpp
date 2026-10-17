@@ -19,6 +19,7 @@
 #include "dh2/GSLevel.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/ItemObject.hpp"
+#include "dh2/ItemInstance.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/OpenableContainer.hpp"
@@ -32,9 +33,12 @@
 #include "dh2/global/Globals.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/v2Controller.hpp"
+#include "dh2/VisualObject.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/TriggerZoneExitLevel.hpp"
 #include "dh2/CheckpointZone.hpp"
 #include "dh2/TriggerZone.hpp"
+#include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/Door.hpp"
 #include "dh2/Quest.hpp"
@@ -44,6 +48,8 @@
 #include <filesystem>
 #include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 #include "host_runner.hpp"
 #include "dh2/global/native_app_hud_level.hpp"
 #include "net-transport/connection_manager.hpp"
@@ -464,6 +470,26 @@ std::vector<TriggerZoneExitLevel*> sortedExits() {
     return v;
 }
 
+// The world map's job: the fast-travel destinations the hero has unlocked (Arrays::FastTravelList, Visible = SG_GetFastTravelIdUnlocked) that are not visited yet.
+// Returns the LevelList file of the first one (lowest LevelList row first) and its entry point, or "" when there is none.
+std::string worldMapNext(Character* h, int* entryPoint, bool log) {
+    const auto* rows = reinterpret_cast<const Structs::FastTravelDestination*>(Arrays::FastTravelList::members);
+    const auto* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
+    std::string best;
+    int bestRow = 1 << 30, bestEntry = 0;
+    for (std::uint32_t i = 0; rows != nullptr && i < Arrays::FastTravelList::size; ++i) {
+        const bool unlocked = h->SG_GetFastTravelIdUnlocked(static_cast<int>(i), -1);
+        const char* key = static_cast<const char*>(rows[i].LevelName);
+        const int row = key != nullptr ? pydata::FindMemberName(Arrays::LevelList::m_memberNames, static_cast<int>(Arrays::LevelList::size), key) : -1;
+        const char* file = (row >= 0 && levels[row].LevelFile) ? static_cast<const char*>(levels[row].LevelFile) : "?";
+        const bool seen = g_cVisited.count(file) != 0;
+        if (log) std::fprintf(g_runnerOut, "[worldmap] %u %s -> %s entry=%d unlocked=%d visited=%d\n", i, key ? key : "?", file, rows[i].EntryPointId, unlocked ? 1 : 0, seen ? 1 : 0);
+        if (unlocked && !seen && row >= 0 && static_cast<int>(i) < bestRow) { bestRow = static_cast<int>(i); best = file; bestEntry = rows[i].EntryPointId; }   // FastTravelList order = the designers' story order
+    }
+    if (entryPoint) *entryPoint = bestEntry;
+    return best;
+}
+
 // Warp the hero to the floor point nearest to (x,y): rings of growing radius, several height hints (the floors of a level lie at different heights).
 bool warpNear(Character* h, float x, float y, float zExit) {
     const float zs[5] = {zExit, h->m_position.Z, 52.0f, 184.0f, 255.0f};
@@ -613,6 +639,16 @@ void campaignTick(int frame) {
             questLog("stuck");
             if (g_cRouteTries >= 6) { g_cPhase = 1; g_cPhaseStart = frame; g_cRouteTries = 0; g_mode = kHunt; g_modeEnd = frame + 1000000; }
             else {
+                if (g_cRouteTries >= 1) {
+                    int ep = 0;
+                    const std::string next = worldMapNext(h, &ep, true);
+                    if (!next.empty() && sortedExits().empty() || (!next.empty() && g_cVisited.count(exitTargetFile(sortedExits().front())) != 0)) {   // every exit leads back: take the world map
+                        std::fprintf(g_runnerOut, "[campaign] WORLD MAP: no unvisited exit; travelling to %s (entry %d)\n", next.c_str(), ep);
+                        ApplicationGetInstance().LoadLevel(next.c_str(), ep, 0, false, true, 0, false, 0, 0);
+                        g_cPhase = 4; g_cPhaseStart = frame;
+                        return;
+                    }
+                }
                 if (g_cRouteTries >= 1) {   // blocked for real: warp next to the nearest enabled exit zone and report it
                     if (auto ex = sortedExits(); !ex.empty()) {
                         TriggerZoneExitLevel* z = ex.front();
@@ -896,6 +932,15 @@ void botCommand(int frame, const std::string& line) {
                          record ? static_cast<int>(record->IsHost()) : -1, record ? record->m_characterClass.GetValue() : -1, record ? static_cast<int>(record->m_doneLoading.GetValue()) : -1,
                          record ? static_cast<int>(record->m_readyToRoll.GetValue()) : -1, record ? static_cast<int>(record->m_ingame.GetValue()) : -1, body != nullptr ? "yes" : "no", body ? body->m_position.X : 0.0f,
                          body ? body->m_position.Y : 0.0f, body ? body->m_position.Z : 0.0f, body ? body->GetHP() : 0, body && body->IsDead() ? 1 : 0);
+            if (body != nullptr) {
+                // W2: what this instance shows of that hero: visibility, gold, potions and the item id in each of the nine equipment slots.
+                char gear[160] = "";
+                for (unsigned slot = 0; slot < 9; ++slot) {
+                    ItemInstance* item = body->GetEquippedItem(slot);
+                    std::snprintf(gear + std::strlen(gear), sizeof gear - std::strlen(gear), "%d ", item ? item->GetItemId() : -1);
+                }
+                std::fprintf(g_runnerOut, "[mp]     view visible=%d gold=%d potions=%d equipped=%s\n", body->m_visible ? 1 : 0, body->m_gold, body->GetNumPotions(), gear);
+            }
         }
         if (st->mode_ != 0 && m != nullptr) {
             std::vector<tRoomInfo> rooms = m->GetRoomList();
@@ -913,14 +958,64 @@ void botCommand(int frame, const std::string& line) {
             std::fprintf(g_runnerOut, "[bot] char %s name='%s' pos=(%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d enemy=%d\n", typeid(*o).name(), o->m_name.c_str(), o->m_position.X, o->m_position.Y,
                          dist2d(h, o), o->GetHP(), o->IsDead() ? 1 : 0, o->m_enabled, o->m_visible, h->AI_IsEnemy(o) ? 1 : 0);
         }
+    } else if (cmd == "scriptdump") {  // Q3: command classes of script <id>
+        int id = 0;
+        ss >> id;
+        ScriptManager& sm = ScriptManager::s_inst;
+        if (id >= 0 && static_cast<size_t>(id) < sm.m_cmds.size()) {
+            const auto& sc = sm.m_cmds[static_cast<size_t>(id)];
+            std::fprintf(g_runnerOut, "[bot] scriptdump %d '%s' cmds=%d state=%d module=%d\n", id, sm.GetNameFromID(id) ? sm.GetNameFromID(id) : "?", sc.m_count, sm.m_contexts[static_cast<size_t>(id)].m_state, sm.m_contexts[static_cast<size_t>(id)].m_module);
+            for (int i = 0; i < sc.m_count; ++i) std::fprintf(g_runnerOut, "[bot]   cmd %d %s\n", i, typeid(*sc.m_cmds[i]).name());
+        }
+    } else if (cmd == "timers") {  // Q3: the CharTimers slots of the characters whose name contains the argument
+        std::string sub;
+        ss >> sub;
+        for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
+            if (o->m_name.find(sub) == std::string::npos) continue;
+            std::fprintf(g_runnerOut, "[timers] f=%d '%s' slots=%zu", frame, o->m_name.c_str(), o->CharTimers::m_timers.size());
+            for (const CharTimers::_Timer& t : o->CharTimers::m_timers)
+                std::fprintf(g_runnerOut, " [%u a%d p%d rep%d int%u el%u ev%d]", t.m_id, t.m_active ? 1 : 0, t.m_paused ? 1 : 0, t.m_repeat, t.m_interval, t.m_elapsed, t.m_eventId);
+            std::fprintf(g_runnerOut, "%c", 10);
+        }
+    } else if (cmd == "skilltab") {  // Q3: skills of the character whose name contains the argument: skill record and the AnimTable row it plays
+        std::string sub;
+        ss >> sub;
+        for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
+            if (o->m_name.find(sub) == std::string::npos) continue;
+            const auto* list = static_cast<const Structs::SkillList*>(o->GetCharSkillList());
+            for (std::uint32_t i = 0; i < list->ListSize; ++i) {
+                const auto* sk = static_cast<const Structs::Skill*>(o->GetCharSkill(static_cast<int>(i)));
+                std::fprintf(g_runnerOut, "[skilltab] skill %u anim=%d moving=%d type=%d flags=0x%x script='%s'%c", i, sk->Anim, sk->AnimIsMoving ? 1 : 0, sk->Type, static_cast<unsigned>(sk->Flags), sk->Script ? static_cast<const char*>(sk->Script) : "", 10);
+                const auto* tab = reinterpret_cast<const Structs::AnimTpl*>(Arrays::AnimTable::members);
+                if (sk->Anim >= 0 && static_cast<std::uint32_t>(sk->Anim) < Arrays::AnimTable::size) {
+                    const Structs::AnimTpl& r = tab[sk->Anim];
+                    std::fprintf(g_runnerOut, "[skilltab]   row loop=%d steps=%u type=%d%c", r.Loop, r.StepsSize, r.Type, 10);
+                    const auto* st = static_cast<const Structs::AnimStep*>(r.Steps);
+                    for (std::uint32_t k = 0; k < r.StepsSize; ++k) {
+                        const Structs::AnimStep& step = *reinterpret_cast<const Structs::AnimStep*>(reinterpret_cast<const char*>(st) + k * 56);
+                        const char* nm = (step.Anim >= 0 && static_cast<std::uint32_t>(step.Anim) < Arrays::AnimDict::size) ? reinterpret_cast<const Structs::ColladaFile*>(Arrays::AnimDict::members + 12u * static_cast<std::uint32_t>(step.Anim))->Name : "-";
+                        std::fprintf(g_runnerOut, "[skilltab]     step %u anim=%d '%s' speed=%.3f blendout=%d redir=%d%c", k, step.Anim, "?", step.Speed, step.BlendOut, step.Redir, 10);
+                    }
+                }
+            }
+        }
+    } else if (cmd == "zonescript") {  // Q3: start the enter script of the named TriggerZone (what the zone does when a player walks in)
+        std::string name;
+        ss >> name;
+        for (ObjectBase* ob : allObjects()) {
+            auto* z = dynamic_cast<TriggerZone*>(ob);
+            if (z == nullptr || ob->m_name != name) continue;
+            std::fprintf(g_runnerOut, "[bot] zonescript '%s' script='%s' id=%d entered=%d\n", name.c_str(), z->m_script.c_str(), z->m_scriptId, z->m_entered ? 1 : 0);
+            z->SafeStartScriptOnlyOnce(z->m_scriptId);
+        }
     } else if (cmd == "bossnow" && h) {  // Q3: one line per character whose name contains the argument: position, visibility, targetable byte, state machine state
         std::string sub;
         ss >> sub;
         for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
             if (o->m_name.find(sub) == std::string::npos) continue;
-            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x\n", frame, o->m_name.c_str(), o->m_position.X,
+            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x aabb=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f) curSkill=%d step=%d/%d stack=%u begun=%d ended=%d\n", frame, o->m_name.c_str(), o->m_position.X,
                          o->m_position.Y, o->m_position.Z, dist2d(h, o), o->GetHP(), o->IsDead() ? 1 : 0, o->m_enabled, o->m_visible, o->CharAI::unk_4d ? 1 : 0,
-                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags));
+                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags), o->m_absAabb[0], o->m_absAabb[1], o->m_absAabb[2], o->m_absAabb[3], o->m_absAabb[4], o->m_absAabb[5], o->CharAI::m_curSkill, o->CharAnimator::ANIM_GetStepIndex(), o->CharAnimator::ANIM_GetStepCount(), static_cast<unsigned>(o->CharAnimator::m_animStackIdx), o->CharAI::m_skillStepBegun ? 1 : 0, o->CharAI::m_skillStepEnded ? 1 : 0);
         }
     } else if (cmd == "objects" && h) {
         int n = 0;
@@ -1034,6 +1129,10 @@ void botCommand(int frame, const std::string& line) {
             for (Quest* q : qs->m_quests[h->SG_GetGameDifficulty()])
                 if (q != nullptr && q->m_name != nullptr && name == q->m_name) { q->SetState(st); std::fprintf(g_runnerOut, "[bot] quest %s -> state %d\n", q->m_name, q->m_state); }
         }
+    } else if (cmd == "worldmap" && h) {
+        int ep = 0;
+        const std::string next = worldMapNext(h, &ep, true);
+        std::fprintf(g_runnerOut, "[worldmap] next=%s entry=%d\n", next.c_str(), ep);
     } else if (cmd == "nearxy") {
         float cx = 0, cy = 0, r = 800.0f;
         ss >> cx >> cy >> r;
@@ -1106,10 +1205,19 @@ void botCommand(int frame, const std::string& line) {
         const int before = h ? h->GetLevel() : -1;
         ApplicationGetInstance().m_savegameManager->toggleOption(name.c_str());
         std::fprintf(g_runnerOut, "[bot] toggleOption(%s): hero level %d -> %d, gold %d\n", name.c_str(), before, h ? h->GetLevel() : -1, h ? h->m_gold : 0);
+    } else if (cmd == "unequip" && h) {
+        // Test helper: the local hero takes off the item in an equipment slot (ItemInventory::UnEquipItemFromSlot, the current set).
+        unsigned slot = 1;
+        ss >> slot;
+        h->UnEquipItemFromSlot(slot);  // Character::UnEquipItemFromSlot (0x3a9eb0), the game's own path
+        h->INV_UpdateSkin();
+        std::fprintf(g_runnerOut, "[bot] unequipped slot %u\n", slot);
     } else if (cmd == "herostat" && h) {
         char skills[96] = "";
         for (unsigned i = 0; i < 8; ++i) std::snprintf(skills + std::strlen(skills), sizeof skills - std::strlen(skills), "%d ", h->SG_GetSkillLevel(i));
-        std::fprintf(g_runnerOut, "[bot] hero level=%d hp=%d/%d gold=%d items=%zu skills=%s\n", h->GetLevel(), h->GetHP(), h->GetTotalHP(), h->m_gold, h->m_items.size(), skills);
+        std::fprintf(g_runnerOut, "[bot] hero level=%d hp=%d/%d gold=%d items=%zu skills=%s cutscene=%d visible=%d node=%d\n", h->GetLevel(), h->GetHP(), h->GetTotalHP(), h->m_gold,
+                     h->m_items.size(), skills, ScriptManager::s_inst.m_inCutScene ? 1 : 0, h->m_visible ? 1 : 0,
+                     (h->m_visualObject && h->m_visualObject->m_node) ? ((h->m_visualObject->m_node->flags & glitch::scene::ESNF_VISIBLE) ? 1 : 0) : -1);
     } else if (cmd == "skillinfo" && h) {
         // UI owner: skillinfo <skill> <lvl>: the Lua OnSkillInfo path the skill details of the hero screen use (AI_SkillInfo), then the display properties of the skill row from s_temp.
         unsigned skill = 0, lvl = 0;

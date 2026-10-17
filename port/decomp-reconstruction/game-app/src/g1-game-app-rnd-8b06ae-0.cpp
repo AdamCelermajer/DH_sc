@@ -13,6 +13,7 @@
 #include "dh2/rnd/RandomGenerator.hpp"
 
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>

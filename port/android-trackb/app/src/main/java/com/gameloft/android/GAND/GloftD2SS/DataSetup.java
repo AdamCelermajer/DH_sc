@@ -268,7 +268,11 @@ public class DataSetup extends Activity {
     }
 
     private void startGame() {
-        startActivity(new Intent(this, DungeonHunter2.class));
+        // NEW_TASK|CLEAR_TASK: never resume a stale DungeonHunter2 task left over from a killed process (e.g. after installing over a running game):
+        // the original relies on its activity flow never resuming before nativeInit has built the Application.
+        Intent game = new Intent(this, DungeonHunter2.class);
+        game.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(game);
         finish();
     }
 

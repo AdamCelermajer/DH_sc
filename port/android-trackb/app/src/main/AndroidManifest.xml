@@ -59,6 +59,7 @@
         <activity
             android:label="@string/icon_label"
             android:name="com.gameloft.android.GAND.GloftD2SS.DataSetup"
+            android:clearTaskOnLaunch="true"
             android:exported="true"
             android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|keyboardHidden">

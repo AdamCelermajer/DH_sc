@@ -256,9 +256,6 @@ bool LuaManager::AddFile(LuaScript* script, const char* file) {
     }
 
     sfc::script::lua::Error error = script->m_instance.loadFile(*buffer);
-    // Q3TEMP-DEBUG begin
-    if (std::getenv("DH2_LUA_TRACE") != nullptr) std::fprintf(stderr, "[luaload] %s status=%d msg=%s\n", path.c_str(), error.m_status, error.m_message.c_str());
-    // Q3TEMP-DEBUG end
     if (error.m_status != 0) {
         return false;
     }

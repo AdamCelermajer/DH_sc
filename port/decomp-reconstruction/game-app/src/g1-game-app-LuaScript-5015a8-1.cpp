@@ -103,15 +103,8 @@ void LuaScript::_PopVFTable(const sfc::script::lua::Arguments& /*args*/, sfc::sc
 
 // 0x37ee80 LuaScript::_Trace(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // The original is a bare return (asm: BX LR, 4 bytes). The Lua Trace binding does nothing.
-void LuaScript::_Trace(const sfc::script::lua::Arguments& args,
-                       [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {
-    // Q3TEMP-DEBUG begin
-    static const bool on = std::getenv("DH2_LUA_TRACE") != nullptr;
-    if (on && args.m_values != nullptr && !args.m_values->empty() && (*args.m_values)[0].m_type == 4) {
-        std::fprintf(stderr, "[luatrace] %s\n", (*args.m_values)[0].getString());
-    }
-    // Q3TEMP-DEBUG end
-}
+void LuaScript::_Trace([[maybe_unused]] const sfc::script::lua::Arguments& args,
+                       [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
 
 // 0x37cbd8 LuaScript::_GetNumPlayers(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // Pushes one integer: PlayerManager::m_numCharacters (+0x6c4, Hex-Rays *(dword_99F76C + 1732)) of the PlayerManager

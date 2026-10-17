@@ -20,6 +20,9 @@
 // original's std::random_shuffle over a RandomGenerator is written out as ShuffleWithGenerator (the same loop, without the
 // deprecated call), using RandomGenerator::operator().
 #include <algorithm>
+#ifdef DH2_HOST_RUNNER
+namespace dh2host { void recordMissing(const char* kind, const char* name, void* caller); }
+#endif
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -54,6 +57,12 @@ extern int gAssertLevel;
 namespace rnd {
 
 namespace {
+#ifdef DH2_HOST_RUNNER
+bool RndLogOn() { static int v = -1; if (v < 0) v = std::getenv("DH2_RND_LOG") != nullptr ? 1 : 0; return v == 1; }
+#define RNDLOG(...) do { if (RndLogOn()) { char rndbuf[300]; std::snprintf(rndbuf, sizeof rndbuf, __VA_ARGS__); ::dh2host::recordMissing("rnd", rndbuf, nullptr); } } while (0)
+#else
+#define RNDLOG(...) do {} while (0)
+#endif
 
 // Source path printed by the original's ASSERT lines in rndRule.cpp.
 constexpr const char kRndRuleCppPath[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp";
@@ -142,6 +151,7 @@ Tile* RootRule::Impl::Generate(Array2d<Tile*>& grid) {
     (void)grid;
     const RootRule& root = *m_rootRule;
     ListRule* list = root.m_list;
+    RNDLOG("[rnd] RootRule::Impl::Generate list=%p index=%d names=%zu elems=%zu\n", static_cast<void*>(list), root.m_listIndex, m_names.size(), list ? list->m_elems.size() : 0);
     if (list != nullptr) {
         const std::uint32_t index = static_cast<std::uint32_t>(root.m_listIndex);
         if (root.m_listIndex == -1 || index >= list->m_elems.size()) {
@@ -159,6 +169,7 @@ Tile* RootRule::Impl::Generate(Array2d<Tile*>& grid) {
         }
         const ListElem element = list->m_elems[index];
         Block* block = m_rule->GetBlock(element.m_name.c_str());
+        RNDLOG("[rnd] RootRule: list element %u '%s' block=%p\n", index, element.m_name.c_str(), static_cast<void*>(block));
         return block != nullptr ? PlaceRootTile(block, element) : nullptr;
     }
 
@@ -411,6 +422,7 @@ bool Rule::Impl::Step(Tile* tile, const Exit* from) {
         }
         tile->RemoveNeighbors();
     }
+    RNDLOG("[rnd] Step FAILED block=%s candidates=%zu children=%d rows=%zu\n", tile->m_block->m_name.c_str(), candidateCount, childCount, rows.size());
     return false;
 }
 
@@ -499,6 +511,7 @@ int Path::Impl::OneStep(Tile* tile, const Exit* from, const Exit* to) {
         }
         return 1;
     }
+    RNDLOG("[rnd] Path::OneStep FAILED depth=%d limit=%d candidates=%zu from-block=%s dir=%d forced=%d\n", m_depth, m_limit, candidates.size(), tile->m_block->m_name.c_str(), fromSide.m_direction->id, unk_48);
     return 0;
 }
 

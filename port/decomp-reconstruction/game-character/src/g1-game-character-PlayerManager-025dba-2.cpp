@@ -875,15 +875,14 @@ unsigned int PlayerManager::_CheckLocalControllers() {
 // each one: when the record has no character, counts its in-game flag into the two handshake accumulators (and, for a
 // finished record without one while hosting, raises the "done loading" one). Otherwise the record and the character are
 // synchronised in the direction the ownership decides:
-//   - the record is local (+0x66c): its savegame owns the profile, so the replicated class, level, XP, HP, gold, potions
-//     and the two skill arrays follow it (and the character's in-game flag is derived from the level), and, with no save
-//     slot yet, the savegame is created and the record renamed from the Game Center alias or the account name;
-//   - the record is remote and online: the replicated members own the profile, so _PackInventory and the character's
-//     gold, potions, XP, HP, level, class and the two skill arrays follow them;
-//   - offline: _UnpackInventory and the record's fields drive the character (name, class change with property reload,
-//     gold, potions, XP, HP, level from the savegame's average level, the two skill arrays with UpdateAllSkills).
-// Then m_ingame is published to the record's replicated member when it moved (with the HUD completeRefresh in the level
-// that uses it), and the character's own visibility and idle state are brought in line with it.
+//   - the record is local (+0x66c): the savegame and name set-up, the record's m_ingame and m_doneLoading from the level
+//     (LABEL_13); a remote record only raises the done-loading accumulator;
+//   - then (LABEL_30) only with the manage flag (+0x6c9) and online: a local record publishes its character
+//     (_PackInventory, the record's gold, potions, XP, HP, level, class and the two skill arrays follow the character);
+//     a remote record drives its character (_UnpackInventory and the record's name, class with property reload, gold,
+//     potions, XP, HP, level and skill arrays) and its visibility follows m_ingame and the cut-scene byte (0x373580);
+//     then (LABEL_63) a moved m_ingame becomes the character's visibility, with the HUD completeRefresh in step 38.
+//     Offline nothing of this runs (the single-player hero's visibility is not managed here).
 // After the walk, the online loading handshake: with the gate open, the host, a finished local character and the local
 // record ready, the local record becomes ready to roll, a pending handshake is forced when a record finished loading, the
 // wait timer runs down, and CMsgInitialSetup is sent with the character's level, class and save date. A server with a
@@ -1032,8 +1031,24 @@ int PlayerManager::_ManageCharacters() {
                     player->UpdateReadyToRoll();
                 }
             }
-        } else if (GetOnlineGameFlag()) {
-            // A remote record: the replicated members own the profile, so the character follows them.
+        } else if (player->m_doneLoading.IsChanged() && player->m_doneLoading.GetValue() && IsLocalPlayerHosting()) {
+            // A remote record (listing 0x3728b4..): a finished record while this client hosts raises the done-loading accumulator.
+            anyDoneLoading = true;
+        }
+
+        // LABEL_30 of the listing. W2 (2026-10-17, the hero hidden in cut scenes): everything from here on, the profile sync in either
+        // direction, the m_ingame publication and the cut-scene visibility rule, runs only with the manage flag (+0x6c9) set and ONLINE
+        // (`if (!*(GetOnline()+5)) goto LABEL_65`, 0x372e6c..); an offline record only feeds the accumulators. The port ran the rule offline,
+        // which hid the single-player hero for every scripted cut scene (Swamp_Intro, tutorials, dialogs); the IsLocal() exemption that
+        // papered over it is removed. The two online branches were also swapped: a LOCAL record publishes its profile (_PackInventory and the
+        // record follows the character, then only the m_ingame publication, LABEL_63), a REMOTE record is driven by its record
+        // (_UnpackInventory, then the cut-scene rule at 0x373580, then LABEL_63).
+        if (!unk_6c9 || !GetOnlineGameFlag()) {
+            player->m_ingame.GetValue() ? (void)(anyIngame = true) : (void)(allIngame = false);
+            continue;
+        }
+        if (player->unk_66c) {
+            // A local online record: its character owns the profile, so the replicated members follow it.
             _PackInventory(*player);
             if (player->m_characterGold.GetValue() != character->m_gold) {
                 player->SetCharacterGold(character->m_gold);
@@ -1070,7 +1085,7 @@ int PlayerManager::_ManageCharacters() {
             }
             player->unk_400.SetBuffer(skillLevels, 30);
         } else {
-            // Offline: the same sync in the other direction, driven by the record.
+            // A remote online record: the same sync in the other direction, driven by the record.
             _UnpackInventory(*player);
             const char* savegameName = character->SG_GetPlayerName();
             if (!savegameName || std::string(player->m_characterName.GetValue()) != savegameName) {
@@ -1156,37 +1171,31 @@ int PlayerManager::_ManageCharacters() {
             }
         }
 
-        // Publish m_ingame to its replicated member when it moved. In level step 38 the player's number advances by four
-        // (the multiplayer HUD slot of the record, +0x67c, four entries per player) and the HUD is refreshed.
+        if (!player->unk_66c) {
+            // A remote record's own visibility and idle state follow m_ingame and the cut-scene byte (listing 0x373580..0x3735d4): it is
+            // wanted visible when the record is in the game and no cut scene runs (ScriptManager +0x30, m_inCutScene). A character whose
+            // visibility does not match is put back to idle; a matching one that is in limbus (and not dead) is too. Then SetVisible
+            // (vtable +0x40) takes the wanted value.
+            const bool ingame = player->m_ingame.GetValue() != 0;
+            const bool wantVisible = ingame && !ScriptManager::s_inst.m_inCutScene;
+            if ((character->m_visible != 0) != wantVisible) {
+                character->SM_SetIdleState(false);
+            } else if (ingame && character->SM_IsInLimbus() && !character->IsDead()) {
+                character->SM_SetIdleState(false);
+            }
+            character->SetVisible(wantVisible);
+        }
+        // LABEL_63: when m_ingame moved, the character takes it as its visibility; in load step 38 the HUD is refreshed with the
+        // record's HUD slot (+0x67c), four further on for a remote record (a local copy: the record's word is not written).
         if (player->m_ingame.IsChanged()) {
             character->SetVisible(player->m_ingame.GetValue());
             if (level && level->m_loadStep == 38) {
-                player->unk_67c += 4;
+                const std::int32_t hudSlot = player->unk_67c + (player->unk_66c ? 0 : 4);
                 gameswf::as_value number;
-                number.set_double(static_cast<double>(player->unk_67c));
+                number.set_double(static_cast<double>(hudSlot));
                 MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("menu_HUD_0", "completeRefresh", &number, 1);
             }
         }
-        // The character's own visibility and idle state follow m_ingame (listing 0x373580..0x3735c8): it is wanted visible when the
-        // record is in the game and no cut scene runs (ScriptManager +0x30, m_inCutScene), invisible otherwise. A character whose
-        // visibility does not match is put back to idle; a matching one that is in limbus (and not dead) is too. Then SetVisible
-        // (vtable +0x40) takes the wanted value. (The port had the wanted value inverted, so every in-game character was hidden and
-        // reset to idle each frame.)
-        const bool ingame = player->m_ingame.GetValue() != 0;
-        // DEVIATION FROM THE LISTING (owner Q2, 2026-10-17; see reports/decomp-reconstruction/FIRST-BOOT.md). The listing at
-        // 0x373580..0x3735c8 computes wantVisible = ingame && !ScriptManager(+0x30), and this port matched it (reader, the only two writers
-        // Script_Enter/ExitCutSceneMode at 0x45a384 and 0x455640, the update order of Application::_Update, GameObject/VisualObject::SetVisible,
-        // SceneManager::ForceRegister and the Swamp_Intro command bindings were all checked against the binary). With that exact rule the local hero
-        // is hidden and held in idle for every scripted cut scene (Swamp_Intro, the tutorials, dialogs), although Swamp_Intro animates "Player" in the
-        // cage and un-equips/re-equips its hands, i.e. the original shows it. The mechanism that keeps the hero visible in the original is not found,
-        // so the local hero ignores the cut scene byte here; remote characters keep the listing's rule (Script_EnterCutSceneMode hides them too).
-        const bool wantVisible = ingame && !(ScriptManager::s_inst.m_inCutScene && !player->IsLocal());
-        if ((character->m_visible != 0) != wantVisible) {
-            character->SM_SetIdleState(false);
-        } else if (ingame && character->SM_IsInLimbus() && !character->IsDead()) {
-            character->SM_SetIdleState(false);
-        }
-        character->SetVisible(wantVisible);
 
         player->m_ingame.GetValue() ? (void)(anyIngame = true) : (void)(allIngame = false);
     }

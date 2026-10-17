@@ -2797,6 +2797,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
             sbStarted = true;
             Intent intent = new Intent();
             intent.setClassName(getPackageName(), "com.gameloft.android.GAND.GloftD2SS.DungeonHunter2");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);   // Track B: never land in a stale task
             while (s_isPauseGame) {
                 try {
                     Thread.sleep(100L);

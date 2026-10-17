@@ -10,6 +10,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#ifdef DH2_HOST_RUNNER
+namespace dh2host { void recordMissing(const char* kind, const char* name, void* caller); }
+#endif
 #include <cstdlib>
 #include <set>
 #include <string>
@@ -300,7 +303,11 @@ void Level::_LoadProcess() {
             if (m_isRandomLevel) {
                 const uint32_t randomSeed = GetOnlineGameFlag() ? Random::s_syncedSeed : Random::s_seed;
                 StreamBuffer stream;
-                if (GenerateRandomLevel(stream, randomSeed)) {
+                const int generated = GenerateRandomLevel(stream, randomSeed);
+#ifdef DH2_HOST_RUNNER
+                { char buf[200]; std::snprintf(buf, sizeof buf, "Level step 7: %s generated=%d seed=%u", m_levelName.c_str(), generated, randomSeed); dh2host::recordMissing("rnd", buf, nullptr); }
+#endif
+                if (generated) {
                     AssignSteamToLoadDataFile(stream);
                 } else {
                     // The generator failed: the first character of the name is overwritten with 'x' and the name is cut at its
