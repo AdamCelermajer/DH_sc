@@ -29,11 +29,35 @@ def rel(p):
     return os.path.relpath(p, ROOT).replace(os.sep, '/')
 
 
-def split_preamble(text):
-    """(includes, body): every #include line, and the text with those lines removed."""
-    incs = INCLUDE.findall(text)
-    body = INCLUDE.sub('', text)
-    return incs, body
+COND = re.compile(r'^\s*#\s*(if|ifdef|ifndef|endif)', re.M)
+
+
+def top_level_includes(text):
+    """[(start, end)] of every #include line that is outside any #if/#ifdef/#ifndef ... #endif block."""
+    events = sorted([(m.start(), 'inc', m.end()) for m in INCLUDE.finditer(text)] +
+                    [(m.start(), m.group(1), m.end()) for m in COND.finditer(text)])
+    depth, out = 0, []
+    for start, kind, end in events:
+        if kind == 'inc':
+            if depth == 0:
+                out.append((start, end))
+        elif kind == 'endif':
+            depth = max(0, depth - 1)
+        else:
+            depth += 1
+    return out
+
+
+def strip_top_level_includes(text):
+    """(includes, body): the top-level #include lines, and the text without them (conditional includes stay in place)."""
+    spans = top_level_includes(text)
+    incs = [text[a:b] for a, b in spans]
+    body, last = [], 0
+    for a, b in spans:
+        body.append(text[last:a])
+        last = b
+    body.append(text[last:])
+    return incs, ''.join(body)
 
 
 def merge_group(cat, cls, files, apply):
@@ -46,30 +70,37 @@ def merge_group(cat, cls, files, apply):
     if not apply:
         return None
     texts = [open(f, encoding='utf-8', errors='replace').read() for f in files]
-    first_incs, first_body = split_preamble(texts[0])
-    seen = list(dict.fromkeys(i.strip() for i in first_incs))
-    extra = []
-    bodies = [first_body.rstrip() + '\n']
-    for f, t in zip(files[1:], texts[1:]):
-        incs, body = split_preamble(t)
-        for i in incs:
-            s = i.strip()
-            if s not in seen:
-                seen.append(s)
-                extra.append(s)
-        bodies.append(f'\n// ---- merged from {os.path.basename(f)} ----\n' + body.strip() + '\n')
-    head = texts[0][:texts[0].find(first_incs[0])] if first_incs else ''
-    out = head + '\n'.join(seen) + '\n' + (first_body[len(head):] if first_incs else first_body)
-    out = out.rstrip() + '\n' + ''.join(bodies[1:])
+    # A single slice is a pure rename: its text is left byte for byte. For several slices the first one keeps its
+    # preamble; the later slices' top-level includes that it lacks are inserted after its last top-level include
+    # (never inside an #if block), and their bodies follow.
+    out = texts[0]
+    if len(texts) > 1:
+        first_spans = top_level_includes(texts[0])
+        seen = list(dict.fromkeys(texts[0][a:b].strip() for a, b in first_spans))
+        extra, bodies = [], []
+        for f, t in zip(files[1:], texts[1:]):
+            incs, body = strip_top_level_includes(t)
+            for i in incs:
+                s = i.strip()
+                if s not in seen:
+                    seen.append(s)
+                    extra.append(s)
+            bodies.append('\n// ---- merged from ' + os.path.basename(f) + ' ----\n' + body.strip() + '\n')
+        if extra:
+            at = first_spans[-1][1] if first_spans else 0
+            out = out[:at] + '\n' + '\n'.join(extra) + out[at:]
+        out = out.rstrip() + '\n' + ''.join(bodies)
     subprocess.run(['git', 'mv', files[0], dst], check=True)
     for f in files[1:]:
-        subprocess.run(['git', 'rm', '-q', f], check=True)
+        subprocess.run(['git', 'rm', '-q', '-f', f], check=True)
     with open(dst, 'w', encoding='utf-8', newline='\n') as fh:
         fh.write(out)
     # Slices of one class often repeat file-local helpers (anonymous-namespace constants/functions); a merged TU
     # that no longer compiles is reverted and left for a manual merge.
     check = subprocess.run(['bash', os.path.join(ROOT, 'tools', 'trackb', 'check_tu.sh'), dst], capture_output=True, text=True)
-    if not check.stdout.strip().startswith('OK'):
+    if os.environ.get('MERGE_DEBUG'):
+        print(check.stdout[-800:], check.stderr[-1500:])
+    if check.returncode != 0 or not any(l.startswith('OK ') for l in check.stdout.splitlines()):
         subprocess.run(['git', 'reset', '-q', 'HEAD', '--'] + files + [dst])
         subprocess.run(['git', 'checkout', '--'] + files)
         os.remove(dst)

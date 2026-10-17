@@ -35,3 +35,28 @@ and modifying the game code once the faithfulness phase is over.
 
 Behaviour changes, deviation removals, and the `improvements` branch work. This pass must leave the game
 byte-for-byte equivalent (same test results, same armdiff results).
+
+## Progress and lessons (2026-10-17, round 2)
+
+* Round 1 (afe43ad1): net-transport, net-session-online, glitch-scene-collada-gui groups.
+* Round 2: game-anim (AnimApplicator, AnimController, AnimSetController, AnimSetManager, AnimationSet, Animator,
+  AnimatorBlender, AnimatorSet, AnimatorSynchronizedBlender, BlendedAnimSetController, CharAnimator [3 slices, manual
+  dedup of `AnimTableRecord`]) and game-items-save (ConditionData, ItemManager, Objective, Objective_Automatic, Objective_EventReceiver, Objective_GatherLoot, PropertyMap, Reward, RewardList, Savegame, TrophyManager, UserProperties).
+* `tools/trackb/merge_slices.py` fixes: a single slice is a pure rename (its text is kept byte for byte); extra includes of
+  later slices are inserted after the first slice's last TOP-LEVEL include (never inside an `#if` block: the first include
+  of several files sits in an `#ifdef` debug block and hoisting into it broke the compile); the check_tu result is read
+  from the `OK ` line (compiler warnings precede it); `git rm -f` for slices with staged edits.
+* `tools/trackb/ledger_rescan.py --category X --apply`: re-points `source_file` by the `// 0xADDR` headers; rows without a
+  header (compiler-generated members, "Not written") follow their old file when all of its headered rows went to one
+  new file. Totals (`tools/decomp_progress.py`) are unchanged by the pass: 27,467 / 19,913 reconstructed.
+* **Rule 9 (new). A test that stands in for a sibling function of the same class blocks the merge.** The tests link
+  against the whole library with `--allow-multiple-definition` and rely on the stand-in replacing the real function; once
+  the caller and the callee are in one translation unit the compiler binds (or inlines) the call directly and the stand-in
+  is never reached. Broken by the merge and therefore kept as slices: `AnimatedFX` (r2a-game-anim-pack0-392f84-0_test
+  stands in for SetSpeed) and `LevelSavegame` (g1-game-items-save-LevelSavegame-0b011d-1_test stands in for the
+  checkpoint-name builders), and `ObjectiveList`, `PlayerStatManager`, `SavegameManager` (their `-1_test`s segfault once
+  the real sibling runs on the test's zero-filled fixture). Merge these only together with a rewrite of the test (test the
+  real sibling or split the helper into its own file).
+* Still split, waiting for a manual dedup of file-local helpers: game-items-save ItemInstance, ItemInventory (6 slices),
+  ItemObject, PlayerSavegame (6), Quest, QuestSavegame; vox-audio VoxSoundManager. gameswf (67 hash-named files) is not
+  covered by the inventory's class regex (lower-case class names) and needs its own pass.

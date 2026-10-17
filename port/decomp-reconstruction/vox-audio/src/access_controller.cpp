@@ -6,8 +6,9 @@
 namespace vox {
 
 namespace {
-// The asm calls 0x30e880 with 1000 before retrying, i.e. a 1000 ms wait.
-void WaitBeforeRetry() { std::this_thread::sleep_for(std::chrono::milliseconds(1000)); }
+// The asm calls usleep (0x30e880) with 0x3E8 = 1000 microseconds before retrying: a 1 ms wait. (It was 1000 ms here, which froze the game thread
+// for a second whenever the mixer thread held the emitter table while a sound was created: seen as 1020 ms frames on a Galaxy Z Fold 7.)
+void WaitBeforeRetry() { std::this_thread::sleep_for(std::chrono::microseconds(1000)); }
 }  // namespace
 
 // 0x893548 _ZN3vox16AccessController13GetReadAccessEv
