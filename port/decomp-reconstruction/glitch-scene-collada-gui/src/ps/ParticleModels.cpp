@@ -213,7 +213,6 @@ void PSizeModel<P>::applyPSize(P* first, P* last) {
 // PColorModel (SParticle)
 // ---------------------------------------------------------------------------------------------------------------------
 
-// 0x654690 _ZN6glitch2ps11PColorModelINS0_9SParticleEEC2Ev
 // Registers the nine bindings in the order of the members (the two tracks, the key mapping type and the six anim values).
 template <typename P>
 PColorModel<P>::PColorModel() {

@@ -49,3 +49,13 @@ woke the AI" caveat applies at most to fight 1 (the one WITHOUT a dive); the thr
 - fights 1 and 5 (no dive in 80 s / 68 s) vs fights 2, 3, 4 (dive 16.0-16.9 s after the cut scene first showed the boss, an emerge hit 3.3 / 2.7 s later, then hidden for 40-70 s): same level, hero position and distance.
   Only the dialogue tapping speed differed (reveal-to-control 41 / 5.8 / 6.7 / 12.6 / ~5-23 s), i.e. the intro roar/jaws animation was cut at different points. The original CAN dive at range, it is phase dependent: in
   the natural flow it dived in 3 of 5 runs. "Never dives at range" in our port is faithful only for the in-phase runs; it is divergent if the port cannot dive in ANY phase (test: shift the first tick by 1.5 s against the cycle).
+
+## Conclusion (2026-10-17, Q6 jitter runs)
+
+The dive at range is emergent from frame-time jitter. Natural flow, pristine saves, 8 seeds per set:
+fixed 33 ms step -> 0/8 dives; dt jittered 28-40 ms (2012-hardware-like) -> 3/8 dives (first dive 22 s after
+control, then every ~16 s); dt jittered 15-19 ms (steady 60 fps phone) -> 0/8. The attack cycle is 3.0 s and
+five cycles equal the 15 s dive tick exactly, so only drift lets the tick fall into the ~0.5 s idle gap. All
+engine functions on the path match the binary; the original would lock the same way at a steady 60 fps.
+Faithful tree: no change. Improvements branch: 30 fps pacing or a different tick phase, if wanted.
+Runner switches: DH2_DT_JITTER="lo,hi", DH2_DT_SEED (host_runner.cpp).

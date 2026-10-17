@@ -29,6 +29,9 @@
 #include "dh2/PFFloor.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "pydata-accessors/script_cmd.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/Singleton.hpp"
@@ -92,6 +95,9 @@ enum Mode { kNone, kHunt, kLoot, kExplore, kRandom, kExit, kWalkTo, kRoute };
 // Route mode: the level's checkpoint zones in name order, then its enabled exit zones. The hero walks from one to the next (fighting what comes
 // within 600 units), interacts when it stalls (doors, levers), and gives a waypoint up after 600 frames without progress.
 struct Waypoint { std::string name; Point3D<float> pos; bool exit; GameObject* zone; };
+bool g_ungate = false, g_heal = false, g_dlgWas = false;
+int g_dlgRise = 0;
+int g_dlgPeriod = 0, g_dlgStart = 0, g_dlgEnd = 0, g_dlgLast = -1000, g_dlgTaps = 0;  // Q6 dlgtap
 int g_clickX = 0, g_clickY = 0, g_clickFrame = -1;   // a scheduled Flash click: down, move after 2 frames, up after 6
 struct QueuedClick { int frame, x, y; };
 std::vector<QueuedClick> g_clickQueue;                  // further scheduled clicks (rand: pause, then the pause menu's Continue)
@@ -701,6 +707,21 @@ void botTick(int frame, const Options& opt) {
             if (ScriptManager::s_inst.m_inCutScene) { touch(1, 160, 90, 0); touch(2, 160, 90, 0); touch(0, 160, 90, 0); g_lastAutoTap = frame; ++g_skips; }
         }
     }
+    if (g_dlgPeriod > 0 && frame >= g_dlgStart && frame < g_dlgEnd) {  // Q6: tap through cut scene / dialogue like a player, only while one is showing
+        const bool showing = !MenuMessageManager<DialogMsg, 1>::s_inst.m_queues[0].empty();
+        if (showing && !g_dlgWas) g_dlgRise = frame;
+        g_dlgWas = showing;
+        if (showing && frame - g_dlgLast >= g_dlgPeriod && frame - g_dlgRise >= g_dlgPeriod) { touch(1, 1200, 540, 0); touch(0, 1200, 540, 0); g_dlgLast = frame; ++g_dlgTaps; std::fprintf(g_runnerOut, "[dlgtap] f=%d taps=%d cut=%d dq=%zu%c", frame, g_dlgTaps, ScriptManager::s_inst.m_inCutScene ? 1 : 0, MenuMessageManager<DialogMsg, 1>::s_inst.m_queues[0].size(), 10); }
+    }
+    if (g_heal) { if (Character* hh = hero()) if (hh->GetHP() < hh->GetTotalHP() / 2) hh->SetHP(hh->GetTotalHP()); }  // Q6: stands in for the potions a player drinks
+    if (g_ungate && ScriptManager::s_inst.m_inCutScene) {  // Q6 experiment: the boss timers run during the cut scene once the boss is shown (stands in for an unknown original difference)
+        for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
+            if (o->m_name.find("SwampKing") == std::string::npos || !o->m_visible) continue;
+            ScriptManager::s_inst.m_inCutScene = false;
+            o->CharTimers::Update();
+            ScriptManager::s_inst.m_inCutScene = true;
+        }
+    }
     if (g_campaign) campaignTick(frame);
     if (g_mode == kNone) return;
     if (frame >= g_modeEnd) {
@@ -965,7 +986,23 @@ void botCommand(int frame, const std::string& line) {
         if (id >= 0 && static_cast<size_t>(id) < sm.m_cmds.size()) {
             const auto& sc = sm.m_cmds[static_cast<size_t>(id)];
             std::fprintf(g_runnerOut, "[bot] scriptdump %d '%s' cmds=%d state=%d module=%d\n", id, sm.GetNameFromID(id) ? sm.GetNameFromID(id) : "?", sc.m_count, sm.m_contexts[static_cast<size_t>(id)].m_state, sm.m_contexts[static_cast<size_t>(id)].m_module);
-            for (int i = 0; i < sc.m_count; ++i) std::fprintf(g_runnerOut, "[bot]   cmd %d %s\n", i, typeid(*sc.m_cmds[i]).name());
+            for (int i = 0; i < sc.m_count; ++i) {
+                const std::string tn = typeid(*sc.m_cmds[i]).name();
+                std::string extra;
+                void* a = sc.m_cmds[i]->m_args;
+                char buf[200];
+                if (a != nullptr) {
+                    if (tn.find("ShowActor") != std::string::npos) { std::snprintf(buf, sizeof buf, " target=%s", static_cast<Structs::ShowActor*>(a)->Target); extra = buf; }
+                    else if (tn.find("HideActor") != std::string::npos) { std::snprintf(buf, sizeof buf, " target=%s", static_cast<Structs::HideActor*>(a)->Target); extra = buf; }
+                    else if (tn.find("SetActorPosition") != std::string::npos) { std::snprintf(buf, sizeof buf, " target=%s pos=%s", static_cast<Structs::SetActorPosition*>(a)->Target, static_cast<Structs::SetActorPosition*>(a)->Position); extra = buf; }
+                    else if (tn.find("PlayActorAnim") != std::string::npos) { auto* q = static_cast<Structs::PlayActorAnim*>(a); std::snprintf(buf, sizeof buf, " target=%s anim=%d next=%d slot=%d wait=%d", q->Target, q->Anim, q->Next, q->Slot, q->Wait ? 1 : 0); extra = buf; }
+                    else if (tn.find("PlayCamera") != std::string::npos) { auto* q = static_cast<Structs::PlayCamera*>(a); std::snprintf(buf, sizeof buf, " anim=%d wait=%d", q->Anim, q->Wait ? 1 : 0); extra = buf; }
+                    else if (tn.find("ExecScript") != std::string::npos) { auto* q = static_cast<Structs::ExecScript*>(a); std::snprintf(buf, sizeof buf, " script=%d wait=%d", q->Script, q->Wait ? 1 : 0); extra = buf; }
+                    else if (tn.find("PutCharacterInIdle") != std::string::npos) { std::snprintf(buf, sizeof buf, " target=%s", static_cast<Structs::PutCharacterInIdle*>(a)->Target); extra = buf; }
+                    else if (tn.find("Script_Wait") != std::string::npos) { std::snprintf(buf, sizeof buf, " time=%d", static_cast<Structs::Wait*>(a)->Time); extra = buf; }
+                }
+                std::fprintf(g_runnerOut, "[bot]   cmd %d %s%s\n", i, tn.c_str(), extra.c_str());
+            }
         }
     } else if (cmd == "timers") {  // Q3: the CharTimers slots of the characters whose name contains the argument
         std::string sub;
@@ -1014,6 +1051,33 @@ void botCommand(int frame, const std::string& line) {
         const int id = ScriptManager::s_inst.GetIDFromName(name.c_str(), true);
         std::fprintf(g_runnerOut, "[bot] runscript '%s' id=%d module=%d\n", name.c_str(), id, module);
         if (id >= 0) ScriptManager::s_inst.StartScript(id, module, false);
+    } else if (cmd == "zoneinfo") {  // Q6: zoneinfo <name>: updating flag, entered, hero touching, absAabb
+        std::string name;
+        ss >> name;
+        for (ObjectBase* ob : allObjects()) {
+            auto* z = dynamic_cast<TriggerZone*>(ob);
+            if (z == nullptr || ob->m_name != name) continue;
+            std::fprintf(g_runnerOut, "[zoneinfo] f=%d %s en=%d upd=%d entered=%d touch=%d aabb=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f) hero=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f)\n", frame, name.c_str(), ob->m_enabled, static_cast<int>(ob->unk_85), z->m_entered ? 1 : 0,
+                         h ? (z->IsTouching(h) ? 1 : 0) : -1, z->m_absAabb[0], z->m_absAabb[1], z->m_absAabb[2], z->m_absAabb[3], z->m_absAabb[4], z->m_absAabb[5],
+                         h ? h->m_absAabb[0] : 0, h ? h->m_absAabb[1] : 0, h ? h->m_absAabb[2] : 0, h ? h->m_absAabb[3] : 0, h ? h->m_absAabb[4] : 0, h ? h->m_absAabb[5] : 0);
+        }
+    } else if (cmd == "conds") {  // Q6: every object with an activate/deactivate condition: enabled flag, tested flags
+        for (ObjectBase* ob : allObjects()) {
+            if (ob->m_enableCond.m_text.empty() && ob->m_disableCond.m_text.empty()) continue;
+            std::fprintf(g_runnerOut, "[cond] %s en=%d act='%s' tested=%d list=%d dis='%s' tested=%d%c", ob->m_name.c_str(), ob->m_enabled, ob->m_enableCond.m_text.c_str(), ob->m_enableCond.m_tested ? 1 : 0, ob->m_enableCond.m_list != nullptr ? 1 : 0, ob->m_disableCond.m_text.c_str(), ob->m_disableCond.m_tested ? 1 : 0, 10);
+        }
+    } else if (cmd == "dlgtap") {  // Q6: dlgtap <period frames> <end frame>: tap (1200,540) every <period> frames while a cut scene or dialogue shows
+        int period = 30, end = 100000;
+        ss >> period >> end;
+        g_dlgPeriod = period; g_dlgStart = frame; g_dlgEnd = end; g_dlgLast = -1000; g_dlgTaps = 0;
+    } else if (cmd == "heal") {  // Q6: heal 1 / heal 0: keep the hero above 50 percent HP (potions)
+        int on = 1;
+        ss >> on;
+        g_heal = on != 0;
+    } else if (cmd == "ungate") {  // Q6 experiment
+        int on = 1;
+        ss >> on;
+        g_ungate = on != 0;
     } else if (cmd == "zonescript") {  // Q3: start the enter script of the named TriggerZone (what the zone does when a player walks in)
         std::string name;
         ss >> name;
@@ -1028,9 +1092,9 @@ void botCommand(int frame, const std::string& line) {
         ss >> sub;
         for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
             if (o->m_name.find(sub) == std::string::npos) continue;
-            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x aabb=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f) curSkill=%d step=%d/%d stack=%u begun=%d ended=%d cut=%d blk=%d ctlblk=%d aiPaused=%d autoCull=%d c2fc=%d\n", frame, o->m_name.c_str(), o->m_position.X,
+            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x aabb=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f) curSkill=%d step=%d/%d stack=%u begun=%d ended=%d cut=%d blk=%d ctlblk=%d aiPaused=%d autoCull=%d c2fc=%d hint=%d hflags=0x%x hdead=%d h4d=%d dq=%zu\n", frame, o->m_name.c_str(), o->m_position.X,
                          o->m_position.Y, o->m_position.Z, dist2d(h, o), o->GetHP(), o->IsDead() ? 1 : 0, o->m_enabled, o->m_visible, o->CharAI::unk_4d ? 1 : 0,
-                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags), o->m_absAabb[0], o->m_absAabb[1], o->m_absAabb[2], o->m_absAabb[3], o->m_absAabb[4], o->m_absAabb[5], o->CharAI::m_curSkill, o->CharAnimator::ANIM_GetStepIndex(), o->CharAnimator::ANIM_GetStepCount(), static_cast<unsigned>(o->CharAnimator::m_animStackIdx), o->CharAI::m_skillStepBegun ? 1 : 0, o->CharAI::m_skillStepEnded ? 1 : 0, ScriptManager::s_inst.m_inCutScene ? 1 : 0, v2Controller::s_blocked ? 1 : 0, o->m_controller->m_blocked ? 1 : 0, o->CharAI::m_updatePaused ? 1 : 0, o->m_visualObject != nullptr ? static_cast<int>(o->m_visualObject->m_node->automaticCulling) : -1, static_cast<int>(o->unk_2fc));
+                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags), o->m_absAabb[0], o->m_absAabb[1], o->m_absAabb[2], o->m_absAabb[3], o->m_absAabb[4], o->m_absAabb[5], o->CharAI::m_curSkill, o->CharAnimator::ANIM_GetStepIndex(), o->CharAnimator::ANIM_GetStepCount(), static_cast<unsigned>(o->CharAnimator::m_animStackIdx), o->CharAI::m_skillStepBegun ? 1 : 0, o->CharAI::m_skillStepEnded ? 1 : 0, ScriptManager::s_inst.m_inCutScene ? 1 : 0, v2Controller::s_blocked ? 1 : 0, o->m_controller->m_blocked ? 1 : 0, o->CharAI::m_updatePaused ? 1 : 0, o->m_visualObject != nullptr ? static_cast<int>(o->m_visualObject->m_node->automaticCulling) : -1, static_cast<int>(o->unk_2fc), h->IsInteractive(o) ? 1 : 0, static_cast<unsigned>(h->CharStateMachine::m_stateFlags), h->IsDead() ? 1 : 0, h->CharAI::unk_4d ? 1 : 0, MenuMessageManager<DialogMsg, 1>::s_inst.m_queues[0].size());
         }
     } else if (cmd == "objects" && h) {
         int n = 0;

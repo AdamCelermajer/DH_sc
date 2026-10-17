@@ -239,7 +239,15 @@ int runHeadlessLoop(const Options& opt) {
     for (int f = 0; f < opt.frames && !quit; ++f) {
         const auto frameStart = std::chrono::steady_clock::now();
         scriptApplyFrame(script, f, opt, quit);
-        clockAdvance(opt.dtMs);
+        int stepMs = opt.dtMs;
+        if (const char* jit = std::getenv("DH2_DT_JITTER")) {  // Q6: "lo,hi" ms, one random step per frame (xorshift, seed DH2_DT_SEED)
+            static unsigned long long s = std::getenv("DH2_DT_SEED") ? std::strtoull(std::getenv("DH2_DT_SEED"), nullptr, 10) * 2654435761ull + 88172645463325252ull : 88172645463325252ull;
+            int lo = 28, hi = 40;
+            std::sscanf(jit, "%d,%d", &lo, &hi);
+            s ^= s << 13; s ^= s >> 7; s ^= s << 17;
+            stepMs = lo + static_cast<int>((s >> 11) % static_cast<unsigned long long>(hi - lo + 1));
+        }
+        clockAdvance(stepMs);
         runFrame();
         if (opt.pace) {   // --pace: hold the wall clock to the game clock so the audio thread mixes what the game asked for in time
             static std::int64_t t0 = GetTickCount64();

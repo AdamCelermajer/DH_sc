@@ -7,15 +7,12 @@
 // Not reconstructed: GetRoomList (0x82051c). It returns a std::vector<tRoomInfo>; the tRoomInfo
 // layout is now in t_room_info.hpp, but the body also needs the lobby observer's tGLRoomInfo list
 // (+0x18 of the observer), which the observer header does not declare.
-
 #include "net-transport/transport_manager.hpp"   // CTransportManager (host names)
 #include "net-session-online/c_matching_gl_live.hpp"
-
 #include <cstdint>
 #include <cstring>
 #include <ctime>
 #include <string>
-
 #include "net-session-online/c_lobby_parameter_and_query.hpp"
 #include "net-session-online/c_matching_gl_live_observers.hpp"  // the lobby observer room vector (GetRoomList)
 #include "net-session-online/tb/t_gl_room_info.hpp"
@@ -38,6 +35,34 @@
 #include "net-session-online/glx_player_serever_config.hpp"
 #include "net-session-online/glx_player_user_friend.hpp"
 #include "net-session-online/glx_player_user.hpp"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 0x81f264 _ZN15CMatchingGLLive10InitializeEi
 // CMatching::Initialize, the early return when the base flag +0x0c is already set, the GLXPlayerSereverConfig (0x44
