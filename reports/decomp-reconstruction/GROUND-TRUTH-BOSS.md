@@ -37,3 +37,15 @@ the phase in the original's intro cut scene lets the first tick land on an Idle 
 activated when the cut scene starts showing it (not when control returns), and its first cycle starts one 1.5 s grid later than ours.
 After the dive the boss resurfaces at another BossSpawnPoint (not visible in the top band) and keeps spitting from there (hit pairs 5.8 s apart, 20 s gap = next dive/resurface).
 Caveats: n = 4 fights, one hero level, boss name plate/visibility measured from screenshots (not from the engine state); the exact intro-cut-scene length depends on how fast the dialogue is tapped.
+
+## GT3 addendum: precise timeline and the "natural flow" question (2026-10-17, port 5592, same Warrior, ~855 units)
+Which fights were natural: only fight 1 started from my edited checkpoint (hero set to (-14000,12000), then walked west into TriggerZone_17). Fights 2-5 were RESPAWNS after death: the game reloads the level at
+CheckpointZone_04 (-15104,12135), 4400 units from the boss, boss off camera; the hero walks up (joystick up 1.5 s) into the zone and the Swamp_Serpent_Intro cut scene plays normally. So the "hero in the boss room
+woke the AI" caveat applies at most to fight 1 (the one WITHOUT a dive); the three fights WITH a dive (2-4) were already the natural flow. Fight 5 (new, natural, trigger 09:11:25, potions used, 68 s observed):
+- boss reveal: first boss frames in the cut scene ~09:11:27 (camera pans); roar close-up (open jaws) 09:11:45; control back (HUD) 09:11:50.0 = T0. Reveal-to-control varies 5-23 s with the tapping speed.
+- attack cadence = head leaving the top band (0.4-0.6 s dip = one attack animation): dips start at T0+0.1, 2.9, 6.1, 12.1, 15.1, 18.2, 21.3, 24.1, 27.4, 30.2, 33.5, 36.2 ... mean period 3.02 s, i.e. attack animations
+  back to back with ~0.5 s between them (intimidate then spit); a spit lands on the hero every ~6.1 s (hero hits at T0+10.9, 26.0, 32.1, 40.7, 46.9, 59.0, potion gaps in between).
+  The boss was never seen idle (no gap > 0.7 s between attack animations) and never dived or emerged in 68 s: the ticks at 15/30/45/60 s all fell inside an attack.
+- fights 1 and 5 (no dive in 80 s / 68 s) vs fights 2, 3, 4 (dive 16.0-16.9 s after the cut scene first showed the boss, an emerge hit 3.3 / 2.7 s later, then hidden for 40-70 s): same level, hero position and distance.
+  Only the dialogue tapping speed differed (reveal-to-control 41 / 5.8 / 6.7 / 12.6 / ~5-23 s), i.e. the intro roar/jaws animation was cut at different points. The original CAN dive at range, it is phase dependent: in
+  the natural flow it dived in 3 of 5 runs. "Never dives at range" in our port is faithful only for the in-phase runs; it is divergent if the port cannot dive in ANY phase (test: shift the first tick by 1.5 s against the cycle).

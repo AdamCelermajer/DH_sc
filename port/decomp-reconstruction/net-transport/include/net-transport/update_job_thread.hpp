@@ -10,6 +10,7 @@
 //   +0x0c argument passed to the constructor
 #pragma once
 
+#include <atomic>
 #include <thread>
 
 class updateJob_thread {
@@ -32,4 +33,5 @@ public:  // decision 9: Application::_Update reads flag_ (+0x08)
     std::thread thread_;                              // +0x04
     bool flag_ = false;                               // +0x08
     int argument_ = 0;                                // +0x0c
+    std::atomic<bool> startBusy_{false};              // port only: a Start() worker is still running
 };

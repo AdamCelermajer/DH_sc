@@ -39,6 +39,11 @@
         android:label="@string/icon_label"
         android:icon="@drawable/icon"
         android:usesCleartextTraffic="true">
+        <provider
+            android:name="com.gameloft.android.GAND.GloftD2SS.SessionProvider"
+            android:authorities="com.gameloft.android.GAND.GloftD2SS.reports"
+            android:exported="false"
+            android:grantUriPermissions="true"/>
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false"/>

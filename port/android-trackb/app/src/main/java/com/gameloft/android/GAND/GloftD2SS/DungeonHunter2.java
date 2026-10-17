@@ -410,6 +410,7 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
         locale.getISO3Country();
         this.k = true;
         super.onCreate(bundle);
+        SessionLog.start(this);   // Track B: rolling session log (idempotent)
         if (!GameInstaller.sbStarted) {
             System.out.println("------- Game::onCreate(), start installer ------");
             try {
@@ -520,6 +521,7 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
             }
         }
         super.onPause();
+        SessionLog.flush();
         I.onPause();
     }
 
@@ -573,6 +575,7 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
 
     @Override // android.app.Activity
     protected void onStop() {
+        SessionLog.flush();
         this.h.unregisterListener(this);
         this.h = null;
         super.onStop();

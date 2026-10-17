@@ -66,8 +66,10 @@ public class DataSetup extends Activity {
         bar.setVisibility(View.GONE);
         root.addView(text);
         root.addView(bar, new LinearLayout.LayoutParams(600, LinearLayout.LayoutParams.WRAP_CONTENT));
+        root.addView(reportRow(), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         setContentView(root);
         File fd = filesDir();
+        SessionLog.start(this);   // rotates the previous session to dh2_session_prev.txt and starts the rolling log
         CrashReport.install(fd);
         String crash = null;
         try {
@@ -147,7 +149,7 @@ public class DataSetup extends Activity {
             return;
         }
         if (dataReady()) {
-            startGame();
+            scheduleStart();
             return;
         }
         final boolean bundled = hasAsset("dh2data.zip");
@@ -267,7 +269,77 @@ public class DataSetup extends Activity {
         }
     }
 
+    private final android.os.Handler handler = new android.os.Handler();
+    private final Runnable startRunnable = new Runnable() {
+        public void run() {
+            startGame();
+        }
+    };
+    private TextView countdown;
+    private boolean started;
+
+    /** Always-visible "session report" row: share / copy the last session log (the game starts by itself after a short countdown unless one is tapped). */
+    private View reportRow() {
+        LinearLayout col = new LinearLayout(this);
+        col.setOrientation(LinearLayout.VERTICAL);
+        col.setGravity(Gravity.CENTER);
+        countdown = new TextView(this);
+        countdown.setTextColor(Color.LTGRAY);
+        countdown.setGravity(Gravity.CENTER);
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER);
+        android.widget.Button share = new android.widget.Button(this);
+        share.setText("Share last session log");
+        share.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                cancelStart();
+                SessionUi.share(DataSetup.this);
+            }
+        });
+        android.widget.Button copy = new android.widget.Button(this);
+        copy.setText("Copy summary");
+        copy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                cancelStart();
+                SessionUi.copySummary(DataSetup.this);
+            }
+        });
+        android.widget.Button play = new android.widget.Button(this);
+        play.setText("Play now");
+        play.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                handler.removeCallbacks(startRunnable);
+                startGame();
+            }
+        });
+        row.addView(share);
+        row.addView(copy);
+        row.addView(play);
+        col.addView(countdown);
+        col.addView(row);
+        return col;
+    }
+
+    private void scheduleStart() {
+        if (started) {
+            return;
+        }
+        handler.removeCallbacks(startRunnable);
+        countdown.setText("Session report: share the last session log before the game starts (starting in a moment)");
+        handler.postDelayed(startRunnable, 4000);
+    }
+
+    private void cancelStart() {
+        handler.removeCallbacks(startRunnable);
+        countdown.setText("Tap Play now when you are done");
+    }
+
     private void startGame() {
+        if (started) {
+            return;
+        }
+        started = true;
         // NEW_TASK|CLEAR_TASK: never resume a stale DungeonHunter2 task left over from a killed process (e.g. after installing over a running game):
         // the original relies on its activity flow never resuming before nativeInit has built the Application.
         Intent game = new Intent(this, DungeonHunter2.class);

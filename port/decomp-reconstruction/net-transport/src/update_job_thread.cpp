@@ -69,10 +69,24 @@ int updateJob_thread::Start2() {
 // 0x317ef8 _ZN16updateJob_thread5StartEv
 // The listing is pthread_create(threadfun2, this) and returns -1 (after the "Not Created" trace) when the thread cannot be
 // created, 0 otherwise. Detached workers, no second-start refusal, as in Start2.
+//
+// Deviation (decisions 2/6), evidence GT3 (reports/decomp-reconstruction/GROUND-TRUTH-BOSS.md): Application::_Update calls
+// Start() every frame (flag_ is never cleared) and the original's pthreads are joinable and never joined, so at 60 fps it leaks
+// ~60 threads/s with a 1 MB stack each (32-bit address space exhaustion on the emulator, thread handles and virtual space on
+// 64-bit). Detached threads remove the leak. In addition at most one Start() worker runs at a time: a frame that finds the
+// previous UpdateJobs step still running starts nothing, so Savegame::UpdateJobs never runs concurrently with itself
+// (the original raced on s_currentJob). Otherwise the per-frame cadence is kept: one UpdateJobs step per frame.
 int updateJob_thread::Start() {
+    if (startBusy_.exchange(true)) {
+        return 0;
+    }
     try {
-        std::thread([this] { threadfun2(this); }).detach();
+        std::thread([this] {
+            threadfun2(this);
+            startBusy_.store(false);
+        }).detach();
     } catch (...) {
+        startBusy_.store(false);
         return -1;
     }
     return 0;

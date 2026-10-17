@@ -999,6 +999,21 @@ void botCommand(int frame, const std::string& line) {
                 }
             }
         }
+    } else if (cmd == "zonelist") {  // Q5: every TriggerZone with its script and position
+        for (ObjectBase* ob : allObjects()) {
+            auto* z = dynamic_cast<TriggerZone*>(ob);
+            if (z == nullptr || z->m_script.empty()) continue;
+            std::fprintf(g_runnerOut, "[zone] %s script=%s id=%d pos=(%.0f,%.0f)\n", ob->m_name.c_str(), z->m_script.c_str(), z->m_scriptId, z->m_position.X, z->m_position.Y);
+        }
+    } else if (cmd == "runscript") {  // Q5: runscript <script name> <object name for the module>: start a level script by name (e.g. Swamp_Serpent_Intro)
+        std::string name, objName;
+        ss >> name >> objName;
+        int module = 0;
+        for (ObjectBase* ob : allObjects())
+            if (ob->m_name == objName) { module = ob->unk_64; break; }
+        const int id = ScriptManager::s_inst.GetIDFromName(name.c_str(), true);
+        std::fprintf(g_runnerOut, "[bot] runscript '%s' id=%d module=%d\n", name.c_str(), id, module);
+        if (id >= 0) ScriptManager::s_inst.StartScript(id, module, false);
     } else if (cmd == "zonescript") {  // Q3: start the enter script of the named TriggerZone (what the zone does when a player walks in)
         std::string name;
         ss >> name;
@@ -1013,9 +1028,9 @@ void botCommand(int frame, const std::string& line) {
         ss >> sub;
         for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
             if (o->m_name.find(sub) == std::string::npos) continue;
-            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x aabb=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f) curSkill=%d step=%d/%d stack=%u begun=%d ended=%d\n", frame, o->m_name.c_str(), o->m_position.X,
+            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x aabb=(%.0f,%.0f,%.0f)-(%.0f,%.0f,%.0f) curSkill=%d step=%d/%d stack=%u begun=%d ended=%d cut=%d blk=%d ctlblk=%d aiPaused=%d autoCull=%d c2fc=%d\n", frame, o->m_name.c_str(), o->m_position.X,
                          o->m_position.Y, o->m_position.Z, dist2d(h, o), o->GetHP(), o->IsDead() ? 1 : 0, o->m_enabled, o->m_visible, o->CharAI::unk_4d ? 1 : 0,
-                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags), o->m_absAabb[0], o->m_absAabb[1], o->m_absAabb[2], o->m_absAabb[3], o->m_absAabb[4], o->m_absAabb[5], o->CharAI::m_curSkill, o->CharAnimator::ANIM_GetStepIndex(), o->CharAnimator::ANIM_GetStepCount(), static_cast<unsigned>(o->CharAnimator::m_animStackIdx), o->CharAI::m_skillStepBegun ? 1 : 0, o->CharAI::m_skillStepEnded ? 1 : 0);
+                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags), o->m_absAabb[0], o->m_absAabb[1], o->m_absAabb[2], o->m_absAabb[3], o->m_absAabb[4], o->m_absAabb[5], o->CharAI::m_curSkill, o->CharAnimator::ANIM_GetStepIndex(), o->CharAnimator::ANIM_GetStepCount(), static_cast<unsigned>(o->CharAnimator::m_animStackIdx), o->CharAI::m_skillStepBegun ? 1 : 0, o->CharAI::m_skillStepEnded ? 1 : 0, ScriptManager::s_inst.m_inCutScene ? 1 : 0, v2Controller::s_blocked ? 1 : 0, o->m_controller->m_blocked ? 1 : 0, o->CharAI::m_updatePaused ? 1 : 0, o->m_visualObject != nullptr ? static_cast<int>(o->m_visualObject->m_node->automaticCulling) : -1, static_cast<int>(o->unk_2fc));
         }
     } else if (cmd == "objects" && h) {
         int n = 0;

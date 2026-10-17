@@ -130,6 +130,32 @@ class GameGLSurfaceView extends GLSurfaceView {
         }
     }
 
+    private boolean threeArmed;
+    private final Runnable threeFingerHold = new Runnable() {
+        public void run() {
+            threeArmed = false;
+            SessionUi.showGameDialog(DungeonHunter2.w);
+        }
+    };
+
+    /** Track B: three fingers held for about 2 s anywhere opens the session-log dialog (share / mark issue). */
+    private void checkThreeFingerHold(MotionEvent e) {
+        int act = e.getActionMasked();
+        int count = e.getPointerCount() - (act == MotionEvent.ACTION_POINTER_UP ? 1 : 0);
+        if (act == MotionEvent.ACTION_UP || act == MotionEvent.ACTION_CANCEL) {
+            count = 0;
+        }
+        if (count >= 3) {
+            if (!threeArmed) {
+                threeArmed = true;
+                postDelayed(threeFingerHold, 2000);
+            }
+        } else if (threeArmed) {
+            threeArmed = false;
+            removeCallbacks(threeFingerHold);
+        }
+    }
+
     public GameGLSurfaceView(Context context) {
         super(context);
         this.e = new GameRenderer(context);
@@ -170,6 +196,7 @@ class GameGLSurfaceView extends GLSurfaceView {
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        checkThreeFingerHold(motionEvent);
         int action = motionEvent.getAction();
         int i = action & 255;
         int pointerCount = motionEvent.getPointerCount();
