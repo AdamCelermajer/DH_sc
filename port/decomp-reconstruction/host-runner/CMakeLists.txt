@@ -26,3 +26,6 @@ target_link_libraries(dh2_win_window PRIVATE gdi32 user32)
 # MinGW GCC has no AddressSanitizer/UBSan runtime (libasan/libubsan are not part of the toolchain), so this is the memory-error check.
 dh2_host_exe(dh2_win_headless_ph main_headless.cpp host_pageheap.cpp)
 target_link_options(dh2_win_headless_ph PRIVATE -Wl,--wrap=malloc,--wrap=calloc,--wrap=realloc,--wrap=free)
+
+# Texture decoder for the upscale pipeline (tools/trackb/textures.py): the game's own PVRTC decode to plain TGA.
+dh2_host_exe(dh2_texconv tool_texconv.cpp)
