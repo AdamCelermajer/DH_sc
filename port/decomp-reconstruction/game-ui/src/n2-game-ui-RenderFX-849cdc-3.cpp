@@ -384,6 +384,9 @@ void RenderFX::UpdateCursor(Cursor& cursor, int controller) {
     const float twipsX = localX * 20.0f;
     const float twipsY = localY * 20.0f;
     ::smart_ptr<gameswf::character> hit(searchRoot->get_topmost_mouse_entity(twipsX, twipsY));
+    if (HudCustomizeOverlayHit(this, cursor.x, cursor.y, justPressed)) {
+        hit = nullptr;  // Port addition (UI6): a touch on the size medallions of the HUD customise page goes nowhere else
+    }
     if (ScreenUsesStickZone()) {
         // Port deviation (UI4; TRACK-B.md decision 15): a touch in the bottom-left zone of the surface that hits nothing (or only the stick's pad)
         // grabs the virtual stick.

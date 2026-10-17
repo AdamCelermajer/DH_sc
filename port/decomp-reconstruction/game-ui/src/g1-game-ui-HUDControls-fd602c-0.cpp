@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 
 #include "dh2/HUDControls.hpp"
 
@@ -46,6 +47,11 @@
 #include "dh2/GSFlashMenu.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/v2Controller.hpp"
+#include "core-platform/port_settings.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/c2d_driver.hpp"
+#include "glitch-video/texture_manager.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_root.h"
 #include "gameswf/gameswf_sprite.h"
@@ -56,6 +62,14 @@ namespace {
 // Elements in the custom layout: the joystick, the interact button, the spell and skill buttons, the character and
 // main menu buttons, the health bar, the potion button and the iTunes controls.
 constexpr int kLayoutCount = 11;
+int g_hudSelectedElement = -1;  // layout index selected on the customise page, -1 none (UI6)
+
+}  // namespace
+// UI6 (defined below, global): the per-element size pass; released before the layout is read (SaveHUDPos, CaptureDefaults).
+void HudScaleRelease();
+void HudScaleReset();
+void HudScaleApply(MenuFX* hud);
+namespace {
 
 // The layout element with the given index, in the order of m_classicPos / m_stylePos and of the default words:
 // m_joystick (+0x4c), m_btnInteract (+0x88), m_posBtnSpell (+0x3b8), m_posBtnSkill1 (+0x3e8), m_posBtnSkill2
@@ -120,6 +134,7 @@ bool SameObject(const gameswf::as_object* object, const gameswf::character* char
 // Stores the (x, y) of every layout element as 22 words (the m_defaultWorldA / m_defaultWorldB capture). Returns
 // false when a translation could not be read, and then the words are not complete.
 bool CaptureDefaults(HUDControls& h, std::uint32_t (&words)[2 * kLayoutCount]) {
+    HudScaleRelease();  // UI6: the element sizes shift the matrices; read the layout without them
     bool complete = true;
     for (int i = 0; i < kLayoutCount; ++i) {
         float x = 0.0f;
@@ -226,6 +241,7 @@ void HUDControls::BeginCustom() {
 // 0x418360 HUDControls::SaveHUDPos(void)
 // The world translation of each layout element is stored in m_stylePos when HUDStyle is set, otherwise in m_classicPos.
 void HUDControls::SaveHUDPos() {
+    HudScaleRelease();  // UI6: the element sizes shift the matrices; save the layout without them
     const bool hudStyle = Singleton<Application>::s_inst.GetSavedOption("HUDStyle") != 0;
     for (int i = 0; i < kLayoutCount; ++i) {
         float x = 0.0f;
@@ -295,15 +311,21 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
     gameswf::character* target = event.target;
 
     if (m_customizing) {
+        if (std::getenv("DH2_FIT_DEBUG") != nullptr) {
+            std::fprintf(stderr, "FITDBG custom event type=%d target=%s x=%g y=%g sel=%d%c", eventType,
+                         target != nullptr ? target->get_name().c_str() : "(null)", event.x, event.y, g_hudSelectedElement, 10);
+        }
         if (eventType == 4) {
             DebugCachedCharacter* const pressable[] = {&m_joystickStick, &m_btnInteract,     &m_posBtnSpell,
                                                        &m_posBtnSkill1,  &m_posBtnSkill2,    &m_posBtnSkill3,
                                                        &m_posBtnCharacterMenu, &m_posBtnMainMenu, &m_posBtnPotion,
                                                        &m_posBtnItunes};
-            for (DebugCachedCharacter* element : pressable) {
-                if (target == element->GetChar()) {
+            static const int kSelectIndex[] = {0, 1, 2, 3, 4, 5, 6, 8, 9, 10};  // layout index of each pressable (UI6)
+            for (std::size_t p = 0; p < sizeof pressable / sizeof pressable[0]; ++p) {
+                if (target == pressable[p]->GetChar()) {
                     srcX = event.x;
                     srcY = event.y;
+                    g_hudSelectedElement = kSelectIndex[p];
                     break;
                 }
             }
@@ -358,9 +380,11 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
                 if (Level* level = Singleton<Application>::s_inst.GetCurrentLevel()) {
                     level->unk_1a8 = false;
                 }
+                g_hudSelectedElement = -1;  // UI6
                 GSFlashMenu::s_inst.m_pendingMenu = MenuManager::GetInstance()->GetMenuByName("menu_Ingame");  // dword_9A247C
                 Singleton<Application>::s_inst.m_stateMachine->PushState(&GSFlashMenu::s_inst, false);
             } else if (target == m_btnCustomReset.GetChar()) {
+                HudScaleReset();  // UI6: every element back to 100%
                 if (Singleton<Application>::s_inst.GetSavedOption("HUDStyle")) {
                     ResetLayoutTo(*this, m_defaultWorldB);
                 } else {
@@ -673,9 +697,18 @@ HUDControls::HUDControls() {
 
 // 0x41b11c HUDControls::GetInstance(void)
 // The singleton is a function-local static, constructed on first use (the guard the original emits).
+namespace {
+bool g_hudControlsCreated = false;  // UI6: lets HudCustomizing() answer without constructing the singleton (it attaches to the EventManager)
+}
+
 HUDControls* HUDControls::GetInstance() {
     static HUDControls s_singleton;
+    g_hudControlsCreated = true;
     return &s_singleton;
+}
+
+bool HudCustomizing() {
+    return g_hudControlsCreated && HUDControls::GetInstance()->m_customizing;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -704,6 +737,9 @@ struct HudAnchorState {
     float appliedWorldX, appliedWorldY;  // the same in stage twips
     float lastX, lastY;                  // the local translation this code wrote last
     bool seen;
+    // Cover-scaled overlays (UI5): the base matrix (what the timeline placed) and the matrix this code wrote last.
+    bool covered;
+    gameswf::matrix base, written;
 };
 
 constexpr int kMaxHudAnchored = 64;
@@ -725,6 +761,7 @@ HudAnchorState* FindHudAnchorState(gameswf::character* character) {
     state.appliedLocalX = state.appliedLocalY = state.appliedWorldX = state.appliedWorldY = 0.0f;
     state.lastX = state.lastY = 0.0f;
     state.seen = false;
+    state.covered = false;
     return &state;
 }
 
@@ -827,12 +864,79 @@ void AnchorHudElement(gameswf::character* character, int anchor, const HudAnchor
     state->lastY = newY;
 }
 
+// UI5: a full-stage overlay of the HUD movie (the hurt vignette, the dim/black screens and fades) is scaled, not moved, so it covers the
+// whole surface instead of the stage only. The clip's base matrix (timeline placement) is remembered; a rewrite by the timeline is taken as
+// the new base. Non-uniform: the corners of the vignette stay in the surface corners. `release` puts the base back.
+void CoverHudOverlay(gameswf::character* character, const HudAnchorFrame& frame, const gameswf::rect& stage, bool release) {
+    if (character == nullptr || !character->is(2)) {
+        return;
+    }
+    HudAnchorState* state = FindHudAnchorState(character);
+    if (state == nullptr) {
+        return;
+    }
+    state->seen = true;
+    const gameswf::matrix current = character->get_matrix();
+    const bool untouched = state->covered && std::memcmp(&current, &state->written, sizeof current) == 0;
+    if (!untouched) {
+        state->base = current;
+    }
+    if (release || (frame.marginX == 0.0f && frame.marginY == 0.0f)) {
+        if (untouched) {
+            character->set_matrix(state->base);
+        }
+        state->covered = false;
+        return;
+    }
+    // The clip's stage-space bound under its base matrix.
+    if (untouched) {
+        character->set_matrix(state->base);
+    }
+    gameswf::rect bound;
+    static_cast<gameswf::sprite_instance*>(character)->get_bound(&bound);
+    const float bw = static_cast<float>(bound.m_x_max) - static_cast<float>(bound.m_x_min);
+    const float bh = static_cast<float>(bound.m_y_max) - static_cast<float>(bound.m_y_min);
+    const float stageW = static_cast<float>(stage.m_x_max) - static_cast<float>(stage.m_x_min);
+    const float stageH = static_cast<float>(stage.m_y_max) - static_cast<float>(stage.m_y_min);
+    if (bw <= 0.0f || bh <= 0.0f || bw < 0.85f * stageW || bh < 0.85f * stageH) {
+        state->covered = false;  // not a full-stage clip (empty or hidden state): leave it
+        return;
+    }
+    const float kx = (stageW + 2.0f * frame.marginX) / bw;
+    const float ky = (stageH + 2.0f * frame.marginY) / bh;
+    const float cbx = static_cast<float>(bound.m_x_min) + bw * 0.5f;
+    const float cby = static_cast<float>(bound.m_y_min) + bh * 0.5f;
+    gameswf::matrix m = state->base;
+    m.m_[0][0] = state->base.m_[0][0] * kx;
+    m.m_[0][1] = state->base.m_[0][1] * kx;
+    m.m_[1][0] = state->base.m_[1][0] * ky;
+    m.m_[1][1] = state->base.m_[1][1] * ky;
+    m.m_[0][2] = frame.centreX - kx * cbx + kx * state->base.m_[0][2];
+    m.m_[1][2] = frame.centreY - ky * cby + ky * state->base.m_[1][2];
+    character->set_matrix(m);
+    state->written = character->get_matrix();
+    state->covered = true;
+}
+
 }  // namespace
 
 // Called by MenuManager::Draw for the HUD movie (slot 3) every frame before it is rendered, and with release = true by
 // HUDControls::initCachedChars before the layout is read. Returns true while the HUD movie is anchored to the real screen edges, so the
 // caller can lift the clip of the 16:9 box (the HUD may then draw outside it).
+static bool HudAnchorPass(MenuFX* hud, bool release);
+
 bool HudAnchorUpdate(MenuFX* hud, bool release) {
+    if (hud == nullptr || Singleton<Application>::s_inst.GetCurrentLevel() == nullptr) {
+        return false;  // (no level: HUDControls is not up yet)
+    }
+    // UI6: the per-element sizes are taken off before the anchoring reads the matrices and put back after it (see HudScaleApply).
+    HudScaleRelease();
+    const bool anchored = ScreenUsesAspectFit() ? HudAnchorPass(hud, release) : false;
+    HudScaleApply(hud);
+    return anchored;
+}
+
+static bool HudAnchorPass(MenuFX* hud, bool release) {
     if (hud == nullptr || !ScreenUsesAspectFit() || Singleton<Application>::s_inst.GetCurrentLevel() == nullptr) {
         return false;  // (no level: HUDControls is not up yet)
     }
@@ -845,8 +949,12 @@ bool HudAnchorUpdate(MenuFX* hud, bool release) {
         g_hudAnchorMovie = movie;
         g_hudAnchoredCount = 0;
     }
-    const int offX = ScreenFitOffsetX();
-    const int offY = ScreenFitOffsetY();
+    // UI5: the HUD movie's own box (the fit scaled by HudScalePercent(), MenuFlash2DCamera::Update); its offset can be negative when the
+    // box is wider than the surface, which pulls the side elements inward to the real edges.
+    const int boxW = FlashBoxWidth(root);
+    const int boxH = FlashBoxHeight(root);
+    const int offX = (Width_Screen - boxW) / 2;
+    const int offY = (Height_Screen - boxH) / 2;
     if (offX == 0 && offY == 0 && g_hudAnchoredCount == 0) {
         return false;
     }
@@ -856,9 +964,9 @@ bool HudAnchorUpdate(MenuFX* hud, bool release) {
     if (stageW <= 0.0f || stageH <= 0.0f) {
         return false;
     }
-    // Pixels per twip of the fit box; the surface margin in twips is the offset of the box over that.
-    const float fitW = static_cast<float>(Width_Screen - 2 * offX);
-    const float fitH = static_cast<float>(Height_Screen - 2 * offY);
+    // Pixels per twip of the HUD box; the surface margin in twips is the offset of the box over that.
+    const float fitW = static_cast<float>(boxW > 0 ? boxW : Width_Screen);
+    const float fitH = static_cast<float>(boxH > 0 ? boxH : Height_Screen);
     HudAnchorFrame frame;
     frame.marginX = static_cast<float>(offX) * stageW / fitW;
     frame.marginY = static_cast<float>(offY) * stageH / fitH;
@@ -869,6 +977,16 @@ bool HudAnchorUpdate(MenuFX* hud, bool release) {
     // While the player customises the layout the HUD is shown in the 16:9 box and edited in stage space: no offsets.
     if (HUDControls::GetInstance()->m_customizing) {
         release = true;
+    }
+    // UI5: while a menu page covers the HUD (charmenu / menus page up, or the HUD movie's own pause page) the HUD stays in its box, where
+    // the page covers it as on the original's stretched screen; the bars beside the box are painted black by the render handler.
+    if (HudCoveredByPage()) {
+        release = true;
+    }
+    if (std::getenv("DH2_FIT_DEBUG") != nullptr) {
+        static int last = -1;
+        if (last != (release ? 1 : 0)) std::fprintf(stderr, "FITDBG anchor release=%d offX=%d offY=%d boxW=%d boxH=%d\n", release ? 1 : 0, offX, offY, boxW, boxH);
+        last = release ? 1 : 0;
     }
 
     for (int i = 0; i < g_hudAnchoredCount; ++i) {
@@ -910,6 +1028,26 @@ bool HudAnchorUpdate(MenuFX* hud, bool release) {
             }
         }
     }
+    // UI5: the full-stage overlays that sit beside the HUD states under the movie root cover the whole surface (the hurt vignette, the dim
+    // and black screens, the fades). Pages ("menu_*") and everything else are left where the timeline put them.
+    if (movie != nullptr && movie->is(2)) {
+        static const char* const kCover[] = {"HurtCorners", "SemiAlphaBlackBg", "menu_BlackScreen", "menu_FadeFromBlackScreen",
+                                             "menu_FadeToBlackScreen", "menu_FadeToBlackCutscene"};
+        auto* rootSprite = static_cast<gameswf::sprite_instance*>(movie);
+        for (int i = 0; i < rootSprite->m_display_list.size(); ++i) {
+            gameswf::character* child = rootSprite->m_display_list.get_character(i);
+            if (child == nullptr) {
+                continue;
+            }
+            const char* name = child->get_name().c_str();
+            for (const char* cover : kCover) {
+                if (std::strcmp(name, cover) == 0) {
+                    CoverHudOverlay(child, frame, stage, release);
+                    break;
+                }
+            }
+        }
+    }
     // Entries that were not visited (the character is gone or no longer matches): forget them without touching the character.
     int kept = 0;
     for (int i = 0; i < g_hudAnchoredCount; ++i) {
@@ -919,6 +1057,263 @@ bool HudAnchorUpdate(MenuFX* hud, bool release) {
     }
     g_hudAnchoredCount = kept;
     return !release && (offX != 0 || offY != 0);
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Port addition (UI6, not in the original): per-element HUD size, set on the HUD customise page. Each layout element (the stick, the
+// attack, spell and skill buttons, the character/main menu buttons, the potion, iTunes) carries a size in percent in the port settings
+// (hudelem.<HUDStyle>.<index>, 50..200, default 100). The size is a uniform scale of the element's local matrix about the centre of its
+// bound, applied every frame after the layout code and the anchoring (HudAnchorUpdate) ran, and taken off (HudScaleRelease) before any code
+// reads the layout: the anchoring's base tracking, SaveHUDPos and CaptureDefaults. The matrix a timeline placement or a drag writes is
+// recognised as a new base because it differs from what this code wrote last.
+namespace {
+
+struct HudScaleState {
+    gameswf::character* character;  // identity only
+    bool active;                    // `written` is what the character carries now
+    gameswf::matrix pre, written;   // the matrix before the scale, and after it
+};
+HudScaleState g_hudScale[kLayoutCount] = {};
+
+char g_hudElemKey[48];
+const char* HudElemKey(int index) {
+    std::snprintf(g_hudElemKey, sizeof g_hudElemKey, "hudelem.%d.%d", Singleton<Application>::s_inst.GetSavedOption("HUDStyle"), index);
+    return g_hudElemKey;
+}
+
+int HudElemPercent(int index) {
+    const int v = dh2port::Get(HudElemKey(index), 100);
+    return v < 50 ? 50 : (v > 200 ? 200 : v);
+}
+
+void HudElemSetPercent(int index, int percent) {
+    dh2port::Set(HudElemKey(index), percent < 50 ? 50 : (percent > 200 ? 200 : percent));
+}
+
+}  // namespace
+
+void HudScaleRelease() {
+    if (!g_hudControlsCreated) {
+        return;
+    }
+    for (int i = 0; i < kLayoutCount; ++i) {
+        HudScaleState& s = g_hudScale[i];
+        if (!s.active || s.character == nullptr) {
+            continue;
+        }
+        HUDControls* h = HUDControls::GetInstance();
+        gameswf::character* c = h != nullptr ? LayoutElement(*h, i).GetChar() : nullptr;
+        if (c == s.character) {
+            const gameswf::matrix current = c->get_matrix();
+            if (std::memcmp(&current, &s.written, sizeof current) == 0) {
+                c->set_matrix(s.pre);
+            }
+        }
+        s.active = false;
+    }
+}
+
+void HudScaleReset() {
+    HudScaleRelease();
+    for (int i = 0; i < kLayoutCount; ++i) {
+        HudElemSetPercent(i, 100);
+    }
+    g_hudSelectedElement = -1;
+}
+
+void HudScaleApply(MenuFX* hud) {
+    HUDControls* h = HUDControls::GetInstance();
+    if (h == nullptr || hud == nullptr || !h->m_cachesReady) {
+        return;
+    }
+    for (int i = 0; i < kLayoutCount; ++i) {
+        HudScaleState& s = g_hudScale[i];
+        gameswf::character* c = LayoutElement(*h, i).GetChar();
+        s.character = c;
+        s.active = false;
+        if (c == nullptr || !c->is(1)) {  // sprites and buttons both implement get_bound
+            continue;
+        }
+        const int percent = HudElemPercent(i);
+        if (percent == 100) {
+            continue;
+        }
+        const float k = static_cast<float>(percent) / 100.0f;
+        s.pre = c->get_matrix();
+        gameswf::rect bound;
+        c->get_bound(&bound);  // parent space, with s.pre applied
+        const float cbx = (static_cast<float>(bound.m_x_min) + static_cast<float>(bound.m_x_max)) * 0.5f;
+        const float cby = (static_cast<float>(bound.m_y_min) + static_cast<float>(bound.m_y_max)) * 0.5f;
+        gameswf::matrix m = s.pre;
+        m.m_[0][0] = s.pre.m_[0][0] * k;
+        m.m_[0][1] = s.pre.m_[0][1] * k;
+        m.m_[1][0] = s.pre.m_[1][0] * k;
+        m.m_[1][1] = s.pre.m_[1][1] * k;
+        m.m_[0][2] = cbx + k * (s.pre.m_[0][2] - cbx);
+        m.m_[1][2] = cby + k * (s.pre.m_[1][2] - cby);
+        c->set_matrix(m);
+        s.written = c->get_matrix();
+        s.active = true;
+    }
+}
+
+// ---- the customise-page overlay: a gilt frame around the selected element and the + / - medallions above it ----
+namespace {
+
+struct HudOverlayRects {
+    bool valid;
+    glitch::core::rect<std::int32_t> plus, minus;
+};
+HudOverlayRects g_hudOverlay = {};
+boost::intrusive_ptr<glitch::video::ITexture> g_hudPlusTex, g_hudMinusTex;
+bool g_hudTexTried = false;
+
+// The selected element's bound in surface pixels (false when it cannot be computed).
+bool HudSelectedSurfaceRect(HUDControls& h, glitch::core::rect<std::int32_t>& out) {
+    if (g_hudSelectedElement < 0 || g_hudSelectedElement >= kLayoutCount) {
+        return false;
+    }
+    gameswf::character* c = LayoutElement(h, g_hudSelectedElement).GetChar();
+    if (c == nullptr || !c->is(1) || c->get_parent() == nullptr || h.m_menu == nullptr) {
+        return false;
+    }
+    gameswf::root* root = h.m_menu->GetRoot();
+    if (root == nullptr || root->m_def.get_ptr() == nullptr) {
+        return false;
+    }
+    gameswf::rect bound;
+    c->get_bound(&bound);
+    const gameswf::matrix* pw = c->get_parent()->get_world_matrix();
+    gameswf::point corners[4] = {gameswf::point(bound.m_x_min, bound.m_y_min), gameswf::point(bound.m_x_max, bound.m_y_min),
+                                 gameswf::point(bound.m_x_min, bound.m_y_max), gameswf::point(bound.m_x_max, bound.m_y_max)};
+    float x0 = 1e30f, y0 = 1e30f, x1 = -1e30f, y1 = -1e30f;
+    for (const gameswf::point& p : corners) {
+        gameswf::point w;
+        pw->transform(&w, p);
+        x0 = w.m_x < x0 ? w.m_x : x0;
+        y0 = w.m_y < y0 ? w.m_y : y0;
+        x1 = w.m_x > x1 ? w.m_x : x1;
+        y1 = w.m_y > y1 ? w.m_y : y1;
+    }
+    const gameswf::rect& stage = root->m_def->m_frame_size;
+    const float stageW = static_cast<float>(stage.m_x_max) - static_cast<float>(stage.m_x_min);
+    const float stageH = static_cast<float>(stage.m_y_max) - static_cast<float>(stage.m_y_min);
+    if (stageW <= 0.0f || stageH <= 0.0f) {
+        return false;
+    }
+    const float boxX = static_cast<float>(FlashBoxOffsetX(root)), boxY = static_cast<float>(FlashBoxOffsetY(root));
+    const float boxW = static_cast<float>(FlashBoxWidth(root)), boxH = static_cast<float>(FlashBoxHeight(root));
+    out.UpperLeftCorner.X = static_cast<std::int32_t>(boxX + (x0 - static_cast<float>(stage.m_x_min)) / stageW * boxW);
+    out.UpperLeftCorner.Y = static_cast<std::int32_t>(boxY + (y0 - static_cast<float>(stage.m_y_min)) / stageH * boxH);
+    out.LowerRightCorner.X = static_cast<std::int32_t>(boxX + (x1 - static_cast<float>(stage.m_x_min)) / stageW * boxW);
+    out.LowerRightCorner.Y = static_cast<std::int32_t>(boxY + (y1 - static_cast<float>(stage.m_y_min)) / stageH * boxH);
+    return out.LowerRightCorner.X > out.UpperLeftCorner.X && out.LowerRightCorner.Y > out.UpperLeftCorner.Y;
+}
+
+void HudLoadOverlayTextures() {
+    if (g_hudTexTried) {
+        return;
+    }
+    g_hudTexTried = true;
+    glitch::video::CTextureManager* textures = ApplicationGetInstance().m_device->videoDriver->m_textureManager;
+    g_hudPlusTex = textures->getTexture("data/port/hud_scale_plus.png", nullptr);
+    g_hudMinusTex = textures->getTexture("data/port/hud_scale_minus.png", nullptr);
+}
+
+}  // namespace
+
+void HudCustomizeOverlayDraw() {
+    g_hudOverlay.valid = false;
+    if (!HudCustomizing()) {
+        return;
+    }
+    HUDControls* h = HUDControls::GetInstance();
+    glitch::core::rect<std::int32_t> r;
+    const bool ok = HudSelectedSurfaceRect(*h, r);
+    if (std::getenv("DH2_FIT_DEBUG") != nullptr) {
+        static int n = 0;
+        if (n++ % 30 == 0) std::fprintf(stderr, "FITDBG overlay sel=%d ok=%d rect=%d,%d,%d,%d%c", g_hudSelectedElement, ok ? 1 : 0,
+                                        r.UpperLeftCorner.X, r.UpperLeftCorner.Y, r.LowerRightCorner.X, r.LowerRightCorner.Y, 10);
+    }
+    if (!ok) {
+        return;
+    }
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    HudLoadOverlayTextures();
+    driver->beginScene2D();  // the 2D path of the loading screens: resets the transforms the Flash renderer left behind
+    // Gilt frame, 3 px, 6 px outside the element.
+    glitch::video::SColor gilt;
+    gilt.color = 0xff7ac0e2u;  // bytes R,G,B,A in memory order (SColor): gilt e2/c0/7a
+    const std::int32_t pad = 6, t = 3;
+    const glitch::core::rect<std::int32_t> f{r.UpperLeftCorner.X - pad, r.UpperLeftCorner.Y - pad, r.LowerRightCorner.X + pad,
+                                             r.LowerRightCorner.Y + pad};
+    const glitch::core::rect<std::int32_t> edges[4] = {
+        {f.UpperLeftCorner.X, f.UpperLeftCorner.Y, f.LowerRightCorner.X, f.UpperLeftCorner.Y + t},
+        {f.UpperLeftCorner.X, f.LowerRightCorner.Y - t, f.LowerRightCorner.X, f.LowerRightCorner.Y},
+        {f.UpperLeftCorner.X, f.UpperLeftCorner.Y, f.UpperLeftCorner.X + t, f.LowerRightCorner.Y},
+        {f.LowerRightCorner.X - t, f.UpperLeftCorner.Y, f.LowerRightCorner.X, f.LowerRightCorner.Y}};
+    for (const auto& e : edges) {
+        glitch::video::C2DDriver::draw2DRectangle(driver, gilt, e, nullptr);
+    }
+    // Medallions: above the frame, right-aligned, kept on the surface; below it when there is no room above.
+    std::int32_t size = 64 * HudScalePercent() / 100;
+    size = size < 56 ? 56 : (size > 112 ? 112 : size);
+    const std::int32_t gap = 10;
+    std::int32_t top = f.UpperLeftCorner.Y - gap - size;
+    if (top < 0) {
+        top = f.LowerRightCorner.Y + gap;
+    }
+    if (top + size > Height_Screen) {
+        top = Height_Screen - size;
+    }
+    std::int32_t right = f.LowerRightCorner.X;
+    if (right - 2 * size - gap < 0) {
+        right = 2 * size + gap;
+    }
+    if (right > Width_Screen) {
+        right = Width_Screen;
+    }
+    g_hudOverlay.plus = {right - size, top, right, top + size};
+    g_hudOverlay.minus = {right - 2 * size - gap, top, right - size - gap, top + size};
+    g_hudOverlay.valid = true;
+    const glitch::core::rect<std::int32_t> src{0, 0, 128, 128};
+    if (g_hudPlusTex) {
+        glitch::video::C2DDriver::draw2DImage(driver, g_hudPlusTex, g_hudOverlay.plus, src, nullptr, nullptr, true);
+    } else {
+        glitch::video::C2DDriver::draw2DRectangle(driver, gilt, g_hudOverlay.plus, nullptr);
+    }
+    if (g_hudMinusTex) {
+        glitch::video::C2DDriver::draw2DImage(driver, g_hudMinusTex, g_hudOverlay.minus, src, nullptr, nullptr, true);
+    } else {
+        glitch::video::C2DDriver::draw2DRectangle(driver, gilt, g_hudOverlay.minus, nullptr);
+    }
+    driver->endScene2D();
+}
+
+bool HudCustomizeOverlayHit(const RenderFX* fx, float x, float y, bool justPressed) {
+    if (!HudCustomizing() || !g_hudOverlay.valid || g_hudSelectedElement < 0) {
+        return false;
+    }
+    HUDControls* h = HUDControls::GetInstance();
+    MenuManager* manager = MenuManager::GetInstance();
+    if (manager == nullptr || manager->GetHUDRoot() == nullptr || fx != static_cast<const RenderFX*>(manager->GetHUDRoot())) {
+        return false;
+    }
+    const std::int32_t px = static_cast<std::int32_t>(x), py = static_cast<std::int32_t>(y);
+    auto inside = [&](const glitch::core::rect<std::int32_t>& r) {
+        return px >= r.UpperLeftCorner.X && px < r.LowerRightCorner.X && py >= r.UpperLeftCorner.Y && py < r.LowerRightCorner.Y;
+    };
+    const bool onPlus = inside(g_hudOverlay.plus);
+    const bool onMinus = inside(g_hudOverlay.minus);
+    if (!onPlus && !onMinus) {
+        return false;
+    }
+    if (justPressed) {
+        const int current = HudElemPercent(g_hudSelectedElement);
+        HudElemSetPercent(g_hudSelectedElement, current + (onPlus ? 10 : -10));
+    }
+    return true;
 }
 
 // Port deviation (UI4; TRACK-B.md decision 15, not in the original): the virtual stick can be grabbed from a wide zone. RenderFX::UpdateCursor

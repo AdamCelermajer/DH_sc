@@ -378,6 +378,9 @@ void MenuManager::Draw(bool /*hudOnly*/) {
         }
         if (movie->GetCurrentState() != nullptr || index == 3) {
             movie->Render();
+            if (index == 3) {
+                HudCustomizeOverlayDraw();  // Port addition (UI6): size medallions of the HUD customise page
+            }
         }
     }
     unk_14 = driver->m_frameDrawCalls;

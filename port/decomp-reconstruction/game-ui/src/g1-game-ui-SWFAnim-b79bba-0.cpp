@@ -73,8 +73,8 @@ void SWFAnim::SetPosition3D(const Point3D<float>& position) {
     // read once per axis as in the original. The float product is truncated to int.
     float invScaleX = GameSWFUtils::GetInvPixelScaleX(m_anim.GetChar()->get_root());
     float invScaleY = GameSWFUtils::GetInvPixelScaleY(m_anim.GetChar()->get_root());
-    SetPosition(static_cast<int>(invScaleX * static_cast<float>(screenPos.X - ScreenFitOffsetX())),
-                static_cast<int>(invScaleY * static_cast<float>(screenPos.Y - ScreenFitOffsetY())));
+    SetPosition(static_cast<int>(invScaleX * static_cast<float>(screenPos.X - FlashBoxOffsetX(m_anim.GetChar()->get_root()))),
+                static_cast<int>(invScaleY * static_cast<float>(screenPos.Y - FlashBoxOffsetY(m_anim.GetChar()->get_root()))));
 }
 
 // 0x496e68 _ZN7SWFAnimD1Ev SWFAnim::~SWFAnim()  (D1)

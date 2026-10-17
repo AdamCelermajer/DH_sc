@@ -208,10 +208,10 @@ void HUDMinimap::RenderMap(gameswf::render_state& /*render*/, void* menu) {
     const float invX = GameSWFUtils::GetInvPixelScaleX(swfRoot);
     const float invY = GameSWFUtils::GetInvPixelScaleY(swfRoot);
     glitch::core::rect<int> viewport;
-    viewport.UpperLeftCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[0] / invX);
-    viewport.UpperLeftCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[2] / invY);
-    viewport.LowerRightCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[1] / invX);
-    viewport.LowerRightCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[3] / invY);
+    viewport.UpperLeftCorner.X = FlashBoxOffsetX(swfRoot) + static_cast<int>(bounds[0] / invX);
+    viewport.UpperLeftCorner.Y = FlashBoxOffsetY(swfRoot) + static_cast<int>(bounds[2] / invY);
+    viewport.LowerRightCorner.X = FlashBoxOffsetX(swfRoot) + static_cast<int>(bounds[1] / invX);
+    viewport.LowerRightCorner.Y = FlashBoxOffsetY(swfRoot) + static_cast<int>(bounds[3] / invY);
     target->setViewport(viewport);
     DeviceSceneManager()->cullingEnabled = false;  // +0x250
     map->SetRoomVisibility(root);                  // +0x64

@@ -171,6 +171,60 @@ public final class SessionUi {
         }
     }
 
+    /** Port (UI5): the port settings (screen layout, HUD size) live here until the Flash options page gets a row for them. */
+    private static View buildSettings(final Activity a) {
+        android.widget.LinearLayout row = new android.widget.LinearLayout(a);
+        row.setOrientation(android.widget.LinearLayout.VERTICAL);
+        row.setPadding(0, dp(a, 12), 0, 0);
+        try {
+            final android.widget.Switch fit = new android.widget.Switch(a);
+            fit.setText("Unstretched layout (HUD at the screen edges, menus 16:9)");
+            fit.setChecked(DungeonHunter2.nativeGetPortSetting("screenfit") != 0);
+            fit.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(android.widget.CompoundButton b, boolean on) {
+                    DungeonHunter2.nativeSetPortSetting("screenfit", on ? 1 : 0);
+                }
+            });
+            row.addView(fit);
+            TextView label = new TextView(a);
+            label.setText("HUD size");
+            label.setPadding(0, dp(a, 8), 0, 0);
+            row.addView(label);
+            final int[] values = {0, 100, 125, 150, 175};
+            final String[] names = {"Auto", "100%", "125%", "150%", "175%"};
+            final android.widget.RadioGroup sizes = new android.widget.RadioGroup(a);
+            sizes.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+            int current = DungeonHunter2.nativeGetPortSetting("hudscale");
+            for (int i = 0; i < values.length; i++) {
+                android.widget.RadioButton rb = new android.widget.RadioButton(a);
+                rb.setText(names[i]);
+                rb.setId(1000 + i);
+                sizes.addView(rb);
+                if (values[i] == current) {
+                    rb.setChecked(true);
+                }
+            }
+            sizes.setOnCheckedChangeListener(new android.widget.RadioGroup.OnCheckedChangeListener() {
+                public void onCheckedChanged(android.widget.RadioGroup g, int id) {
+                    int i = id - 1000;
+                    if (i >= 0 && i < values.length) {
+                        DungeonHunter2.nativeSetPortSetting("hudscale", values[i]);
+                    }
+                }
+            });
+            android.widget.HorizontalScrollView scroll = new android.widget.HorizontalScrollView(a);
+            scroll.addView(sizes);
+            row.addView(scroll);
+            TextView note = new TextView(a);
+            note.setText("Both apply at once. HUD size only matters with the unstretched layout; Auto is 125% on a square screen.");
+            note.setTextSize(12f);
+            row.addView(note);
+        } catch (Throwable t) {
+            // older native lib without the settings natives: the dialog still works for marks and logs
+        }
+        return row;
+    }
+
     private static void buildDialog(final Activity a, final Bitmap shot) {
         try {
             final EditText text = new EditText(a);
@@ -179,9 +233,11 @@ public final class SessionUi {
             text.setMinLines(3);
             text.setMaxLines(6);
             text.setGravity(Gravity.TOP | Gravity.LEFT);
-            FrameLayout box = new FrameLayout(a);
+            android.widget.LinearLayout box = new android.widget.LinearLayout(a);
+            box.setOrientation(android.widget.LinearLayout.VERTICAL);
             box.setPadding(dp(a, 16), dp(a, 4), dp(a, 16), 0);
-            box.addView(text, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            box.addView(text, new android.widget.LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            box.addView(buildSettings(a));
             AlertDialog d = new AlertDialog.Builder(a)
                     .setTitle("Report an issue")
                     .setMessage(shot != null ? "The game is paused. A screenshot of this moment is attached." : "The game is paused.")

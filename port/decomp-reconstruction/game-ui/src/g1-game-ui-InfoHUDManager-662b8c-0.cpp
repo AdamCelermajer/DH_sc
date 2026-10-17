@@ -340,8 +340,8 @@ void InfoHUDManager::FastUpdate() {
                         gameswf::root* swfRoot = m_menu->GetRoot();
                         const float invX = GameSWFUtils::GetInvPixelScaleX(swfRoot);
                         const float invY = GameSWFUtils::GetInvPixelScaleY(swfRoot);
-                        m_menu->SetPosition(allyChar, static_cast<int>(invX * static_cast<float>(screen.X - ScreenFitOffsetX())),
-                                            static_cast<int>(invY * static_cast<float>(screen.Y - ScreenFitOffsetY())));
+                        m_menu->SetPosition(allyChar, static_cast<int>(invX * static_cast<float>(screen.X - FlashBoxOffsetX(swfRoot))),
+                                            static_cast<int>(invY * static_cast<float>(screen.Y - FlashBoxOffsetY(swfRoot))));
                         present = true;
                     }
                 }

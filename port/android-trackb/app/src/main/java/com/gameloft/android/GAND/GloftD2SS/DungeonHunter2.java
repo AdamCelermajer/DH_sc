@@ -351,6 +351,11 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
 
     public static native int nativeGetGameMusicVolume();
 
+    // Port (UI5): port settings (core-platform/port_settings.hpp): "screenfit" 0/1, "hudscale" percent (0 = auto). Not in the original.
+    public static native int nativeGetPortSetting(String key);
+
+    public static native void nativeSetPortSetting(String key, int value);
+
     public static native void nativeGetInfo(String str, String str2, String str3, String str4);
 
     public static native void nativeInit(int i);

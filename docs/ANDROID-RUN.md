@@ -47,6 +47,8 @@ root-only way to push extracted files directly; it is not needed any more. Unins
 Start-up differences from the original, on purpose: the launcher is `DataSetup`, not the Samsung DRM activity `Zirconia_DRM` (its licence server is gone;
 offline it ends in an error dialog). `targetSdk` is 35 for the source/bundled APKs (28 for the origdex one); no "built for an older version of Android" dialog on Android 14 to 17.
 
+Screen layout on a non-16:9 screen (Fold, 21:9 phones): the "!" bubble dialog has the port settings: *Unstretched layout* (HUD at the real edges, menus in a centred 16:9 box; off = the original's stretch) and *HUD size* (Auto = 125% on a square screen). Stored in `files/dh2_port.cfg` (`screenfit=0|1`, `hudscale=0|100..200`); `adb shell "echo screenfit=0 > /sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_port.cfg"` works too (read at start). Per-button size: Options > Custom (the game's HUD layout page), tap a button, then the + / - medallions above it; Reset puts all back to 100%.
+
 ## Bundled APK (one file, no data copy)
 
 ```

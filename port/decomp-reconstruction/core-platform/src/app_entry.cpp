@@ -7,6 +7,7 @@
 
 #include "core-platform/debug_out.hpp"
 #include "core-platform/frame_prof.hpp"
+#include "core-platform/port_settings.hpp"
 #include "core-platform/tb/android_jni_app_events.hpp"
 #include "core-platform/tb/android_jni_platform.hpp"
 #include "core-platform/tb/app_lifecycle.hpp"
@@ -75,6 +76,7 @@ extern "C" int appInit() {
     videosteps = 0;
     Musicplayerpause = false;
     videoDone = false;
+    dh2port::Load();  // Track B port settings (screen fit, HUD scale; core-platform/port_settings.hpp), not in the original
     _DEBUG_OUT("app Init is 1111111111111111111111111 %d ", Width_Screen);
     switch (Width_Screen) {
         case 854:
@@ -170,6 +172,13 @@ extern "C" void appResizeSurface(int width, int height) {
 extern "C" int appUpdate() {
     if (!IsExit) {
         if (device->run()) {
+            {   // Track B port settings changed from the session dialog: apply on the game thread, rescale the 3D camera with the
+                // old and new aspect scale (TRACK-B.md decision 15).
+                const float aspectBefore = ScreenAspectScale();
+                if (dh2port::Apply()) {
+                    ScreenAspectRescaleActiveCamera(aspectBefore);
+                }
+            }
             dh2prof::frameBegin();  // Track B diagnostic (core-platform/frame_prof.hpp), not in the original
             mTimeCallbackFinished = 0;
             app->Update();

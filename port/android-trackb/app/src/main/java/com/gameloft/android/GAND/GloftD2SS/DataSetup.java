@@ -335,7 +335,45 @@ public class DataSetup extends Activity {
         countdown.setText("Tap Play now when you are done");
     }
 
+    /** Port (UI6): the port's own UI art (assets/dh2port/*, e.g. the HUD size medallions) is copied to files/data/port/ so the
+     *  native texture manager can load it like game data. Small files; copied when missing or when the size differs. */
+    private void copyPortAssets() {
+        try {
+            String[] names = getAssets().list("dh2port");
+            if (names == null) {
+                return;
+            }
+            File dir = new File(filesDir(), "data/port");
+            dir.mkdirs();
+            for (String n : names) {
+                File dst = new File(dir, n);
+                java.io.InputStream in = getAssets().open("dh2port/" + n);
+                try {
+                    long size = in.available();
+                    if (dst.exists() && dst.length() == size) {
+                        continue;
+                    }
+                    java.io.FileOutputStream out = new java.io.FileOutputStream(dst);
+                    try {
+                        byte[] buf = new byte[65536];
+                        int r;
+                        while ((r = in.read(buf)) > 0) {
+                            out.write(buf, 0, r);
+                        }
+                    } finally {
+                        out.close();
+                    }
+                } finally {
+                    in.close();
+                }
+            }
+        } catch (Throwable t) {
+            android.util.Log.w("DH2", "port assets: " + t);
+        }
+    }
+
     private void startGame() {
+        copyPortAssets();
         if (started) {
             return;
         }
