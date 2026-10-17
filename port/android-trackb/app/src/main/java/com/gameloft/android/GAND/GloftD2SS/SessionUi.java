@@ -253,6 +253,7 @@ public final class SessionUi {
                     .setView(box)
                     .setPositiveButton("Save mark", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface di, int w) {
+                            try { DungeonHunter2.nativeSetPortSetting("dumpui", 1); } catch (Throwable t) { }  // UI layout dump into the log
                             int n = SessionLog.mark(text.getText().toString(), shot);
                             Toast.makeText(a, "Saved mark #" + n, Toast.LENGTH_SHORT).show();
                         }

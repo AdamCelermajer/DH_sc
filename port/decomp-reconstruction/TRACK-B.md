@@ -214,6 +214,11 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     test, because a page whose timeline re-places its clips (the pause frame's drop-in) is back at its authored matrices at
     Update time. Runner-verified on 2184x1968 and 2520x1080: splash, main menu, start, loading, level, pause, options, custom
     page, stats, inventory, inventory detail, faeries, specialisation.
+    UI11: a clip's class (keeps its shape / stays stretched) is decided from the SMALLEST bound seen over its first 12 layout
+    passes and then kept: a selection glow or a travelling hit area enlarges a button's bound for some frames (the stat
+    category buttons: the red selection marker drifted and the 4th icon was blown up on the phone). Thresholds 85% of the stage
+    width, 80% of its height. `dumpui=1` in the port settings (set by the "!" dialog's Save mark) logs the next 12 layout passes
+    under the logcat tag DH2FIT, which the session log keeps, so a layout fault on the phone can be read from the report zip.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

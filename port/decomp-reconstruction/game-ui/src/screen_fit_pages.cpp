@@ -16,6 +16,13 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <cstdarg>
+
+#if defined(__ANDROID__)
+#include <android/log.h>
+#endif
+
+#include "core-platform/port_settings.hpp"
 #include "dh2/MenuFX.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/MultiMenuManager.hpp"
@@ -31,6 +38,10 @@ struct PageEntry {
     const MenuFX* movie;            // the movie whose pass owns the entry (each pass only forgets its own entries)
     bool active;                    // `written` is what the character carries now
     bool seen;
+    int cls;                        // 0 not yet classified, 1 small (keeps its shape), 2 large (stays stretched): sticky per clip
+    int frames;                     // layout passes seen while unclassified
+    float minW, minH;               // smallest unstretched bound seen while unclassified (a pulsing glow or a travelling hit area
+                                    // enlarges a button's bound for some frames; the smallest extent is the widget itself)
     gameswf::matrix base, written;
 };
 constexpr int kMaxEntries = 1024;
@@ -38,9 +49,28 @@ PageEntry g_entries[kMaxEntries];
 int g_entryCount = 0;
 const MenuFX* g_currentMovie = nullptr;
 const char* g_dbgPage = "";
+int g_dumpLeft = 0;  // layout passes still to dump after the port setting "dumpui" was set (the "!" dialog's Save mark)
+
 bool DbgOn() {
+    if (g_dumpLeft > 0) {
+        return true;
+    }
     const char* e = std::getenv("DH2_FIT_DEBUG");
     return e != nullptr && (std::strcmp(e, "1") == 0 || std::strcmp(e, g_dbgPage) == 0);
+}
+
+// Debug lines: stderr on the host (the runner's game.log), logcat tag DH2FIT on Android (captured by the session log).
+void Log(const char* fmt, ...) {
+    char line[512];
+    va_list ap;
+    va_start(ap, fmt);
+    std::vsnprintf(line, sizeof line, fmt, ap);
+    va_end(ap);
+#if defined(__ANDROID__)
+    __android_log_print(ANDROID_LOG_INFO, "DH2FIT", "%s", line);
+#else
+    std::fputs(line, stderr);
+#endif
 }
 
 PageEntry* FindEntry(gameswf::character* c) {
@@ -57,6 +87,9 @@ PageEntry* FindEntry(gameswf::character* c) {
     e.movie = g_currentMovie;
     e.active = false;
     e.seen = false;
+    e.cls = 0;
+    e.frames = 0;
+    e.minW = e.minH = 1e30f;
     return &e;
 }
 
@@ -163,11 +196,30 @@ void LayoutChildren(gameswf::sprite_instance* parent, const PageFrame& f, float 
     for (int i = 0; i < n; ++i) {
         const float wUn = (sib[i].x1 - sib[i].x0) * psx / ax;
         const float hUn = (sib[i].y1 - sib[i].y0) * psy / ay;
-        sib[i].small = wUn > 0.0f && hUn > 0.0f && wUn < 0.75f * f.stageW && hUn < 0.75f * f.stageH;
+        // Large = wider than 85% of the stage or taller than 80% of it (backgrounds, columns, tab bars, rails, dim layers); everything
+        // else keeps its shape. The class is decided once per clip, from the smallest bound seen over its first passes (an animated
+        // child such as a selection glow or a travelling hit area enlarges a button's bound for some frames), and then kept, so a
+        // widget never flips between "keep its shape" and "stay stretched" from one frame to the next.
+        auto judge = [&](float w, float h) { return w > 0.0f && h > 0.0f && w < 0.85f * f.stageW && h < 0.80f * f.stageH; };
+        sib[i].small = judge(wUn, hUn);
+        if (PageEntry* pe = sib[i].e) {
+            if (pe->cls == 0) {
+                if (wUn > 0.0f && hUn > 0.0f) {
+                    pe->minW = wUn < pe->minW ? wUn : pe->minW;
+                    pe->minH = hUn < pe->minH ? hUn : pe->minH;
+                    sib[i].small = judge(pe->minW, pe->minH);
+                    if (++pe->frames >= 12) {
+                        pe->cls = sib[i].small ? 1 : 2;
+                    }
+                }
+            } else {
+                sib[i].small = pe->cls == 1;
+            }
+        }
         if (DbgOn()) {
             static int count = 0;
-            if (count++ < 2000 && depth == 0) {
-                std::fprintf(stderr, "FITDBG d%d '%s' vis=%d parent=(%.0f,%.0f)-(%.0f,%.0f) un=%.0fx%.0f small=%d%c", depth,
+            if (count++ < 20000 && (depth == 0 || g_dumpLeft > 0)) {
+                Log("FITDBG d%d '%s' vis=%d parent=(%.0f,%.0f)-(%.0f,%.0f) un=%.0fx%.0f small=%d%c", depth,
                              sib[i].c->get_name().c_str(), sib[i].visible ? 1 : 0, sib[i].x0 / 20, sib[i].y0 / 20, sib[i].x1 / 20,
                              sib[i].y1 / 20, wUn / 20, hUn / 20, sib[i].small ? 1 : 0, 10);
             }
@@ -245,11 +297,11 @@ void LayoutChildren(gameswf::sprite_instance* parent, const PageFrame& f, float 
             progress = true;
             if (DbgOn()) {
                 static int count = 0;
-                if (count++ < 3000) {
+                if (count++ < 20000) {
                     gameswf::rect wb;
                     s.c->get_bound(&wb);
                     s.c->get_parent()->get_world_matrix()->transform(&wb);
-                    std::fprintf(stderr, "FITDBG place d%d '%s' a=(%.2f,%.2f) base c=(%.0f,%.0f) -> (%.0f,%.0f) cont=%d stage=(%.0f,%.0f)-(%.0f,%.0f)%c", depth,
+                    Log("FITDBG place d%d '%s' a=(%.2f,%.2f) base c=(%.0f,%.0f) -> (%.0f,%.0f) cont=%d stage=(%.0f,%.0f)-(%.0f,%.0f)%c", depth,
                                  s.c->get_name().c_str(), ax, ay, s.cx / 20, s.cy / 20, tx / 20, ty / 20, s.container,
                                  static_cast<float>(wb.m_x_min) / 20, static_cast<float>(wb.m_y_min) / 20, static_cast<float>(wb.m_x_max) / 20,
                                  static_cast<float>(wb.m_y_max) / 20, 10);
@@ -294,7 +346,7 @@ void LayoutPage(MenuFX::State* state, const PageFrame& f, bool release) {
         static int count = 0;
         if (count++ < 600) {
             const gameswf::matrix w = page->get_matrix();
-            std::fprintf(stderr, "FITDBG page %s k=(%.2f,%.2f) centreParent=(%.0f,%.0f) base t=(%.0f,%.0f) s=(%.2f,%.2f) -> t=(%.0f,%.0f) s=(%.2f,%.2f)%c",
+            Log("FITDBG page %s k=(%.2f,%.2f) centreParent=(%.0f,%.0f) base t=(%.0f,%.0f) s=(%.2f,%.2f) -> t=(%.0f,%.0f) s=(%.2f,%.2f)%c",
                          state->m_name, kx, ky, centreParent.m_x / 20, centreParent.m_y / 20, base.m_[0][2] / 20, base.m_[1][2] / 20,
                          static_cast<float>(base.m_[0][0]), static_cast<float>(base.m_[1][1]), w.m_[0][2] / 20, w.m_[1][2] / 20,
                          static_cast<float>(w.m_[0][0]), static_cast<float>(w.m_[1][1]), 10);
@@ -340,6 +392,11 @@ void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie) {
         return;
     }
     g_currentMovie = movie;
+    if (dh2port::Get("dumpui", 0) != 0) {  // one-shot dump of the laid-out pages (the "!" dialog's Save mark sets it)
+        dh2port::Set("dumpui", 0);
+        g_dumpLeft = 12;
+        Log("FITDBG dump begin surface=%dx%d fit=%d\n", Width_Screen, Height_Screen, ScreenUsesAspectFit() ? 1 : 0);
+    }
     for (int i = 0; i < g_entryCount; ++i) {
         if (g_entries[i].movie == movie) {
             g_entries[i].seen = false;
@@ -374,6 +431,9 @@ void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie) {
         }
     }
     g_entryCount = kept;
+    if (g_dumpLeft > 0) {
+        --g_dumpLeft;
+    }
 }
 
 // Called by RenderFX::UpdateCursor before the hit test. The layout is applied in MenuManager::Draw, but a page whose timeline
