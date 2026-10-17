@@ -15,6 +15,8 @@ void IMaterialParameters<Owner, kTrackDirty>::setDirty() {
     if constexpr (kTrackDirty) {
         m_dirty0 = 0xffffffffu;
         m_dirty1 = 0xffffffffu;
+        if (m_ext0 != nullptr) *m_ext0 = 0xffffffffu;
+        if (m_ext1 != nullptr) *m_ext1 = 0xffffffffu;
     }
 }
 

@@ -154,6 +154,7 @@ public:
     void attachParameters(detail::SParameterBlockHeader* header, uint8_t* values) {
         parameters.setBlockForTest(header);
         parameters.setValueBuffer(values);
+        parameters.linkDirtyWords(&m_dirtyParameters, &m_dirtyHashes);
     }
 };
 

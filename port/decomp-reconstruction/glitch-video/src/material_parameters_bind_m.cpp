@@ -263,8 +263,8 @@ part1c::SParameterTable IMaterialParameters<CMaterial, true>::table() {
     part1c::SParameterTable t;
     t.header = m_block;
     t.values = m_values;
-    t.dirtyFirst = reinterpret_cast<std::int32_t*>(&m_dirty0);
-    t.dirtyLast = reinterpret_cast<std::int32_t*>(&m_dirty1);
+    t.dirtyFirst = reinterpret_cast<std::int32_t*>(m_ext0 != nullptr ? m_ext0 : &m_dirty0);
+    t.dirtyLast = reinterpret_cast<std::int32_t*>(m_ext1 != nullptr ? m_ext1 : &m_dirty1);
     if (!m_pointers) m_pointers = std::make_shared<part1c::SPointerSlots>();
     t.pointers = m_pointers.get();
     return t;

@@ -149,6 +149,14 @@ public:
     uint32_t dirtyWord0() const { return m_dirty0; }
     uint32_t dirtyWord1() const { return m_dirty1; }
 
+    // In the original the dirty words of CMaterial (+0x0c parameters, +0x10 hashes) are the base class's own words, so every setter that
+    // changes a value marks the material for the driver (setMaterialInternal re-commits its parameters) and for the hash refresh. The
+    // port's CMaterial keeps those two words as members of its own; the owner links them here so the setters mark them (see CMaterial).
+    void linkDirtyWords(uint32_t* parameters, uint32_t* hashes) {
+        m_ext0 = parameters;
+        m_ext1 = hashes;
+    }
+
     // Test helper: the number of matrix slots that have been written.
     std::size_t matrixSlotCount() const { return m_matrixSlots.size(); }
     // Test helpers: the inline header (CMaterialRenderer) and the block pointer (CMaterial).
@@ -174,6 +182,8 @@ public:
 private:
     uint32_t m_dirty0 = 0;  // +0x0c, set to 0xffffffff by setDirty (tracking owners)
     uint32_t m_dirty1 = 0;  // +0x10
+    uint32_t* m_ext0 = nullptr;  // CMaterial::m_dirtyParameters when linked (+0x0c)
+    uint32_t* m_ext1 = nullptr;  // CMaterial::m_dirtyHashes when linked (+0x10)
 
     // CMaterial: block pointer at +0x04. Its count and entries are read through it.
     SParameterBlockHeader* m_block = nullptr;
