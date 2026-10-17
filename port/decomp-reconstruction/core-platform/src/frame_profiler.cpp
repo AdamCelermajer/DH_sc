@@ -38,6 +38,36 @@ constexpr std::uint64_t kSampleEveryNs = 6ull * 1000000ull;
 constexpr int kMaxSamples = 14;
 constexpr int kMaxFrames = 24;
 
+// Every line goes to logcat (tag DH2PROF) and to <files>/dh2_prof.txt (bounded: at 1 MB it is renamed dh2_prof.old), so a play session on
+// a phone can be read afterwards even when logcat has scrolled.
+const char* const kProfFile = "/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_prof.txt";
+std::FILE* g_profFile = nullptr;
+long g_profBytes = 0;
+
+void emit(const char* line) {
+    __android_log_write(ANDROID_LOG_INFO, "DH2PROF", line);
+    if (g_profFile == nullptr) {
+        g_profFile = std::fopen(kProfFile, "a");
+        if (g_profFile == nullptr) return;
+        std::fseek(g_profFile, 0, SEEK_END);
+        g_profBytes = std::ftell(g_profFile);
+    }
+    timespec rt;
+    clock_gettime(CLOCK_REALTIME, &rt);
+    const int n = std::fprintf(g_profFile, "%lld.%03ld %s\n", static_cast<long long>(rt.tv_sec), rt.tv_nsec / 1000000, line);
+    std::fflush(g_profFile);
+    if (n > 0) g_profBytes += n;
+    if (g_profBytes > (1 << 20)) {
+        std::fclose(g_profFile);
+        g_profFile = nullptr;
+        char old[256];
+        std::snprintf(old, sizeof old, "%s", kProfFile);
+        std::strcpy(old + std::strlen(old) - 3, "old");
+        std::rename(kProfFile, old);
+        g_profBytes = 0;
+    }
+}
+
 struct Sample {
     std::uint64_t t;  // ns since the period began
     bool inUpdate;
@@ -141,7 +171,7 @@ void reportLong(std::uint64_t periodNs, std::uint64_t updateNs) {
             p += std::snprintf(line + p, sizeof line - p, " %s=%.1fms/%u", kCatNames[c], ns / 1e6, g_catCount[c].load(std::memory_order_relaxed));
         }
     }
-    __android_log_write(ANDROID_LOG_INFO, "DH2PROF", line);
+    emit(line);
     const int n = g_nSamples.load(std::memory_order_acquire);
     for (int i = 0; i < n && i < kMaxSamples; ++i) {
         const Sample& s = g_samples[i];
@@ -152,7 +182,7 @@ void reportLong(std::uint64_t periodNs, std::uint64_t updateNs) {
             q += std::snprintf(line + q, sizeof line - q, " %s%s", k ? "< " : "", sym);
             if (q > 1300) break;
         }
-        __android_log_write(ANDROID_LOG_INFO, "DH2PROF", line);
+        emit(line);
     }
 }
 
@@ -160,7 +190,7 @@ void report(const char* what, const Stat& s) {
     char line[200];
     std::snprintf(line, sizeof line, "stats %s n=%d avg=%.2f max=%.1f >25=%d >33=%d >50=%d >100=%d", what, s.n, s.n ? s.sum / s.n : 0.0, s.max,
                   s.over25, s.over33, s.over50, s.over100);
-    __android_log_write(ANDROID_LOG_INFO, "DH2PROF", line);
+    emit(line);
 }
 
 }  // namespace
@@ -202,6 +232,24 @@ void frameEnd() {
     g_inUpdate.store(false, std::memory_order_relaxed);
     g_prevUpdateNs = now - g_updateStart;
     g_update.add(g_prevUpdateNs / 1e6);
+    // Category spikes: a single category over 4 ms in one frame is logged even when the frame itself is not over 50 ms.
+    {
+        std::uint64_t worst = 0;
+        for (int c = 0; c < kCatCount; ++c) {
+            if (c == kOther || c == kLog) continue;
+            const std::uint64_t ns = g_catNs[c].load(std::memory_order_relaxed);
+            if (ns > worst) worst = ns;
+        }
+        if (worst > 4000000ull) {
+            char line[400];
+            int p = std::snprintf(line, sizeof line, "spike update=%.1fms cats:", g_prevUpdateNs / 1e6);
+            for (int c = 0; c < kCatCount; ++c) {
+                const std::uint64_t ns = g_catNs[c].load(std::memory_order_relaxed);
+                if (ns > 500000ull) p += std::snprintf(line + p, sizeof line - p, " %s=%.1fms/%u", kCatNames[c], ns / 1e6, g_catCount[c].load(std::memory_order_relaxed));
+            }
+            emit(line);
+        }
+    }
     if (now >= g_nextReport) {
         report("update", g_update);
         report("period", g_period);

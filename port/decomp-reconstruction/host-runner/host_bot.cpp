@@ -35,6 +35,7 @@
 #include "dh2/TriggerZoneExitLevel.hpp"
 #include "dh2/CheckpointZone.hpp"
 #include "dh2/TriggerZone.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/Door.hpp"
 #include "dh2/Quest.hpp"
 #include "dh2/QuestSavegame.hpp"
@@ -409,6 +410,7 @@ bool g_cRouteOnly = false, g_cWarp = false;
 int g_cLevelUps = 0;
 std::string g_cQuest;
 bool g_cOnce = false;
+int g_cMenuFrames = 0, g_cLastBack = 0;
 int g_cBudget = 26000;
 int g_cLastKills = 0, g_cKillFrame = 0;
 int g_cPhase = 0, g_cPhaseStart = 0, g_cLevelStart = 0, g_cNoTarget = 0, g_cLastQuestLog = 0, g_cLastTap = 0, g_cRouteTries = 0, g_cEnd = 0;
@@ -442,7 +444,7 @@ void campaignShot(const std::string& level, const char* name) {
     g_screenshotHook((dir + "/" + name + ".bmp").c_str());
 }
 
-int g_routeFightSince = -1, g_touchSince = -1;
+int g_routeFightSince = -1, g_touchSince = -1, g_touchFight = 0;
 std::set<std::string> g_cVisited;
 std::string exitTargetFile(TriggerZoneExitLevel* z) {
     const auto* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
@@ -524,6 +526,7 @@ void campaignRoute(int frame, bool exitOnly = false, bool cpOnly = false) {
     for (const Waypoint& w : g_route) std::fprintf(g_runnerOut, "[route] waypoint %s%s at (%.0f,%.0f)\n", w.name.c_str(), w.exit ? " (exit)" : "", w.pos.X, w.pos.Y);
     g_exitButtonY = 884;
     g_routeIndex = 0;
+    g_touchFight = 0;
     g_routeSince = frame;
     g_routeBest = 1e12f;
     g_routeReached = g_routeSkipped = 0;
@@ -565,6 +568,16 @@ void campaignTick(int frame) {
         if (g_cRouteOnly) { g_cPhase = 3; g_cPhaseStart = frame; if (g_cWarp) { g_cRouteTries = 2; g_cPhase = 4; g_cPhaseStart = frame - 1000; } else { campaignRoute(frame); ++g_cRouteTries; } }
         return;
     }
+    // A full-screen menu (merchant, hero screen, pause) that the bot opened by pressing attack next to an NPC: close it with the back button.
+    if (MenuManager::GetInstance() != nullptr && MenuManager::GetInstance()->HasVisibleMenu()) {
+        if (++g_cMenuFrames > 120 && frame - g_cLastBack > 90) {
+            g_cLastBack = frame;
+            std::fprintf(g_runnerOut, "[campaign] a menu is open at f=%d (%d frames): back button\n", frame, g_cMenuFrames);
+            g_clickQueue.push_back({frame, 80, 56});
+        }
+        return;
+    }
+    g_cMenuFrames = 0;
     if (g_cShotNext && frame >= g_cShotNext) { campaignShot(g_cLevel, ("enter_" + std::to_string(frame - g_cLevelStart)).c_str()); g_cShotNext = (g_cShotN++ < 20) ? frame + 700 : 0; }
     if (frame - g_cLastQuestLog >= 3000) { g_cLastQuestLog = frame; questLog("periodic"); }
     if ((g_cPhase == 5 || g_cPhase == 1 || g_cPhase == 2) && frame - g_cLevelStart > g_cBudget) {   // level time budget: go for the exit
@@ -671,6 +684,12 @@ void botTick(int frame, const Options& opt) {
         if (d < g_routeBest - 30.0f) { g_routeBest = d; g_routeSince = g_frame; }
         const bool touching = w.exit && w.zone != nullptr && w.zone->IsTouching(h);
         if (!touching) g_touchSince = -1;
+        if (touching && g_touchFight < 1800 && nearestEnemy(h, 700.0f) != nullptr) {   // the panel does not show while enemies attack: finish them first
+            ++g_touchFight;
+            g_touchSince = -1;
+            tickHunt(h);
+            return;
+        }
         if (touching) {
             // TriggerZoneExitLevel::Update shows the HUD fast-travel panel (DisplayFastTravel) while the hero touches the zone.
             atkSet(false);
@@ -679,7 +698,7 @@ void botTick(int frame, const Options& opt) {
             if (g_frame - g_touchSince < 60) return;   // the panel needs a few frames to show (after a warp the zone has not even updated yet)
             g_touchSince = -1;
             campaignShot(g_cLevel, ("exit_panel_" + std::to_string(g_frame)).c_str());
-            std::fprintf(g_runnerOut, "[route] f=%d touching %s: pressing the fast-travel button at y=%d\n", g_frame, w.name.c_str(), g_exitButtonY);
+            std::fprintf(g_runnerOut, "[route] f=%d touching %s: pressing the fast-travel button at y=%d (shown=%d idx=%d unlocked=%d cut=%d)\n", g_frame, w.name.c_str(), g_exitButtonY, dynamic_cast<TriggerZoneExitLevel*>(w.zone) ? (dynamic_cast<TriggerZoneExitLevel*>(w.zone)->m_fastTravelShown ? 1 : 0) : -1, dynamic_cast<TriggerZoneExitLevel*>(w.zone) ? dynamic_cast<TriggerZoneExitLevel*>(w.zone)->m_levelIndex : -1, dynamic_cast<TriggerZoneExitLevel*>(w.zone) ? (dynamic_cast<TriggerZoneExitLevel*>(w.zone)->m_fastTravelUnlocked ? 1 : 0) : -1, ScriptManager::s_inst.m_inCutScene ? 1 : 0);
             g_clickX = 1206;
             g_clickY = g_exitButtonY;
             g_clickFrame = g_frame + 15;
@@ -893,6 +912,15 @@ void botCommand(int frame, const std::string& line) {
             if (o == h) continue;
             std::fprintf(g_runnerOut, "[bot] char %s name='%s' pos=(%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d enemy=%d\n", typeid(*o).name(), o->m_name.c_str(), o->m_position.X, o->m_position.Y,
                          dist2d(h, o), o->GetHP(), o->IsDead() ? 1 : 0, o->m_enabled, o->m_visible, h->AI_IsEnemy(o) ? 1 : 0);
+        }
+    } else if (cmd == "bossnow" && h) {  // Q3: one line per character whose name contains the argument: position, visibility, targetable byte, state machine state
+        std::string sub;
+        ss >> sub;
+        for (Character* o : ApplicationGetInstance().m_objectManager->m_characters) {
+            if (o->m_name.find(sub) == std::string::npos) continue;
+            std::fprintf(g_runnerOut, "[boss] f=%d '%s' pos=(%.0f,%.0f,%.0f) d=%.0f hp=%d dead=%d en=%d vis=%d targetable=%d sm=%d smflags=0x%x\n", frame, o->m_name.c_str(), o->m_position.X,
+                         o->m_position.Y, o->m_position.Z, dist2d(h, o), o->GetHP(), o->IsDead() ? 1 : 0, o->m_enabled, o->m_visible, o->CharAI::unk_4d ? 1 : 0,
+                         o->CharStateMachine::SM_GetState(), static_cast<unsigned>(o->CharStateMachine::m_stateFlags));
         }
     } else if (cmd == "objects" && h) {
         int n = 0;

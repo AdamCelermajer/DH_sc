@@ -6,12 +6,25 @@
 
 #if defined(__ANDROID__)
 #include <android/log.h>
+#include <unistd.h>
 #endif
 
 // 0x324114 _Z10_DEBUG_OUTPKcz
 // The original calls vsprintf into a 1024-byte stack buffer; vsnprintf keeps the
 // same buffer size without overrunning it.
+#if defined(__ANDROID__) && !defined(DH2_BOOT_DEBUG)
+// Track B deviation (frame hitches): every _DEBUG_OUT is a vsnprintf plus a stdout pipe write plus a logd write, and some of them fire per touch
+// event or per frame ("Toucxhhhh"). A Release build stays silent unless <files>/dh2_debug.txt exists (checked once).
+static bool debugOutEnabled() {
+    static const bool on = ::access("/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_debug.txt", F_OK) == 0;
+    return on;
+}
+#endif
+
 void _DEBUG_OUT(const char* format, ...) {
+#if defined(__ANDROID__) && !defined(DH2_BOOT_DEBUG)
+    if (!debugOutEnabled()) return;
+#endif
     dh2prof::Scope prof(dh2prof::kLog);  // Track B frame profiler
     char buffer[1024];
     va_list args;

@@ -100,12 +100,14 @@ int VoxEngineInternal::UpdateEmitters(float dt) {
 // the emitter's decoder cursor (+0x114) and its stream cursor are released, the emitter is
 // unregistered from its data object, the data object is queued for release (QueueForRelease, the
 // pending list at +0x6c under its mutex at +0x74), and the object is destroyed.
-// Driver call, as the listing shows it (asm 0x86e190-0x86e1b4): the source word at +0x110 is
-// tested, then the engine's driver (+0x54c) is tested, and the driver's virtual slot +0x48 is
-// called with the driver as its only argument. The binary's vtable has PrintDebug at +0x48
-// (_ZTVN3vox13DriverAndroidE entry 0x48 is DriverAndroid::PrintDebug, empty), so this is the
-// driver's debug dump, not DestroyDriverSource. It runs before CleanUp. The port's DriverInterface
-// carried the wrong slot order until this batch, which is why the call was missing.
+// Driver call (asm 0x86e190-0x86e1b4): the source word at +0x110 is loaded into r1 and tested, the
+// engine's driver (+0x54c) is tested and goes to r0, and the driver's virtual slot +0x48 is called:
+// DestroyDriverSource(driver, source). W2 (ASan heap-use-after-free in soak runs: the audio thread's
+// DriverCallbackSourceInterface::FillBuffer read the emitter's buffer ring after CleanUp freed it): the
+// _ZTVN3vox13DriverAndroidE address point is 0x993aa0, +0x40 = 0x993ae0 holds PrintDebug (0x88ee6c) and
+// +0x48 = 0x993ae8 holds DestroyDriverSource (0x88f59c), and r1 carries the source. The earlier reading
+// as PrintDebug left the source in the driver's mix list (and leaked it). It runs before CleanUp, so the
+// driver stops mixing (under its mutex) before the buffers go.
 // Cursor release (asm 0x86e1d0-0x86e2ec): the stream cursor comes from
 // DecoderCursorInterface::GetStreamCursor (slot +0x30) and goes to the data object's stream
 // (+0x38, slot +0x18) or is destroyed directly when there is none; the cursor goes to the data
@@ -121,7 +123,7 @@ void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
         priority_bank_->RemoveEmitter(emitter->bank_, emitter);
     }
     if (emitter->dsp_source_ != nullptr && driver_ != nullptr) {  // +0x110 and +0x54c
-        driver_->PrintDebug();                                    // driver vtable +0x48
+        driver_->DestroyDriverSource(emitter->dsp_source_);       // driver vtable +0x48
     }
     emitter->CleanUp();
 

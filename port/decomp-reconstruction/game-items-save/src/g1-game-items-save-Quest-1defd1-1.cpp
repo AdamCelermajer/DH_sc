@@ -14,8 +14,9 @@
 //  * Objective vtable slots as the original calls them: 0x0c DBG_TraceDetailedObjectiveInformation, 0x10 InstallObjectiveMarker,
 //    0x14 RemoveObjectiveMarker, 0x18 Register, 0x1c Unregister. The methods are called by name, so the dispatch is the same.
 //  * MenuMessageManager<DialogMsg,1>::EnqueueMessage: SetState calls the clone 0x480b2c, which takes only the message
-//    (it pushes it on the queue and invokes "StartDialog" when the queue then holds one). The caller sets neither R1 nor R2,
-//    and the clone reads neither, so this port passes queue 0 and flag false.
+//    (it pushes it on the queue and invokes "StartDialog" when the queue then holds one). The clone has the flag folded in
+//    as true (asm 0x480b2c: push_back, _M_subtract == 1, then the StartDialog callback with no flag test), so this port
+//    passes queue 0 and flag TRUE. (Passing false never started the HUD dialog: no new-quest / quest-complete banner.)
 //  * The trace writes through std::FILE* (reinterpret_cast of the header's __sFILE*), as the other trace functions do.
 //  * The debug trace reads the name table Arrays::v2Quests::m_memberNames, bounded by Arrays::v2Quests::size.
 
@@ -70,7 +71,7 @@ Character* LocalPlayerCharacter() {
 
 // Queues one dialog line. See the file comment for the queue and flag arguments.
 void EnqueueDialog(const DialogMsg& message) {
-    MenuMessageManager<DialogMsg, 1>::s_inst.EnqueueMessage(message, 0, false);
+    MenuMessageManager<DialogMsg, 1>::s_inst.EnqueueMessage(message, 0, true);
 }
 
 }  // namespace

@@ -72,7 +72,7 @@ bool loadScript(const std::string& path, std::vector<ScriptEvent>& out) {
         } else if (cmd == "quit") {
             out.push_back({frame, 4, 0, 0, 0, 0, ""});
         } else if (cmd == "mp" || cmd == "goto" || cmd == "walkdir" || cmd == "stop" || cmd == "hunt" || cmd == "loot" || cmd == "explore" || cmd == "rand" || cmd == "idle" ||
-                   cmd == "loadlevel" || cmd == "enemies" || cmd == "objects" || cmd == "kill" || cmd == "atk" || cmd == "levels" || cmd == "exit" || cmd == "levelstat" || cmd == "types" || cmd == "auto" || cmd == "badbools" || cmd == "cheats" || cmd == "cheat" || cmd == "herostat" || cmd == "skillinfo" || cmd == "tpnear" || cmd == "interact" || cmd == "walkto" || cmd == "near" || cmd == "setquest" || cmd == "scripts" || cmd == "spend" || cmd == "sweepinfo" || cmd == "nearxy" || cmd == "route" || cmd == "floor" || cmd == "rooms" || cmd == "roomsall" || cmd == "campaign" || cmd == "quests" || cmd == "tele") {
+                   cmd == "loadlevel" || cmd == "enemies" || cmd == "bossnow" || cmd == "objects" || cmd == "kill" || cmd == "atk" || cmd == "levels" || cmd == "exit" || cmd == "levelstat" || cmd == "types" || cmd == "auto" || cmd == "badbools" || cmd == "cheats" || cmd == "cheat" || cmd == "herostat" || cmd == "skillinfo" || cmd == "tpnear" || cmd == "interact" || cmd == "walkto" || cmd == "near" || cmd == "setquest" || cmd == "scripts" || cmd == "spend" || cmd == "sweepinfo" || cmd == "nearxy" || cmd == "route" || cmd == "floor" || cmd == "rooms" || cmd == "roomsall" || cmd == "campaign" || cmd == "quests" || cmd == "tele") {
             out.push_back({frame, 6, 0, 0, 0, 0, line.substr(line.find(cmd))});
         } else {
             std::fprintf(stderr, "script: unknown command '%s'\n", cmd.c_str());

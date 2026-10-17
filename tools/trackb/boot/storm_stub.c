@@ -74,13 +74,17 @@ static void handler(int sig, siginfo_t* si, void* ctx) {
 static void* pump(void* arg) {
     int fd = (int)(intptr_t)arg;
     char buf[2048];
+    char chunk[4096];
     size_t n = 0;
     for (;;) {
-        char c;
-        ssize_t r = read(fd, &c, 1);
+        /* read in chunks: a byte per read() made the pump slower than the game's unbuffered printf and let the pipe fill (the writer then blocks) */
+        ssize_t r = read(fd, chunk, sizeof chunk);
         if (r <= 0) break;
-        if (c == '\n' || n == sizeof buf - 1) { buf[n] = 0; __android_log_write(ANDROID_LOG_INFO, "DH2STDOUT", buf); n = 0; }
-        else buf[n++] = c;
+        for (ssize_t i = 0; i < r; i++) {
+            char c = chunk[i];
+            if (c == '\n' || n == sizeof buf - 1) { buf[n] = 0; __android_log_write(ANDROID_LOG_INFO, "DH2STDOUT", buf); n = 0; }
+            else buf[n++] = c;
+        }
     }
     return 0;
 }
@@ -88,6 +92,7 @@ static void* pump(void* arg) {
 __attribute__((constructor)) static void install(void) {
     int fds[2];
     if (pipe(fds) == 0) {
+        fcntl(fds[1], 1031 /* F_SETPIPE_SZ */, 1 << 20);
         dup2(fds[1], 1);
         dup2(fds[1], 2);
         setvbuf(stdout, 0, _IONBF, 0);

@@ -404,6 +404,10 @@ boost::intrusive_ptr<CFile> CFileSystem::open(const char* name, const char* mode
         handle = std::fopen(fileName.c_str(), mode);
     }
     if (handle == nullptr) return {};
+#if defined(__ANDROID__)
+    // Track B: the game data sits on shared storage (FUSE on Android 11+), where each refill of the default 4 KiB stdio buffer is a slow syscall.
+    if (mode[0] == 'r' && mode[1] != '+') std::setvbuf(handle, nullptr, _IOFBF, 32768);
+#endif
     return boost::intrusive_ptr<CFile>(new CFile(handle, fileName.c_str(), obfuscated), true);
 }
 

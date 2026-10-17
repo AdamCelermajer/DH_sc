@@ -179,3 +179,10 @@ Checked on a fresh new game with a GL draw dump (client-array draws, triangle co
 - UVs lie in (0.25..0.5, 0..0.12) = the green moss tiles of the atlas, so the green is the data's texture, not a binding error. Technique = ProfileCOMMON "default" (unlit textured, vertex colour white after the colour fix above).
 - The green robed shape on the hero's spawn tile is the jade statue of the swamp module (draw with env_swamp.tga), and the dead "zombie" bodies in the first room draw with their flesh-olive texture; the follower NPC (prisoner skeleton) was not on screen in any of my runs, so it is not verified.
 Debug aid: `files/dh2_shpatch.txt` accepts a literal `\n` as a line break, so `#ifdef TEXTURED` bisects work without a rebuild (used to show the UVs as colours).
+
+## Known deviation: local hero visibility in cut scenes (owner Q2, 2026-10-17)
+`PlayerManager::_ManageCharacters` (listing 0x373580..0x3735c8) reads `wantVisible = m_ingame && !ScriptManager+0x30 (m_inCutScene)`. The port matched it, which hid the local
+hero and kept it in idle for every scripted cut scene (no hero in the Swamp_Intro cage, hero vanishing at tutorial/dialog thresholds on a phone). Verified equal to the binary: both writers of
+the byte (Enter/ExitCutSceneMode, unconditional), initial value and Flush reset, the reader, `Application::_Update` order (scene update, PlayerManager::Update, event manager, state machine
+with the scripts), `VisualObject::SetVisible` (ForceRegister is called) and the Swamp_Intro commands (no show-player command exists). Root cause in the original is therefore not found; the port now
+exempts the local record (`!(m_inCutScene && !player->IsLocal())`) in g1-game-character-PlayerManager-025dba-2.cpp. Revisit if a runtime trace of the original shows how the hero stays visible.

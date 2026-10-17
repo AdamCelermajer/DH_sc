@@ -186,7 +186,11 @@ static bool alreadyPrefixed(const glitch::core::stringc& name) {
 //     glitch::os::Printer::log("Could not open file : ", path, 3) (ELL_ERROR);
 //   * the opened file is returned.
 #ifdef DH2_HOST_RUNNER
-namespace dh2host { void recordMissing(const char* kind, const char* name, void* caller); }
+namespace dh2host {
+// The runner (host_state_log.cpp) defines the real recorder; this weak default keeps the unit tests of a
+// DH2_HOST_RUNNER=ON build linking without the runner sources.
+__attribute__((weak)) void recordMissing(const char* /*kind*/, const char* /*name*/, void* /*caller*/) {}
+}
 #endif
 glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
     const glitch::core::stringc normalised = ApplyFilenameHacks(name);  // +0xb8

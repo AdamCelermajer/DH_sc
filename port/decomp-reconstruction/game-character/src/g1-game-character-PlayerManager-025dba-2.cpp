@@ -1173,7 +1173,14 @@ int PlayerManager::_ManageCharacters() {
         // (vtable +0x40) takes the wanted value. (The port had the wanted value inverted, so every in-game character was hidden and
         // reset to idle each frame.)
         const bool ingame = player->m_ingame.GetValue() != 0;
-        const bool wantVisible = ingame ? !ScriptManager::s_inst.m_inCutScene : false;
+        // DEVIATION FROM THE LISTING (owner Q2, 2026-10-17; see reports/decomp-reconstruction/FIRST-BOOT.md). The listing at
+        // 0x373580..0x3735c8 computes wantVisible = ingame && !ScriptManager(+0x30), and this port matched it (reader, the only two writers
+        // Script_Enter/ExitCutSceneMode at 0x45a384 and 0x455640, the update order of Application::_Update, GameObject/VisualObject::SetVisible,
+        // SceneManager::ForceRegister and the Swamp_Intro command bindings were all checked against the binary). With that exact rule the local hero
+        // is hidden and held in idle for every scripted cut scene (Swamp_Intro, the tutorials, dialogs), although Swamp_Intro animates "Player" in the
+        // cage and un-equips/re-equips its hands, i.e. the original shows it. The mechanism that keeps the hero visible in the original is not found,
+        // so the local hero ignores the cut scene byte here; remote characters keep the listing's rule (Script_EnterCutSceneMode hides them too).
+        const bool wantVisible = ingame && !(ScriptManager::s_inst.m_inCutScene && !player->IsLocal());
         if ((character->m_visible != 0) != wantVisible) {
             character->SM_SetIdleState(false);
         } else if (ingame && character->SM_IsInLimbus() && !character->IsDead()) {
